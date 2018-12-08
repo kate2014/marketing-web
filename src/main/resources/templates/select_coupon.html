@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>优惠券设置</title>
+    <style type="text/css">
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0px;
+            background-color: #FFFFFF;
+        }
+
+        div.modle {
+            /* 启用弹性盒布局 */
+            display: flex;
+            align-items: flex-start
+        }
+    </style>
+    <link rel="stylesheet" th:href="@{/css/zm-ui.css}" href="../static/css/zm-ui.css" />
+    <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/base.js}"></script>
+</head>
+<script type="text/javascript">
+    $(function(){
+        $(".dialog_submit").click(function () {
+            $(".select-com").hide();
+            var ids=[];
+            $("#dish_iframe").contents()
+                .find("input[name='itemRadio']:checked")
+                .each(function () {
+                    var couponId=$(this).attr("couponId");
+                    var couponName=$(this).attr("couponName");
+                    setCouponInfo(couponId,couponName);
+                });
+        })
+
+        $("").click(function(){
+
+        })
+    })
+
+
+
+</script>
+<body>
+<div class='select-com' style="display: block">
+    <div id="container" class="select-centent">
+        <header>
+            <h3>选择优惠券</h3>
+            <img src='../static/images/close.png' class="close"/>
+        </header>
+        <div class="select-main">
+            <ul class="tab">
+
+                <li th:href="@{/coupon/couponList(couponType=1)}" class="current">折扣券</li>
+                <li th:href="@{/coupon/couponList(couponType=2)}">代金券</li>
+                <li th:href="@{/coupon/couponList(couponType=3)}">礼品券</li>
+
+            </ul>
+                <div style="width:100%;height:100%;overflow:hidden;display:block">
+
+                    <iframe id="dish_iframe" style="width:100%;height:100%;" th:src="@{/coupon/couponList?couponType=1}" frameborder="0"></iframe>
+
+                </div>
+
+        </div>
+        <footer>
+            <button class="close">取消</button>
+            <button class="dialog_submit">确实</button>
+        </footer>
+    </div>
+</div>
+</body>
+</html>

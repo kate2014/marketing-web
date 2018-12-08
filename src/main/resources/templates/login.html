@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>注销登录</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <script type="text/javascript">
+        $(function () {
+            window.top && window.top.postMessage("logout", '*');
+        })
+    </script>
+    <style>
+        .content {
+            width: 200px;
+            margin: 0 0 0 -100px;
+            text-align: center;
+            position: absolute;
+            left: 50%;
+            top: 40%;
+        }
+    </style>
+</head>
+<body>
+<p class="content">
+    登录已过期，正在注销...
+</p>
+</body>
+</html>

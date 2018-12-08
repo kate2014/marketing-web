@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<style type="text/css">
+
+    html,body{
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        background-color: #FFFFFF;
+    }
+
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <title>报表</title>
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" />
+    <link rel="stylesheet" th:href="@{/css/customer.css}" href="../static/css/customer.css" />
+    <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}" src="../static/js/jquery-3.1.1.min.js" ></script>
+    <script type="text/javascript" th:src="@{/js/base.js}" src="../static/js/base.js" ></script>
+
+</head>
+
+
+
+<body onload="fnLoadOk()">
+
+<div class="parent top_view_style">
+
+    <img th:src="@{/images/lable.jpg}" width="5" height="26" style="margin-left: 20px">
+
+    <label class="text_navigation" style="margin-left: 20px">报表管理</label>
+</div>
+
+<div class='customer-com'>
+    <div class="customer-centent">
+
+        <div class="customer-main">
+            <ul class="tab">
+                <li th:href="@{/internal/sales/salesReport(brandIdenty=${brandIdenty})}" class="current">
+                    <div class="parent">
+                        <img th:src="@{/images/report_sales_icon.png}" class="image_size_style">
+                        <span>营业报表</span>
+                    </div>
+                </li>
+                <li th:href="@{/internal/dish/dishReport(brandIdenty=${brandIdenty})}" class="parent">
+                    <div class="parent">
+                        <img th:src="@{/images/report_dish_icon.png}" class="image_size_style">
+                        <span>品项销售报表</span>
+                    </div>
+                </li>
+                <li th:href="@{/internal/report/customerReport(brandIdenty=${brandIdenty})}" class="parent">
+                    <div class="parent">
+                        <img th:src="@{/images/report_customer_icon.png}" class="image_size_style">
+                        <span>会员报表</span>
+                    </div>
+                </li>
+                <li th:href="@{/internal/marketingReport/marketing(brandIdenty=${brandIdenty})}" class="parent">
+                    <div class="parent">
+                        <img th:src="@{/images/report_marketing_icon.png}" class="image_size_style">
+                        <span>场景营销报表</span>
+                    </div>
+                </li>
+                <li th:href="@{/internal/marketingReport/coupon(brandIdenty=${brandIdenty})}" class="parent">
+                    <div class="parent">
+                        <img th:src="@{/images/report_coupon_icon.png}" class="image_size_style">
+                        <span>优惠券报表</span>
+                    </div>
+                </li>
+                <!--<li th:href="@{/internal/marketingReport/coupon(brandIdenty=${brandIdenty})}" class="parent">-->
+                    <!--<div class="parent">-->
+                        <!--<img th:src="@{/images/report_share_icon.png}" class="image_size_style">-->
+                        <!--<span>分享数据报表</span>-->
+                    <!--</div>-->
+                <!--</li>-->
+                <li th:href="@{/internal/bookingReport/booking(brandIdenty=${brandIdenty})}" class="parent">
+                    <div class="parent">
+                        <img th:src="@{/images/report_booking_icon.png}" class="image_size_style">
+                        <span>预订报表</span>
+                    </div>
+                </li>
+
+            </ul>
+
+            <div class="select-tab" style="width: 100%; height: 100%">
+                <div style="display:block; width: 100%; height: 100%" class="tabs">
+                    <iframe id="dish_iframe" th:src="@{/internal/sales/salesReport(brandIdenty=${brandIdenty})}" width="100%" height="100%" style="border: 0px"></iframe>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    //检测所有的iframe是否"加载"完成
+    function fnLoadOk(){
+        var b = true;
+        if (getIframeControlValue("dish_iframe","txt")=="ok"){
+            b = b && true;
+        }
+        return b;
+    }
+
+    var _check = setInterval("t()",500);//每隔0.5秒检查一次
+    function t(){
+        if (fnLoadOk()){
+            clearInterval(_check);//加载完成后，清除定时器
+            alert("加载完成!");
+        }
+        else{
+            setValue();
+        }
+    }
+
+</script>
+
+
+</body>
+</html>

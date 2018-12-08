@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<style type="text/css">
+
+    html,body{
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        background-color: #FFFFFF;
+    }
+
+    /*.container {
+        text-align: center;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        align-content: center;
+        float: right;
+    }
+
+    .customer_modle{
+        width: 200px;
+        height: 80px;
+        align:center;
+        background-size: 100% 100%;
+        box-shadow: 2px 4px 6px #999999;
+        background-image: url("[[${basePath}]]/images/customer_modle.jpg");
+        cursor:pointer;
+    }
+
+    .lable_01{
+        width: 60px;
+        height: 30px;
+        align:center;
+        background-size: 100% 100%;
+        background-image: url("[[${basePath}]]/images/lable_01.jpg");
+        cursor:pointer;
+    }*/
+    .lable_02{
+        width: 60px;
+        height: 30px;
+        align:center;
+        background-size: 100% 100%;
+        background-image: url("[[${basePath}]]/images/lable_02.jpg");
+        cursor:pointer;
+    }
+
+    .see_modify{
+        width:45px;
+        height: 100%;
+        background-size: 100% 100%;
+        cursor:pointer;
+    }
+
+    /*div.parent_h {
+        !* 启用弹性盒布局 *!
+        display: flex;
+        !* 使子元素水平居中*!
+        justify-content: center;
+        !* 使子元素垂直居中*!
+        align-items: center;
+    }*/
+
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <title>会员卡耗</title>
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" />
+    <script type="text/javascript" th:src="@{/js/jquery-3.1.1.js}" src="../static/js/jquery-3.1.1.js" ></script>
+    <script type="text/javascript" th:src="@{/js/base.js}" src="../static/js/base.js" ></script>
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/test/jeDate-test.css}">
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/skin/jedate.css}">
+    <link rel="stylesheet" th:href="@{/css/customer.css}" href="../static/css/customer.css" />
+    <script type="text/javascript" th:src="@{/selectdate/src/jedate.js}"></script>
+    <script type="text/javascript" th:src="@{/selectdate/test/je_notime_date.js}"></script>
+</head>
+
+<script type="text/javascript">
+    /*laydate.render({
+        elem: '.select_date_input'
+    });*/
+
+    $(function () {
+        $('.lable_text_style').click(function () {
+            var obj = $(this);
+            var dateBofer = obj.attr("date-bofer");
+            if (!dateBofer) {
+                dateBofer = 0;
+            }
+            var today = new Date();
+            var oneday = 1000 * 60 * 60 * 24;
+            var format = 'yyyy-MM-dd';
+            var begindate = new Date(today - oneday * dateBofer);
+            var bdFormat = begindate.format(format);
+            $(".select_date_input").val(bdFormat)
+        });
+
+        $("#service_push").click(function(){
+            var customerIds = [];
+            $("input[name='checkItem']:checked").each(function () {
+                customerIds.push(this.id);
+            });
+            if (customerIds.length == 0) {
+                alert("请选择顾客");
+                return;
+            }
+
+            $('.select-com11').load('[[${basePath}]]/customer/service', function (result) {
+                $(this).show();
+                var $select_com = $(this);
+                /*$("script").each(function () {
+                    if (this.src) {
+                        $.getScript(this.src);
+                    } else {
+
+                    }
+                });*/
+                /*$('.close').click(function(){
+                    $('.select-com').hide();
+                })*/
+                $(".dialog_submit").click(function () {
+                    var serviceItem = $("#dish_iframe").contents()
+                        .find("input[name='itemRadio']:checked:first");
+                    if (!serviceItem[0]) {
+                        alert("请选择推送的服务");
+                        return;
+                    }
+
+                    var data = {
+                        customerIds: customerIds,
+                        serviceType: serviceItem.attr("value"),
+                        serviceId: serviceItem.attr("id")
+                    };
+
+                    $.ajax({
+                        url: "[[${basePath}]]/customer/service/push",
+                        type: "post",
+                        data: JSON.stringify(data),
+                        contentType : 'application/json;charset=UTF-8',
+                        success:function(json){
+                            if (json && json.status != 1000) {
+                                alert(json.message);
+                                return
+                            }
+
+                            $select_com.hide();
+                            alert("推送服务成功");
+                        },
+                        error:function(e){
+                            alert(e.responseText);
+                        }
+                    });
+
+                })
+            });
+        });
+
+        $(".see_modify").click(function () {
+            var href = $(this).attr("href") /*+ ' #container'*/;
+            $('.select-com11').load(href, function () {
+                $(this).show();
+                /*$(this).find("script").each(function () {
+                    if (this.src) {
+                        $.getScript(this.src);
+                    } else {
+                        $.globalEval(this.textContent);
+                    }
+                });*/
+            });
+        });
+    });
+</script>
+
+<body>
+
+<div class='customer-com'>
+    <div class="customer-centent">
+
+        <div class="customer-main">
+
+            <div class="customer-tab">
+                <form action="couponadd.html" th:action="@{/customer/drain}" th:object="${searchModel}">
+                <div class="parent_h">
+                    <label class="text_navigation">最近消费时间</label>
+                    <div class="lable_02" style="margin-left: 5px">
+                        <p class="lable_text_style" date-bofer="7">一周</p>
+                    </div>
+                    <div class="lable_02" style="margin-left: 5px">
+                        <p class="lable_text_style" date-bofer="14">两周</p>
+                    </div>
+                    <div class="lable_02" style="margin-left: 5px">
+                        <p class="lable_text_style" date-bofer="30">一个月</p>
+                    </div>
+                    <label class="text_navigation" style="margin-left: 10px">自定义时间>=</label>
+                    <input type="text" id="endTime" class="select_date_input" placeholder="最近消费时间" name="consumptionLastTime" th:value="*{consumptionLastTime}" style="margin-left: 5px">
+
+                    <label class="text_navigation" style="margin-left: 10px">卡余额>=</label>
+                    <input class="select_input" style="height: 28px;width: 100px;margin-left: 5px" type="text" name="storedBalance" th:value="*{storedBalance}" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="10"/>
+                    <label class="text_navigation" style="margin-left: 10px">剩余服务次数>=</label>
+                    <input class="select_input" style="height: 28px;width: 100px;margin-left: 5px" type="text" name="cardResidueCount" th:value="*{cardResidueCount}" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="10"/>
+
+                    <button class="orange_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
+                    <button id="service_push" class="blue_button_style" value="" onclick="return false;" style="margin-left: 10px">服务推送</button>
+
+
+                </div>
+                </form>
+                <table>
+                    <tr>
+                        <th><input type="checkbox" id="checkAll"></th>
+                        <th>姓名</th>
+                        <th>手机号</th>
+                        <th>卡余额（元）</th>
+                        <th>剩余服务（次）</th>
+                        <th>最近消费时间</th>
+                        <th>操作</th>
+                    </tr>
+                    <tr th:each="item:${list}">
+                        <td><input name="checkItem" type="checkbox" th:id="${item.id}"></td>
+                        <td th:text="${item.name}">姓名</td>
+                        <td th:text="${item.mobile}">00000000000</td>
+                        <td th:text="${item.storedBalance}">0</td>
+                        <td th:text="${item.cardResidueCount}">0</td>
+                        <td th:text="${#dates.format(item.consumptionLastTime, 'yyyy-MM-dd')}">2018-09-09</td>
+                        <td>
+                            <div class="parent_h">
+                                <img class="see_modify" th:src="@{/images/see_detail.jpg}" src="../static/images/see_detail.jpg" th:href="@{/customer/drain/{customerId}/report/expense(customerId=${item.id})}">
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <div th:replace="page_info::pagination"/>
+                <div style="height: 30px" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class='select-com11'></div>
+
+</body>
+</html>

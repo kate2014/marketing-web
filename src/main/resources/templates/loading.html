@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>正在加载...</title>
+</head>
+<script type="text/javascript">
+    function loadingData() {
+        var form = new FormData();
+        form.append("brandIdenty",59659);
+        $.ajax({
+            url:"${/sales/salesReport}",
+            type:"post",
+            data:form,
+            processData:false,
+            contentType:false,
+            success:function(data){
+                window.clearInterval(timer);
+                console.log("over..");
+            }
+        });
+    }
+
+</script>
+<body onload="loadingData()">
+正在加载。。。
+</body>
+</html>

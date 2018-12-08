@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>商品销售报表</title>
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../css/base.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../css/common.css" type="text/css" />
+
+    <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <script type="text/javascript" src="../static/js/base.js" th:src="@{/js/base.js}"></script>
+
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/test/jeDate-test.css}">
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/skin/jedate.css}">
+    <script type="text/javascript" th:src="@{/selectdate/src/jedate.js}"></script>
+
+    <script type="text/javascript" src="../static/js/echarts.min.js" th:src="@{/js/echarts.min.js}"></script>
+</head>
+
+<body>
+
+<form method="post" action="" th:action="@{/internal/dish/dishReport}" th:object="${mTradeModel}">
+    <div style="margin-top: 20px">
+
+        <input type="hidden" name="brandIdenty" th:value="${mTradeModel.brandIdenty}">
+
+        <label class="text_navigation" style="margin-left: 20px">范围</label>
+        <select class="select_min_style" name="shopIdenty" style="margin-left: 5px">
+
+            <option value="">品牌下全门店</option>
+            <option th:selected="${mTradeModel.shopIdenty eq list.commercialId}" th:each="list:${listCommercial}" th:value="${list.commercialId}" th:text="${list.commercialName}"></option>
+
+        </select>
+
+
+        <label class="text_navigation" style="margin-left: 10px">查询时间段</label>
+        <input type="text" class="input_min_style" name="startDate" placeholder="设置查询起始时间" id="startDate"  th:value="${mTradeModel.startDate}">
+        <label class="text_navigation">--</label>
+        <input type="text" class="input_min_style" name="endDate" placeholder="设置查询结束时间" id="endDate"  th:value="${mTradeModel.endDate}">
+        <button class="orange_mine_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
+
+    </div>
+</form>
+
+<img class="line_style" th:src="@{/images/line.jpg}" style="margin-bottom: 30px;margin-top: 20px">
+
+<div class="container" style="margin-left: 20px">
+    <img th:src="@{/images/lable.jpg}" width="5" height="26">
+    <p style="font-weight: bold; margin-left: 6px">商品销售排行榜</p>
+</div>
+
+<div style="width: 95%;height:400px; align-content: center; text-align: center; margin-left: 20px">
+    <div id="container" style="width: 100%;height:400px;"></div>
+    <p style="font-weight: bold; margin-left: 6px">商品销售排行榜TOP 20</p>
+</div>
+
+<img class="line_style" th:src="@{/images/line.jpg}" style="margin-top: 50px">
+<script th:inline="javascript">
+
+    //=============销售概况================
+    var dom = document.getElementById("container");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '销售报表';
+
+    option = {
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        toolbox: {
+            feature: {
+                dataView: {show: true, readOnly: false},
+                magicType: {show: true, type: ['line', 'bar']},
+                restore: {show: true},
+                saveAsImage: {show: true}
+            }
+        },
+        legend: {
+            data:['品项销售数量','品项销售额']
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: [[${listDishName}]],
+                axisPointer: {
+                    type: 'shadow'
+                },
+                axisLabel:{
+                    interval:0,
+                    rotate:40
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '品项销售数量',
+                min: 0,
+                max: [[${maxCount}]],
+                interval: [[${intervalCount}]],
+                axisLabel: {
+                    formatter: '{value}'
+                }
+            },
+            {
+                type: 'value',
+                name: '品项销售额',
+                min: 0,
+                max: [[${maxAmount}]],
+                interval: [[${intervalAmount}]],
+                axisLabel: {
+                    formatter: '{value} 元'
+                }
+            }
+
+        ],
+        series: [
+            {
+                name:'品项销售数量',
+                type:'bar',
+                barMaxWidth : 30,//柱图宽度
+                data:[[${listSalesCount}]]
+            },
+            {
+                name:'品项销售额',
+                type:'line',
+                yAxisIndex: 1,
+                data:[[${listSalesAmount}]]
+            }
+        ]
+    };
+    ;
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+
+</script>
+
+
+<div align="center" style="margin-top: 10px; margin-bottom: 100px">
+    <table class="gridtablestyle" style="width: 90%; vertical-align: middle">
+        <tr style="width: 100%">
+            <th>商品名称</th>
+            <th>销售单价</th>
+            <th>销售数量</th>
+            <th>销售额</th>
+
+        </tr>
+        <tr th:each="item:${listData}">
+
+            <td th:text="${item.dishName}"></td>
+            <td th:text="${item.price}"></td>
+            <td th:text="${item.salseCount}"></td>
+            <td th:text="${item.salesAmount}"></td>
+
+        </tr>
+
+    </table>
+</div>
+
+
+<script type="text/javascript" th:src="@{/selectdate/test/demo.js}"></script>
+
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>核算明细</title>
+    <style type="text/css">
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0px;
+            background-color: #FFFFFF;
+        }
+
+        div.modle {
+            /* 启用弹性盒布局 */
+            display: flex;
+            align-items: flex-start
+        }
+    </style>
+    <link rel="stylesheet" th:href="@{/css/public.css}" type="text/css"/>
+    <link rel="stylesheet" th:href="@{/css/widget.css}" type="text/css"/>
+    <link rel="stylesheet" th:href="@{/css/common.css}"/>
+    <link rel="stylesheet" th:href="@{/css/base.css}"/>
+
+    <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/laydate/laydate.js}"></script>
+    <script type="text/javascript" th:src="@{/js/base.js}"></script>
+</head>
+<script type="text/javascript">
+    $(function(){
+        $(".dialog_submit").click(function () {
+            $(".select-com").hide();
+
+        })
+    })
+</script>
+<body>
+<div class='select-com' style="display: block">
+    <div id="container" class="select-centent">
+        <header>
+            <h3>核算明细</h3>
+            <img th:src="@{/static/images/close.png}" class="close"/>
+        </header>
+        <div class="select-main">
+            <div style="width: 100%;margin-left: 20px; margin-right: 20px;overflow-y:scroll; overflow-x:scroll; margin-top:10px;margin-bottom: 10px ">
+                <div class="parent">
+                    <label class="detail_value_style">员工:</label>
+                    <lable class="detail_value_style" th:text="${salaryCommions.userName}"/>
+
+                    <label class="detail_value_style" style="margin-left: 30px">查询时间:</label>
+                    <lable class="detail_value_style" th:text="${#dates.format(salaryCommions.startDate, 'yyyy-MM-dd HH:mm:ss')}"/>
+                    ----
+                    <lable class="detail_value_style" th:text="${#dates.format(salaryCommions.endDate, 'yyyy-MM-dd HH:mm:ss')}"/>
+                </div>
+
+                <div class="parent" style="margin-top: 20px">
+                    <img th:src="@{/images/lable.jpg}" style="height: 25px; width: 4px; font-weight: bold;">
+                    <label class="detail_value_style" style="margin-left: 10px; font-weight: bold">消费提成</label>
+                </div>
+                <div class="parent" style="margin-top: 15px;margin-left: 20px">
+                    <label class="detail_value_style">消费总额:</label><lable class="detail_value_style" th:text="${salaryCommions.salesSum}"/>
+                    <label class="detail_value_style" style="margin-left: 30px">消费提成:</label><lable class="detail_value_style" th:text="${salaryCommions.salesCommissions}"/>
+                </div>
+
+                <div style="margin-top: 20px;margin-left: 20px">
+                    <div th:each="items:${listSalesSalary}">
+                        <div th:text="${items.commissionsName}" style="margin-top: 10px"></div>
+                        <div style="margin-top: 10px">
+                            <table class="gridtablestyle" style="width: 90%; vertical-align: middle;text-align: center" align=center>
+                                <tr style="width: 100%">
+                                    <th>提成方式</th>
+                                    <th>提成基数</th>
+                                    <th>提成额度</th>
+                                    <th>提成金额</th>
+                                </tr>
+                                <tr th:each="item:${items.listSalaryDetailModel}">
+                                    <td th:switch="${item.type}">
+                                        <p th:case="'1'">
+                                            比例提成
+                                        </p>
+                                        <p th:case="'2'">
+                                            固定金额提成
+                                        </p>
+                                    </td>
+                                    <td th:text="${item.baseAmount}"></td>
+                                    <td th:text="${item.commissionsValue}"></td>
+                                    <td th:text="${item.commissionsAmount}"></td>
+                                </tr>
+
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="parent" style="margin-top: 20px">
+                    <img th:src="@{/images/lable.jpg}" style="height: 25px; width: 4px; font-weight: bold;">
+                    <label class="detail_value_style" style="margin-left: 10px; font-weight: bold">储值提成</label>
+                </div>
+                <div class="parent" style="margin-top: 15px;margin-left: 20px">
+                    <label class="detail_value_style">储值总额:</label><lable class="detail_value_style" th:text="${salaryCommions.saveSum}"/>
+                    <label class="detail_value_style" style="margin-left: 30px">储值提成:</label><lable class="detail_value_style" th:text="${salaryCommions.saveCommissions}"/>
+                </div>
+
+                <div style="margin-top: 20px;margin-left: 20px">
+                    <div th:each="items:${listSaveSalary}">
+                        <div th:text="${items.commissionsName}" style="margin-top: 10px"></div>
+                        <div style="margin-top: 10px">
+                            <table class="gridtablestyle" style="width: 90%; vertical-align: middle;text-align: center" align=center>
+                                <tr style="width: 100%">
+                                    <th>提成方式</th>
+                                    <th>提成基数</th>
+                                    <th>提成额度</th>
+                                    <th>提成金额</th>
+                                </tr>
+                                <tr th:each="item:${items.listSalaryDetailModel}">
+                                    <td th:switch="${item.type}">
+                                        <p th:case="'1'">
+                                            比例提成
+                                        </p>
+                                        <p th:case="'2'">
+                                            固定金额提成
+                                        </p>
+                                    </td>
+                                    <td th:text="${item.baseAmount}"></td>
+                                    <td th:text="${item.commissionsValue}"></td>
+                                    <td th:text="${item.commissionsAmount}"></td>
+                                </tr>
+
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="parent" style="margin-top: 20px">
+                    <img th:src="@{/images/lable.jpg}" style="height: 25px; width: 4px; font-weight: bold;">
+                    <label class="detail_value_style" style="margin-left: 10px; font-weight: bold">项目提成</label>
+                </div>
+                <div class="parent" style="margin-top: 15px;margin-left: 20px">
+                    <label class="detail_value_style">项目提成总额:</label><lable class="detail_value_style" th:text="${salaryCommions.projectCommissions}"/>
+                </div>
+                <div class="parent" style="margin-top: 15px;margin-left: 20px">
+                    <table class="gridtablestyle" style="width: 90%; vertical-align: middle;text-align: center" align=center>
+                        <tr style="width: 100%">
+                            <th>项目名称</th>
+                            <th>服务次数</th>
+                            <th>提成金额</th>
+                        </tr>
+                        <tr th:each="item:${salaryCommions.projectCommionsDetailBos}">
+                            <td th:text="${item.dishName}"></td>
+                            <td th:text="${item.countAll}"></td>
+                            <td th:text="${item.commissions}"></td>
+                        </tr>
+
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+        <footer>
+            <label class="detail_value_style" style="margin-left: 20px">合计:</label>
+            <label class="detail_value_style">底薪:</label><lable class="detail_value_style" th:text="${salaryCommions.baseSalary}"/>
+            +
+            <label class="detail_value_style">消费提成:</label><lable class="detail_value_style" th:text="${salaryCommions.salesCommissions}"/>
+            +
+            <label class="detail_value_style">储值提成:</label><lable class="detail_value_style" th:text="${salaryCommions.saveCommissions}"/>
+            +
+            <label class="detail_value_style">项目提成:</label><lable class="detail_value_style" th:text="${salaryCommions.projectCommissions}"/>
+            =
+            <label class="detail_value_style">应得总额:</label><lable class="text_highlight" th:text="${totalSalary}"/>
+
+            <button class="dialog_submit">确定</button>
+        </footer>
+    </div>
+</div>
+</body>
+</html>

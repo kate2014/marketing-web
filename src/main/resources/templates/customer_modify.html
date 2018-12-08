@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<style type="text/css">
+
+    html,body{
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        background-color: #FFFFFF;
+    }
+
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <title>编辑/查看会员</title>
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" />
+    <link rel="stylesheet" th:href="@{/editor/themes/default/default.css}" href="../static/editor/themes/default/default.css" type="text/css" />
+    <script type="text/javascript" th:src="@{/editor/kindeditor-all.js.js}" src="../static/editor/kindeditor-all.js.js" ></script>
+    <script type="text/javascript" th:src="@{/editor/kindeditor-all-min.js}" src="../static/editor/kindeditor-all-min.js" ></script>
+    <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}" src="../static/js/jquery-3.1.1.min.js" ></script>
+    <script type="text/javascript" th:src="@{/js/base.js}" src="../static/js/base.js" ></script>
+
+</head>
+
+<script type="text/javascript">
+    laydate.render({
+        elem: '#times'
+    });
+    $(function () {
+        var password = $("input[name='password']").val();
+        if (password == '' || password.trim().length == 0) {
+            alert("请输入密码");
+        }
+        if (password !=  $("input[name='passwordConfirm']").val()) {
+            alert("确认密码与密码不一致");
+        }
+    })
+</script>
+
+
+<body>
+<form method="post" th:action="@{/customer/save}" th:object="${editModel}">
+    <input type="hidden" name="id" th:value="*{id}"/>
+    <input type="hidden" name="checkPassword" th:value="*{checkPassword}">
+    <div class="parent" style="width: 100%; height: 40px;">
+        <label class="text_navigation" style="margin-left: 10px">会员信息</label>
+
+        <span style="margin-left: 60%">
+        <button class="blue_button_style" value="" onclick="this">保存</button>
+        <button class="gray_button_style" value="" onclick="this" style="margin-left: 10px">取消</button>
+    </span>
+    </div>
+
+    <img class="line_style" th:src="@{/images/line.jpg}" src="../static/images/line.jpg";>
+
+    <div class="parent_h">
+        <div style="margin-left: 20px;margin-top: 10px; width: 40%; height: 100%">
+
+            <div class="details-bom">
+                <ul class="spell-content">
+
+                    <li><span>*姓名</span><label><input type="text" name="name" th:value="*{name}" placeholder="输入会员名称" maxlength="10" class="project"/><p><i class="sub">0</i>/<b>10</b></p></label></li>
+                    <li><span>*性别</span>
+                        <select name="gender">
+                            <option value="1" th:selected="*{gender==1}">男</option>
+                            <option value="2" th:selected="*{gender==2}">女</option>
+                        </select>
+                    </li>
+                    <li><span>*手机号码</span><input type="text" name="mobile" th:value="*{mobile}" placeholder="请输入会员手机号"></li>
+                    <li><span>固定电话</span><input type="text" name="telephone" th:value="*{telephone}" placeholder="请输入会员固定电话"></li>
+                    <li><span>所在地</span><input type="text" name="address" th:value="*{address}" placeholder="请输入会员所在地"></li>
+                    <li><span>喜好</span><input type="text" name="hobby" th:value="*{hobby}" placeholder="请输入会员喜欢"></li>
+                    <li><span>备注</span><input type="text" name="profile" th:value="*{profile}" placeholder="请输入备注信息"></li>
+                </ul>
+            </div>
+        </div>
+        <div style="margin-top: 10px; width: 60%; height: 100%;">
+            <div class="details-bom">
+                <ul class="spell-content">
+                    <li><span>*生日</span><input type="text" name="birthday" th:value="*{birthday}" placeholder="请选择会员生日" id="times"></li>
+                    <li><span>*会员等级</span>
+                        <select name="groupLevel">
+                            <option value="银卡" th:selected="*{groupLevel=='银卡'}">银卡</option>
+                            <option value="金卡" th:selected="*{groupLevel=='金卡'}">金卡</option>
+                            <option value="白金卡" th:selected="*{groupLevel=='白金卡'}">白金卡</option>
+                            <option value="黑金卡" th:selected="*{groupLevel=='黑金卡'}">黑金卡</option>
+                            <option value="钻石卡" th:selected="*{groupLevel=='钻石卡'}">钻石卡</option>
+                            <option value="至尊卡" th:selected="*{groupLevel=='至尊卡'}">至尊卡</option>
+                        </select>
+                    </li>
+                    <li><span>*密码</span><input type="password" name="password" th:value="*{password}" placeholder="登录、支付密码"></li>
+                    <li><span>*确认密码</span><input type="password" name="passwordConfirm" th:value="*{password}" placeholder="确认登录、支付密码"></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</form>
+</body>
+</html>

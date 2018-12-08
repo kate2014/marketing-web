@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+<style type="text/css">
+
+    html,body{
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        background-color: #FFFFFF;
+    }
+
+    div.modle {
+        /* 启用弹性盒布局 */
+        display: flex;
+        align-items: flex-start
+    }
+
+    .weixin_pic_style{
+        width: 20%;
+        box-shadow: 2px 4px 6px #999999;
+        margin-top: 20px;
+        margin-left: 20px;
+    }
+    .expanded_process_style{
+        width: 70%;
+        margin-top: 10px;
+        margin-left: 10px;
+    }
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <title>全员推广</title>
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../css/base.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../css/common.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/editor/themes/default/default.css}" type="text/css" />
+
+    <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <script type="text/javascript" src="../static/js/base.js" th:src="@{/js/base.js}"></script>
+
+    <script type="text/javascript" src="../static/ckeditor/ckeditor.js" th:src="@{/ckeditor/ckeditor.js}"></script>
+
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/test/jeDate-test.css}">
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/skin/jedate.css}">
+    <script type="text/javascript" th:src="@{/selectdate/src/jedate.js}"></script>
+
+    <!-- tips 提示框引用-->
+    <link rel="stylesheet" th:href="@{/tips/jquery.toast.css}">
+    <script type="text/javascript" th:src="@{/tips/jquery.toast.js}"></script>
+    <script type="text/javascript" th:src="@{/tips/tips.js}"></script>
+
+</head>
+<script type="text/javascript">
+
+    laydate.render({
+        elem: '#times',
+        type: 'datetime',
+        calendar: 'true',
+        trigger: 'click'
+    });
+
+    CKEDITOR.replace('description');
+
+    function submitForm() {
+        var endTime = document.getElementById("endTime").value.replace(/(^\s*)|(\s*$)/g, '');
+        var profile = document.getElementById("profile").value.replace(/(^\s*)|(\s*$)/g, '');
+        var firstLevelDiscount = document.getElementById("firstLevelDiscount").value.replace(/(^\s*)|(\s*$)/g, '');
+
+        if(endTime == '' || endTime == undefined || endTime == null) {
+            warningTips("操作异常提示","结束时间不能为空");
+        }else if(profile == '' || profile == undefined || profile == null) {
+            warningTips("操作异常提示","活动简介不能为空");
+        }else if(firstLevelDiscount == '' || firstLevelDiscount == undefined || firstLevelDiscount == null){
+            warningTips("操作异常提示","提成比例不能为空");
+        }else{
+            document.addform.submit();
+        }
+
+    }
+
+    function showAction() {
+        var successOrfail = document.getElementById("successOrfail").value;
+        if(successOrfail != '' && successOrfail != undefined && successOrfail != null){
+            if(successOrfail == "success"){
+                successTips('操作成功','全员推广设置成功，可在小程序端进行使用了');
+            }else if(successOrfail == "fail"){
+                errorTips('操作失败','全员推广设置失败');
+            }
+        }
+    }
+
+</script>
+<body onload="showAction()">
+
+<div class="parent top_view_style">
+
+    <img th:src="@{/images/lable.jpg}" width="5" height="26" style="margin-left: 20px">
+
+    <label class="text_navigation" style="margin-left: 10px; width: 30%">营销 》全员推广</label>
+
+    <div align="right" style="width: 100%;margin-right: 50px">
+        <button class="blue_button_style" value="" onclick="submitForm()" style="margin-left: 10px">保存</button>
+        <button class="gray_button_style" value="" th:onclick="@{|location='${basePath}/home'|}" style="margin-left: 10px">返回</button>
+
+    </div>
+</div>
+
+    <input type="hidden" id="successOrfail" th:value="${expanded.successOrfail}">
+
+    <form method="post" name="addform" action="" th:action="@{/marketingExpanded/editExpanded}" th:object="${togetherMarketingModel}">
+    <input type="hidden" name="id" th:value="${expanded.id}">
+
+    <div class="modle">
+        <img th:src="@{/images/weixin_together.png}" class="weixin_pic_style">
+        <div style="margin-left: 20px;">
+            <img th:src="@{/images/expanded_process.jpg}" class="expanded_process_style">
+            <div class="details-bom" style="margin-top: 20px">
+                <ul class="spell-content">
+                    <li><span>*方案名称</span><label><input type="text" placeholder="输入品项名称" value="全员推广" disabled="true" /></label></li>
+                    <li><span>*结束时间</span><input type="text" name="endDate" th:value="${expanded.endDate}" placeholder="输入活动结束时间" id="endTime"></li>
+                    <li><span>*活动简介</span><input type="text" name="profile" id="profile" th:value="${expanded.profile}" placeholder="" maxlength="100"></li>
+                    <li><span>*提成比例</span><input type="text" onkeyup="clearNoNum(this)" placeholder="按消费总额进行提成" name="firstLevelDiscount" id="firstLevelDiscount" th:value="${expanded.firstLevelDiscount}" maxlength="10">%</li>
+
+                    <li><span>*投放状态</span>
+                        <select name="expandedState">
+                            <option th:selected="${expanded.expandedState==1}" th:value="1">开始投放</option>
+                            <option th:selected="${expanded.expandedState==2}" th:value="2">停止投放</option>
+                        </select>
+                    </li>
+                </ul>
+
+                <div style="margin-bottom: 50px;margin-left: 110px;margin-top: 40px;">
+
+                    <div class="detail_lable_style" style="margin-bottom: 20px">全员推广详情描述</div>
+
+                    <textarea id="description" name="description" cols="100" rows="50" class="ckeditor"
+                              th:text="${expanded.description}"></textarea>
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+</form>
+
+    <script type="text/javascript" th:src="@{/selectdate/test/je_date.js}"></script>
+
+</body>
+</html>

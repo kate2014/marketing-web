@@ -1,0 +1,58 @@
+package com.zhongmei.yunfu.demo;
+
+
+import com.zhongmei.yunfu.controller.weixinPay.UnifiedorderEntity;
+import com.zhongmei.yunfu.controller.weixinPay.WeiXinPayRsqEntity;
+import com.zhongmei.yunfu.util.HttpMessageConverterUtils;
+import org.junit.Test;
+
+import java.io.*;
+
+public class DomoTest {
+
+    @Test
+    public void contextLoads() throws IOException {
+        System.out.println(new File("out/gen").getAbsolutePath());
+
+        String s = "{\"a\":\"1\",\"b\":2}";
+        ByteArrayInputStream in = new ByteArrayInputStream(s.getBytes());
+        PushbackInputStream pushbackInputStream = new PushbackInputStream(in, 8 * 1024);
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        int buffCount = 8 * 1024;
+        byte[] bytes = new byte[buffCount];
+        int readCount = 0;
+        System.out.println("push before");
+        System.out.println("ByteArrayInputStream: " + in.toString());
+        while ((readCount = pushbackInputStream.read(bytes)) != -1) {
+            byteArrayOutputStream.write(bytes, 0, readCount);
+        }
+        System.out.println("push after");
+        System.out.println("ByteArrayInputStream: " + in.toString());
+        System.out.println("ByteArrayOutputStream: " + byteArrayOutputStream.toString());
+
+        pushbackInputStream.unread(bytes,0,buffCount);
+
+        System.out.println("push after222");
+        System.out.println("ByteArrayInputStream: " + in.toString());
+        /*while (readCount < buffCount) {
+            readCount += pushbackInputStream.read(bytes, readCount, buffCount - readCount);
+        }*/
+
+    }
+
+    @Test
+    public void xml () throws Exception {
+        WeiXinPayRsqEntity xmlToObject = HttpMessageConverterUtils.xmlToObject("<xml><return_code><![CDATA[FAIL]]></return_code>\n" +
+                "<return_msg><![CDATA[1111111111111111]]></return_msg>\n" +
+                "</xml>", WeiXinPayRsqEntity.class);
+        System.out.println(xmlToObject);
+
+        String type = null;
+        switch (type) {
+            default:
+                System.out.println("00000");
+                break;
+        }
+    }
+}

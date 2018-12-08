@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<style type="text/css">
+
+    html,body{
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        background-color: #f0f0f0;
+    }
+</style>
+<head>
+    <meta charset="UTF-8">
+    <title>门店设置</title>
+
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" type="text/css" />
+
+    <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+
+    <link th:href="@{/upload/upload-one.css}" href="../static/upload/upload-one.css" type="text/css" rel="stylesheet" />
+    <script th:src="@{/upload/upload-one.js}" src="../static/upload/upload-one.js"></script>
+    <link th:href="@{/upload/upload-file.css}" href="../static/upload/upload-file.css" type="text/css" rel="stylesheet" />
+    <script th:src="@{/upload/upload-file.js}" src="../static/upload/upload-file.js"></script>
+
+    <!-- tips 提示框引用-->
+    <link rel="stylesheet" th:href="@{/tips/jquery.toast.css}">
+    <script type="text/javascript" th:src="@{/tips/jquery.toast.js}"></script>
+    <script type="text/javascript" th:src="@{/tips/tips.js}"></script>
+
+</head>
+
+
+<script type="text/javascript">
+
+    function submitCommercial() {
+        document.shopSetting.submit();
+    }
+    function submitPaySettingForm() {
+        document.paySetting.submit();
+    }
+    function submitYZFSettingForm() {
+        document.yzfSetting.submit();
+    }
+    function submitWxSettingForm() {
+        document.wxSetting.submit();
+    }
+
+    function showAction() {
+        var successOrfail = document.getElementById("successOrfail").value;
+        if(successOrfail != '' && successOrfail != undefined && successOrfail != null){
+            if(successOrfail == "success"){
+                successTips('操作成功','设置成功，可进行相关操作使用');
+            }else if(successOrfail == "fail"){
+                errorTips('操作失败','设置失败，请优先排查输入信息');
+            }
+        }
+    }
+
+</script>
+
+<body onload="showAction()">
+
+<input type="hidden" id="successOrfail" th:value="${successOrfail}">
+
+<div class="parent top_view_style">
+    <img th:src="@{/images/lable.jpg}" width="5" height="26" style="margin-left: 20px">
+    <label class="text_navigation" style="margin-left: 10px;width: 30%">门店设置</label>
+</div>
+
+<form method="post" name="shopSetting" action="" th:action="@{/internal/commercial/modfiyShopMessage}" th:object="${mShopSettingModel}">
+
+    <input type="hidden" name="shopIdenty" th:value="${shopIdenty}">
+    <input type="hidden" name="brandIdenty" th:value="${brandIdenty}">
+
+
+    <div style="margin: 20px;padding: 20px" class="modle_background_style">
+        <div class="parent">
+            <img th:src="@{/images/lable.jpg}" style="height: 25px; width: 4px; font-weight: bold;">
+            <label class="text_navigation" style="margin-left: 10px; font-weight: bold">商家基本信息设置</label>
+        </div>
+
+        <div style="margin-top: 15px">
+            <label class="text_navigation" style="margin-left: 10px; margin-top: 15px; width: 100px;display:inline-block">商户名称:</label>
+
+            <input class="input_style" style="margin-left: 5px; width: 300px" type="text" th:value="${commercial.commercialName}" name="commercialName"/>
+        </div>
+
+        <div style="margin-top: 15px">
+            <label class="text_navigation" style="margin-left: 10px; margin-top: 15px; width: 100px;display:inline-block">联系人:</label>
+            <input class="input_style" style="margin-left: 5px; width: 300px" type="text" th:value="${commercial.commercialContact}" name="commercialContact"/>
+        </div>
+
+        <div style="margin-top: 15px">
+            <label class="text_navigation" style="margin-left: 10px; margin-top: 15px; width: 100px;display:inline-block">联系电话:</label>
+            <input class="input_style" style="margin-left: 5px; width: 300px" type="text" th:value="${commercial.commercialPhone}" name="commercialPhone"/>
+        </div>
+
+        <div style="margin-top: 15px">
+            <label class="text_navigation" style="margin-left: 10px; margin-top: 15px; width: 100px;;display:inline-block">商户地址:</label>
+            <input class="input_style" style="margin-left: 5px; width: 300px" type="text" th:value="${commercial.commercialAdress}" name="commercialAdress"/>
+        </div>
+
+        <div style="margin-top: 15px">
+            <label class="text_navigation" style="margin-left: 10px; margin-top: 15px; width: 100px;;display:inline-block">商家描述:</label>
+            <input class="input_style" style="margin-left: 5px; width: 300px" type="text" th:value="${commercial.commercialDesc}" name="commercialDesc"/>
+        </div>
+
+        <div style="margin-top: 15px;">
+            <label class="text_navigation" style="margin-left: 10px; margin-top: 15px; width: 100px;;display:inline-block">商家Logo:</label>
+
+            <div class="upload-box" th:src="${commercial.commercialLogo}" name="imgUrl">
+                <div class="upload-btn">
+                    <input type="file" name="file" id="upload-input"/>
+                </div>
+            </div>
+
+            <h6 style="margin-left: 15px">点击图片进行上传或替换，仅可上传1张图片(图片大小 90*90px)</h6>
+
+        </div>
+
+        <div style="margin-top: 15px">
+            <button class="blue_button_style" onclick="submitCommercial()" style="margin-left: 10px" >保存</button>
+            <button class="gray_button_style" onclick="this" style="margin-left: 10px">取消</button>
+        </div>
+
+    </div>
+</form>
+
+<form method="post" name="paySetting" action="" th:action="@{/internal/commercial/setting}" th:object="${mShopSettingModel}">
+    <input type="hidden" name="shopIdenty" th:value="${shopIdenty}">
+    <input type="hidden" name="brandIdenty" th:value="${brandIdenty}">
+    <input type="hidden" name="type" value="2">
+
+    <div style="margin: 20px;padding: 20px" class="modle_background_style">
+        <div class="parent">
+            <img th:src="@{/images/lable.jpg}" style="height: 25px; width: 4px; font-weight: bold;">
+            <label class="text_navigation" style="margin-left: 10px; font-weight: bold">微信、支付宝支付凭证设置</label>
+        </div>
+        <label style="margin-left: 10px; font-size: 10px; color: #FF6600">注意：请妥善保管好该信息，如果该信息有误将影响微信、支付宝的正常支付使用</label>
+
+        <div style="margin-top: 15px">
+            <label class="text_navigation" style="margin-left: 10px; margin-top: 15px; min-width: 300px">商家支付标识</label>
+            <input class="input_style" placeholder="输入开通支付时的唯一标识 appid" style="margin-left: 5px; width: 300px" type="text" th:value="${appid}" name="appid"/>
+        </div>
+        <div style="margin-top: 15px">
+            <label class="text_navigation" style="margin-left: 10px; margin-top: 15px; min-width: 300px">商家支付密钥</label>
+            <input class="input_style" placeholder="输入开通支付时的唯一支付密钥 appsecret" style="margin-left: 5px; width: 300px" type="text" th:value="${appsecret}" name="appsecret"/>
+        </div>
+        <div style="margin-top: 15px">
+            <button class="blue_button_style" onclick="submitPaySettingForm()" style="margin-left: 10px" >保存</button>
+            <button class="gray_button_style" onclick="this" style="margin-left: 10px">取消</button>
+        </div>
+
+    </div>
+
+</form>
+
+<!--<form method="post" name="yzfSetting" th:action="@{/internal/commercial/setting}" th:object="${mShopSettingModel}">-->
+
+    <!--<input type="hidden" name="shopIdenty" th:value="${shopIdenty}">-->
+    <!--<input type="hidden" name="brandIdenty" th:value="${brandIdenty}">-->
+    <!--<input type="hidden" name="type" value="3">-->
+
+    <!--<div style="margin: 20px;padding: 20px" class="modle_background_style">-->
+        <!--<div class="parent">-->
+            <!--<img th:src="@{/images/lable.jpg}" style="height: 25px; width: 4px; font-weight: bold;">-->
+            <!--<label class="text_navigation" style="margin-left: 10px; font-weight: bold">翼支付账号设置</label>-->
+        <!--</div>-->
+        <!--<label style="margin-left: 10px; margin-top: 20px; font-size: 10px; color: #FF6600">注意：该信息为翼支付开通时获取的信息，如果该信息有误将影响小程序的正常支付</label>-->
+        <!--<div style="margin-top: 15px">-->
+            <!--<label class="text_navigation" style="margin-left: 10px; margin-top: 15px; min-width: 300px">翼支付标识</label>-->
+            <!--<input class="input_style" placeholder="输入开通翼支付时的唯一标识 appid" style="margin-left: 5px; width: 300px" type="text" th:value="${yzfAppid}" name="yzfAppid"/>-->
+        <!--</div>-->
+
+        <!--<div style="margin-top: 15px">-->
+            <!--<label class="text_navigation" style="margin-left: 10px; margin-top: 15px; min-width: 300px">翼支付密钥</label>-->
+            <!--<input class="input_style" placeholder="输入开通翼支付时的唯一秘钥 appsecret" style="margin-left: 5px; width: 300px" type="text" th:value="${yzfAppsecret}" name="yzfAppsecret"/>-->
+        <!--</div>-->
+        <!--<div style="margin-top: 15px">-->
+            <!--<button class="blue_button_style" onclick="submitYZFSettingForm()" style="margin-left: 10px" >保存</button>-->
+            <!--<button class="gray_button_style" onclick="this" style="margin-left: 10px">取消</button>-->
+        <!--</div>-->
+
+    <!--</div>-->
+
+<!--</form>-->
+
+<form method="post" name="wxSetting" action="" th:action="@{/internal/commercial/setting}" th:object="${mShopSettingModel}">
+
+
+    <input type="hidden" name="shopIdenty" th:value="${shopIdenty}">
+    <input type="hidden" name="brandIdenty" th:value="${brandIdenty}">
+    <input type="hidden" name="id" th:value="${brandIdenty}">
+    <input type="hidden" name="type" value="1">
+
+    <div style="margin: 20px;padding: 20px" class="modle_background_style">
+        <div class="parent">
+            <img th:src="@{/images/lable.jpg}" style="height: 25px; width: 4px; font-weight: bold;">
+            <label class="text_navigation" style="margin-left: 10px; font-weight: bold">小程序公众号设置</label>
+        </div>
+        <label style="margin-left: 10px; margin-top: 20px; font-size: 10px; color: #FF6600">注意：请妥善保管好该信息，如果该信息有误将影响小程序的正常使用</label>
+
+        <div style="margin-top: 15px">
+            <label class="text_navigation" style="margin-left: 10px; margin-top: 15px; min-width: 300px">小程序商户编号</label>
+            <input class="input_style" placeholder="输入小程序支付商户编号" style="margin-left: 5px; width: 300px" type="text" th:value="${wxShopId}" name="wxShopId"/>
+        </div>
+
+        <div style="margin-top: 15px">
+            <label class="text_navigation" style="margin-left: 10px; margin-top: 15px; min-width: 300px">商家小程序标识</label>
+            <input class="input_style" placeholder="输入开通小程序时的唯一标识 appid" style="margin-left: 5px; width: 300px" type="text" th:value="${wxAppid}" name="wxAppid"/>
+        </div>
+
+        <div style="margin-top: 15px">
+            <label class="text_navigation" style="margin-left: 10px; margin-top: 15px; min-width: 300px">商家小程序密钥</label>
+            <input class="input_style" placeholder="输入开通小程序时的唯一秘钥 appsecret" style="margin-left: 5px; width: 300px" type="text" th:value="${wxAppsecret}" name="wxAppsecret"/>
+        </div>
+
+        <div style="margin-top: 15px">
+            <label class="text_navigation" style="margin-left: 10px; margin-top: 15px; min-width: 300px">小程序支付密钥</label>
+            <input class="input_style" placeholder="输入商家小程序支付API秘钥" style="margin-left: 5px; width: 300px" type="text" th:value="${apiSecret}" name="apiSecret"/>
+        </div>
+
+        <div style="margin-top: 15px;">
+            <label class="text_navigation" style="margin-left: 10px; margin-top: 15px; max-width: 300px">商户秘钥上传</label>
+            <div class="upload-file-box" style="margin-left: 18px; width: 300px" name="secretFilepath" th:href="${secretFilename}">
+                <div class="upload-file-btn">
+                    <span>点击上传文件</span>
+                    <input type="file" name="file" id="upload-input-file"/>
+                </div>
+            </div>
+            <h6 style="margin-left: 15px">点击上传或替换，仅可上传1个文件(文件名为.p12)</h6>
+        </div>
+
+        <div style="margin-top: 15px">
+            <button class="blue_button_style" onclick="submitWxSettingForm()" style="margin-left: 10px" >保存</button>
+            <button class="gray_button_style" onclick="this" style="margin-left: 10px">取消</button>
+        </div>
+
+    </div>
+
+</form>
+
+<form method="post" name="scoreD" action="" th:action="@{/internal/customerScoreRule/modify}" th:object="${mShopSettingModel}">
+
+
+    <input type="hidden" name="shopIdenty" th:value="${shopIdenty}">
+    <input type="hidden" name="brandIdenty" th:value="${brandIdenty}">
+
+    <div style="margin: 20px;padding: 20px" class="modle_background_style">
+        <div class="parent">
+            <img th:src="@{/images/lable.jpg}" style="height: 25px; width: 4px; font-weight: bold;">
+            <label class="text_navigation" style="margin-left: 10px; font-weight: bold">生成小程序关注二维码</label>
+        </div>
+
+    </div>
+
+</form>
+
+
+</body>
+</html>

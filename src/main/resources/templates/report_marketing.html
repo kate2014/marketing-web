@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>营销报表</title>
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../css/base.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../css/common.css" type="text/css" />
+
+    <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <script type="text/javascript" src="../static/js/base.js" th:src="@{/js/base.js}"></script>
+
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/test/jeDate-test.css}">
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/skin/jedate.css}">
+    <script type="text/javascript" th:src="@{/selectdate/src/jedate.js}"></script>
+
+    <script type="text/javascript" src="../static/js/echarts.min.js" th:src="@{/js/echarts.min.js}"></script>
+</head>
+
+
+<body>
+
+
+<form method="post" action="" th:action="@{/internal/marketingReport/marketing}" th:object="${mReportMarketingModel}">
+    <div style="margin-top: 20px">
+
+        <input type="hidden" name="brandIdenty" th:value="${mReportMarketingModel.brandIdenty}">
+        <label class="text_navigation" style="margin-left: 20px">范围</label>
+        <select class="select_style" name="shopIdenty" style="margin-left: 5px">
+
+            <option value="">品牌下全门店</option>
+            <option th:selected="${mReportMarketingModel.shopIdenty eq list.commercialId}" th:each="list:${listCommercial}" th:value="${list.commercialId}" th:text="${list.commercialName}"></option>
+
+        </select>
+
+
+        <!--<label class="text_navigation" style="margin-left: 10px">查询时间段</label>-->
+        <!--<input type="text" class="input_style" name="startDate" placeholder="设置查询起始时间" id="startDate"  th:value="${mReportMarketingModel.startDate}">-->
+        <!--<label class="text_navigation" style="margin-left: 10px">&#45;&#45;</label>-->
+        <!--<input type="text" class="input_style" name="endDate" placeholder="设置查询结束时间" id="endDate"  th:value="${mReportMarketingModel.endDate}">-->
+        <button class="orange_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
+
+    </div>
+</form>
+
+<img class="line_style" th:src="@{/images/line.jpg}" style="margin-bottom: 30px;margin-top: 20px">
+
+<div class="container" style="margin-left: 20px">
+    <img th:src="@{/images/lable.jpg}" width="5" height="26">
+    <p style="font-weight: bold; margin-left: 6px">场景营销情况</p>
+</div>
+
+<div style="width: 90%;height:400px; align-content: center; text-align: center; margin-left: 20px">
+    <div id="collageReport" style="width: 100%;height:400px;"></div>
+    <p style="font-weight: bold; margin-left: 6px">拼团活动参与情况</p>
+</div>
+
+<img class="line_style" th:src="@{/images/line.jpg}" style="margin-bottom: 30px;margin-top: 30px">
+
+<div style="width: 90%;height:400px; align-content: center; text-align: center; margin-left: 20px">
+    <div id="cutDownReport" style="width: 100%;height:400px;"></div>
+    <p style="font-weight: bold; margin-left: 6px">砍价活动参与情况</p>
+</div>
+
+<img class="line_style" th:src="@{/images/line.jpg}" style="margin-bottom: 30px;margin-top: 30px">
+
+<div style="width: 90%;height:400px; align-content: center; text-align: center; margin-left: 20px;margin-bottom: 80px">
+    <div id="flashSalesReport" style="width: 100%;height:400px;"></div>
+    <p style="font-weight: bold; margin-left: 6px">秒杀活动参与情况</p>
+</div>
+
+
+
+<script th:inline="javascript">
+
+    //---------拼团营销概况
+    var dom = document.getElementById("collageReport");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '拼团营销概况';
+
+    option = {
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        toolbox: {
+            feature: {
+                dataView: {show: true, readOnly: false},
+                magicType: {show: true, type: ['line', 'bar']},
+                restore: {show: true},
+                saveAsImage: {show: true}
+            }
+        },
+        legend: {
+            data:['成团数','开团数','参团人数']
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis : [
+            {
+                type : 'category',
+                data : [[${collageName}]],
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis : [
+            {
+                type: 'value',
+                name: '参团情况',
+                min: 0,
+                max: [[${maxCount}]],
+                interval: [[${intervalCount}]],
+                axisLabel: {
+                    formatter: '{value}个'
+                }
+            },
+            {
+                type: 'value',
+                name: '参团人数',
+                min: 0,
+                max: [[${maxJoinCount}]],
+                interval: [[${intervalJoinCount}]],
+                axisLabel: {
+                    formatter: '{value} 人'
+                }
+            }
+        ],
+        series : [
+
+            {
+                name:'成团数',
+                type:'bar',
+                stack: '参团情况',
+                barMaxWidth : 30,//柱图宽度
+                data:[[${finishCount}]]
+            },
+            {
+                name:'开团数',
+                type:'bar',
+                stack: '参团情况',
+                barMaxWidth : 30,//柱图宽度
+                data:[[${openCount}]]
+            },
+            {
+                name:'参团人数',
+                type:'line',
+                yAxisIndex: 1,
+                data:[[${joinCount}]]
+            }
+        ]
+    };
+    ;
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+
+
+
+    //---------砍价营销概况
+    var dom = document.getElementById("cutDownReport");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '砍价营销概况';
+
+    option = {
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        toolbox: {
+            feature: {
+                dataView: {show: true, readOnly: false},
+                magicType: {show: true, type: ['line', 'bar']},
+                restore: {show: true},
+                saveAsImage: {show: true}
+            }
+        },
+        legend: {
+            data:['砍价购买成功','参与砍价人数']
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis : [
+            {
+                type : 'category',
+                data : [[${cutDownName}]],
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis : [
+            {
+                type: 'value',
+                name: '砍价购买成功',
+                min: 0,
+                max: [[${maxSoldCount}]],
+                interval: [[${intervalSoldCount}]],
+                axisLabel: {
+                    formatter: '{value}个'
+                }
+            },
+            {
+                type: 'value',
+                name: '参与砍价人数',
+                min: 0,
+                max: [[${maxCutJoinCount}]],
+                interval: [[${intervalCutCount}]],
+                axisLabel: {
+                    formatter: '{value} 人'
+                }
+            }
+        ],
+        series : [
+
+            {
+                name:'砍价购买成功',
+                type:'bar',
+                stack: '成功购买数',
+                barMaxWidth : 30,//柱图宽度
+                data:[[${soldCount}]]
+            },
+            {
+                name:'参与砍价人数',
+                type:'line',
+                yAxisIndex: 1,
+                data:[[${cutDownJoinCount}]]
+            }
+        ]
+    };
+    ;
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+
+
+    //==========秒杀活动报表
+    var dom = document.getElementById("flashSalesReport");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '秒杀活动报表';
+
+    option = {
+        tooltip : {
+            trigger: 'axis',
+            axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            }
+        },
+        legend: {
+            data:['秒杀购买数']
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis : [
+            {
+                type : 'category',
+                data : [[${flashSalesName}]]
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series : [
+
+            {
+                name:'秒杀购买数',
+                type:'bar',
+                stack: '秒杀购买数',
+                barMaxWidth : 30,//柱图宽度
+                data:[[${flashSalesSoldCount}]]
+            },
+        ]
+    };
+    ;
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+</script>
+<script type="text/javascript" th:src="@{/selectdate/test/demo.js}"></script>
+
+
+</body>
+</html>

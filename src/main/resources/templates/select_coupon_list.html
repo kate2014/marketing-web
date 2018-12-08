@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>优惠券列表</title>
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" />
+    <link rel="stylesheet" th:href="@{/css/customer.css}" href="../static/css/customer.css" />
+    <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}" src="../static/js/jquery-3.1.1.min.js" ></script>
+    <script type="text/javascript" th:src="@{/js/base.js}" src="../static/js/base.js" ></script>
+</head>
+<body>
+
+<div align="center" style="margin-top: 10px">
+<table class="gridtablestyle" style="width: 95%; vertical-align: middle">
+    <tr style="width: 100%">
+        <th align="center">选择优惠</th>
+        <th align="center">优惠券名称</th>
+        <th align="center">优惠券状态</th>
+    </tr>
+    <tr th:each="item:${list}">
+        <td><input type="checkbox" name="itemRadio" th:couponId="${item.id}" th:couponName="${item.name}"></td>
+        <td th:text="${item.name}"></td>
+        <td>
+            <div th:switch="${item.couponState}">
+                <p th:case="'1'">
+                    使用中
+                </p>
+                <p th:case="'2'">
+                    停用
+                </p>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<div class="paging">
+    <div th:replace="page_info::pagination"/>
+</div>
+</div>
+</body>
+</html>

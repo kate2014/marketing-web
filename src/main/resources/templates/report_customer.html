@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>会员报表</title>
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../css/base.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../css/common.css" type="text/css" />
+
+    <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <script type="text/javascript" src="../static/js/base.js" th:src="@{/js/base.js}"></script>
+
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/test/jeDate-test.css}">
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/skin/jedate.css}">
+    <script type="text/javascript" th:src="@{/selectdate/src/jedate.js}"></script>
+
+    <script type="text/javascript" src="../static/js/echarts.min.js" th:src="@{/js/echarts.min.js}"></script>
+</head>
+
+
+
+<body>
+
+<form method="post" action="" th:action="@{/internal/report/customerReport}" th:object="${mCustomerModel}">
+    <div style="margin-top: 20px">
+
+        <input type="hidden" name="brandIdenty" th:value="${customerModel.brandIdenty}">
+        <label class="text_navigation" style="margin-left: 20px">范围</label>
+        <select class="select_min_style" name="shopIdenty" style="margin-left: 5px">
+
+            <option value="">品牌下全门店</option>
+            <option th:selected="${customerModel.shopIdenty eq list.commercialId}" th:each="list:${listCommercial}" th:value="${list.commercialId}" th:text="${list.commercialName}"></option>
+
+        </select>
+
+
+        <label class="text_navigation" style="margin-left: 10px">查询时间段</label>
+        <input type="text" class="input_min_style" id="startDate" name="startDate" placeholder="设置查询起始时间" th:value="${customerModel.startDate}">
+
+        <label class="text_navigation">--</label>
+        <input type="text" class="input_min_style" id="endDate" name="endDate" placeholder="设置查询结束时间" th:value="${customerModel.endDate}">
+        <button class="orange_mine_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
+
+    </div>
+</form>
+
+<img class="line_style" th:src="@{/images/line.jpg}" style="margin-bottom: 30px;margin-top: 20px">
+
+<div class="container" style="margin-left: 20px">
+    <img th:src="@{/images/lable.jpg}" width="5" height="26">
+    <p style="font-weight: bold; margin-left: 6px">新增会员统计</p>
+</div>
+
+<div style="width: 95%;height:400px; align-content: center;text-align: center;">
+    <div id="container" style="width: 100%;height:400px;"></div>
+    <p style="font-weight: bold; margin-left: 6px">会员新增情况</p>
+</div>
+
+<img class="line_style" th:src="@{/images/line.jpg}" style="margin-top: 50px">
+
+<div style="width: 95%;height:400px; text-align: center;text-align: center;">
+    <div id="customTotal" style="width: 100%;height:400px;"></div>
+    <p style="font-weight: bold; margin-left: 6px">会员增长情况</p>
+</div>
+
+<img class="line_style" th:src="@{/images/line.jpg}" style="margin-top: 50px">
+
+<div class="parent_h" style="width: 95%; margin-bottom: 100px;margin-top:30px;text-align: center;">
+
+    <div style="width: 50%;height:400px; text-align: center;margin-left: 50px">
+        <div id="sourceCustomer" style="width: 100%;height:400px;"></div>
+        <p style="font-weight: bold; margin-left: 6px">新增会员来源分布</p>
+    </div>
+    <div style="width: 50%;height:400px; text-align: center;margin-left: 50px">
+        <div id="sourceCustomerTotal" style="width: 100%;height:400px;"></div>
+        <p style="font-weight: bold; margin-left: 6px">会员来源分布</p>
+    </div>
+
+</div>
+
+
+<script th:inline="javascript">
+
+    var dom = document.getElementById("container");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '会员每日增长量';
+
+    option = {
+        tooltip : {
+            trigger: 'axis',
+            axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            }
+        },
+        legend: {
+            data:['POS端','小程序']
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis : [
+            {
+                type : 'category',
+                data : [[${listCreateDate}]]
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series : [
+
+            {
+                name:'POS端',
+                type:'bar',
+                stack: '来源',
+                barMaxWidth : 30,//柱图宽度
+                data:[[${listPOSCount}]]
+            },
+            {
+                name:'小程序',
+                type:'bar',
+                stack: '来源',
+                barMaxWidth : 30,//柱图宽度
+                data:[[${listWxCount}]]
+            },
+        ]
+    };
+    ;
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+
+
+
+    //------------------会员来源分布-------------------
+    var dom = document.getElementById("sourceCustomer");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '新增会员来源分步';
+
+    option = {
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b}: {c} ({d}%)"
+        },
+        legend: {
+            orient: 'vertical',
+            x: 'left',
+            data:['POS端','小程序']
+        },
+        series: [
+            {
+                name:'新增会员来源',
+                type:'pie',
+                radius: ['50%', '70%'],
+                avoidLabelOverlap: false,
+                label: {
+                    normal: {
+                        show: false,
+                        position: 'center'
+                    },
+                    emphasis: {
+                        show: true,
+                        textStyle: {
+                            fontSize: '30',
+                            fontWeight: 'bold'
+                        }
+                    }
+                },
+                labelLine: {
+                    normal: {
+                        show: false
+                    }
+                },
+                data:[
+                    {value:[[${posCustomerCount}]], name:'POS端'},
+                    {value:[[${wxCustomerCount}]], name:'小程序'},
+
+                ]
+            }
+        ]
+    };
+    ;
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+
+
+//---------------------会员增长统计--------------
+    var dom = document.getElementById("customTotal");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    option = {
+        // title: {
+        //     text: '会员增长情况'
+        // },
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            data:['会员增长情况']
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        toolbox: {
+            feature: {
+                saveAsImage: {}
+            }
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: [[${listCreateDate}]]
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [
+            {
+                name:'会员数',
+
+                type:'line',
+                stack: '总量',
+                data:[[${listCustomerCount}]]
+            },
+        ]
+    };
+    ;
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+
+
+    //------------------所有会员来源分步统计--------------
+    var dom = document.getElementById("sourceCustomerTotal");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '新增会员来源分步';
+
+    option = {
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b}: {c} ({d}%)"
+        },
+        legend: {
+            orient: 'vertical',
+            x: 'left',
+            data:['POS端','小程序']
+        },
+        series: [
+            {
+                name:'会员来源',
+                type:'pie',
+                radius: ['50%', '70%'],
+                avoidLabelOverlap: false,
+                label: {
+                    normal: {
+                        show: false,
+                        position: 'center'
+                    },
+                    emphasis: {
+                        show: true,
+                        textStyle: {
+                            fontSize: '30',
+                            fontWeight: 'bold'
+                        }
+                    }
+                },
+                labelLine: {
+                    normal: {
+                        show: false
+                    }
+                },
+                data:[
+                    {value:[[${posCustomerTotal}]], name:'POS端'},
+                    {value:[[${wxCustomerAddTotal}]], name:'小程序'},
+
+                ]
+            }
+        ]
+    };
+    ;
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+
+</script>
+
+
+
+<script type="text/javascript" th:src="@{/selectdate/test/demo.js}"></script>
+
+</body>
+</html>

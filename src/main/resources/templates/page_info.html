@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<style type="text/css">
+
+    html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        background-color: #FFFFFF;
+    }
+
+    .container {
+        text-align: center;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        align-content: center;
+        float: right;
+    }
+
+    .customer_modle {
+        width: 200px;
+        height: 80px;
+        align: center;
+        background-size: 100% 100%;
+        box-shadow: 2px 4px 6px #999999;
+        cursor: pointer;
+    }
+
+    .lable_01 {
+        width: 140px;
+        height: 30px;
+        align: center;
+        background-size: 100% 100%;
+        background-image: url("../static/images/lable_01.jpg");
+        cursor: pointer;
+    }
+
+    .lable_02 {
+        width: 140px;
+        height: 30px;
+        align: center;
+        background-size: 100% 100%;
+        background-image: url("../static/images/lable_02.jpg");
+        cursor: pointer;
+    }
+
+    .see_modify {
+        width: 45px;
+        height: 100%;
+        background-size: 100% 100%;
+        cursor: pointer;
+    }
+
+    div.parent_h {
+        /* 启用弹性盒布局 */
+        display: flex;
+        /* 使子元素水平居中*/
+        justify-content: center;
+        /* 使子元素垂直居中*/
+        align-items: center;
+    }
+
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <title>分页</title>
+    <link rel="stylesheet" href="../static/css/public.css" type="text/css"/>
+    <link rel="stylesheet" href="../static/css/widget.css" type="text/css"/>
+    <link rel="stylesheet" href="../static/css/common.css"/>
+    <link rel="stylesheet" href="../static/css/base.css"/>
+    <link rel="stylesheet" href="../static/css/customer.css"/>
+</head>
+<body>
+<div class="paging" th:fragment="pagination" th:if="${pageInfo.totalPage>1}">
+    <form th:action="@{${pageInfo.url}}">
+    <span>第<i th:text="${pageInfo.currentPage}">1</i>页</span>
+    <span>共<i th:text="${pageInfo.rowCount}">3</i>条</span>
+    <ul>
+        <li>
+            <a th:if="${pageInfo.hasPrePage}" th:href="@{${pageInfo.url}(pageNo=${pageInfo.prePageNum})}">&lt;</a>
+            <span th:unless="${pageInfo.hasPrePage}">&lt;</span>
+        </li>
+        <li th:each="pageNo : ${#numbers.sequence(1, pageInfo.pageRangeNum)}">
+            <!--<span th:if="${pageInfo.prePageNum+pageNo<=pageInfo.totalPage}">-->
+            <a th:class="${pageInfo.currentPage == pageInfo.prePageNum+pageNo}?'active':'no_active'" th:href="@{${pageInfo.url}(pageNo=${pageInfo.prePageNum+pageNo})}" th:text="${pageInfo.prePageNum+pageNo}">1</a>
+            <!--</span>-->
+        </li>
+        <li>
+            <a th:if="${pageInfo.hasNextPage}" th:href="@{${pageInfo.url}(pageNo=${pageInfo.nextPageNum})}">&gt;</a>
+            <span th:unless="${pageInfo.hasNextPage}">&gt;</span>
+        </li>
+    </ul>
+    <b>跳至<input name="pageNo" th:value="${pageInfo.currentPage}">页</b>
+    <input type="submit" value="Go" />
+    </form>
+</div>
+</body>
+</html>

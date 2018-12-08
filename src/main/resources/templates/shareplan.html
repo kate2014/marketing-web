@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<style type="text/css">
+
+    html,body{
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        background-color: #FFFFFF;
+    }
+    .bgimage_1{
+        width: 200px;
+        height: 80px;
+        background-size: 100% 100%;
+        margin-left: 40px;
+        box-shadow: 4px 6px 8px #FF6600;
+        cursor:pointer;
+    }
+    .bgimage_2{
+        width: 200px;
+        height: 80px;
+        background-size: 100% 100%;
+        margin-left: 40px;
+        box-shadow: 4px 6px 8px #999999;
+        cursor:pointer;
+    }
+
+    div.parent {
+        /* 启用弹性盒布局 */
+        display: flex;
+        /* 使子元素垂直居中*/
+        align-items: center;
+    }
+
+    div.parent_h {
+        /* 启用弹性盒布局 */
+        display: flex;
+        /* 使子元素水平居中*/
+        justify-content: center;
+        /* 使子元素垂直居中
+        align-items: center;*/
+    }
+
+    .share_plan_name_style{
+        color: #FF6600;
+        font-weight: bold;
+        align-content: center;
+        margin-top: 10px;
+        font-size: 14px;
+        text-align: center;
+        width: 100%;
+    }
+    .share_plan_message_style{
+        font-size:8px;
+        color: #666666;
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-top: 8px;
+
+    }
+
+</style>
+<head>
+    <meta charset="UTF-8">
+    <title>分享营销</title>
+
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/test/jeDate-test.css}">
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/skin/jedate.css}">
+    <script type="text/javascript" th:src="@{/selectdate/src/jedate.js}"></script>
+
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../css/base.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../css/common.css" type="text/css" />
+
+    <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <script type="text/javascript" src="../static/js/base.js" th:src="@{/js/base.js}"></script>
+
+    <!-- tips 提示框引用-->
+    <link rel="stylesheet" th:href="@{/tips/jquery.toast.css}">
+    <script type="text/javascript" th:src="@{/tips/jquery.toast.js}"></script>
+    <script type="text/javascript" th:src="@{/tips/tips.js}"></script>
+</head>
+<script type="text/javascript">
+
+   function showSelected() {
+
+       var type= document.getElementById("selectShareType");
+
+       if(type.value == "1"){
+           document.getElementById("shareName").value = "门店分享";
+           document.getElementById("shareShopbg").setAttribute("class", "bgimage_1");
+           document.getElementById("shareDishbg").setAttribute("class", "bgimage_2");
+           document.getElementById("shareActivitybg").setAttribute("class", "bgimage_2");
+       }else if(type.value == "2"){
+           document.getElementById("shareName").value = "新品分享";
+           document.getElementById("shareShopbg").setAttribute("class", "bgimage_2");
+           document.getElementById("shareDishbg").setAttribute("class", "bgimage_1");
+           document.getElementById("shareActivitybg").setAttribute("class", "bgimage_2");
+       }else if(type.value == "3"){
+           document.getElementById("shareName").value = "活动分享";
+           document.getElementById("shareShopbg").setAttribute("class", "bgimage_2");
+           document.getElementById("shareDishbg").setAttribute("class", "bgimage_2");
+           document.getElementById("shareActivitybg").setAttribute("class", "bgimage_1");
+       }
+       var successOrfail = document.getElementById("successOrfail").value;
+       if(successOrfail != '' && successOrfail != undefined && successOrfail != null){
+           if(successOrfail == "success"){
+               successTips('操作成功','分享活动设置成功，可在小程序端进行使用了');
+           }else if(successOrfail == "fail"){
+               errorTips('操作失败','分享活动设置失败');
+           }
+       }
+
+   }
+
+    function gotoSharePage(shareType) {
+
+        document.getElementById("selectShareType").value = shareType;
+        document.gotoShareForm.submit();
+    }
+
+    function submitForm() {
+        var shareName = document.getElementById("shareName").value.replace(/(^\s*)|(\s*$)/g, '');//获取信息并去除空格;
+        var endTime = document.getElementById("endTime").value.replace(/(^\s*)|(\s*$)/g, '');
+        // var shareCount = document.getElementById("shareCount").value.replace(/(^\s*)|(\s*$)/g, '');
+        var profile = document.getElementById("profile").value.replace(/(^\s*)|(\s*$)/g, '');
+        var couponName = document.getElementById("couponName").value.replace(/(^\s*)|(\s*$)/g, '');
+
+        if(shareName == '' || shareName == undefined || shareName == null) {
+            warningTips("操作异常提示","分享方案名称不能为空");
+        }else if(endTime == '' || endTime == undefined || endTime == null){
+            warningTips("操作异常提示","结束时间不能为空");
+        }
+        // else if(shareCount == '' || shareCount == undefined || shareCount == null){
+        //     warningTips("操作异常提示","分享数量不能为空");
+        // }
+        else if(couponName == '' || couponName == undefined || couponName == null){
+            warningTips("操作异常提示","设置反馈不能为空");
+        }else if(profile == '' || profile == undefined || profile == null){
+            warningTips("操作异常提示","活动简介不能为空");
+        }else{
+            document.addform.submit();
+        }
+    }
+
+
+   $(function () {
+       $("#showCoupon").click(function () {
+           $('.zm-dialog').load('[[${basePath}]]/coupon/showSelectCoupon');
+       })
+   });
+
+   function setCouponInfo(couponId,couponName) {
+       document.getElementById("couponId").value = couponId;
+       document.getElementById("couponName").value = couponName;
+   };
+
+</script>
+<body onload="showSelected()">
+
+<div class="parent top_view_style">
+
+    <img th:src="@{/images/lable.jpg}" width="5" height="26" style="margin-left: 20px">
+
+    <label class="text_navigation" style="margin-left: 10px; width: 30%">营销 》分享营销</label>
+
+    <div align="right" style="width: 100%;margin-right: 50px">
+        <button class="gray_button_style" value="" th:onclick="@{|location='${basePath}/home'|}" style="margin-left: 10px">返回</button>
+    </div>
+</div>
+
+<input type="hidden" id="successOrfail" th:value="${sharePlan.successOrfail}">
+
+<div class="parent_h">
+<img th:src="@{/images/weixin_share.jpg}" src="../static/images/weixin_share.jpg" class="weixin_pic_style" style="width: 250px;height: 470px">
+    <div>
+        <form method="post" name="gotoShareForm" action="" th:action="@{/marketingShare/gotoShareMarketing}" th:object="${shareMarketingModel}">
+            <input type="hidden" name="selectShareType" id="selectShareType" th:value="${sharePlan.selectShareType}">
+            <div class="parent_h" style="margin-top: 20px;">
+
+                <div class="bgimage_1" onclick="gotoSharePage('1')" id="shareShopbg">
+                    <p class="share_plan_name_style">门店分享</p>
+                    <p class="share_plan_message_style">状态：<span th:text="${sharePlan.shareShopState}"></span></br></br>投放时间：<span th:text="${#dates.format(sharePlan.shareShopDate, 'yyyy-MM-dd HH:mm:ss')}"></span> </p>
+                </div>
+                <div class="bgimage_2" onclick="gotoSharePage(2)" id="shareDishbg">
+                    <p class="share_plan_name_style">新品分享</p>
+                    <p class="share_plan_message_style">状态：<lable th:text="${sharePlan.shareDishState}"></lable></br></br>投放时间：<span th:text="${#dates.format(sharePlan.shareDishDate, 'yyyy-MM-dd HH:mm:ss')}"></span> </p>
+                </div>
+                <div class="bgimage_2" onclick="gotoSharePage(3)" id="shareActivitybg">
+                    <p class="share_plan_name_style">活动分享</p>
+                    <p class="share_plan_message_style">状态：<lable th:text="${sharePlan.shareActivityState}"></lable></br></br>投放时间：<span th:text="${#dates.format(sharePlan.shareActivityDate, 'yyyy-MM-dd HH:mm:ss')}"></span> </p>
+                </div>
+            </div>
+        </form>
+        <form method="post" name="addform" th:action="@{/marketingShare/editShareMarketing}" th:object="${shareMarketingModel}">
+
+            <input type="hidden" name="id" th:value="${sharePlan.id}">
+            <input type="hidden" id="shareType" name="shareType" th:value="${sharePlan.shareType}">
+            <input type="hidden" id="couponId" name="couponId" th:value="${sharePlan.couponId}">
+
+            <div class="details-bom">
+                <ul class="spell-content">
+                    <li><span>*方案名称</span><label><input type="text" value="门店分享" maxlength="10" id="shareName"/></label></li>
+
+                    <li><span>*结束时间</span><input type="text" th:value="${sharePlan.endDate}" name="endDate" placeholder="输入活动结束时间" id="endTime"></li>
+                    <li><span>*设置回馈</span>
+                        <input type="text" th:value="${sharePlan.couponName}" name="couponName" placeholder="设置活动优惠券" id="couponName" readonly="true">
+                        <input type="button" id="showCoupon" class='selectCoupon' value="选择优惠券"></input>
+                        <h4>点击选择为分享者赠送的优惠活动</h4>
+                    </li>
+                    <li><span>*投放状态</span>
+                        <select name="shareState">
+                            <option th:selected="*{shareState == 1}" value="1">开始投放</option>
+                            <option th:selected="*{shareState == 2}" value="2">停止投放</option>
+                        </select>
+                    </li>
+                    <li><span>*活动简介</span><input type="text" th:value="${sharePlan.profile}" name="profile" id="profile" placeholder="输入字符不超过100字" maxlength="100"></li>
+
+                </ul>
+
+            </div>
+
+        </form>
+        <div style="margin-top: 50px; margin-left: 13%">
+            <button class="blue_button_style" value="" onclick="submitForm()" style="margin-left: 10px">保存</button>
+            <button class="gray_button_style" value="" th:onclick="@{|location='${basePath}/home'|}" style="margin-left: 10px">取消</button>
+        </div>
+
+    </div>
+
+</div>
+<div class='zm-dialog' />
+
+<script type="text/javascript" th:src="@{/selectdate/test/je_date.js}"></script>
+</body>
+</html>

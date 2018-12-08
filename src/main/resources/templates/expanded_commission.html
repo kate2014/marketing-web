@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>推广提成</title>
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../css/base.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../css/common.css" type="text/css" />
+
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/test/jeDate-test.css}">
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/skin/jedate.css}">
+    <script type="text/javascript" th:src="@{/selectdate/src/jedate.js}"></script>
+    <script type="text/javascript" src="../static/js/base.js" th:src="@{/js/base.js}"></script>
+</head>
+
+
+<body>
+
+
+<form method="post" th:action="@{/pos/customerMarketingExpanded/commission}" th:object="${mCommissionSearchModel}">
+    <div style="margin-top: 20px">
+
+        <input type="hidden" id="shopIdenty" name="shopIdenty" th:value="${mCommissionSearchModel.shopIdenty}">
+        <input type="hidden" id="brandIdenty" name="brandIdenty" th:value="${mCommissionSearchModel.brandIdenty}">
+        <label class="text_navigation" style="margin-left: 60px">查询时间</label>
+        <input type="text" class="input_min_style" name="startDate" placeholder="查询起始时间" th:value="${mCommissionSearchModel.startDate}" id="startDate">
+        <LABEL>~</LABEL>
+        <input type="text" class="input_min_style" name="endDate" placeholder="查询结束时间" th:value="${mCommissionSearchModel.endDate}" id="endDate">
+
+        <label class="text_navigation" style="margin-left: 10px">用户手机号</label>
+        <input class="input_min_style" style="margin-left: 5px" type="text" onkeyup="onlyNumber(this)" placeholder="输入查询会员手机号" th:value="${mCommissionSearchModel.mobile}" name="mobile"/>
+
+        <button class="orange_mine_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
+    </div>
+</form>
+<label class="error_text_style" style="margin-left: 40%;margin-top: 10px" th:text="${errorMsg}"></label>
+
+<div align="center" style="margin-top: 10px">
+    <table class="gridtablestyle" style="width: 90%; vertical-align: middle">
+        <tr style="width: 100%">
+            <th>会员名称</th>
+            <th>累计消费金额</th>
+            <th>单次消费金额</th>
+            <th>单次提成金额</th>
+            <th>合计提成金额</th>
+            <th>单次兑换金额</th>
+            <th>可兑换金额</th>
+            <th>提成时间</th>
+        </tr>
+        <tr th:each="item:${list}">
+            <td th:text="${item.name}"></td>
+            <td th:text="${item.totalAmount}"></td>
+            <td th:text="${item.changeSalesAmount}"></td>
+            <td th:text="${item.commissionAmount}"></td>
+            <td th:text="${item.totalCommission}"></td>
+            <td th:text="${item.exchangeAmount}"></td>
+            <td th:text="${item.canExchange}"></td>
+            <td th:text="${#dates.format(item.serverCreateTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+        </tr>
+
+    </table>
+</div>
+
+<div class="paging" style="margin-bottom: 100px">
+    <div th:replace="page_info::pagination"/>
+</div>
+
+<script type="text/javascript" th:src="@{/selectdate/test/demo.js}"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+<style type="text/css">
+
+    html,body{
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        background-color: #FFFFFF;
+    }
+
+
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <title>优惠券投放设置</title>
+
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/setting.css}" href="../css/common.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../css/base.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../css/common.css" type="text/css" />
+
+    <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <script type="text/javascript" src="../static/js/base.js" th:src="@{/js/base.js}"></script>
+</head>
+
+<script type="text/javascript">
+
+    function selectCoupon(planId) {
+        document.getElementById("tempSelected").value = planId;
+        // document.getElementById("selectCoupon").style.display='block';
+
+        $('.zm-dialog').load('[[${basePath}]]/coupon/showSelectCoupon');
+
+        // $("#showCoupon").click(function () {
+        //     $('.zm-dialog').load('[[${basePath}]]/coupon/showSelectCoupon');
+        // })
+    }
+
+    function setCouponInfo(couponId,couponName) {
+        submitSelectCoupon(couponId,couponName);
+    };
+
+    function submitSelectCoupon(selectvalue,couponName){
+
+        //将选择的优惠券数据赋值给隐藏标签，用于表单提交
+        var tempSelected = document.getElementById("tempSelected").value;
+        if(tempSelected == 1){
+            document.getElementById("couponIdA").value = selectvalue;
+            document.getElementById("couponNameA").value = couponName;
+            document.getElementById("showcouponNameA").innerText = couponName;
+
+            document.getElementById("startA").style.display='block';
+            document.getElementById("stopA").style.display='none';
+        }else if(tempSelected == 2){
+            document.getElementById("couponIdB").value = selectvalue;
+            document.getElementById("couponNameB").value = couponName;
+            document.getElementById("showcouponNameB").innerText = couponName;
+
+            document.getElementById("startB").style.display='block';
+            document.getElementById("stopB").style.display='none';
+        }else if(tempSelected == 3){
+            document.getElementById("couponIdC").value = selectvalue;
+            document.getElementById("couponNameC").value = couponName;
+            document.getElementById("showcouponNameC").innerText = couponName;
+
+            document.getElementById("startC").style.display='block';
+            document.getElementById("stopC").style.display='none';
+        }else if(tempSelected == 4){
+            document.getElementById("couponIdD").value = selectvalue;
+            document.getElementById("couponNameD").value = couponName;
+            document.getElementById("showcouponNameD").innerText = couponName;
+
+            document.getElementById("startD").style.display='block';
+            document.getElementById("stopD").style.display='none';
+        }else if(tempSelected == 5){
+            document.getElementById("couponIdE").value = selectvalue;
+            document.getElementById("couponNameE").value = couponName;
+            document.getElementById("showcouponNameE").innerText = couponName;
+
+            document.getElementById("startE").style.display='block';
+            document.getElementById("stopE").style.display='none';
+        }
+
+        //关闭优惠券选择界面
+        document.getElementById("selectCoupon").style.display='none';
+
+    }
+
+
+
+    function showButton() {
+        var statusA = document.getElementById("statusA").value
+        if(statusA == 1){
+            document.getElementById("startA").style.display='none';
+            document.getElementById("stopA").style.display='block';
+        }else if(statusA == 2){
+            document.getElementById("startA").style.display='block';
+            document.getElementById("stopA").style.display='none';
+        }
+
+        var statusB = document.getElementById("statusB").value
+        if(statusB == 1){
+            document.getElementById("startB").style.display='none';
+            document.getElementById("stopB").style.display='block';
+        }else if(statusB == 2){
+            document.getElementById("startB").style.display='block';
+            document.getElementById("stopB").style.display='none';
+        }
+
+        var statusC = document.getElementById("statusC").value
+        if(statusC == 1){
+            document.getElementById("startC").style.display='none';
+            document.getElementById("stopC").style.display='block';
+        }else if(statusC == 2){
+            document.getElementById("startC").style.display='block';
+            document.getElementById("stopC").style.display='none';
+        }
+
+        var statusD = document.getElementById("statusD").value
+        if(statusD == 1){
+            document.getElementById("startD").style.display='none';
+            document.getElementById("stopD").style.display='block';
+        }else if(statusD == 2){
+            document.getElementById("startD").style.display='block';
+            document.getElementById("stopD").style.display='none';
+        }
+
+        var statusE = document.getElementById("statusE").value
+        if(statusE == 1){
+            document.getElementById("startE").style.display='none';
+            document.getElementById("stopE").style.display='block';
+        }else if(statusE == 2){
+            document.getElementById("startE").style.display='block';
+            document.getElementById("stopE").style.display='none';
+        }
+    }
+
+    function submitSetting(planId,status) {
+
+        document.getElementById("palnId").value = planId;
+        document.getElementById("status").value = status;
+        if(planId == 1){
+            document.getElementById("id").value = document.getElementById("idA").value;
+            document.getElementById("couponId").value = document.getElementById("couponIdA").value;
+            document.getElementById("couponName").value = document.getElementById("couponNameA").value;
+        }else if(planId == 2){
+            document.getElementById("id").value = document.getElementById("idB").value;
+            document.getElementById("couponId").value = document.getElementById("couponIdB").value;
+            document.getElementById("couponName").value = document.getElementById("couponNameB").value;
+        }else if(planId == 3){
+            document.getElementById("id").value = document.getElementById("idC").value;
+            document.getElementById("couponId").value = document.getElementById("couponIdC").value;
+            document.getElementById("couponName").value = document.getElementById("couponNameC").value;
+        }else if(planId == 4){
+            document.getElementById("id").value = document.getElementById("idD").value;
+            document.getElementById("couponId").value = document.getElementById("couponIdD").value;
+            document.getElementById("couponName").value = document.getElementById("couponNameD").value;
+        }else if(planId == 5){
+            document.getElementById("id").value = document.getElementById("idE").value;
+            document.getElementById("couponId").value = document.getElementById("couponIdE").value;
+            document.getElementById("couponName").value = document.getElementById("couponNameE").value;
+        }
+        document.addform.submit();
+    }
+
+
+</script>
+
+
+<body onload="showButton()">
+
+<div class="parent top_view_style">
+
+    <img th:src="@{/images/lable.jpg}" width="5" height="26" style="margin-left: 20px">
+
+    <label class="text_navigation" style="margin-left: 10px; width: 30%">营销 》 优惠券投放</label>
+
+    <div align="right" style="width: 100%;margin-right: 50px">
+        <button class="gray_button_style" th:onclick="@{|location='${basePath}/home'|}" style="margin-left: 10px">返回</button>
+    </div>
+</div>
+
+<form method="post" name="addform" th:action="@{/marketingPutOn/modify}" th:object="${mMarketingPutOnModel}">
+    <input type="hidden" id="id" name="id">
+    <input type="hidden" id="palnId" name="palnId">
+    <input type="hidden" id="couponId" name="couponId">
+    <input type="hidden" id="couponName" name="couponName">
+    <input type="hidden" id="status" name="status">
+</form>
+<input type="hidden" id="tempSelected">
+
+    <div class="parent" style="height: 60px; margin-left: 40px; margin-right: 40px">
+        <div style="width: 40%">
+            <span class="settinglable">首次进入小程序推送优惠</span></br>
+            <span class="settingprofile">当顾客首次启动小程序时，系统将自动推送优惠信息给会员</span>
+        </div>
+
+        <button class="blue_button_style select-shop" style="margin-left: 20px" onclick="selectCoupon(1)">设置推送优惠券</button>
+
+        <input type="hidden" id="idA" name="idA" th:value="${marketingPutOn.idA}">
+        <input type="hidden" id="couponIdA" name="couponIdA" th:value="${marketingPutOn.couponIdA}">
+        <input type="hidden" id="couponNameA" name="couponNameA" th:value="${marketingPutOn.couponNameA}">
+        <span class="settingcoupon" id="showcouponNameA" name="showcouponNameA"  th:text="${marketingPutOn.couponNameA}"></span>
+        <input type="hidden" id="statusA" name="statusA" th:value="${marketingPutOn.statusA}">
+
+        <button id="startA" style="display: none" class="orange_button_style" value="" onclick="submitSetting(1,1)">启用</button>
+        <button id="stopA" style="display: none" class="gray_button_style" value="" onclick="submitSetting(1,2)">停止</button>
+        </div>
+
+    </div>
+
+    <div class="splitline" style=" margin-left: 40px; margin-right: 40px"></div>
+
+
+
+    <div class="parent" style="height: 60px; margin-left: 40px; margin-right: 40px">
+        <div style="width: 40%">
+            <span class="settinglable">参与砍价活动推送优惠</span></br>
+            <span class="settingprofile">当参与好友发起的砍价活动后，系统自动推送优惠给参与者</span>
+        </div>
+
+        <button class="blue_button_style select-shop" style="margin-left: 20px" onclick="selectCoupon(2)">设置推送优惠券</button>
+
+        <input type="hidden" id="idB" name="idB" th:value="${marketingPutOn.idB}">
+        <input type="hidden" id="couponIdB" name="couponIdB" th:value="${marketingPutOn.couponIdB}">
+        <input type="hidden" id="couponNameB" name="couponNameB" th:value="${marketingPutOn.couponNameB}">
+        <span class="settingcoupon" id="showcouponNameB" name="showcouponNameB"  th:text="${marketingPutOn.couponNameB}"></span>
+        <input type="hidden" id="statusB" name="statusA" th:value="${marketingPutOn.statusB}">
+
+        <button id="startB" style="display: none" class="orange_button_style" value="" onclick="submitSetting(2,1)">启用</button>
+        <button id="stopB" style="display: none" class="gray_button_style" value="" onclick="submitSetting(2,2)">停止</button>
+
+    </div>
+
+    <div class="splitline" style=" margin-left: 40px; margin-right: 40px"></div>
+
+
+    <div class="parent" style="height: 60px; margin-left: 40px; margin-right: 40px">
+        <div style="width: 40%">
+            <span class="settinglable">小程序绑定手机推送优惠</span></br>
+            <span class="settingprofile">小程用户绑定手机时，系统自动推送优惠给门店会员</span>
+        </div>
+
+        <button class="blue_button_style select-shop" style="margin-left: 20px" onclick="selectCoupon(3)">设置推送优惠券</button>
+
+
+        <input type="hidden" id="idC" name="idC" th:value="${marketingPutOn.idC}">
+        <input type="hidden" id="couponIdC" name="couponIdC" th:value="${marketingPutOn.couponIdC}">
+        <input type="hidden" id="couponNameC" name="couponNameC" th:value="${marketingPutOn.couponNameC}">
+        <span class="settingcoupon" id="showcouponNameC" name="showcouponNameC"  th:text="${marketingPutOn.couponNameC}"></span>
+        <input type="hidden" id="statusC" name="statusC" th:value="${marketingPutOn.statusC}">
+
+        <button id="startC" style="display: none" class="orange_button_style" value="" onclick="submitSetting(3,1)">启用</button>
+        <button id="stopC" style="display: none" class="gray_button_style" value="" onclick="submitSetting(3,2)">停止</button>
+    </div>
+
+    <div class="splitline" style=" margin-left: 40px; margin-right: 40px"></div>
+
+
+
+    <div class="parent" style="height: 60px; margin-left: 40px; margin-right: 40px">
+        <div style="width: 40%">
+            <span class="settinglable">支付交易完成推送优惠券</span></br>
+            <span class="settingprofile">当在门店收银系统、小程序端完成一笔交易时，系统将自动推送优惠信息给会员</span>
+        </div>
+
+        <button class="blue_button_style select-shop" style="margin-left: 20px" onclick="selectCoupon(4)">设置推送优惠券</button>
+
+
+        <input type="hidden" id="idD" name="idD" th:value="${marketingPutOn.idD}">
+        <input type="hidden" id="couponIdD" name="couponIdD" th:value="${marketingPutOn.couponIdD}">
+        <input type="hidden" id="couponNameD" name="couponNameD" th:value="${marketingPutOn.couponNameD}">
+        <span class="settingcoupon" id="showcouponNameD" name="showcouponNameD"  th:text="${marketingPutOn.couponNameD}"></span>
+        <input type="hidden" id="statusD" name="statusD" th:value="${marketingPutOn.statusD}">
+
+        <button id="startD" style="display: none" class="orange_button_style" value="" onclick="submitSetting(4,1)">启用</button>
+        <button id="stopD" style="display: none" class="gray_button_style" value="" onclick="submitSetting(4,2)">停止</button>
+
+    </div>
+
+    <div class="splitline" style=" margin-left: 40px; margin-right: 40px"></div>
+
+
+
+    <div class="parent" style="height: 60px; margin-left: 40px; margin-right: 40px">
+        <div style="width: 40%">
+            <span class="settinglable">预约成功推送优惠券</span></br>
+            <span class="settingprofile">当在门店预约、小程序预约完成时，系统将自动推送优惠券给预约会员</span>
+        </div>
+
+        <button class="blue_button_style select-shop" style="margin-left: 20px" onclick="selectCoupon(5)">设置推送优惠券</button>
+
+        <input type="hidden" id="idE" name="idE" th:value="${marketingPutOn.idE}">
+        <input type="hidden" id="couponIdE" name="couponIdE" th:value="${marketingPutOn.couponIdE}">
+        <input type="hidden" id="couponNameE" name="couponNameE" th:value="${marketingPutOn.couponNameE}">
+        <span class="settingcoupon" id="showcouponNameE" name="showcouponNameE"  th:text="${marketingPutOn.couponNameE}"></span>
+        <input type="hidden" id="statusE" name="statusE" th:value="${marketingPutOn.statusE}">
+
+        <button id="startE" style="display: none" class="orange_button_style" value="" onclick="submitSetting(5,1)">启用</button>
+        <button id="stopE" style="display: none" class="gray_button_style" value="" onclick="submitSetting(5,2)">停止</button>
+
+    </div>
+
+    <div class="splitline" style=" margin-left: 40px; margin-right: 40px"></div>
+
+</div>
+
+
+<div class='zm-dialog' />
+
+</body>
+</html>

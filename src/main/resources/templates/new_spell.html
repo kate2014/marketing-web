@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="../css/common.css" />
+		<link rel="stylesheet" href="../css/base.css" />
+		<script type="text/javascript" src="../js/jquery-3.1.1.min.js" ></script>
+		<script type="text/javascript" src="../laydate/laydate.js" ></script>
+		<script type="text/javascript" src="../js/base.js" ></script>
+	</head>
+	<body>
+		<section class="mark-details">
+			<div class="details-top">
+			    <img src="../images/back.png" class="imgs"/>
+			    <div class="content">
+			    	<span>营销方案列表</span><i>/</i>
+			    	<span>营销方案模版</span><i>/</i>
+			    	<span class="spell">新建拼团</span>
+			    </div>
+			</div>
+			<div class="details-bom">
+				<ul class="spell-content">
+					<li><span>*项目名称</span><label><input type="text" placeholder="输入项目名称" maxlength="10" class="project"/><p><i class="sub">0</i>/<b>10</b></p></label></li>
+					<li><span>*项目简介</span><input type="text" placeholder="输入字符不超过200字" maxlength="200"></li>
+					<li><span>*活动时间</span><input type="text" placeholder="输入活动时间" id="times"></li>
+					<li><span>*选择商品</span><button class='select-shop' onclick="return false;">选择商品</button><h4>请选择要参加拼团的商品</h4></li>
+					<li><span>*成团人数</span><label><input type="text" placeholder="请填写2-100的整数"><h5>人</h5></label></li>
+					<li><span>*成团价格</span><label><input type="text" placeholder="请填写大于0且小于原售价的数字" class="put"> <h5>元</h5></label></li>
+					<li><span>*使用门店</span>
+						<ol>
+							<li><label><input type="checkbox">全部门店</label></li>
+							<li><label><input type="checkbox">门店1</label></li>
+							<li><label><input type="checkbox">门店2</label></li>
+							<li><label><input type="checkbox">门店3</label></li>
+						</ol>
+					</li>
+				</ul>
+				<div class="up-img">
+					<span>上传活动图片</span>
+					<img src="../images/up-img.png">
+					<h6>仅可上传1张图片</h6></div>
+				<div class="up-img">
+					<span>活动图文描述</span>
+					<div class='editor'>富文本编辑器</div>
+				</div>
+				<div class="spell-btn">
+					<button>保存</button>
+					<button>取消</button>
+				</div>
+			</div>
+			<div class='select-com'>
+				<div class="select-centent">
+					<header>
+						<h3>选择商品</h3>
+						<img src='../images/close.png' class="close"/>
+					</header>
+					<div class="select-main">
+						<ul class="tab">
+					        <li class="current">套餐</li>
+					        <li>脸部护理</li>
+					    </ul>
+					    <div class="select-tab">
+					        <div style="display:block;" class="tabs">
+					        	<p class="tab-top">
+					        		<span>快速搜索</span>
+					        		<input type="text" placeholder="请输入名称">
+					        	</p>
+					        	<table>
+					        		<tr>
+					        			<th><input type="checkbox"></th>
+					        			<th>服务名称</th>
+					        			<th>价格</th>
+					        		</tr>
+					        		<tr>
+					        			<td><input type="checkbox"></td>
+					        			<td>面部护理</td>
+					        			<td>¥57.00</td>
+					        		</tr>
+					        		<tr>
+					        			<td><input type="checkbox"></td>
+					        			<td>青春的spa</td>
+					        			<td>¥100.00</td>
+					        		</tr>
+					        		<tr>
+					        			<td><input type="checkbox"></td>
+					        			<td>手部护理</td>
+					        			<td>¥18.00</td>
+					        		</tr>
+					        	</table>
+					        	<div class="paging">
+									<span>第<i>1</i>页</span>
+									<span>共<i>3</i>条</span>
+									<ul>
+										<li><img src="../images/boult-left.png"/></li>
+										<li>1</li>
+										<li>2</li>
+										<li>3</li>
+										<li><img src="../images/boult-rig.png"/></li>
+									</ul>
+									<b>跳至<input type="text">页</b>
+								</div>
+					        </div>
+					        <div class="tabs">
+					        	脸部护理
+					        </div>
+					    </div>
+					</div>
+					<footer>
+						<button>取消</button>
+						<button>保存</button>
+					</footer>
+				</div>
+			</div>
+		</section>
+	</body>
+	<script type="text/javascript">
+		laydate.render({
+		  elem: '#times'
+		});
+	</script>
+</html>

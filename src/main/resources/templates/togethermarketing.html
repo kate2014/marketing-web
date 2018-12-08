@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+
+<style type="text/css">
+
+    html,body{
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        background-color: #FFFFFF;
+    }
+
+    div.parent {
+        /* 启用弹性盒布局 */
+        display: flex;
+        /* 使子元素水平居中
+        justify-content: center;
+        */
+        /* 使子元素垂直居中 */
+        align-items: center;
+    }
+
+    div.modle {
+        /* 启用弹性盒布局 */
+        display: flex;
+        align-items: flex-start
+    }
+
+    .weixin_pic_style{
+        width: 20%;
+        box-shadow: 2px 4px 6px #999999;
+        margin-top: 30px;
+        margin-left: 30px;
+    }
+    .together_process_style{
+        width: 60%;
+        margin-top: 10px;
+        margin-left: 10px;
+    }
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <title>同行特惠</title>
+
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/test/jeDate-test.css}">
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/skin/jedate.css}">
+    <script type="text/javascript" th:src="@{/selectdate/src/jedate.js}"></script>
+
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../css/base.css" type="text/css" />
+
+    <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <script type="text/javascript" src="../static/js/base.js" th:src="@{/js/base.js}"></script>
+
+    <link rel="stylesheet" th:href="@{/ckeditor/contents.css}" type="text/css" />
+    <script type="text/javascript" th:src="@{/ckeditor/ckeditor.js}"></script>
+    <script type="text/javascript" th:src="@{/ckeditor/ckeditor.js}"></script>
+    <script type="text/javascript" th:src="@{/ckeditor/config.js}"></script>
+    <script type="text/javascript" th:src="@{/ckeditor/styles.js}"></script>
+
+    <link th:href="@{/upload/upload-one.css}" href="../static/upload/upload-one.css" type="text/css" rel="stylesheet" />
+    <script th:src="@{/upload/upload-one.js}"></script>
+
+    <!-- tips 提示框引用-->
+    <link rel="stylesheet" th:href="@{/tips/jquery.toast.css}">
+    <script type="text/javascript" th:src="@{/tips/jquery.toast.js}"></script>
+    <script type="text/javascript" th:src="@{/tips/tips.js}"></script>
+
+</head>
+<script type="text/javascript">
+
+    $(function () {
+        $("#showCoupon").click(function () {
+            $('.zm-dialog').load('[[${basePath}]]/coupon/showSelectCoupon');
+        })
+    });
+
+    function setCouponInfo(couponId,couponName) {
+        $("#couponId").attr('value', couponId);
+        $("#couponName").attr('value', couponName);
+    };
+
+    CKEDITOR.replace('description');
+
+    function selectCoupon() {
+        document.getElementById("selectCoupon").style.display='block';
+    }
+
+    function submitSelectCoupon(){
+
+        var radio=document.getElementsByName("selectCoupon");
+        var selectvalue = null;
+        for(var i=0;i<radio.length;i++){
+
+            if(radio[i].checked==true) {
+
+                selectvalue=radio[i].value;
+
+                break;
+            }
+
+        }
+
+        var couponName = document.getElementById(selectvalue).value;
+        //将选择的优惠券数据赋值给隐藏标签，用于表单提交
+        document.getElementById("couponId").value = selectvalue;
+        document.getElementById("couponName").value = couponName;
+        //设置展示选择的优惠券名称
+        document.getElementById("showCouponName").innerText = couponName;
+        //关闭优惠券选择界面
+        document.getElementById("selectCoupon").style.display='none';
+
+    }
+
+    function cancelSelectCoupon() {
+        document.getElementById("selectCoupon").style.display='none';
+    }
+
+    function submitForm() {
+        var endTime = document.getElementById("endTime").value.replace(/(^\s*)|(\s*$)/g, '');
+        var profile = document.getElementById("profile").value.replace(/(^\s*)|(\s*$)/g, '');
+        var couponId = document.getElementById("couponId").value.replace(/(^\s*)|(\s*$)/g, '');
+        // var description = CKEDITOR.instances.description.getData();
+
+        if(endTime == '' || endTime == undefined || endTime == null){
+            warningTips("操作异常提示","结束时间不能为空");
+        }else if(profile == '' || profile == undefined || profile == null){
+            warningTips("操作异常提示","活动简介不能为空");
+        }else if(couponId == '' || couponId == undefined || couponId == null){
+            warningTips("操作异常提示","设置回馈不能为空");
+        }else{
+            document.addform.submit();
+        }
+
+    }
+
+    function showAction() {
+        var successOrfail = document.getElementById("successOrfail").value;
+        if(successOrfail != '' && successOrfail != undefined && successOrfail != null){
+            if(successOrfail == "success"){
+                successTips('操作成功','同行特惠设置成功，可在小程序端进行使用了');
+            }else if(successOrfail == "fail"){
+                errorTips('操作失败','同行特惠设置失败');
+            }
+        }
+    }
+
+
+
+</script>
+<body onload="showAction()">
+
+<div class="parent top_view_style">
+
+    <img th:src="@{/images/lable.jpg}" width="5" height="26" style="margin-left: 20px">
+
+    <label class="text_navigation" style="margin-left: 10px; width: 30%">营销 》同行特惠</label>
+
+    <div align="right" style="width: 100%;margin-right: 50px">
+        <button class="blue_button_style" value="" onclick="submitForm()" style="margin-left: 10px">保存</button>
+        <button class="gray_button_style" value="" th:onclick="@{|location='${basePath}/home'|}" style="margin-left: 10px">返回</button>
+    </div>
+</div>
+
+
+    <input type="hidden" id="successOrfail" th:value="${together.successOrfail}">
+
+    <div>
+        <form method="post" name="addform" action="" th:action="@{/marketingTogether/editMarketingTogether}" th:object="${togetherMarketingModel}">
+            <input type="hidden" name="id" th:value="${together.id}">
+            <input type="hidden" id="couponId" name="couponId" th:value="${together.couponId}">
+
+            <div class="modle">
+                <img th:src="@{/images/weixin_together.png}" class="weixin_pic_style">
+                <div style="margin-left: 20px;">
+                    <img th:src="@{/images/together_process.jpg}" class="together_process_style">
+                    <div class="details-bom" style="margin-top: 20px">
+                        <ul class="spell-content">
+                            <li><span>*方案名称</span><input type="text" name="planName" id="planName" placeholder="输入品项名称" maxlength="10" disabled="true" value="同行特惠"/></li>
+                            <li><span>*结束时间</span><input type="text" name="endDate" id="endTime" th:value="${together.endDate}" placeholder="输入活动结束时间"></li>
+                            <li><span>*活动简介</span><input type="text" name="profile" id="profile" th:value="${together.profile}" placeholder="" maxlength="100"></li>
+                            <li><span>*设置回馈</span>
+                                <input type="text" th:value="${together.couponName}" name="couponName" placeholder="设置活动优惠券" id="couponName" readonly="true">
+                                <input type="button" id="showCoupon" class='selectCoupon' value="选择优惠券"></input>
+
+                                <h4>点击选择为分享者赠送的优惠活动</h4>
+                            </li>
+
+                            <li><span>*投放状态</span>
+                                <select name="state">
+                                    <option th:selected="${together.state==1}" th:value="1">开始投放</option>
+                                    <option th:selected="${together.state==2}" th:value="2">停止投放</option>
+                                </select>
+
+                            </li>
+
+                        </ul>
+
+                        <div style="margin-bottom: 50px;margin-left: 110px;margin-top: 40px;">
+
+                            <div class="detail_lable_style" style="margin-bottom: 20px">同行特惠详情描述</div>
+
+                            <textarea id="description" name="description" class="ckeditor"
+                                      th:text="${together.description}"></textarea>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+    <div class='zm-dialog' />
+
+<script type="text/javascript" th:src="@{/selectdate/test/je_date.js}"></script>
+
+</body>
+</html>

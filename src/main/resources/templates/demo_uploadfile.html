@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:href="@{/upload/upload-one.css}" href="../static/upload/upload-one.css" type="text/css" rel="stylesheet"/>
+    <script th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <script th:src="@{/upload/upload-one.js}"></script>
+    <!--<script>
+        $(function () {
+            $("#upload-input").ajaxImageUpload({
+                url: 'http://localhost:8080/upload/file', //上传的服务器地址
+                //data: { name:'勾国印' },
+                maxNum: 2, //允许上传图片数量
+                zoom: false, //允许放大
+                allowType: ["gif", "jpeg", "jpg", "bmp", 'png'], //允许上传图片的类型
+                maxSize: 1, //允许上传图片的最大尺寸，单位M
+                /*success: function (data) {
+                    console.log(data);
+                },*/
+                error: function (e) {
+                    alert('上传失败回调函数');
+                }
+            });
+        });
+    </script>-->
+    <style type="text/css">
+
+        /*.upload-btn, .image-section {
+            width: 100px;
+            height: 100px;
+            float: left;
+        }
+
+        .upload-btn {
+            float: left;
+            background: url(../static/upload/up-img.png) no-repeat center;
+            position: relative;
+            display: block;
+        }
+
+        .upload-btn #upload-input {
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            z-index: 100;
+        }
+
+        .image-section {
+            border: 1px solid #E7E6E6;
+            position: relative;
+        }
+
+        .image-section .image-shade {
+            display: block;
+            width: 100%;
+            height: 100%;
+            visibility: hidden;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            z-index: 9;
+        }*/
+    </style>
+</head>
+<body>
+
+
+<div class="content-wrapper">
+
+    <!--<h3>【演示】支持服务端上传、预览、删除和上传数量及大小限制的原创jQuery图片上传插件</h3>-->
+
+    <p class="upload-tip">只支持上传1张</p>
+    <!--<div class="upload-box">
+        <div class="image-box clear"></div>
+        <div class="image-add clear">
+            <section class="upload-section">
+                <div class="upload-btn"></div>
+                <input type="file" name="file" id="upload-input" value=""/>
+            </section>
+        </div>
+        <div style="clear: both"/>
+    </div>-->
+
+    <div class="upload-box" src="http://pgvze8g02.bkt.clouddn.com/af859815-46c8-4c09-8764-ea3f2e56bafa.png" name="imageUrl">
+        <div class="upload-btn">
+            <input type="file" name="file" id="upload-input"/>
+        </div>
+    </div>
+
+    <div>
+
+        asdfsafqwf
+    </div>
+
+
+    <!--<div class="upload-box">
+        <p class="upload-tip">最多可以上传2张图片，单张图片不能超过1M</p>
+        <div class="image-box clear">
+            <section class="upload-section">
+                <div class="upload-btn"></div>
+                <input type="file" name="file" id="upload-input2" value=""/>
+            </section>
+        </div>
+    </div>-->
+
+    <!--<aside class='delete-modal'>
+        <div class='modal-content'><p class='modal-tip'>您确定要删除吗？</p>
+            <p class='modal-btn'><span class='confirm-btn'>确定</span><span class='cancel-btn'>取消</span></p></div>
+    </aside>-->
+
+</div>
+
+<!--<script  type="text/javascript"  src="http://www.gouguoyin.cn/template/default/demo/141/js/upload.js"></script>-->
+</body>
+</html>

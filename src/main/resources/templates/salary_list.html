@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<style type="text/css">
+
+    html,body{
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        background-color: #FFFFFF;
+    }
+
+    div.parent {
+        /* 启用弹性盒布局 */
+        display: flex;
+        /* 使子元素垂直居中 */
+
+        align-items: center;
+    }
+
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <title>提成核算</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/test/jeDate-test.css}">
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/skin/jedate.css}">
+    <script type="text/javascript" th:src="@{/selectdate/src/jedate.js}"></script>
+
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../css/base.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../css/common.css" type="text/css" />
+
+    <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <script type="text/javascript" src="../static/js/base.js" th:src="@{/js/base.js}"></script>
+</head>
+
+<script type="text/javascript">
+
+    $(function() {
+        $(".see_modify").click(function(){
+            var startDate = encodeURI(document.getElementById("startDate").value);
+            var endDate = encodeURI(document.getElementById("endDate").value);
+
+            var brandIdenty = document.getElementById("brandIdenty").value;
+            var shopIdenty = document.getElementById("shopIdenty").value;
+
+            var userId = $(this).attr("id");
+            $('.zm-dialog').load('[[${basePath}]]/internal/salary/querySalaryDetail?userId='+userId+"&startDate="+startDate+"&endDate="+endDate+"&brandIdenty="+brandIdenty+"&shopIdenty="+shopIdenty);
+        });
+    });
+
+    function cancelSalaryDetail() {
+        document.getElementById("show_detail").style.display='none';
+    }
+
+</script>
+
+<body>
+
+<div class="parent top_view_style">
+    <img th:src="@{/images/lable.jpg}" width="5" height="26" style="margin-left: 20px">
+    <label class="text_navigation" style="margin-left: 10px">人效 》提成核算</label>
+</div>
+
+
+
+<form method="post" action="" th:action="@{/internal/salary/userSalary}" th:object="${salaryModel}">
+    <input type="hidden" id="brandIdenty" name="brandIdenty" th:value="${salaryModel.brandIdenty}">
+    <input type="hidden" id="shopIdenty" name="shopIdenty" th:value="${salaryModel.shopIdenty}">
+    <input type="hidden" id="creatorId" name="creatorId" th:value="${salaryModel.creatorId}">
+
+    <div style="margin-top: 10px; margin-left: 50px">
+
+        <label class="text_navigation" style="margin-left: 10px">查询时间段</label>
+        <input type="text" class="input_style" name="startDate" placeholder="设置查询起始时间" id="startDate"  th:value="${salaryModel.startDate}">
+        <label class="text_navigation" style="margin-left: 10px">--</label>
+        <input type="text" class="input_style" name="endDate" placeholder="设置查询结束时间" id="endDate"  th:value="${salaryModel.endDate}">
+        <button class="orange_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
+
+    </div>
+</form>
+
+<div align="center" style="margin-top: 10px">
+    <table class="gridtablestyle" style="width: 90%; vertical-align: middle;text-align: center" align=center>
+        <tr style="width: 100%">
+            <th>员工名称</th>
+            <th>核算起始时间</th>
+            <th>核算接受时间</th>
+            <th>底薪</th>
+            <th>消费提成</th>
+            <th>储值提成</th>
+            <th>项目提成</th>
+            <th>合计</th>
+            <th>操作</th>
+        </tr>
+        <tr th:each="item:${list}">
+            <td th:text="${item.userName}"></td>
+            <td th:text="${#dates.format(item.startDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td th:text="${#dates.format(item.endDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td th:text="${item.baseSalary}"></td>
+            <td th:text="${item.salesCommissions}"></td>
+            <td th:text="${item.saveCommissions}"></td>
+            <td th:text="${item.projectCommissions}"></td>
+            <td th:text="${item.salarySum}"></td>
+
+            <td style="width: 50px">
+                <img  class="see_modify" style="margin-left: 25px" th:id="${item.userId}" th:src="@{/images/see_detail.jpg}" />
+            </td>
+
+        </tr>
+
+    </table>
+</div>
+
+<div class='zm-dialog' />
+
+<script type="text/javascript" th:src="@{/selectdate/test/demo.js}"></script>
+</body>
+</html>

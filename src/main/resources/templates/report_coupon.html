@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>营销报表</title>
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../css/base.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../css/common.css" type="text/css" />
+
+    <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <script type="text/javascript" src="../static/js/base.js" th:src="@{/js/base.js}"></script>
+
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/test/jeDate-test.css}">
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/skin/jedate.css}">
+    <script type="text/javascript" th:src="@{/selectdate/src/jedate.js}"></script>
+
+    <script type="text/javascript" src="../static/js/echarts.min.js" th:src="@{/js/echarts.min.js}"></script>
+</head>
+
+
+<body>
+
+
+<form method="post" action="" th:action="@{/internal/marketingReport/coupon}" th:object="${mReportMarketingModel}">
+    <div style="margin-top: 20px">
+
+        <input type="hidden" name="brandIdenty" th:value="${mReportMarketingModel.brandIdenty}">
+        <label class="text_navigation" style="margin-left: 20px">状态</label>
+        <select class="select_min_style" name="shopIdenty" style="margin-left: 5px">
+
+            <option value="">品牌下全门店</option>
+            <option th:selected="${mReportMarketingModel.shopIdenty eq list.commercialId}" th:each="list:${listCommercial}" th:value="${list.commercialId}" th:text="${list.commercialName}"></option>
+
+        </select>
+
+
+        <label class="text_navigation" style="margin-left: 10px">查询时间段</label>
+        <input type="text" class="input_min_style" name="startDate" placeholder="设置查询起始时间" id="startDate"  th:value="${mReportMarketingModel.startDate}">
+        <label class="text_navigation" style="margin-left: 10px">--</label>
+        <input type="text" class="input_min_style" name="endDate" placeholder="设置查询结束时间" id="endDate"  th:value="${mReportMarketingModel.endDate}">
+        <button class="orange_mine_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
+
+    </div>
+</form>
+
+<img class="line_style" th:src="@{/images/line.jpg}" style="margin-bottom: 30px;margin-top: 20px">
+
+<div class="container" style="margin-left: 20px">
+    <img th:src="@{/images/lable.jpg}" width="5" height="26">
+    <p style="font-weight: bold; margin-left: 6px">优惠券投放、使用情况</p>
+</div>
+
+
+<div style="width: 95%;height:400px; text-align: center;text-align: center;">
+    <div id="container" style="width: 100%;height:400px;"></div>
+    <p style="font-weight: bold; margin-left: 6px">各通道优惠券投放、使用情况</p>
+</div>
+
+<img class="line_style" th:src="@{/images/line.jpg}" style="margin-top: 50px">
+<div class="parent" style="margin-top: 30px;margin-bottom: 80px">
+    <div class="bgimage" style="margin-bottom: 100px;">
+        <p class="message_style" style="margin-top: 20px">优惠券投放总数：<lable class="name_style" th:text="${total}"></lable>张</p>
+        <p class="message_style">优惠券已使用数：<lable class="name_style" th:text="${used}"></lable>张</p>
+        <p class="message_style">优惠券未使用数：<lable class="name_style" th:text="${notUsed}"></lable>张</p>
+        <p class="message_style">优惠券使用率：<lable class="name_style" th:text="${useProportion}"></lable></p>
+    </div>
+
+    <div style="width:50%;height:400px; text-align: center;text-align: center;margin-left: 50px">
+        <div id="useProportion" style="width: 100%;height:400px;"></div>
+        <p style="font-weight: bold; margin-left: 6px">优惠券投放、使用占比</p>
+    </div>
+</div>
+
+
+<script th:inline="javascript">
+
+    var dom = document.getElementById("container");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '优惠发放、使用情况';
+
+    option = {
+        tooltip : {
+            trigger: 'axis',
+            axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            }
+        },
+        legend: {
+            data:['未使用','已使用']
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis : [
+            {
+                type : 'category',
+                axisLabel:{'interval':0},
+                data : [[${listSourceName}]],
+                axisLabel:{
+                    interval:0,
+                    rotate:40
+                }
+            }
+
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series : [
+            {
+                name:'未使用',
+                type:'bar',
+                stack: '来源',
+                data:[[${notUsedCount}]]
+            },
+            {
+                name:'已使用',
+                type:'bar',
+                barMaxWidth : 30,//柱图宽度
+                stack: '来源',
+                data:[[${usedCount}]]
+            }
+        ]
+    };
+    ;
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+
+
+    var dom = document.getElementById("useProportion");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '优惠券投放使用情况';
+
+    option = {
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b}: {c} ({d}%)"
+        },
+        legend: {
+            orient: 'vertical',
+            x: 'left',
+            data:['未使用','已使用']
+        },
+        series: [
+            {
+                name:'使用情况',
+                type:'pie',
+                radius: ['50%', '70%'],
+                avoidLabelOverlap: false,
+                label: {
+                    normal: {
+                        show: false,
+                        position: 'center'
+                    },
+                    emphasis: {
+                        show: true,
+                        textStyle: {
+                            fontSize: '30',
+                            fontWeight: 'bold'
+                        }
+                    }
+                },
+                labelLine: {
+                    normal: {
+                        show: false
+                    }
+                },
+                data:[
+                    {value:[[${notUsed}]], name:'未使用'},
+                    {value:[[${used}]], name:'已使用'},
+
+                ]
+            }
+        ]
+    };
+    ;
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+
+
+</script>
+<script type="text/javascript" th:src="@{/selectdate/test/demo.js}"></script>
+
+
+</body>
+</html>

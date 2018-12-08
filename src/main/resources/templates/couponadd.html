@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css"/>
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css"/>
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css"/>
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css"/>
+    <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <script type="text/javascript" src="../static/js/base.js" th:src="@{/js/base.js}"></script>
+
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/test/jeDate-test.css}">
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/skin/jedate.css}">
+    <script type="text/javascript" th:src="@{/selectdate/src/jedate.js}"></script>
+
+    <!-- tips 提示框引用-->
+    <link rel="stylesheet" th:href="@{/tips/jquery.toast.css}">
+    <script type="text/javascript" th:src="@{/tips/jquery.toast.js}"></script>
+    <script type="text/javascript" th:src="@{/tips/tips.js}"></script>
+</head>
+<script type="text/javascript">
+
+    $(function () {
+        $("#dish_select").click(function () {
+            $('.select-com').load('[[${basePath}]]/dish/selectShopPage'); //#container
+
+        });
+
+        $("#couponType").change(function (data) {
+            changeType();
+        });
+    });
+
+    function setDishInfo(dishId, dishName, dishPrice, dishDesc) {
+        $("#dishId").attr('value', dishId);
+        $("#dishName").attr('value', dishName);
+    };
+
+    function sendForm(couponState) {
+
+        var name = document.getElementById("name").value.replace(/(^\s*)|(\s*$)/g, '');
+        var fullValue = document.getElementById("fullValue").value.replace(/(^\s*)|(\s*$)/g, '');
+        var type = $("#couponType option:selected").attr("value");
+        var discountValueD = document.getElementById("discountValueD").value.replace(/(^\s*)|(\s*$)/g, '');
+        var discountValueZ = document.getElementById("discountValueZ").value.replace(/(^\s*)|(\s*$)/g, '');
+
+        var dishName = document.getElementById("dishName").value.replace(/(^\s*)|(\s*$)/g, '');
+        var pushNumber = document.getElementById("pushNumber").value.replace(/(^\s*)|(\s*$)/g, '');
+        var endTime = document.getElementById("endTime").value.replace(/(^\s*)|(\s*$)/g, '');
+
+
+        if(name == '' || name == undefined || name == null){
+            warningTips("操作异常提示","优惠券名称不能为空");
+        }else if(fullValue == '' || fullValue == undefined || fullValue == null){
+            warningTips("操作异常提示","消费面额不能为空");
+        }else if(type == 1 && (discountValueD == '' || discountValueD == undefined || discountValueD == null)){
+            warningTips("操作异常提示","优惠打折不能为空");
+        }else if(type == 2 && (discountValueZ == '' || discountValueZ == undefined || discountValueZ == null)){
+            warningTips("操作异常提示","优惠抵用不能为空");
+        }else if(type == 3 && (dishName == '' || dishName == undefined || dishName == null)){
+            warningTips("操作异常提示","礼品品项不能为空");
+        }else if(pushNumber == '' || pushNumber == undefined || pushNumber == null){
+            warningTips("操作异常提示","投放数量不能为空");
+        }else if(endTime == '' || endTime == undefined || endTime == null){
+            warningTips("操作异常提示","使用有效期不能为空");
+        }else{
+            document.getElementById("couponState").value = couponState;
+            document.addForm.submit();
+        }
+    }
+
+
+    function changeType() {
+        var type = $("#couponType option:selected").attr("value");
+        if(type == 1){
+            document.getElementById("discountDView").style.display='block';
+            document.getElementById("discountZView").style.display='none';
+            document.getElementById("setDishView").style.display='none';
+
+        }else if(type == 2){
+            document.getElementById("discountDView").style.display='none';
+            document.getElementById("discountZView").style.display='block';
+            document.getElementById("setDishView").style.display='none';
+
+        }else if(type == 3){
+            document.getElementById("discountDView").style.display='none';
+            document.getElementById("discountZView").style.display='none';
+            document.getElementById("setDishView").style.display='block';
+        }
+    }
+</script>
+<body onload="changeType()">
+<section class="mark-details">
+
+        <div class="parent top_view_style">
+            <img th:src="@{/images/lable.jpg}" width="5" height="26" style="margin-left: 20px">
+            <label class="text_navigation" style="margin-left: 10px;width: 30%">营销 》优惠推送 》创建优惠</label>
+
+            <div align="right" style="width: 100%;margin-right: 50px">
+                <button class="blue_button_style"  onclick="sendForm(1)" >保存并投放</button>
+                <button class="orange_button_style" onclick="sendForm(2)" style="margin-left: 10px">保存</button>
+                <button class="gray_button_style" th:onclick="@{|location='${basePath}/coupon'|}" style="margin-left: 10px">返回</button>
+            </div>
+
+        </div>
+    <form method="post" name="addForm" th:action="@{/coupon/addOrEdit}" th:object="${couponModel}">
+        <input type="hidden" name="couponState" id="couponState"/>
+        <input type="hidden" name="id" th:value="${couponModel.id}">
+        <input type="hidden" id="dishId" th:value="${couponModel.dishId}">
+
+        <div class="details-bom">
+            <ul class="spell-content">
+                <li><span>*方案名称</span><input type="text" placeholder="输入方案名称" maxlength="10" th:value="${couponModel.name}" id="name" name="name"></li>
+                <li><span>*券类型</span>
+                    <select name="couponType" id="couponType">
+                        <option th:selected="${couponModel.couponType==1}" th:value="1">折扣券</option>
+                        <option th:selected="${couponModel.couponType==2}" th:value="2">代金券</option>
+                        <option th:selected="${couponModel.couponType==3}" th:value="3">礼品券</option>
+
+                    </select>
+                </li>
+                <li><span>*消费满额</span>
+                    <label><input type="text" placeholder="输入满额条件" class="put" name="fullValue" id="fullValue" th:value="${couponModel.fullValue}"> <h5>元</h5></label>
+                </li>
+                <li id="discountDView"><span>*优惠打折</span>
+                    <label><input type="text" onkeyup="clearNoNum(this)" placeholder="输入0-10之间的数值" class="put" name="discountValueD" id="discountValueD" th:value="${couponModel.discountValueD}"> <h5>折</h5></label>
+                </li>
+
+                <li id="discountZView" style="display: none"><span>*优惠抵用</span>
+                    <label><input type="text" onkeyup="clearNoNum(this)" placeholder="输入0-10之间的数值" class="put" name="discountValueZ" id="discountValueZ" th:value="${couponModel.discountValueZ}"> <h5>元</h5></label>
+                </li>
+
+                <li id="setDishView" style="display: none"><span>*礼品品项</span>
+                    <input type="text" style="width: 100px" placeholder="对应的品项名称" maxlength="10"
+                           id="dishName" name="dishName" th:value="${couponModel.dishName}" readonly="true">
+                    <button id="dish_select" class="blue_button_style select-shop" value=""
+                            onclick="return false;" style="margin-left: 10px">选择品项
+                    </button>
+                    <h4 id="dishInfo">请选择要赠送的的品项</h4>
+                </li>
+
+                <li><span>*投放数量</span><input type="text" onkeyup="onlyNumber(this)" placeholder="输入优惠券投入数量" maxlength="10" name="pushNumber" id="pushNumber" th:value="${couponModel.pushNumber}">
+                </li>
+                <li><span>*使用有效期</span><input type="text" name="endTime" placeholder="设置活动结束时间" id="endTime"  th:value="${couponModel.endTime}"></li>
+                <li><span>活动简介</span><input type="text" placeholder="输入活动简介" maxlength="100" name="content" th:value="${couponModel.content}"></li>
+
+            </ul>
+        </div>
+    </form>
+</section>
+<div class='select-com'>
+</div>
+<script type="text/javascript" th:src="@{/selectdate/test/je_date.js}"></script>
+</body>
+</html>

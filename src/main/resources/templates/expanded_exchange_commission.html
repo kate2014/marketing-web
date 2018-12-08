@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<style type="text/css">
+
+    html,body{
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        background-color: #FFFFFF;
+    }
+
+    div.parent {
+        /* 启用弹性盒布局 */
+        display: flex;
+        /* 使子元素垂直居中 */
+        align-items: center;
+    }
+
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <title>推广提成</title>
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../css/base.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../css/common.css" type="text/css" />
+
+    <script type="text/javascript" src="../static/js/base.js" th:src="@{/js/base.js}"></script>
+</head>
+
+<script type="text/javascript">
+
+    function isShowExchange() {
+        var exchangeAmount = document.getElementById("exchangeAmount").value;
+        if(exchangeAmount != 0){
+            document.getElementById("exchangeView").style.display='block';
+        }
+    }
+
+
+</script>
+
+<body onload="isShowExchange()">
+
+
+<form method="post" th:action="@{/pos/customerMarketingExpanded/queryCommission}" th:object="${mCommissionSearchModel}">
+    <div style="margin-top: 20px; margin-left: 40px">
+        <input type="hidden" id="brandIdenty" name="brandIdenty" th:value="${mCommissionSearchModel.brandIdenty}">
+        <input type="hidden" id="shopIdenty" name="shopIdenty" th:value="${mCommissionSearchModel.shopIdenty}">
+
+        <label class="text_navigation">用户手机号</label>
+        <input class="input_style" style="margin-left: 5px" type="text" onkeyup="onlyNumber(this)" placeholder="输入查询会员手机号" th:value="${mCommissionSearchModel.mobile}" name="mobile"/>
+
+        <button class="orange_button_style" value="" onclick="this" style="margin-left: 10px">获取兑换数据</button>
+
+        <label class="error_text_style" style="margin-left: 20px;margin-top: 20px" th:text="${alertMsg}"></label>
+    </div>
+</form>
+
+
+<div style="margin: 20px;padding: 20px" class="modle_background_style">
+
+    <label class="text_navigation">累计消费金额：</label><label class="text_navigation" th:text="${totalAmount}"></label>
+    <label class="text_navigation" style="margin-left: 20px">合计提成金额：</label><label class="text_navigation" th:text="${totalCommission}"></label>
+    <label class="text_navigation" style="margin-left: 20px">已提成金额：</label><label class="text_navigation" th:text="${exchangeTotolAmount}"></label>
+    <label class="text_navigation" style="margin-left: 20px">可兑换提成金额：</label><label class="text_highlight" th:text="${canExchange}"></label>
+
+
+    <form method="post" th:action="@{/pos/customerMarketingExpanded/exchangeCommission}" th:object="${mCommissionSearchModel}">
+        <div style="margin-top: 20px;display: none" id="exchangeView">
+
+            <input type="hidden" name="brandIdenty" th:value="${mCommissionSearchModel.brandIdenty}">
+            <input type="hidden" name="shopIdenty" th:value="${mCommissionSearchModel.shopIdenty}">
+            <input type="hidden" name="mobile" th:value="${mCommissionSearchModel.mobile}">
+            <input type="hidden" name="customerId" th:value="${customer.id}">
+
+            <label class="text_navigation">会员姓名：</label><label class="text_navigation" th:text="${customer.name}"></label>
+
+            <br/>
+            <label class="text_navigation" style="margin-left: 10px">兑换金额</label>
+            <input class="input_min_style" style="margin-left: 5px" type="text" onkeyup="onlyNumber(this)" placeholder="输入兑换会员的操作密码" th:value="${canExchangeValue}" id="exchangeAmount" name="exchangeAmount"/>
+
+            <label class="text_navigation" style="margin-left: 10px">用户密码</label>
+            <input class="input_min_style" style="margin-left: 5px" type="password" placeholder="输入兑换会员的操作密码" name="password"/>
+
+            <button class="orange_mine_button_style" value="" onclick="this" style="margin-left: 10px">进行兑换</button>
+
+            <label class="error_text_style" style="margin-left:50px;margin-top: 20px" th:text="${mCommissionSearchModel.sendMsg}"></label>
+        </div>
+    </form>
+
+</div>
+
+</body>
+</html>
