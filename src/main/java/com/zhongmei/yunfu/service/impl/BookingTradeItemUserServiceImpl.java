@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
  * 预定订单销售员与订单商品关系 服务实现类
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-09-14
  */
 @Service

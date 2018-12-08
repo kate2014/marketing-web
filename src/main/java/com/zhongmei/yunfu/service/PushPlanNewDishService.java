@@ -10,7 +10,7 @@ import com.baomidou.mybatisplus.service.IService;
  * 新品推送方案 服务类
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-08-26
  */
 public interface PushPlanNewDishService extends IService<PushPlanNewDishEntity> {

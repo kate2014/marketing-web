@@ -8,7 +8,7 @@ import com.zhongmei.yunfu.domain.entity.CustomerStoredEntity;
  * 会员储值、储值消费记录表 服务类
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-08-29
  */
 public interface CustomerStoredService extends IService<CustomerStoredEntity> {

@@ -17,7 +17,7 @@ import java.util.Map;
  * 全员推广营销 服务实现类
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-08-26
  */
 @Service

@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
  * 文件附件表（用于临时存储） 服务类
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-10-20
  */
 public interface AttachmentService extends IService<AttachmentEntity> {

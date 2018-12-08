@@ -20,7 +20,7 @@ import java.util.Map;
  * 会员表 前端控制器
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-08-29
  */
 @Controller

@@ -10,7 +10,7 @@ import java.util.List;
  * 会员关联推广回馈 服务类
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-08-29
  */
 public interface CustomerMarketingExpandedService extends IService<CustomerMarketingExpandedEntity> {

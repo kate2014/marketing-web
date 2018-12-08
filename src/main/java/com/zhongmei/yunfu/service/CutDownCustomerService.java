@@ -11,7 +11,7 @@ import java.util.List;
  * 会员发起砍价记录 服务类
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-09-13
  */
 public interface CutDownCustomerService extends IService<CutDownCustomerEntity> {

@@ -12,7 +12,7 @@ import com.zhongmei.yunfu.domain.entity.base.BaseEntity;
  * 门店菜品
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-10-01
  */
 @TableName("dish_shop")

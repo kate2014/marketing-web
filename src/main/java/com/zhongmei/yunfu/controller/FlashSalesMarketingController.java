@@ -19,7 +19,7 @@ import java.util.Date;
  * 秒杀活动 前端控制器
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-09-10
  */
 @Controller

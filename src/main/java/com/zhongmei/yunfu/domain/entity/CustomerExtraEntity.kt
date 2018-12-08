@@ -9,7 +9,7 @@ import java.util.Date;
  * 会员扩展表
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-10-01
  */
 @TableName("customer_extra")

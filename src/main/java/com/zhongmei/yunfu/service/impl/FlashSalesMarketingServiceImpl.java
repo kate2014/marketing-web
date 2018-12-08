@@ -21,7 +21,7 @@ import java.util.List;
  * 秒杀活动 服务实现类
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-09-10
  */
 @Service

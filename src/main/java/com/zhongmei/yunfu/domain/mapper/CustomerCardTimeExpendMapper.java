@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  * 会员次卡消费表 Mapper 接口
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-10-02
  */
 public interface CustomerCardTimeExpendMapper extends BaseMapper<CustomerCardTimeExpendEntity> {

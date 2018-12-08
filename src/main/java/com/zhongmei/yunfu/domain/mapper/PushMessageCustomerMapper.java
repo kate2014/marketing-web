@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  * 推送信息给顾客 Mapper 接口
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-09-13
  */
 public interface PushMessageCustomerMapper extends BaseMapper<PushMessageCustomerEntity> {

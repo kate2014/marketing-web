@@ -11,7 +11,7 @@ import java.util.*
  * 微信小程序购买使用记录
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-10-01
  */
 @TableName("wx_trade_customer")

@@ -10,7 +10,7 @@ import com.zhongmei.yunfu.domain.entity.base.BaseEntity;
  * 人效规则算法
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-10-01
  */
 @TableName("talent_rule")

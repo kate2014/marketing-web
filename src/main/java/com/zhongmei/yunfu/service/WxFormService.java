@@ -11,7 +11,7 @@ import java.util.List;
  * 服务类
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-11-09
  */
 public interface WxFormService extends IService<WxFormEntity> {

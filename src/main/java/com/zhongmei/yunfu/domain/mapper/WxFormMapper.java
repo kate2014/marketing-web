@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  *  Mapper 接口
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-11-09
  */
 public interface WxFormMapper extends BaseMapper<WxFormEntity> {

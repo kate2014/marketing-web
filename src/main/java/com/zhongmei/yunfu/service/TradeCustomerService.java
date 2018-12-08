@@ -12,7 +12,7 @@ import java.util.List;
  * 交易的顾客信息 服务类
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-09-17
  */
 public interface TradeCustomerService extends IService<TradeCustomerEntity> {

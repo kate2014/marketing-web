@@ -11,7 +11,7 @@ import com.zhongmei.yunfu.domain.entity.base.BaseEntity;
  * 用户表
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-10-01
  */
 @TableName("auth_user")

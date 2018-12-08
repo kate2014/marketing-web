@@ -12,7 +12,7 @@ import com.zhongmei.yunfu.domain.entity.base.BaseEntity;
  * 交易明细
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-10-01
  */
 @TableName("booking_trade_item")

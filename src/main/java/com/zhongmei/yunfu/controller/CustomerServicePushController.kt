@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody
 /**
  * 会员服务推送 前端控制器
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-08-29
  */
 @Controller

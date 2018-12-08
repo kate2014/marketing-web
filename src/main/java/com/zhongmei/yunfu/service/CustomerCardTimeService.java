@@ -14,7 +14,7 @@ import java.util.List;
  * 会员次卡表 服务类
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-08-29
  */
 public interface CustomerCardTimeService extends IService<CustomerCardTimeEntity> {

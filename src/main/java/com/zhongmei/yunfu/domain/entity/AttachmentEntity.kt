@@ -10,7 +10,7 @@ import com.zhongmei.yunfu.domain.entity.base.BaseEntity
  * 文件附件表（用于临时存储）
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-10-01
  */
 @TableName("attachment")

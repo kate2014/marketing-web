@@ -14,7 +14,7 @@ import java.util.List;
  * 秒杀活动 Mapper 接口
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-09-10
  */
 public interface FlashSalesMarketingMapper extends BaseMapper<FlashSalesMarketingEntity> {

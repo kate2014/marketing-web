@@ -13,7 +13,7 @@ import com.zhongmei.yunfu.domain.entity.base.BaseEntity;
 主单及其所有子单中的数量、金额在退货时都取反
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-10-01
  */
 @TableName("trade")

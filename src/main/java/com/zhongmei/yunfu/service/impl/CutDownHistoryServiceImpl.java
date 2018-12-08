@@ -14,7 +14,7 @@ import java.util.List;
  * 砍价记录 服务实现类
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-09-13
  */
 @Service

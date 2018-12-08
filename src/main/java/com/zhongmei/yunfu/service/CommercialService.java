@@ -11,7 +11,7 @@ import java.util.List;
  * 商户信息表 服务类
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-08-26
  */
 public interface CommercialService extends IService<CommercialEntity> {

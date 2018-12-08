@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  * 同行特惠 Mapper 接口
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-08-26
  */
 public interface MarketingTogetherMapper extends BaseMapper<MarketingTogetherEntity> {

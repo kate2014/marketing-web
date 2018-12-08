@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  * 优惠信息 Mapper 接口
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-09-17
  */
 public interface TradePrivilegeMapper extends BaseMapper<TradePrivilegeEntity> {

@@ -19,7 +19,7 @@ import java.util.List;
  * 会员优惠券关联表 Mapper 接口
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-08-29
  */
 public interface CustomerCouponMapper extends BaseMapper<CustomerCouponEntity> {

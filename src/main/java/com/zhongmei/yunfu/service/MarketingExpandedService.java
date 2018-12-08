@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.service.IService;
  * 全员推广营销 服务类
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-08-26
  */
 public interface MarketingExpandedService extends IService<MarketingExpandedEntity> {

@@ -11,7 +11,7 @@ import com.zhongmei.yunfu.domain.entity.base.BaseEntity;
  * 交易的顾客信息
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-10-01
  */
 @TableName("trade_customer")

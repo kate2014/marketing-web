@@ -10,7 +10,7 @@ import java.util.List;
  * 商户线上支付配置 服务类
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-09-26
  */
 public interface CommercialPaySettingService extends IService<CommercialPaySettingEntity> {

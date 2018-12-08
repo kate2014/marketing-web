@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Select;
  * 商户信息表 Mapper 接口
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-08-26
  */
 public interface CommercialMapper extends BaseMapper<CommercialEntity> {

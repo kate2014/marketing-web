@@ -11,7 +11,7 @@ import com.zhongmei.yunfu.domain.entity.base.BaseEntity;
  * 会员关联推广回馈
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-10-01
  */
 @TableName("customer_marketing_expanded")

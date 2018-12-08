@@ -11,7 +11,7 @@ import java.util.List;
  * 会员次卡消费表 服务类
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-10-02
  */
 public interface CustomerCardTimeExpendService extends IService<CustomerCardTimeExpendEntity> {

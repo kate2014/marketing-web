@@ -132,7 +132,7 @@ public class GeneratorServiceEntity {
                 .setOpen(false) //生成后打开文件夹
                 .setActiveRecord(false) //开启 activeRecord 模式
                 .setEnableCache(false) //XML 二级缓存
-                .setAuthor("yangyp");
+                .setAuthor("pigeon88");
 
         // 自定义文件命名，注意 %s 会自动填充表实体属性！
         config.setMapperName("%sMapper")

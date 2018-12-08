@@ -10,7 +10,7 @@ import com.zhongmei.yunfu.domain.entity.base.BaseEntity
  * 会员次卡表
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-10-02
  */
 @TableName("customer_card_time")

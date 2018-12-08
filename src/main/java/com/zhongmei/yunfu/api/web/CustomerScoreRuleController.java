@@ -14,7 +14,7 @@ import org.springframework.stereotype.Controller;
  * 会员等级积分成长规则、积分使用规则 前端控制器
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-09-07
  */
 @Controller

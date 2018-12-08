@@ -16,7 +16,7 @@ import java.util.Date;
  * 活动推送活动方案 服务实现类
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-08-26
  */
 @Service

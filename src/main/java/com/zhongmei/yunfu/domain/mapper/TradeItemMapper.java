@@ -14,7 +14,7 @@ import java.util.List;
  * 交易明细 Mapper 接口
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-09-17
  */
 public interface TradeItemMapper extends BaseMapper<TradeItemEntity> {

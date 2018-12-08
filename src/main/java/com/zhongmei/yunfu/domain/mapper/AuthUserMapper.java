@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Select;
  * 用户表 Mapper 接口
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-08-26
  */
 public interface AuthUserMapper extends BaseMapper<AuthUserEntity> {

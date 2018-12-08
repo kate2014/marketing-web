@@ -12,7 +12,7 @@ import java.util.List;
  * 推广提成 服务类
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-09-16
  */
 public interface ExpandedCommissionService extends IService<ExpandedCommissionEntity> {

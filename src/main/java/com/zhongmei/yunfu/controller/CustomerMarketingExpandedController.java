@@ -28,7 +28,7 @@ import java.util.List;
  * 会员关联推广回馈 前端控制器
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-08-29
  */
 @Controller

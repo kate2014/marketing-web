@@ -11,7 +11,7 @@ import org.apache.ibatis.annotations.Select;
  * 微信小程序购买使用记录 Mapper 接口
  * </p>
  *
- * @author yangyp
+ * @author pigeon88
  * @since 2018-09-17
  */
 public interface WxTradeCustomerMapper extends BaseMapper<WxTradeCustomerEntity> {
