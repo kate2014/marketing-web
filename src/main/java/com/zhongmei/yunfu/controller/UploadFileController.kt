@@ -5,6 +5,7 @@ import com.zhongmei.yunfu.api.ApiResult
 import com.zhongmei.yunfu.service.AttachmentService
 import com.zhongmei.yunfu.service.LoginManager
 import com.zhongmei.yunfu.util.FileUtils
+import org.apache.shiro.codec.Hex
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
@@ -122,7 +123,7 @@ class UploadFileController {
     fun uploadFile(@RequestParam(value = "file", required = false) file: MultipartFile?, request: HttpServletRequest, response: HttpServletResponse): Any {
         var user = LoginManager.get().user
         //var extensionName = FileUtils.getExtensionName(file?.originalFilename)
-        val newFileName = "${user?.brandIdenty}_${user?.shopIdenty}"
+        val newFileName = Hex.encodeToString("brandIdenty=${user?.brandIdenty}_shopIdenty=${user?.shopIdenty}".toByteArray())
         var entity = attachmentService.addLocalFile(file, newFileName)
 
         return ApiResult.newSuccess(mapOf("id" to entity.id, "name" to entity.name, "url" to entity.url))
