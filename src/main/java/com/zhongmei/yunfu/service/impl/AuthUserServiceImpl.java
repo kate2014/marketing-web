@@ -3,6 +3,7 @@ package com.zhongmei.yunfu.service.impl;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.zhongmei.yunfu.core.security.Password;
 import com.zhongmei.yunfu.core.security.Token;
+import com.zhongmei.yunfu.domain.entity.AuthPermissionEntity;
 import com.zhongmei.yunfu.domain.entity.AuthUserEntity;
 import com.zhongmei.yunfu.domain.mapper.AuthUserMapper;
 import com.zhongmei.yunfu.service.AuthUserService;
@@ -56,5 +57,11 @@ public class AuthUserServiceImpl extends ServiceImpl<AuthUserMapper, AuthUserEnt
             }
         }
         return null;
+    }
+
+
+    @Override
+    public AuthPermissionEntity getAuthPermissionEntityBy(String account) {
+        return baseMapper.getAuthPermissionEntityBy(account);
     }
 }
