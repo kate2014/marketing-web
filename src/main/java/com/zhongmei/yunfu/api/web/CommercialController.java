@@ -24,7 +24,7 @@ import java.util.List;
  * @since 2018-08-26
  */
 @Controller
-@RequestMapping("/internal/commercial")
+@RequestMapping("/commercial")
 public class CommercialController extends BaseController {
 
     @Autowired

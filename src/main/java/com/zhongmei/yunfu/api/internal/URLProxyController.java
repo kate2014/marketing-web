@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/internal")
 public class URLProxyController {
 
-    @RequestMapping({"/", "/home", "/customer"})
+    @RequestMapping({"/", "/home", "/customer", "/commercial/settingPage"})
     public String proxy(HttpServletRequest request, InternalBaseModel baseModel) {
         String token = Token.encode("", "", baseModel.getCreatorId(), baseModel.getCreatorName(), baseModel.getShopIdenty(), baseModel.getBrandIdenty());
         String href = request.getRequestURI().replaceFirst(request.getContextPath(), "").replace("/internal/", "/") + "/token/" + token;
