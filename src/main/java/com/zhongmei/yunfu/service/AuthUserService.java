@@ -1,6 +1,7 @@
 package com.zhongmei.yunfu.service;
 
 import com.baomidou.mybatisplus.service.IService;
+import com.zhongmei.yunfu.domain.entity.AuthPermissionEntity;
 import com.zhongmei.yunfu.domain.entity.AuthUserEntity;
 
 /**
@@ -16,4 +17,12 @@ public interface AuthUserService extends IService<AuthUserEntity> {
     AuthUserEntity login(String account, String password, Long shopId);
 
     AuthUserEntity tokenLogin(String token);
+
+    /**
+     * 获取用户权限
+     *
+     * @param account
+     * @return
+     */
+    AuthPermissionEntity getAuthPermissionEntityBy(String account);
 }
