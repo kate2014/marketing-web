@@ -149,8 +149,8 @@ class LoginManager private constructor() {
 
         @JvmStatic
         fun setUserShopIdenty(webBaseModel: IShopIdenty?) {
-            webBaseModel?.brandIdenty = get().user?.brandIdenty
-            webBaseModel?.shopIdenty = get().user?.shopIdenty
+            webBaseModel?.setBrandIdenty(get().user?.brandIdenty)
+            webBaseModel?.setShopIdenty(get().user?.shopIdenty)
         }
     }
 }
