@@ -43,8 +43,8 @@ public class PushPlanActivityServiceImpl extends ServiceImpl<PushPlanActivityMap
     public Page<PushPlanActivityEntity> findListPage(ActivitySearchModel searchModel) {
         PushPlanActivityEntity mPushPlanActivity = new PushPlanActivityEntity();
         mPushPlanActivity.setStatusFlag(1);
-        mPushPlanActivity.setBrandIdentity(searchModel.getBrandIdentity());
-        mPushPlanActivity.setShopIdentity(searchModel.getShopIdentity());
+        mPushPlanActivity.setBrandIdentity(searchModel.getBrandIdenty());
+        mPushPlanActivity.setShopIdentity(searchModel.getShopIdenty());
         mPushPlanActivity.setPlanState(searchModel.getPlanState());
         mPushPlanActivity.setName(searchModel.getName());
         Page<PushPlanActivityEntity> page = new Page<>(searchModel.getPageNo(), searchModel.getPageSize());

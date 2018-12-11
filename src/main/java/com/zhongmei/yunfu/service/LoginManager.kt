@@ -1,5 +1,6 @@
 package com.zhongmei.yunfu.service
 
+import com.zhongmei.yunfu.controller.model.base.IShopIdenty
 import com.zhongmei.yunfu.controller.model.base.WebBaseModel
 import com.zhongmei.yunfu.core.security.Token
 import com.zhongmei.yunfu.domain.entity.AuthUserEntity
@@ -144,6 +145,12 @@ class LoginManager private constructor() {
         @JvmStatic
         fun setUser(webBaseModel: WebBaseModel?) {
             webBaseModel?.user = get().user
+        }
+
+        @JvmStatic
+        fun setUserShopIdenty(webBaseModel: IShopIdenty?) {
+            webBaseModel?.brandIdenty = get().user?.brandIdenty
+            webBaseModel?.shopIdenty = get().user?.shopIdenty
         }
     }
 }

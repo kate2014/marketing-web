@@ -76,6 +76,8 @@ public class CouponServiceImpl extends ServiceImpl<CouponMapper, CouponEntity> i
         if (searchModel.getCouponState() != 0) {
             coupon.setCouponState(searchModel.getCouponState());
         }
+        coupon.setBrandIdenty(searchModel.getUser().getBrandIdenty());
+        coupon.setShopIdenty(searchModel.getUser().getShopIdenty());
         Page<CouponEntity> page = new Page<>(searchModel.getPageNo(), searchModel.getPageSize());
         EntityWrapper<CouponEntity> eWrapper = new EntityWrapper<>(coupon);
         Page<CouponEntity> roleDOList = selectPage(page, eWrapper);
