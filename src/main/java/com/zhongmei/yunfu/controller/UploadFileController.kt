@@ -4,7 +4,6 @@ package com.zhongmei.yunfu.controller
 import com.zhongmei.yunfu.api.ApiResult
 import com.zhongmei.yunfu.service.AttachmentService
 import com.zhongmei.yunfu.service.LoginManager
-import com.zhongmei.yunfu.util.FileUtils
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
@@ -24,7 +23,7 @@ import javax.servlet.http.HttpServletResponse
  * 文件上传 前端控制器
  *
 
- * @author yangyp
+ * @author pigeon88
  * *
  * @since 2018-09-07
  */
@@ -122,7 +121,8 @@ class UploadFileController {
     fun uploadFile(@RequestParam(value = "file", required = false) file: MultipartFile?, request: HttpServletRequest, response: HttpServletResponse): Any {
         var user = LoginManager.get().user
         //var extensionName = FileUtils.getExtensionName(file?.originalFilename)
-        val newFileName = "${user?.brandIdenty}_${user?.shopIdenty}"
+        var newFileName = "%06d%08d".format(user?.brandIdenty, user?.shopIdenty)
+        //newFileName = Hex.encodeToString(Base64.getEncoder().encode(newFileName.toByteArray()))
         var entity = attachmentService.addLocalFile(file, newFileName)
 
         return ApiResult.newSuccess(mapOf("id" to entity.id, "name" to entity.name, "url" to entity.url))
