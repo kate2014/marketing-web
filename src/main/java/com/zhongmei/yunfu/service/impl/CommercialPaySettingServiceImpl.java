@@ -14,7 +14,7 @@ import java.util.List;
  * 商户线上支付配置 服务实现类
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-09-26
  */
 @Service

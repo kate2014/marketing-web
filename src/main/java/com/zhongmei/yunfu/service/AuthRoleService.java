@@ -8,7 +8,7 @@ import com.zhongmei.yunfu.domain.entity.AuthRoleEntity;
  * 角色表 : 商户角色信息 服务类
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-08-26
  */
 public interface AuthRoleService extends IService<AuthRoleEntity> {

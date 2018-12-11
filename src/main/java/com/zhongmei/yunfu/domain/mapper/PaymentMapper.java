@@ -12,7 +12,7 @@ import org.apache.ibatis.annotations.Select;
  * 预订表 Mapper 接口
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-09-14
  */
 public interface PaymentMapper extends BaseMapper<PaymentEntity> {

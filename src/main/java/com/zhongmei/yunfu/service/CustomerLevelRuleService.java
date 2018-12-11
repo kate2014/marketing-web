@@ -11,7 +11,7 @@ import java.util.List;
  * 会员等级积分表 服务类
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-09-07
  */
 public interface CustomerLevelRuleService extends IService<CustomerLevelRuleEntity> {

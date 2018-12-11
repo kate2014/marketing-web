@@ -12,7 +12,7 @@ import java.util.Map;
  * 会员等级积分成长规则、积分使用规则 服务类
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-09-07
  */
 public interface CustomerScoreRuleService extends IService<CustomerScoreRuleEntity> {

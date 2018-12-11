@@ -32,7 +32,7 @@ import java.util.List;
  * 会员次卡表 服务实现类
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-08-29
  */
 @Service

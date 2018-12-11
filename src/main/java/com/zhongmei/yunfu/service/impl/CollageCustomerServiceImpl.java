@@ -18,7 +18,7 @@ import java.util.List;
  * 会员发起拼团记录 服务实现类
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-09-14
  */
 @Service
@@ -117,7 +117,7 @@ public class CollageCustomerServiceImpl extends ServiceImpl<CollageCustomerMappe
         eWrapper.orNew().eq("id",relationId).or().eq("relation_id",relationId);
         eWrapper.andNew().eq("state",state);
         eWrapper.eq("status_flag",1);
-        eWrapper.setSqlSelect("id,collage_id,relation_id,trade_id,type,customer_id,state,join_count,enabled_flag");
+        eWrapper.setSqlSelect("id,collage_id,relation_id,trade_id,type,customer_id,state,join_count,enabled_flag,is_paid");
         List<CollageCustomerEntity> listData = selectList(eWrapper);
 
         return listData;

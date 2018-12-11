@@ -9,7 +9,7 @@ import com.zhongmei.yunfu.domain.entity.CustomerSearchRuleEntity;
  * 会员查询规则表 服务类
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-11-08
  */
 public interface CustomerSearchRuleService extends IService<CustomerSearchRuleEntity> {

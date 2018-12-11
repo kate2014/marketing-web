@@ -12,7 +12,7 @@ import java.util.*
  * 会员表
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-10-01
  */
 @TableName("customer")

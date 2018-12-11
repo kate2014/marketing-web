@@ -26,7 +26,7 @@ import java.util.*;
  * 会员优惠券关联表 服务实现类
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-08-29
  */
 @Service

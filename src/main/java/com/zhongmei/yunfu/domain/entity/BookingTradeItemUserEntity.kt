@@ -10,7 +10,7 @@ import com.zhongmei.yunfu.domain.entity.base.BaseEntity;
  * 预定订单销售员与订单商品关系
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-10-01
  */
 @TableName("booking_trade_item_user")

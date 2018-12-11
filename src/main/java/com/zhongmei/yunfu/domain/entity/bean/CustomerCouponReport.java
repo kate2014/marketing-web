@@ -11,7 +11,7 @@ import java.util.Date;
  * 会员优惠券关联表
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-08-29
  */
 public class CustomerCouponReport implements Serializable {

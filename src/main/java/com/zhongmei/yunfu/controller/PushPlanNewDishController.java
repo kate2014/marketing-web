@@ -23,7 +23,7 @@ import java.util.List;
  * 新品推送方案 前端控制器
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-08-26
  */
 @Controller

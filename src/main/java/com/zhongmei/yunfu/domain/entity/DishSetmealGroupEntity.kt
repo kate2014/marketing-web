@@ -11,7 +11,7 @@ import com.zhongmei.yunfu.domain.entity.base.BaseEntity;
  * 套餐内菜品分组 : dish_type表只能存在两个级别的分类
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-10-01
  */
 @TableName("dish_setmeal_group")

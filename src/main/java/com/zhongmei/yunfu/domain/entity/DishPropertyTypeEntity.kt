@@ -10,7 +10,7 @@ import com.zhongmei.yunfu.domain.entity.base.BaseEntity;
  * 菜品属性类别表
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-10-01
  */
 @TableName("dish_property_type")

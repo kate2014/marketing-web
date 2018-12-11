@@ -14,13 +14,13 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/internal")
 public class URLProxyController {
 
-    @RequestMapping({"/", "/home", "/customer", "/commercial/settingPage"})
+    @RequestMapping({"/", "/home", "/customer"})
     public String proxy(HttpServletRequest request, InternalBaseModel baseModel) {
         String token = Token.encode("", "", baseModel.getCreatorId(), baseModel.getCreatorName(), baseModel.getShopIdenty(), baseModel.getBrandIdenty());
         String href = request.getRequestURI().replaceFirst(request.getContextPath(), "").replace("/internal/", "/") + "/token/" + token;
-        if (request.getQueryString() != null) {
+        /*if (request.getQueryString() != null) {
             href = href + "?" + request.getQueryString();
-        }
+        }*/
         return String.format("redirect:%s", href);
     }
 }

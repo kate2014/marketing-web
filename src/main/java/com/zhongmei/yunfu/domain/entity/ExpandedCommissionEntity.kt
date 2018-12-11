@@ -11,7 +11,7 @@ import com.zhongmei.yunfu.domain.entity.base.BaseEntity;
  * 推广提成
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-10-01
  */
 @TableName("expanded_commission")

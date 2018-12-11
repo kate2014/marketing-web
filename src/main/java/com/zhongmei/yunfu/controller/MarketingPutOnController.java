@@ -21,7 +21,7 @@ import java.util.*;
  * 优惠券投放 前端控制器
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-08-26
  */
 @Controller

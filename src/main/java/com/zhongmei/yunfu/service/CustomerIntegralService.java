@@ -9,7 +9,7 @@ import com.zhongmei.yunfu.domain.entity.CustomerIntegralEntity;
  * 会员积分表 服务类
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-10-02
  */
 public interface CustomerIntegralService extends IService<CustomerIntegralEntity> {

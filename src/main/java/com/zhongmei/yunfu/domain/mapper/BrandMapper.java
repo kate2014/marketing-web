@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  * 品牌表 Mapper 接口
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-08-26
  */
 public interface BrandMapper extends BaseMapper<BrandEntity> {

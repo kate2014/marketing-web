@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.service.IService;
  * 商户设置表 服务类
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-09-26
  */
 public interface CommercialCustomSettingsService extends IService<CommercialCustomSettingsEntity> {

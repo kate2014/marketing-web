@@ -22,7 +22,7 @@ import java.util.Date;
  * 活动推送活动方案 前端控制器
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-08-26
  */
 @Controller

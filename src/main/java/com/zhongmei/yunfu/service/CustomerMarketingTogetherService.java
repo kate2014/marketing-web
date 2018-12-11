@@ -11,7 +11,7 @@ import java.util.List;
  * 会员关联同行特惠 服务类
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-08-29
  */
 public interface CustomerMarketingTogetherService extends IService<CustomerMarketingTogetherEntity> {

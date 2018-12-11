@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  * 商户线上支付配置 Mapper 接口
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-09-26
  */
 public interface CommercialPaySettingMapper extends BaseMapper<CommercialPaySettingEntity> {

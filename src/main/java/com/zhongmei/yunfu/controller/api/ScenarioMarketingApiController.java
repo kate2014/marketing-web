@@ -168,8 +168,9 @@ public class ScenarioMarketingApiController {
         mCollageCustomer.setCustomerId(mScenariomarketingModel.getCustomerId());
 
         List<CollageCustomerModel> listData = mCollageCustomerService.queryCollageByCustomer(mCollageCustomer);
-        //判断是否有活动结束但还未成团的订单
+
         checkCollageVailb(listData);
+
 
         return listData;
     }
@@ -178,7 +179,10 @@ public class ScenarioMarketingApiController {
      * 验证是否有活动结束到还未成团的订单，如有则将订单退回
      * @param listData
      */
-    public void checkCollageVailb(List<CollageCustomerModel> listData)throws Exception{
+    public Boolean checkCollageVailb(List<CollageCustomerModel> listData)throws Exception{
+
+        Boolean isRufundTrade = false;//是否有执行退货
+
         for(CollageCustomerModel ccm : listData){
 
             Date endTime = ccm.getEndTime();
@@ -186,14 +190,16 @@ public class ScenarioMarketingApiController {
             if(endTime.getTime() <= new Date().getTime()){
                 //表示是开团记录
                 if(ccm.getRelationId() == null){
-                    queryCollageCustomer(ccm.getId());
+                    isRufundTrade = queryCollageCustomer(ccm.getId());
                 }else{
-                    queryCollageCustomer(ccm.getRelationId());
+                    isRufundTrade = queryCollageCustomer(ccm.getRelationId());
                 }
 
             }
         }
-    }
+
+        return isRufundTrade;
+     }
 
     /**
      * 修改该团所以参团为失败
@@ -202,6 +208,7 @@ public class ScenarioMarketingApiController {
      */
     public Boolean queryCollageCustomer(Long relationId) throws Exception{
 
+        Boolean isRufundTrade = false;//是否有执行退货
         //将拼团信息标记为失败
         CollageCustomerEntity mCollageCustomerEntity = new CollageCustomerEntity();
         mCollageCustomerEntity.setState(3);
@@ -210,11 +217,15 @@ public class ScenarioMarketingApiController {
         if(isSuccess){
             List<CollageCustomerEntity> listData = mCollageCustomerService.queryCollageByRelationId(relationId, 3);
             for(CollageCustomerEntity cce : listData){
-                returnTrade(cce.getTradeId());
+                if(cce.isPaid() == 2){
+                    returnTrade(cce.getTradeId());
+                    isRufundTrade = true;
+                }
+
             }
         }
 
-        return isSuccess;
+        return isRufundTrade;
 
     }
 
@@ -295,7 +306,7 @@ public class ScenarioMarketingApiController {
             mTradeCustomerEntity.setClientUpdateTime(new Date());
             mTradeCustomerService.installTradeCustomer(mTradeCustomerEntity);
 
-            returnPayment(outRefundNo,mPaymentItemEntity);
+            returnPayment(outRefundNo,mPaymentItemEntity,tradeId);
         }
 
     }
@@ -306,54 +317,12 @@ public class ScenarioMarketingApiController {
      * @param returnPaymentItemEntity
      * @throws Exception
      */
-    public void returnPayment(Long outRefundNo,PaymentItemEntity returnPaymentItemEntity)throws Exception{
-        RefundRequestModel paramsMap = createUnifiedorderEntity(outRefundNo,returnPaymentItemEntity);
-        String params = HttpMessageConverterUtils.objectToXml(paramsMap);
+    public void returnPayment(Long outRefundNo,PaymentItemEntity returnPaymentItemEntity,Long tradeId)throws Exception{
 
-        HttpEntity<String> formEntity = new HttpEntity<String>(params);
-        String url = "https://api.mch.weixin.qq.com/secapi/pay/refund";
-        String xmlResult = restTemplate.exchange(url, HttpMethod.POST, formEntity, String.class).getBody().toString();
-
-        log.info("==========returnPayment:"+xmlResult);
-
+        String message = mPaymentItemService.retrunPayment(outRefundNo,returnPaymentItemEntity,tradeId);
+        log.info("==========returnPayment:"+message);
     }
 
-
-    public RefundRequestModel createUnifiedorderEntity(Long outRefundNo,PaymentItemEntity returnPaymentItemEntity) throws Exception{
-
-        //获取用户支付相关信息
-        CommercialPaySettingEntity mCommercialPaySettingEntity = new CommercialPaySettingEntity();
-        mCommercialPaySettingEntity.setShopIdenty(returnPaymentItemEntity.getShopIdenty());
-        mCommercialPaySettingEntity.setBrandIdenty(returnPaymentItemEntity.getBrandIdenty());
-        mCommercialPaySettingEntity.setType(1);
-        mCommercialPaySettingEntity.setStatusFlag(1);
-        CommercialPaySettingEntity paySetting =  mCommercialPaySettingService.queryData(mCommercialPaySettingEntity);
-
-        RefundRequestModel mRefundRequestModel = new RefundRequestModel();
-        mRefundRequestModel.setAppid(mCommercialPaySettingEntity.getAppid());
-        mRefundRequestModel.setMch_id(mCommercialPaySettingEntity.getWxShopId());
-        mRefundRequestModel.setNonce_str(returnPaymentItemEntity.getUuid());
-        mRefundRequestModel.setSign_type("MD5");
-        mRefundRequestModel.setOut_refund_no(outRefundNo.toString());
-        mRefundRequestModel.setOut_trade_no(returnPaymentItemEntity.getId().toString());
-        mRefundRequestModel.setTotal_fee(returnPaymentItemEntity.getUsefulAmount().toString());
-        mRefundRequestModel.setRefund_fee(returnPaymentItemEntity.getUsefulAmount().toString());
-        mRefundRequestModel.setNotify_url("https://mk.zhongmeiyunfu.com/marketing/wxapp/scenarioMarketing/refundNotify");
-
-
-        String stringA = "appid="+mRefundRequestModel.getAppid()+"&mch_id="+mRefundRequestModel.getMch_id()+
-                "&nonce_str="+mRefundRequestModel.getNonce_str()+"&notify_url="+mRefundRequestModel.getNotify_url()+"&out_refund_no="+mRefundRequestModel.getOut_refund_no()+
-                "&out_trade_no="+mRefundRequestModel.getOut_refund_no()+"&refund_fee="+mRefundRequestModel.getRefund_fee()+"&sign_type="+mRefundRequestModel.getSign_type()+
-                "&total_fee="+mRefundRequestModel.getTotal_fee();
-
-        String stringSignTemp=stringA+"&key="+mCommercialPaySettingEntity.getApiSecret();;
-        String sign = ToolsUtil.getMd5(stringSignTemp).toUpperCase();
-
-        mRefundRequestModel.setSign(sign);
-
-        return mRefundRequestModel;
-
-    }
 
     @RequestMapping(value = "/refundNotify",produces = "application/xml")
     public String refundNotify(HttpServletRequest request) {
@@ -375,7 +344,6 @@ public class ScenarioMarketingApiController {
             inStream.close();
             String result = new String(outSteam.toByteArray(), "utf-8");// 获取微信调用我们notify_url的返回信息
             Map<String,Object> returnMap = new HashMap<>();
-            log.info("=======refundNotify="+result);
             returnMap = HttpMessageConverterUtils.xmlToObject(result,Map.class);
 
             log.info("=======returnMap="+returnMap);

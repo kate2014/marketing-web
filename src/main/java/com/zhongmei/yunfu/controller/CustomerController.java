@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * 会员表 前端控制器
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-08-29
  */
 @Controller

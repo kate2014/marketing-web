@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
  * 会员关联同行特惠 前端控制器
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-08-29
  */
 @Controller

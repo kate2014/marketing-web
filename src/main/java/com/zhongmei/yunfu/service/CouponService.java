@@ -13,7 +13,7 @@ import java.util.List;
  * 优惠券 服务类
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-08-26
  */
 public interface CouponService extends IService<CouponEntity> {

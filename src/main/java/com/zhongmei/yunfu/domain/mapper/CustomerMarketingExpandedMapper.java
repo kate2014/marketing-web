@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  * 会员关联推广回馈 Mapper 接口
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-08-29
  */
 public interface CustomerMarketingExpandedMapper extends BaseMapper<CustomerMarketingExpandedEntity> {

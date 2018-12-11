@@ -20,11 +20,11 @@ import java.util.List;
  * 商户信息表 前端控制器
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-08-26
  */
 @Controller
-@RequestMapping("/commercial")
+@RequestMapping("/internal/commercial")
 public class CommercialController extends BaseController {
 
     @Autowired

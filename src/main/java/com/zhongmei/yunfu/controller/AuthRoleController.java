@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
  * 角色表 : 商户角色信息 前端控制器
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-08-26
  */
 @Controller

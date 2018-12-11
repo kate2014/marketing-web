@@ -23,7 +23,7 @@ import java.util.*;
  * 主单及其所有子单中的数量、金额在退货时都取反 前端控制器
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-09-17
  */
 @Controller
@@ -149,6 +149,46 @@ public class TradeController extends BaseController{
         }
 
         return "trade_detail";
+    }
+
+    /**
+     * 查询订单退款结果
+     * @param model
+     * @param mTradeModel
+     * @return
+     */
+    @RequestMapping("/refundquery")
+    public String refundquery(Model model, TradeModel mTradeModel){
+        try{
+            PaymentItemEntity mPaymentItemEntity = mPaymentItemService.queryPaymentItemById(mTradeModel.getPaymentItemId());
+            mPaymentItemEntity = mPaymentItemService.refundquery(mPaymentItemEntity, mTradeModel.getTradeId());
+
+            return redirect("/internal/trade/tradeDetail?tradeId="+mTradeModel.getTradeId()+"&brandIdenty="+mPaymentItemEntity.getBrandIdenty()+"&shopIdenty="+mPaymentItemEntity.getShopIdenty());
+        }catch (Exception e){
+            e.printStackTrace();
+            return "fail";
+        }
+
+    }
+
+    @RequestMapping("/refundTrade")
+    public String refundTrade(Model model, TradeModel mTradeModel){
+
+        try{
+            PaymentItemEntity oldPaymentItem = mPaymentItemService.queryPaymentItemByTradeId(mTradeModel.getRelationTradeId());
+
+            PaymentItemEntity mPaymentItemEntity = mPaymentItemService.queryPaymentItemById(mTradeModel.getPaymentItemId());
+
+            mPaymentItemService.retrunPayment(oldPaymentItem.getId(),mPaymentItemEntity,mTradeModel.getTradeId());
+
+            return redirect("/internal/trade/tradeDetail?tradeId="+mTradeModel.getTradeId()+"&brandIdenty="+mPaymentItemEntity.getBrandIdenty()+"&shopIdenty="+mPaymentItemEntity.getShopIdenty());
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return "fail";
+
+        }
+
     }
 }
 

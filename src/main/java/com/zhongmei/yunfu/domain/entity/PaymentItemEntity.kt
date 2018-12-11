@@ -12,7 +12,7 @@ import com.zhongmei.yunfu.domain.entity.base.BaseEntity;
  * 付款明细
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-10-01
  */
 @TableName("payment_item")

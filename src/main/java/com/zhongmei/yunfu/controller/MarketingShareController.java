@@ -25,7 +25,7 @@ import java.util.List;
  * 分享营销 前端控制器
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-08-26
  */
 @Controller

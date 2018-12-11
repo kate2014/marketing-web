@@ -17,7 +17,7 @@ import java.util.List;
  * 会员表 Mapper 接口
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-08-29
  */
 public interface CustomerMapper extends BaseMapper<CustomerEntity> {

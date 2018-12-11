@@ -10,36 +10,21 @@ import com.zhongmei.yunfu.util.ToolsUtil;
 import com.zhongmei.yunfu.controller.model.*;
 import com.zhongmei.yunfu.domain.entity.*;
 import com.zhongmei.yunfu.service.*;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.ssl.SSLContexts;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.ui.Model;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import javax.net.ssl.SSLContext;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
-import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.security.KeyStore;
 import java.util.*;
 
 @RestController
@@ -757,123 +742,7 @@ public class PayOrderApiController {
         return null;
     }
 
-    /**
-     * 获取小程序翼支付信息
-     * @return
-     */
-    public WxPayMsgModel getYiPayparams(PaymentItemEntity mPaymentItemEntity,String openId) throws Exception{
 
-        //获取用户支付相关信息
-        CommercialPaySettingEntity mCommercialPaySettingEntity = new CommercialPaySettingEntity();
-        mCommercialPaySettingEntity.setShopIdenty(mPaymentItemEntity.getShopIdenty());
-        mCommercialPaySettingEntity.setBrandIdenty(mPaymentItemEntity.getBrandIdenty());
-        mCommercialPaySettingEntity.setType(1);
-        mCommercialPaySettingEntity.setStatusFlag(1);
-        CommercialPaySettingEntity paySetting =  mCommercialPaySettingService.queryData(mCommercialPaySettingEntity);
-
-        MultiValueMap<String, Object> paramsMap= new LinkedMultiValueMap<String, Object>();
-
-        paramsMap.add("appid","hf163356826045OA");
-        paramsMap.add("total_amount",mPaymentItemEntity.getUsefulAmount().multiply(new BigDecimal(100)).stripTrailingZeros().toPlainString());
-        paramsMap.add("out_trade_no",mPaymentItemEntity.getUuid());
-        paramsMap.add("return_url","https://mk.zhongmeiyunfu.com/marketing/wxapp/pay/payNotify");
-        paramsMap.add("sub_appid",paySetting.getAppid());
-        paramsMap.add("sub_openid",openId);
-        paramsMap.add("spbill_create_ip","47.105.100.99");
-        String nonceStr = ToolsUtil.getCard(32);
-        paramsMap.add("nonce_str",nonceStr);
-        paramsMap.add("version","V1.0");
-
-        String stringA =
-                "appid=hf163356826045OA"+
-                "&nonce_str="+nonceStr+
-                "&out_trade_no="+mPaymentItemEntity.getUuid()+
-                "&return_url=https://mk.zhongmeiyunfu.com/marketing/wxapp/pay/payNotify"+
-                "&spbill_create_ip=47.105.100.99"+
-                "&sub_appid="+paySetting.getAppid()+
-                "&sub_openid="+openId+
-                "&total_amount="+mPaymentItemEntity.getUsefulAmount().multiply(new BigDecimal(100)).stripTrailingZeros().toPlainString()+
-                "&version=V1.0";
-
-        System.out.println("=======stringA:"+stringA);
-
-        String stringSignTemp=stringA+"&appsecret="+"MgAtKIRKPMMbbfycOw5b87U6NP024kWA";
-        String sign = ToolsUtil.getMd5(stringSignTemp).toUpperCase();
-
-        paramsMap.add("sign",sign);
-
-
-        System.out.println("=========request data:"+paramsMap);
-
-
-        String url = "https://pay.sc.189.cn/haipay/applet-pay";
-
-        HttpHeaders headers = new HttpHeaders();
-        MediaType type = MediaType.parseMediaType("application/x-www-form-urlencoded; charset=UTF-8");
-        headers.setContentType(type);
-        System.out.println(type);
-        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<MultiValueMap<String, Object>>(paramsMap,  headers);
-
-        String response = restTemplate.postForObject(url,requestEntity, String.class);
-        System.out.println("=========request xmlResult:"+response);
-
-        return null;
-    }
-
-
-    public final static void main(String[] args) throws Exception {
-        KeyStore keyStore  = KeyStore.getInstance("PKCS12");
-        FileInputStream instream = new FileInputStream(new File("D:/10016225.p12"));
-        try {
-            keyStore.load(instream, "10016225".toCharArray());
-        } finally {
-            instream.close();
-        }
-
-        // Trust own CA and all self-signed certs
-        SSLContext sslcontext = SSLContexts.custom()
-                .loadKeyMaterial(keyStore, "10016225".toCharArray())
-                .build();
-        // Allow TLSv1 protocol only
-        SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
-                sslcontext,
-                new String[] { "TLSv1" },
-                null,
-                SSLConnectionSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER);
-        CloseableHttpClient httpclient = HttpClients.custom()
-                .setSSLSocketFactory(sslsf)
-                .build();
-        try {
-
-            HttpPost httpPost =  new HttpPost("https://api.mch.weixin.qq.com/secapi/pay/refund");
-
-            org.apache.http.HttpEntity httpEntity = new StringEntity("1111", ContentType.APPLICATION_XML);
-            httpPost.setEntity(httpEntity);
-
-            CloseableHttpResponse response = httpclient.execute(httpPost);
-            try {
-
-                org.apache.http.HttpEntity entity = response.getEntity();
-
-                System.out.println("----------------------------------------");
-                System.out.println(response.getStatusLine());
-                if (entity != null) {
-                    System.out.println("Response content length: " + entity.getContentLength());
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(entity.getContent()));
-                    String text;
-                    while ((text = bufferedReader.readLine()) != null) {
-                        System.out.println(text);
-                    }
-
-                }
-                EntityUtils.consume(entity);
-            } finally {
-                response.close();
-            }
-        } finally {
-            httpclient.close();
-        }
-    }
 
 }
 

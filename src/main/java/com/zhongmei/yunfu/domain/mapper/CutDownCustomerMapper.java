@@ -14,7 +14,7 @@ import java.util.List;
  * 会员发起砍价记录 Mapper 接口
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-09-13
  */
 public interface CutDownCustomerMapper extends BaseMapper<CutDownCustomerEntity> {

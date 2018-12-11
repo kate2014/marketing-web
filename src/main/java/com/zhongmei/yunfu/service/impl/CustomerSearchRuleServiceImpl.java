@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
  * 会员查询规则表 服务实现类
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-11-08
  */
 @Service

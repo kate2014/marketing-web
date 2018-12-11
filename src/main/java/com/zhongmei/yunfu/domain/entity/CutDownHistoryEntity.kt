@@ -11,7 +11,7 @@ import java.util.*
  * 砍价记录
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-10-01
  */
 @TableName("cut_down_history")

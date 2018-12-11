@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody
 /**
  * 会员服务推送 前端控制器
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-08-29
  */
 @Controller
@@ -43,7 +43,6 @@ class CustomerServicePushController : BaseController() {
     @RequestMapping("/newproduct")
     fun newProduct(model: Model, searchModel: NewDishPushSearchModel): String {
         searchModel.pageSize = 5
-        LoginManager.setUserShopIdenty(searchModel)
         val listPage = mPushNewDishService.list(searchModel)
         var result = arrayListOf<Any>()
         listPage.records.forEach {
@@ -59,7 +58,6 @@ class CustomerServicePushController : BaseController() {
     @RequestMapping("/activity")
     fun activity(model: Model, searchModel: ActivitySearchModel): String? {
         searchModel.pageSize = 5
-        LoginManager.setUserShopIdenty(searchModel)
         val listPage = pushPlanActivityService.findListPage(searchModel)
         var result = arrayListOf<Any>()
         listPage.records.forEach {
@@ -75,7 +73,6 @@ class CustomerServicePushController : BaseController() {
     @RequestMapping("/coupon")
     fun privilege(model: Model, searchModel: CouponSearchModel): String? {
         searchModel.pageSize = 5
-        LoginManager.setUser(searchModel)
         val listPage = couponService.findListPage(searchModel)
         var result = arrayListOf<Any>()
         listPage.records.forEach {

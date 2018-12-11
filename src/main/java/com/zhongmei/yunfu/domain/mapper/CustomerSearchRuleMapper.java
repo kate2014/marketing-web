@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  * 会员查询规则表 Mapper 接口
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-11-08
  */
 public interface CustomerSearchRuleMapper extends BaseMapper<CustomerSearchRuleEntity> {

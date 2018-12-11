@@ -16,7 +16,7 @@ import java.util.Map;
  * 同行特惠 服务实现类
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-08-26
  */
 @Service

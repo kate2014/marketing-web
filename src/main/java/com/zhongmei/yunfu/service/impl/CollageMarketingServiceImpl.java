@@ -20,7 +20,7 @@ import java.util.List;
  * 拼团活动 服务实现类
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-09-10
  */
 @Service

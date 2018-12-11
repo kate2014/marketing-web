@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  * 文件附件表（用于临时存储） Mapper 接口
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-10-20
  */
 public interface AttachmentMapper extends BaseMapper<AttachmentEntity> {

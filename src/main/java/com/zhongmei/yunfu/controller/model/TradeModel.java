@@ -23,7 +23,11 @@ public class TradeModel extends WebBaseModel {
 
     private Long tradeId;
 
+    private Long relationTradeId;
+
     private String tradeNo;
+
+    private Long paymentItemId;
     /**
      * 购买的活动id
      */
@@ -281,5 +285,21 @@ public class TradeModel extends WebBaseModel {
 
     public void setTradeNo(String tradeNo) {
         this.tradeNo = tradeNo;
+    }
+
+    public Long getPaymentItemId() {
+        return paymentItemId;
+    }
+
+    public void setPaymentItemId(Long paymentItemId) {
+        this.paymentItemId = paymentItemId;
+    }
+
+    public Long getRelationTradeId() {
+        return relationTradeId;
+    }
+
+    public void setRelationTradeId(Long relationTradeId) {
+        this.relationTradeId = relationTradeId;
     }
 }

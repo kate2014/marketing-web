@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  * 优惠券使用约束菜品 Mapper 接口
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-08-26
  */
 public interface CouponRuleDishMapper extends BaseMapper<CouponRuleDishEntity> {

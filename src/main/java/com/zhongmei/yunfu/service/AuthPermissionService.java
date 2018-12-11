@@ -8,7 +8,7 @@ import com.zhongmei.yunfu.domain.entity.AuthPermissionEntity;
  * 权限 服务类
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-08-26
  */
 public interface AuthPermissionService extends IService<AuthPermissionEntity> {

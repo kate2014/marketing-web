@@ -10,7 +10,7 @@ import java.util.List;
  * 优惠信息 服务类
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-09-17
  */
 public interface TradePrivilegeService extends IService<TradePrivilegeEntity> {

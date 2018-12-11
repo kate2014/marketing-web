@@ -24,7 +24,7 @@ import java.util.List;
  * 推送信息给顾客 服务实现类
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-09-13
  */
 @Service

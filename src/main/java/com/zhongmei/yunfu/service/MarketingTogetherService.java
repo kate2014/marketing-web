@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.service.IService;
  * 同行特惠 服务类
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-08-26
  */
 public interface MarketingTogetherService extends IService<MarketingTogetherEntity> {

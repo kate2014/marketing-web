@@ -11,7 +11,7 @@ import java.util.List;
  * 会员发起拼团记录 服务类
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-09-14
  */
 public interface CollageCustomerService extends IService<CollageCustomerEntity> {
@@ -56,7 +56,7 @@ public interface CollageCustomerService extends IService<CollageCustomerEntity> 
     Boolean updateCollageCustomer(CollageCustomerEntity mCollageCustomer) throws Exception;
 
     /**
-     * 获取会员参与的砍价活动
+     * 获取会员参与的拼团活动
      * @param mCollageCustomer
      * @return
      * @throws Exception

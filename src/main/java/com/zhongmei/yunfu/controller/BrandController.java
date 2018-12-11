@@ -13,7 +13,7 @@ import org.springframework.stereotype.Controller;
  * 品牌表 前端控制器
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-08-26
  */
 @Controller

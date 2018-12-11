@@ -13,7 +13,7 @@ import com.zhongmei.yunfu.domain.entity.base.BaseEntity;
 主单及其子单的金额在退货时都取反
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-10-01
  */
 @TableName("payment")

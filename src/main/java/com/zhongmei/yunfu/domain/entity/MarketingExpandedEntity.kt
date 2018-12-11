@@ -12,7 +12,7 @@ import java.math.BigDecimal
  * 全员推广营销
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-10-01
  */
 @TableName("marketing_expanded")

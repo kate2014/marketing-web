@@ -18,7 +18,7 @@ import java.util.List;
  * 交易明细 服务实现类
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-09-17
  */
 @Service

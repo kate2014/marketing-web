@@ -14,7 +14,7 @@ import java.util.List;
  * 拼团活动 服务类
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-09-10
  */
 public interface CollageMarketingService extends IService<CollageMarketingEntity> {

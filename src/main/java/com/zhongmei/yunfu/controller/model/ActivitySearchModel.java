@@ -1,12 +1,11 @@
 package com.zhongmei.yunfu.controller.model;
 
-import com.zhongmei.yunfu.controller.model.base.IShopIdenty;
 import com.zhongmei.yunfu.controller.model.base.WebBaseModel;
 
 /**
  * 活动查询列表
  */
-public class ActivitySearchModel extends WebBaseModel implements IShopIdenty {
+public class ActivitySearchModel extends WebBaseModel {
     private Long id;
     private Integer planState;
     private String name;
@@ -49,19 +48,19 @@ public class ActivitySearchModel extends WebBaseModel implements IShopIdenty {
         this.name = name;
     }
 
-    public Long getBrandIdenty() {
+    public Long getBrandIdentity() {
         return brandIdentity;
     }
 
-    public void setBrandIdenty(Long brandIdentity) {
+    public void setBrandIdentity(Long brandIdentity) {
         this.brandIdentity = brandIdentity;
     }
 
-    public Long getShopIdenty() {
+    public Long getShopIdentity() {
         return shopIdentity;
     }
 
-    public void setShopIdenty(Long shopIdentity) {
+    public void setShopIdentity(Long shopIdentity) {
         this.shopIdentity = shopIdentity;
     }
 

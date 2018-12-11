@@ -184,9 +184,13 @@ public class MarketingExpandedApiController {
                 if(mExpandedCommission.getCanExchange() == null){
                     mExpandedCommission.setCanExchange(BigDecimal.ZERO);
                 }
-                if(mExpandedCommission.getExchangeAmount() == null){
-                    mExpandedCommission.setExchangeAmount(BigDecimal.ZERO);
-                }
+
+
+            }
+
+            //计算已提成金额
+            if(mExpandedCommission.getTotalCommission() != null && mExpandedCommission.getCanExchange() != null){
+                mExpandedCommission.setExchangeAmount(mExpandedCommission.getTotalCommission().subtract(mExpandedCommission.getCanExchange()));
             }
 
             mCustomerCommissionModel.setExpandedCommission(mExpandedCommission);

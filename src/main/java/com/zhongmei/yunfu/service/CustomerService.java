@@ -19,7 +19,7 @@ import java.util.Map;
  * 会员表 服务类
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-08-29
  */
 public interface CustomerService extends IService<CustomerEntity> {

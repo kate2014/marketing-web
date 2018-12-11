@@ -19,7 +19,7 @@ import java.util.List;
  * 微信小程序购买使用记录 服务实现类
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-09-17
  */
 @Service

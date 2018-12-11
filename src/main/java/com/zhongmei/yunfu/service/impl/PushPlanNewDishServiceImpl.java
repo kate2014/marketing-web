@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
  * 新品推送方案 服务实现类
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-08-26
  */
 @Service

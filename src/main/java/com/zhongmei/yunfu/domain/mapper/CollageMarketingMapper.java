@@ -15,7 +15,7 @@ import java.util.List;
  * 拼团活动 Mapper 接口
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-09-10
  */
 public interface CollageMarketingMapper extends BaseMapper<CollageMarketingEntity> {

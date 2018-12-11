@@ -70,7 +70,7 @@
     <label class="text_navigation" style="margin-left: 10px;width: 30%">门店设置</label>
 </div>
 
-<form method="post" name="shopSetting" action="" th:action="@{/commercial/modfiyShopMessage}" th:object="${mShopSettingModel}">
+<form method="post" name="shopSetting" action="" th:action="@{/internal/commercial/modfiyShopMessage}" th:object="${mShopSettingModel}">
 
     <input type="hidden" name="shopIdenty" th:value="${shopIdenty}">
     <input type="hidden" name="brandIdenty" th:value="${brandIdenty}">
@@ -129,7 +129,7 @@
     </div>
 </form>
 
-<form method="post" name="paySetting" action="" th:action="@{/commercial/setting}" th:object="${mShopSettingModel}">
+<form method="post" name="paySetting" action="" th:action="@{/internal/commercial/setting}" th:object="${mShopSettingModel}">
     <input type="hidden" name="shopIdenty" th:value="${shopIdenty}">
     <input type="hidden" name="brandIdenty" th:value="${brandIdenty}">
     <input type="hidden" name="type" value="2">
@@ -158,7 +158,7 @@
 
 </form>
 
-<!--<form method="post" name="yzfSetting" th:action="@{/commercial/setting}" th:object="${mShopSettingModel}">-->
+<!--<form method="post" name="yzfSetting" th:action="@{/internal/commercial/setting}" th:object="${mShopSettingModel}">-->
 
     <!--<input type="hidden" name="shopIdenty" th:value="${shopIdenty}">-->
     <!--<input type="hidden" name="brandIdenty" th:value="${brandIdenty}">-->
@@ -188,7 +188,7 @@
 
 <!--</form>-->
 
-<form method="post" name="wxSetting" action="" th:action="@{/commercial/setting}" th:object="${mShopSettingModel}">
+<form method="post" name="wxSetting" action="" th:action="@{/internal/commercial/setting}" th:object="${mShopSettingModel}">
 
 
     <input type="hidden" name="shopIdenty" th:value="${shopIdenty}">

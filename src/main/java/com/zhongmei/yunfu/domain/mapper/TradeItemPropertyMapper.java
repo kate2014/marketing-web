@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  * 交易明细特征 Mapper 接口
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-09-17
  */
 public interface TradeItemPropertyMapper extends BaseMapper<TradeItemPropertyEntity> {

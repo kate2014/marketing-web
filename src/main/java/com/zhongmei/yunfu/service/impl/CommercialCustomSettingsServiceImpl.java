@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
  * 商户设置表 服务实现类
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-09-26
  */
 @Service

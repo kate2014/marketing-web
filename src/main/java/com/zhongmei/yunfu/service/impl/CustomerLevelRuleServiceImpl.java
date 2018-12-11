@@ -14,7 +14,7 @@ import java.util.*;
  * 会员等级积分表 服务实现类
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-09-07
  */
 @Service

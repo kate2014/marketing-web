@@ -60,4 +60,21 @@ public interface PaymentItemService extends IService<PaymentItemEntity> {
      * @throws Exception
      */
     PaymentItemEntity queryPaymentItemById(Long id) throws Exception;
+
+    /**
+     * 发起退款
+     * @param returnPaymentItemEntity
+     * @param outRefundNo
+     * @return
+     * @throws Exception
+     */
+    String retrunPayment(Long outRefundNo,PaymentItemEntity returnPaymentItemEntity,Long tradeId)throws Exception;
+
+    /**
+     * 刷新退款状态
+     * @param returnPaymentItemEntity
+     * @return
+     * @throws Exception
+     */
+    PaymentItemEntity refundquery(PaymentItemEntity returnPaymentItemEntity,Long tradeId)throws Exception;
 }

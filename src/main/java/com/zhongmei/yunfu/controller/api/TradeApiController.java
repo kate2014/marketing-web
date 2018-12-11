@@ -29,7 +29,7 @@ import java.util.*;
  * 主单及其所有子单中的数量、金额在退货时都取反 前端控制器
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-09-17
  */
 @RestController
@@ -446,6 +446,14 @@ public class TradeApiController {
             }
             if(tradeId.length() != 0) {
                 List<TradeEntity> listTrade = mTradeService.queryTradeByCustomer(mTradeModel.getBrandIdenty(), mTradeModel.getShopIdenty(), tradeId.toString(),mTradeModel.getTradeStatus());
+
+                //判断是否有退款中的订单，如果有这发起刷新退货单退货信息
+                for(TradeEntity trade:listTrade){
+                    if(trade.getTradePayStatus() == 4){
+                        PaymentItemEntity mPaymentItemEntity = mPaymentItemService.queryPaymentItemByTradeId(trade.getId());
+                        mPaymentItemService.refundquery(mPaymentItemEntity,trade.getId());
+                    }
+                }
 
                 TradePageDataModel mTradePageDataModel = new TradePageDataModel();
                 if(listTrade.size() < mTradeModel.getPageSize()){

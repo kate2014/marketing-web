@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
  * 微信小程序购买使用记录 前端控制器
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-09-17
  */
 @Controller

@@ -15,7 +15,7 @@ import java.util.List;
  * 推广提成 Mapper 接口
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-09-16
  */
 public interface ExpandedCommissionMapper extends BaseMapper<ExpandedCommissionEntity> {

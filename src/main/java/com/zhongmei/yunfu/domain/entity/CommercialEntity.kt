@@ -8,7 +8,7 @@ import com.zhongmei.yunfu.domain.entity.base.BaseEntity;
  * 商户信息表
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-10-01
  */
 @TableName("commercial")

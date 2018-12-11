@@ -78,21 +78,21 @@
 
             <div class="reportBgimage_1" style="width: 23%;padding-right: 20px;padding-left: 20px">
                 <p class="report_lable_style_1" style="margin-top: 20px">销货单</p>
-                <div style="width: 100%; height: 1px; background-color: #f0f0f0;margin-top: 20px;margin-bottom: 20px"></div>
+                <div style="width: 100%; height: 1px; background-color: #f0f0f0;margin-top: 10px;margin-bottom: 10px"></div>
                 <p class="report_lable_style_1">成交额：<lable class="name_style" th:text="${salesAmount}"></lable>元</p>
                 <p class="report_lable_style_1">成交笔数：<lable class="report_lable_style_1" th:text="${salesCount}"></lable>笔</p>
             </div>
 
-            <div class="reportBgimage_1" style="width: 23%;padding-right: 20px;padding-left: 20px">
-                <p class="report_lable_style_1" style="margin-top: 20px">余额、次卡服务储值收入</p>
-                <div style="width: 100%; height: 1px; background-color: #f0f0f0;margin-top: 20px;margin-bottom: 20px"></div>
+            <div class="reportBgimage_1 parent" style="width: 23%;padding-right: 20px;padding-left: 20px">
+                <p class="report_lable_style_1">余额、次卡服务储值收入</p>
+                <div style="width: 100%; height: 1px; background-color: #f0f0f0;margin-top: 10px;margin-bottom: 10px"></div>
                 <p class="report_lable_style_1">成交额：<lable class="name_style" th:text="${saveAmount}"></lable>元</p>
                 <p class="report_lable_style_1">成交笔数：<lable class="report_lable_style_1" th:text="${saveCount}"></lable>笔</p>
             </div>
 
-            <div class="reportBgimage_1" style="width: 23%;padding-right: 20px;padding-left: 20px">
-                <p class="report_lable_style_1" style="margin-top: 20px">退货单</p>
-                <div style="width: 100%; height: 1px; background-color: #f0f0f0;margin-top: 20px;margin-bottom: 20px"></div>
+            <div class="reportBgimage_1 parent" style="width: 23%;padding-right: 20px;padding-left: 20px">
+                <p class="report_lable_style_1">退货单</p>
+                <div style="width: 100%; height: 1px; background-color: #f0f0f0;margin-top: 10px;margin-bottom: 10px"></div>
                 <p class="report_lable_style_1">退货额：<lable class="name_style" th:text="${returnAmount}"></lable>元</p>
                 <p class="report_lable_style_1">退货笔数：<lable class="report_lable_style_1" th:text="${returnCount}"></lable>笔</p>
             </div>
@@ -161,10 +161,17 @@
     </div>
     <div style="width: 15%;height:100%; margin-left: 10px;">
 
-        <div class="container" style="width: 100%;height: 50px;background-color: #FFFFFF;border: 1px #F4F4F4">
+        <!--<div class="container" style="width: 100%;height: 50px;background-color: #FFFFFF;border: 1px #F4F4F4">-->
+            <!--<div class="parent">-->
+                <!--<img th:src="@{/images/telphone.png}" style="margin:10px" width="30px">-->
+                <!--<p class="notify_lable_style" align="left">400-00-00</p>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <div class="container" style="width: 100%;height: 50px;background-color: #FFFFFF;border: 1px #F4F4F4;cursor: pointer ">
             <div class="parent">
-                <img th:src="@{/images/telphone.png}" style="margin:10px" width="30px">
-                <p class="notify_lable_style" align="left">400-00-00</p>
+                <img th:src="@{/images/guanwang_icon.png}" style="margin:10px" width="30px">
+                <p class="notify_lable_style" align="left" onclick="javascript:window.open('http://www.zhongmeiyunfu.com/');">众美云服官网</p>
             </div>
         </div>
 
@@ -188,7 +195,7 @@
                 <img class="line_style" th:src="@{/images/line.jpg}" style="margin-top: 10px">
                 <div class="notify_lable_style" style="margin-top: 10px">新增营销工具</div>
                 <div class="notify_style" align="center" style="margin-top: 10px">
-                    近百种营销工具,社群营销&节日营销，拉新、转化、复购面面俱到,系统化管理客户,客户画像帮您了解客户，会员卡/储值卡实现精准营销
+                    多种营销工具,社群营销&节日营销，拉新、转化、复购面面俱到,系统化管理客户,客户画像帮您了解客户，会员卡/储值卡实现精准营销
                 </div>
             </div>
         </div>

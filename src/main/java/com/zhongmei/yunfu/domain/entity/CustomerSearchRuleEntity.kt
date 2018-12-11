@@ -11,7 +11,7 @@ import com.zhongmei.yunfu.domain.entity.base.BaseEntity
  * 会员查询规则表
  *
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-11-14
  */
 @TableName("customer_search_rule")

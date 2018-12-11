@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Select;
  * 会员储值、储值消费记录表 Mapper 接口
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-08-29
  */
 public interface CustomerStoredMapper extends BaseMapper<CustomerStoredEntity> {

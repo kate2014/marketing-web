@@ -10,7 +10,7 @@ import java.util.List;
  * 优惠券投放 服务类
  * </p>
  *
- * @author pigeon88
+ * @author yangyp
  * @since 2018-08-26
  */
 public interface MarketingPutOnService extends IService<MarketingPutOnEntity> {
