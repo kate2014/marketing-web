@@ -30,7 +30,7 @@ public class PushActivityController {
      */
     @GetMapping("/queryActivityData")
     public BaseDataModel queryActivityData(ModelMap model, ActivitySearchModel mActivitySearchModel) {
-        Page<PushPlanActivityEntity> listPage = pushPlanActivityService.findListPage(mActivitySearchModel.getBrandIdentity(), mActivitySearchModel.getShopIdentity(), mActivitySearchModel.getPlanState(), null, mActivitySearchModel.getPageNo(), mActivitySearchModel.getPageSize());
+        Page<PushPlanActivityEntity> listPage = pushPlanActivityService.findListPage(mActivitySearchModel.getBrandIdenty(), mActivitySearchModel.getShopIdenty(), mActivitySearchModel.getPlanState(), null, mActivitySearchModel.getPageNo(), mActivitySearchModel.getPageSize());
         BaseDataModel mBaseDataModel = new BaseDataModel();
         if (listPage != null && listPage.getSize() != 0) {
             mBaseDataModel.setState("1000");
