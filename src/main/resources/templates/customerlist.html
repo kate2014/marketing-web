@@ -257,7 +257,7 @@
                 <td th:text="${#dates.format(item.consumptionLastTime, 'yyyy-MM-dd')}">2018-09-09</td>
                 <td th:text="${item.consumptionNumber}">20</td>
                 <td th:text="${item.consumptionAmount}">20000</td>
-                <td th:text="${item.sourceId==1}?'门店POS':(${item.sourceId==1}?'小程序':'')">门店POS</td>
+                <td th:text="${item.sourceId==2}?'小程序':'门店POS'">门店POS</td>
                 <td>
                     <div class="parent_h">
                         <!--<a th:href="@{{basePath}/customer/edit(basePath=${basePath},id=${item.id})}"><img class="see_modify" th:src="@{/images/see_detail.jpg}" src="../static/images/see_detail.jpg"></a>-->
