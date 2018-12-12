@@ -52,4 +52,10 @@ public interface TradeItemService extends IService<TradeItemEntity> {
      */
     List<DishReport> selectDishSalesReport(Long brandIdenty, Long shopIdenty, Date start, Date end) throws Exception;
 
+    /**
+     * 根据tradeId删除trade_item
+     * @param tradeId
+     * @return
+     */
+    Boolean deleteByTradeId(Long tradeId);
 }

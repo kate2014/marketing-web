@@ -59,4 +59,12 @@ public class TradeItemServiceImpl extends ServiceImpl<TradeItemMapper, TradeItem
         List<DishReport> listData = baseMapper.queryDishSales(eWrapper);
         return listData;
     }
+
+    @Override
+    public Boolean deleteByTradeId(Long tradeId) {
+        EntityWrapper<TradeItemEntity> eWrapper = new EntityWrapper<>(new TradeItemEntity());
+        eWrapper.eq("trade_id", tradeId);
+        Boolean isSuccess = delete(eWrapper);
+        return isSuccess;
+    }
 }

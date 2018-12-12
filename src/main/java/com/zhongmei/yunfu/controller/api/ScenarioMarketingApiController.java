@@ -239,10 +239,9 @@ public class ScenarioMarketingApiController {
         TradeEntity mTrade = mTradeService.queryTradeById(tradeId);
         if(mTrade.getTradeStatus() == 4 && mTrade.getTradePayStatus() == 3 && mTrade.getStatusFlag() == 1){
             TradeEntity relatedTrade = mTradeService.queryTradeByRelateId(tradeId);
+            //判断是否已生成退货单
             if(relatedTrade != null && relatedTrade.getTradeStatus() == 5){
                 return;
-            }else{
-
             }
             mTrade.setId(null);
             mTrade.setUuid(ToolsUtil.genOnlyIdentifier());
@@ -306,7 +305,8 @@ public class ScenarioMarketingApiController {
             mTradeCustomerEntity.setClientUpdateTime(new Date());
             mTradeCustomerService.installTradeCustomer(mTradeCustomerEntity);
 
-            returnPayment(outRefundNo,mPaymentItemEntity,tradeId);
+            returnPayment(outRefundNo,mPaymentItemEntity,mTrade.getId());
+
         }
 
     }
@@ -317,10 +317,10 @@ public class ScenarioMarketingApiController {
      * @param returnPaymentItemEntity
      * @throws Exception
      */
-    public void returnPayment(Long outRefundNo,PaymentItemEntity returnPaymentItemEntity,Long tradeId)throws Exception{
+    public String returnPayment(Long outRefundNo,PaymentItemEntity returnPaymentItemEntity,Long tradeId)throws Exception{
 
         String message = mPaymentItemService.retrunPayment(outRefundNo,returnPaymentItemEntity,tradeId);
-        log.info("==========returnPayment:"+message);
+        return message;
     }
 
 

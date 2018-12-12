@@ -57,4 +57,12 @@ public class TradeCustomerServiceImpl extends ServiceImpl<TradeCustomerMapper, T
         Page<TradeCustomerEntity> listData = selectPage(listPage, eWrapper);
         return listData;
     }
+
+    @Override
+    public Boolean deleteByTradeId(Long tradeId) throws Exception {
+        EntityWrapper<TradeCustomerEntity> eWrapper = new EntityWrapper<>(new TradeCustomerEntity());
+        eWrapper.eq("trade_id", tradeId);
+        Boolean isSuccess = delete(eWrapper);
+        return isSuccess;
+    }
 }

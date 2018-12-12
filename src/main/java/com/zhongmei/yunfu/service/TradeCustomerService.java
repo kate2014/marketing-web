@@ -41,4 +41,13 @@ public interface TradeCustomerService extends IService<TradeCustomerEntity> {
      * @throws Exception
      */
     Page<TradeCustomerEntity> queryTradeByCustomer(TradeModel mTradeModel) throws Exception;
+
+    /**
+     * 根据订单id删除数据
+     * @param tradeId
+     * @return
+     * @throws Exception
+     */
+    Boolean deleteByTradeId(Long tradeId) throws Exception;
+
 }

@@ -142,17 +142,24 @@ public class PaymentItemServiceImpl extends ServiceImpl<PaymentItemMapper, Payme
             mCommercialPaySettingEntity.setStatusFlag(1);
             CommercialPaySettingEntity paySetting =  mCommercialPaySettingService.queryData(mCommercialPaySettingEntity);
 
-
             KeyStore keyStore  = KeyStore.getInstance("pkcs12");
-            //文件路径 C:/Program Files/Apache Software Foundation/Tomcat 9.0/webapps/apiclient_cert.p12
-            String filePath = paySetting.getSecretFilepath();
-            log.info("========filePath:"+filePath);
-            FileInputStream instream = new FileInputStream(new File(filePath));
-            try {
-                keyStore.load(instream, paySetting.getWxShopId().toCharArray());
-            } finally {
-                instream.close();
+            try{
+
+                //文件路径 C:/Program Files/Apache Software Foundation/Tomcat 9.0/webapps/apiclient_cert.p12
+                String filePath = paySetting.getSecretFilepath();
+                log.info("========filePath:"+filePath);
+                FileInputStream instream = new FileInputStream(new File(filePath));
+                try {
+                    keyStore.load(instream, paySetting.getWxShopId().toCharArray());
+                } finally {
+                    instream.close();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+                actionMessage = "支付证书获取失败";
+                updateRefundTrade(actionMessage,mPaymentItemEntity.getId(),tradeId);
             }
+
 
             // Trust own CA and all self-signed certs
             SSLContext sslcontext = SSLContexts.custom()
@@ -196,7 +203,7 @@ public class PaymentItemServiceImpl extends ServiceImpl<PaymentItemMapper, Payme
 
                         //判断申请退款是否成功
                         if(mRefundReponseModel.getResult_code().equalsIgnoreCase("SUCCESS")){
-                            actionMessage = "发起退款成功";
+                            actionMessage = "success";
                         }else{
                             actionMessage = refundErrCodeDes(mRefundReponseModel.getErr_code());
                         }
@@ -223,14 +230,19 @@ public class PaymentItemServiceImpl extends ServiceImpl<PaymentItemMapper, Payme
         TradeEntity mTradeEntity = new TradeEntity();
         mTradeEntity.setId(tradeId);
 
-        if(!message.equals("发起退款成功")){
+        log.info("=========updateRefundTrade:"+message);
+        if(!message.equals("success")){
             mPaymentItemEntity.setPayStatus(6);
 
             mTradeEntity.setTradePayStatus(6);
             mTradeService.updateTrade(mTradeEntity);
+
+            mPaymentItemEntity.setPayMemo(message);
+        }else{
+            mPaymentItemEntity.setPayMemo("发起退款成功");
         }
 
-        mPaymentItemEntity.setPayMemo(message);
+
         updatePaymentItem(mPaymentItemEntity);
 
     }
@@ -300,6 +312,12 @@ public class PaymentItemServiceImpl extends ServiceImpl<PaymentItemMapper, Payme
 
         return mPaymentItemEntity;
 
+    }
+
+    @Override
+    public Boolean deletePaymentItemById(Long id) throws Exception {
+        Boolean isSuccess = deleteById(id);
+        return isSuccess;
     }
 
 

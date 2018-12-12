@@ -77,4 +77,12 @@ public interface PaymentItemService extends IService<PaymentItemEntity> {
      * @throws Exception
      */
     PaymentItemEntity refundquery(PaymentItemEntity returnPaymentItemEntity,Long tradeId)throws Exception;
+
+    /**
+     * 根据id删除支付信息
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    Boolean deletePaymentItemById(Long id) throws Exception;
 }

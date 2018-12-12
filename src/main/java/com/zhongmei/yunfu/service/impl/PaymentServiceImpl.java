@@ -58,4 +58,12 @@ public class PaymentServiceImpl extends ServiceImpl<PaymentMapper, PaymentEntity
         PaymentEntity mPaymentEntity = selectOne(eWrapper);
         return mPaymentEntity;
     }
+
+    @Override
+    public Boolean deleteByTradeId(Long tradeId) throws Exception {
+        EntityWrapper<PaymentEntity> eWrapper = new EntityWrapper<>(new PaymentEntity());
+        eWrapper.eq("relate_id",tradeId);
+        Boolean isSuccess = delete(eWrapper);
+        return isSuccess;
+    }
 }

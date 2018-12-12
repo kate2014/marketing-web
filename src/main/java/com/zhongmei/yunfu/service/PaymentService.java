@@ -44,5 +44,11 @@ public interface PaymentService extends IService<PaymentEntity> {
      */
     PaymentEntity queryPaymentByTradeId(Long tradeId) throws Exception;
 
-
+    /**
+     * 根据trade_id删除支付payment
+     * @param tradeId
+     * @return
+     * @throws Exception
+     */
+    Boolean deleteByTradeId(Long tradeId) throws Exception;
 }
