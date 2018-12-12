@@ -64,15 +64,18 @@
     <div style="width: 85%;">
         <div class="parent_h">
 
-            <div class="reportBgimage" style="width: 31%;padding-right: 20px;padding-left: 20px">
-                <p class="report_lable_style" style="margin-top: 20px">营业总额
-                    <lable class="report_time_style" style="margin-left: 20px" th:text="${stateDate}"></lable>
-                    <lable class="report_time_style">至</lable>
-                    <lable class="report_time_style" th:text="${endDate}"></lable>
-                </p>
-                <p class="report_lable_style" style="margin-top: 20px"><lable class="report_value_style" th:text="${salesTotal}"></lable>元</p>
-                <div style="width: 100%; height: 1px; background-color: #f0f0f0;margin-top: 10px;margin-bottom: 10px"></div>
-                <p class="report_lable_style">成交订单量：<lable class="report_lable_style" th:text="${totalCount}"></lable>笔</p>
+            <div class="reportBgimage" style="width: 31%;padding-right: 20px;padding-left: 20px;display: table;">
+
+                <div style="display: table-cell;vertical-align: middle;">
+                    <p class="report_lable_style" style="margin-top: 0px">营业总额
+                        <lable class="report_time_style" style="margin-left: 20px" th:text="${stateDate}"></lable>
+                        <lable class="report_time_style">至</lable>
+                        <lable class="report_time_style" th:text="${endDate}"></lable>
+                    </p>
+                    <p class="report_lable_style" style="margin-top: 10px"><lable class="report_value_style" th:text="${salesTotal}"></lable>元</p>
+                    <div style="width: 100%; height: 1px; background-color: #f0f0f0;margin-top: 10px;margin-bottom: 10px"></div>
+                    <p class="report_lable_style">成交订单量：<lable class="report_lable_style" th:text="${totalCount}"></lable>笔</p>
+                </div>
 
             </div>
 
@@ -162,10 +165,10 @@
     <div style="width: 15%;height:100%; margin-left: 10px;">
 
         <!--<div class="container" style="width: 100%;height: 50px;background-color: #FFFFFF;border: 1px #F4F4F4">-->
-            <!--<div class="parent">-->
-                <!--<img th:src="@{/images/telphone.png}" style="margin:10px" width="30px">-->
-                <!--<p class="notify_lable_style" align="left">400-00-00</p>-->
-            <!--</div>-->
+        <!--<div class="parent">-->
+        <!--<img th:src="@{/images/telphone.png}" style="margin:10px" width="30px">-->
+        <!--<p class="notify_lable_style" align="left">400-00-00</p>-->
+        <!--</div>-->
         <!--</div>-->
 
         <div class="container" style="width: 100%;height: 50px;background-color: #FFFFFF;border: 1px #F4F4F4;cursor: pointer ">
