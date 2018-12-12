@@ -72,6 +72,8 @@ public class BookingApiController {
             mBooking.setConfirmed(1);
             mBooking.setBrandIdenty(mBookingModel.getBrandIdenty());
             mBooking.setShopIdenty(mBookingModel.getShopIdenty());
+            mBooking.setClientCreateTime(new Date());
+            mBooking.setClientUpdateTime(new Date());
             mBooking.setServerCreateTime(new Date());
             mBooking.setServerUpdateTime(new Date());
             mBooking.setDeviceIdenty("微信小程序");

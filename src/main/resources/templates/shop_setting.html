@@ -25,10 +25,17 @@
     <link th:href="@{/upload/upload-file.css}" href="../static/upload/upload-file.css" type="text/css" rel="stylesheet" />
     <script th:src="@{/upload/upload-file.js}" src="../static/upload/upload-file.js"></script>
 
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/test/jeDate-test.css}">
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/skin/jedate.css}">
+    <script type="text/javascript" th:src="@{/selectdate/src/jedate.js}"></script>
+
     <!-- tips 提示框引用-->
     <link rel="stylesheet" th:href="@{/tips/jquery.toast.css}">
     <script type="text/javascript" th:src="@{/tips/jquery.toast.js}"></script>
     <script type="text/javascript" th:src="@{/tips/tips.js}"></script>
+
+
+
 
 </head>
 
@@ -61,7 +68,7 @@
 
 </script>
 
-<body onload="showAction()">
+<body onload="showAction()" style="background: #f0f0f0">
 
 <input type="hidden" id="successOrfail" th:value="${successOrfail}">
 
@@ -76,40 +83,47 @@
     <input type="hidden" name="brandIdenty" th:value="${brandIdenty}">
 
 
-    <div style="margin: 20px;padding: 20px" class="modle_background_style">
+    <div style="padding: 20px; margin: 20px" class="modle_background_style">
         <div class="parent">
             <img th:src="@{/images/lable.jpg}" style="height: 25px; width: 4px; font-weight: bold;">
             <label class="text_navigation" style="margin-left: 10px; font-weight: bold">商家基本信息设置</label>
         </div>
 
         <div style="margin-top: 15px">
-            <label class="text_navigation" style="margin-left: 10px; margin-top: 15px; width: 100px;display:inline-block">商户名称:</label>
+            <label class="text_navigation" style="margin-left: 10px; width: 100px;display:inline-block">商户名称:</label>
 
             <input class="input_style" style="margin-left: 5px; width: 300px" type="text" th:value="${commercial.commercialName}" name="commercialName"/>
         </div>
 
         <div style="margin-top: 15px">
-            <label class="text_navigation" style="margin-left: 10px; margin-top: 15px; width: 100px;display:inline-block">联系人:</label>
+            <label class="text_navigation" style="margin-left: 10px;  width: 100px;display:inline-block">营业时间:</label>
+            <input style="margin-left: 5px;" type="text" class="input_min_style" name="statTime" placeholder="起始时间" id="statTime"  th:value="${statTime}">
+            <label class="text_navigation" style="margin-left: 10px">--</label>
+            <input type="text" class="input_min_style" name="endTime" placeholder="结束时间" id="endTime"  th:value="${endTime}">
+        </div>
+
+        <div style="margin-top: 15px">
+            <label class="text_navigation" style="margin-left: 10px;width: 100px;display:inline-block">联系人:</label>
             <input class="input_style" style="margin-left: 5px; width: 300px" type="text" th:value="${commercial.commercialContact}" name="commercialContact"/>
         </div>
 
         <div style="margin-top: 15px">
-            <label class="text_navigation" style="margin-left: 10px; margin-top: 15px; width: 100px;display:inline-block">联系电话:</label>
+            <label class="text_navigation" style="margin-left: 10px; width: 100px;display:inline-block">联系电话:</label>
             <input class="input_style" style="margin-left: 5px; width: 300px" type="text" th:value="${commercial.commercialPhone}" name="commercialPhone"/>
         </div>
 
         <div style="margin-top: 15px">
-            <label class="text_navigation" style="margin-left: 10px; margin-top: 15px; width: 100px;;display:inline-block">商户地址:</label>
+            <label class="text_navigation" style="margin-left: 10px; width: 100px;;display:inline-block">商户地址:</label>
             <input class="input_style" style="margin-left: 5px; width: 300px" type="text" th:value="${commercial.commercialAdress}" name="commercialAdress"/>
         </div>
 
         <div style="margin-top: 15px">
-            <label class="text_navigation" style="margin-left: 10px; margin-top: 15px; width: 100px;;display:inline-block">商家描述:</label>
+            <label class="text_navigation" style="margin-left: 10px;width: 100px;;display:inline-block">商家描述:</label>
             <input class="input_style" style="margin-left: 5px; width: 300px" type="text" th:value="${commercial.commercialDesc}" name="commercialDesc"/>
         </div>
 
         <div style="margin-top: 15px;">
-            <label class="text_navigation" style="margin-left: 10px; margin-top: 15px; width: 100px;;display:inline-block">商家Logo:</label>
+            <label class="text_navigation" style="margin-left: 10px; width: 100px;;display:inline-block">商家Logo:</label>
 
             <div class="upload-box" th:src="${commercial.commercialLogo}" name="imgUrl">
                 <div class="upload-btn">
@@ -215,12 +229,12 @@
 
         <div style="margin-top: 15px">
             <label class="text_navigation" style="margin-left: 10px; margin-top: 15px; min-width: 300px">商家小程序密钥</label>
-            <input class="input_style" placeholder="输入开通小程序时的唯一秘钥 appsecret" style="margin-left: 5px; width: 300px" type="text" th:value="${wxAppsecret}" name="wxAppsecret"/>
+            <input class="input_style" placeholder="输入开通小程序时的唯一秘钥 appsecret" style="margin-left: 5px; width: 300px" type="password" th:value="${wxAppsecret}" name="wxAppsecret"/>
         </div>
 
         <div style="margin-top: 15px">
             <label class="text_navigation" style="margin-left: 10px; margin-top: 15px; min-width: 300px">小程序支付密钥</label>
-            <input class="input_style" placeholder="输入商家小程序支付API秘钥" style="margin-left: 5px; width: 300px" type="text" th:value="${apiSecret}" name="apiSecret"/>
+            <input class="input_style" placeholder="输入商家小程序支付API秘钥" style="margin-left: 5px; width: 300px" type="password" th:value="${apiSecret}" name="apiSecret"/>
         </div>
 
         <div style="margin-top: 15px;">
@@ -243,22 +257,22 @@
 
 </form>
 
-<form method="post" name="scoreD" action="" th:action="@{/internal/customerScoreRule/modify}" th:object="${mShopSettingModel}">
+<!--<form method="post" name="scoreD" action="" th:action="@{/internal/customerScoreRule/modify}" th:object="${mShopSettingModel}">-->
 
 
-    <input type="hidden" name="shopIdenty" th:value="${shopIdenty}">
-    <input type="hidden" name="brandIdenty" th:value="${brandIdenty}">
+    <!--<input type="hidden" name="shopIdenty" th:value="${shopIdenty}">-->
+    <!--<input type="hidden" name="brandIdenty" th:value="${brandIdenty}">-->
 
-    <div style="margin: 20px;padding: 20px" class="modle_background_style">
-        <div class="parent">
-            <img th:src="@{/images/lable.jpg}" style="height: 25px; width: 4px; font-weight: bold;">
-            <label class="text_navigation" style="margin-left: 10px; font-weight: bold">生成小程序关注二维码</label>
-        </div>
+    <!--<div style="margin: 20px;padding: 20px" class="modle_background_style">-->
+        <!--<div class="parent">-->
+            <!--<img th:src="@{/images/lable.jpg}" style="height: 25px; width: 4px; font-weight: bold;">-->
+            <!--<label class="text_navigation" style="margin-left: 10px; font-weight: bold">生成小程序关注二维码</label>-->
+        <!--</div>-->
 
-    </div>
+    <!--</div>-->
 
-</form>
+<!--</form>-->
 
-
+<script type="text/javascript" th:src="@{/selectdate/test/time_style.js}"></script>
 </body>
 </html>

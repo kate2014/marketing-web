@@ -37,6 +37,17 @@ public class CommercialController extends BaseController {
 
         try{
             CommercialEntity mCommercialEntity = mCommercialService.queryCommercialById(mShopSettingModel.getShopIdenty());
+            String openTime = mCommercialEntity.getOpenTime();
+            String statTime = "";
+            String endTime = "";
+            if(openTime != null && !openTime.equals("")){
+                String[] times = openTime.split("-");
+                statTime = times[0];
+                endTime = times[1];
+            }
+            model.addAttribute("statTime", statTime);
+            model.addAttribute("endTime", endTime);
+
             model.addAttribute("commercial", mCommercialEntity);
 
             CommercialPaySettingEntity mCommercialPaySetting = new CommercialPaySettingEntity();
@@ -87,6 +98,8 @@ public class CommercialController extends BaseController {
             mCommercialEntity.setCommercialAdress(mShopSettingModel.getCommercialAdress());
             mCommercialEntity.setCommercialDesc(mShopSettingModel.getCommercialDesc());
             mCommercialEntity.setCommercialLogo(mShopSettingModel.getImgUrl());
+
+            mCommercialEntity.setOpenTime(mShopSettingModel.getStatTime()+"-"+mShopSettingModel.getEndTime());
             Boolean isSuccess = mCommercialService.modifyCommercial(mCommercialEntity);
             if(isSuccess){
                 mShopSettingModel.setSuccessOrfail("success");

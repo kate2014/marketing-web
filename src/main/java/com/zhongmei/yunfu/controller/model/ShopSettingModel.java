@@ -35,6 +35,14 @@ public class ShopSettingModel {
      */
     private String commercialDesc;
     /**
+     * 营业开始时间
+     */
+    private String statTime;
+    /**
+     * 营业结束时间
+     */
+    private String endTime;
+    /**
      * LOGO对应的URL
      */
     private String imgUrl;
@@ -252,5 +260,21 @@ public class ShopSettingModel {
 
     public void setWxShopId(String wxShopId) {
         this.wxShopId = wxShopId;
+    }
+
+    public String getStatTime() {
+        return statTime;
+    }
+
+    public void setStatTime(String statTime) {
+        this.statTime = statTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 }
