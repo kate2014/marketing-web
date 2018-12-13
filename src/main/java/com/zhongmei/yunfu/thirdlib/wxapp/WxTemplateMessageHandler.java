@@ -68,6 +68,13 @@ public abstract class WxTemplateMessageHandler<T extends WxTempMsg> {
         }
     }*/
 
+    /**
+     * 请使用@linke#sendWxTemplateMessage方法
+     *
+     * @param msgType
+     * @return
+     */
+    @Deprecated
     public static WxTemplateMessageHandler create(int msgType) {
         try {
             Class<? extends WxTemplateMessageHandler> aClass = WxTemplateMessage.get(msgType);
@@ -101,6 +108,7 @@ public abstract class WxTemplateMessageHandler<T extends WxTempMsg> {
     public void send(T wxTempMsg) {
         try {
             log.info("sending... wxTempMsg=" + wxTempMsg);
+            checkWxTempMsg(wxTempMsg);
             WxFormEntity wxFormEntity = mWxFormService.queryFormUnusedByOpenId(wxTempMsg.getShopIdenty(), wxTempMsg.getBrandIdenty(), wxTempMsg.getCustomerId());
             if (wxFormEntity == null) {
                 throw new ApiResponseStatusException(ApiResponseStatus.FOUND, "wxFormEntity is null");
@@ -124,6 +132,21 @@ public abstract class WxTemplateMessageHandler<T extends WxTempMsg> {
             log.info("send success");
         } catch (Exception e) {
             log.error("send error: ", e);
+        }
+    }
+
+    private void checkWxTempMsg(T wxTempMsg) throws Exception {
+        if (wxTempMsg.getMsgType() == null) {
+            throw new ApiResponseStatusException(ApiResponseStatus.FOUND, "wxTempMsg msgType is null");
+        }
+        if (wxTempMsg.getCustomerId() == null) {
+            throw new ApiResponseStatusException(ApiResponseStatus.FOUND, "wxTempMsg customerId is null");
+        }
+        if (wxTempMsg.getBrandIdenty() == null) {
+            throw new ApiResponseStatusException(ApiResponseStatus.FOUND, "wxTempMsg brandIdenty is null");
+        }
+        if (wxTempMsg.getShopIdenty() == null) {
+            throw new ApiResponseStatusException(ApiResponseStatus.FOUND, "wxTempMsg shopIdent is null");
         }
     }
 

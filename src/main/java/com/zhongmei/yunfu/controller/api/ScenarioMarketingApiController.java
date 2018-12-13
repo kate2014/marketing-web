@@ -363,10 +363,12 @@ public class ScenarioMarketingApiController {
     }
 
     public void sendServiceMessage(TradeEntity mTrade,CollageCustomerModel ccm){
-        //拼团失败小程序服务服务通知推送
-        WxTemplateMessageHandler mWxTemplateMessageHandler = WxTemplateMessageHandler.create(WxTempMsg.msgCollage_fail);
-
         ColloageFailMessage wxTempMsg = new ColloageFailMessage();
+        wxTempMsg.setMsgType(WxTempMsg.msgCollage_fail);
+        wxTempMsg.setCustomerId(ccm.getCustomerId());
+        wxTempMsg.setBrandIdenty(ccm.getBrandIdentity());
+        wxTempMsg.setShopIdenty(ccm.getShopIdentity());
+
         wxTempMsg.setTradeNo(mTrade.getTradeNo());
         wxTempMsg.setCollageName(ccm.getName());
         wxTempMsg.setTradeAmount(mTrade.getTradeAmount().toString());
@@ -376,9 +378,8 @@ public class ScenarioMarketingApiController {
         wxTempMsg.setEndTime(DateFormatUtil.format(ccm.getEndTime(),DateFormatUtil.FORMAT_FULL_DATE));
         wxTempMsg.setFailMessage("活动结束前未达到成团人数");
         wxTempMsg.setTradeStart("拼团失败，退款中");
-
-
-        mWxTemplateMessageHandler.send(wxTempMsg);
+        //拼团失败小程序服务服务通知推送
+        WxTemplateMessageHandler.sendWxTemplateMessage(wxTempMsg);
     }
 
 }
