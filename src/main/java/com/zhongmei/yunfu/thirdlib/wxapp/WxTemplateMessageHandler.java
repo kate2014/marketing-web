@@ -40,6 +40,7 @@ public abstract class WxTemplateMessageHandler<T extends WxTempMsg> {
 
         WxTemplateMessage.put(WxTempMsg.msgType_OrderPay, OrderPayWxTemplateMessageHandler.class);
         WxTemplateMessage.put(WxTempMsg.msgType_CouponPush, CouponPushWxTemplateMessageHandler.class);
+        WxTemplateMessage.put(WxTempMsg.msgCollage_fail, ColloageFailWxTemplateMessageHandler.class);
     }
 
     @Autowired

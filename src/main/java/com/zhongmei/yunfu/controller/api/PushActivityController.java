@@ -5,6 +5,8 @@ import com.zhongmei.yunfu.controller.model.ActivitySearchModel;
 import com.zhongmei.yunfu.controller.model.BaseDataModel;
 import com.zhongmei.yunfu.domain.entity.PushPlanActivityEntity;
 import com.zhongmei.yunfu.service.PushPlanActivityService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/wxapp/pushPlanActivity")
 public class PushActivityController {
+
+    private static Logger log = LoggerFactory.getLogger(PushActivityController.class);
+
     @Autowired
     PushPlanActivityService pushPlanActivityService;
 
@@ -30,6 +35,8 @@ public class PushActivityController {
      */
     @GetMapping("/queryActivityData")
     public BaseDataModel queryActivityData(ModelMap model, ActivitySearchModel mActivitySearchModel) {
+        log.info("==========queryActivityData:"+mActivitySearchModel.getBrandIdenty()+"=="+mActivitySearchModel.getShopIdenty());
+
         Page<PushPlanActivityEntity> listPage = pushPlanActivityService.findListPage(mActivitySearchModel.getBrandIdenty(), mActivitySearchModel.getShopIdenty(), mActivitySearchModel.getPlanState(), null, mActivitySearchModel.getPageNo(), mActivitySearchModel.getPageSize());
         BaseDataModel mBaseDataModel = new BaseDataModel();
         if (listPage != null && listPage.getSize() != 0) {

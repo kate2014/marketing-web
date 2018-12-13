@@ -9,9 +9,9 @@ import com.zhongmei.yunfu.thirdlib.wxapp.msg.OrderPayMessage;
 import com.zhongmei.yunfu.thirdlib.wxapp.msg.WxTempMsg;
 import com.zhongmei.yunfu.util.DateFormatUtil;
 import com.zhongmei.yunfu.util.ToolsUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,6 +28,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/internal/salesAction")
 public class SalesActionApiController {
+
+    private static Logger log = LoggerFactory.getLogger(SalesActionApiController.class);
 
     @Autowired
     MarketingExpandedService mMarketingExpandedService;
@@ -67,6 +69,8 @@ public class SalesActionApiController {
 
             //获取消费会信息
             TradeCustomerEntity mTradeCustomer = mTradeCustomerService.queryTradeCustomer(mSalesActionModel.getTradeId());
+
+            log.info("========payOverAction:"+mTradeCustomer.getCustomerId());
 
             sendWxMessage(mSalesActionModel.getTradeId(),mTradeCustomer.getCustomerId());
 

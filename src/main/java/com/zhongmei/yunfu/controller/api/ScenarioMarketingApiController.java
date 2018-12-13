@@ -8,6 +8,10 @@ import com.zhongmei.yunfu.controller.weixinPay.WeiXinNotifyModel;
 import com.zhongmei.yunfu.controller.weixinPay.WeiXinPayRsqEntity;
 import com.zhongmei.yunfu.domain.entity.*;
 import com.zhongmei.yunfu.service.*;
+import com.zhongmei.yunfu.thirdlib.wxapp.WxTemplateMessageHandler;
+import com.zhongmei.yunfu.thirdlib.wxapp.msg.ColloageFailMessage;
+import com.zhongmei.yunfu.thirdlib.wxapp.msg.OrderPayMessage;
+import com.zhongmei.yunfu.thirdlib.wxapp.msg.WxTempMsg;
 import com.zhongmei.yunfu.util.DateFormatUtil;
 import com.zhongmei.yunfu.util.HttpMessageConverterUtils;
 import com.zhongmei.yunfu.util.ToolsUtil;
@@ -131,6 +135,7 @@ public class ScenarioMarketingApiController {
             mBaseDataModel.setData(mScenariomarketingModel);
         } catch (Exception e) {
             e.printStackTrace();
+
             mBaseDataModel.setState("1001");
             mBaseDataModel.setMsg("获取参与活动数据失败");
             mBaseDataModel.setData(false);
@@ -190,9 +195,9 @@ public class ScenarioMarketingApiController {
             if(endTime.getTime() <= new Date().getTime()){
                 //表示是开团记录
                 if(ccm.getRelationId() == null){
-                    isRufundTrade = queryCollageCustomer(ccm.getId());
+                    isRufundTrade = queryCollageCustomer(ccm,ccm.getId());
                 }else{
-                    isRufundTrade = queryCollageCustomer(ccm.getRelationId());
+                    isRufundTrade = queryCollageCustomer(ccm,ccm.getRelationId());
                 }
 
             }
@@ -206,7 +211,7 @@ public class ScenarioMarketingApiController {
      * @param relationId
      * @return
      */
-    public Boolean queryCollageCustomer(Long relationId) throws Exception{
+    public Boolean queryCollageCustomer(CollageCustomerModel ccm,Long relationId) throws Exception{
 
         Boolean isRufundTrade = false;//是否有执行退货
         //将拼团信息标记为失败
@@ -218,7 +223,7 @@ public class ScenarioMarketingApiController {
             List<CollageCustomerEntity> listData = mCollageCustomerService.queryCollageByRelationId(relationId, 3);
             for(CollageCustomerEntity cce : listData){
                 if(cce.isPaid() == 2){
-                    returnTrade(cce.getTradeId());
+                    returnTrade(ccm,cce);
                     isRufundTrade = true;
                 }
 
@@ -231,10 +236,12 @@ public class ScenarioMarketingApiController {
 
     /**
      * 将订单退回
-     * @param tradeId
+     * @param cce
      * @return
      */
-    public void returnTrade(Long tradeId) throws Exception{
+    public void returnTrade(CollageCustomerModel ccm,CollageCustomerEntity cce) throws Exception{
+        Long tradeId = cce.getTradeId();
+
         //生成退货单
         TradeEntity mTrade = mTradeService.queryTradeById(tradeId);
         if(mTrade.getTradeStatus() == 4 && mTrade.getTradePayStatus() == 3 && mTrade.getStatusFlag() == 1){
@@ -306,7 +313,7 @@ public class ScenarioMarketingApiController {
             mTradeCustomerService.installTradeCustomer(mTradeCustomerEntity);
 
             returnPayment(outRefundNo,mPaymentItemEntity,mTrade.getId());
-
+            sendServiceMessage(mTrade,ccm);
         }
 
     }
@@ -320,6 +327,7 @@ public class ScenarioMarketingApiController {
     public String returnPayment(Long outRefundNo,PaymentItemEntity returnPaymentItemEntity,Long tradeId)throws Exception{
 
         String message = mPaymentItemService.retrunPayment(outRefundNo,returnPaymentItemEntity,tradeId);
+        log.info("=========returnPayment:"+message);
         return message;
     }
 
@@ -354,5 +362,23 @@ public class ScenarioMarketingApiController {
         return resXml;
     }
 
+    public void sendServiceMessage(TradeEntity mTrade,CollageCustomerModel ccm){
+        //拼团失败小程序服务服务通知推送
+        WxTemplateMessageHandler mWxTemplateMessageHandler = WxTemplateMessageHandler.create(WxTempMsg.msgCollage_fail);
+
+        ColloageFailMessage wxTempMsg = new ColloageFailMessage();
+        wxTempMsg.setTradeNo(mTrade.getTradeNo());
+        wxTempMsg.setCollageName(ccm.getName());
+        wxTempMsg.setTradeAmount(mTrade.getTradeAmount().toString());
+        wxTempMsg.setJoinCount(ccm.getJoinCount().toString());
+        wxTempMsg.setCollageStart("拼团失败");
+        wxTempMsg.setFinishCount(ccm.getCollagePeopleCount().toString());
+        wxTempMsg.setEndTime(DateFormatUtil.format(ccm.getEndTime(),DateFormatUtil.FORMAT_FULL_DATE));
+        wxTempMsg.setFailMessage("活动结束前未达到成团人数");
+        wxTempMsg.setTradeStart("拼团失败，退款中");
+
+
+        mWxTemplateMessageHandler.send(wxTempMsg);
+    }
 
 }

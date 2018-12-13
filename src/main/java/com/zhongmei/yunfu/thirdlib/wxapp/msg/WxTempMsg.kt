@@ -14,5 +14,6 @@ abstract class WxTempMsg {
     companion object {
         const val msgType_OrderPay = 1
         const val msgType_CouponPush = 2
+        const val msgCollage_fail = 3
     }
 }

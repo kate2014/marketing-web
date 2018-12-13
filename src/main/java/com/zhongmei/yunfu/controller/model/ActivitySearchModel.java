@@ -53,6 +53,22 @@ public class ActivitySearchModel extends WebBaseModel implements IShopIdenty {
         return brandIdentity;
     }
 
+    public Long getBrandIdentity() {
+        return brandIdentity;
+    }
+
+    public void setBrandIdentity(Long brandIdentity) {
+        this.brandIdentity = brandIdentity;
+    }
+
+    public Long getShopIdentity() {
+        return shopIdentity;
+    }
+
+    public void setShopIdentity(Long shopIdentity) {
+        this.shopIdentity = shopIdentity;
+    }
+
     public void setBrandIdenty(Long brandIdentity) {
         this.brandIdentity = brandIdentity;
     }
