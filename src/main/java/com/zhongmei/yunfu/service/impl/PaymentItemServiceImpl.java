@@ -235,13 +235,16 @@ public class PaymentItemServiceImpl extends ServiceImpl<PaymentItemMapper, Payme
             mPaymentItemEntity.setPayStatus(6);
 
             mTradeEntity.setTradePayStatus(6);
-            mTradeService.updateTrade(mTradeEntity);
 
             mPaymentItemEntity.setPayMemo(message);
         }else{
+            mPaymentItemEntity.setPayStatus(4);
+
+            mTradeEntity.setTradePayStatus(4);
+
             mPaymentItemEntity.setPayMemo("发起退款成功");
         }
-
+        mTradeService.updateTrade(mTradeEntity);
 
         updatePaymentItem(mPaymentItemEntity);
 
