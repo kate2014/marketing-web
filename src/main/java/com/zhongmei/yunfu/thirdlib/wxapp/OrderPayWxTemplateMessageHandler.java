@@ -24,6 +24,8 @@ public class OrderPayWxTemplateMessageHandler extends WxTemplateMessageHandler<O
     @Override
     protected void createDateItem(WxTemplateSendMsgReq wxTemplateSendMsgReq, OrderPayMessage wxTempMsg) {
         super.createDateItem(wxTemplateSendMsgReq, wxTempMsg);
+        wxTemplateSendMsgReq.template_id = "y5YfXBtOzkJBQyCfDqLQMU2nxsRGfAgZcTg2M1Zvh18";
+
         wxTemplateSendMsgReq
                 .addDataItem("keyword1", wxTempMsg.getTradeNo())
                 .addDataItem("keyword2", wxTempMsg.getTradePayAmount().toString()+"元")

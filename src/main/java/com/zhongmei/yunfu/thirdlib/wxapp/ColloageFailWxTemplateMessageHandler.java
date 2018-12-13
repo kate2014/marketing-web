@@ -21,14 +21,14 @@ public class ColloageFailWxTemplateMessageHandler extends WxTemplateMessageHandl
 
     @Override
     protected List<String> getTemplateCode() {
-        return Arrays.asList("AT0878", "拼团失败通知");
+        return Arrays.asList("AT0310", "拼团失败通知");
     }
 
     @Override
     protected void createDateItem(WxTemplateSendMsgReq wxTemplateSendMsgReq, ColloageFailMessage wxTempMsg) {
         super.createDateItem(wxTemplateSendMsgReq, wxTempMsg);
 
-        wxTemplateSendMsgReq.template_id = "LlpoUbj2qIwCRoRJudZ0x71z9ctu-_mHbE0_HIA0CNI";
+        wxTemplateSendMsgReq.template_id = "LlpoUbj2qIwCRoRJudZ0x6MDAsUyEVFCFPuRHRjs9u8";
 
         wxTemplateSendMsgReq.addDataItem("keyword1", wxTempMsg.getTradeNo());
         wxTemplateSendMsgReq.addDataItem("keyword2", wxTempMsg.getCollageName());
