@@ -27,7 +27,7 @@ class DishReport : CustomerEntity(), Serializable {
      */
     val dishName: String? = null
 
-    val price: Long? = null
+    val price: BigDecimal? = null
 
     override fun toString(): String {
         return "DishReport{" +
