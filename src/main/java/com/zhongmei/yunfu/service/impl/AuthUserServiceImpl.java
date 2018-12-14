@@ -10,6 +10,8 @@ import com.zhongmei.yunfu.service.AuthUserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  * 用户表 服务实现类
@@ -61,7 +63,7 @@ public class AuthUserServiceImpl extends ServiceImpl<AuthUserMapper, AuthUserEnt
 
 
     @Override
-    public AuthPermissionEntity getAuthPermissionEntityBy(String account) {
+    public List<AuthPermissionEntity> getAuthPermissionEntityBy(String account) {
         return baseMapper.getAuthPermissionEntityBy(account);
     }
 }
