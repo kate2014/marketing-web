@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.service.IService;
 import com.zhongmei.yunfu.domain.entity.AuthPermissionEntity;
 import com.zhongmei.yunfu.domain.entity.AuthUserEntity;
 
+import java.util.List;
+
 /**
  * <p>
  * 用户表 服务类
@@ -24,5 +26,5 @@ public interface AuthUserService extends IService<AuthUserEntity> {
      * @param account
      * @return
      */
-    AuthPermissionEntity getAuthPermissionEntityBy(String account);
+    List<AuthPermissionEntity> getAuthPermissionEntityBy(String account);
 }

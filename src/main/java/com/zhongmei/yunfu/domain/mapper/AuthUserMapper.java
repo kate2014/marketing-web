@@ -6,6 +6,8 @@ import com.zhongmei.yunfu.domain.entity.AuthUserEntity;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 /**
  * <p>
  * 用户表 Mapper 接口
@@ -31,5 +33,5 @@ public interface AuthUserMapper extends BaseMapper<AuthUserEntity> {
             "    ON arp.role_id = au.role_id\n" +
             "WHERE ap.platform = 1\n" +
             "  AND au.account = #{account}")
-    AuthPermissionEntity getAuthPermissionEntityBy(@Param("account") String account);
+    List<AuthPermissionEntity> getAuthPermissionEntityBy(@Param("account") String account);
 }

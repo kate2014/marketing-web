@@ -4,7 +4,6 @@ import com.zhongmei.yunfu.controller.model.base.IShopIdenty
 import com.zhongmei.yunfu.controller.model.base.WebBaseModel
 import com.zhongmei.yunfu.core.security.Token
 import com.zhongmei.yunfu.domain.entity.AuthUserEntity
-import com.zhongmei.yunfu.service.AuthUserService
 import org.apache.commons.lang3.StringUtils
 import org.slf4j.LoggerFactory
 import javax.servlet.http.HttpServletRequest
@@ -18,7 +17,8 @@ class LoginManager private constructor() {
     private val log = LoggerFactory.getLogger(LoginManager::class.java)
     var user: AuthUserEntity? = null
         private set
-    //get() = field ?: AuthUserEntity()
+    var permissionCodeList:ArrayList<String>? = null
+    private set
 
     fun login(loginService: AuthUserService, account: String, password: String, shopId: Long): Boolean {
         return login(loginService, account, password, shopId, "[null]", false)
@@ -30,6 +30,11 @@ class LoginManager private constructor() {
             this.user = loginService.login(account, password, shopId)
             if (user != null) {
                 log.info("login success")
+                var authPermissionEntityBy = loginService.getAuthPermissionEntityBy(account)
+                authPermissionEntityBy.forEach { it ->
+                    permissionCodeList = arrayListOf()
+                    permissionCodeList?.add(it.code!!)
+                }
                 threadSession.get()?.setAttribute("loginManager", this)
                 return true
             }
