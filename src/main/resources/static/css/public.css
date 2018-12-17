@@ -93,6 +93,14 @@ div.parent_h {
     vertical-align: middle;
     cursor:pointer;
 }
+.source_icon_style{
+    width:30px;
+    height: 30px;
+    background-size: 100% 100%;
+    vertical-align: middle;
+    cursor:pointer;
+}
+
 .detail_value_style{
     font-size:15px;
     color: #000000;
