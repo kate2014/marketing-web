@@ -110,7 +110,6 @@ public class SalaryController {
             String params = JSON.toJSONString(map);
             HttpEntity<String> formEntity = new HttpEntity<String>(params, headers);
             String jsonResult = template.exchange(url, HttpMethod.GET, formEntity, String.class).getBody().toString();
-
             SalaryCommiosResponse mSalaryCommiosResponse = JSON.parseObject(jsonResult, SalaryCommiosResponse.class);
 
             SalaryCommions mSalaryCommions = mSalaryCommiosResponse.getData();
@@ -165,12 +164,10 @@ public class SalaryController {
             //储值提成明细解析
             List<SalaryListDetailModel> listSaveSalary = new ArrayList<>();
 
-            System.out.println("=========saveDetail:"+saveDetail);
             String[] saveArray = saveDetail.split("/and/");
 
             for (int i = 0; i < saveArray.length; i++) {
                 String commions = saveArray[i];
-                System.out.println("=========commions:"+commions);
                 String[] temp = commions.split("/plan/;");
                 if(temp == null || temp.length < 2){
                     break;

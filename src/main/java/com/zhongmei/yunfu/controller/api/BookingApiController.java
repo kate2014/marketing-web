@@ -12,6 +12,7 @@ import com.zhongmei.yunfu.service.BookingService;
 import com.zhongmei.yunfu.service.BookingTradeItemService;
 import com.zhongmei.yunfu.service.CustomerCouponService;
 import com.zhongmei.yunfu.service.CustomerService;
+import com.zhongmei.yunfu.util.ToolsUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,8 +53,7 @@ public class BookingApiController {
         Boolean isSuccess = true;
         try {
             BookingEntity mBooking = new BookingEntity();
-            String bookingUuid = String.valueOf(new Date().getTime()) + mBookingModel.getCommercialId();
-            mBooking.setUuid(bookingUuid);
+            mBooking.setUuid(ToolsUtil.genOnlyIdentifier());
             mBooking.setCommercialId(mBookingModel.getCommercialId());
             mBooking.setCommercialName(mBookingModel.getCommercialName());
             mBooking.setCommercialGender(mBookingModel.getCommercialGender());
@@ -80,21 +80,26 @@ public class BookingApiController {
 
             isSuccess = mBookingService.createBooking(mBooking);
 
-            BookingTradeItemEntity mBookingTradeItem = new BookingTradeItemEntity();
-            String bookingItemUuid = String.valueOf(new Date().getTime());
-            mBookingTradeItem.setUuid(bookingItemUuid);
-            mBookingTradeItem.setBookingId(mBooking.getId());
-            mBookingTradeItem.setBookingUuid(bookingUuid);
-            mBookingTradeItem.setDishId(mBookingModel.getDishId());
-            mBookingTradeItem.setDishName(mBookingModel.getDishName());
-            mBookingTradeItem.setType(0);
-            mBookingTradeItem.setBrandIdenty(mBookingModel.getBrandIdenty());
-            mBookingTradeItem.setShopIdenty(mBookingModel.getShopIdenty());
-            mBookingTradeItem.setStatusFlag(1);
-            mBookingTradeItem.setServerCreateTime(new Date());
-            mBookingTradeItem.setServerUpdateTime(new Date());
+            if(mBookingModel.getDishId() != null && !mBookingModel.getDishId().equals("")){
 
-            isSuccess = mBookingTradeItemService.createBoolingItem(mBookingTradeItem);
+                BookingTradeItemEntity mBookingTradeItem = new BookingTradeItemEntity();
+                mBookingTradeItem.setUuid(ToolsUtil.genOnlyIdentifier());
+                mBookingTradeItem.setBookingId(mBooking.getId());
+                mBookingTradeItem.setBookingUuid(mBooking.getUuid());
+                mBookingTradeItem.setDishId(mBookingModel.getDishId());
+                mBookingTradeItem.setDishName(mBookingModel.getDishName());
+                mBookingTradeItem.setType(0);
+                mBookingTradeItem.setBrandIdenty(mBookingModel.getBrandIdenty());
+                mBookingTradeItem.setShopIdenty(mBookingModel.getShopIdenty());
+                mBookingTradeItem.setStatusFlag(1);
+                mBookingTradeItem.setClientCreateTime(new Date());
+                mBookingTradeItem.setClientUpdateTime(new Date());
+                mBookingTradeItem.setServerCreateTime(new Date());
+                mBookingTradeItem.setServerUpdateTime(new Date());
+
+                isSuccess = mBookingTradeItemService.createBoolingItem(mBookingTradeItem);
+            }
+
 
             if (isSuccess) {
 
