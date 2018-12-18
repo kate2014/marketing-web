@@ -165,14 +165,22 @@
                     </p>
                     <p th:case="'4'">
                         退款中
-                        <span class="refresh_but" th:onclick="@{|location='${basePath}/internal/trade/refundquery?paymentItemId=${item.id}&tradeId=${mTradeEntity.id}'|}">刷新退款结果</span>
+                        <span th:if="${item.payStatus} eq '4'">
+                            <span th:if="${mTradeEntity.source} eq '2'">
+                                <span class="refresh_but" th:onclick="@{|location='${basePath}/internal/trade/refundquery?paymentItemId=${item.id}&tradeId=${mTradeEntity.id}'|}">刷新退款结果</span>
+                            </span>
+                        </span>
                     </p>
                     <p th:case="'5'">
                         已退款
                     </p>
                     <p th:case="'6'">
                         退款失败
-                        <span class="refresh_but" th:onclick="@{|location='${basePath}/internal/trade/refundTrade?paymentItemId=${item.id}&tradeId=${mTradeEntity.id}&relationTradeId=${mTradeEntity.relateTradeId}'|}">重新发起退款</span>
+                        <span th:if="${item.payStatus} eq '6'">
+                            <span th:if="${mTradeEntity.source} eq '2'">
+                                <span class="refresh_but" th:onclick="@{|location='${basePath}/internal/trade/refundTrade?paymentItemId=${item.id}&tradeId=${mTradeEntity.id}&relationTradeId=${mTradeEntity.relateTradeId}'|}">重新发起退款</span>
+                            </span>
+                        </span>
                     </p>
                     <p th:case="'7'">
                         预支付
