@@ -97,7 +97,8 @@ public class GeneratorServiceEntity {
                 "trade_user",
                 "wx_trade_customer",
                 "customer_search_rule",
-                "wx_form"
+                "wx_form",
+                "commercial_group"
         );
     }
 
