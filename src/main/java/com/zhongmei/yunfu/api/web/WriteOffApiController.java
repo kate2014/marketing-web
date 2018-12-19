@@ -334,10 +334,10 @@ public class WriteOffApiController extends PosApiController {
                 }
                 //秒杀
                 if (type == 24) {
-                    Integer useState = checkCutDownValid(tp);
-                    if (useState == 3001) {
+                    Integer useState = checkFlashSalesValid(tp);
+                    if (useState == 4001) {
                         checkMessage += "秒杀活动:" + tp.getPrivilegeName() + "已过期";
-                    } else if (useState == 3002) {
+                    } else if (useState == 4002) {
                         checkMessage += "秒杀活动:" + tp.getPrivilegeName() + "已被使用";
                     }
 
@@ -345,10 +345,10 @@ public class WriteOffApiController extends PosApiController {
                 }
                 //砍价
                 if (type == 25) {
-                    Integer useState = checkFlashSalesValid(tp);
-                    if (useState == 4001) {
+                    Integer useState = checkCutDownValid(tp);
+                    if (useState == 3001) {
                         checkMessage += "砍价活动:" + tp.getPrivilegeName() + "已过期";
-                    } else if (useState == 4002) {
+                    } else if (useState == 3002) {
                         checkMessage += "砍价活动:" + tp.getPrivilegeName() + "已被使用";
                     }
 
@@ -630,7 +630,7 @@ public class WriteOffApiController extends PosApiController {
             CutDownMarketingEntity mCutDownMarketing = mCutDownMarketingService.findCutDownDatailById(mWxTradeCustomer.getMarketingId());
             if (mCutDownMarketing.getValidityPeriod().getTime() < new Date().getTime()) {
                 //购买的砍价活动已过期
-                return 2001;
+                return 3001;
             }
 
         } else {
