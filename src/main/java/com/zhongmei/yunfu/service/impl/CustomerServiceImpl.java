@@ -146,16 +146,14 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, CustomerEnt
     @Override
     public Page<CustomerEntity> findListPage(CustomerDrainSearchModel searchModel) {
         CustomerEntity customerEntity = new CustomerEntity();
+        customerEntity.setRelateId(0L);
         customerEntity.setShopIdenty(searchModel.getUser().getShopIdenty());
         EntityWrapperFilter eWrapper = new EntityWrapperFilter<>(customerEntity);
+        //eWrapper.eq("relate_id", 0L);
         eWrapper.gt("stored_balance", searchModel.getStoredBalance());
         eWrapper.gt("card_residue_count", searchModel.getCardResidueCount());
         eWrapper.gt("consumption_last_time", searchModel.getConsumptionLastTime());
-
-        //Page<CustomerExtra> roleDOList = selectPage(page, eWrapper);
-        //return roleDOList;
         Page<CustomerEntity> page = new Page<>(searchModel.getPageNo(), searchModel.getPageSize());
-        //page.setRecords(baseMapper.findByPage(page, eWrapper));
         return selectPage(page, eWrapper);
     }
 

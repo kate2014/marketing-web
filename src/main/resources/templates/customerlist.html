@@ -259,8 +259,8 @@
                 <td th:text="${item.consumptionAmount}">20000</td>
                 <td th:text="${item.sourceId==2}?'小程序':'门店POS'">门店POS</td>
                 <td>
-                    <div class="parent_h">
-                        <a th:if="${#lists.contains(loginManager.permissionCodeList, 'CUSTOMER_MODIFY')}" th:href="@{/customer/{id}/edit(id=${item.id})}"><img class="see_modify" th:src="@{/images/modify.jpg}" src="../static/images/modify.jpg" style="margin-left: 10px"></a>
+                    <div class="parent_h"><!-- th:if="${#lists.contains(loginManager.permissionCodeList, 'CUSTOMER_MODIFY')}" -->
+                        <a th:href="@{/customer/{id}/edit(id=${item.id})}"><img class="see_modify" th:src="@{/images/modify.jpg}" src="../static/images/modify.jpg" style="margin-left: 10px"></a>
                     </div>
                 </td>
             </tr>
