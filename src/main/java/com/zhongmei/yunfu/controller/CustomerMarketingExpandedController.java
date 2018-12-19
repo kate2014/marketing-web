@@ -116,11 +116,10 @@ public class CustomerMarketingExpandedController extends BaseController{
                 mCommissionSearchModel.setEndDate(DateFormatUtil.format(new Date(),DateFormatUtil.FORMAT_FULL_DATE));
             }
 
-            if(mCommissionSearchModel.getMobile() != null){
+            if(mCommissionSearchModel.getMobile() != null && !mCommissionSearchModel.getMobile().equals("")){
                 CustomerEntity mCustomer = mCustomerService.queryCustomerByMobile(mCommissionSearchModel.getBrandIdenty(), mCommissionSearchModel.getShopIdenty(), mCommissionSearchModel.getMobile());
                 if(mCustomer != null){
                     CustomerEntity wxCustomerEntity = mCustomerService.queryCustomerByRelateId(mCommissionSearchModel.getBrandIdenty(), mCommissionSearchModel.getShopIdenty(),mCustomer.getId());
-
                     mCommissionSearchModel.setCustomerId(wxCustomerEntity.getId());
                 }else{
                     model.addAttribute("errorMsg", "该手机号码不存在");
