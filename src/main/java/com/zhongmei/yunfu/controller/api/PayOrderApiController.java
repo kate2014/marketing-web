@@ -440,7 +440,7 @@ public class PayOrderApiController {
         mPaymentItemEntity.setPayModeId(4l);//支付方式ID(cashTypeId)：1:会员余额, 2:现金,3:银行卡,4:微信支付,5:支付宝
         mPaymentItemEntity.setPayModeName("微信支付");
         mPaymentItemEntity.setFaceAmount(mPaymentEntity.getActualAmount());
-        mPaymentItemEntity.setChangeAmount(mPaymentEntity.getActualAmount());
+        mPaymentItemEntity.setChangeAmount(BigDecimal.ZERO);//应小程序微信支付，所以没有找零
         mPaymentItemEntity.setUsefulAmount(mPaymentEntity.getActualAmount());
         mPaymentItemEntity.setRelateId(null);
         mPaymentItemEntity.setPayStatus(1);//支付状态：  1:UNPAID:未支付  2:PAYING:支付中，微信下单选择了在线支付但实际上未完成支付的  (删了)  3:PAID:已支付  4:REFUNDING:退款中  5:REFUNDED:已退款  6:REFUND_FAILED:退款失败  7:PREPAID:预支付(现在都没用)  8:WAITING_REFUND:等待退款 9:PAY_FAIL支付失败 10:REPEAT_PAID重复支付 11:异常支付
