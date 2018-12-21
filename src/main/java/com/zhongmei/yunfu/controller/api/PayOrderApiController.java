@@ -767,15 +767,6 @@ public class PayOrderApiController {
     public static WxPayMsgModel getYiPayparams(PaymentItemEntity mPaymentItemEntity, String openId) throws Exception{
 
         //获取用户支付相关信息
-//        CommercialPaySettingEntity mCommercialPaySettingEntity = new CommercialPaySettingEntity();
-//        mCommercialPaySettingEntity.setShopIdenty(mPaymentItemEntity.getShopIdenty());
-//        mCommercialPaySettingEntity.setBrandIdenty(mPaymentItemEntity.getBrandIdenty());
-//        mCommercialPaySettingEntity.setType(1);
-//        mCommercialPaySettingEntity.setStatusFlag(1);
-//        CommercialPaySettingEntity paySetting =  mCommercialPaySettingService.queryData(mCommercialPaySettingEntity);
-
-//        MultiValueMap<String, Object> paramsMap= new LinkedMultiValueMap<String, Object>();
-
 
         YiPayRepuestModel mYiPayRepuestModel = new YiPayRepuestModel();
 
@@ -790,8 +781,6 @@ public class PayOrderApiController {
         String nonceStr = ToolsUtil.getCard(32);
         mYiPayRepuestModel.setNonce_str(nonceStr);
         mYiPayRepuestModel.setVersion("V1.0");
-
-
 
         String stringA =
                 "appid=hf1129016484PQGA"+
@@ -829,11 +818,12 @@ public class PayOrderApiController {
         log.info("==========params:"+params);
         HttpEntity<String> formEntity = new HttpEntity<String>(params,headers);
 
-        String reponse = restTemplate.exchange(url, HttpMethod.POST, formEntity, String.class).getBody().toString();
+//        String reponse = restTemplate.exchange(url, HttpMethod.POST, formEntity, String.class).getBody().toString();
+        JSONObject json = restTemplate.postForEntity(url, params, JSONObject.class).getBody();
 
 //        JSONObject json = restTemplate.postForObject(url, paramsMap, JSONObject.class);
 
-        log.info("=========reponse json:"+reponse);
+        log.info("=========reponse json:"+json);
 
         return null;
     }
