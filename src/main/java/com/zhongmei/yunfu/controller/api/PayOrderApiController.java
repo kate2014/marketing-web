@@ -1,5 +1,7 @@
 package com.zhongmei.yunfu.controller.api;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.zhongmei.yunfu.controller.weixinPay.*;
 import com.zhongmei.yunfu.thirdlib.wxapp.WxTemplateMessageHandler;
 import com.zhongmei.yunfu.thirdlib.wxapp.msg.OrderPayMessage;
@@ -10,21 +12,36 @@ import com.zhongmei.yunfu.util.ToolsUtil;
 import com.zhongmei.yunfu.controller.model.*;
 import com.zhongmei.yunfu.domain.entity.*;
 import com.zhongmei.yunfu.service.*;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.SSLContexts;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.http.client.BufferingClientHttpRequestFactory;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.ui.Model;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import javax.net.ssl.SSLContext;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.security.KeyStore;
 import java.util.*;
 
 @RestController
@@ -440,7 +457,7 @@ public class PayOrderApiController {
         mPaymentItemEntity.setPayModeId(4l);//支付方式ID(cashTypeId)：1:会员余额, 2:现金,3:银行卡,4:微信支付,5:支付宝
         mPaymentItemEntity.setPayModeName("微信支付");
         mPaymentItemEntity.setFaceAmount(mPaymentEntity.getActualAmount());
-        mPaymentItemEntity.setChangeAmount(mPaymentEntity.getActualAmount());
+        mPaymentItemEntity.setChangeAmount(BigDecimal.ZERO);//应小程序微信支付，所以没有找零
         mPaymentItemEntity.setUsefulAmount(mPaymentEntity.getActualAmount());
         mPaymentItemEntity.setRelateId(null);
         mPaymentItemEntity.setPayStatus(1);//支付状态：  1:UNPAID:未支付  2:PAYING:支付中，微信下单选择了在线支付但实际上未完成支付的  (删了)  3:PAID:已支付  4:REFUNDING:退款中  5:REFUNDED:已退款  6:REFUND_FAILED:退款失败  7:PREPAID:预支付(现在都没用)  8:WAITING_REFUND:等待退款 9:PAY_FAIL支付失败 10:REPEAT_PAID重复支付 11:异常支付
@@ -742,6 +759,85 @@ public class PayOrderApiController {
         return null;
     }
 
+
+    /**
+     * 获取小程序翼支付信息
+     * @return
+     */
+    public static WxPayMsgModel getYiPayparams(PaymentItemEntity mPaymentItemEntity, String openId) throws Exception{
+
+        //获取用户支付相关信息
+
+        YiPayRepuestModel mYiPayRepuestModel = new YiPayRepuestModel();
+
+        mYiPayRepuestModel.setAppid("hf1129016484PQGA");
+
+        mYiPayRepuestModel.setTotal_amount(1);
+        mYiPayRepuestModel.setOut_trade_no(mPaymentItemEntity.getUuid());
+        mYiPayRepuestModel.setReturn_url("https://mk.zhongmeiyunfu.com/marketing/wxapp/pay/payNotify");
+        mYiPayRepuestModel.setSub_appid("wx22d9607fa73e9364");
+        mYiPayRepuestModel.setSub_openid(openId);
+        mYiPayRepuestModel.setSpbill_create_ip("47.105.100.99");
+        String nonceStr = ToolsUtil.getCard(32);
+        mYiPayRepuestModel.setNonce_str(nonceStr);
+        mYiPayRepuestModel.setVersion("V1.0");
+
+        String stringA =
+                "appid=hf1129016484PQGA"+
+                        "&nonce_str="+nonceStr+
+                        "&out_trade_no="+mPaymentItemEntity.getUuid()+
+                        "&return_url=https://mk.zhongmeiyunfu.com/marketing/wxapp/pay/payNotify"+
+                        "&spbill_create_ip=47.105.100.99"+
+                        "&sub_appid="+"wx22d9607fa73e9364"+
+                        "&sub_openid="+openId+
+                        "&total_amount="+1+
+                        "&version=V1.0";
+
+        log.info("=======stringA:"+stringA);
+
+        String stringSignTemp=stringA+"&appsecret="+"lUxhOjcBWqaa7oxiFUMATAtiYfEL42WA";
+        String sign = ToolsUtil.getMd5(stringSignTemp).toUpperCase();
+
+
+        mYiPayRepuestModel.setSign(sign);
+
+
+        String url = "https://pay.sc.189.cn/haipay/applet-pay";
+
+        HttpHeaders headers = new HttpHeaders();
+        MediaType type = MediaType.parseMediaType("application/x-www-form-urlencoded; charset=UTF-8");
+        headers.setContentType(type);
+//        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<MultiValueMap<String, Object>>(paramsMap,  headers);
+
+
+        RestTemplate restTemplate = new RestTemplate(new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory()));
+
+
+        String params = JSONObject.toJSON(mYiPayRepuestModel).toString();
+
+        log.info("==========params:"+params);
+        HttpEntity<String> formEntity = new HttpEntity<String>(params,headers);
+
+//        String reponse = restTemplate.exchange(url, HttpMethod.POST, formEntity, String.class).getBody().toString();
+        JSONObject json = restTemplate.postForEntity(url, params, JSONObject.class).getBody();
+
+//        JSONObject json = restTemplate.postForObject(url, paramsMap, JSONObject.class);
+
+        log.info("=========reponse json:"+json);
+
+        return null;
+    }
+
+
+    public final static void main(String[] args) throws Exception {
+
+        PaymentItemEntity mPaymentItemEntity = new PaymentItemEntity();
+        mPaymentItemEntity.setUsefulAmount(new BigDecimal(0.01));
+        mPaymentItemEntity.setUuid(ToolsUtil.genOnlyIdentifier());
+
+        String openId = "oTf-e4g_nqsOuXwBBZnt1eenqUWE";
+        WxPayMsgModel mWxPayMsgModel =  getYiPayparams(mPaymentItemEntity,openId);
+    }
 
 
 }

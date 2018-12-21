@@ -658,11 +658,11 @@ body{
  *
  * */
 #imgyuan{
-	width: 50px;
+	width: 60px;
 	height: 14px;
 	border-radius: 3px;
 	background-color: red;
-	padding-left: 10px;
+	padding-left: 15px;
 	margin: 0 auto;
 	position: relative;
 	top: -20px;
@@ -676,7 +676,7 @@ body{
 	width:6px;
 	height:6px;
 	border-radius:50%;
-	margin-right: 8px;
+	margin-right: 6px;
 	margin-top: 3px;
 	display: block;
 	float: left;
