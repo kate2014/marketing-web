@@ -205,6 +205,7 @@ public class CustomerPosApi extends PosApiController {
             recordResp.setId(entity.getId());
             recordResp.setModifyDateTime(entity.getServerUpdateTime().getTime());// 修改时间
             recordResp.setTradeType(ValueEnums.toEnum(TradeTypeEnum.class, entity.getTradeType()).getDesc()); //记录类型1储值、2消费
+            recordResp.setTradeId(entity.getId());
             recordResp.setTradeNo(String.format("编号: %s", entity.getTradeNo())); //交易值
             recordResp.setTradeValue(entity.getTradeAmount());//剩余值
             recordResp.setUserId(entity.getCreatorName());// 操作员
