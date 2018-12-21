@@ -92,6 +92,19 @@ public class CutDownApiController {
                 mBaseDataModel.setData(mCutDownCustomer);
                 return mBaseDataModel;
             }
+            if(mCutDownMarketingEntity.getBeginTime().getTime() > new Date().getTime()){
+                mBaseDataModel.setState("1001");
+                mBaseDataModel.setMsg("活动还未开始");
+                mBaseDataModel.setData(mCutDownCustomer);
+                return mBaseDataModel;
+            }
+            if(mCutDownMarketingEntity.getEndTime().getTime() < new Date().getTime()){
+                mBaseDataModel.setState("1001");
+                mBaseDataModel.setMsg("活动已结束");
+                mBaseDataModel.setData(mCutDownCustomer);
+                return mBaseDataModel;
+            }
+
             mCutDownCustomer.setState(1);
             mCutDownCustomer.setJoinCount(0);
             if(mCutDownCustomer.getWxName() != null){
