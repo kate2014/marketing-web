@@ -130,6 +130,7 @@ public class CustomerPosApi extends PosApiController {
         customerIntegralEntity.setShopIdenty(req.getHeader().getShopId());
         customerIntegralEntity.setCustomerId(req.getCustomerId());
         EntityWrapper<CustomerIntegralEntity> integralEntityEntityWrapper = new EntityWrapper<>(customerIntegralEntity);
+        integralEntityEntityWrapper.orderBy("server_update_time", false);
         Page<CustomerIntegralEntity> listPage = customerIntegralService.selectPage(new Page<>(req.getPageNo(), req.getPageSize()), integralEntityEntityWrapper);
 
         CustomerIntegralResp integralResp = new CustomerIntegralResp();
