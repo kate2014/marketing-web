@@ -5,6 +5,7 @@ import com.zhongmei.yunfu.domain.entity.AuthPermissionEntity;
 import com.zhongmei.yunfu.domain.entity.AuthUserEntity;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -27,4 +28,12 @@ public interface AuthUserService extends IService<AuthUserEntity> {
      * @return
      */
     List<AuthPermissionEntity> getAuthPermissionEntityBy(String account);
+
+    /**
+     * 获取用户权限
+     *
+     * @param account
+     * @return
+     */
+    Map<String, String> getAuthPermissionMapBy(String account);
 }

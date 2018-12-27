@@ -10,7 +10,9 @@ import com.zhongmei.yunfu.service.AuthUserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -65,5 +67,15 @@ public class AuthUserServiceImpl extends ServiceImpl<AuthUserMapper, AuthUserEnt
     @Override
     public List<AuthPermissionEntity> getAuthPermissionEntityBy(String account) {
         return baseMapper.getAuthPermissionEntityBy(account);
+    }
+
+    @Override
+    public Map<String, String> getAuthPermissionMapBy(String account) {
+        Map<String, String> result = new HashMap<>();
+        List<AuthPermissionEntity> authPermissionEntityBy = getAuthPermissionEntityBy(account);
+        authPermissionEntityBy.forEach(it ->
+                result.put(it.getCode(), it.getName())
+        );
+        return result;
     }
 }
