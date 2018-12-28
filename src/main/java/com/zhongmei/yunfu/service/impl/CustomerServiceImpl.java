@@ -139,6 +139,7 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, CustomerEnt
         EntityWrapper<CustomerEntity> eWrapper = new EntityWrapperFilter<>(coupon);
         eWrapper.like("name", searchModel.getName(), SqlLike.RIGHT);
         eWrapper.like("mobile", searchModel.getMobile(), SqlLike.RIGHT);
+        eWrapper.orderBy("consumption_last_time", false);
         Page<CustomerEntity> roleDOList = selectPage(page, eWrapper);
         return roleDOList;
     }
@@ -371,6 +372,7 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, CustomerEnt
         wrapper.eq("c.group_level_id", searchModel.getGroupLevelId());
         wrapper.like("c.name", searchModel.getName(), SqlLike.RIGHT);
         wrapper.like("c.mobile", searchModel.getMobile(), SqlLike.RIGHT);
+        wrapper.orderBy("c.consumption_last_time", false);
         Page<CustomerEntity> page = new Page<>(searchModel.getPageNo(), searchModel.getPageSize());
         wrapper = (EntityWrapper<CustomerEntity>) SqlHelper.fillWrapper(page, wrapper);
         page.setRecords(baseMapper.selectByTrade(page, wrapper, searchModel.getUser().getShopIdenty(), format, tradeCount, tradeAmountSum));
@@ -395,6 +397,7 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, CustomerEnt
         wrapper.eq("c.group_level_id", searchModel.getGroupLevelId());
         wrapper.like("c.name", searchModel.getName(), SqlLike.RIGHT);
         wrapper.like("c.mobile", searchModel.getMobile(), SqlLike.RIGHT);
+        wrapper.orderBy("c.consumption_last_time", false);
         Page<CustomerEntity> page = new Page<>(searchModel.getPageNo(), searchModel.getPageSize());
         wrapper = (EntityWrapper<CustomerEntity>) SqlHelper.fillWrapper(page, wrapper);
         page.setRecords(baseMapper.selectByBirthday(page, wrapper, recentDay, betweenRight2));
@@ -420,6 +423,7 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, CustomerEnt
         wrapper.eq("c.group_level_id", searchModel.getGroupLevelId());
         wrapper.like("c.name", searchModel.getName(), SqlLike.RIGHT);
         wrapper.like("c.mobile", searchModel.getMobile(), SqlLike.RIGHT);
+        wrapper.orderBy("c.consumption_last_time", false);
         Page<CustomerEntity> page = new Page<>(searchModel.getPageNo(), searchModel.getPageSize());
         //return selectPage(page, wrapper);
         wrapper = (EntityWrapper<CustomerEntity>) SqlHelper.fillWrapper(page, wrapper);
@@ -451,6 +455,7 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, CustomerEnt
         wrapper.eq("c.group_level_id", searchModel.getGroupLevelId());
         wrapper.like("c.name", searchModel.getName(), SqlLike.RIGHT);
         wrapper.like("c.mobile", searchModel.getMobile(), SqlLike.RIGHT);
+        wrapper.orderBy("c.consumption_last_time", false);
         Page<CustomerEntity> page = new Page<>(searchModel.getPageNo(), searchModel.getPageSize());
         //return selectPage(page, wrapper);
         wrapper = (EntityWrapper<CustomerEntity>) SqlHelper.fillWrapper(page, wrapper);
