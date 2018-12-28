@@ -1,12 +1,12 @@
 package com.zhongmei.yunfu.web;
 
 import com.zhongmei.yunfu.controller.BaseController;
-import com.zhongmei.yunfu.domain.entity.AuthUserEntity;
 import com.zhongmei.yunfu.service.AuthUserService;
 import com.zhongmei.yunfu.service.LoginManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -30,10 +30,11 @@ public class LoginController extends BaseController {
 
     @RequestMapping("/login/test")
     public String login(Model model, Long shopId, String account, String password) {
-        AuthUserEntity login = authUserService.login(account, password, shopId);
-        if (login != null) {
-            LoginManager.get().setLoginUser(login);
-            return redirect("/");
+        if (shopId != null && !StringUtils.isEmpty(account) && !StringUtils.isEmpty(password)) {
+            boolean login = LoginManager.get().login(authUserService, account, password, shopId);
+            if (login) {
+                return redirect("/");
+            }
         }
 
         model.addAttribute("account", account);
@@ -43,7 +44,7 @@ public class LoginController extends BaseController {
 
     @RequestMapping("/**/token/{token}")
     public String token(HttpServletRequest request, @PathVariable String token) {
-        if (LoginManager.get().isLogin() || LoginManager.get().login(token)) {
+        if (LoginManager.get().isLogin() || LoginManager.get().login(authUserService, token)) {
             String href = request.getRequestURI().replaceFirst(request.getContextPath(), "").replace("/token/" + token, "");
             if (request.getQueryString() != null) {
                 href = href + "?" + request.getQueryString();

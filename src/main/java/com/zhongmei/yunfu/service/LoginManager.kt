@@ -17,8 +17,8 @@ class LoginManager private constructor() {
     private val log = LoggerFactory.getLogger(LoginManager::class.java)
     var user: AuthUserEntity? = null
         private set
-    var permissionCodeList:ArrayList<String>? = null
-    private set
+    var permissionCodeList: ArrayList<String>? = null
+        private set
 
     fun login(loginService: AuthUserService, account: String, password: String, shopId: Long): Boolean {
         return login(loginService, account, password, shopId, "[null]", false)
@@ -30,11 +30,7 @@ class LoginManager private constructor() {
             this.user = loginService.login(account, password, shopId)
             if (user != null) {
                 log.info("login success")
-                var authPermissionEntityBy = loginService.getAuthPermissionEntityBy(account)
-                authPermissionEntityBy.forEach { it ->
-                    permissionCodeList = arrayListOf()
-                    permissionCodeList?.add(it.code!!)
-                }
+                setAuthPermissionEntityBy(loginService, account, shopId)
                 threadSession.get()?.setAttribute("loginManager", this)
                 return true
             }
@@ -44,7 +40,15 @@ class LoginManager private constructor() {
         return false
     }
 
-    fun login(token: String): Boolean {
+    private fun setAuthPermissionEntityBy(loginService: AuthUserService, account: String, shopId: Long) {
+        var authPermissionEntityBy = loginService.getAuthPermissionEntityBy(account, shopId)
+        permissionCodeList = arrayListOf()
+        authPermissionEntityBy.forEach { it ->
+            permissionCodeList?.add(it.code!!)
+        }
+    }
+
+    fun login(loginService: AuthUserService, token: String): Boolean {
         if (StringUtils.isNotBlank(token)) {
             val decode = Token.decode(token)
             if (decode != null) {
@@ -58,6 +62,7 @@ class LoginManager private constructor() {
 
                 this.user = userEntity
                 log.info("login success")
+                setAuthPermissionEntityBy(loginService, user?.account!!, user?.shopIdenty!!)
                 threadSession.get()?.setAttribute("loginManager", this)
                 return true
             }
