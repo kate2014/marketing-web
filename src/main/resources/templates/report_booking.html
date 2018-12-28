@@ -77,54 +77,82 @@
     // app.title = '预约情况';
 
     option = {
-        title: {
-            // text: '预约情况'
-        },
         tooltip: {
-            trigger: 'axis'
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        toolbox: {
+            feature: {
+                dataView: {show: true, readOnly: false},
+                magicType: {show: true, type: ['line', 'bar']},
+                restore: {show: true},
+                saveAsImage: {show: true}
+            }
         },
         legend: {
             data:['预约数','到店数']
         },
-        grid: {
-            left: '3%',
-            right: '4%',
-            bottom: '3%',
-            containLabel: true
-        },
-        toolbox: {
-            feature: {
-                saveAsImage: {}
+        xAxis: [
+            {
+                type: 'category',
+                data: [[${listBookingDate}]],
+                axisPointer: {
+                    type: 'shadow'
+                },
+                axisLabel:{
+                    interval:0,
+                    rotate:30
+                }
             }
-        },
-        xAxis: {
-            type: 'category',
-            boundaryGap: false,
-            data: [[${listBookingDate}]]
-        },
-        yAxis: {
-            type: 'value'
-        },
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '预约数',
+                min: 0,
+                max: [[${maxBookingCount}]],
+                interval: [[${intervalBooking}]],
+                axisLabel: {
+                    formatter: '{value}'
+                }
+            },
+            {
+                type: 'value',
+                name: '到店数',
+                min: 0,
+                max: [[${maxBookingCount}]],
+                interval: [[${intervalBooking}]],
+                axisLabel: {
+                    formatter: '{value}'
+                }
+            }
+
+        ],
         series: [
             {
                 name:'预约数',
                 type:'line',
-                stack: '总量',
+                yAxisIndex: 1,
                 data:[[${listBookingCount}]]
             },
             {
                 name:'到店数',
-                type:'line',
-                stack: '总量',
+                type:'bar',
+                barMaxWidth : 30,//柱图宽度
                 data:[[${listUseCount}]]
             },
-
         ]
     };
-
+    ;
     if (option && typeof option === "object") {
         myChart.setOption(option, true);
     }
+
 
 
     //------------------来源分布--------------
