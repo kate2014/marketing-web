@@ -5,8 +5,10 @@ import com.zhongmei.yunfu.controller.BaseController;
 import com.zhongmei.yunfu.controller.model.ShopSettingModel;
 import com.zhongmei.yunfu.domain.entity.CommercialEntity;
 import com.zhongmei.yunfu.domain.entity.CommercialPaySettingEntity;
+import com.zhongmei.yunfu.service.AuthUserService;
 import com.zhongmei.yunfu.service.CommercialPaySettingService;
 import com.zhongmei.yunfu.service.CommercialService;
+import com.zhongmei.yunfu.service.LoginManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -31,6 +34,8 @@ public class CommercialController extends BaseController {
     CommercialPaySettingService mCommercialPaySettingService;
     @Autowired
     CommercialService mCommercialService;
+    @Autowired
+    AuthUserService authUserService;
 
     @RequestMapping("/settingPage")
     public String list(Model model, ShopSettingModel mShopSettingModel) {
@@ -77,6 +82,31 @@ public class CommercialController extends BaseController {
         model.addAttribute("successOrfail", mShopSettingModel.getSuccessOrfail());
         model.addAttribute("brandIdenty", mShopSettingModel.getBrandIdenty());
         model.addAttribute("shopIdenty", mShopSettingModel.getShopIdenty());
+
+
+        String account = LoginManager.get().getUser().getAccount();
+        Long shopId = LoginManager.get().getUser().getShopIdenty();
+        Map<String, String> permissionData = authUserService.getAuthPermissionMapBy(account,shopId);
+
+        //商户基本信息设置权限
+        if(permissionData.get("WEB_SHOP_BASEMESSAGE") == null || permissionData.get("WEB_SHOP_BASEMESSAGE").equals("")){
+            model.addAttribute("haveShopBase", 0);
+        }else{
+            model.addAttribute("haveShopBase", 1);
+        }
+        //支付设置权限
+        if(permissionData.get("WEB_PAY_SETTING") == null || permissionData.get("WEB_PAY_SETTING").equals("")){
+            model.addAttribute("havePaySetting", 0);
+        }else{
+            model.addAttribute("havePaySetting", 1);
+        }
+        //活动推广
+        if(permissionData.get("WEB_WEIXIN_SETTING") == null || permissionData.get("WEB_WEIXIN_SETTING").equals("")){
+            model.addAttribute("haveWeixinSetting", 0);
+        }else{
+            model.addAttribute("haveWeixinSetting", 1);
+        }
+
 
         return "shop_setting";
     }
