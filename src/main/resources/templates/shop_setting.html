@@ -82,7 +82,7 @@
 
         <input type="hidden" name="shopIdenty" th:value="${shopIdenty}">
         <input type="hidden" name="brandIdenty" th:value="${brandIdenty}">
-
+        <input type="hidden" name="creatorId" th:value="${creatorId}">
 
         <div style="padding: 20px; margin: 20px" class="modle_background_style">
             <div class="parent">
@@ -150,6 +150,7 @@
     <form method="post" name="paySetting" action="" th:action="@{/commercial/setting}" th:object="${mShopSettingModel}">
         <input type="hidden" name="shopIdenty" th:value="${shopIdenty}">
         <input type="hidden" name="brandIdenty" th:value="${brandIdenty}">
+        <input type="hidden" name="creatorId" th:value="${creatorId}">
         <input type="hidden" name="type" value="2">
 
         <div style="margin: 20px;padding: 20px" class="modle_background_style">
@@ -165,7 +166,7 @@
             </div>
             <div style="margin-top: 15px">
                 <label class="text_navigation" style="margin-left: 10px; margin-top: 15px; min-width: 300px">商家支付密钥</label>
-                <input class="input_style" placeholder="输入开通支付时的唯一支付密钥 appsecret" style="margin-left: 5px; width: 300px" type="text" th:value="${appsecret}" name="appsecret"/>
+                <input class="input_style" placeholder="输入开通支付时的唯一支付密钥 appsecret" style="margin-left: 5px; width: 300px" type="password" th:value="${appsecret}" name="appsecret"/>
             </div>
             <div style="margin-top: 15px">
                 <button class="blue_button_style" onclick="submitPaySettingForm()" style="margin-left: 10px" >保存</button>
@@ -215,6 +216,7 @@
         <input type="hidden" name="shopIdenty" th:value="${shopIdenty}">
         <input type="hidden" name="brandIdenty" th:value="${brandIdenty}">
         <input type="hidden" name="id" th:value="${brandIdenty}">
+        <input type="hidden" name="creatorId" th:value="${creatorId}">
         <input type="hidden" name="type" value="1">
 
         <div style="margin: 20px;padding: 20px" class="modle_background_style">

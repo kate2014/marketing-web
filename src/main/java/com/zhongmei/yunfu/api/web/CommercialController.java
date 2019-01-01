@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -84,9 +85,12 @@ public class CommercialController extends BaseController {
         model.addAttribute("shopIdenty", mShopSettingModel.getShopIdenty());
 
 
-        String account = LoginManager.get().getUser().getAccount();
         Long shopId = LoginManager.get().getUser().getShopIdenty();
-        Map<String, String> permissionData = authUserService.getAuthPermissionMapBy(account,shopId);
+
+        String account = LoginManager.get().getUser().getAccount();
+
+        Long authUserId = mShopSettingModel.getCreatorId();
+        Map<String, String> permissionData = authUserService.getAuthPermissionMap(authUserId,shopId);
 
         //商户基本信息设置权限
         if(permissionData.get("WEB_SHOP_BASEMESSAGE") == null || permissionData.get("WEB_SHOP_BASEMESSAGE").equals("")){

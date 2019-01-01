@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.Map;
 
 @Controller
@@ -21,11 +22,14 @@ public class LoginController extends BaseController {
     AuthUserService authUserService;
 
     @RequestMapping({"/", "/home"})
-    public String home(Model model) {
+    public String home(Model model,Long creatorId) {
+
+
+        Long shopId = LoginManager.get().getUser().getShopIdenty();
 
         String account = LoginManager.get().getUser().getAccount();
-        Long shopId = LoginManager.get().getUser().getShopIdenty();
-        Map<String, String> permissionData = authUserService.getAuthPermissionMapBy(account,shopId);
+
+        Map<String, String> permissionData = authUserService.getAuthPermissionMap(creatorId,shopId);
 
         //新品推广
         if(permissionData.get("WEB_PUSH_NEW_DISH") == null || permissionData.get("WEB_PUSH_NEW_DISH").equals("")){

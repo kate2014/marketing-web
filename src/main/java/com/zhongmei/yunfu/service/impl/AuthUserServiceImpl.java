@@ -76,4 +76,13 @@ public class AuthUserServiceImpl extends ServiceImpl<AuthUserMapper, AuthUserEnt
         authPermissionEntityBy.forEach(it -> result.put(it.getCode(), it.getName()));
         return result;
     }
+
+    @Override
+    public Map<String, String> getAuthPermissionMap(Long authUserId, Long shopId) {
+
+        Map<String, String> result = new HashMap<>();
+        List<AuthPermissionEntity> authPermissionEntityBy = baseMapper.getAuthPermissionEntity(authUserId, shopId);
+        authPermissionEntityBy.forEach(it -> result.put(it.getCode(), it.getName()));
+        return result;
+    }
 }
