@@ -87,9 +87,7 @@ public class CommercialController extends BaseController {
 
         Long shopId = LoginManager.get().getUser().getShopIdenty();
 
-        String account = LoginManager.get().getUser().getAccount();
-
-        Long authUserId = mShopSettingModel.getCreatorId();
+        Long authUserId = LoginManager.get().getUser().getCreatorId();
         Map<String, String> permissionData = authUserService.getAuthPermissionMap(authUserId,shopId);
 
         //商户基本信息设置权限
@@ -110,6 +108,8 @@ public class CommercialController extends BaseController {
         }else{
             model.addAttribute("haveWeixinSetting", 1);
         }
+
+        model.addAttribute("creatorId", authUserId);
 
 
         return "shop_setting";
@@ -132,6 +132,9 @@ public class CommercialController extends BaseController {
             mCommercialEntity.setCommercialAdress(mShopSettingModel.getCommercialAdress());
             mCommercialEntity.setCommercialDesc(mShopSettingModel.getCommercialDesc());
             mCommercialEntity.setCommercialLogo(mShopSettingModel.getImgUrl());
+            mCommercialEntity.setUpdatorId(LoginManager.get().getUser().getCreatorId());
+            mCommercialEntity.setUpdatorName(LoginManager.get().getUser().getCreatorName());
+            mCommercialEntity.setServerUpdateTime(new Date());
 
             mCommercialEntity.setOpenTime(mShopSettingModel.getStatTime()+"-"+mShopSettingModel.getEndTime());
             Boolean isSuccess = mCommercialService.modifyCommercial(mCommercialEntity);
@@ -181,8 +184,14 @@ public class CommercialController extends BaseController {
                 mCommercialPaySetting.setStatusFlag(1);
                 //判断该条设置是否已经存在，如果不存在这进行新增，存在则进行修改
                 if(settingData == null){
+                    mCommercialPaySetting.setCreatorId(LoginManager.get().getUser().getCreatorId());
+                    mCommercialPaySetting.setCreatorName(LoginManager.get().getUser().getCreatorName());
+                    mCommercialPaySetting.setServerCreateTime(new Date());
                     isSuccess = mCommercialPaySettingService.installData(mCommercialPaySetting);
                 }else{
+
+                    mCommercialPaySetting.setUpdatorId(LoginManager.get().getUser().getCreatorId());
+                    mCommercialPaySetting.setUpdatorName(LoginManager.get().getUser().getCreatorName());
                     mCommercialPaySetting.setServerUpdateTime(new Date());
                     isSuccess = mCommercialPaySettingService.updateData(mCommercialPaySetting);
                 }
@@ -197,10 +206,14 @@ public class CommercialController extends BaseController {
                 mCommercialPaySetting.setShopIdenty(mShopSettingModel.getShopIdenty());
                 mCommercialPaySetting.setStatusFlag(1);
                 if(settingData == null){
-
+                    mCommercialPaySetting.setCreatorId(LoginManager.get().getUser().getCreatorId());
+                    mCommercialPaySetting.setCreatorName(LoginManager.get().getUser().getCreatorName());
+                    mCommercialPaySetting.setServerCreateTime(new Date());
                     isSuccess = mCommercialPaySettingService.installData(mCommercialPaySetting);
                 }else{
                     mCommercialPaySetting.setId(settingData.getId());
+                    mCommercialPaySetting.setUpdatorId(LoginManager.get().getUser().getCreatorId());
+                    mCommercialPaySetting.setUpdatorName(LoginManager.get().getUser().getCreatorName());
                     mCommercialPaySetting.setServerUpdateTime(new Date());
                     isSuccess = mCommercialPaySettingService.updateData(mCommercialPaySetting);
                 }

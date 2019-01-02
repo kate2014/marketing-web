@@ -85,8 +85,8 @@ public class PushPlanNewDishController extends BaseController {
             newDishPlan.setBeginTime(new Date());
             newDishPlan.setScanNumber(0);
             newDishPlan.setShareNumber(0);
-            newDishPlan.setCreatorId(1l);
-            newDishPlan.setCreatorName("admin");
+            newDishPlan.setCreatorId(LoginManager.get().getUser().getCreatorId());
+            newDishPlan.setCreatorName(LoginManager.get().getUser().getCreatorName());
             newDishPlan.setServerCreateTime(new Date());
             result = mPushNewDishService.addNewDishPushPlan(newDishPlan);
         }

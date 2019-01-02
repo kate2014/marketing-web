@@ -22,12 +22,21 @@ public class LoginController extends BaseController {
     AuthUserService authUserService;
 
     @RequestMapping({"/", "/home"})
-    public String home(Model model,Long creatorId) {
+    public String home(Model model,Long creatorId,String creatorName) {
 
 
         Long shopId = LoginManager.get().getUser().getShopIdenty();
 
-        String account = LoginManager.get().getUser().getAccount();
+        if(creatorId != null && !creatorId.equals("")){
+            LoginManager.get().getUser().setCreatorId(creatorId);
+        }else{
+            creatorId = LoginManager.get().getUser().getCreatorId();
+        }
+        if(creatorName != null && !creatorName.equals("")){
+            LoginManager.get().getUser().setCreatorName(creatorName);
+        }else{
+            creatorName = LoginManager.get().getUser().getCreatorName();
+        }
 
         Map<String, String> permissionData = authUserService.getAuthPermissionMap(creatorId,shopId);
 
