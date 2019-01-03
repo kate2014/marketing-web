@@ -44,7 +44,7 @@ public class LoginController extends BaseController {
 
     @RequestMapping("/**/token/{token}")
     public String token(HttpServletRequest request, @PathVariable String token) {
-        if (LoginManager.get().isLogin() || LoginManager.get().login(authUserService, token)) {
+        if (LoginManager.get().login(authUserService, token)) {
             String href = request.getRequestURI().replaceFirst(request.getContextPath(), "").replace("/token/" + token, "");
             if (request.getQueryString() != null) {
                 href = href + "?" + request.getQueryString();
