@@ -84,11 +84,25 @@ public class CommercialController extends BaseController {
         model.addAttribute("brandIdenty", mShopSettingModel.getBrandIdenty());
         model.addAttribute("shopIdenty", mShopSettingModel.getShopIdenty());
 
+        Long shopId = mShopSettingModel.getShopIdenty();
+        Long creatorId = mShopSettingModel.getCreatorId();
+        String creatorName = mShopSettingModel.getCreatorName();
 
-        Long shopId = LoginManager.get().getUser().getShopIdenty();
+        if(creatorId != null && !creatorId.equals("")){
+            LoginManager.get().getUser().setCreatorId(creatorId);
+        }else{
+            creatorId = LoginManager.get().getUser().getCreatorId();
+        }
+        if(creatorName != null && !creatorName.equals("")){
+            LoginManager.get().getUser().setCreatorName(creatorName);
+        }
+        if(shopId != null && !shopId.equals("")){
+            LoginManager.get().getUser().setShopIdenty(shopId);
+        }else{
+            shopId = LoginManager.get().getUser().getShopIdenty();
+        }
 
-        Long authUserId = LoginManager.get().getUser().getCreatorId();
-        Map<String, String> permissionData = authUserService.getAuthPermissionMap(authUserId,shopId);
+        Map<String, String> permissionData = authUserService.getAuthPermissionMap(creatorId,shopId);
 
         //商户基本信息设置权限
         if(permissionData.get("WEB_SHOP_BASEMESSAGE") == null || permissionData.get("WEB_SHOP_BASEMESSAGE").equals("")){
@@ -108,9 +122,6 @@ public class CommercialController extends BaseController {
         }else{
             model.addAttribute("haveWeixinSetting", 1);
         }
-
-        model.addAttribute("creatorId", authUserId);
-
 
         return "shop_setting";
     }

@@ -125,6 +125,11 @@ div.parent_h {
     font-size:23px;
     color: #a5a5a5;
 }
+.tips_fail_mini_text_style{
+    font-size:18px;
+    color: #a5a5a5;
+}
+
 .top_view_style{
     width: 100%;
     height: 50px;

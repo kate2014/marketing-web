@@ -95,6 +95,11 @@ public class TradeModel extends WebBaseModel {
      */
     private String deviceIdenty;
 
+    private Long creatorId;
+
+    private String creatorName;
+
+
     public String getWxOpenId() {
         return wxOpenId;
     }
@@ -301,5 +306,21 @@ public class TradeModel extends WebBaseModel {
 
     public void setRelationTradeId(Long relationTradeId) {
         this.relationTradeId = relationTradeId;
+    }
+
+    public Long getCreatorId() {
+        return creatorId;
+    }
+
+    public void setCreatorId(Long creatorId) {
+        this.creatorId = creatorId;
+    }
+
+    public String getCreatorName() {
+        return creatorName;
+    }
+
+    public void setCreatorName(String creatorName) {
+        this.creatorName = creatorName;
     }
 }
