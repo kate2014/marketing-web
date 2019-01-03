@@ -10,6 +10,7 @@ import com.zhongmei.yunfu.service.BookingService;
 import com.zhongmei.yunfu.service.BrandService;
 import com.zhongmei.yunfu.service.CommercialService;
 import com.zhongmei.yunfu.util.DateFormatUtil;
+import com.zhongmei.yunfu.util.ToolsUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,7 +44,7 @@ public class ReportBookingController {
                 Calendar c = Calendar.getInstance();
                 //过去15天
                 c.setTime(new Date());
-                c.add(Calendar.DATE, -30);
+                c.add(Calendar.DATE, -15);
                 Date start = c.getTime();
                 String temp = DateFormatUtil.format(start, DateFormatUtil.FORMAT_FULL_DATE);
 
@@ -67,11 +68,17 @@ public class ReportBookingController {
             int allCount = 0;
             int useCount = 0;
 
+            long maxBookingCount = 0l;
+
+
             if(listBookingData != null && listBookingData.size() > 0){
                 for(BookingReport br : listBookingData){
                     listBookingDate.add(DateFormatUtil.format(br.getCreateTime(),DateFormatUtil.FORMAT_DATE));
                     listBookingCount.add(br.getBookingCount());
 
+                    if(maxBookingCount < br.getBookingCount()){
+                        maxBookingCount = br.getBookingCount();
+                    }
                     allCount += br.getBookingCount();
                 }
             }
@@ -83,7 +90,7 @@ public class ReportBookingController {
             for(String bookingDate : listBookingDate){
                 Boolean isHad = false;
                 for(BookingReport sd : listSalesData){
-                    String createDate = DateFormatUtil.format(sd.getCreateTime(), DateFormatUtil.FORMAT_FULL_DATE);
+                    String createDate = DateFormatUtil.format(sd.getCreateTime(), DateFormatUtil.FORMAT_DATE);
                     if(createDate.equals(bookingDate) ){
                         isHad = true;
                         listUseCount.add(sd.getBookingCount());
@@ -94,6 +101,7 @@ public class ReportBookingController {
                     listUseCount.add(0);
                 }
             }
+
 
             int wxBookingCount = 0;
             int posBookingCount = 0;
@@ -115,6 +123,12 @@ public class ReportBookingController {
             model.addAttribute("listBookingCount", listBookingCount);
             model.addAttribute("listUseCount", listUseCount);
             model.addAttribute("listBookingDate", listBookingDate);
+
+            maxBookingCount = ToolsUtil.getMaxData(maxBookingCount);
+
+            model.addAttribute("maxBookingCount", maxBookingCount);
+            model.addAttribute("intervalBooking", maxBookingCount/10);
+
 
         }catch (Exception e){
             e.printStackTrace();

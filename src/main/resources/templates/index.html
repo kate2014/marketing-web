@@ -54,68 +54,99 @@
         <img th:src="@{/images/lable.jpg}" width="5" height="26">
         <p class="activity_lable_style">促销活动</p>
 
-        <div class="markerting_card_bg_style parent" th:href="@{/pushPlanNewDish}">
-                <img th:src="@{/images/new_dish_icon.png}" style="margin:10px" width="26px">
-            <p class="activity_style" align="left">新品推广</p>
+        <div th:if="${havePushNewDish} eq '1'">
+            <div class="markerting_card_bg_style parent" style="margin-right: 30px" th:href="@{/pushPlanNewDish}">
+                    <img th:src="@{/images/new_dish_icon.png}" style="margin:10px" width="26px">
+                <p class="activity_style" align="left">新品推广</p>
+            </div>
         </div>
-        <div class="markerting_card_bg_style parent" style="margin-left: 30px" th:href="@{/coupon}">
-            <img th:src="@{/images/coupon_card_icon.png}" style="margin:10px" width="26px">
-            <p class="activity_style" align="left">优惠券</p>
+        <div th:if="${haveCouponMarketing} eq '1'">
+            <div class="markerting_card_bg_style parent" style="margin-right: 30px" th:href="@{/coupon}">
+                <img th:src="@{/images/coupon_card_icon.png}" style="margin:10px" width="26px">
+                <p class="activity_style" align="left">优惠券</p>
+            </div>
         </div>
-        <div class="markerting_card_bg_style parent" style="margin-left: 30px" th:href="@{/pushPlanActivity/list}">
-            <img th:src="@{/images/shop_marketing_icon.png}" style="margin:10px" width="26px">
-            <p class="activity_style" align="left">活动推广</p>
+        <div th:if="${havePushAction} eq '1'">
+            <div class="markerting_card_bg_style parent" th:href="@{/pushPlanActivity/list}">
+                <img th:src="@{/images/shop_marketing_icon.png}" style="margin:10px" width="26px">
+                <p class="activity_style" align="left">活动推广</p>
+            </div>
         </div>
+
     </div>
     <img class="line_style" style="margin-top: 30px" th:src="@{/images/line.jpg}">
     <div class="container" style="margin-top: 30px">
         <img th:src="@{/images/lable.jpg}" width="5" height="26">
         <p class="activity_lable_style">场景营销</p>
 
-        <div class="markerting_card_bg_style parent" th:href="@{/collageMarketing/queryListData}">
-            <img th:src="@{/images/collage_card_icon.png}" style="margin:10px" width="26px">
-            <p class="activity_style" align="left">拼团活动</p>
+        <div th:if="${haveCollage} eq '1'">
+            <div class="markerting_card_bg_style parent" style="margin-right: 30px" th:href="@{/collageMarketing/queryListData}">
+                <img th:src="@{/images/collage_card_icon.png}" style="margin:10px" width="26px">
+                <p class="activity_style" align="left">拼团活动</p>
+            </div>
         </div>
-        <div class="markerting_card_bg_style parent" style="margin-left: 30px" th:href="@{/flashSalesMarketing/queryListData}">
-            <img th:src="@{/images/flash_sales_card_icon.png}" style="margin:10px" width="26px">
-            <p class="activity_style" align="left">秒杀活动</p>
+
+        <div th:if="${haveFlashSales} eq '1'">
+            <div class="markerting_card_bg_style parent" style="margin-right: 30px" th:href="@{/flashSalesMarketing/queryListData}">
+                <img th:src="@{/images/flash_sales_card_icon.png}" style="margin:10px" width="26px">
+                <p class="activity_style" align="left">秒杀活动</p>
+            </div>
         </div>
-        <div class="markerting_card_bg_style parent" style="margin-left: 30px" th:href="@{/cutDownMarketing/queryListData}">
-            <img th:src="@{/images/cut_down_card_icon.png}" style="margin:10px" width="26px">
-            <p class="activity_style" align="left">砍价活动</p>
+
+        <div th:if="${haveCutDown} eq '1'">
+            <div class="markerting_card_bg_style parent" th:href="@{/cutDownMarketing/queryListData}">
+                <img th:src="@{/images/cut_down_card_icon.png}" style="margin:10px" width="26px">
+                <p class="activity_style" align="left">砍价活动</p>
+            </div>
         </div>
+
     </div>
     <img class="line_style" style="margin-top: 30px" th:src="@{/images/line.jpg}">
     <div class="container" style="margin-top: 30px">
         <img th:src="@{/images/lable.jpg}" width="5" height="26">
         <p class="activity_lable_style">裂变营销</p>
 
-        <div class="markerting_card_bg_style parent" th:href="@{/marketingShare/gotoShareMarketing}">
-            <img th:src="@{/images/share_card_icon.png}" style="margin:10px" width="26px">
-            <p class="activity_style" align="left">分享营销</p>
+        <div th:if="${haveShare} eq '1'">
+            <div class="markerting_card_bg_style parent" style="margin-right: 30px" th:href="@{/marketingShare/gotoShareMarketing}">
+                <img th:src="@{/images/share_card_icon.png}" style="margin:10px" width="26px">
+                <p class="activity_style" align="left">分享营销</p>
+            </div>
         </div>
-        <div class="markerting_card_bg_style parent" style="margin-left: 30px" th:href="@{/marketingTogether/gotoTogetherMarketing}">
-            <img th:src="@{/images/together_card_icon.png}" style="margin:10px" width="26px">
-            <p class="activity_style" align="left">同行特惠</p>
+
+        <div th:if="${haveTogether} eq '1'">
+            <div class="markerting_card_bg_style parent" style="margin-right: 30px" th:href="@{/marketingTogether/gotoTogetherMarketing}">
+                <img th:src="@{/images/together_card_icon.png}" style="margin:10px" width="26px">
+                <p class="activity_style" align="left">同行特惠</p>
+            </div>
         </div>
-        <div class="markerting_card_bg_style parent" style="margin-left: 30px" th:href="@{/marketingExpanded/gotoMarketingExpanded}">
-            <img th:src="@{/images/expend_card_icon.png}" style="margin:10px" width="26px">
-            <p class="activity_style" align="left">全员推广</p>
+
+        <div th:if="${haveExpand} eq '1'">
+            <div class="markerting_card_bg_style parent" th:href="@{/marketingExpanded/gotoMarketingExpanded}">
+                <img th:src="@{/images/expend_card_icon.png}" style="margin:10px" width="26px">
+                <p class="activity_style" align="left">全员推广</p>
+            </div>
         </div>
+
     </div>
     <img class="line_style" style="margin-top: 30px" th:src="@{/images/line.jpg}">
     <div class="container" style="margin-top: 30px">
         <img th:src="@{/images/lable.jpg}" width="5" height="26">
         <p class="activity_lable_style">营销操作</p>
 
-        <div class="markerting_card_bg_style parent" th:href="@{/marketingPutOn}">
-            <img th:src="@{/images/setting_send_coupon.png}" style="margin:10px" width="26px">
-            <p class="activity_style" align="left">优惠券投放</p>
+        <div th:if="${haveSendCoupon} eq '1'">
+            <div class="markerting_card_bg_style parent" style="margin-right: 30px" th:href="@{/marketingPutOn}">
+                <img th:src="@{/images/setting_send_coupon.png}" style="margin:10px" width="26px">
+                <p class="activity_style" align="left">优惠券投放</p>
+            </div>
         </div>
-        <div class="markerting_card_bg_style parent" style="margin-left: 30px" th:href="@{/pos/customerMarketingExpanded/gotoMainPage}">
-            <img th:src="@{/images/expanded_customer_card_icon.png}" style="margin:10px" width="26px">
-            <p class="activity_style" align="left">推广提成核算</p>
+
+        <div th:if="${haveExpandedCustomer} eq '1'">
+            <div class="markerting_card_bg_style parent" th:href="@{/pos/customerMarketingExpanded/gotoMainPage}">
+                <img th:src="@{/images/expanded_customer_card_icon.png}" style="margin:10px" width="26px">
+                <p class="activity_style" align="left">推广提成核算</p>
+            </div>
         </div>
+
     </div>
 
 </div>

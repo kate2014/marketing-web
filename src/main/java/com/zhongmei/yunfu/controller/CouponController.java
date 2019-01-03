@@ -80,8 +80,8 @@ public class CouponController extends BaseController {
         CouponEntity coupon = couponModel.obtainCoupon();
 
         coupon.setStatusFlag(StatusFlag.VALiD.value());
-        coupon.setUpdatorId(1l);
-        coupon.setUpdatorName("admin");
+        coupon.setUpdatorId(creatorId);
+        coupon.setUpdatorName(creatorName);
         coupon.setServerUpdateTime(new Date());
 
         if (coupon.getId() != null) {

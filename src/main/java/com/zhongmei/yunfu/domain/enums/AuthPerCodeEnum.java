@@ -21,4 +21,7 @@ public enum AuthPerCodeEnum {
     CUSTOMER_SEE, //查看会员权限
     CUSTOMER_MODIFY, //编辑会员权限
     CUSTOMER_ADD, //添加会员权限
+
+
+
 }
