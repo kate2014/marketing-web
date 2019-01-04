@@ -34,7 +34,12 @@ public class CouponController extends BaseController {
 
     @RequestMapping({"", "/list"})
     public String list(Model model, CouponSearchModel searchModel) {
-        Page<CouponEntity> listPage = couponService.findListPage(null, null, searchModel.getCouponType(), searchModel.getCouponState(), searchModel.getKeyWord(), searchModel.getPageNo(), searchModel.getPageSize());
+        Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
+        Long shopIdentity = LoginManager.get().getUser().getShopIdenty();
+
+        System.out.println("==========list:"+brandIdentity+"==="+shopIdentity);
+
+        Page<CouponEntity> listPage = couponService.findListPage(brandIdentity, shopIdentity, searchModel.getCouponType(), searchModel.getCouponState(), searchModel.getKeyWord(), searchModel.getPageNo(), searchModel.getPageSize());
         List<CouponModel> listCouponModel = new ArrayList<>();
         if (listPage != null && listPage.getRecords() != null) {
             for (CouponEntity coupon : listPage.getRecords()) {

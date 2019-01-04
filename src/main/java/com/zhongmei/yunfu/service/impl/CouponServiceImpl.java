@@ -54,6 +54,8 @@ public class CouponServiceImpl extends ServiceImpl<CouponMapper, CouponEntity> i
         if (couponState != null && couponState != 0) {
             coupon.setCouponState(couponState);
         }
+        coupon.setShopIdenty(shopIdenty);
+        coupon.setBrandIdenty(brandIdenty);
         //coupon
         Page<CouponEntity> page = new Page<>(curPage, pageSize);
         EntityWrapper<CouponEntity> eWrapper = new EntityWrapper<>(coupon);

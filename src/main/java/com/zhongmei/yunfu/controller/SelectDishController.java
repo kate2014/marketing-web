@@ -39,6 +39,7 @@ public class SelectDishController extends BaseController {
             String url = "http://47.105.100.99:8090/MeiYe/internal/api/dish/loadBrandTypes?brandId=%s&shopId=%s&userId=%s";
             url = String.format(url, LoginManager.get().getUser().getBrandIdenty()+"",LoginManager.get().getUser().getShopIdenty()+"",LoginManager.get().getUser().getId()+"");
 
+            System.out.println("==========url:"+url);
             Map<String, String> map = new HashMap<>();
             RestTemplate template = new RestTemplate();
             HttpHeaders headers = new HttpHeaders();
@@ -55,7 +56,7 @@ public class SelectDishController extends BaseController {
             DishTypeResponse response = JSON.parseObject(jsonResult, DishTypeResponse.class);
 
             List<DishType> dishTypes=new ArrayList<>();
-            if(response!=null){
+            if(response!=null && response.getData()!= null){
                 for (DishType dishType : response.getData()) {
                     if(dishType.getDishBrandTypeBoList()!=null && dishType.getDishBrandTypeBoList().size()>0){
                         dishTypes.addAll(dishType.getDishBrandTypeBoList());
