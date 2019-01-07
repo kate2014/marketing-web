@@ -106,7 +106,7 @@ public class CustomerPosApi extends PosApiController {
             mCustomer.setSourceId(CustomerSourceId.POS.value());
             mCustomer.setStoredBalance(BigDecimal.ZERO);
             mCustomer.setShopIdenty(req.getHeader().getShopId());
-            mCustomer.setBrandIdenty(req.getHeader().getShopId());
+            mCustomer.setBrandIdenty(req.getHeader().getBrandId());
             mCustomer.setEnabledFlag(EnabledFlag.ENABLED.value());
             customerService.insert(mCustomer);
         } else {
