@@ -173,10 +173,12 @@
 
         <div class="container" style="width: 100%;height: 50px;background-color: #FFFFFF;border: 1px #F4F4F4;cursor: pointer ">
             <div class="parent">
-                <img th:src="@{/images/guanwang_icon.png}" style="margin:10px" width="30px">
-                <p class="notify_lable_style" align="left" onclick="javascript:window.open('http://www.zhongmeiyunfu.com/');">众美云服官网</p>
+                <img th:src="@{/images/login_user_icon.png}" style="margin:10px" width="30px">
+
+                <p class="notify_lable_style">用户：<span class="notify_lable_style" align="left" th:text="${mTradeModel.creatorName}"></span></p>
             </div>
         </div>
+
 
         <div id="imgchangediv" align="center" style="margin-top: 10px">
             <img th:src="@{/images/gg_01.jpg}" style="display: block; width: 100%"/>
@@ -188,6 +190,7 @@
                 <font></font>
             </div>
         </div>
+
 
         <div style="width: 100%;text-align: center; background-color: #FFFFFF;border: 1px #F4F4F4">
             <div style="padding: 15px">
@@ -207,7 +210,13 @@
 
 </div>
 
-<div id="footer">蜀ICP备18028814号-1 众美云服科技有限公司提供技术支持</div>
+<div style="width: 100%;height: 1px;background-color: #d7d8d7;"></div>
+
+<div id="footer" class="container parent_h">
+    <img th:src="@{/images/guanwang_icon.png}" style="margin:10px" width="30px">
+    <p class="notify_lable_style" style="margin-right: 26px;cursor: pointer" onclick="javascript:window.open('http://www.zhongmeiyunfu.com/');">众美云服官网</p>
+    蜀ICP备18028814号-1 众美云服科技有限公司提供技术支持
+</div>
 
 <script th:inline="javascript">
 
