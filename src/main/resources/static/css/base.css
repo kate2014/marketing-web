@@ -370,8 +370,18 @@ body{
 .select-com .tab{
 	padding-top:11px;
 	width:120px;
+	height:100%;
 	border-right: 1px solid #E9E9E9;
+	overflow:auto;
+	overflow-x: hidden
 }
+
+.select-com ::-webkit-scrollbar{
+	width:0px;
+	background: none;
+}
+
+
 .select-com .tab li{
 	height:40px;
 	line-height: 40px;
