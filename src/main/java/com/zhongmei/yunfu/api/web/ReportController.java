@@ -1,14 +1,12 @@
 package com.zhongmei.yunfu.api.web;
 
+import com.zhongmei.yunfu.service.*;
 import com.zhongmei.yunfu.util.DateFormatUtil;
 import com.zhongmei.yunfu.util.ToolsUtil;
 import com.zhongmei.yunfu.controller.model.PaymentItemModel;
 import com.zhongmei.yunfu.controller.model.TradeModel;
 import com.zhongmei.yunfu.domain.entity.DishReport;
 import com.zhongmei.yunfu.domain.entity.TradeEntity;
-import com.zhongmei.yunfu.service.PaymentItemService;
-import com.zhongmei.yunfu.service.TradeItemService;
-import com.zhongmei.yunfu.service.TradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,12 +25,88 @@ public class ReportController {
     TradeItemService mTradeItemService;
     @Autowired
     PaymentItemService mPaymentItemService;
+    @Autowired
+    AuthUserService authUserService;
+
+    @RequestMapping("/showEmptyReport")
+    public String showEmptyReport(Model model, TradeModel mTradeModel) {
+
+        return "empty_report";
+    }
 
     @RequestMapping("/salesReport")
     public String reportSalse(Model model, TradeModel mTradeModel) {
 
         model.addAttribute("brandIdenty", mTradeModel.getBrandIdenty());
         model.addAttribute("shopIdenty", mTradeModel.getShopIdenty());
+
+
+        Long shopId = mTradeModel.getShopIdenty();
+        Long creatorId = mTradeModel.getCreatorId();
+        String creatorName = mTradeModel.getCreatorName();
+
+        if(LoginManager.get().getUser() != null){
+            if(creatorId != null && !creatorId.equals("")){
+                LoginManager.get().getUser().setCreatorId(creatorId);
+            }else{
+                creatorId = LoginManager.get().getUser().getCreatorId();
+            }
+
+            if(creatorName != null && !creatorName.equals("")){
+                LoginManager.get().getUser().setCreatorName(creatorName);
+            }
+
+            if(shopId != null && !shopId.equals("")){
+                LoginManager.get().getUser().setShopIdenty(shopId);
+            }else{
+                shopId = LoginManager.get().getUser().getShopIdenty();
+            }
+        }
+
+        Map<String, String> permissionData = authUserService.getAuthPermissionMap(creatorId,shopId);
+
+        //销售报表
+        if(permissionData.get("SALES_REP0RT") == null || permissionData.get("SALES_REP0RT").equals("")){
+            model.addAttribute("haveSalesReport", 0);
+        }else{
+            model.addAttribute("haveSalesReport", 1);
+        }
+
+        //品项销售报表
+        if(permissionData.get("DISH_REP0RT") == null || permissionData.get("DISH_REP0RT").equals("")){
+            model.addAttribute("haveDishReport", 0);
+        }else{
+            model.addAttribute("haveDishReport", 1);
+        }
+
+        //会员报表
+        if(permissionData.get("MEMBER_REP0RT") == null || permissionData.get("MEMBER_REP0RT").equals("")){
+            model.addAttribute("haveMemberReport", 0);
+        }else{
+            model.addAttribute("haveMemberReport", 1);
+        }
+
+        //场景营销报表
+        if(permissionData.get("MARKETING_REP0RT") == null || permissionData.get("MARKETING_REP0RT").equals("")){
+            model.addAttribute("haveMarketingReport", 0);
+        }else{
+            model.addAttribute("haveMarketingReport", 1);
+        }
+
+        //优惠券报表
+        if(permissionData.get("COUPON_REP0RT") == null || permissionData.get("COUPON_REP0RT").equals("")){
+            model.addAttribute("haveCouponReport", 0);
+        }else{
+            model.addAttribute("haveCouponReport", 1);
+        }
+
+        //预约报表
+        if(permissionData.get("BOOKING_REP0RT") == null || permissionData.get("BOOKING_REP0RT").equals("")){
+            model.addAttribute("haveBookingReport", 0);
+        }else{
+            model.addAttribute("haveBookingReport", 1);
+        }
+
         return "report";
     }
 

@@ -151,44 +151,53 @@ public class CustomerMarketingExpandedController extends BaseController{
     public String queryExpandedCommission(Model model, CommissionSearchModel mCommissionSearchModel){
         try {
             String alertMag = "";
-            CustomerEntity mCustomer = mCustomerService.queryCustomerByMobile(mCommissionSearchModel.getBrandIdenty(), mCommissionSearchModel.getShopIdenty(), mCommissionSearchModel.getMobile());
 
-            if(mCustomer != null && mCustomer.getId() != null){
+            model.addAttribute("totalAmount", "0.00￥");
+            model.addAttribute("totalCommission", "0.00￥");
+            model.addAttribute("exchangeTotolAmount", "0.00￥");
+            model.addAttribute("canExchange", "0.00￥");
+            model.addAttribute("canExchangeValue", 0);
 
-                CustomerEntity wxCustomerEntity = mCustomerService.queryCustomerByRelateId(mCommissionSearchModel.getBrandIdenty(), mCommissionSearchModel.getShopIdenty(),mCustomer.getId());
-
-                ExpandedCommissionEntity mExpandedCommission = new ExpandedCommissionEntity();
-                mExpandedCommission.setBrandIdenty(mCommissionSearchModel.getBrandIdenty());
-                mExpandedCommission.setShopIdenty(mCommissionSearchModel.getShopIdenty());
-                mExpandedCommission.setCustomerId(wxCustomerEntity.getId());
-                ExpandedCommissionEntity mExpandedCommissionEntity = mExpandedCommissionService.queryNewCommission(mExpandedCommission);
-
-                if(mExpandedCommissionEntity != null){
-                    BigDecimal exchangeTotolAmount = mExpandedCommissionEntity.getTotalCommission().subtract(mExpandedCommissionEntity.getCanExchange());
-                    model.addAttribute("totalAmount", mExpandedCommissionEntity.getTotalAmount()+"￥");
-                    model.addAttribute("totalCommission", mExpandedCommissionEntity.getTotalCommission()+"￥");
-                    model.addAttribute("exchangeTotolAmount", exchangeTotolAmount+"￥");
-                    model.addAttribute("canExchange", mExpandedCommissionEntity.getCanExchange()+"￥");
-                    model.addAttribute("canExchangeValue", mExpandedCommissionEntity.getCanExchange());
-                }else{
-                    model.addAttribute("totalAmount", "0.00￥");
-                    model.addAttribute("totalCommission", "0.00￥");
-                    model.addAttribute("exchangeTotolAmount", "0.00￥");
-                    model.addAttribute("canExchange", "0.00￥");
-                    model.addAttribute("canExchangeValue", 0);
-                    alertMag = "该会员没有提成金额可进行兑换";
-                }
-
-                model.addAttribute("customer", wxCustomerEntity);
-            }else{
-                model.addAttribute("totalAmount", "0.00￥");
-                model.addAttribute("totalCommission", "0.00￥");
-                model.addAttribute("exchangeTotolAmount", "0.00￥");
-                model.addAttribute("canExchange", "0.00￥");
-                model.addAttribute("canExchangeValue", 0);
-                alertMag = "手机号码输入错误，不存在该手机号对应的会员信息，请确认后再试！";
+            if(mCommissionSearchModel.getMobile() ==  null || mCommissionSearchModel.getMobile().equals("")){
+                alertMag = "请输入会员手机号码";
                 model.addAttribute("customer", new CustomerEntity());
+            }else{
+                CustomerEntity mCustomer = mCustomerService.queryCustomerByMobile(mCommissionSearchModel.getBrandIdenty(), mCommissionSearchModel.getShopIdenty(), mCommissionSearchModel.getMobile());
+
+                if(mCustomer != null && mCustomer.getId() != null){
+
+                    CustomerEntity wxCustomerEntity = mCustomerService.queryCustomerByRelateId(mCommissionSearchModel.getBrandIdenty(), mCommissionSearchModel.getShopIdenty(),mCustomer.getId());
+
+                    ExpandedCommissionEntity mExpandedCommission = new ExpandedCommissionEntity();
+                    mExpandedCommission.setBrandIdenty(mCommissionSearchModel.getBrandIdenty());
+                    mExpandedCommission.setShopIdenty(mCommissionSearchModel.getShopIdenty());
+                    mExpandedCommission.setCustomerId(wxCustomerEntity.getId());
+                    ExpandedCommissionEntity mExpandedCommissionEntity = mExpandedCommissionService.queryNewCommission(mExpandedCommission);
+
+                    if(mExpandedCommissionEntity != null){
+                        BigDecimal exchangeTotolAmount = mExpandedCommissionEntity.getTotalCommission().subtract(mExpandedCommissionEntity.getCanExchange());
+                        model.addAttribute("totalAmount", mExpandedCommissionEntity.getTotalAmount()+"￥");
+                        model.addAttribute("totalCommission", mExpandedCommissionEntity.getTotalCommission()+"￥");
+                        model.addAttribute("exchangeTotolAmount", exchangeTotolAmount+"￥");
+                        model.addAttribute("canExchange", mExpandedCommissionEntity.getCanExchange()+"￥");
+                        model.addAttribute("canExchangeValue", mExpandedCommissionEntity.getCanExchange());
+                    }else{
+                        model.addAttribute("totalAmount", "0.00￥");
+                        model.addAttribute("totalCommission", "0.00￥");
+                        model.addAttribute("exchangeTotolAmount", "0.00￥");
+                        model.addAttribute("canExchange", "0.00￥");
+                        model.addAttribute("canExchangeValue", 0);
+                        alertMag = "该会员没有提成金额可进行兑换";
+                    }
+
+                    model.addAttribute("customer", wxCustomerEntity);
+                }else{
+
+                    alertMag = "手机号码输入错误，不存在该手机号对应的会员信息，请确认后再试！";
+                    model.addAttribute("customer", new CustomerEntity());
+                }
             }
+
 
             model.addAttribute("alertMsg", alertMag);
             model.addAttribute("mCommissionSearchModel", mCommissionSearchModel);

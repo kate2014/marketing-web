@@ -55,7 +55,7 @@ public class SelectDishController extends BaseController {
             DishTypeResponse response = JSON.parseObject(jsonResult, DishTypeResponse.class);
 
             List<DishType> dishTypes=new ArrayList<>();
-            if(response!=null){
+            if(response!=null && response.getData()!= null){
                 for (DishType dishType : response.getData()) {
                     if(dishType.getDishBrandTypeBoList()!=null && dishType.getDishBrandTypeBoList().size()>0){
                         dishTypes.addAll(dishType.getDishBrandTypeBoList());

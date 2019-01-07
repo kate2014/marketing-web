@@ -22,10 +22,7 @@ public class LoginController extends BaseController {
     AuthUserService authUserService;
 
     @RequestMapping({"/", "/home"})
-    public String home(Model model,Long creatorId,String creatorName) {
-
-
-        Long shopId = LoginManager.get().getUser().getShopIdenty();
+    public String home(Model model,Long creatorId,String creatorName,Long shopIdenty) {
 
         if(creatorId != null && !creatorId.equals("")){
             LoginManager.get().getUser().setCreatorId(creatorId);
@@ -34,11 +31,14 @@ public class LoginController extends BaseController {
         }
         if(creatorName != null && !creatorName.equals("")){
             LoginManager.get().getUser().setCreatorName(creatorName);
+        }
+        if(shopIdenty != null && !shopIdenty.equals("")){
+            LoginManager.get().getUser().setShopIdenty(shopIdenty);
         }else{
-            creatorName = LoginManager.get().getUser().getCreatorName();
+            shopIdenty = LoginManager.get().getUser().getShopIdenty();
         }
 
-        Map<String, String> permissionData = authUserService.getAuthPermissionMap(creatorId,shopId);
+        Map<String, String> permissionData = authUserService.getAuthPermissionMap(creatorId,shopIdenty);
 
         //新品推广
         if(permissionData.get("WEB_PUSH_NEW_DISH") == null || permissionData.get("WEB_PUSH_NEW_DISH").equals("")){

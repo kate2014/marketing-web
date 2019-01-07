@@ -3,6 +3,8 @@ package com.zhongmei.yunfu.controller.model;
 public class ShopSettingModel {
 
     private Long creatorId;
+
+    private String creatorName;
     /**
      * 品牌标识
      */
@@ -101,6 +103,14 @@ public class ShopSettingModel {
 
     public void setCreatorId(Long creatorId) {
         this.creatorId = creatorId;
+    }
+
+    public String getCreatorName() {
+        return creatorName;
+    }
+
+    public void setCreatorName(String creatorName) {
+        this.creatorName = creatorName;
     }
 
     public String getApiSecret() {
