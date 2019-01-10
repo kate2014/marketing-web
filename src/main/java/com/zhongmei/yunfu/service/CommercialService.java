@@ -1,7 +1,9 @@
 package com.zhongmei.yunfu.service;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.IService;
 import com.zhongmei.yunfu.api.ApiResponseStatusException;
+import com.zhongmei.yunfu.erp.model.ERPCommercialModel;
 import com.zhongmei.yunfu.domain.entity.CommercialEntity;
 
 import java.util.List;
@@ -48,4 +50,11 @@ public interface CommercialService extends IService<CommercialEntity> {
      */
     Boolean modifyCommercial(CommercialEntity mCommercialEntity) throws Exception;
 
+    /**
+     * 获取所有门店信息
+     * @param mCommercialModel
+     * @return
+     * @throws Exception
+     */
+    Page<CommercialEntity> queryCommercialList(ERPCommercialModel mCommercialModel, int pageIdx, int pageSize)throws Exception;
 }

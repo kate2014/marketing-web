@@ -1,6 +1,8 @@
 package com.zhongmei.yunfu.service;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.IService;
+import com.zhongmei.yunfu.erp.model.ERPBrandModel;
 import com.zhongmei.yunfu.domain.entity.BrandEntity;
 
 /**
@@ -21,4 +23,12 @@ public interface BrandService extends IService<BrandEntity> {
      * @throws Exception
      */
     BrandEntity queryBrandByAppId(Long id) throws Exception;
+
+    /**
+     * 获取所有品牌数据
+     * @param mERPBrandModel
+     * @return
+     * @throws Exception
+     */
+    Page<BrandEntity> queryBrandList(ERPBrandModel mERPBrandModel)throws Exception;
 }

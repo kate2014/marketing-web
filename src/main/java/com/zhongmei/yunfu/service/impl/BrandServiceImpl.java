@@ -1,6 +1,8 @@
 package com.zhongmei.yunfu.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
+import com.zhongmei.yunfu.erp.model.ERPBrandModel;
 import com.zhongmei.yunfu.domain.entity.BrandEntity;
 import com.zhongmei.yunfu.domain.mapper.BrandMapper;
 import com.zhongmei.yunfu.service.BrandService;
@@ -32,4 +34,18 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, BrandEntity> impl
             return null;
         }
     }
+
+    @Override
+    public Page<BrandEntity> queryBrandList(ERPBrandModel mERPBrandModel) throws Exception {
+
+        EntityWrapper<BrandEntity> eWrapper = new EntityWrapper<>(new BrandEntity());
+        eWrapper.eq("status", mERPBrandModel.getStatus());
+
+        Page<BrandEntity> listPage = new Page<>(mERPBrandModel.getPageNo(),mERPBrandModel.getPageSize());
+
+        Page<BrandEntity> listBrand = selectPage(listPage,eWrapper);
+
+        return listBrand;
+    }
+
 }

@@ -1,9 +1,11 @@
 package com.zhongmei.yunfu.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.zhongmei.yunfu.api.ApiResponseStatus;
 import com.zhongmei.yunfu.api.ApiResponseStatusException;
+import com.zhongmei.yunfu.erp.model.ERPCommercialModel;
 import com.zhongmei.yunfu.domain.entity.CommercialEntity;
 import com.zhongmei.yunfu.domain.enums.StatusFlag;
 import com.zhongmei.yunfu.domain.mapper.CommercialMapper;
@@ -68,6 +70,21 @@ public class CommercialServiceImpl extends ServiceImpl<CommercialMapper, Commerc
         eWrapper.eq("commercial_id", mCommercialEntity.getCommercialId());
         Boolean isSuccess = update(mCommercialEntity, eWrapper);
         return isSuccess;
+    }
+
+    @Override
+    public Page<CommercialEntity> queryCommercialList(ERPCommercialModel mCommercialModel, int pageIdx, int pageSize) throws Exception {
+
+        EntityWrapper<CommercialEntity> eWrapper = new EntityWrapper<>(new CommercialEntity());
+        eWrapper.eq("brand_id", mCommercialModel.getBrandId());
+        eWrapper.eq("status", mCommercialModel.getStatus());
+        eWrapper.eq("invalid_status", mCommercialModel.getInvalidStatus());
+
+        Page<CommercialEntity> listPage = new Page<>(pageIdx,pageSize);
+
+        Page<CommercialEntity> listCommercail = selectPage(listPage,eWrapper);
+
+        return listCommercail;
     }
 
 
