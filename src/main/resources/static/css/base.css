@@ -190,6 +190,13 @@ body{
 	padding-left: 5px;
 	padding-right: 5px;
 }
+.details-bom .spell-content li input[type="number"]{
+	width: 200px;
+	height: 34px;
+	font-size: 8px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
 .details-bom .spell-content li textarea{
 	width: 400px;
 	row: 3;
@@ -197,6 +204,12 @@ body{
 	font-size: 8px;
 }
 .details-bom .spell-content li input[type="checkbox"]{
+	width:14px;
+	height:14px;
+	margin-right:8px;
+	vertical-align: middle;
+}
+.details-bom .spell-content li input[type="radio"]{
 	width:14px;
 	height:14px;
 	margin-right:8px;
@@ -369,7 +382,7 @@ body{
 }
 .select-com .tab{
 	padding-top:11px;
-	width:120px;
+	width:180px;
 	height:100%;
 	border-right: 1px solid #E9E9E9;
 	overflow:auto;
@@ -385,7 +398,9 @@ body{
 .select-com .tab li{
 	height:40px;
 	line-height: 40px;
-	padding-left:27px;
+	padding-left:10px;
+	padding-right: 10px;
+	text-align: right;
 	cursor: pointer;
 }
 .select-com .tab li.current {

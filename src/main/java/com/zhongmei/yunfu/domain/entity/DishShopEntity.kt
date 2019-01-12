@@ -124,11 +124,11 @@ class DishShopEntity : BaseEntity() {
      */
     var source: Int? = null
     /**
-     * 是否允许外送 : 1 允许 2不允许
+     * 是否允许上门服务 : 1 允许 2不允许
      */
     var isSendOutside: Int? = null
     /**
-     * 是否允许堂食1.允许2.不允许
+     * 是否允店内使用1.允许2.不允许
      */
     var isOrder: Int? = null
     /**
@@ -140,11 +140,11 @@ class DishShopEntity : BaseEntity() {
      */
     var stepNum: BigDecimal? = null
     /**
-     * 适合人群（小） : 适合人群（小）
+     * 适合人群（小） : 适合人群（小）  ====PS：现在暂时使用minNum来标记时间数据
      */
     var minNum: Int? = null
     /**
-     * 适合人群（大） : 适合人群（大）
+     * 适合人群（大） : 适合人群（大）====PS：现在暂时使用maxNum来标记时间单位：1：天   2：周  3：月
      */
     var maxNum: Int? = null
     /**
@@ -164,11 +164,11 @@ class DishShopEntity : BaseEntity() {
      */
     var residueTotal: BigDecimal? = null
     /**
-     * 外卖可售数量 : 外卖可售数量
+     * 外送可售数量 : 外送可售数量
      */
     var saleTotalWechat: BigDecimal? = null
     /**
-     * 外卖剩余数量
+     * 外送剩余数量
      */
     var residueTotalWechat: BigDecimal? = null
     /**
@@ -180,7 +180,7 @@ class DishShopEntity : BaseEntity() {
      */
     var unvalidTime: Date? = null
     /**
-     * 销售场景 : 商户终端、微信、自助点餐。（3位二进制组合，“1”为可售，“0”为不可售，如“110”表示“商户终端-可售、微信-可售、自助点餐-不可售”）
+     * 销售场景 : 商户终端、微信、自助点餐。（3位二进制组合，“1”为可售，“0”为不可售，如“110”表示“商户终端-可售、微信-可售、自助-不可售”）
      */
     var scene: String? = null
     /**
@@ -208,7 +208,7 @@ class DishShopEntity : BaseEntity() {
      */
     var dishQty: BigDecimal? = null
     /**
-     * 餐盒数量
+     * 包装盒数量
      */
     var boxQty: Int? = null
     /**

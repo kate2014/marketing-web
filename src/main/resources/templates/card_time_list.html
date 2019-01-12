@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<style type="text/css">
+
+    html,body{
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        background-color: #FFFFFF;
+    }
+
+    div.parent {
+        /* 启用弹性盒布局 */
+        display: flex;
+        /* 使子元素垂直居中 */
+        align-items: center;
+    }
+
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <title>卡项</title>
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../css/base.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../css/common.css" type="text/css" />
+</head>
+
+<script type="text/javascript">
+    laydate.render({
+        elem: '#startDate',
+        type: 'datetime',
+        calendar: 'true',
+        trigger: 'click'
+    });
+    laydate.render({
+        elem: '#endDate',
+        type: 'datetime',
+        calendar: 'true',
+        trigger: 'click'
+    });
+</script>
+
+<body>
+
+<div class="parent top_view_style">
+    <img th:src="@{/images/lable.jpg}" width="5" height="26" style="margin-left: 20px;">
+    <label class="text_navigation" style="margin-left: 10px">营销 》卡项</label>
+
+    <span style="margin-left: 70%">
+
+            <button class="blue_button_style" value="" th:onclick="@{|location='${basePath}/cardTime/gotoAddCardTime'|}">+新建卡项</button>
+
+            <button class="gray_button_style" value="" th:onclick="@{|location='${basePath}/home'|}" style="margin-left: 10px">返回</button>
+        </span>
+
+</div>
+
+
+
+<div align="center" style="margin-top: 10px">
+    <table class="gridtablestyle" style="width: 90%; vertical-align: middle">
+        <tr style="width: 100%">
+            <th>卡项名称</th>
+            <th>售价</th>
+            <th>使用次数</th>
+            <th>使用起始时间</th>
+            <th>使用结束数据</th>
+            <th>操作</th>
+        </tr>
+        <tr th:each="item:${list}">
+            <td th:text="${item.name}"></td>
+
+
+            <td th:text="${item.marketPrice}"></td>
+            <td th:text="${item.dishIncreaseUnit}"></td>
+            <td th:text="${#dates.format(item.validTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td th:text="${#dates.format(item.unvalidTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+
+            <td align="center">
+                <a href="activityadd.html" th:href="@{/cardTime/gotoAddCardTime(id=${item.id})}">编辑/查看</a>
+                <a href="activityadd.html" th:href="@{/cardTime/deleteCradTime(id=${item.id})}">删除</a>
+            </td>
+
+        </tr>
+
+    </table>
+</div>
+
+<div class="paging" style="margin-bottom: 100px">
+    <div th:replace="page_info::pagination"/>
+</div>
+
+</body>
+</html>
+

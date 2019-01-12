@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+
+<style type="text/css">
+
+    html,body{
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        background-color: #FFFFFF;
+    }
+
+    div.parent {
+        /* 启用弹性盒布局 */
+        display: flex;
+        /* 使子元素水平居中
+        justify-content: center;
+        */
+        /* 使子元素垂直居中 */
+        align-items: center;
+    }
+
+    div.modle {
+        /* 启用弹性盒布局 */
+        display: flex;
+        align-items: flex-start
+    }
+
+    .weixin_pic_style{
+        width: 20%;
+        box-shadow: 2px 4px 6px #999999;
+        margin-top: 30px;
+        margin-left: 30px;
+    }
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <title>添加新品推</title>
+
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../css/base.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../css/common.css" type="text/css" />
+
+    <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <script type="text/javascript" src="../static/js/base.js" th:src="@{/js/base.js}"></script>
+
+    <!-- tips 提示框引用-->
+    <link rel="stylesheet" th:href="@{/tips/jquery.toast.css}">
+    <script type="text/javascript" th:src="@{/tips/jquery.toast.js}"></script>
+    <script type="text/javascript" th:src="@{/tips/tips.js}"></script>
+</head>
+
+<script type="text/javascript">
+
+
+    $(function () {
+        $("#dish_select").click(function () {
+            $('.zm-dialog').load('[[${basePath}]]/dish/selectShopPage'); //#container
+
+        })
+    });
+
+    function setDishInfo(dishId, dishName, dishPrice, dishDesc) {
+        $("#dishId").attr('value', dishId);
+        $("#dishName").attr('value', dishName);
+        $("#originalPrice").attr('value', dishPrice);
+
+        addRow(dishId,dishName,dishPrice);
+    };
+
+    function selectUseDish(type) {
+        if(type == 1){
+            document.getElementById("selectDishView").style.display = 'block';
+            document.getElementById("tab").style.display = 'block';
+
+        }else{
+            document.getElementById("selectDishView").style.display = 'none';
+            document.getElementById("tab").style.display = 'none';
+
+        }
+    }
+
+
+
+    function addRow(dishId, dishName, dishPrice){
+        var tab = document.getElementById("tab");
+
+        var rownum = tab.rows.length;// 行数
+        var newRow=tab.insertRow(rownum);
+
+        var cellname = newRow.insertCell(0);
+        cellname.innerHTML=dishName+"<input type='hidden' name='dishId' value="+dishId+"></input>";
+
+        var cellage = newRow.insertCell(1);
+        cellage.innerHTML=dishPrice;
+
+        var action = newRow.insertCell(2);
+
+        action.innerHTML="<button class='orange_button_style' onclick='dele(this)' style='vertical-align: middle; height: 35px'>删除</button>"
+    }
+
+    function dele(obj){
+        var otr = obj.parentNode.parentNode;
+        var tab =  otr.parentNode; //自己的父节点 就是table
+        tab.removeChild(otr);
+    }
+
+    function sendForm() {
+
+
+        var name = document.getElementById("name").value.replace(/(^\s*)|(\s*$)/g, '');
+        var marketPrice = document.getElementById("marketPrice").value.replace(/(^\s*)|(\s*$)/g, '');
+        var dishQty = document.getElementById("dishQty").value.replace(/(^\s*)|(\s*$)/g, '');
+        var isAllDish = document.getElementsByName("isAllDish")[0].value;
+        var dishId = document.getElementsByName("dishId")[0].value;
+
+        alert(isAllDish);
+        if(name == '' || name == undefined || name == null){
+            alert(name);
+            warningTips("操作异常提示","卡项名称不能为空");
+        }else if(marketPrice == '' || marketPrice == undefined || marketPrice == null){
+            alert(marketPrice);
+            warningTips("操作异常提示","卡项售价不能为空");
+        }else if(dishQty == '' || dishQty == undefined || dishQty == null){
+            alert(dishQty);
+            warningTips("操作异常提示","库存数量不能为空");
+        }else if(isAllDish == 1 && (dishId == '' || dishId == undefined || dishId == null)){
+            alert(dishId);
+            warningTips("操作异常提示","请选择次卡服务品项");
+        }
+        else{
+            document.addform.submit();
+        }
+    }
+
+
+
+</script>
+
+
+<body>
+
+<section class="mark-details" style="margin-bottom: 50px">
+
+    <div class="parent top_view_style">
+        <img th:src="@{/images/lable.jpg}" width="5" height="26" style="margin-left: 20px;">
+        <label class="text_navigation" style="margin-left: 10px;width: 30%">营销 》卡项 》创建卡项</label>
+
+        <div align="right" style="width: 100%;margin-right: 50px">
+            <button class="orange_button_style" value="" onclick="sendForm()" style="margin-left: 10px">保存</button>
+            <button class="gray_button_style" value="" th:onclick="@{|location='${basePath}/pushPlanActivity/list'|}" style="margin-left: 10px">返回</button>
+        </div>
+    </div>
+
+    <form method="post" name="addform" action="" th:action="@{/cardTime/createCardTime}" th:object="${mCardTimeModel}">
+
+        <input type="hidden" name="id" id="id" th:value="${dishShop.id}"/>
+
+        <div style="margin-left: 20px;margin-top: 10px; width: 100%; height: 100%">
+
+            <div class="details-bom">
+                <ul class="spell-content">
+
+                    <li><span>*卡项名称</span><label><input type="text" name="name" id="name" placeholder="输入卡项名称" maxlength="40" th:value="${dishShop.name}"/></label></li>
+                    <li><span>*卡项售价</span><label><input type="text" name="marketPrice" id="marketPrice" placeholder="输入卡项售价" maxlength="10" th:value="${dishShop.marketPrice}"/></label></li>
+                    <li><span>使用次数</span><label><input type="number" name="dishIncreaseUnit" id="dishIncreaseUnit" placeholder="使用次数" maxlength="10" th:value="${dishShop.dishIncreaseUnit}"/></label>
+                        <h4>如不填，系统将默认为1000次</h4>
+                    </li>
+
+                    <li><span>使用时长</span><label><input type="number" name="minNum" placeholder="输入卡项使用时长" maxlength="10" th:value="${dishShop.minNum}"/></label>
+
+                        <select class="select_style" name="maxNum" style="margin-left: 5px;width: 80px">
+                            <option th:selected="${dishShop.maxNum==1}" th:value="1">天</option>
+                            <option th:selected="${dishShop.maxNum==2}" th:value="2">周</option>
+                            <option th:selected="${dishShop.maxNum==3}" th:value="3">月</option>
+                        </select>
+
+                        <h4>如：月卡：可设置为1月、2月。。。如不设置则没时间限制</h4>
+                    </li>
+
+                    <li><span>*库存数量</span><label><input type="number" name="dishQty" id="dishQty" placeholder="输入可售卖的数量" maxlength="10" th:value="${dishShop.dishQty}"/></label></li>
+
+                    <li><span>*品项范围</span>
+                        <label><input name="isAllDish" type="radio" onclick="selectUseDish(1)" checked="checked" value="1" />指定服务品项</label>
+                        <label style="margin-left: 20px"><input name="isAllDish" type="radio" onclick="selectUseDish(2)" value="2" />全部服务品项</label>
+                    </li>
+
+                </ul>
+
+            </div>
+
+            <div class="details-bom" id="selectDishView">
+                <ul class="spell-content">
+                    <li><span>*选择品项</span>
+
+                        <button id="dish_select" class="blue_button_style select-shop" value="" onclick="return false;">点击选择</button>
+                        <h4>请选择次卡使用的品项</h4>
+                    </li>
+                </ul>
+
+            </div>
+
+            <table id="tab" class="gridtablestyle" style="width: 66%; vertical-align: middle; margin-top: 15px;margin-left: 70px">
+                <tr style="width: 100%">
+                    <th style="width: 40%">品项名称</th>
+                    <th style="width: 30%">品项价格</th>
+                    <th style="width: 30%">删除操作</th>
+                </tr>
+            </table>
+        </div>
+
+    </form>
+
+</section>
+
+<div class='zm-dialog'/>
+
+</body>
+</html>

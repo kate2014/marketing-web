@@ -141,9 +141,16 @@
         </div>
 
         <div th:if="${haveExpandedCustomer} eq '1'">
-            <div class="markerting_card_bg_style parent" th:href="@{/pos/customerMarketingExpanded/gotoMainPage}">
+            <div class="markerting_card_bg_style parent" style="margin-right: 30px" th:href="@{/pos/customerMarketingExpanded/gotoMainPage}">
                 <img th:src="@{/images/expanded_customer_card_icon.png}" style="margin:10px" width="26px">
                 <p class="activity_style" align="left">推广提成核算</p>
+            </div>
+        </div>
+
+        <div th:if="${haveExpand} eq '1'">
+            <div class="markerting_card_bg_style parent" th:href="@{/cardTime/cardList}">
+                <img th:src="@{/images/card_time_icon.png}" style="margin:10px" width="26px">
+                <p class="activity_style" align="left">活动卡项设置</p>
             </div>
         </div>
 
