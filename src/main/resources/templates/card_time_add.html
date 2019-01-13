@@ -91,12 +91,15 @@
         var newRow=tab.insertRow(rownum);
 
         var cellname = newRow.insertCell(0);
-        cellname.innerHTML=dishName+"<input type='hidden' name='dishId' value="+dishId+"></input>";
+        cellname.innerHTML="新添加<input type='hidden' style='width: 1px' name='dishId' value="+dishId+"></input>";
 
-        var cellage = newRow.insertCell(1);
+        var cellname = newRow.insertCell(1);
+        cellname.innerHTML=dishName;
+
+        var cellage = newRow.insertCell(2);
         cellage.innerHTML=dishPrice;
 
-        var action = newRow.insertCell(2);
+        var action = newRow.insertCell(3);
 
         action.innerHTML="<button class='orange_button_style' onclick='dele(this)' style='vertical-align: middle; height: 35px'>删除</button>"
     }
@@ -226,11 +229,13 @@
 
             <table id="tab" class="gridtablestyle" style="vertical-align: middle; margin-top: 15px;margin-left: 70px">
                 <tr style="width: 100%">
+                    <th style="width: 1px">选择添加</th>
                     <th style="width: 300px">品项名称</th>
                     <th style="width: 150px">品项价格</th>
                     <th style="width: 150px">删除操作</th>
                 </tr>
                 <tr th:each="item:${listShop}">
+                    <td style="width: 1px">已添加<input type="hidden" style="width: 1px" name="dishId" th:value="${item.id}"/></td>
                     <td th:text="${item.name}"></td>
                     <td th:text="${item.marketPrice}"></td>
                     <td><button class='orange_button_style' onclick='dele(this)' style='vertical-align: middle; height: 35px'>删除</button></td>
