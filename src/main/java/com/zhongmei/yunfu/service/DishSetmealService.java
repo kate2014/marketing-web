@@ -25,5 +25,20 @@ public interface DishSetmealService extends IService<DishSetmealEntity> {
      * @param mDishSetmealGroupEntity
      * @return
      */
-    Boolean addSetmeal(List<Long> listDishId, DishShopEntity mDishShopEntity, DishSetmealGroupEntity mDishSetmealGroupEntity);
+    Boolean addSetmeal(List<Long> listDishId, DishShopEntity mDishShopEntity, DishSetmealGroupEntity mDishSetmealGroupEntity) throws Exception;
+
+    /**
+     * 根据dishId获取菜品列表
+     * @param dishId
+     * @return
+     */
+    List<DishSetmealEntity> querySetmeal(Long dishId) throws Exception;
+
+    /**
+     * 根据套餐壳id删除子品
+     * @param dishId
+     * @return
+     * @throws Exception
+     */
+    Boolean delectSetmealByDishId(Long dishId) throws Exception;
 }

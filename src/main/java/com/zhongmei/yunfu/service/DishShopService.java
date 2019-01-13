@@ -5,6 +5,8 @@ import com.zhongmei.yunfu.controller.model.CardTimeModel;
 import com.zhongmei.yunfu.domain.entity.DishShopEntity;
 import com.baomidou.mybatisplus.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  * 门店菜品 服务类
@@ -36,4 +38,27 @@ public interface DishShopService extends IService<DishShopEntity> {
      * @throws Exception
      */
     DishShopEntity addDishShop(CardTimeModel mCardTimeModel)throws Exception;
+
+    /**
+     * 更改卡项
+     * @param mCardTimeModel
+     * @return
+     * @throws Exception
+     */
+    Boolean modifyDishShop(CardTimeModel mCardTimeModel)throws Exception;
+
+    /**
+     * 删除卡项
+     * @param dishId
+     * @return
+     * @throws Exception
+     */
+    Boolean deleteDishShop(Long dishId) throws Exception;
+
+    /**
+     * 获取子菜
+     * @return
+     * @throws Exception
+     */
+    List<DishShopEntity> listDishShop(Long dishId)throws Exception;
 }

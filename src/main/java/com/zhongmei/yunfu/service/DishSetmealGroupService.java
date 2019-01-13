@@ -23,4 +23,19 @@ public interface DishSetmealGroupService extends IService<DishSetmealGroupEntity
      */
     DishSetmealGroupEntity addSetmealGroup(CardTimeModel mCardTimeModel, DishShopEntity mDishShopEntity)throws Exception;
 
+    /**
+     * 根据dishId删除套餐壳
+     * @param dishId
+     * @return
+     * @throws Exception
+     */
+    Boolean delectSetmealGroup(Long dishId)throws Exception;
+
+    /**
+     * 根据套餐id查询子品分组
+     * @param dishId
+     * @return
+     * @throws Exception
+     */
+    DishSetmealGroupEntity queryDishSetmealGroupByDishId(Long dishId)throws Exception;
 }

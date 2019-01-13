@@ -1,6 +1,8 @@
 package com.zhongmei.yunfu.service.impl;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.zhongmei.yunfu.controller.model.CardTimeModel;
+import com.zhongmei.yunfu.domain.entity.DishSetmealEntity;
 import com.zhongmei.yunfu.domain.entity.DishSetmealGroupEntity;
 import com.zhongmei.yunfu.domain.entity.DishShopEntity;
 import com.zhongmei.yunfu.domain.mapper.DishSetmealGroupMapper;
@@ -42,6 +44,45 @@ public class DishSetmealGroupServiceImpl extends ServiceImpl<DishSetmealGroupMap
         mDishSetmealGroupEntity.setCreatorId(creatorId);
         mDishSetmealGroupEntity.setCreatorName(creatorName);
         insert(mDishSetmealGroupEntity);
+
+        return mDishSetmealGroupEntity;
+    }
+
+    @Override
+    public Boolean delectSetmealGroup(Long dishId) throws Exception {
+        Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
+        Long shopIdentity = LoginManager.get().getUser().getShopIdenty();
+
+        if(dishId == null || shopIdentity == null){
+            return false;
+        }
+
+        EntityWrapper<DishSetmealGroupEntity> eWrapper = new EntityWrapper<>(new DishSetmealGroupEntity());
+
+        eWrapper.eq("brand_identy",brandIdentity);
+        eWrapper.eq("shop_identy",shopIdentity);
+        eWrapper.eq("setmeal_dish_id",dishId);
+
+        Boolean isSuccess = delete(eWrapper);
+        return isSuccess;
+    }
+
+    @Override
+    public DishSetmealGroupEntity queryDishSetmealGroupByDishId(Long dishId) throws Exception {
+        Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
+        Long shopIdentity = LoginManager.get().getUser().getShopIdenty();
+
+        if(dishId == null || shopIdentity == null){
+            return null;
+        }
+
+        EntityWrapper<DishSetmealGroupEntity> eWrapper = new EntityWrapper<>(new DishSetmealGroupEntity());
+        eWrapper.eq("brand_identy",brandIdentity);
+        eWrapper.eq("shop_identy",shopIdentity);
+        eWrapper.eq("setmeal_dish_id",dishId);
+        eWrapper.eq("status_flag",1);
+
+        DishSetmealGroupEntity mDishSetmealGroupEntity = selectOne(eWrapper);
 
         return mDishSetmealGroupEntity;
     }

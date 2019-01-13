@@ -113,21 +113,28 @@
         var name = document.getElementById("name").value.replace(/(^\s*)|(\s*$)/g, '');
         var marketPrice = document.getElementById("marketPrice").value.replace(/(^\s*)|(\s*$)/g, '');
         var dishQty = document.getElementById("dishQty").value.replace(/(^\s*)|(\s*$)/g, '');
-        var isAllDish = document.getElementsByName("isAllDish")[0].value;
-        var dishId = document.getElementsByName("dishId")[0].value;
+        var isAllDish = document.getElementsByName("isAllDish");
 
-        alert(isAllDish);
+        var selectvalue = 0;
+        for(var i=0;i<isAllDish.length;i++){
+
+            if(isAllDish[i].checked==true) {
+
+                selectvalue=isAllDish[i].value;
+
+                break;
+            }
+        }
+
+        var dishLength = document.getElementsByName("dishId").length;
+
         if(name == '' || name == undefined || name == null){
-            alert(name);
             warningTips("操作异常提示","卡项名称不能为空");
         }else if(marketPrice == '' || marketPrice == undefined || marketPrice == null){
-            alert(marketPrice);
             warningTips("操作异常提示","卡项售价不能为空");
         }else if(dishQty == '' || dishQty == undefined || dishQty == null){
-            alert(dishQty);
             warningTips("操作异常提示","库存数量不能为空");
-        }else if(isAllDish == 1 && (dishId == '' || dishId == undefined || dishId == null)){
-            alert(dishId);
+        }else if(selectvalue == 1 && dishLength == 0){
             warningTips("操作异常提示","请选择次卡服务品项");
         }
         else{
@@ -136,11 +143,25 @@
     }
 
 
+    function isShowSelectDish() {
+
+        var isSelectDish = document.getElementById("isSelectDish").value;
+
+        if(isSelectDish == 1){
+            document.getElementById("selectDishView").style.display = 'block';
+            document.getElementById("tab").style.display = 'block';
+
+        }else{
+            document.getElementById("selectDishView").style.display = 'none';
+            document.getElementById("tab").style.display = 'none';
+
+        }
+    }
 
 </script>
 
 
-<body>
+<body onload="isShowSelectDish()">
 
 <section class="mark-details" style="margin-bottom: 50px">
 
@@ -150,13 +171,14 @@
 
         <div align="right" style="width: 100%;margin-right: 50px">
             <button class="orange_button_style" value="" onclick="sendForm()" style="margin-left: 10px">保存</button>
-            <button class="gray_button_style" value="" th:onclick="@{|location='${basePath}/pushPlanActivity/list'|}" style="margin-left: 10px">返回</button>
+            <button class="gray_button_style" value="" th:onclick="@{|location='${basePath}/cardTime/cardList'|}" style="margin-left: 10px">返回</button>
         </div>
     </div>
 
     <form method="post" name="addform" action="" th:action="@{/cardTime/createCardTime}" th:object="${mCardTimeModel}">
 
         <input type="hidden" name="id" id="id" th:value="${dishShop.id}"/>
+        <input type="hidden" name="isSelectDish" id="isSelectDish" th:value="${mCardTimeModel.isAllDish}"/>
 
         <div style="margin-left: 20px;margin-top: 10px; width: 100%; height: 100%">
 
@@ -164,7 +186,7 @@
                 <ul class="spell-content">
 
                     <li><span>*卡项名称</span><label><input type="text" name="name" id="name" placeholder="输入卡项名称" maxlength="40" th:value="${dishShop.name}"/></label></li>
-                    <li><span>*卡项售价</span><label><input type="text" name="marketPrice" id="marketPrice" placeholder="输入卡项售价" maxlength="10" th:value="${dishShop.marketPrice}"/></label></li>
+                    <li><span>*卡项售价</span><label><input type="text" name="marketPrice" id="marketPrice" onkeyup="clearNoNum(this)" placeholder="输入卡项售价" maxlength="10" th:value="${dishShop.marketPrice}"/>元</label></li>
                     <li><span>使用次数</span><label><input type="number" name="dishIncreaseUnit" id="dishIncreaseUnit" placeholder="使用次数" maxlength="10" th:value="${dishShop.dishIncreaseUnit}"/></label>
                         <h4>如不填，系统将默认为1000次</h4>
                     </li>
@@ -183,8 +205,8 @@
                     <li><span>*库存数量</span><label><input type="number" name="dishQty" id="dishQty" placeholder="输入可售卖的数量" maxlength="10" th:value="${dishShop.dishQty}"/></label></li>
 
                     <li><span>*品项范围</span>
-                        <label><input name="isAllDish" type="radio" onclick="selectUseDish(1)" checked="checked" value="1" />指定服务品项</label>
-                        <label style="margin-left: 20px"><input name="isAllDish" type="radio" onclick="selectUseDish(2)" value="2" />全部服务品项</label>
+                        <label><input name="isAllDish" type="radio" onclick="selectUseDish(1)"  th:field="${mCardTimeModel.isAllDish}" value="1" />指定服务品项</label>
+                        <label style="margin-left: 20px"><input name="isAllDish" type="radio" onclick="selectUseDish(2)" th:field="${mCardTimeModel.isAllDish}" value="2" />全部服务品项</label>
                     </li>
 
                 </ul>
@@ -202,13 +224,19 @@
 
             </div>
 
-            <table id="tab" class="gridtablestyle" style="width: 66%; vertical-align: middle; margin-top: 15px;margin-left: 70px">
+            <table id="tab" class="gridtablestyle" style="vertical-align: middle; margin-top: 15px;margin-left: 70px">
                 <tr style="width: 100%">
-                    <th style="width: 40%">品项名称</th>
-                    <th style="width: 30%">品项价格</th>
-                    <th style="width: 30%">删除操作</th>
+                    <th style="width: 300px">品项名称</th>
+                    <th style="width: 150px">品项价格</th>
+                    <th style="width: 150px">删除操作</th>
+                </tr>
+                <tr th:each="item:${listShop}">
+                    <td th:text="${item.name}"></td>
+                    <td th:text="${item.marketPrice}"></td>
+                    <td><button class='orange_button_style' onclick='dele(this)' style='vertical-align: middle; height: 35px'>删除</button></td>
                 </tr>
             </table>
+
         </div>
 
     </form>

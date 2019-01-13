@@ -1,6 +1,9 @@
 package com.zhongmei.yunfu.service.impl;
 
+import com.baomidou.mybatisplus.mapper.Condition;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.zhongmei.yunfu.controller.model.CardTimeModel;
+import com.zhongmei.yunfu.core.mybatis.mapper.ConditionFilter;
 import com.zhongmei.yunfu.domain.entity.DishSetmealEntity;
 import com.zhongmei.yunfu.domain.entity.DishSetmealGroupEntity;
 import com.zhongmei.yunfu.domain.entity.DishShopEntity;
@@ -26,7 +29,7 @@ import java.util.List;
 public class DishSetmealServiceImpl extends ServiceImpl<DishSetmealMapper, DishSetmealEntity> implements DishSetmealService {
 
     @Override
-    public Boolean addSetmeal(List<Long> listDishId, DishShopEntity mDishShopEntity, DishSetmealGroupEntity mDishSetmealGroupEntity) {
+    public Boolean addSetmeal(List<Long> listDishId, DishShopEntity mDishShopEntity, DishSetmealGroupEntity mDishSetmealGroupEntity) throws Exception{
 
         List<DishSetmealEntity> listData = new ArrayList<>();
         for(Long dishId : listDishId){
@@ -51,6 +54,42 @@ public class DishSetmealServiceImpl extends ServiceImpl<DishSetmealMapper, DishS
         }
 
         Boolean isSuccess = insertBatch(listData);
+
+        return isSuccess;
+    }
+
+    @Override
+    public List<DishSetmealEntity> querySetmeal(Long dishId) throws Exception {
+
+        Condition eWrapper = ConditionFilter.create();
+
+        Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
+        Long shopIdentity = LoginManager.get().getUser().getShopIdenty();
+
+        eWrapper.eq("brand_identy",brandIdentity);
+        eWrapper.eq("shop_identy",shopIdentity);
+        eWrapper.eq("dish_id",dishId);
+
+        List<DishSetmealEntity> listData = selectList(eWrapper);
+
+        return listData;
+    }
+
+    @Override
+    public Boolean delectSetmealByDishId(Long dishId) throws Exception {
+        Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
+        Long shopIdentity = LoginManager.get().getUser().getShopIdenty();
+
+        if(dishId == null || shopIdentity == null){
+            return false;
+        }
+        EntityWrapper<DishSetmealEntity> eWrapper = new EntityWrapper<>(new DishSetmealEntity());
+
+        eWrapper.eq("brand_identy",brandIdentity);
+        eWrapper.eq("shop_identy",shopIdentity);
+        eWrapper.eq("dish_id",dishId);
+
+        Boolean isSuccess = delete(eWrapper);
 
         return isSuccess;
     }

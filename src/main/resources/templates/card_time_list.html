@@ -79,7 +79,7 @@
             <td th:text="${#dates.format(item.unvalidTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
 
             <td align="center">
-                <a href="activityadd.html" th:href="@{/cardTime/gotoAddCardTime(id=${item.id})}">编辑/查看</a>
+                <a href="activityadd.html" th:href="@{/cardTime/gotoAddCardTime(id=${item.id})}">编辑</a>
                 <a href="activityadd.html" th:href="@{/cardTime/deleteCradTime(id=${item.id})}">删除</a>
             </td>
 
