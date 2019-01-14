@@ -93,6 +93,7 @@ public class DishShopServiceImpl extends ServiceImpl<DishShopMapper, DishShopEnt
         mDishShopEntity.setStatusFlag(1);
 
         mDishShopEntity.setBrandDishId(1l);
+        mDishShopEntity.setDishTypeId(-1l);
         mDishShopEntity.setBrandDishUuid(ToolsUtil.genOnlyIdentifier());
         mDishShopEntity.setSort(1);
         mDishShopEntity.setSingle(1);
