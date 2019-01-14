@@ -100,6 +100,7 @@ public class DishShopServiceImpl extends ServiceImpl<DishShopMapper, DishShopEnt
         mDishShopEntity.setDiscountAll(1);
         mDishShopEntity.setSource(1);
         mDishShopEntity.setOrder(1);
+        mDishShopEntity.setSaleType(2);
         mDishShopEntity.setSendOutside(1);
         mDishShopEntity.setDefProperty(1);
         mDishShopEntity.setClearStatus(1);
