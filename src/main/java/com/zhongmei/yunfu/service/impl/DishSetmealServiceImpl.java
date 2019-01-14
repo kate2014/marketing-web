@@ -44,6 +44,7 @@ public class DishSetmealServiceImpl extends ServiceImpl<DishSetmealMapper, DishS
             mDishSetmealEntity.setComboDishTypeId(mDishSetmealGroupEntity.getId());
             mDishSetmealEntity.setChildDishType(0);
 
+            mDishSetmealEntity.setLeastCellNum(BigDecimal.ONE);
             mDishSetmealEntity.setPrice(BigDecimal.ZERO);
             mDishSetmealEntity.setStatusFlag(1);
             mDishSetmealEntity.setBrandIdenty(brandIdentity);
