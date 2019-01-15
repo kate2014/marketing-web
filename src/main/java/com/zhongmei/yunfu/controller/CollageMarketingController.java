@@ -202,7 +202,7 @@ public class CollageMarketingController extends BaseController{
         try {
             Boolean isSuccess = mCollageMarketingService.deleteCollageById(mCollageMarketingModel.getId());
             if (isSuccess) {
-                return redirect("/collageMarketing/queryListData");
+                return "success";
             } else {
                 return "fail";
             }

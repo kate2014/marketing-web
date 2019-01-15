@@ -36,8 +36,50 @@
     <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
     <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" />
     <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/common.css" />
+
+    <!-- diglog -->
+    <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/diy_dialog.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/diy_dialog.css}" type="text/css" />
 </head>
+
+<script type="text/javascript">
+
+    function checkDelete(deleteId,name){
+        var message = "请确认是否要删除: "+name+"?";
+        dialogBox(message,
+            function () {
+                deleteRequest(deleteId);
+            },
+            function(){
+
+            }
+        );
+    }
+
+    function deleteRequest (deleteId) {
+
+        const Url = "[[${basePath}]]/coupon/delete?id="+deleteId;
+
+        const Http = new XMLHttpRequest();
+
+        Http.open("GET",Url);
+
+        Http.send();
+
+        Http.onreadystatechange=function () {
+            if(this.readyState == 4 && this.status == 200){
+                location.reload();
+            }
+        }
+
+    }
+
+</script>
+
 <body>
+<div id="showDialog"></div>
+
 <div class="parent top_view_style">
     <img th:src="@{/images/lable.jpg}" width="5" height="26" style="margin-left: 20px">
     <label class="text_navigation" style="margin-left: 10px;width: 30%">营销 》优惠券推送</label>
@@ -96,7 +138,7 @@
                 <a href="couponadd.html" th:href="@{/coupon/editPage(id=${item.id})}">编辑</a>
                 <a href="couponadd.html" th:href="@{/coupon/enable(id=${item.id})}">投放</a>
                 <a href="couponadd.html" th:href="@{/coupon/disable(id=${item.id})}">停用</a>
-                <a href="couponadd.html" th:href="@{/coupon/delete(id=${item.id})}">删除</a>
+            <a th:onclick="'javascript:checkDelete(\''+${item.id}+'\',\''+${item.name}+'\')'" style="cursor: pointer">删除</a>
             </td>
         </tr>
     </table>

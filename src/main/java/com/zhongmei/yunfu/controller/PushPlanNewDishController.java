@@ -117,7 +117,7 @@ public class PushPlanNewDishController extends BaseController {
     @RequestMapping("/delete")
     public String deleteNewDishPushPlan(Model model, Long id) {
         boolean result = mPushNewDishService.deleteNewDishPushPlan(id);
-        return redirect("/pushPlanNewDish");
+        return "success";
     }
 
     @RequestMapping("/addNewDishPushPlanPage")

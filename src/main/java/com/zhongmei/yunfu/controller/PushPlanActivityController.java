@@ -183,7 +183,7 @@ public class PushPlanActivityController extends BaseController {
         if (!isSuccess) {
             return "fail";
         }
-        return redirect("/pushPlanActivity/list");
+        return "success";
     }
 
 }

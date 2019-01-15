@@ -25,9 +25,44 @@
     <link rel="stylesheet" th:href="@{/css/widget.css}" href="../css/widget.css" type="text/css" />
     <link rel="stylesheet" th:href="@{/css/base.css}" href="../css/base.css" type="text/css" />
     <link rel="stylesheet" th:href="@{/css/common.css}" href="../css/common.css" type="text/css" />
+
+    <!-- diglog -->
+    <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/diy_dialog.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/diy_dialog.css}" type="text/css" />
 </head>
 
 <script type="text/javascript">
+
+    function checkDelete(deleteId, name){
+        var message = "请确认是否要删除: "+name+"?";
+        dialogBox(message,
+            function () {
+                deleteRequest(deleteId);
+            },
+            function(){
+
+            }
+        );
+    }
+
+    function deleteRequest (deleteId) {
+
+        const Url = "[[${basePath}]]/collageMarketing/deleteById?id="+deleteId;
+
+        const Http = new XMLHttpRequest();
+
+        Http.open("GET",Url);
+
+        Http.send();
+
+        Http.onreadystatechange=function () {
+            if(this.readyState == 4 && this.status == 200){
+                location.reload();
+            }
+        }
+
+    }
 
 </script>
 
@@ -44,6 +79,7 @@
 
     </div>
 
+    <div id="showDialog"></div>
 
 <form method="post" action="" th:action="@{/collageMarketing/queryListData}" th:object="${collageMarketingModel}">
     <div style="margin-top: 10px">
@@ -105,7 +141,7 @@
                 <a href="activityadd.html" th:href="@{/collageMarketing/gotoModifyCollage(id=${item.id})}">编辑</a>
                 <a href="activityadd.html" th:href="@{/collageMarketing/updateState(id=${item.id}, enabledFlag=1)}">启用</a>
                 <a href="activityadd.html" th:href="@{/collageMarketing/updateState(id=${item.id}, enabledFlag=2)}">停用</a>
-                <a href="activityadd.html" th:href="@{/collageMarketing/deleteById(id=${item.id})}">删除</a>
+                <a th:onclick="'javascript:checkDelete(\''+${item.id}+'\',\''+${item.name}+'\')'" style="cursor: pointer">删除</a>
             </td>
 
         </tr>

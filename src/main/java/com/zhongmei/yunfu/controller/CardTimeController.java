@@ -146,6 +146,6 @@ public class CardTimeController extends BaseController{
             return "fail";
         }
 
-        return redirect("/cardTime/cardList");
+        return "success";
     }
 }

@@ -198,7 +198,7 @@ public class FlashSalesMarketingController extends BaseController{
         try {
             Boolean isSuccess = mFlashSalesMarketingService.deleteFlashSalesById(mFlashSalesModel.getId());
             if (isSuccess) {
-                return redirect("/flashSalesMarketing/queryListData");
+                return "success";
             } else {
                 return "fail";
             }

@@ -211,7 +211,7 @@ public class CutDownMarketingController extends BaseController{
         try {
             Boolean isSuccess = mCutDownMarketingService.deleteCutDownById(mCutDownModel.getId());
             if (isSuccess) {
-                return redirect("/cutDownMarketing/queryListData");
+                return "success";
             } else {
                 return "fail";
             }

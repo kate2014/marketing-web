@@ -37,8 +37,6 @@ public class CouponController extends BaseController {
         Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
         Long shopIdentity = LoginManager.get().getUser().getShopIdenty();
 
-        System.out.println("==========list:"+brandIdentity+"==="+shopIdentity);
-
         Page<CouponEntity> listPage = couponService.findListPage(brandIdentity, shopIdentity, searchModel.getCouponType(), searchModel.getCouponState(), searchModel.getKeyWord(), searchModel.getPageNo(), searchModel.getPageSize());
         List<CouponModel> listCouponModel = new ArrayList<>();
         if (listPage != null && listPage.getRecords() != null) {
@@ -129,7 +127,7 @@ public class CouponController extends BaseController {
     @RequestMapping("/delete")
     public String deleteNewDishPushPlan(Model model, Long id) {
         boolean result = couponService.deleteCoupon(id);
-        return redirect("/coupon");
+        return "success";
     }
 
 

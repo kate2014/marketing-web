@@ -1,87 +1,155 @@
 <!DOCTYPE html>
-<html>
 <head>
-    <meta charset="utf-8" />
-    <title></title>
-    <style type="text/css">
-        #tab tr td{
-
+    <meta charset="utf-8">
+    <title>js confirm弹出框自定义样式</title>
+    <style>
+        html,body {
+            margin: 0;
+            padding: 0;
+            font-family: "Microsoft YaHei";
+        }
+        .wrap-dialog {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            font-size: 15px;
             text-align: center;
+            color: #d7d8d7;
+            z-index: 999;
+        }
+        .dialog {
+            position: relative;
+            margin: 15% auto;
+            width: 300px;
+            border:1px solid black;
+            background-color: #F1F2F6;
+        }
+        .dialog .dialog-header {
+            height: 20px;
+            padding: 10px;
+            background-color: #000000;
+        }
+        .dialog .dialog-body {
+            height: 80px;
+            padding: 20px;
+            background-color: #FFFFFF;
+            color: #3b3b1f;
+        }
+        .dialog .dialog-footer {
+            padding: 8px;
+            background-color: #f0f0f0;
+        }
+        .btn_OK {
+            width: 80px;
+            font-size: 12px;
+            border-radius: 5px;
+            padding: 6px;
+            background-color: #FF6600;
+            color: #FFFFFF;
+            border: 0px;
+        }
+        .btn_cancle {
+            width: 80px;
+            font-size: 12px;
+            padding: 6px;
+            border-radius: 5px;
+            background-color: #0095F3;
+            color: #FFFFFF;
+            border: 0px;
+        }
+        .hide {
+            display: none;
+        }
+        .ml50 {
+            margin-left: 50px;
         }
     </style>
-
 </head>
 <body>
-<table id="tab" border="1px solid" bordercolor="lightblue" cellspacing="0" width="500px" >
-    <tr>
-        <th width="150px">姓名</th>
-        <th width="150px">年龄</th>
-        <th width="200px">操作</th>
-    </tr>
-    <tr>
-        <td>张三</td>
-        <td>18</td>
-        <td>
-            <input type="button" name="" id=""  onclick="dele(this)" value="删除" />
-            <input type="button" name="" id="" onclick='update(this)'  value="修改" />
-        </td>
-    </tr>
-    <tr>
-        <td>张四</td>
-        <td>18</td>
-        <td>
-            <input type="button" name="" id="" onclick="dele(this)" value="删除" />
-            <input type="button" name="" id="" onclick='update(this)' value="修改" />
-        </td>
-    </tr>
-
-    <tr>
-        <td colspan="3">
-            <input type="button" onclick="addRow()" value="添加信息"/>
-        </td>
-    </tr>
-</table>
+<input type="button" value="删除1" onclick="showdialog(1)" class="btn ml50" id="remove1">
+<input type="button" value="删除2" onclick="showdialog(2)" class="btn ml50" id="remove2">
+<input type="button" value="删除3" onclick="showdialog(3)" class="btn ml50" id="remove3">
+<div id="showDialog"></div>
 </body>
-<script type="text/javascript">
-    function  addRow(){
-        var tab = document.getElementById("tab");
-        //alert(tab.rows.length)
-        var rownum = tab.rows.length;// 行数
-        var newRow=tab.insertRow(rownum-1);
+<script src="http://cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function(){
+        console.log("jquery ...");
+        $('#remove').click(function(){
+            var message = "你确认删除此条信息？？";
+            dialogBox(message,
+                function () {
+                    console.log("confirmed");
+                    alert("confirmed");
+                    // do something
 
-        var cellname = newRow.insertCell(0);
-        cellname.innerHTML="<input type='text' value='' />";
+                },
+                function(){
+                    console.log("canceled");
+                    alert("canceled");
+                    // do something
+                }
+            );
+        });
 
-        var cellage = newRow.insertCell(1);
-        cellage.innerHTML="<input type='number' value='' size='10' />";
-        var action = newRow.insertCell(2);
-        action.innerHTML="<img src='../static/images/delect_icon.png'><input type='button' name='' id='' onclick='save(this)' value='保存' />"
+    });
+
+    function showdialog(id) {
+
+        var message = "你确认删除此条信息？？";
+
+        dialogBox(message,
+            function () {
+                console.log("confirmed");
+                alert(id);
+                // do something
+            },
+            function(){
+
+                console.log("canceled");
+                // do something
+            }
+        );
     }
 
-    function save(obj){
-//			alert(obj.parentNode.parentNode.innerHTML)
-        var tr = obj.parentNode.parentNode; // 获取的本行的tr
-        //	alert(tr.cells[0].childNodes[0].value)
-        tr.cells[0].innerHTML = tr.cells[0].childNodes[0].value
-        tr.cells[1].innerHTML = tr.cells[1].childNodes[0].value
-        tr.cells[2].innerHTML = "<input type='button' name='' onclick='dele(this)' id='' value='删除' /><input type='button' name='' id=''  onclick='update(this)' value='修改' />"
+    function dialogBox(message, yesCallback, noCallback){
+
+        if(message){
+            $('.dialog-message').html(message);
+        }
+        // 显示遮罩和对话框
+        $('.wrap-dialog').removeClass("hide");
+        // 确定按钮
+        $('#confirm').click(function(){
+            $('.wrap-dialog').addClass("hide");
+            yesCallback();
+        });
+        // 取消按钮
+        $('#cancel').click(function(){
+            $('.wrap-dialog').addClass("hide");
+            noCallback();
+        });
     }
 
-    function dele(obj){
-        var otr = obj.parentNode.parentNode;
-//			var tab = document.getElementById("tab");
-//			tab.deleteRow(otr.rowIndex)
-        var tab =  otr.parentNode; //自己的父节点 就是table
-        tab.removeChild(otr);
+    window.onload = function() {
+
+        $("#showDialog").append("<div class=\"wrap-dialog hide\">\n" +
+            "    <div class=\"dialog\">\n" +
+            "        <div class=\"dialog-header\">\n" +
+            "            <span class=\"dialog-title\">操作提示</span>\n" +
+            "        </div>\n" +
+            "        <div class=\"dialog-body\">\n" +
+            "            <span class=\"dialog-message\">？</span>\n" +
+            "        </div>\n" +
+            "        <div class=\"dialog-footer\">\n" +
+            "            <input type=\"button\" class=\"btn_OK\" id=\"confirm\" value=\"确认\" />\n" +
+            "            <input type=\"button\" class=\"btn_cancle ml50\" id=\"cancel\" value=\"取消\" />\n" +
+            "        </div>\n" +
+            "    </div>\n" +
+            "</div>");
     }
 
-    function update(obj){
-//			alert(obj.parentNode.parentNode.innerHTML)
-        var tr = obj.parentNode.parentNode; // 获取的本行的tr
-        //	alert(tr.cells[0].childNodes[0].value)
-        tr.cells[0].innerHTML = "<input type='text' value='"+tr.cells[0].innerHTML+"' size='10' />";
-        tr.cells[1].innerHTML = "<input type='number' value='"+tr.cells[1].innerHTML+"' size='10' />";
-        tr.cells[2].innerHTML = "<input type='button' name='' onclick='dele(this)' id='' value='删除' /><input type='button' name='' onclick='save(this)' id=''  value='保存' />"
-    }
 </script>
 </html>
