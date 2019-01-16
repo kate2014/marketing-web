@@ -8,12 +8,17 @@ function dialogBox(message, yesCallback, noCallback){
     $('#confirm').click(function(){
         $('.wrap-dialog').addClass("hide");
         yesCallback();
+
+        $('#confirm').unbind("click");
+        $('#cancel').unbind("click");
     });
     // 取消按钮
     $('#cancel').click(function(){
         $('.wrap-dialog').addClass("hide");
         noCallback();
-        location.reload();
+
+        $('#confirm').unbind("click");
+        $('#cancel').unbind("click");
     });
 }
 

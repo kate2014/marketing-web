@@ -75,31 +75,10 @@
 </body>
 <script src="http://cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
 <script>
-    $(document).ready(function(){
-        console.log("jquery ...");
-        $('#remove').click(function(){
-            var message = "你确认删除此条信息？？";
-            dialogBox(message,
-                function () {
-                    console.log("confirmed");
-                    alert("confirmed");
-                    // do something
-
-                },
-                function(){
-                    console.log("canceled");
-                    alert("canceled");
-                    // do something
-                }
-            );
-        });
-
-    });
 
     function showdialog(id) {
 
-        var message = "你确认删除此条信息？？";
-
+        var message = "你确认删除此条信息？";
         dialogBox(message,
             function () {
                 console.log("confirmed");
@@ -109,6 +88,7 @@
             function(){
 
                 console.log("canceled");
+                alert(id);
                 // do something
             }
         );
@@ -121,19 +101,29 @@
         }
         // 显示遮罩和对话框
         $('.wrap-dialog').removeClass("hide");
+
         // 确定按钮
         $('#confirm').click(function(){
             $('.wrap-dialog').addClass("hide");
+
+            $('#confirm').unbind("click");
+            $('#cancel').unbind("click");
+
             yesCallback();
         });
         // 取消按钮
         $('#cancel').click(function(){
             $('.wrap-dialog').addClass("hide");
+
+            $('#confirm').unbind("click");
+            $('#cancel').unbind("click");
             noCallback();
+
         });
     }
 
     window.onload = function() {
+
 
         $("#showDialog").append("<div class=\"wrap-dialog hide\">\n" +
             "    <div class=\"dialog\">\n" +
