@@ -191,6 +191,7 @@ public class WxTradeCustomerServiceImpl extends ServiceImpl<WxTradeCustomerMappe
         eWrapper.eq("shop_identy", mTradeModel.getShopIdenty());
         eWrapper.eq("customer_id", mTradeModel.getCustomerId());
         eWrapper.eq("marketing_id", mTradeModel.getMarketingId());
+        eWrapper.eq("type", mTradeModel.getType());
 //        eWrapper.eq("enabled_flag", 1);
         eWrapper.eq("status_flag", 1);
         Integer count = selectCount(eWrapper);

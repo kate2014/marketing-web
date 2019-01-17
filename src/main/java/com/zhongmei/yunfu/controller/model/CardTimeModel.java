@@ -19,7 +19,12 @@ public class CardTimeModel extends WebBaseModel {
 
     private BigDecimal marketPrice;
 
-    private BigDecimal dishIncreaseUnit;
+//    private BigDecimal dishIncreaseUnit;
+
+    /**
+     * 次卡使用次数
+     */
+    private BigDecimal saleTotal;
 
     private Integer minNum;
 
@@ -102,13 +107,13 @@ public class CardTimeModel extends WebBaseModel {
         this.marketPrice = marketPrice;
     }
 
-    public BigDecimal getDishIncreaseUnit() {
-        return dishIncreaseUnit;
-    }
-
-    public void setDishIncreaseUnit(BigDecimal dishIncreaseUnit) {
-        this.dishIncreaseUnit = dishIncreaseUnit;
-    }
+//    public BigDecimal getDishIncreaseUnit() {
+//        return dishIncreaseUnit;
+//    }
+//
+//    public void setDishIncreaseUnit(BigDecimal dishIncreaseUnit) {
+//        this.dishIncreaseUnit = dishIncreaseUnit;
+//    }
 
     public Integer getMinNum() {
         return minNum;
@@ -156,5 +161,13 @@ public class CardTimeModel extends WebBaseModel {
 
     public void setOriginalPrice(BigDecimal originalPrice) {
         this.originalPrice = originalPrice;
+    }
+
+    public BigDecimal getSaleTotal() {
+        return saleTotal;
+    }
+
+    public void setSaleTotal(BigDecimal saleTotal) {
+        this.saleTotal = saleTotal;
     }
 }

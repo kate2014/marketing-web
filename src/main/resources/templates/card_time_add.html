@@ -190,8 +190,8 @@
 
                     <li><span>*卡项名称</span><label><input type="text" name="name" id="name" placeholder="输入卡项名称" maxlength="40" th:value="${dishShop.name}"/></label></li>
                     <li><span>*卡项售价</span><label><input type="text" name="marketPrice" id="marketPrice" onkeyup="clearNoNum(this)" placeholder="输入卡项售价" maxlength="10" th:value="${dishShop.marketPrice}"/>元</label></li>
-                    <li><span>使用次数</span><label><input type="number" name="dishIncreaseUnit" id="dishIncreaseUnit" placeholder="使用次数" maxlength="10" th:value="${dishShop.dishIncreaseUnit}"/></label>
-                        <h4>如不填，系统将默认为1000次</h4>
+                    <li><span>使用次数</span><label><input type="number" name="saleTotal" id="saleTotal" placeholder="使用次数" maxlength="10" th:value="${dishShop.saleTotal}"/></label>
+                        <h4>如不填，系统将默认为无限次数</h4>
                     </li>
 
                     <li><span>使用时长</span><label><input type="number" name="minNum" placeholder="输入卡项使用时长" maxlength="10" th:value="${dishShop.minNum}"/></label>

@@ -44,7 +44,7 @@ class DishShopEntity : BaseEntity() {
      */
     var dishCode: String? = null
     /**
-     * 菜品类型 : 菜品种类 0:单菜 1:套餐 2:加料 3:实体卡
+     * 菜品类型 : 菜品种类 0:单菜 1:套餐 2:加料 3:次数卡 4:无限次次数卡
      */
     var type: Int? = null
     /**

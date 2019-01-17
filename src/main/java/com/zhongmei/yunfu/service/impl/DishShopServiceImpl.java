@@ -73,13 +73,13 @@ public class DishShopServiceImpl extends ServiceImpl<DishShopMapper, DishShopEnt
         mDishShopEntity.setName(mCardTimeModel.getName());
         mDishShopEntity.setType(mCardTimeModel.getType());
         mDishShopEntity.setMarketPrice(mCardTimeModel.getMarketPrice());
+        mDishShopEntity.setDishIncreaseUnit(BigDecimal.ONE);
+        mDishShopEntity.setStepNum(BigDecimal.ONE);
 
-        if(mCardTimeModel.getDishIncreaseUnit() == null || mCardTimeModel.getDishIncreaseUnit().equals("")){//如果起卖份数为空 则表示不限次数使用，我们使用默认值1000
-            mDishShopEntity.setDishIncreaseUnit(new BigDecimal(1000));
-            mDishShopEntity.setStepNum(new BigDecimal(1000));
+        if(mCardTimeModel.getSaleTotal() == null || mCardTimeModel.getSaleTotal().equals("")){//如果起卖份数为空 则表示不限次数使用，我们使用默认值-1
+            mDishShopEntity.setSaleTotal(new BigDecimal(-1));
         }else{
-            mDishShopEntity.setDishIncreaseUnit(mCardTimeModel.getDishIncreaseUnit());
-            mDishShopEntity.setStepNum(mCardTimeModel.getDishIncreaseUnit());
+            mDishShopEntity.setSaleTotal(mCardTimeModel.getSaleTotal());
         }
 
         mDishShopEntity.setMaxNum(mCardTimeModel.getMaxNum());
@@ -104,7 +104,6 @@ public class DishShopServiceImpl extends ServiceImpl<DishShopMapper, DishShopEnt
         mDishShopEntity.setSendOutside(1);
         mDishShopEntity.setDefProperty(1);
         mDishShopEntity.setClearStatus(1);
-        mDishShopEntity.setSaleTotal(mCardTimeModel.getDishQty());
         mDishShopEntity.setResidueTotal(mCardTimeModel.getDishQty());
         mDishShopEntity.setSaleTotalWechat(mCardTimeModel.getDishQty());
         mDishShopEntity.setResidueTotalWechat(mCardTimeModel.getDishQty());
@@ -144,12 +143,13 @@ public class DishShopServiceImpl extends ServiceImpl<DishShopMapper, DishShopEnt
         mDishShopEntity.setType(mCardTimeModel.getType());
         mDishShopEntity.setMarketPrice(mCardTimeModel.getMarketPrice());
 
-        if(mCardTimeModel.getDishIncreaseUnit() == null || mCardTimeModel.getDishIncreaseUnit().equals("")){//如果起卖份数为空 则表示不限次数使用，我们使用默认值1000
-            mDishShopEntity.setDishIncreaseUnit(new BigDecimal(1000));
-            mDishShopEntity.setStepNum(new BigDecimal(1000));
+        mDishShopEntity.setDishIncreaseUnit(BigDecimal.ONE);
+        mDishShopEntity.setStepNum(BigDecimal.ONE);
+
+        if(mCardTimeModel.getSaleTotal() == null || mCardTimeModel.getSaleTotal().equals("")){//如果起卖份数为空 则表示不限次数使用，我们使用默认值1000
+            mDishShopEntity.setSaleTotal(new BigDecimal(-1));
         }else{
-            mDishShopEntity.setDishIncreaseUnit(mCardTimeModel.getDishIncreaseUnit());
-            mDishShopEntity.setStepNum(mCardTimeModel.getDishIncreaseUnit());
+            mDishShopEntity.setSaleTotal(mCardTimeModel.getSaleTotal());
         }
 
         mDishShopEntity.setMaxNum(mCardTimeModel.getMaxNum());

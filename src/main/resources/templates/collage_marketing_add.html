@@ -42,8 +42,8 @@
     });
 
     function setDishInfo(dishId, dishName, dishPrice, dishDesc) {
-        $("#dishId").attr('value', dishId);
-        $("#dishName").attr('value', dishName);
+        $("#productId").attr('value', dishId);
+        $("#productName").attr('value', dishName);
         $("#originalPrice").attr('value', dishPrice);
 
     };
@@ -56,7 +56,7 @@
         var profile = document.getElementById("profile").value.replace(/(^\s*)|(\s*$)/g, '');
         var beginTime = document.getElementById("beginTime").value.replace(/(^\s*)|(\s*$)/g, '');
         var endTime = document.getElementById("endTime").value.replace(/(^\s*)|(\s*$)/g, '');
-        var dishName = document.getElementById("dishName").value.replace(/(^\s*)|(\s*$)/g, '');
+        var productId = document.getElementById("productId").value.replace(/(^\s*)|(\s*$)/g, '');
         var originalPrice = document.getElementById("originalPrice").value.replace(/(^\s*)|(\s*$)/g, '');
         var collagePeopleCount = document.getElementById("collagePeopleCount").value.replace(/(^\s*)|(\s*$)/g, '');
         var collagePrice = document.getElementById("collagePrice").value.replace(/(^\s*)|(\s*$)/g, '');
@@ -72,7 +72,7 @@
             warningTips("操作异常提示","活动开始时间不能为空");
         }else if(endTime == '' || endTime == undefined || endTime == null){
             warningTips("操作异常提示","活动结束时间不能为空");
-        }else if(dishName == '' || dishName == undefined || dishName == null){
+        }else if(productId == '' || productId == undefined || productId == null){
             warningTips("操作异常提示","请选择参与拼团的品项");
         }else if(originalPrice == '' || originalPrice == undefined || originalPrice == null){
             warningTips("操作异常提示","商品原价不能为空");
@@ -122,7 +122,7 @@
             <input type="hidden" name="brandIdentity" th:value="${collageMarketing.brandIdentity}">
             <input type="hidden" name="shopIdentity" th:value="${collageMarketing.shopIdentity}">
             <input type="hidden" name="enabledFlag" id="enabledFlag">
-            <input type="hidden" name="dishId" id="dishId" th:value="${collageMarketing.productId}">
+            <input type="hidden" name="productId" id="productId" th:value="${collageMarketing.productId}">
 
             <div class="details-bom">
                 <ul class="spell-content">
@@ -132,7 +132,7 @@
                     <li><span>*活动结束时间</span><input type="text" placeholder="输入活动结束时间" id="endTime" name="endTime" th:value="${#dates.format(collageMarketing.endTime, 'yyyy-MM-dd HH:mm:ss')}"></li>
 
                     <li><span>*选择品项</span>
-                        <input type="text" placeholder="请选择参与拼团的品项" name="dishName" id="dishName" th:value="${collageMarketing.productName}" readonly="true"/>
+                        <input type="text" placeholder="请选择参与拼团的品项" name="productName" id="productName" th:value="${collageMarketing.productName}" readonly="true"/>
                         <button id="dish_select" class="blue_button_style select-shop" value="" onclick="return false;" style="margin-left: 10px">选择品项</button>
                         <h4>请选择参与拼团的品项</h4>
                     </li>
