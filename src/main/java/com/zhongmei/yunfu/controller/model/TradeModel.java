@@ -33,6 +33,10 @@ public class TradeModel extends WebBaseModel {
      */
     private Long marketingId;
     /**
+     * 够买的活动名称
+     */
+    private String marketingName;
+    /**
      * 类型 1 拼团、2 砍价、 3 秒杀
      */
     private Integer type;
@@ -322,5 +326,13 @@ public class TradeModel extends WebBaseModel {
 
     public void setCreatorName(String creatorName) {
         this.creatorName = creatorName;
+    }
+
+    public String getMarketingName() {
+        return marketingName;
+    }
+
+    public void setMarketingName(String marketingName) {
+        this.marketingName = marketingName;
     }
 }

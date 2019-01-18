@@ -184,23 +184,25 @@ public class TradeApiController {
                 //获取团购活动信息
                 CollageMarketingEntity mCollageMarketingEntity = mCollageMarketingService.queryCollageById(mTradeModel.getMarketingId());
                 validityPeriod = mCollageMarketingEntity.getValidityPeriod();
-
+                mTradeModel.setMarketingName(mCollageMarketingEntity.getName());
             }
             //砍价
             if(mTradeModel.getType() == 2){
                 CutDownMarketingEntity mCutDownMarketingEntity = mCutDownMarketingService.findCutDownDatailById(mTradeModel.getMarketingId());
                 validityPeriod = mCutDownMarketingEntity.getValidityPeriod();
-
+                mTradeModel.setMarketingName(mCutDownMarketingEntity.getName());
             }
             //秒杀
             if(mTradeModel.getType() == 3){
                 FlashSalesMarketingEntity mFlashSalesMarketingEntity = mFlashSalesMarketingService.queryFlashSalesById(mTradeModel.getMarketingId());
                 validityPeriod = mFlashSalesMarketingEntity.getValidityPeriod();
+                mTradeModel.setMarketingName(mFlashSalesMarketingEntity.getName());
             }
 
 
             WxTradeCustomerEntity mWxTradeCustomer = new WxTradeCustomerEntity();
             mWxTradeCustomer.setMarketingId(mTradeModel.getMarketingId());
+            mWxTradeCustomer.setMarketingName(mTradeModel.getMarketingName());
             mWxTradeCustomer.setRelateId(mTradeModel.getRelationId());
             mWxTradeCustomer.setCustomerId(mTradeModel.getCustomerId());
             mWxTradeCustomer.setStatus(1);

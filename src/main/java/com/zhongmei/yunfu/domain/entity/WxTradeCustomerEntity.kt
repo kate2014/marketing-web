@@ -27,6 +27,10 @@ class WxTradeCustomerEntity : BaseEntity() {
      */
     var marketingId: Long? = null
     /**
+     * 活动名称
+     */
+    var marketingName: String? = null
+    /**
      * 活动关联id：拼团活动id  发起的砍价活动id
      */
     var relateId: Long? = null
@@ -74,6 +78,7 @@ class WxTradeCustomerEntity : BaseEntity() {
         return "WxTradeCustomerEntity{" +
         ", id=" + id +
         ", marketingId=" + marketingId +
+        ", marketingName=" + marketingName +
         ", relateId=" + relateId +
         ", customerId=" + customerId +
         ", status=" + status +

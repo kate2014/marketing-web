@@ -68,7 +68,7 @@ public class CutDownMarketingServiceImpl extends ServiceImpl<CutDownMarketingMap
     public CutDownMarketingEntity findCutDownDatailById(Long id) throws Exception {
         EntityWrapper<CutDownMarketingEntity> eWrapper = new EntityWrapper<>(new CutDownMarketingEntity());
         eWrapper.eq("id", id);
-        eWrapper.setSqlSelect("id,img_url,name,validity_period,begin_time,end_time,start_price,end_price,sales_count,sold_count,enabled_flag,product_id,product_name");
+        eWrapper.setSqlSelect("id,name,img_url,name,validity_period,begin_time,end_time,start_price,end_price,sales_count,sold_count,enabled_flag,product_id,product_name");
         CutDownMarketingEntity mCutDownMarketing = selectOne(eWrapper);
         return mCutDownMarketing;
     }
