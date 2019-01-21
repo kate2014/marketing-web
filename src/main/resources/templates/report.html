@@ -26,7 +26,7 @@
 
 
 
-<body onload="fnLoadOk()">
+<body>
 
 <div class="parent top_view_style">
 
@@ -41,16 +41,24 @@
         <div class="customer-main">
             <ul class="tab">
                 <div th:if="${haveSalesReport} eq '1'">
-                    <li th:href="@{/internal/sales/salesReport(brandIdenty=${brandIdenty})}" class="parent">
+                    <!--<li th:href="@{/internal/sales/salesReport(brandIdenty=${brandIdenty})}" class="parent">-->
+                        <!--<div class="parent">-->
+                            <!--<img th:src="@{/images/report_sales_icon.png}" class="image_size_style">-->
+                            <!--<span>营业报表</span>-->
+                        <!--</div>-->
+                    <!--</li>-->
+
+                    <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},requestUrlType=1)}" class="parent">
                         <div class="parent">
                             <img th:src="@{/images/report_sales_icon.png}" class="image_size_style">
                             <span>营业报表</span>
                         </div>
                     </li>
+
                 </div>
 
                 <div th:if="${haveDishReport} eq '1'">
-                    <li th:href="@{/internal/dish/dishReport(brandIdenty=${brandIdenty})}" class="parent">
+                    <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},requestUrlType=2)}" class="parent">
                         <div class="parent">
                             <img th:src="@{/images/report_dish_icon.png}" class="image_size_style">
                             <span>品项销售报表</span>
@@ -59,7 +67,7 @@
                 </div>
 
                 <div th:if="${haveMemberReport} eq '1'">
-                    <li th:href="@{/internal/report/customerReport(brandIdenty=${brandIdenty})}" class="parent">
+                    <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},requestUrlType=3)}" class="parent">
                         <div class="parent">
                             <img th:src="@{/images/report_customer_icon.png}" class="image_size_style">
                             <span>会员报表</span>
@@ -68,7 +76,7 @@
                 </div>
 
                 <div th:if="${haveMarketingReport} eq '1'">
-                    <li th:href="@{/internal/marketingReport/marketing(brandIdenty=${brandIdenty})}" class="parent">
+                    <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},requestUrlType=4)}" class="parent">
                         <div class="parent">
                             <img th:src="@{/images/report_marketing_icon.png}" class="image_size_style">
                             <span>场景营销报表</span>
@@ -77,7 +85,7 @@
                 </div>
 
                 <div th:if="${haveCouponReport} eq '1'">
-                    <li th:href="@{/internal/marketingReport/coupon(brandIdenty=${brandIdenty})}" class="parent">
+                    <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},requestUrlType=5)}" class="parent">
                         <div class="parent">
                             <img th:src="@{/images/report_coupon_icon.png}" class="image_size_style">
                             <span>优惠券报表</span>
@@ -92,7 +100,7 @@
                     <!--</div>-->
                 <!--</li>-->
                 <div th:if="${haveBookingReport} eq '1'">
-                    <li th:href="@{/internal/bookingReport/booking(brandIdenty=${brandIdenty})}" class="parent">
+                    <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},requestUrlType=6)}" class="parent">
                         <div class="parent">
                             <img th:src="@{/images/report_booking_icon.png}" class="image_size_style">
                             <span>预订报表</span>
@@ -114,31 +122,6 @@
 
     </div>
 </div>
-
-
-<script type="text/javascript">
-
-    //检测所有的iframe是否"加载"完成
-    function fnLoadOk(){
-        var b = true;
-        if (getIframeControlValue("dish_iframe","txt")=="ok"){
-            b = b && true;
-        }
-        return b;
-    }
-
-    var _check = setInterval("t()",500);//每隔0.5秒检查一次
-    function t(){
-        if (fnLoadOk()){
-            clearInterval(_check);//加载完成后，清除定时器
-            alert("加载完成!");
-        }
-        else{
-            setValue();
-        }
-    }
-
-</script>
 
 
 </body>
