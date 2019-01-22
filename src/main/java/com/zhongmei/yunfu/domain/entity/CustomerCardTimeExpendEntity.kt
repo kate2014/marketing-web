@@ -62,6 +62,10 @@ class CustomerCardTimeExpendEntity : BaseEntity() {
      */
     var tradeCount: Int? = null
     /**
+     * 已使用服务次数
+     */
+    var usedCount: Int? = null
+    /**
      * 剩余服务次数
      */
     var residueCount: Int? = null

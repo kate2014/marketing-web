@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotations.TableId
 import com.baomidou.mybatisplus.annotations.TableName
 import com.baomidou.mybatisplus.enums.IdType
 import com.zhongmei.yunfu.domain.entity.base.BaseEntity
+import java.util.*
 
 /**
  * <p>
@@ -30,15 +31,17 @@ class CustomerCardTimeEntity : BaseEntity() {
      */
     var recordType: Int? = null
     /**
-     * 订单id 
+     * 订单id
      */
     var tradeId: Long? = null
     /**
      * 订单uuid
      */
     var tradeUuid: String? = null
+    var cardType: Int? = null
+    var cardExpireDate: Date? = null
     /**
-     * 品项id 
+     * 品项id
      */
     var dishId: Long? = null
     /**
@@ -46,7 +49,7 @@ class CustomerCardTimeEntity : BaseEntity() {
      */
     var dishName: String? = null
     /**
-     * 购买批次 
+     * 购买批次
      */
     var groupId: Long? = null
     /**
@@ -58,11 +61,15 @@ class CustomerCardTimeEntity : BaseEntity() {
      */
     var tradeCount: Int? = null
     /**
+     * 已使用服务次数
+     */
+    var usedCount: Int? = null
+    /**
      * 剩余服务次数
      */
     var residueCount: Int? = null
     /**
-     * 门店id 
+     * 门店id
      */
     var shopIdenty: Long? = null
     /**
@@ -77,20 +84,21 @@ class CustomerCardTimeEntity : BaseEntity() {
 
     override fun toString(): String {
         return "CustomerCardTimeEntity{" +
-        ", id=" + id +
-        ", customerId=" + customerId +
-        ", recordType=" + recordType +
-        ", tradeId=" + tradeId +
-        ", tradeUuid=" + tradeUuid +
-        ", dishId=" + dishId +
-        ", dishName=" + dishName +
-        ", groupId=" + groupId +
-        ", groupName=" + groupName +
-        ", tradeCount=" + tradeCount +
-        ", residueCount=" + residueCount +
-        ", shopIdenty=" + shopIdenty +
-        ", brandIdenty=" + brandIdenty +
-        ", enabledFlag=" + enabledFlag +
-        "}"
+                ", id=" + id +
+                ", customerId=" + customerId +
+                ", recordType=" + recordType +
+                ", tradeId=" + tradeId +
+                ", tradeUuid=" + tradeUuid +
+                ", dishId=" + dishId +
+                ", dishName=" + dishName +
+                ", groupId=" + groupId +
+                ", groupName=" + groupName +
+                ", tradeCount=" + tradeCount +
+                ", usedCount=" + usedCount +
+                ", residueCount=" + residueCount +
+                ", shopIdenty=" + shopIdenty +
+                ", brandIdenty=" + brandIdenty +
+                ", enabledFlag=" + enabledFlag +
+                "}"
     }
 }

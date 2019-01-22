@@ -9,6 +9,7 @@ import java.io.Serializable;
  * @date 2018/6/14
  */
 public class CustomerCardTimeResp implements Serializable{
+
     public Long brandIdenty;
     /**
      * 次卡id
@@ -30,6 +31,9 @@ public class CustomerCardTimeResp implements Serializable{
      * 服务剩余次数
      */
     public Integer serviceRemainderTime;
+
+    public Integer cardType;
+    public Long cardExpireDate;
 
 //    /**
 //     * 服务商品
@@ -83,5 +87,21 @@ public class CustomerCardTimeResp implements Serializable{
 
     public void setServiceRemainderTime(Integer serviceRemainderTime) {
         this.serviceRemainderTime = serviceRemainderTime;
+    }
+
+    public Integer getCardType() {
+        return cardType;
+    }
+
+    public void setCardType(Integer cardType) {
+        this.cardType = cardType;
+    }
+
+    public Long getCardExpireDate() {
+        return cardExpireDate;
+    }
+
+    public void setCardExpireDate(Long cardExpireDate) {
+        this.cardExpireDate = cardExpireDate;
     }
 }

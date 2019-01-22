@@ -1,12 +1,13 @@
 package com.zhongmei.yunfu.demo;
 
 
-import com.zhongmei.yunfu.controller.weixinPay.UnifiedorderEntity;
 import com.zhongmei.yunfu.controller.weixinPay.WeiXinPayRsqEntity;
 import com.zhongmei.yunfu.util.HttpMessageConverterUtils;
 import org.junit.Test;
 
 import java.io.*;
+import java.util.Calendar;
+import java.util.Date;
 
 public class DomoTest {
 
@@ -31,7 +32,7 @@ public class DomoTest {
         System.out.println("ByteArrayInputStream: " + in.toString());
         System.out.println("ByteArrayOutputStream: " + byteArrayOutputStream.toString());
 
-        pushbackInputStream.unread(bytes,0,buffCount);
+        pushbackInputStream.unread(bytes, 0, buffCount);
 
         System.out.println("push after222");
         System.out.println("ByteArrayInputStream: " + in.toString());
@@ -39,10 +40,23 @@ public class DomoTest {
             readCount += pushbackInputStream.read(bytes, readCount, buffCount - readCount);
         }*/
 
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        Date date = calendar.getTime();
+
+        Calendar calendar2 = Calendar.getInstance();
+        calendar2.add(Calendar.WEEK_OF_MONTH, 1);
+        Date date2 = calendar2.getTime();
+
+        Calendar calendar3 = Calendar.getInstance();
+        calendar3.add(Calendar.MONTH, 1);
+        Date date3 = calendar3.getTime();
+
     }
 
     @Test
-    public void xml () throws Exception {
+    public void xml() throws Exception {
         WeiXinPayRsqEntity xmlToObject = HttpMessageConverterUtils.xmlToObject("<xml><return_code><![CDATA[FAIL]]></return_code>\n" +
                 "<return_msg><![CDATA[1111111111111111]]></return_msg>\n" +
                 "</xml>", WeiXinPayRsqEntity.class);

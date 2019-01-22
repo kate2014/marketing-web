@@ -31,6 +31,8 @@ public class CustomerCardTimeTradeApi extends PosApiController {
         List<CustomerCardTimeResp> result = new ArrayList<>();
         for (CustomerCardTimeEntity record : listPageByCustomerId.getRecords()) {
             CustomerCardTimeResp customerCardTimeResp = new CustomerCardTimeResp();
+            customerCardTimeResp.setCardType(record.getCardType());
+            customerCardTimeResp.setCardExpireDate(record.getCardExpireDate() != null ? record.getCardExpireDate().getTime() : null);
             customerCardTimeResp.setBrandIdenty(req.getHeader().getBrandId());
             customerCardTimeResp.setCardInstanceId(record.getId());
             customerCardTimeResp.setServiceId(record.getDishId());

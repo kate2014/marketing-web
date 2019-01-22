@@ -18,5 +18,7 @@ class CustomerCardTimeBuyReq {
         var tradeCount: Int? = null
         var creatorId: Long? = null
         var creatorName: String? = null
+        var type: Int? = null
+        var batchNo: String? = null //这个数据是json
     }
 }

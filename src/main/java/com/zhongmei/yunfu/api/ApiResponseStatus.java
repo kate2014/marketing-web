@@ -14,6 +14,7 @@ public enum ApiResponseStatus {
 
     CUSTOMER_CARD_TIME_INVALID(2017, "顾客无效"),
     CUSTOMER_CARD_TIME_INSUFFICIENT(2017, "剩余次数不够"),
+    CUSTOMER_CARD_TIME_EXPIRED(2017, "次卡已过期"),
 
     SHOP_FOUND(2106, "门店不存在"),
     SHOP_INVALID(2017, "门店无效"),
