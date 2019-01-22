@@ -45,6 +45,7 @@
 
     <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
     <script type="text/javascript" src="../static/js/base.js" th:src="@{/js/base.js}"></script>
+    <script type="text/javascript" src="../static/js/zm-validate.js" th:src="@{/js/zm-validate.js}"></script>
 
     <!-- tips 提示框引用-->
     <link rel="stylesheet" th:href="@{/tips/jquery.toast.css}">
@@ -190,11 +191,11 @@
 
                     <li><span>*卡项名称</span><label><input type="text" name="name" id="name" placeholder="输入卡项名称" maxlength="40" th:value="${dishShop.name}"/></label></li>
                     <li><span>*卡项售价</span><label><input type="text" name="marketPrice" id="marketPrice" onkeyup="clearNoNum(this)" placeholder="输入卡项售价" maxlength="10" th:value="${dishShop.marketPrice}"/>元</label></li>
-                    <li><span>使用次数</span><label><input type="number" name="saleTotal" id="saleTotal" placeholder="使用次数" maxlength="10" th:value="${dishShop.saleTotal}"/></label>
+                    <li><span>使用次数</span><label><input class="zm_input_zzs_number" type="text" name="saleTotal" id="saleTotal" placeholder="使用次数" maxlength="10" th:value="${dishShop.saleTotal}"/></label>
                         <h4>如不填，系统将默认为无限次数</h4>
                     </li>
 
-                    <li><span>使用时长</span><label><input type="number" name="minNum" placeholder="输入卡项使用时长" maxlength="10" th:value="${dishShop.minNum}"/></label>
+                    <li><span>使用时长</span><label><input type="text" class="zm_input_zzs_number" name="minNum" placeholder="输入卡项使用时长" maxlength="10" th:value="${dishShop.minNum}"/></label>
 
                         <select class="select_style" name="maxNum" style="margin-left: 5px;width: 80px">
                             <option th:selected="${dishShop.maxNum==1}" th:value="1">天</option>
@@ -205,7 +206,7 @@
                         <h4>如：月卡：可设置为1月、2月。。。如不设置则没时间限制</h4>
                     </li>
 
-                    <li><span>*库存数量</span><label><input type="number" name="dishQty" id="dishQty" placeholder="输入可售卖的数量" maxlength="10" th:value="${dishShop.dishQty}"/></label></li>
+                    <li><span>*库存数量</span><label><input type="text" class="zm_input_zzs_number" name="dishQty" id="dishQty" placeholder="输入可售卖的数量" maxlength="10" th:value="${dishShop.dishQty}"/></label></li>
 
                     <li><span>*品项范围</span>
                         <label><input name="isAllDish" type="radio" onclick="selectUseDish(1)"  th:field="${mCardTimeModel.isAllDish}" value="1" />指定服务品项</label>
