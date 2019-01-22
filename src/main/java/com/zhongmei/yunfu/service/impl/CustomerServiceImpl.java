@@ -364,10 +364,10 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, CustomerEnt
         calendar.add(Calendar.DAY_OF_MONTH, -recentDay);
         String format = DateFormatUtil.format(calendar.getTime(), DateFormatUtil.FORMAT_DATE) + " 00:00:00";
 
-        CustomerEntity customerEntity = new CustomerEntity();
-        customerEntity.setRelateId(0L);
-        customerEntity.setShopIdenty(searchModel.getUser().getShopIdenty());
-        EntityWrapper<CustomerEntity> wrapper = new EntityWrapperFilter<>(customerEntity);
+        //CustomerEntity customerEntity = new CustomerEntity();
+        //customerEntity.setRelateId(0L);
+        //customerEntity.setShopIdenty(searchModel.getUser().getShopIdenty());
+        EntityWrapper<CustomerEntity> wrapper = new EntityWrapperFilter<>();
         wrapper.eq("c.source_id", searchModel.getSourceId());
         wrapper.eq("c.group_level_id", searchModel.getGroupLevelId());
         wrapper.like("c.name", searchModel.getName(), SqlLike.RIGHT);
@@ -389,10 +389,10 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, CustomerEnt
     @Override
     public Page<CustomerEntity> selectByBirthday(CustomerSearchModel searchModel, Integer recentDay) {
         int betweenRight2 = recentDay - 365;
-        CustomerEntity customerEntity = new CustomerEntity();
-        customerEntity.setRelateId(0L);
-        customerEntity.setShopIdenty(searchModel.getUser().getShopIdenty());
-        EntityWrapper<CustomerEntity> wrapper = new EntityWrapperFilter<>(customerEntity);
+        //CustomerEntity customerEntity = new CustomerEntity();
+        //customerEntity.setRelateId(0L);
+        //customerEntity.setShopIdenty(searchModel.getUser().getShopIdenty());
+        EntityWrapper<CustomerEntity> wrapper = new EntityWrapperFilter<>();
         wrapper.eq("c.source_id", searchModel.getSourceId());
         wrapper.eq("c.group_level_id", searchModel.getGroupLevelId());
         wrapper.like("c.name", searchModel.getName(), SqlLike.RIGHT);
@@ -400,7 +400,7 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, CustomerEnt
         wrapper.orderBy("c.consumption_last_time", false);
         Page<CustomerEntity> page = new Page<>(searchModel.getPageNo(), searchModel.getPageSize());
         wrapper = (EntityWrapper<CustomerEntity>) SqlHelper.fillWrapper(page, wrapper);
-        page.setRecords(baseMapper.selectByBirthday(page, wrapper, recentDay, betweenRight2));
+        page.setRecords(baseMapper.selectByBirthday(page, wrapper, searchModel.getUser().getShopIdenty(), recentDay, betweenRight2));
         return page;
     }
 

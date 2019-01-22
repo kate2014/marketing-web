@@ -72,7 +72,8 @@ public interface CustomerMapper extends BaseMapper<CustomerEntity> {
     @Select("SELECT\n" +
             " c.*, wc.third_id wx_open_id\n" +
             "FROM customer c LEFT JOIN customer wc ON c.id = wc.relate_id\n" +
-            "WHERE c.id IN\n" +
+            "WHERE c.relate_id = 0\n" +
+            "  AND c.id IN\n" +
             "  (SELECT\n" +
             "    tc.customer_id\n" +
             "  FROM\n" +
@@ -113,7 +114,9 @@ public interface CustomerMapper extends BaseMapper<CustomerEntity> {
     @Select("SELECT\n" +
             " c.*, wc.third_id wx_open_id\n" +
             "FROM customer c LEFT JOIN customer wc ON c.id = wc.relate_id\n" +
-            "WHERE DATEDIFF(\n" +
+            "WHERE c.shop_identy = ${shopId}\n" +
+            "  AND c.relate_id = 0\n" +
+            "  AND DATEDIFF(\n" +
             "    CAST(CONCAT('0000', DATE_FORMAT(c.birthday, '-%m-%d')) AS DATE),\n" +
             "    CAST(CONCAT('0000', DATE_FORMAT(NOW(), '-%m-%d')) AS DATE)\n" +
             "  ) BETWEEN 0 AND ${betweenRight1}\n" +
@@ -121,7 +124,7 @@ public interface CustomerMapper extends BaseMapper<CustomerEntity> {
             "    CAST(CONCAT('0000', DATE_FORMAT(c.birthday, '-%m-%d')) AS DATE),\n" +
             "    CAST(CONCAT('0000', DATE_FORMAT(NOW(), '-%m-%d')) AS DATE)\n" +
             "  ) BETWEEN ${betweenRight1} AND ${betweenRight2} ${ew.sqlSegment}")
-    List<CustomerEntity> selectByBirthday(RowBounds page, @Param("ew") Wrapper wrapper, @Param("betweenRight1") Integer betweenRight1, @Param("betweenRight2") Integer betweenRight2);
+    List<CustomerEntity> selectByBirthday(RowBounds page, @Param("ew") Wrapper wrapper, @Param("shopId") Long shop_identy, @Param("betweenRight1") Integer betweenRight1, @Param("betweenRight2") Integer betweenRight2);
 
 
     /**

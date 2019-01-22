@@ -24,8 +24,6 @@ public class WebExceptionHandler implements HandlerExceptionResolver {
 
     @Override
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
-        String requestURI = request.getRequestURI();
-        log.error("got exception: ", ex);
         if (ex instanceof AuthLoginException) {
             /*AuthLoginException authLoginException = (AuthLoginException) ex;
             String url = "/login";
@@ -35,6 +33,8 @@ public class WebExceptionHandler implements HandlerExceptionResolver {
             return new ModelAndView(new RedirectView(request.getContextPath() + "/login"));
         }
 
+        String requestURI = request.getRequestURI();
+        log.error("got exception: ", ex);
         //统一处理api异常
         /*if (requestURI.startsWith("/internal/") || requestURI.startsWith("/pos/") || requestURI.startsWith("/wxapp/") || requestURI.startsWith("/web/")) {
             int status = response.getStatus();
