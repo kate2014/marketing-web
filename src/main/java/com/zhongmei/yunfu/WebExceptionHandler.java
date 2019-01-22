@@ -1,7 +1,5 @@
 package com.zhongmei.yunfu;
 
-import com.alibaba.fastjson.support.spring.FastJsonJsonView;
-import com.zhongmei.yunfu.api.ApiResponseStatusException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -11,8 +9,6 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Administrator on 2017/7/12.
@@ -25,6 +21,7 @@ public class WebExceptionHandler implements HandlerExceptionResolver {
     @Override
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
         if (ex instanceof AuthLoginException) {
+            log.error("got exception: {}", ex.getMessage());
             /*AuthLoginException authLoginException = (AuthLoginException) ex;
             String url = "/login";
             if (StringUtils.isNotBlank(authLoginException.getUrl())) {
