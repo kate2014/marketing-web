@@ -216,6 +216,7 @@
                         <th>手机号</th>
                         <th>卡余额（元）</th>
                         <th>剩余服务（次）</th>
+                        <th>服务过期时间</th>
                         <th>最近消费时间</th>
                         <th>操作</th>
                     </tr>
@@ -225,6 +226,7 @@
                         <td th:text="${item.mobile}">00000000000</td>
                         <td th:text="${item.storedBalance}">0</td>
                         <td th:text="${item.cardResidueCount}">0</td>
+                        <td th:text="${#dates.format(item.cardExpireDate, 'yyyy-MM-dd')}">0</td>
                         <td th:text="${#dates.format(item.consumptionLastTime, 'yyyy-MM-dd')}">2018-09-09</td>
                         <td>
                             <div class="parent_h">

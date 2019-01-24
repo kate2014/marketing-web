@@ -81,6 +81,7 @@ public class CustomerCardTimeServiceImpl extends ServiceImpl<CustomerCardTimeMap
     @Override
     public void buy(CustomerCardTimeBuyReq req) throws Exception {
         CustomerEntity customerEntity = customerService.getCustomerEntity(req.getCustomerId(), true);
+        Date cardExpireDate = customerEntity.getCardExpireDate();
         int cardResidueCount = customerEntity.getCardResidueCount();
         List<CustomerCardTimeEntity> result = new ArrayList<>();
         if (req.getDishs() != null) {
@@ -110,6 +111,13 @@ public class CustomerCardTimeServiceImpl extends ServiceImpl<CustomerCardTimeMap
                 result.add(cardTimeEntity);
                 if (cardTimeEntity.getTradeCount() != UNLIMITED_TIMES) {
                     cardResidueCount += dish.getTradeCount();
+                }
+
+                //统计最近的服务过期时间
+                if (cardTimeEntity.getCardExpireDate() != null) {
+                    if (cardExpireDate == null || cardTimeEntity.getCardExpireDate().before(cardExpireDate)) {
+                        cardExpireDate = cardTimeEntity.getCardExpireDate();
+                    }
                 }
             }
         }
