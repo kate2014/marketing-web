@@ -6,6 +6,6 @@ class CustomerCardTimeReq : PosReq() {
     /*var shopId: Long? = null
     var brandId: Long? = null*/
     var pageNo: Int = 0
-    var pageSize: Int = 10
+    var pageSize: Int = 100
     var customerId: Long? = null
 }
