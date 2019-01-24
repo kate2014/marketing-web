@@ -1,9 +1,16 @@
 $(function () {
     //正整数
-    $(".zm_input_number").keyup(function () {
+    $(".zm_input_zzs_number").keyup(function () {
         $(this).val(this.value.replace(/\D|^0/g,''));
     }).bind("paste",function(){
         $(this).val(this.value.replace(/\D|^0/g,''));
+    });
+
+    //正整数
+    $(".zm_input_number").keyup(function () {
+        $(this).val(this.value.replace(/\D|/g,''));
+    }).bind("paste",function(){
+        $(this).val(this.value.replace(/\D|/g,''));
     });
 
     //数字0.00
