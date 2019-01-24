@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,6 +66,7 @@ public class CardTimeController extends BaseController{
                 }else if(mDishShopEntity.getType() == 4){
                     mCardTimeModel.setIsAllDish(2);
                 }
+
                 List<DishShopEntity> listShop = mDishShopService.listDishShop(mCardTimeModel.getId());
 
                 model.addAttribute("listShop",listShop);
