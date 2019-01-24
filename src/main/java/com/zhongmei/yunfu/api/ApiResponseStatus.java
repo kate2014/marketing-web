@@ -12,6 +12,7 @@ public enum ApiResponseStatus {
 
     CUSTOMER_INTEGRAL_INSUFFICIENT(2017, "剩余积分不够"),
 
+    CUSTOMER_MOBILE_INVALID(2017, "顾客手机号已存在"),
     CUSTOMER_CARD_TIME_INVALID(2017, "顾客无效"),
     CUSTOMER_CARD_TIME_INSUFFICIENT(2017, "剩余次数不够"),
     CUSTOMER_CARD_TIME_EXPIRED(2017, "次卡已过期"),

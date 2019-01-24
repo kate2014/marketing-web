@@ -2,6 +2,7 @@ package com.zhongmei.yunfu.api.pos;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.zhongmei.yunfu.api.ApiResponseStatus;
 import com.zhongmei.yunfu.api.ApiResponseStatusException;
 import com.zhongmei.yunfu.api.ApiResult;
 import com.zhongmei.yunfu.api.PosApiController;
@@ -93,6 +94,11 @@ public class CustomerPosApi extends PosApiController {
         mCustomer.setProfile(req.getMemo());
 
         if (req.getCustomerId() == null) {
+            CustomerEntity customerEntity = customerService.getCustomerByMobile(req.getHeader().getShopId(), req.getMobile());
+            if (customerEntity != null) {
+                throw new ApiResponseStatusException(ApiResponseStatus.CUSTOMER_MOBILE_INVALID);
+            }
+
             String consumePassword = req.getConsumePassword();
             if (StringUtils.isNotBlank(consumePassword)) {
                 consumePassword = Password.create().generate(req.getMobile(), consumePassword);
