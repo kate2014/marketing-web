@@ -36,6 +36,8 @@ import java.util.*;
 @Service
 public class CustomerCardTimeServiceImpl extends ServiceImpl<CustomerCardTimeMapper, CustomerCardTimeEntity> implements CustomerCardTimeService {
 
+    static final int UNLIMITED_TIMES = -1; //不限制次数
+
     @Autowired
     CustomerService customerService;
 
@@ -100,12 +102,15 @@ public class CustomerCardTimeServiceImpl extends ServiceImpl<CustomerCardTimeMap
                 cardTimeEntity.setCardType(dish.getType());
                 CardInfo cardInfo = CardInfo.parse(dish.getBatchNo());
                 if (cardInfo != null) {
-                    cardTimeEntity.setTradeCount(cardInfo.getServersCount(dish.getTradeCount()));
-                    cardTimeEntity.setResidueCount(dish.getTradeCount());
+                    Integer serversCount = cardInfo.getServersCount(dish.getTradeCount());
+                    cardTimeEntity.setTradeCount(serversCount);
+                    cardTimeEntity.setResidueCount(serversCount);
                     cardTimeEntity.setCardExpireDate(cardInfo.getExpireDate());
                 }
                 result.add(cardTimeEntity);
-                cardResidueCount += dish.getTradeCount();
+                if (cardTimeEntity.getTradeCount() != UNLIMITED_TIMES) {
+                    cardResidueCount += dish.getTradeCount();
+                }
             }
         }
 
@@ -126,11 +131,13 @@ public class CustomerCardTimeServiceImpl extends ServiceImpl<CustomerCardTimeMap
         if (req.getDishs() != null) {
             for (CustomerCardTimeExpenseReq.Dish dish : req.getDishs()) {
                 CustomerCardTimeEntity cardTimeEntity = getCustomerCardTimeEntity(dish.getCustomerCardTimeId(), true);
-                if (cardTimeEntity.getTradeCount() != -1
+                //判断剩余次数
+                if (cardTimeEntity.getTradeCount() != UNLIMITED_TIMES
                         && dish.getTradeCount() > cardTimeEntity.getTradeCount() - cardTimeEntity.getUsedCount()) {
                     throw new ApiResponseStatusException(ApiResponseStatus.CUSTOMER_CARD_TIME_INSUFFICIENT);
                 }
 
+                //判断是否过期
                 if (cardTimeEntity.getCardExpireDate() != null) {
                     Date expireDate = cardTimeEntity.getCardExpireDate();
                     Calendar calendarExpire = Calendar.getInstance();
@@ -147,8 +154,12 @@ public class CustomerCardTimeServiceImpl extends ServiceImpl<CustomerCardTimeMap
                 }
 
                 consumptionNumber += dish.getTradeCount();
-                cardResidueCount -= dish.getTradeCount();
-                int expendResidueCount = cardTimeEntity.getResidueCount() - dish.getTradeCount();
+                int expendResidueCount = cardTimeEntity.getResidueCount();
+                if (cardTimeEntity.getTradeCount() != UNLIMITED_TIMES) {
+                    cardResidueCount -= dish.getTradeCount();
+                    expendResidueCount = cardTimeEntity.getResidueCount() - dish.getTradeCount();
+                }
+
                 cardTimeEntity.setUsedCount(cardTimeEntity.getUsedCount() + dish.getTradeCount());
                 cardTimeEntity.setResidueCount(expendResidueCount);
                 updateById(cardTimeEntity);
@@ -188,15 +199,19 @@ public class CustomerCardTimeServiceImpl extends ServiceImpl<CustomerCardTimeMap
         CustomerEntity customerEntity = customerService.getCustomerEntity(req.getCustomerId(), true);
 
         int consumptionNumber = customerEntity.getConsumptionNumber();
-        int cardResidueCount = 0;
+        int cardResidueCount = customerEntity.getCardResidueCount();
 
         List<CustomerCardTimeExpendEntity> result = new ArrayList<>();
         List<CustomerCardTimeExpendEntity> byTradeId = customerCardTimeExpendService.findByTradeId(req.getTradeId(), RecordType.EXPENSE);
         for (CustomerCardTimeExpendEntity entity : byTradeId) {
             CustomerCardTimeEntity cardTimeEntity = getCustomerCardTimeEntity(entity.getCustomerCardTimeId(), true);
+
             consumptionNumber -= entity.getTradeCount();
-            cardResidueCount += entity.getTradeCount();
-            int expendResidueCount = cardTimeEntity.getResidueCount() + entity.getTradeCount();
+            int expendResidueCount = cardTimeEntity.getResidueCount();
+            if (cardTimeEntity.getTradeCount() != UNLIMITED_TIMES) {
+                cardResidueCount += entity.getTradeCount();
+                expendResidueCount = cardTimeEntity.getResidueCount() + entity.getTradeCount();
+            }
 
             cardTimeEntity.setUsedCount(cardTimeEntity.getUsedCount() - entity.getTradeCount());
             cardTimeEntity.setResidueCount(expendResidueCount);
@@ -259,7 +274,7 @@ public class CustomerCardTimeServiceImpl extends ServiceImpl<CustomerCardTimeMap
         }
 
         public Integer getServersCount(Integer tradeCount) {
-            if (serversCount != -1) {
+            if (serversCount != UNLIMITED_TIMES) {
                 return serversCount * tradeCount;
             }
             return serversCount;
