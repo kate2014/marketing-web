@@ -27,7 +27,7 @@ public class CustomerCardTimeTradeApi extends PosApiController {
 
     @RequestMapping
     public ApiResult list(@RequestBody CustomerCardTimeReq req) throws Exception {
-        Page<CustomerCardTimeEntity> listPageByCustomerId = customerCardTimeService.getListPageByCustomerId(req.getCustomerId(), req.getPageNo(), req.getPageSize());
+        Page<CustomerCardTimeEntity> listPageByCustomerId = customerCardTimeService.getCardValidByCustomerId(req.getCustomerId(), req.getPageNo(), req.getPageSize());
         List<CustomerCardTimeResp> result = new ArrayList<>();
         for (CustomerCardTimeEntity record : listPageByCustomerId.getRecords()) {
             CustomerCardTimeResp customerCardTimeResp = new CustomerCardTimeResp();

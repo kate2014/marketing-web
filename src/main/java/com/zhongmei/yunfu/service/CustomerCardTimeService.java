@@ -38,14 +38,14 @@ public interface CustomerCardTimeService extends IService<CustomerCardTimeEntity
     List<CustomerCardTimeEntity> getListPageByCustomerId(Long customerId);
 
     /**
-     * 根据会员ID获取次卡服务
+     * 根据会员ID获取有效的次卡
      *
      * @param customerId
      * @param pageNo
      * @param pageSize
      * @return
      */
-    Page<CustomerCardTimeEntity> getListPageByCustomerId(Long customerId, Integer pageNo, Integer pageSize);
+    Page<CustomerCardTimeEntity> getCardValidByCustomerId(Long customerId, Integer pageNo, Integer pageSize);
 
     /**
      * 购买次卡

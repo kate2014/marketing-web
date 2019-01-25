@@ -19,6 +19,7 @@ import com.zhongmei.yunfu.domain.mapper.CustomerCardTimeMapper;
 import com.zhongmei.yunfu.service.CustomerCardTimeExpendService;
 import com.zhongmei.yunfu.service.CustomerCardTimeService;
 import com.zhongmei.yunfu.service.CustomerService;
+import com.zhongmei.yunfu.util.DateFormatUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -69,11 +70,14 @@ public class CustomerCardTimeServiceImpl extends ServiceImpl<CustomerCardTimeMap
     }
 
     @Override
-    public Page<CustomerCardTimeEntity> getListPageByCustomerId(Long customerId, Integer pageNo, Integer pageSize) {
+    public Page<CustomerCardTimeEntity> getCardValidByCustomerId(Long customerId, Integer pageNo, Integer pageSize) {
         CustomerCardTimeEntity cardTimeEntity = new CustomerCardTimeEntity();
         cardTimeEntity.setCustomerId(customerId);
         //cardTimeEntity.setShopIdenty();
         cardTimeEntity.setStatusFlag(StatusFlag.VALiD.value());
+        EntityWrapper<CustomerCardTimeEntity> entityWrapper = new EntityWrapper<>(cardTimeEntity);
+        entityWrapper.ne("residue_count","0");
+        entityWrapper.andNew("card_expire_date >= {0} OR card_expire_date IS NULL", DateFormatUtil.formatDate(new Date()));
         return selectPage(new Page<>(pageNo, pageSize), new EntityWrapper<>(cardTimeEntity));
     }
 
