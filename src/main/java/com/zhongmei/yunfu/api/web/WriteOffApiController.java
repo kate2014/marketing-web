@@ -416,7 +416,7 @@ public class WriteOffApiController extends PosApiController {
     public Integer checkCardTimeValid(TradePrivilegeEntity mTradePrivilege){
         try{
             CustomerCardTimeEntity mCustomerCardTimeEntity = mCustomerCardTimeService.getCustomerCardTimeEntity(mTradePrivilege.getPromoId(),true);
-            if(mCustomerCardTimeEntity.getResidueCount() < 1){
+            if(mCustomerCardTimeEntity.getResidueCount() < 1 && mCustomerCardTimeEntity.getResidueCount() != -1){
                 return 1004;
             }
         }catch (ApiResponseStatusException e){

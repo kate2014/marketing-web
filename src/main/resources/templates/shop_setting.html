@@ -229,16 +229,19 @@
             <div style="margin-top: 15px">
                 <label class="text_navigation" style="margin-left: 10px; margin-top: 15px; min-width: 300px">小程序商户编号</label>
                 <input class="input_style" placeholder="输入小程序支付商户编号" style="margin-left: 5px; width: 300px" type="text" th:value="${wxShopId}" name="wxShopId"/>
+                <label class="text_navigation" style="margin-left: 10px; margin-top: 15px; min-width: 300px">查看路径：微信公众平台 》小程序 》微信支付 》商户号管理 》商户号</label>
             </div>
 
             <div style="margin-top: 15px">
                 <label class="text_navigation" style="margin-left: 10px; margin-top: 15px; min-width: 300px">商家小程序标识</label>
                 <input class="input_style" placeholder="输入开通小程序时的唯一标识 appid" style="margin-left: 5px; width: 300px" type="text" th:value="${wxAppid}" name="wxAppid"/>
+                <label class="text_navigation" style="margin-left: 10px; margin-top: 15px; min-width: 300px">查看路径：微信公众平台 》小程序 》开发 》AppID(小程序ID)</label>
             </div>
 
             <div style="margin-top: 15px">
                 <label class="text_navigation" style="margin-left: 10px; margin-top: 15px; min-width: 300px">商家小程序密钥</label>
                 <input class="input_style" placeholder="输入开通小程序时的唯一秘钥 appsecret" style="margin-left: 5px; width: 300px" type="password" th:value="${wxAppsecret}" name="wxAppsecret"/>
+                <label class="text_navigation" style="margin-left: 10px; margin-top: 15px; min-width: 300px">查看路径：微信公众平台 》小程序 》开发 》AppSecret(小程序密钥)</label>
             </div>
 
             <div style="margin-top: 15px">
@@ -254,7 +257,7 @@
                         <input type="file" name="file" id="upload-input-file"/>
                     </div>
                 </div>
-                <h6 style="margin-left: 15px">点击上传或替换，仅可上传1个文件(文件名为.p12)</h6>
+                <h6 style="margin-left: 15px">点击上传或替换，仅可上传1个文件(文件名为.p12) 下载路径：微信支付 》商户平台 》账户中心 》API安全 》API证书</h6>
             </div>
 
             <div style="margin-top: 15px">
