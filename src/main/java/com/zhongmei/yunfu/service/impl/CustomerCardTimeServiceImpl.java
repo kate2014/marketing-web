@@ -114,7 +114,7 @@ public class CustomerCardTimeServiceImpl extends ServiceImpl<CustomerCardTimeMap
                 }
                 result.add(cardTimeEntity);
                 if (cardTimeEntity.getTradeCount() != UNLIMITED_TIMES) {
-                    cardResidueCount += dish.getTradeCount();
+                    cardResidueCount += cardTimeEntity.getTradeCount();
                 }
 
                 //统计最近的服务过期时间
