@@ -83,29 +83,29 @@ public class MarketingPutOnController extends BaseController {
 
         model.addAttribute("marketingPutOn", mMarketingPutOnModel);
 
-        //获取优惠券信息
-        Page<CouponEntity> listPage = couponService.findListPage(null, null, null, null, null, 1, 1000);
-        List<CouponModel> zkCouponArray = new ArrayList<>();
-        List<CouponModel> lpCouponArray = new ArrayList<>();
-        List<CouponModel> djCouponArray = new ArrayList<>();
-
-        if (listPage != null && listPage.getRecords() != null) {
-            for (CouponEntity coupon : listPage.getRecords()) {
-                CouponModel couponModel = new CouponModel(coupon);
-                if (couponModel.getCouponType() == 1) {
-                    zkCouponArray.add(couponModel);
-                } else if (couponModel.getCouponType() == 2) {
-                    djCouponArray.add(couponModel);
-                } else if (couponModel.getCouponType() == 3) {
-                    lpCouponArray.add(couponModel);
-                }
-
-            }
-        }
-
-        model.addAttribute("zkCouponArray", zkCouponArray);
-        model.addAttribute("lpCouponArray", lpCouponArray);
-        model.addAttribute("djCouponArray", djCouponArray);
+//        //获取优惠券信息
+//        Page<CouponEntity> listPage = couponService.findListPage(null, null, null, null, null, 1, 1000);
+//        List<CouponModel> zkCouponArray = new ArrayList<>();
+//        List<CouponModel> lpCouponArray = new ArrayList<>();
+//        List<CouponModel> djCouponArray = new ArrayList<>();
+//
+//        if (listPage != null && listPage.getRecords() != null) {
+//            for (CouponEntity coupon : listPage.getRecords()) {
+//                CouponModel couponModel = new CouponModel(coupon);
+//                if (couponModel.getCouponType() == 1) {
+//                    zkCouponArray.add(couponModel);
+//                } else if (couponModel.getCouponType() == 2) {
+//                    djCouponArray.add(couponModel);
+//                } else if (couponModel.getCouponType() == 3) {
+//                    lpCouponArray.add(couponModel);
+//                }
+//
+//            }
+//        }
+//
+//        model.addAttribute("zkCouponArray", zkCouponArray);
+//        model.addAttribute("lpCouponArray", lpCouponArray);
+//        model.addAttribute("djCouponArray", djCouponArray);
 
 
         return "settingcoupon";
