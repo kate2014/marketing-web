@@ -71,7 +71,7 @@ public class CustomerPosApi extends PosApiController {
         customerResp.level = 0L;
         customerResp.levelName = customer.getGroupLevel();
         customerResp.remainValue = customer.getStoredBalance();
-        customerResp.integral = customer.getIntegral();
+        customerResp.integral = customer.getIntegralTotal() - customer.getIntegralUsed();
         customerResp.memo = customer.getProfile();
         int couponCount = customerCouponService.selectCouponEntityCount(customer.getId(), customer.getShopIdenty());
         int cardTimeCount = customerCardTimeService.selectCount(customer.getId(), customer.getShopIdenty());
@@ -106,7 +106,7 @@ public class CustomerPosApi extends PosApiController {
             CustomerLevelRuleEntity levelRuleEntity = customerLevelRuleService.getCustomerLevelRuleEntity(req.getHeader().getShopId(), req.getHeader().getBrandId(), 0);
             mCustomer.baseCreate(req.getUserId(), req.getUserName());
             mCustomer.setPassword(consumePassword);
-            mCustomer.setIntegral(0);
+            mCustomer.setIntegralTotal(0);
             mCustomer.setGroupLevelId(levelRuleEntity.getId());
             mCustomer.setGroupLevel(levelRuleEntity.getLevelName());
             mCustomer.setSourceId(CustomerSourceId.POS.value());
@@ -140,8 +140,8 @@ public class CustomerPosApi extends PosApiController {
         Page<CustomerIntegralEntity> listPage = customerIntegralService.selectPage(new Page<>(req.getPageNo(), req.getPageSize()), integralEntityEntityWrapper);
 
         CustomerIntegralResp integralResp = new CustomerIntegralResp();
-        integralResp.setAggregateCount(customerEntity.getIntegral() + customerEntity.getConsumptionIntegral());
-        integralResp.setIntegralCount(customerEntity.getIntegral());
+        integralResp.setAggregateCount(customerEntity.getIntegralTotal());
+        integralResp.setIntegralCount(customerEntity.getIntegralTotal() - customerEntity.getIntegralUsed());
         integralResp.setItems(new ArrayList<>());
         for (CustomerIntegralEntity integralEntity : listPage.getRecords()) {
             CustomerIntegralResp.NewIntegralRecord newIntegralRecord = new CustomerIntegralResp.NewIntegralRecord();

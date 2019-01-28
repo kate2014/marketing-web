@@ -49,7 +49,7 @@ public class CustomerLoginPosApi extends PosApiController {
         customerLoginResp.setValueCardBalance(customerEntity.getStoredBalance()); //储值余额
         customerLoginResp.setRemainValue(customerEntity.getStoredBalance());
         customerLoginResp.setOpenId(customerEntity.getThirdId());//微信openID
-        customerLoginResp.setIntegral(customerEntity.getIntegral());//当前积分
+        customerLoginResp.setIntegral(customerEntity.getIntegralTotal() - customerEntity.getIntegralUsed());//当前积分
         customerLoginResp.setCoupCount(couponCount);//优惠券（有/无）
         customerLoginResp.setCardCount(customerEntity.getCardResidueCount());//次卡（有/无）
         customerLoginResp.setIsDisable(customerEntity.getEnabledFlag() == EnabledFlag.DISABLED.value() ? 1 : 2);//是否停用 1.是停用; 2.否

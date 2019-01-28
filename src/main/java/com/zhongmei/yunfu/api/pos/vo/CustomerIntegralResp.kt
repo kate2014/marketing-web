@@ -2,8 +2,8 @@ package com.zhongmei.yunfu.api.pos.vo
 
 class CustomerIntegralResp {
 
-    var aggregateCount: Int? = null
-    var integralCount: Int? = null
+    var aggregateCount: Int? = null //合计积分
+    var integralCount: Int? = null  //可用积分
     var items: List<NewIntegralRecord>? = null
 
     class NewIntegralRecord {

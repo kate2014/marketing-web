@@ -39,19 +39,21 @@ public class CustomerIntegralServiceImpl extends ServiceImpl<CustomerIntegralMap
     @Override
     public void checkIntegral(Long customerId, Long integral) throws Exception {
         CustomerEntity customerEntity = customerService.getCustomerEntity(customerId, true);
-        if (integral > customerEntity.getIntegral() - customerEntity.getIntegralUsed()) {
+        if (integral > customerEntity.getIntegralTotal() - customerEntity.getIntegralUsed()) {
             throw new ApiResponseStatusException(ApiResponseStatus.CUSTOMER_INTEGRAL_INSUFFICIENT);
         }
     }
 
     @Override
     public void income(CustomerIntegralTradeReq req) throws Exception {
-        CustomerEntity customerEntity = customerService.getCustomerEntity(req.getCustomerId(), true);
-        customerEntity.setConsumptionLastTime(new Date());
-        Integer integral = customerEntity.getIntegral();
-        int currentIntegral = integral + req.getTradeIntegral();
-        updateIntegralOfCustomer(req, customerEntity, currentIntegral, customerEntity.getConsumptionIntegral());
-        addCustomerIntegralRecord(integral, customerEntity, req, RecordType.BUY);
+        if (req.getTradeIntegral() > 0) {
+            CustomerEntity customerEntity = customerService.getCustomerEntity(req.getCustomerId(), true);
+            customerEntity.setConsumptionLastTime(new Date());
+            Integer integral = customerEntity.getIntegralTotal();
+            int currentIntegral = integral + req.getTradeIntegral();
+            updateIntegralOfCustomer(req, customerEntity, currentIntegral, customerEntity.getIntegralUsed());
+            addCustomerIntegralRecord(integral, customerEntity, req, RecordType.BUY);
+        }
     }
 
     @Override
@@ -59,7 +61,7 @@ public class CustomerIntegralServiceImpl extends ServiceImpl<CustomerIntegralMap
         CustomerEntity customerEntity = customerService.getCustomerEntity(req.getCustomerId(), true);
         List<CustomerIntegralEntity> selectByTradeId = selectByTradeId(req.getTradeId(), RecordType.BUY);
         for (CustomerIntegralEntity entity : selectByTradeId) {
-            Integer integral = customerEntity.getIntegral();
+            Integer integral = customerEntity.getIntegralTotal();
             int currentIntegral = integral - entity.getTradeIntegral();
             int integralUsed = customerEntity.getIntegralUsed();
             updateIntegralOfCustomer(req, customerEntity, currentIntegral, integralUsed);
@@ -70,11 +72,11 @@ public class CustomerIntegralServiceImpl extends ServiceImpl<CustomerIntegralMap
     @Override
     public void expend(CustomerIntegralTradeReq req) throws Exception {
         CustomerEntity customerEntity = customerService.getCustomerEntity(req.getCustomerId(), true);
-        if (req.getTradeIntegral() > customerEntity.getIntegral() - customerEntity.getIntegralUsed()) {
+        if (req.getTradeIntegral() > customerEntity.getIntegralTotal() - customerEntity.getIntegralUsed()) {
             throw new ApiResponseStatusException(ApiResponseStatus.CUSTOMER_INTEGRAL_INSUFFICIENT);
         }
 
-        int currentIntegral = customerEntity.getIntegral();
+        int currentIntegral = customerEntity.getIntegralTotal();
         int consumptionIntegral = customerEntity.getIntegralUsed() + req.getTradeIntegral();
         updateIntegralOfCustomer(req, customerEntity, currentIntegral, consumptionIntegral);
         addCustomerIntegralRecord(currentIntegral, customerEntity, req, RecordType.EXPENSE);
@@ -85,20 +87,20 @@ public class CustomerIntegralServiceImpl extends ServiceImpl<CustomerIntegralMap
         CustomerEntity customerEntity = customerService.getCustomerEntity(req.getCustomerId(), true);
         List<CustomerIntegralEntity> selectByTradeId = selectByTradeId(req.getTradeId(), RecordType.EXPENSE);
         for (CustomerIntegralEntity entity : selectByTradeId) {
-            int currentIntegral = customerEntity.getIntegral();
+            int currentIntegral = customerEntity.getIntegralTotal();
             int integralUsed = customerEntity.getIntegralUsed() - entity.getTradeIntegral();
             updateIntegralOfCustomer(req, customerEntity, currentIntegral, integralUsed);
             addCustomerIntegralRecord(currentIntegral, customerEntity, req, RecordType.REFUND);
         }
     }
 
-    private void updateIntegralOfCustomer(CustomerIntegralTradeReq req, CustomerEntity customerEntity, int currentIntegral, int integralUsed) {
+    private void updateIntegralOfCustomer(CustomerIntegralTradeReq req, CustomerEntity customerEntity, int totalIntegral, int integralUsed) {
         customerEntity.baseUpdate(req.getCreatorId(), req.getCreatorName());
-        customerEntity.setIntegral(currentIntegral);
+        customerEntity.setIntegralTotal(totalIntegral);
         customerEntity.setIntegralUsed(integralUsed);
-        customerEntity.setConsumptionIntegral(integralUsed);
+        customerEntity.setIntegral(totalIntegral - integralUsed);
         //更新会员等级
-        CustomerLevelRuleEntity customerLevelRuleEntity = customerLevelRuleService.getCustomerLevelRuleEntity(req.getShopId(), req.getBrandId(), currentIntegral + customerEntity.getConsumptionIntegral());
+        CustomerLevelRuleEntity customerLevelRuleEntity = customerLevelRuleService.getCustomerLevelRuleEntity(req.getShopId(), req.getBrandId(), totalIntegral);
         customerEntity.setGroupLevelId(Long.valueOf(customerLevelRuleEntity.getLevelCode()));
         customerEntity.setGroupLevel(customerLevelRuleEntity.getLevelName());
         customerService.updateById(customerEntity);
@@ -121,7 +123,7 @@ public class CustomerIntegralServiceImpl extends ServiceImpl<CustomerIntegralMap
      * @param req
      */
     private void addCustomerIntegralRecord(int currentIntegral, CustomerEntity customerEntity, CustomerIntegralTradeReq req, RecordType recordType) {
-        Integer residueIntegral = customerEntity.getIntegral() - customerEntity.getIntegralUsed();
+        Integer residueIntegral = customerEntity.getIntegralTotal() - customerEntity.getIntegralUsed();
         CustomerIntegralEntity customerIntegralEntity = new CustomerIntegralEntity();
         customerIntegralEntity.baseCreate(req.getCreatorId(), req.getCreatorName());
         customerIntegralEntity.setCustomerId(req.getCustomerId());

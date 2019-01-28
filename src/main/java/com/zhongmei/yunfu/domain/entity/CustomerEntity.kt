@@ -86,11 +86,15 @@ open class CustomerEntity : BaseEntity() {
     /**
      * 会员积分
      */
-    var integral: Int? = null
+    var integralTotal: Int? = null
     /**
      * 已使用积分
      */
     var integralUsed: Int? = null
+    /**
+     * 会员可用积分
+     */
+    var integral: Int? = null
     /**
      * 会员来源 1：pos本地  2：小程序
      */
@@ -111,10 +115,6 @@ open class CustomerEntity : BaseEntity() {
      * 消费总次数
      */
     var consumptionNumber: Int? = null
-    /**
-     * 消费总积分
-     */
-    var consumptionIntegral: Int? = null
     /**
      * 储值余额
      */

@@ -1,7 +1,10 @@
 package com.zhongmei.yunfu.demo;
 
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.zhongmei.yunfu.controller.weixinPay.WeiXinPayRsqEntity;
+import com.zhongmei.yunfu.domain.entity.CustomerCardTimeEntity;
+import com.zhongmei.yunfu.util.DateFormatUtil;
 import com.zhongmei.yunfu.util.HttpMessageConverterUtils;
 import org.junit.Test;
 
@@ -13,6 +16,9 @@ public class DomoTest {
 
     @Test
     public void contextLoads() throws IOException {
+        EntityWrapper<CustomerCardTimeEntity> entityWrapper = new EntityWrapper<>();
+        entityWrapper.andNew("card_expire_date >= {0} OR card_expire_date IS NULL", DateFormatUtil.formatDate(new Date()));
+        entityWrapper.getSqlSegment();
         System.out.println(new File("out/gen").getAbsolutePath());
 
         String s = "{\"a\":\"1\",\"b\":2}";
