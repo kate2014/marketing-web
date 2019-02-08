@@ -91,11 +91,11 @@ public class NewDishPushModel {
         this.shareNumber = newDishPlan.getShareNumber();
         this.serverUpdateTime = newDishPlan.getServerUpdateTime();
         if (newDishPlan.getBeginTime() != null) {
-            this.beginTime = DateFormatUtil.format(newDishPlan.getBeginTime(), DateFormatUtil.FORMAT_DATE);
+            this.beginTime = DateFormatUtil.format(newDishPlan.getBeginTime(), DateFormatUtil.FORMAT_FULL_DATE);
         }
 
         if (newDishPlan.getEndTime() != null) {
-            this.endTime = DateFormatUtil.format(newDishPlan.getEndTime(), DateFormatUtil.FORMAT_DATE);
+            this.endTime = DateFormatUtil.format(newDishPlan.getEndTime(), DateFormatUtil.FORMAT_FULL_DATE);
         }
     }
 
