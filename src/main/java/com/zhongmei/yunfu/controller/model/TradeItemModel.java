@@ -18,6 +18,7 @@ public class TradeItemModel {
 
     private String tradeUser;
 
+    private String creatorName;
 
     public String getDishName() {
         return dishName;
@@ -73,5 +74,13 @@ public class TradeItemModel {
 
     public void setTradeUser(String tradeUser) {
         this.tradeUser = tradeUser;
+    }
+
+    public String getCreatorName() {
+        return creatorName;
+    }
+
+    public void setCreatorName(String creatorName) {
+        this.creatorName = creatorName;
     }
 }

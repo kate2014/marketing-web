@@ -28,7 +28,7 @@ public class TradePrivilegeServiceImpl extends ServiceImpl<TradePrivilegeMapper,
         eWrapper.eq("shop_identy", shopIdenty);
         eWrapper.eq("trade_id", tradeId);
         eWrapper.eq("status_flag", 1);
-        eWrapper.setSqlSelect("id,trade_id,trade_item_id,trade_uuid,trade_item_uuid,privilege_type,privilege_value,privilege_amount,privilege_name,promo_id,surcharge_name,use_status,status_flag,shop_identy,brand_identy");
+        eWrapper.setSqlSelect("id,trade_id,trade_item_id,trade_uuid,trade_item_uuid,privilege_type,privilege_value,privilege_amount,privilege_name,promo_id,surcharge_name,use_status,status_flag,shop_identy,brand_identy,creator_name");
         eWrapper.orderBy("server_create_time");
         List<TradePrivilegeEntity> listData = selectList(eWrapper);
         return listData;

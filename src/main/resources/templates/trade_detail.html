@@ -52,7 +52,7 @@
                     余额储值单
                 </p>
                 <p th:case="'3'">
-                    次卡充值
+                    次卡服务
                 </p>
                 <p th:case="'4'">
                     小程序服务购买
@@ -119,12 +119,8 @@
             <lable class="detail_value_style" th:text="${mTradeEntity.tradeAmount}"/>
         </div>
         <div style="width: 300px">
-            <label class="detail_lable_style">服务员:</label>
-
-            <tr th:each="item:${userForTrade}">
-                <lable class="detail_value_style" th:text="${item.userName}"/>
-            </tr>
-
+            <label class="detail_lable_style">开单操作员：</label>
+            <lable class="detail_value_style" th:text="${mTradeEntity.creatorName}"/>
         </div>
 
     </div>
@@ -216,7 +212,7 @@
         <tr style="width: 100%">
             <th>优惠名称</th>
             <th>优惠金额</th>
-            <th>操作者</th>
+            <th>优惠操作员</th>
         </tr>
 
         <tr th:each="item:${privilageForTrade}">
@@ -236,13 +232,14 @@
     </div>
     <table class="gridtablestyle" style="width: 95%; vertical-align: middle">
         <tr style="width: 100%">
-            <th>商品名称</th>
-            <th>商品单价</th>
+            <th>品项名称</th>
+            <th>品项单价</th>
             <th>购买数量</th>
             <th>应售金额</th>
             <th>优惠金额</th>
             <th>实售金额</th>
             <th>服务员</th>
+            <th>订单操作员</th>
         </tr>
 
         <tr th:each="item:${listItem}">
@@ -253,6 +250,7 @@
             <td style="padding-right: 10px;padding-left: 10px" th:text="${item.privilege}"></td>
             <td style="padding-right: 10px;padding-left: 10px" th:text="${item.actualAmount}"></td>
             <td style="padding-right: 10px;padding-left: 10px" th:text="${item.tradeUser}"></td>
+            <td style="padding-right: 10px;padding-left: 10px" th:text="${item.creatorName}"></td>
         </tr>
 
     </table>

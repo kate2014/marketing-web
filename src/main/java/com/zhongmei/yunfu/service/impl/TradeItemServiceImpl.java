@@ -34,7 +34,7 @@ public class TradeItemServiceImpl extends ServiceImpl<TradeItemMapper, TradeItem
     public List<TradeItemEntity> querTradeItemByTradeId(Long tradeId) {
         EntityWrapper<TradeItemEntity> eWrapper = new EntityWrapper<>(new TradeItemEntity());
         eWrapper.eq("trade_id", tradeId);
-        eWrapper.setSqlSelect("id,trade_id,trade_uuid,parent_id,parent_uuid,dish_id,dish_setmeal_group_id,dish_name,type,sort,price,quantity,unit_name,amount,property_amount,actual_amount,trade_memo");
+        eWrapper.setSqlSelect("id,trade_id,trade_uuid,parent_id,parent_uuid,dish_id,dish_setmeal_group_id,dish_name,type,sort,price,quantity,unit_name,amount,property_amount,actual_amount,trade_memo,creator_name");
         List<TradeItemEntity> listData = selectList(eWrapper);
         return listData;
     }

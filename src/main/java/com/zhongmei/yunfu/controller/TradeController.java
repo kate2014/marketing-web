@@ -102,7 +102,7 @@ public class TradeController extends BaseController{
                 mTradeItemModel.setQuantity(item.getQuantity());
                 mTradeItemModel.setAmount(item.getAmount());
                 mTradeItemModel.setPrivilege("/");
-
+                mTradeItemModel.setCreatorName(item.getCreatorName());
                 for(TradePrivilegeEntity privilage : listPrivilage){
                     if(privilage.getTradeItemId() != null && privilage.getTradeItemId().longValue() == item.getId().longValue()){
                         mTradeItemModel.setPrivilege(privilage.getPrivilegeName()+"："+privilage.getPrivilegeAmount());
