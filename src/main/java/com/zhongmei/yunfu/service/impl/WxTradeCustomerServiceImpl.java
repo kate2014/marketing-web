@@ -95,7 +95,7 @@ public class WxTradeCustomerServiceImpl extends ServiceImpl<WxTradeCustomerMappe
         //判断会员是否参与过该活动，目前限制一活动同一人只能参与一次
         int count = queryJoinCountByCustomer(mTradeModel);
         if(count>0){
-            return "您已参与过该活动，不允许多次参与";
+            return "您已参与过该活动，不允许多次参与，请在-我的-订单中心查看";
         }
 
         //拼团

@@ -2,6 +2,7 @@ package com.zhongmei.yunfu.controller.model;
 
 import com.zhongmei.yunfu.domain.entity.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,8 @@ public class TradeDataModel {
     List<Map<String,Object>> listTradeItem;
 
     private List<PaymentItemEntity> mPaymentItemEntity;
+
+    private List<TradePrivilegeEntity> listPrivilage;
 
     public TradeEntity getTrade() {
         return trade;
@@ -35,5 +38,13 @@ public class TradeDataModel {
 
     public void setmPaymentItemEntity(List<PaymentItemEntity> mPaymentItemEntity) {
         this.mPaymentItemEntity = mPaymentItemEntity;
+    }
+
+    public List<TradePrivilegeEntity> getListPrivilage() {
+        return listPrivilage;
+    }
+
+    public void setListPrivilage(List<TradePrivilegeEntity> listPrivilage) {
+        this.listPrivilage = listPrivilage;
     }
 }

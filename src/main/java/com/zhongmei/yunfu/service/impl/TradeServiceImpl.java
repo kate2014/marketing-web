@@ -239,22 +239,28 @@ public class TradeServiceImpl extends ServiceImpl<TradeMapper, TradeEntity> impl
             itemMap.put("propertyAmount",ti.getPropertyAmount());
             itemMap.put("actualAmount",ti.getActualAmount());
             itemMap.put("feedsAmount",ti.getFeedsAmount());
+
+            itemMap.put("privilegeAmount",BigDecimal.ZERO);
             for(TradePrivilegeEntity tp : listTempTP){
-                if(tp.getTradeItemId() != null && tp.getTradeItemId() != 0){
-                    if(tp.getTradeItemId() == ti.getId()){
+                if(tp.getTradeItemId() != null && tp.getTradeItemId() != 0) {
+                    if(tp.getTradeItemId().longValue() == ti.getId().longValue()){
                         itemMap.put("privilegeName",tp.getPrivilegeName());
                         itemMap.put("privilegeValue",tp.getPrivilegeValue());
                         itemMap.put("privilegeAmount",tp.getPrivilegeAmount());
                         break;
                     }
-                }else{
-                    listPrivilage.add(tp);
-                    break;
                 }
-
             }
             listTradeItem.add(itemMap);
         }
+
+        for(TradePrivilegeEntity tp : listTempTP) {
+            if (tp.getTradeItemId() == null || tp.getTradeItemId() == 0) {
+                listPrivilage.add(tp);
+            }
+        }
+
+        mTradeDataModel.setListPrivilage(listPrivilage);
 
         mTradeDataModel.setListTradeItem(listTradeItem);
 
