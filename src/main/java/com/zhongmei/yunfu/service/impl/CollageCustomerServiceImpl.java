@@ -86,7 +86,7 @@ public class CollageCustomerServiceImpl extends ServiceImpl<CollageCustomerMappe
         eWrapper.eq("c.is_paid",2);
         eWrapper.eq("c.enabled_flag",1);
 //        eWrapper.eq("c.state",1);
-        eWrapper.in("c.state","1,2");
+//        eWrapper.in("c.state","1,2");
         eWrapper.eq("c.status_flag",1);
         List<CollageCustomerModel> listData = baseMapper.querCollageByCustomer(eWrapper);
 
