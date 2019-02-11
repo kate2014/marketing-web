@@ -127,8 +127,16 @@ public class ScenarioMarketingApiController {
             List<CutDownCustomerModel> listCutDown = queryCutDownByCustomer(mScenariomarketingModel);
             //获取砍价活动使用情况
             for(CutDownCustomerModel item : listCutDown){
+
                 WxTradeCustomerEntity mWxTradeCustomerEntity = mWxTradeCustomerService.queryByRelateId(item.getId());
-                item.setStatus(mWxTradeCustomerEntity.getStatus());
+                if(mWxTradeCustomerEntity != null){
+                    item.setStatus(mWxTradeCustomerEntity.getStatus());
+                }else {
+                    item.setStatus(1);
+                }
+
+                checkCutDownVailb(item);
+
             }
             mScenariomarketingModel.setListCutDown(listCutDown);
             //获取参与的拼团活动
@@ -162,6 +170,21 @@ public class ScenarioMarketingApiController {
         }
 
         return mBaseDataModel;
+    }
+
+    /**
+     * 验证活动是否到期是否有效
+     * @param cutDown
+     */
+    public void checkCutDownVailb(CutDownCustomerModel cutDown)throws Exception{
+        //活动已到期结束或者活动已停止,则将参与的活动修改为失败
+        if(cutDown.getState()==1 && (cutDown.getEndTime().getTime() <= new Date().getTime() || cutDown.getEnabledFlag() == 2)){
+            CutDownCustomerEntity mCutDownCustomer = new CutDownCustomerEntity();
+            mCutDownCustomer.setId(cutDown.getId());
+            mCutDownCustomer.setState(3);
+            mCutDownCustomerService.updateData(mCutDownCustomer);
+        }
+
     }
 
     /**
@@ -222,7 +245,7 @@ public class ScenarioMarketingApiController {
 
             Date endTime = ccm.getEndTime();
             //判断活动是否已结束
-            if(endTime.getTime() <= new Date().getTime()){
+            if(ccm.getState() == 1 && (endTime.getTime() <= new Date().getTime() || ccm.getEnabledFlag() == 2)){
                 //表示是开团记录
                 if(ccm.getRelationId() == null){
                     isRufundTrade = queryCollageCustomer(ccm,ccm.getId());

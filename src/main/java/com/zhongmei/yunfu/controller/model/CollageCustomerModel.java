@@ -76,6 +76,10 @@ public class CollageCustomerModel {
      */
     private Integer status;
     /**
+     * 启用停用标识 : 1:启用;2:停用
+     */
+    private Integer enabledFlag;
+    /**
      * 品牌id
      */
     private Long brandIdentity;
@@ -235,5 +239,13 @@ public class CollageCustomerModel {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Integer getEnabledFlag() {
+        return enabledFlag;
+    }
+
+    public void setEnabledFlag(Integer enabledFlag) {
+        this.enabledFlag = enabledFlag;
     }
 }
