@@ -72,6 +72,10 @@ public class CollageCustomerModel {
      */
     private Integer state;
     /**
+     * 状态 1未使用、2已使用
+     */
+    private Integer status;
+    /**
      * 品牌id
      */
     private Long brandIdentity;
@@ -223,5 +227,13 @@ public class CollageCustomerModel {
 
     public void setOriginalPrice(BigDecimal originalPrice) {
         this.originalPrice = originalPrice;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

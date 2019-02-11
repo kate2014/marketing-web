@@ -60,6 +60,10 @@ public class CutDownCustomerModel {
      */
     private Integer state;
     /**
+     * 状态 1未使用、2已使用
+     */
+    private Integer status;
+    /**
      * 已砍价格
      */
     private BigDecimal currentPrice;
@@ -210,5 +214,13 @@ public class CutDownCustomerModel {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

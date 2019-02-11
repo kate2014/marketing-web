@@ -3,10 +3,7 @@ package com.zhongmei.yunfu.service.impl;
 import com.baomidou.mybatisplus.mapper.Condition;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
-import com.zhongmei.yunfu.controller.model.CutDownReportModel;
-import com.zhongmei.yunfu.controller.model.FlashSalesModel;
-import com.zhongmei.yunfu.controller.model.FlashSalesReportModel;
-import com.zhongmei.yunfu.controller.model.ReportMarketingModel;
+import com.zhongmei.yunfu.controller.model.*;
 import com.zhongmei.yunfu.core.mybatis.mapper.ConditionFilter;
 import com.zhongmei.yunfu.domain.entity.FlashSalesMarketingEntity;
 import com.zhongmei.yunfu.domain.mapper.FlashSalesMarketingMapper;
@@ -129,6 +126,21 @@ public class FlashSalesMarketingServiceImpl extends ServiceImpl<FlashSalesMarket
         eWrapper.eq("status_flag", 1);
 //        eWrapper.between("server_create_time", mReportMarketingModel.getStartDate(), mReportMarketingModel.getEndDate());
         List<FlashSalesReportModel> listData = baseMapper.queryFlashSalesReport(eWrapper);
+        return listData;
+    }
+
+    @Override
+    public List<FlashSalesCustomerModel> queryFlashSalesByCustomer(Long brandIdenty, Long shopIdenty, Long customerId) throws Exception {
+        Condition eWrapper = ConditionFilter.create();
+        eWrapper.isWhere(true);
+        eWrapper.eq("w.brand_identy", brandIdenty);
+        eWrapper.eq("w.shop_identy", shopIdenty);
+        eWrapper.eq("w.customer_id", customerId);
+        eWrapper.eq("w.type", 3);
+        eWrapper.eq("w.enabled_flag", 1);
+        eWrapper.eq("w.status_flag", 1);
+
+        List<FlashSalesCustomerModel> listData = baseMapper.queryFlashSalesByCustomer(eWrapper);
         return listData;
     }
 }

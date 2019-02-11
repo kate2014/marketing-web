@@ -17,6 +17,8 @@ public class ScenariomarketingModel {
 
     private List<CollageCustomerModel> listCollage;
 
+    private List<FlashSalesCustomerModel> listFlashSales;
+
     public Long getBrandIdenty() {
         return brandIdenty;
     }
@@ -55,5 +57,13 @@ public class ScenariomarketingModel {
 
     public void setListCollage(List<CollageCustomerModel> listCollage) {
         this.listCollage = listCollage;
+    }
+
+    public List<FlashSalesCustomerModel> getListFlashSales() {
+        return listFlashSales;
+    }
+
+    public void setListFlashSales(List<FlashSalesCustomerModel> listFlashSales) {
+        this.listFlashSales = listFlashSales;
     }
 }

@@ -74,6 +74,17 @@ public class WxTradeCustomerServiceImpl extends ServiceImpl<WxTradeCustomerMappe
     }
 
     @Override
+    public WxTradeCustomerEntity queryByRelateId(Long relateId) throws Exception {
+
+        EntityWrapper<WxTradeCustomerEntity> eWrapper = new EntityWrapper<>(new WxTradeCustomerEntity());
+        eWrapper.eq("relate_id", relateId);
+        eWrapper.setSqlSelect("id, status");
+        WxTradeCustomerEntity mWxTradeCustomer = selectOne(eWrapper);
+        return mWxTradeCustomer;
+
+    }
+
+    @Override
     public List<WxTradeCustomerEntity> queryListDataByCustomerId(WxTradeCustomerEntity mWxTradeCustomer) throws Exception{
         EntityWrapper<WxTradeCustomerEntity> eWrapper = new EntityWrapper<>(new WxTradeCustomerEntity());
         eWrapper.eq("brand_identy", mWxTradeCustomer.getBrandIdenty());

@@ -45,7 +45,7 @@ public class CutDownCustomerServiceImpl extends ServiceImpl<CutDownCustomerMappe
         eWrapper.eq("c.brand_identity",mCutDownCustomer.getBrandIdentity());
         eWrapper.eq("c.shop_identity",mCutDownCustomer.getShopIdentity());
         eWrapper.eq("c.customer_id",mCutDownCustomer.getCustomerId());
-        eWrapper.in("c.state","1,2");
+        eWrapper.in("c.state","1,2,4");
         eWrapper.eq("c.status_flag",1);
         List<CutDownCustomerModel> listData = baseMapper.queryCutDowmByCustomer(eWrapper);
 

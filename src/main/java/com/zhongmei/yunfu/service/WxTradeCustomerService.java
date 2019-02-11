@@ -58,6 +58,13 @@ public interface WxTradeCustomerService extends IService<WxTradeCustomerEntity> 
     WxTradeCustomerEntity queryByTradeId(Long trade)throws Exception;
 
     /**
+     * 根据relateId获取信息
+     * @param relateId
+     * @return
+     */
+    WxTradeCustomerEntity queryByRelateId(Long relateId)throws Exception;
+
+    /**
      * 查询会员在该门店下购买的微信小程序服务
      * @param mWxTradeCustomer
      * @return

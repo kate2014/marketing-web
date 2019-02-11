@@ -1,6 +1,7 @@
 package com.zhongmei.yunfu.service;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import com.zhongmei.yunfu.controller.model.FlashSalesCustomerModel;
 import com.zhongmei.yunfu.controller.model.FlashSalesModel;
 import com.zhongmei.yunfu.controller.model.FlashSalesReportModel;
 import com.zhongmei.yunfu.controller.model.ReportMarketingModel;
@@ -100,4 +101,14 @@ public interface FlashSalesMarketingService extends IService<FlashSalesMarketing
      * @throws Exception
      */
     List<FlashSalesReportModel> queryFlashSalesReport(ReportMarketingModel mReportMarketingModel)throws Exception;
+
+    /**
+     * 获取会员参与的活动
+     * @param brandIdenty
+     * @param shopIdenty
+     * @param customerId
+     * @return
+     * @throws Exception
+     */
+    List<FlashSalesCustomerModel> queryFlashSalesByCustomer(Long brandIdenty, Long shopIdenty, Long customerId)throws Exception;
 }

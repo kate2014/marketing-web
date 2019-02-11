@@ -125,10 +125,30 @@ public class ScenarioMarketingApiController {
         try {
             //获取参与的砍价活动
             List<CutDownCustomerModel> listCutDown = queryCutDownByCustomer(mScenariomarketingModel);
+            //获取砍价活动使用情况
+            for(CutDownCustomerModel item : listCutDown){
+                WxTradeCustomerEntity mWxTradeCustomerEntity = mWxTradeCustomerService.queryByRelateId(item.getId());
+                item.setStatus(mWxTradeCustomerEntity.getStatus());
+            }
             mScenariomarketingModel.setListCutDown(listCutDown);
             //获取参与的拼团活动
             List<CollageCustomerModel> listCollage = querCollageByCustomer(mScenariomarketingModel);
+            //获取拼团活动使用情况
+            for(CollageCustomerModel item:listCollage){
+
+                if(item.getRelationId() != null){
+                    CollageCustomerEntity mCollageCustomerEntity = mCollageCustomerService.queryCollage(item.getRelationId());
+                    item.setJoinCount(mCollageCustomerEntity.getJoinCount());
+                }
+
+                WxTradeCustomerEntity mWxTradeCustomerEntity = mWxTradeCustomerService.queryByRelateId(item.getId());
+                item.setStatus(mWxTradeCustomerEntity.getStatus());
+            }
             mScenariomarketingModel.setListCollage(listCollage);
+
+            //获取购买的秒杀活动
+            List<FlashSalesCustomerModel> listFlashSalesModel = queryFlashSalesByCustomer(mScenariomarketingModel);
+            mScenariomarketingModel.setListFlashSales(listFlashSalesModel);
 
             mBaseDataModel.setState("1000");
             mBaseDataModel.setMsg("获取参与活动数据成功");
@@ -177,6 +197,16 @@ public class ScenarioMarketingApiController {
         checkCollageVailb(listData);
 
 
+        return listData;
+    }
+
+    /**
+     * 获取会员参与的秒杀活动
+     * @return
+     * @throws Exception
+     */
+    public List<FlashSalesCustomerModel> queryFlashSalesByCustomer(ScenariomarketingModel mScenariomarketingModel)throws Exception{
+        List<FlashSalesCustomerModel> listData = mFlashSalesMarketingService.queryFlashSalesByCustomer(mScenariomarketingModel.getBrandIdenty(),mScenariomarketingModel.getShopIdenty(),mScenariomarketingModel.getCustomerId());
         return listData;
     }
 
