@@ -64,6 +64,37 @@
 
     }
 
+
+    function checkStop(marketingId,name) {
+        var message = "如停用活动:"+name+"，参与中的顾客都将参与失败，请确认是否要执行?";
+        dialogBox(message,
+            function () {
+                stopMarketing(marketingId);
+            },
+            function(){
+
+            }
+        );
+    }
+
+    function stopMarketing(marketingId) {
+
+        const Url = "[[${basePath}]]/cutDownMarketing/updateState?id="+marketingId+"&enabledFlag=2";
+
+        const Http = new XMLHttpRequest();
+
+        Http.open("GET",Url);
+
+        Http.send();
+
+        Http.onreadystatechange=function () {
+            if(this.readyState == 4 && this.status == 200){
+                location.reload();
+            }
+        }
+    }
+
+
 </script>
 
 <body>
@@ -133,7 +164,7 @@
             <td align="center">
                 <a href="activityadd.html" th:href="@{/cutDownMarketing/gotoModify(id=${item.id})}">编辑</a>
                 <a href="activityadd.html" th:href="@{/cutDownMarketing/updateState(id=${item.id}, enabledFlag=1)}">启用</a>
-                <a href="activityadd.html" th:href="@{/cutDownMarketing/updateState(id=${item.id}, enabledFlag=2)}">停用</a>
+                <a th:onclick="'javascript:checkStop(\''+${item.id}+'\',\''+${item.name}+'\')'" style="cursor: pointer">停用</a>
                 <a th:onclick="'javascript:checkDelete(\''+${item.id}+'\',\''+${item.name}+'\')'" style="cursor: pointer">删除</a>
             </td>
 
