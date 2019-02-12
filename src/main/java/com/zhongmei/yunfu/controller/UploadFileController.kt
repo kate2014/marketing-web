@@ -57,20 +57,26 @@ class UploadFileController {
                 response.setHeader("X-Frame-Options", "SAMEORIGIN")
                 val out = response.writer
 
-                val fileClientName = file.originalFilename
+                /*val fileClientName = file.originalFilename
                 val pathName = ckeditorStorageImagePath + fileClientName!!
                 val newfile = File(pathName)
                 val bytes = file.bytes
                 val stream = BufferedOutputStream(FileOutputStream(newfile))
                 stream.write(bytes)
-                stream.close()
+                stream.close()*/
+
+                var entity = attachmentService.addFile(file)
 
                 // 组装返回url，以便于ckeditor定位图片
-                val fileUrl = ckeditorAccessImageUrl + File.separator + newfile.name
+                val fileUrl = entity.url //ckeditorAccessImageUrl + File.separator + newfile.name
+
+
 
                 // 将上传的图片的url返回给ckeditor
                 val callback = request.getParameter("CKEditorFuncNum")
                 val script = "<script type=\"text/javascript\">window.parent.CKEDITOR.tools.callFunction($callback, '$fileUrl');</script>"
+//                val script = "<script type=\"text/javascript\">window.parent.CKEDITOR.tools.callFunction(2, '/path/to/file', 'error message');</script>";
+
 
                 out.println(script)
                 out.flush()

@@ -29,11 +29,11 @@
     <script type="text/javascript" th:src="@{/js/base.js}"></script>
     <script type="text/javascript" th:src="@{/js/base.js}"></script>
 
-    <link rel="stylesheet" th:href="@{/ckeditor/contents.css}" type="text/css"/>
-    <script type="text/javascript" th:src="@{/ckeditor/ckeditor.js}"></script>
-    <script type="text/javascript" th:src="@{/ckeditor/ckeditor.js}"></script>
-    <script type="text/javascript" th:src="@{/ckeditor/config.js}"></script>
-    <script type="text/javascript" th:src="@{/ckeditor/styles.js}"></script>
+    <!--<link rel="stylesheet" th:href="@{/ckeditor/contents.css}" type="text/css"/>-->
+    <!--<script type="text/javascript" th:src="@{/ckeditor/ckeditor.js}"></script>-->
+    <!--<script type="text/javascript" th:src="@{/ckeditor/ckeditor.js}"></script>-->
+    <!--<script type="text/javascript" th:src="@{/ckeditor/config.js}"></script>-->
+    <!--<script type="text/javascript" th:src="@{/ckeditor/styles.js}"></script>-->
 
     <link th:href="@{/upload/upload-one.css}" href="../static/upload/upload-one.css" type="text/css" rel="stylesheet" />
     <script th:src="@{/upload/upload-one.js}"></script>
@@ -44,6 +44,16 @@
     <script type="text/javascript" th:src="@{/tips/tips.js}"></script>
 
 </head>
+
+<script type="text/javascript" th:src="@{/ckeditor/ckeditor.js}"></script>
+<script type="text/javascript">
+    CKEDITOR.replace('description');
+    //如果是在ASP.NET环境下用的服务器端控 件<TextBox>
+    CKEDITOR.replace('tbContent');
+    //如 果<TextBox>控件在母版页中，要这样写
+    CKEDITOR.replace('<%=tbContent.ClientID.Replace("_","$") %>');
+</script>
+
 <script type="text/javascript">
 
     $(function () {

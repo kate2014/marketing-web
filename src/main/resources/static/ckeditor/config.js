@@ -247,7 +247,7 @@ CKEDITOR.editorConfig = function( config ) {
     config.filebrowserBrowseUrl = '/api/browse';
     config.filebrowserImageBrowseUrl = '/api/browse/image';
     //config.filebrowserFlashBrowseUrl = '/api/browse/flash';
-    config.filebrowserUploadUrl = '/api/upload/file';
-    config.filebrowserImageUploadUrl = '/api/upload/file/image';
+    config.filebrowserUploadUrl = '/marketing/upload/d/image?';
+    config.filebrowserImageUploadUrl = '/marketing/upload/d/image?';
     //config.filebrowserFlashUploadUrl = '/api/upload/file/flash';
 };
