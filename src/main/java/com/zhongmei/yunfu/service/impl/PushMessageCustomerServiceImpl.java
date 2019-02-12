@@ -72,6 +72,7 @@ public class PushMessageCustomerServiceImpl extends ServiceImpl<PushMessageCusto
         } else if (type == 3) {
             mCouponEntity = mCouponServiceImpl.queryByid(relationId);
             heading = mCouponEntity.getName();
+            message = mCouponEntity.getContent();
             startTime = mCouponEntity.getServerCreateTime();
             endTime = mCouponEntity.getEndTime();
         }
