@@ -81,9 +81,16 @@ public class DishShopServiceImpl extends ServiceImpl<DishShopMapper, DishShopEnt
         }else{
             mDishShopEntity.setSaleTotal(mCardTimeModel.getSaleTotal());
         }
+        //如MinNum为空这标识不限制时间
+        if(mCardTimeModel.getMinNum() == null || mCardTimeModel.getMinNum().equals("")){
+            mDishShopEntity.setMaxNum(-1);
+            mDishShopEntity.setMinNum(-1);
+        }else{
+            mDishShopEntity.setMaxNum(mCardTimeModel.getMaxNum());
+            mDishShopEntity.setMinNum(mCardTimeModel.getMinNum());
+        }
 
-        mDishShopEntity.setMaxNum(mCardTimeModel.getMaxNum());
-        mDishShopEntity.setMinNum(mCardTimeModel.getMinNum());
+
         mDishShopEntity.setShopIdenty(shopIdentity);
         mDishShopEntity.setBrandIdenty(brandIdentity);
         mDishShopEntity.setCreatorId(creatorId);

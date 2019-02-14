@@ -140,7 +140,7 @@ class DishShopEntity : BaseEntity() {
      */
     var stepNum: BigDecimal? = null
     /**
-     * 适合人群（小） : 适合人群（小）  ====PS：现在暂时使用minNum来标记时间数据
+     * 适合人群（小） : 适合人群（小）  ====PS：现在暂时使用minNum来标记时间数据：-1表示无限时间
      */
     var minNum: Int? = null
     /**
