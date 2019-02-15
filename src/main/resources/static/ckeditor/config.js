@@ -50,7 +50,7 @@ CKEDITOR.editorConfig = function( config ) {
     // 当提交包含有此编辑器的表单时，是否自动更新元素内的数据
     config.autoUpdateElement = true;
     // 设置是使用绝对目录还是相对目录，为空为相对目录
-    config.baseHref = '/marketing/ckeditor/';
+    config.baseHref = '/ckeditor/';
     // 编辑器的z-index值
     config.baseFloatZIndex = 10000;
     //设置快捷键
