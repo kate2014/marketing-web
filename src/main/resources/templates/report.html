@@ -73,6 +73,13 @@
                     </div>
                 </li>
 
+                <li th:href="@{/internal/cardTimeReport/cardTime(brandIdenty=${brandIdenty})}" class="parent">
+                    <div class="parent">
+                        <img th:src="@{/images/report_customer_sace.png}" class="image_size_style">
+                        <span>储值报表</span>
+                    </div>
+                </li>
+
                 <div th:if="${haveMemberReport} eq '1'">
                     <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},requestUrlType=3)}" class="parent">
                         <div class="parent">
