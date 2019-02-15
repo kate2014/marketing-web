@@ -50,7 +50,7 @@ CKEDITOR.editorConfig = function( config ) {
     // 当提交包含有此编辑器的表单时，是否自动更新元素内的数据
     config.autoUpdateElement = true;
     // 设置是使用绝对目录还是相对目录，为空为相对目录
-    config.baseHref = '/ckeditor/';
+    config.baseHref = '/marketing/';
     // 编辑器的z-index值
     config.baseFloatZIndex = 10000;
     //设置快捷键
@@ -91,7 +91,7 @@ CKEDITOR.editorConfig = function( config ) {
         styles : { 'color' : '#(color)' }
     };
     //所需要添加的CSS文件 在此添加 可使用相对路径和网站的绝对路径
-    config.contentsCss = './contents.css';
+    config.contentsCss = ['ckeditor/contents.css'];
     //文字方向
     config.contentsLangDirection = 'ltl'; //从左到右
     //CKeditor的配置文件 若不想配置 留空即可
