@@ -66,6 +66,13 @@
                     </li>
                 </div>
 
+                <li th:href="@{/internal/cardTimeReport/cardTime(brandIdenty=${brandIdenty})}" class="parent">
+                    <div class="parent">
+                        <img th:src="@{/images/report_card_time.png}" class="image_size_style">
+                        <span>次卡销售报表</span>
+                    </div>
+                </li>
+
                 <div th:if="${haveMemberReport} eq '1'">
                     <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},requestUrlType=3)}" class="parent">
                         <div class="parent">
@@ -93,12 +100,6 @@
                     </li>
                 </div>
 
-                <!--<li th:href="@{/internal/marketingReport/coupon(brandIdenty=${brandIdenty})}" class="parent">-->
-                    <!--<div class="parent">-->
-                        <!--<img th:src="@{/images/report_share_icon.png}" class="image_size_style">-->
-                        <!--<span>分享数据报表</span>-->
-                    <!--</div>-->
-                <!--</li>-->
                 <div th:if="${haveBookingReport} eq '1'">
                     <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},requestUrlType=6)}" class="parent">
                         <div class="parent">
