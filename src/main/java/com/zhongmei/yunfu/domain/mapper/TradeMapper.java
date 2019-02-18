@@ -7,6 +7,7 @@ import com.zhongmei.yunfu.domain.entity.TradeEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.session.RowBounds;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -49,6 +50,6 @@ public interface TradeMapper extends BaseMapper<TradeEntity> {
             "  DAY(t.server_create_time)")
     List<TradeEntity> queryCustomerExpenseList(@Param("ew") Wrapper wrapper);
 
-    @Select("SELECT t.* FROM trade t INNER JOIN trade_customer tc ON t.id = tc.trade_id WHERE t.shop_identy = ${shopId} AND tc.customer_id = ${customerId}")
+    @Select("SELECT t.* FROM trade t INNER JOIN trade_customer tc ON t.id = tc.trade_id WHERE t.shop_identy = ${shopId} AND tc.customer_id = ${customerId} ORDER BY t.server_update_time DESC LIMIT 0,100")
     List<TradeEntity> getTradeEntityBy(@Param("customerId") Long customerId, @Param("shopId") Long shopId);
 }
