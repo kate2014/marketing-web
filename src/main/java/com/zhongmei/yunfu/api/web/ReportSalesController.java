@@ -73,7 +73,7 @@ public class ReportSalesController {
             List<BigDecimal> listReturnSalesCount = new ArrayList<>();
             List<String> listCreateDate = new ArrayList<>();
 
-            Map<String,Map<String,BigDecimal>> saldMap = new HashMap<>();
+            Map<String,Map<String,BigDecimal>> saldMap = new LinkedHashMap<>();
 
 
             for (SalesReport sr : listSalesReport) {

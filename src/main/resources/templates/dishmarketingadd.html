@@ -47,7 +47,7 @@
 
 <script type="text/javascript" th:src="@{/ckeditor/ckeditor.js}"></script>
 <script type="text/javascript">
-    CKEDITOR.replace('description');
+    CKEDITOR.replace('describe');
     //如果是在ASP.NET环境下用的服务器端控 件<TextBox>
     CKEDITOR.replace('tbContent');
     //如 果<TextBox>控件在母版页中，要这样写
@@ -157,7 +157,7 @@
 
                         <div class="detail_lable_style" style="margin-bottom: 20px">新品图文描述</div>
 
-                        <textarea id="description" name="describe" cols="150" rows="50" class="ckeditor"
+                        <textarea id="describe" name="describe" cols="150" rows="50" class="ckeditor"
                                   th:text="${newDishPlan.describe}"></textarea>
                     </div>
                 </div>

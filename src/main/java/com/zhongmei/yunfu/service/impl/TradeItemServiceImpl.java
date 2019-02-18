@@ -54,6 +54,24 @@ public class TradeItemServiceImpl extends ServiceImpl<TradeItemMapper, TradeItem
         eWrapper.eq("brand_identy", brandIdenty);
         eWrapper.eq("shop_identy", shopIdenty);
         eWrapper.eq("trade_status", 4);
+        eWrapper.eq("business_type", 1);//美业销货
+        eWrapper.eq("trade_type", 1);//售货
+        eWrapper.eq("status_flag", 1);
+        eWrapper.between("server_create_time", start, end);
+        List<DishReport> listData = baseMapper.queryDishSales(eWrapper);
+        return listData;
+    }
+
+
+    @Override
+    public List<DishReport> selectCardTimeReport(Long brandIdenty, Long shopIdenty, Date start, Date end) throws Exception {
+        Condition eWrapper = ConditionFilter.create();
+        eWrapper.isWhere(true);
+        eWrapper.eq("brand_identy", brandIdenty);
+        eWrapper.eq("shop_identy", shopIdenty);
+        eWrapper.eq("trade_status", 4);
+        eWrapper.eq("business_type", 3);//次卡销售
+        eWrapper.eq("trade_type", 1);//售货
         eWrapper.eq("status_flag", 1);
         eWrapper.between("server_create_time", start, end);
         List<DishReport> listData = baseMapper.queryDishSales(eWrapper);
