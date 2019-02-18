@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>会员储值报表</title>
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../css/base.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../css/common.css" type="text/css" />
+
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/test/jeDate-test.css}">
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/skin/jedate.css}">
+    <script type="text/javascript" th:src="@{/selectdate/src/jedate.js}"></script>
+
+    <script type="text/javascript" src="../static/js/echarts.min.js" th:src="@{/js/echarts.min.js}"></script>
+
+</head>
+
+<body>
+
+<form method="post" name="queryData" action="" th:action="@{/internal/saveReport/customerSave}" th:object="${mTradeModel}">
+    <div style="margin-top: 20px">
+
+        <input type="hidden" name="brandIdenty" th:value="${brand.id}">
+
+        <label class="text_navigation" style="margin-left: 20px">范围</label>
+        <select class="select_min_style" name="shopIdenty" style="margin-left: 5px">
+
+            <option value="">品牌下全门店</option>
+            <option th:selected="${mTradeModel.shopIdenty eq list.commercialId}" th:each="list:${listCommercial}" th:value="${list.commercialId}" th:text="${list.commercialName}"></option>
+
+        </select>
+
+        <label class="text_navigation" style="margin-left: 10px">查询时间</label>
+        <input type="text" class="input_min_style" id="startDate" name="startDate" placeholder="设置查询起始时间" th:value="${mTradeModel.startDate}">
+        <label class="text_navigation">--</label>
+        <input type="text" class="input_min_style" id="endDate" name="endDate" placeholder="设置查询结束时间" th:value="${mTradeModel.endDate}">
+
+        <button class="orange_mine_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
+
+    </div>
+</form>
+
+<img class="line_style" th:src="@{/images/line.jpg}" style="margin-bottom: 30px;margin-top: 20px">
+
+<div class="container" style="margin-left: 20px">
+    <img th:src="@{/images/lable.jpg}" width="5" height="26">
+    <p style="font-weight: bold; margin-left: 6px">会员储值报表</p>
+</div>
+
+<div style="width: 95%;height:400px; align-content: center; text-align: center; margin-left: 20px">
+    <div id="container" style="width: 100%;height:100%;"></div>
+</div>
+
+<script th:inline="javascript">
+
+    //=============会员储值报表================
+    var dom = document.getElementById("container");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '会员储值报表';
+
+    option = {
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        toolbox: {
+            feature: {
+                dataView: {show: true, readOnly: false},
+                magicType: {show: true, type: ['line', 'bar']},
+                restore: {show: true},
+                saveAsImage: {show: true}
+            }
+        },
+        legend: {
+            data:['储值交易金额','储值交易单数']
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: [[${listCreateDate}]],
+                axisPointer: {
+                    type: 'shadow'
+                },
+                axisLabel:{
+                    interval:0,
+                    rotate:20
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '储值交易金额',
+                min: 0,
+                max: [[${maxAmount}]],
+                interval: [[${intervalAmount}]],
+                axisLabel: {
+                    formatter: '{value}元'
+                }
+            },
+            {
+                type: 'value',
+                name: '储值交易单数',
+                min: 0,
+                max: [[${maxCount}]],
+                interval: [[${intervalCount}]],
+                axisLabel: {
+                    formatter: '{value} 笔'
+                }
+            }
+
+        ],
+        series: [
+            {
+                name:'储值交易金额',
+                type:'bar',
+                barMaxWidth : 30,//柱图宽度
+                data:[[${listSalesAmount}]]
+            },
+            {
+                name:'储值交易单数',
+                type:'line',
+                yAxisIndex: 1,
+                data:[[${listTradeCount}]]
+            }
+        ]
+    };
+    ;
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+
+</script>
+
+
+<script type="text/javascript" th:src="@{/selectdate/test/demo.js}"></script>
+
+</body>
+</html>

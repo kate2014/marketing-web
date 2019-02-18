@@ -69,9 +69,9 @@ public class ReportSalesController {
             mTradeModel.setTradeStatus(5);
             List<SalesReport> listReturnSalesReport = mTradeService.querySalesReport(mTradeModel);
 
-            List<BigDecimal> listSalesCount = new ArrayList<>();
-            List<BigDecimal> listReturnSalesCount = new ArrayList<>();
-            List<String> listCreateDate = new ArrayList<>();
+            List<BigDecimal> listSalesCount = new LinkedList<>();
+            List<BigDecimal> listReturnSalesCount = new LinkedList<>();
+            List<String> listCreateDate = new LinkedList<>();
 
             Map<String,Map<String,BigDecimal>> saldMap = new LinkedHashMap<>();
 

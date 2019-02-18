@@ -1,15 +1,17 @@
 package com.zhongmei.yunfu.api.web;
 
-import com.zhongmei.yunfu.util.DateFormatUtil;
-import com.zhongmei.yunfu.util.ToolsUtil;
+
 import com.zhongmei.yunfu.controller.model.TradeModel;
 import com.zhongmei.yunfu.domain.entity.BrandEntity;
 import com.zhongmei.yunfu.domain.entity.CommercialEntity;
+import com.zhongmei.yunfu.domain.entity.CustomerSaveReport;
 import com.zhongmei.yunfu.domain.entity.DishReport;
 import com.zhongmei.yunfu.service.BrandService;
 import com.zhongmei.yunfu.service.CommercialService;
 import com.zhongmei.yunfu.service.TradeItemService;
 import com.zhongmei.yunfu.service.TradeService;
+import com.zhongmei.yunfu.util.DateFormatUtil;
+import com.zhongmei.yunfu.util.ToolsUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,8 +21,8 @@ import java.math.BigDecimal;
 import java.util.*;
 
 @Controller
-@RequestMapping("/internal/dish")
-public class ReportDishController {
+@RequestMapping("/internal/saveReport")
+public class ReportCustomerSaveController {
 
     @Autowired
     TradeService mTradeService;
@@ -31,58 +33,52 @@ public class ReportDishController {
     @Autowired
     CommercialService mCommercialService;
 
-    @RequestMapping("/dishReport")
-    public String reportAddCustomer(Model model, TradeModel mTradeModel) {
+    @RequestMapping("/customerSave")
+    public String cardTimeReport(Model model, TradeModel mTradeModel) {
 
         try {
             //获取门店品牌和门店编号
             queryShopMessage(model, mTradeModel);
 
-            Date start = null;
-            Date end = null;
             //设置默认查询时间
             if (mTradeModel.getStartDate() == null) {
                 Calendar c = Calendar.getInstance();
                 //过去15天
                 c.setTime(new Date());
                 c.add(Calendar.DATE, -15);
-                start = c.getTime();
+                Date start = c.getTime();
                 String temp = DateFormatUtil.format(start, DateFormatUtil.FORMAT_FULL_DATE);
-                start = DateFormatUtil.parseDate(temp, DateFormatUtil.FORMAT_FULL_DATE);
-
                 mTradeModel.setStartDate(temp);
-            } else {
-                start = DateFormatUtil.parseDate(mTradeModel.getStartDate(), DateFormatUtil.FORMAT_FULL_DATE);
+
             }
             if (mTradeModel.getEndDate() == null) {
-                end = new Date();
-                mTradeModel.setEndDate(DateFormatUtil.format(end, DateFormatUtil.FORMAT_FULL_DATE));
-            } else {
-                end = DateFormatUtil.parseDate(mTradeModel.getEndDate(), DateFormatUtil.FORMAT_FULL_DATE);
+                mTradeModel.setEndDate(DateFormatUtil.format(new Date(), DateFormatUtil.FORMAT_FULL_DATE));
             }
 
-            List<DishReport> listData = mTradeItemService.selectDishSalesReport(mTradeModel.getBrandIdenty(), mTradeModel.getShopIdenty(), start, end);
+            List<CustomerSaveReport> listData = mTradeService.customerSaveReport(mTradeModel);
 
-            List<String> listDishName = new LinkedList<>();
+            List<Integer> listTradeCount = new LinkedList<>();
             List<BigDecimal> listSalesAmount = new LinkedList<>();
-            List<Long> listSalesCount = new LinkedList<>();
+            List<String> listCreateDate = new LinkedList<>();
 
             Long maxCount = 0l;
             Long maxAmount = 0l;
-            for (DishReport dp : listData) {
 
-                listDishName.add(dp.getDishName());
+            for (CustomerSaveReport dp : listData) {
+
+                listTradeCount.add(dp.getTradeCount());
                 listSalesAmount.add(dp.getSalesAmount());
-                listSalesCount.add(dp.getSalseCount());
+                listCreateDate.add(dp.getCreateDate());
 
-                if (maxCount < dp.getSalseCount()) {
-                    maxCount = dp.getSalseCount();
+                if (maxCount < dp.getTradeCount()) {
+                    maxCount = Long.valueOf(dp.getTradeCount());
                 }
                 if (maxAmount < dp.getSalesAmount().longValue()) {
                     maxAmount = dp.getSalesAmount().longValue();
                 }
 
             }
+
 
             maxCount = ToolsUtil.getMaxData(maxCount);
             maxAmount = ToolsUtil.getMaxData(maxAmount);
@@ -92,18 +88,19 @@ public class ReportDishController {
             model.addAttribute("maxAmount", maxAmount);
             model.addAttribute("intervalAmount", maxAmount / 10);
 
-            model.addAttribute("mTradeModel", mTradeModel);
-            model.addAttribute("listDishName", listDishName);
-            model.addAttribute("listSalesAmount", listSalesAmount);
-            model.addAttribute("listSalesCount", listSalesCount);
 
-            model.addAttribute("listData", listData);
-        } catch (Exception e) {
+            model.addAttribute("mTradeModel", mTradeModel);
+            model.addAttribute("listTradeCount", listTradeCount);
+            model.addAttribute("listSalesAmount", listSalesAmount);
+            model.addAttribute("listCreateDate", listCreateDate);
+
+        }catch (Exception e){
             e.printStackTrace();
-            return "fail";
+
         }
 
-        return "report_dish_sales";
+
+        return "report_customer_save";
     }
 
     public Model queryShopMessage(Model model, TradeModel mTradeModel) throws Exception {
@@ -116,4 +113,5 @@ public class ReportDishController {
         model.addAttribute("listCommercial", listCommercial);
         return model;
     }
+
 }

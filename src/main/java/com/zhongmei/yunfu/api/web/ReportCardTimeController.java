@@ -18,10 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("/internal/cardTimeReport")
@@ -68,9 +65,9 @@ public class ReportCardTimeController {
 
             List<DishReport> listData = mTradeItemService.selectCardTimeReport(mTradeModel.getBrandIdenty(), mTradeModel.getShopIdenty(), start, end);
 
-            List<String> listDishName = new ArrayList<>();
-            List<BigDecimal> listSalesAmount = new ArrayList<>();
-            List<Long> listSalesCount = new ArrayList<>();
+            List<String> listDishName = new LinkedList<>();
+            List<BigDecimal> listSalesAmount = new LinkedList<>();
+            List<Long> listSalesCount = new LinkedList<>();
 
             Long maxCount = 0l;
             Long maxAmount = 0l;

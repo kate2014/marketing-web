@@ -3,6 +3,7 @@ package com.zhongmei.yunfu.service;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.zhongmei.yunfu.controller.model.TradeDataModel;
 import com.zhongmei.yunfu.controller.model.TradeModel;
+import com.zhongmei.yunfu.domain.entity.CustomerSaveReport;
 import com.zhongmei.yunfu.domain.entity.SalesReport;
 import com.zhongmei.yunfu.domain.entity.TradeEntity;
 import com.baomidou.mybatisplus.service.IService;
@@ -143,5 +144,12 @@ public interface TradeService extends IService<TradeEntity> {
      * @return
      * @throws Exception
      */
-    TradeEntity queryBaseTradeById(Long tradeId)throws Exception;;
+    TradeEntity queryBaseTradeById(Long tradeId)throws Exception;
+
+    /**
+     * 门店会员储值报表
+     * @return
+     * @throws Exception
+     */
+    List<CustomerSaveReport> customerSaveReport(TradeModel mTradeModel)throws Exception;
 }

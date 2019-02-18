@@ -287,4 +287,20 @@ public class TradeServiceImpl extends ServiceImpl<TradeMapper, TradeEntity> impl
         TradeEntity mTradeEntity = selectOne(eWrapper);
         return mTradeEntity;
     }
+
+    @Override
+    public List<CustomerSaveReport> customerSaveReport(TradeModel mTradeModel) throws Exception {
+        Condition eWrapper = ConditionFilter.create();
+        eWrapper.isWhere(true);
+        eWrapper.eq("brand_identy", mTradeModel.getBrandIdenty());
+        eWrapper.eq("shop_identy", mTradeModel.getShopIdenty());
+        eWrapper.eq("business_type", 2);
+        eWrapper.eq("trade_type", 1);
+        eWrapper.eq("trade_status", 4);
+        eWrapper.eq("status_flag", 1);
+
+        eWrapper.between("server_create_time", mTradeModel.getStartDate(), mTradeModel.getEndDate());
+        List<CustomerSaveReport> listSalse = baseMapper.queryCustomerSave(eWrapper);
+        return listSalse;
+    }
 }
