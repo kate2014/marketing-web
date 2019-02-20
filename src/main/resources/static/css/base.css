@@ -728,3 +728,9 @@ body{
 	color: #3b3b1f;
 	font-weight: bold
 }
+
+.version_lable_style{
+	size: 14px;
+	color: #FFFFFF;
+	font-weight: bold
+}

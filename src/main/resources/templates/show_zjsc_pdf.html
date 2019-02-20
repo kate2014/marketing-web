@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>系统安装手册</title>
+
+    <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <script type="text/javascript" src="../static/js/jquery.media.js" th:src="@{/js/jquery.media.js}"></script>
+
+    <script type="text/javascript">
+        $(function() {
+            $('a.media').media({width:900, height:1000});
+            $('a.mediase').media({width:900, height:1000});
+        });
+    </script>
+
+</head>
+<body>
+<center>
+    <div class="panel panel-primary">
+        <div class="panel-heading" align="center">
+            <h2>系统安装手册</h2>
+        </div>
+        <div class="panel-body" >
+            <a class="media" th:href="@{http://media.zhongmeiyunfu.com/%E8%A3%85%E6%9C%BA%E6%89%8B%E5%86%8C.pdf}"></a>
+        </div>
+</center>
+</body>
+</html>
