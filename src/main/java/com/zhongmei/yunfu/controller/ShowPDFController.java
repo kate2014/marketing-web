@@ -13,9 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/internal/showPDF")
 public class ShowPDFController {
 
-    @RequestMapping({"/zjsc"})
-    public String list(Model model, CouponSearchModel searchModel) {
+    @RequestMapping({"/installationManual"})
+    public String showInstallationM(Model model) {
 
         return "show_zjsc_pdf";
+    }
+
+    @RequestMapping({"/systemHandbook"})
+    public String systemHandbook(Model model){
+
+        return "system_handbook";
     }
 }

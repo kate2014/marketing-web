@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <title></title>
     <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css"/>
-    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css"/>
-    <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css"/>
     <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css"/>
     <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
 
@@ -20,62 +18,83 @@
 
 </script>
 <body>
-<div class="parent" style="background-color: #F1F1F1;padding: 20px;border: 1px solid #f3f3f3">
 
-    <div class="parent" style="cursor: pointer" th:onclick="@{|location='${basePath}/internal/showPDF/zjsc'|}" >
-        <img th:src="@{/images/zjsc.png}" style="margin:10px" width="35px">
-        <p class="notify_lable_style">系统安装手册</p>
+
+<div id="container">
+
+    <div id="page" class="page" style="margin-bottom: 20px;height: 100%">
+        <div class="parent" style="background-color: #F1F1F1;padding: 20px;border: 1px solid #f3f3f3">
+
+            <div class="parent" style="cursor: pointer" th:onclick="@{|location='${basePath}/internal/showPDF/installationManual'|}" >
+                <img th:src="@{/images/zjsc.png}" style="margin:10px" width="35px">
+                <p class="notify_lable_style">系统安装手册</p>
+            </div>
+
+            <div class="parent" style="margin-left: 50px;cursor: pointer" th:onclick="@{|location='${basePath}/internal/showPDF/systemHandbook'|}">
+                <img th:src="@{/images/czsc.png}" style="margin:10px" width="35px">
+                <p class="notify_lable_style">系统操作手册</p>
+            </div>
+
+        </div>
+
+        <div class="parent" style="margin: 20px; margin-left: 30%;">
+            <img style="width: 20%; height: 1px; background-color: #e4e4e4">
+            <img th:src="@{/images/apk_download_icon.png}" style="margin-left:10px; margin-right: 10px" width="30px" height="30px">
+
+            <p class="notify_lable_style">安装包下载</p>
+
+            <img style="margin-left:10px; width: 20%; height: 1px; background-color: #e4e4e4;">
+        </div>
+
+        <div style="width: 260px; height: 460px; border: 1px solid #FF6600;margin: 33px;position:relative ">
+            <div style="width: 100%;height: 40px;line-height: 40px; background-color: #FF6600;text-align: center;"><span class="version_lable_style">版本号：V1.0.1</span></div>
+
+            <div style="margin: 10px">
+                <ul>
+                    <li><span style="font-size:14px">1、优惠服务次卡功能</span></li>
+                    <li>&nbsp;</li>
+                    <li><span style="font-size:14px">2、添加会员储值报表</span></li>
+                    <li>&nbsp;</li>
+                    <li><span style="font-size:14px">3、添加会员吃饭服务销售报表</span></li>
+                    <li>&nbsp;</li>
+                    <li><span style="font-size:14px">4、添加系统操作帮助文档入口</span></li>
+                    <li>&nbsp;</li>
+                    <li><span style="font-size:14px">5、修改订单详情展示界面</span></li>
+                    <li>&nbsp;</li>
+                    <li><span style="font-size:14px">6、添加活动停止二次确认</span></li>
+                </ul>
+
+
+            </div>
+
+            <div class="parent" style="width: 100%;height: 55px;line-height: 55px; background-color: #FF6600;text-align: center;position: absolute; bottom:0px; cursor: pointer"
+                 onclick="downloadAPK()">
+
+                <img th:src="@{/images/download_icon.png}" style="margin-left:30%; margin-right: 10px" width="30px" height="30px">
+                <span class="version_lable_style">点击下载</span>
+
+            </div>
+
+        </div>
     </div>
 
-    <div class="parent" style="margin-left: 50px">
-        <img th:src="@{/images/czsc.png}" style="margin:10px" width="35px">
-        <p class="notify_lable_style">系统操作手册</p>
-    </div>
+    　　　　
+    　　<div id="footer" class="footer">
 
-
-
+            <div class="container parent_h" style="height: 100%">
+                <img th:src="@{/images/bottom_logo .png}" style="margin:10px;cursor:pointer;" width="100px" onclick="javascript:window.open('http://www.zhongmeiyunfu.com/');">
+                蜀ICP备18028814号-1 众美云服科技有限公司提供技术支持
+            </div>
+        </div>
 </div>
 
 
-<div class="parent" style="margin: 20px; margin-left: 30%;">
-    <img style="width: 20%; height: 1px; background-color: #e4e4e4">
-    <img th:src="@{/images/apk_download_icon.png}" style="margin-left:10px; margin-right: 10px" width="30px" height="30px">
-
-    <p class="notify_lable_style">安装包下载</p>
-
-    <img style="margin-left:10px; width: 20%; height: 1px; background-color: #e4e4e4;">
-</div>
-
-<div style="width: 260px; height: 460px; border: 1px solid #FF6600;margin: 33px;position:relative ">
-    <div style="width: 100%;height: 40px;line-height: 40px; background-color: #FF6600;text-align: center;"><span class="version_lable_style">版本号：V1.0.1</span></div>
-
-    <div style="margin: 10px">
-        <ul>
-            <li><span style="font-size:14px">1、优惠服务次卡功能</span></li>
-            <li>&nbsp;</li>
-            <li><span style="font-size:14px">2、添加会员储值报表</span></li>
-            <li>&nbsp;</li>
-            <li><span style="font-size:14px">3、添加会员吃饭服务销售报表</span></li>
-            <li>&nbsp;</li>
-            <li><span style="font-size:14px">4、添加系统操作帮助文档入口</span></li>
-            <li>&nbsp;</li>
-            <li><span style="font-size:14px">5、修改订单详情展示界面</span></li>
-            <li>&nbsp;</li>
-            <li><span style="font-size:14px">6、添加活动停止二次确认</span></li>
-        </ul>
 
 
-    </div>
 
-    <div class="parent" style="width: 100%;height: 55px;line-height: 55px; background-color: #FF6600;text-align: center;position: absolute; bottom:0px; cursor: pointer"
-         onclick="downloadAPK()">
 
-        <img th:src="@{/images/download_icon.png}" style="margin-left:30%; margin-right: 10px" width="30px" height="30px">
-        <span class="version_lable_style">点击下载</span>
 
-    </div>
 
-</div>
 
 </body>
 </html>
