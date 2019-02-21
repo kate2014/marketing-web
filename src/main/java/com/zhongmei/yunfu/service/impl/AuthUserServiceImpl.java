@@ -65,17 +65,17 @@ public class AuthUserServiceImpl extends ServiceImpl<AuthUserMapper, AuthUserEnt
 
 
     @Override
-    public List<AuthPermissionEntity> getAuthPermissionEntityBy(String account, Long shopId) {
-        return baseMapper.getAuthPermissionEntityBy(account, shopId);
+    public List<AuthPermissionEntity> getAuthPermissionEntityBy(Long userId) {
+        return baseMapper.getAuthPermissionEntityBy(userId);
     }
 
-    @Override
+    /*@Override
     public Map<String, String> getAuthPermissionMapBy(String account, Long shopId) {
         Map<String, String> result = new HashMap<>();
-        List<AuthPermissionEntity> authPermissionEntityBy = getAuthPermissionEntityBy(account, shopId);
+        List<AuthPermissionEntity> authPermissionEntityBy = getAuthPermissionEntityBy(userId);
         authPermissionEntityBy.forEach(it -> result.put(it.getCode(), it.getName()));
         return result;
-    }
+    }*/
 
     @Override
     public Map<String, String> getAuthPermissionMap(Long authUserId, Long shopId) {

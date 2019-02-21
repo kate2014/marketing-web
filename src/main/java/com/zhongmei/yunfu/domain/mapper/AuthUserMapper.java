@@ -32,9 +32,8 @@ public interface AuthUserMapper extends BaseMapper<AuthUserEntity> {
             "  LEFT JOIN auth_user au\n" +
             "    ON arp.role_id = au.role_id\n" +
             "WHERE ap.platform = 1\n" +
-            "  AND au.account = #{account}" +
-            "  AND au.shop_identy = #{shopId}")
-    List<AuthPermissionEntity> getAuthPermissionEntityBy(@Param("account") String account, @Param("shopId") Long shopId);
+            "  AND au.id = #{userId}")
+    List<AuthPermissionEntity> getAuthPermissionEntityBy(@Param("userId") Long userId);
 
     @Select("SELECT\n" +
             "  ap.code,\n" +

@@ -24,10 +24,10 @@ public interface AuthUserService extends IService<AuthUserEntity> {
     /**
      * 获取用户权限
      *
-     * @param account
+     * @param userId
      * @return
      */
-    List<AuthPermissionEntity> getAuthPermissionEntityBy(String account, Long shopId);
+    List<AuthPermissionEntity> getAuthPermissionEntityBy(Long userId);
 
     /**
      * 获取用户权限
@@ -35,7 +35,7 @@ public interface AuthUserService extends IService<AuthUserEntity> {
      * @param account
      * @return
      */
-    Map<String, String> getAuthPermissionMapBy(String account, Long shopId);
+    //Map<String, String> getAuthPermissionMapBy(String account, Long shopId);
 
     /**
      * 获取用户权限

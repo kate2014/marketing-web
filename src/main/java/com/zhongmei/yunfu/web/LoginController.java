@@ -1,7 +1,7 @@
 package com.zhongmei.yunfu.web;
 
 import com.zhongmei.yunfu.controller.BaseController;
-import com.zhongmei.yunfu.domain.enums.AuthPerCodeEnum;
+import com.zhongmei.yunfu.domain.entity.AuthUserEntity;
 import com.zhongmei.yunfu.service.AuthUserService;
 import com.zhongmei.yunfu.service.LoginManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.Map;
 
 @Controller
@@ -127,7 +126,8 @@ public class LoginController extends BaseController {
         if (shopId != null && !StringUtils.isEmpty(account) && !StringUtils.isEmpty(password)) {
             boolean login = LoginManager.get().login(authUserService, account, password, shopId);
             if (login) {
-                return redirect("/");
+                AuthUserEntity user = LoginManager.get().getUser();
+                return redirect(String.format("/?creatorId=%d&creatorName=%sshopIdenty=%d", user.getId(), user.getName(),user.getShopIdenty()));
             }
         }
 

@@ -30,7 +30,7 @@ class LoginManager private constructor() {
             this.user = loginService.login(account, password, shopId)
             if (user != null) {
                 log.info("login success")
-                setAuthPermissionEntityBy(loginService, account, shopId)
+                setAuthPermissionEntityBy(loginService, user?.id)
                 threadSession.get()?.setAttribute("loginManager", this)
                 return true
             }
@@ -40,8 +40,8 @@ class LoginManager private constructor() {
         return false
     }
 
-    private fun setAuthPermissionEntityBy(loginService: AuthUserService, account: String, shopId: Long) {
-        var authPermissionEntityBy = loginService.getAuthPermissionEntityBy(account, shopId)
+    private fun setAuthPermissionEntityBy(loginService: AuthUserService, userId: Long?) {
+        var authPermissionEntityBy = loginService.getAuthPermissionEntityBy(userId)
         permissionCodeList = arrayListOf()
         authPermissionEntityBy.forEach { it ->
             permissionCodeList?.add(it.code!!)
@@ -62,7 +62,7 @@ class LoginManager private constructor() {
 
                 this.user = userEntity
                 log.info("login success")
-                setAuthPermissionEntityBy(loginService, user?.account!!, user?.shopIdenty!!)
+                setAuthPermissionEntityBy(loginService, user?.id)
                 threadSession.get()?.setAttribute("loginManager", this)
                 return true
             }
