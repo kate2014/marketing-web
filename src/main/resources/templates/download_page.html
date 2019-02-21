@@ -25,7 +25,12 @@
     <div id="page" class="page" style="margin-bottom: 20px;height: 100%">
         <div class="parent" style="background-color: #F1F1F1;padding: 20px;border: 1px solid #f3f3f3">
 
-            <div class="parent" style="cursor: pointer" th:onclick="@{|location='${basePath}/internal/showPDF/installationManual'|}" >
+            <div class="parent" style="cursor: pointer" onclick="avascript :history.back(-1);" >
+                <img th:src="@{/images/back_icon.png}" style="margin:10px" width="35px">
+                <p class="notify_lable_style" style="color: #1296db">返回</p>
+            </div>
+
+            <div class="parent" style="margin-left: 50px; cursor: pointer" th:onclick="@{|location='${basePath}/internal/showPDF/installationManual'|}" >
                 <img th:src="@{/images/zjsc.png}" style="margin:10px" width="35px">
                 <p class="notify_lable_style">系统安装手册</p>
             </div>
