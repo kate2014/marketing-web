@@ -42,9 +42,9 @@
         <tr style="width: 100%">
             <th>会员名称</th>
             <th>累计消费金额</th>
+            <th>合计提成金额</th>
             <th>单次消费金额</th>
             <th>单次提成金额</th>
-            <th>合计提成金额</th>
             <th>单次兑换金额</th>
             <th>可兑换金额</th>
             <th>提成时间</th>
@@ -52,9 +52,9 @@
         <tr th:each="item:${list}">
             <td th:text="${item.name}"></td>
             <td th:text="${item.totalAmount}"></td>
+            <td th:text="${item.totalCommission}"></td>
             <td th:text="${item.changeSalesAmount}"></td>
             <td th:text="${item.commissionAmount}"></td>
-            <td th:text="${item.totalCommission}"></td>
             <td th:text="${item.exchangeAmount}"></td>
             <td th:text="${item.canExchange}"></td>
             <td th:text="${#dates.format(item.serverCreateTime, 'yyyy-MM-dd HH:mm:ss')}"></td>

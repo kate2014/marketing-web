@@ -71,7 +71,7 @@ public class ReportCouponController {
             List<CustomerCouponReport> listUsed = mCustomerCouponService.selectCouponReport(mReportMarketingModel.getBrandIdenty(), mReportMarketingModel.getShopIdenty(), start, end, 2);
 
 
-            List<String> listSourceName = new ArrayList<>();
+            List<String> listSourceName = new LinkedList<>();
             LinkedList<Long> usedCount = new LinkedList<>();
             LinkedList<Long> notUsedCount = new LinkedList<>();
 

@@ -2,6 +2,7 @@ package com.zhongmei.yunfu.domain.mapper;
 
 import com.baomidou.mybatisplus.mapper.Condition;
 import com.baomidou.mybatisplus.mapper.Wrapper;
+import com.zhongmei.yunfu.domain.entity.CustomerSaveReport;
 import com.zhongmei.yunfu.domain.entity.SalesReport;
 import com.zhongmei.yunfu.domain.entity.TradeEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
@@ -52,4 +53,11 @@ public interface TradeMapper extends BaseMapper<TradeEntity> {
 
     @Select("SELECT t.* FROM trade t INNER JOIN trade_customer tc ON t.id = tc.trade_id WHERE t.shop_identy = ${shopId} AND tc.customer_id = ${customerId} ORDER BY t.server_update_time DESC LIMIT 0,100")
     List<TradeEntity> getTradeEntityBy(@Param("customerId") Long customerId, @Param("shopId") Long shopId);
+
+    @Select("SELECT count(id) as tradeCount, sum(trade_amount) as salesAmount,date_format(trade_time,'%Y-%m-%d') as createDate\n" +
+            "FROM trade \n" +
+            "${ew.sqlSegment} \n" +
+            "group by date_format(trade_time,'%Y-%m-%d')\n" +
+            "order by date_format(trade_time,'%Y-%m-%d'); ")
+    List<CustomerSaveReport> queryCustomerSave(@Param("ew") Condition wrapper);
 }

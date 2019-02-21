@@ -7,7 +7,7 @@ CKEDITOR.editorConfig = function( config ) {
     // 界面语言，默认为 'en'
     config.language = 'zh-cn';
     // 设置宽高
-    config.width = 600;
+    config.width = 700;
     config.height = 600;
     // 编辑器样式，有三种：'kama'（默认）、'office2003'、'v2'
     // config.skin = 'office2003';
@@ -38,7 +38,7 @@ CKEDITOR.editorConfig = function( config ) {
     //工具栏默认是否展开
     config.toolbarStartupExpanded = true;
     // 取消 “拖拽以改变尺寸”功能 plugins/resize/plugin.js
-    config.resize_enabled = false;
+    config.resize_enabled = true;
     //改变大小的最大高度
     config.resize_maxHeight = 3000;
     //改变大小的最大宽度
@@ -46,7 +46,7 @@ CKEDITOR.editorConfig = function( config ) {
     //改变大小的最小高度
     config.resize_minHeight = 500;
     //改变大小的最小宽度
-    config.resize_minWidth = 600;
+    config.resize_minWidth = 500;
     // 当提交包含有此编辑器的表单时，是否自动更新元素内的数据
     config.autoUpdateElement = true;
     // 设置是使用绝对目录还是相对目录，为空为相对目录

@@ -13,10 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("/internal/report")
@@ -77,9 +74,9 @@ public class ReportCustomerController {
             //某一时间点微信会员总数
             Integer wxCustomerCount = customerService.queryCustomerCount(mCustomerModel.getBrandIdenty(), mCustomerModel.getShopIdenty(), start, 2);
 
-            List<Integer> listPOSCount = new ArrayList<>();
-            List<Integer> listWxCount = new ArrayList<>();
-            List<String> listCreateDate = new ArrayList<>();
+            List<Integer> listPOSCount = new LinkedList<>();
+            List<Integer> listWxCount = new LinkedList<>();
+            List<String> listCreateDate = new LinkedList<>();
 
             //获取会员增量来源分步数据
             Integer posCustomerAddCount = 0;

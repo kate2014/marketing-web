@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>系统安装手册</title>
+
+    <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <script type="text/javascript" src="../static/js/jquery.media.js" th:src="@{/js/jquery.media.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css"/>
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css"/>
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css"/>
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css"/>
+
+    <script type="text/javascript">
+        $(function() {
+            $('a.media').media({width:900, height:1000});
+            $('a.mediase').media({width:900, height:1000});
+        });
+    </script>
+
+</head>
+<body>
+<div id="container">
+    <div id="header">
+        <div class="panel-heading" align="center" style="padding: 20px">
+            <h2>系统安装手册</h2>
+        </div>
+    </div>
+
+    <div id="page" class="page" style="margin-bottom: 30px">
+        <center>
+            <div class="panel panel-primary">
+                <div class="panel-body" >
+                    <a class="media" th:href="@{http://media.zhongmeiyunfu.com/%E8%A3%85%E6%9C%BA%E6%89%8B%E5%86%8C.pdf}"></a>
+                </div>
+        </center>
+    </div>
+
+    <div id="footer" class="footer">
+        <div class="container parent_h" style="height: 100%">
+            <img th:src="@{/images/bottom_logo .png}" style="margin:10px;cursor:pointer;" width="100px" onclick="javascript:window.open('http://www.zhongmeiyunfu.com/');">
+            蜀ICP备18028814号-1 众美云服科技有限公司提供技术支持
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

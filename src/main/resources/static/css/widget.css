@@ -131,6 +131,7 @@
 }
 .gridtablestyle td {
     border-width: 1px;
+    font-size: 12px;
     height: 40px;
     padding: 2px;
     border-style: solid;

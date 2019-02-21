@@ -16,10 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("/internal/bookingReport")
@@ -61,9 +58,9 @@ public class ReportBookingController {
             mBookingSearchModel.setOrderStatus(1);
             List<BookingReport> listSalesData = mBookingService.queryAllBookingReport(mBookingSearchModel);
 
-            List<Integer> listBookingCount = new ArrayList<>();
-            List<Integer> listUseCount = new ArrayList<>();
-            List<String> listBookingDate = new ArrayList<>();
+            List<Integer> listBookingCount = new LinkedList<>();
+            List<Integer> listUseCount = new LinkedList<>();
+            List<String> listBookingDate = new LinkedList<>();
 
             int allCount = 0;
             int useCount = 0;
