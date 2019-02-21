@@ -47,17 +47,6 @@ public class CustomerLevelRuleController  extends BaseController{
         Long creatorId = mCustomerLevelRuleModel.getCreatorId();
         Long shopIdenty = mCustomerLevelRuleModel.getShopIdenty();
 
-        if(creatorId != null && !creatorId.equals("")){
-            LoginManager.get().getUser().setCreatorId(creatorId);
-        }else{
-            creatorId = LoginManager.get().getUser().getCreatorId();
-        }
-
-        if(shopIdenty != null && !shopIdenty.equals("")){
-            LoginManager.get().getUser().setShopIdenty(shopIdenty);
-        }else{
-            shopIdenty = LoginManager.get().getUser().getShopIdenty();
-        }
         Map<String, String> permissionData = authUserService.getAuthPermissionMap(creatorId,shopIdenty);
 
         if(permissionData.get("CUSTOMER_SETTING") == null || permissionData.get("CUSTOMER_SETTING").equals("")){
