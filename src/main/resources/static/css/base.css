@@ -735,6 +735,11 @@ body{
 	font-weight: bold
 }
 
+.back_lable_style{
+	size: 14px;
+	color: #1296db;
+	font-weight: bold
+}
 /*===========布局界面=========*/
 html,body {
 	margin: 0;
