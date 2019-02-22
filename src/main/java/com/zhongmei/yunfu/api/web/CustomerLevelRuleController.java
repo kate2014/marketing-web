@@ -10,10 +10,7 @@ import com.zhongmei.yunfu.domain.entity.AuthUserEntity;
 import com.zhongmei.yunfu.domain.entity.CustomerLevelRuleEntity;
 import com.zhongmei.yunfu.domain.entity.CustomerScoreRuleEntity;
 import com.zhongmei.yunfu.domain.entity.CustomerSearchRuleEntity;
-import com.zhongmei.yunfu.service.CustomerLevelRuleService;
-import com.zhongmei.yunfu.service.CustomerScoreRuleService;
-import com.zhongmei.yunfu.service.CustomerSearchRuleService;
-import com.zhongmei.yunfu.service.LoginManager;
+import com.zhongmei.yunfu.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,9 +38,23 @@ public class CustomerLevelRuleController  extends BaseController{
     CustomerScoreRuleService mCustomerScoreRuleService;
     @Autowired
     CustomerSearchRuleService customerSearchRuleService;
+    @Autowired
+    AuthUserService authUserService;
 
     @RequestMapping("/customerLevelRule/gotoPage")
     public String gotoPage(Model model, CustomerLevelRuleModel mCustomerLevelRuleModel) {
+
+        Long creatorId = mCustomerLevelRuleModel.getCreatorId();
+        Long shopIdenty = mCustomerLevelRuleModel.getShopIdenty();
+
+        Map<String, String> permissionData = authUserService.getAuthPermissionMap(creatorId,shopIdenty);
+
+        if(permissionData.get("CUSTOMER_SETTING") == null || permissionData.get("CUSTOMER_SETTING").equals("")){
+            model.addAttribute("customer_setting", 0);
+        }else{
+            model.addAttribute("customer_setting", 1);
+        }
+
         try {
             List<CustomerLevelRuleEntity> listData = mCustomerLevelRuleService.queryRuleData(mCustomerLevelRuleModel);
             for (CustomerLevelRuleEntity m : listData) {
