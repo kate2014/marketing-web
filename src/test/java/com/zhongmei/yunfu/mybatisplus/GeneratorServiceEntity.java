@@ -98,7 +98,8 @@ public class GeneratorServiceEntity {
                 "wx_trade_customer",
                 "customer_search_rule",
                 "wx_form",
-                "commercial_group"
+                "commercial_group",
+                "system_version"
         );
     }
 
@@ -106,7 +107,7 @@ public class GeneratorServiceEntity {
         File outputDir = new File("out/gen");
         FileSystemUtils.deleteRecursively(outputDir);
         GlobalConfig config = new GlobalConfig();
-        String dbUrl = "jdbc:mysql://rm-m5e838987b5zfu576jo.mysql.rds.aliyuncs.com:3306/zhongmei";
+        String dbUrl = "jdbc:mysql://rm-m5ebyh5wn38ohzr6nfo.mysql.rds.aliyuncs.com:3306/zhongmei";
         DataSourceConfig dataSourceConfig = new DataSourceConfig();
         dataSourceConfig.setDbType(DbType.MYSQL)
                 .setUrl(dbUrl)
