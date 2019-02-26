@@ -1935,6 +1935,20 @@ CREATE TABLE `wx_trade_customer` (
   KEY `idx_shop_identy_status_flag_account` (`shop_identy`,`status_flag`)
 ) ENGINE=InnoDB AUTO_INCREMENT=314 DEFAULT CHARSET=utf8 COMMENT='微信小程序购买使用记录';
 
+
+DROP TABLE IF EXISTS  `system_version`;
+/*------- CREATE SQL---------*/
+CREATE TABLE `system_version` (
+  `id` int(11) NOT NULL,
+  `version_code` int(11) DEFAULT NULL COMMENT '系统版本号',
+  `version_name` varchar(32) DEFAULT NULL COMMENT '版本名称',
+  `version_describe` longtext COMMENT '版本简介',
+  `download_url` varchar(100) DEFAULT NULL COMMENT '版本下载地址',
+  `upgrade_model` int(4) DEFAULT NULL COMMENT '升级模式：1、强制升级 2、不强制升级',
+  `create_date` datetime DEFAULT NULL COMMENT '发布时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='pos系统版本号';
+
 SET FOREIGN_KEY_CHECKS = 1;
 
 
