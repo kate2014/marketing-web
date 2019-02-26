@@ -13,7 +13,7 @@ import com.zhongmei.yunfu.domain.entity.base.BaseEntity;
  * @since 2019-02-26
  */
 @TableName("system_version")
-public class SystemVersionEntity extends BaseEntity {
+public class SystemVersionEntity {
 
     private static final long serialVersionUID = 1L;
 

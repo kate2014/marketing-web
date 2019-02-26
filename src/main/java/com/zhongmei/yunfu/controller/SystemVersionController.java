@@ -1,6 +1,8 @@
 package com.zhongmei.yunfu.controller;
 
 
+import com.zhongmei.yunfu.controller.model.TradeModel;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.stereotype.Controller;
@@ -14,8 +16,14 @@ import org.springframework.stereotype.Controller;
  * @since 2019-02-26
  */
 @Controller
-@RequestMapping("/systemVersionEntity")
+@RequestMapping("/internal/systemVersion")
 public class SystemVersionController {
+
+    @RequestMapping("/versionList")
+    public String systemViersion(Model model, TradeModel mTradeModel) {
+
+        return "";
+    }
 
 }
 

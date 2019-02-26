@@ -72,7 +72,10 @@ class CommercialEntity : BaseEntity() {
      * 纬度
      */
     var latitude: String? = null
-
+    /**
+     * 系统当前版本号
+     */
+    var currentVersion: Int? = null
 
     override fun toString(): String {
         return "CommercialEntity{" +
@@ -92,6 +95,7 @@ class CommercialEntity : BaseEntity() {
         ", deviceType=" + deviceType +
         ", longitude=" + longitude +
         ", latitude=" + latitude +
+        ", currentVersion=" + currentVersion +
         "}"
     }
 }

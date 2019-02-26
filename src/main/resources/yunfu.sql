@@ -1939,7 +1939,7 @@ CREATE TABLE `wx_trade_customer` (
 DROP TABLE IF EXISTS  `system_version`;
 /*------- CREATE SQL---------*/
 CREATE TABLE `system_version` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT,
   `version_code` int(11) DEFAULT NULL COMMENT '系统版本号',
   `version_name` varchar(32) DEFAULT NULL COMMENT '版本名称',
   `version_describe` longtext COMMENT '版本简介',
