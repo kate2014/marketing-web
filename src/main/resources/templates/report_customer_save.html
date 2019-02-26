@@ -21,15 +21,17 @@
 <form method="post" name="queryData" action="" th:action="@{/internal/saveReport/customerSave}" th:object="${mTradeModel}">
     <div style="margin-top: 20px">
 
-        <input type="hidden" name="brandIdenty" th:value="${brand.id}">
+        <input type="hidden" name="brandIdenty" th:value="${mTradeModel.brandIdenty}">
 
-        <label class="text_navigation" style="margin-left: 20px">范围</label>
-        <select class="select_min_style" name="shopIdenty" style="margin-left: 5px">
+        <input type="hidden" name="shopIdenty" th:value="${mTradeModel.shopIdenty}">
 
-            <option value="">品牌下全门店</option>
-            <option th:selected="${mTradeModel.shopIdenty eq list.commercialId}" th:each="list:${listCommercial}" th:value="${list.commercialId}" th:text="${list.commercialName}"></option>
+        <!--<label class="text_navigation" style="margin-left: 20px">范围</label>-->
+        <!--<select class="select_min_style" name="shopIdenty" style="margin-left: 5px">-->
 
-        </select>
+            <!--<option value="">品牌下全门店</option>-->
+            <!--<option th:selected="${mTradeModel.shopIdenty eq list.commercialId}" th:each="list:${listCommercial}" th:value="${list.commercialId}" th:text="${list.commercialName}"></option>-->
+
+        <!--</select>-->
 
         <label class="text_navigation" style="margin-left: 10px">查询时间</label>
         <input type="text" class="input_min_style" id="startDate" name="startDate" placeholder="设置查询起始时间" th:value="${mTradeModel.startDate}">

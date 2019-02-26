@@ -35,7 +35,7 @@ public class ReportCustomerController {
     public String reportAddCustomer(Model model, CustomerModel mCustomerModel) {
         try {
             //获取门店品牌和门店编号
-            queryShopMessage(model, mCustomerModel);
+//            queryShopMessage(model, mCustomerModel);
 
             Date start = null;
             Date end = null;

@@ -26,13 +26,16 @@
     <div style="margin-top: 20px">
 
         <input type="hidden" name="brandIdenty" th:value="${mReportMarketingModel.brandIdenty}">
-        <label class="text_navigation" style="margin-left: 20px">状态</label>
-        <select class="select_min_style" name="shopIdenty" style="margin-left: 5px">
 
-            <option value="">品牌下全门店</option>
-            <option th:selected="${mReportMarketingModel.shopIdenty eq list.commercialId}" th:each="list:${listCommercial}" th:value="${list.commercialId}" th:text="${list.commercialName}"></option>
+        <input type="hidden" name="shopIdenty" th:value="${mReportMarketingModel.shopIdenty}">
 
-        </select>
+        <!--<label class="text_navigation" style="margin-left: 20px">状态</label>-->
+        <!--<select class="select_min_style" name="shopIdenty" style="margin-left: 5px">-->
+
+            <!--<option value="">品牌下全门店</option>-->
+            <!--<option th:selected="${mReportMarketingModel.shopIdenty eq list.commercialId}" th:each="list:${listCommercial}" th:value="${list.commercialId}" th:text="${list.commercialName}"></option>-->
+
+        <!--</select>-->
 
 
         <label class="text_navigation" style="margin-left: 10px">查询时间段</label>

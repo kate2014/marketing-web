@@ -34,7 +34,7 @@ public class ReportBookingController {
 
         try{
             //获取门店品牌和门店编号
-            queryShopMessage(model, mBookingSearchModel);
+//            queryShopMessage(model, mBookingSearchModel);
 
             //设置默认查询时间
             if (mBookingSearchModel.getStartDate() == null) {

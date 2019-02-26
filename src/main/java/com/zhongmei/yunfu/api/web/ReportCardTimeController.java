@@ -38,7 +38,7 @@ public class ReportCardTimeController {
 
         try {
             //获取门店品牌和门店编号
-            queryShopMessage(model, mTradeModel);
+//            queryShopMessage(model, mTradeModel);
 
             Date start = null;
             Date end = null;

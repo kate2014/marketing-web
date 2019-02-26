@@ -42,7 +42,7 @@ public class ReportMarketingController {
 
         try {
             //获取门店品牌和门店编号
-            queryShopMessage(model, mReportMarketingModel);
+//            queryShopMessage(model, mReportMarketingModel);
 
             Date start = null;
             Date end = null;

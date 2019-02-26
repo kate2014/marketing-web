@@ -107,6 +107,20 @@ public class ReportController {
             model.addAttribute("haveBookingReport", 1);
         }
 
+        //次卡销售报表
+        if(permissionData.get("CARD_TIME_REPORT") == null || permissionData.get("CARD_TIME_REPORT").equals("")){
+            model.addAttribute("haveCardTimeReport", 0);
+        }else{
+            model.addAttribute("haveCardTimeReport", 1);
+        }
+
+        //会员储值报表
+        if(permissionData.get("CUSTOMER_SAVE_REPORT") == null || permissionData.get("CUSTOMER_SAVE_REPORT").equals("")){
+            model.addAttribute("haveCustomerSaveReport", 0);
+        }else{
+            model.addAttribute("haveCustomerSaveReport", 1);
+        }
+
         return "report";
     }
 

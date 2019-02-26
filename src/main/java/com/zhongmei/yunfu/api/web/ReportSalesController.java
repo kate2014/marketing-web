@@ -38,7 +38,7 @@ public class ReportSalesController {
     public String reportAddCustomer(Model model, TradeModel mTradeModel) {
         try {
             //获取门店品牌和门店编号
-            queryShopMessage(model, mTradeModel);
+//            queryShopMessage(model, mTradeModel);
 
             //设置默认查询时间
             if (mTradeModel.getStartDate() == null) {
