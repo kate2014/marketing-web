@@ -636,24 +636,54 @@ body{
 
 }
 
-.reportBgimage{
-	width: 200px;
-	height: 130px;
-	background-size: 100% 100%;
-	background-image: url("../images/main_report_bg.jpg");
-}
 .reportBgimage_1{
 	width: 200px;
-	height: 130px;
+	height: 110px;
 	background-size: 100% 100%;
-	background-color: #FFFFFF;
+	background-color: #3F82A6;
+	border-radius: 8px;
+	align-items: center;
+	/*background-image: url("../images/main_report_bg.jpg");*/
+}
+.reportBgimage_2{
+	width: 200px;
+	height: 110px;
+	background-size: 100% 100%;
+	background-color: #756D96;
+	border-radius: 8px;
+	align-items: center;
+}
+
+.reportBgimage_3{
+	width: 200px;
+	height: 110px;
+	background-size: 100% 100%;
+	background-color: #AE7894;
+	border-radius: 8px;
+	align-items: center;
+}
+.reportBgimage_4{
+	width: 200px;
+	height: 110px;
+	background-size: 100% 100%;
+	background-color: #E9A5AA;
+	border-radius: 8px;
+	align-items: center;
 }
 
 .report_lable_style{
-	color: #FFFFFF;
+	color: #F4F4F4;
 	align-content: center;
 	margin-top: 10px;
-	font-size: 14px;
+	font-size: 12px;
+	width: 100%;
+}
+.report_title_lable_style{
+	color: #F4F4F4;
+	align-content: center;
+	margin-top: 10px;
+	font-weight: bold;
+	font-size: 13px;
 	width: 100%;
 }
 .report_value_style{
@@ -667,15 +697,21 @@ body{
 
 .report_time_style{
 	font-size:10px;
-	color: #FFFFFF;
+	color: #808080;
 }
 
 .report_lable_style_1{
-	color: #666666;
+	color: #f0fafb;
 	align-content: center;
 	margin-top: 10px;
 	font-size: 14px;
 	width: 100%;
+}
+
+.main_lable_style{
+	color: #808080;
+	font-weight: bold;
+	font-size: 14px;
 }
 
 /*

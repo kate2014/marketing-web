@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>营业报表</title>
-    <link rel="stylesheet" th:href="@{/css/public.css}" href="../css/public.css" type="text/css" />
-    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../css/widget.css" type="text/css" />
-    <link rel="stylesheet" th:href="@{/css/base.css}" href="../css/base.css" type="text/css" />
-    <link rel="stylesheet" th:href="@{/css/common.css}" href="../css/common.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" type="text/css" />
 
     <link type="text/css" rel="stylesheet" th:href="@{/selectdate/test/jeDate-test.css}">
     <link type="text/css" rel="stylesheet" th:href="@{/selectdate/skin/jedate.css}">
@@ -73,38 +73,48 @@
 
 <img class="line_style" th:src="@{/images/line.jpg}" style="margin-top: 20px">
 
-<div class="parent_h" style="margin-left: 15px;margin-right: 15px;margin-top: 20px">
+<div class="parent_h" style="margin:10px">
 
-    <div class="reportBgimage" style="width: 31%;padding-right: 20px;padding-left: 20px">
-        <p class="report_lable_style" style="margin-top: 10px">营业总额
-        <p class="report_lable_style" style="margin-top: 10px"><lable class="report_value_style" th:text="${salesTotal}"></lable>元</p>
-        <div style="width: 100%; height: 1px; background-color: #f0f0f0;margin-top: 10px;margin-bottom: 10px"></div>
-        <p class="report_lable_style">成交订单量：<lable class="report_lable_style" th:text="${totalCount}"></lable>笔</p>
+    <div class="reportBgimage_1" style="width: 24%;padding-right: 20px;padding-left: 20px;display: table;">
+
+        <div style="display: table-cell;vertical-align: middle;">
+            <p class="report_title_lable_style" style="margin-top: 0px">营业总额</p>
+
+            <div style="text-align: center">
+                <p class="report_value_style" style="margin-top: 10px">￥<lable th:text="${salesTotal}"></lable></p>
+            </div>
+            <p class="report_lable_style">成交订单量：<lable class="report_lable_style" th:text="${totalCount}"></lable>&nbsp&nbsp笔</p>
+
+        </div>
 
     </div>
 
-    <div class="reportBgimage_1" style="width: 23%;padding-right: 20px;padding-left: 20px;">
-        <p class="report_lable_style_1" style="margin-top: 10px">销货单</p>
-        <div style="width: 100%; height: 1px; background-color: #f0f0f0;margin-top: 20px;margin-bottom: 10px"></div>
-        <lable class="name_style" th:text="${salesAmount}"></lable>元
-        <p class="report_lable_style_1">成交笔数：<lable class="report_lable_style_1" th:text="${salesCount}"></lable>笔</p>
+    <div class="reportBgimage_2" style="width: 24%;padding-right: 20px;padding-left: 20px;margin-left: 15px;display: table;">
+        <div style="display: table-cell;vertical-align: middle;">
+            <p class="report_title_lable_style"  style="margin-top: 0px">销货单</p>
+            <p class="report_lable_style">成交额：<lable class="name_style" th:text="${salesAmount}"></lable>&nbsp&nbsp元</p>
+            <p class="report_lable_style">成交笔数：<lable class="report_lable_style_1" th:text="${salesCount}"></lable>&nbsp&nbsp笔</p>
+        </div>
+
     </div>
 
-    <div class="reportBgimage_1" style="width: 23%;padding-right: 20px;padding-left: 20px;">
-        <p class="report_lable_style_1" style="margin-top: 10px">余额、次卡储值</p>
-        <div style="width: 100%; height: 1px; background-color: #f0f0f0;margin-top: 20px;margin-bottom: 10px"></div>
-        <lable class="name_style" th:text="${saveAmount}"></lable>元
-        <p class="report_lable_style_1">成交笔数：<lable class="report_lable_style_1" th:text="${saveCount}"></lable>笔</p>
+    <div class="reportBgimage_3" style="width: 24%;padding-right: 20px;padding-left: 20px;margin-left: 15px;display: table;">
+        <div style="display: table-cell;vertical-align: middle;">
+            <p class="report_title_lable_style" style="margin-top: 0px">余额、次卡服务储值收入</p>
+            <p class="report_lable_style">成交额：<lable class="name_style" th:text="${saveAmount}"></lable>&nbsp&nbsp元</p>
+            <p class="report_lable_style">成交笔数：<lable class="report_lable_style_1" th:text="${saveCount}"></lable>&nbsp&nbsp笔</p>
+        </div>
     </div>
 
-    <div class="reportBgimage_1" style="width: 23%;padding-right: 20px;padding-left: 20px;">
-        <p class="report_lable_style_1" style="margin-top: 10px">退货单</p>
-        <div style="width: 100%; height: 1px; background-color: #f0f0f0;margin-top: 20px;margin-bottom: 10px"></div>
-        <lable class="name_style" th:text="${returnAmount}"></lable>元
-        <p class="report_lable_style_1">退货笔数：<lable class="report_lable_style_1" th:text="${returnCount}"></lable>笔</p>
+    <div class="reportBgimage_4" style="width: 24%;padding-right: 20px;padding-left: 20px;margin-left: 15px;display: table;">
+        <div style="display: table-cell;vertical-align: middle;">
+            <p class="report_title_lable_style" style="margin-top: 0px">退货单</p>
+            <p class="report_lable_style">退货额：<lable class="name_style" th:text="${returnAmount}"></lable>&nbsp&nbsp元</p>
+            <p class="report_lable_style">退货笔数：<lable class="report_lable_style_1" th:text="${returnCount}"></lable>&nbsp&nbsp笔</p>
+        </div>
     </div>
 </div>
-<img class="line_style" th:src="@{/images/line.jpg}" style="margin-top: 20px">
+<img class="line_style" th:src="@{/images/line.jpg}" style="margin-top: 10px">
 
 
 <div style="width: 95%;height:400px; align-content: center;text-align: center; margin-top: 40px">

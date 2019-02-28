@@ -6,5 +6,7 @@ class SystemVersionReq : PosReq() {
 
     var shopId: Long? = null
 
+    var brandId: Long? = null
+
     var versionCode: Integer? = null
 }

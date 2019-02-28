@@ -194,8 +194,8 @@ public class ReportController {
             queryPaymentReport(model,mTradeModel);
 
             model.addAttribute("mTradeModel", mTradeModel);
-            model.addAttribute("stateDate", DateFormatUtil.format(stateDate, "MM-dd HH:mm:ss"));
-            model.addAttribute("endDate", DateFormatUtil.format(endDate, "MM-dd HH:mm:ss"));
+            model.addAttribute("stateDate", DateFormatUtil.format(stateDate, "YYYY-MM-dd HH:mm:ss"));
+            model.addAttribute("endDate", DateFormatUtil.format(endDate, "YYYY-MM-dd HH:mm:ss"));
 
 
             //销售额
