@@ -7,6 +7,7 @@ import com.zhongmei.yunfu.domain.entity.SystemVersionEntity;
 import com.zhongmei.yunfu.service.CommercialService;
 import com.zhongmei.yunfu.service.SystemVersionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,8 +22,8 @@ public class SystemVersionApi {
     @Autowired
     CommercialService mCommercialService;
 
-    @RequestMapping("/checkVersion")
-    public SystemVersionResp queryWxTradeByCustomer(@RequestBody SystemVersionReq mSystemVersionReq){
+    @GetMapping("/checkVersion")
+    public SystemVersionResp queryWxTradeByCustomer(SystemVersionReq mSystemVersionReq){
         SystemVersionResp mSystemVersionResp = new SystemVersionResp();
         try {
             SystemVersionEntity mSystemVersionEntity = mSystemVersionService.checkVersion(mSystemVersionReq);

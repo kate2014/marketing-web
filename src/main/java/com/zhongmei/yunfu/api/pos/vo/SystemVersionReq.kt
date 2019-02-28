@@ -1,8 +1,6 @@
 package com.zhongmei.yunfu.api.pos.vo
 
-import com.zhongmei.yunfu.api.PosReq
-
-class SystemVersionReq : PosReq() {
+class SystemVersionReq{
 
     var shopId: Long? = null
 
