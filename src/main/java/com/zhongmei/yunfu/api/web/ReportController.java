@@ -135,9 +135,9 @@ public class ReportController {
             //获取当天所有订单
             List<TradeEntity> listSales = mTradeService.queryListTrade(mTradeModel);
             //保存产生销货订单时间点
-            List<String> listTime = new ArrayList<>();
+            List<String> listTime = new LinkedList<>();
             //销货订单金额保存
-            List<String> listAmount = new ArrayList<>();
+            List<String> listAmount = new LinkedList<>();
             //销售总额
             BigDecimal totalAmount = BigDecimal.ZERO.setScale(2, BigDecimal.ROUND_HALF_UP);
             //销售单数
@@ -240,9 +240,9 @@ public class ReportController {
 
         List<DishReport> listData = mTradeItemService.selectDishSalesReport(mTradeModel.getBrandIdenty(), mTradeModel.getShopIdenty(), start, end);
 
-        List<String> listDishName = new ArrayList<>();
-        List<BigDecimal> listSalesAmount = new ArrayList<>();
-        List<Long> listSalesCount = new ArrayList<>();
+        List<String> listDishName = new LinkedList<>();
+        List<BigDecimal> listSalesAmount = new LinkedList<>();
+        List<Long> listSalesCount = new LinkedList<>();
         Long maxCount = 0l;
         Long maxAmount = 0l;
         for (DishReport dp : listData) {
@@ -290,9 +290,9 @@ public class ReportController {
         mPaymentItemModel.setStartDate(mTradeModel.getStartDate());
         mPaymentItemModel.setEndDate(mTradeModel.getEndDate());
         List<PaymentItemModel> listData = mPaymentItemService.queryPaymentItemReport(mPaymentItemModel);
-        List<String> listPayName = new ArrayList<>();
-        List<BigDecimal> listPayAmount = new ArrayList<>();
-        List<Long> listPayCount = new ArrayList<>();
+        List<String> listPayName = new LinkedList<>();
+        List<BigDecimal> listPayAmount = new LinkedList<>();
+        List<Long> listPayCount = new LinkedList<>();
 
         //为默认展示出所有支付方式，对没有支付数据的类型添加默认数据
         Map<Integer,PaymentItemModel> payMap = new HashMap<>();
