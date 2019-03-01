@@ -24,4 +24,18 @@ public class ShowPDFController {
 
         return "system_handbook";
     }
+
+
+    @RequestMapping({"/pdfDetail"})
+    public String showPDF(Model model,Integer type){
+
+        if(type == 1){
+            model.addAttribute("pdfURL", "http://media.zhongmeiyunfu.com/system_frame.pdf");
+            return "show_pdf";
+        }else{
+            return "mading";
+        }
+
+
+    }
 }

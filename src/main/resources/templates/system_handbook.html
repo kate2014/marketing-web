@@ -4,115 +4,160 @@
     <meta charset="UTF-8">
     <title>系统操作手册</title>
 </head>
+<style type="text/css">
 
-<script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
-<script type="text/javascript" src="../static/js/jquery.media.js" th:src="@{/js/jquery.media.js}"></script>
-<link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css"/>
-<link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css"/>
-<link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css"/>
-<link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css"/>
+    html,body{
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        background-color: #FFFFFF;
+    }
 
-<script type="text/javascript">
-    $(function() {
-        $('a.media').media({width:900, height:1000});
-        $('a.mediase').media({width:900, height:1000});
-    });
-</script>
+</style>
 
-<body style="background-color: #FFFFFF">
+<link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
+<link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
+<link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" />
+<link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" />
+<link rel="stylesheet" th:href="@{/css/customer.css}" href="../static/css/customer.css" />
+<script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}" src="../static/js/jquery-3.1.1.min.js" ></script>
+<script type="text/javascript" th:src="@{/js/base.js}" src="../static/js/base.js" ></script>
+
+<body>
 
 <div class="page_container">
-    <div class="parent" style="background: #f3f3f3;border: 1px solid #f7f7f7">
 
-        <div class="parent" style="cursor: pointer;width: 250px" onclick="avascript :history.back(-1);" >
-            <img th:src="@{/images/back_icon.png}" style="margin:10px" width="20px">
-            <p class="back_lable_style">返回</p>
-        </div>
-
-        <div class="panel-heading" align="center" style="padding: 20px;width: 100%;margin-left: -250px">
-            <h2>系统操作手册</h2>
-        </div>
-    </div>
 
 
     <div class="page_page">
-        <div style="width: 100%;height: 100%;display: flex;">
-            <div id="left" style="float: top;width: 200px;height:100%; background-color: #f1f1f1;padding: 20px;">
-                <div class="parent" style="cursor: pointer;padding: 10px" th:onclick="@{|location='${basePath}/internal/showPDF/installationManual'|}" >
-                    <img th:src="@{/images/handbook_icon.png}" style="margin:10px" width="25px">
-                    <p class="notify_lable_style">系统结构</p>
-                </div>
-                <div class="parent" style="cursor: pointer;padding: 10px" th:onclick="@{|location='${basePath}/internal/showPDF/installationManual'|}" >
-                    <img th:src="@{/images/handbook_icon.png}" style="margin:10px" width="25px">
-                    <p class="notify_lable_style">门店管理</p>
+
+        <div class='customer-com' style="height: 920px">
+            <div class="customer-centent">
+                <div class="parent" style="background: #f3f3f3;border: 1px solid #e1e1e1;height: 50px">
+
+                    <div class="parent" style="cursor: pointer;width: 200px" th:onclick="@{|location='${basePath}/internal/download/page'|}" >
+                        <img th:src="@{/images/back_icon.png}" style="margin:10px" width="20px">
+                        <p class="back_lable_style">返回</p>
+                    </div>
+
+                    <div class="panel-heading" align="center" style="padding: 16px;width: 100%;">
+                        <h3>系统操作手册</h3>
+                    </div>
                 </div>
 
-                <div class="parent" style="cursor: pointer;padding: 10px" th:onclick="@{|location='${basePath}/internal/showPDF/installationManual'|}" >
-                    <img th:src="@{/images/handbook_icon.png}" style="margin:10px" width="25px">
-                    <p class="notify_lable_style">员工管理</p>
-                </div>
-                <div class="parent" style="cursor: pointer;padding: 10px" th:onclick="@{|location='${basePath}/internal/showPDF/installationManual'|}" >
-                    <img th:src="@{/images/handbook_icon.png}" style="margin:10px" width="25px">
-                    <p class="notify_lable_style">品项管理</p>
-                </div>
-                <div class="parent" style="cursor: pointer;padding: 10px" th:onclick="@{|location='${basePath}/internal/showPDF/installationManual'|}" >
-                    <img th:src="@{/images/handbook_icon.png}" style="margin:10px" width="25px">
-                    <p class="notify_lable_style">会员管理</p>
-                </div>
-                <div class="parent" style="cursor: pointer;padding: 10px" th:onclick="@{|location='${basePath}/internal/showPDF/installationManual'|}" >
-                    <img th:src="@{/images/handbook_icon.png}" style="margin:10px" width="25px">
-                    <p class="notify_lable_style">营销管理</p>
-                </div>
-                <div class="parent" style="cursor: pointer;padding: 10px" th:onclick="@{|location='${basePath}/internal/showPDF/installationManual'|}" >
-                    <img th:src="@{/images/handbook_icon.png}" style="margin:10px" width="25px">
-                    <p class="notify_lable_style">拼团管理</p>
-                </div>
-                <div class="parent" style="cursor: pointer;padding: 10px" th:onclick="@{|location='${basePath}/internal/showPDF/installationManual'|}" >
-                    <img th:src="@{/images/handbook_icon.png}" style="margin:10px" width="25px">
-                    <p class="notify_lable_style">秒杀管理</p>
-                </div>
-                <div class="parent" style="cursor: pointer;padding: 10px" th:onclick="@{|location='${basePath}/internal/showPDF/installationManual'|}" >
-                    <img th:src="@{/images/handbook_icon.png}" style="margin:10px" width="25px">
-                    <p class="notify_lable_style">砍价管理</p>
-                </div>
-                <div class="parent" style="cursor: pointer;padding: 10px" th:onclick="@{|location='${basePath}/internal/showPDF/installationManual'|}" >
-                    <img th:src="@{/images/handbook_icon.png}" style="margin:10px" width="25px">
-                    <p class="notify_lable_style">次卡管理</p>
-                </div>
-                <div class="parent" style="cursor: pointer;padding: 10px" th:onclick="@{|location='${basePath}/internal/showPDF/installationManual'|}" >
-                    <img th:src="@{/images/handbook_icon.png}" style="margin:10px" width="25px">
-                    <p class="notify_lable_style">同行特惠</p>
-                </div>
-                <div class="parent" style="cursor: pointer;padding: 10px" th:onclick="@{|location='${basePath}/internal/showPDF/installationManual'|}" >
-                    <img th:src="@{/images/handbook_icon.png}" style="margin:10px" width="25px">
-                    <p class="notify_lable_style">分享营销</p>
-                </div>
-                <div class="parent" style="cursor: pointer;padding: 10px" th:onclick="@{|location='${basePath}/internal/showPDF/installationManual'|}" >
-                    <img th:src="@{/images/handbook_icon.png}" style="margin:10px" width="25px">
-                    <p class="notify_lable_style">推广有礼</p>
-                </div>
-                <div class="parent" style="cursor: pointer;padding: 10px" th:onclick="@{|location='${basePath}/internal/showPDF/installationManual'|}" >
-                    <img th:src="@{/images/handbook_icon.png}" style="margin:10px" width="25px">
-                    <p class="notify_lable_style">员工绩效</p>
-                </div>
-                <div class="parent" style="cursor: pointer;padding: 10px" th:onclick="@{|location='${basePath}/internal/showPDF/installationManual'|}" >
-                    <img th:src="@{/images/handbook_icon.png}" style="margin:10px" width="25px">
-                    <p class="notify_lable_style">预约管理</p>
-                </div>
-                <div class="parent" style="cursor: pointer;padding: 10px" th:onclick="@{|location='${basePath}/internal/showPDF/installationManual'|}" >
-                    <img th:src="@{/images/handbook_icon.png}" style="margin:10px" width="25px">
-                    <p class="notify_lable_style">开单收银</p>
-                </div>
-            </div>
-            <div id="right" style="float: right;width: 100%;height:100%;">
-                <center>
-                    <div class="panel panel-primary">
-                        <div class="panel-body" >
-                            <a class="media" th:href="@{http://media.zhongmeiyunfu.com/system_frame.pdf}" href="http://media.zhongmeiyunfu.com/system_frame.pdf"></a>
+                <div class="customer-main" style="height: 920px;">
+                    <ul class="tab" style="height: 920px">
+                        <li th:href="@{/internal/showPDF/pdfDetail(type=1)}" class="current">
+                            <div class="parent">
+                                <img th:src="@{/images/handbook_icon.png}" class="image_size_style">
+                                <span>系统结构</span>
+                            </div>
+                        </li>
+                        <li th:href="@{/internal/showPDF/pdfDetail(type=2)}">
+                            <div class="parent">
+                                <img th:src="@{/images/handbook_icon.png}" class="image_size_style">
+                                <span>门店管理</span>
+                            </div>
+                        </li>
+                        <li th:href="@{/internal/showPDF/pdfDetail(type=2)}">
+                            <div class="parent">
+                                <img th:src="@{/images/handbook_icon.png}" class="image_size_style">
+                                <span>员工管理</span>
+                            </div>
+                        </li>
+                        <li th:href="@{/internal/showPDF/pdfDetail(type=3)}">
+                            <div class="parent">
+                                <img th:src="@{/images/handbook_icon.png}" class="image_size_style">
+                                <span>品项管理</span>
+                            </div>
+                        </li>
+                        <li th:href="@{/internal/showPDF/pdfDetail(type=4)}">
+                            <div class="parent">
+                                <img th:src="@{/images/handbook_icon.png}" class="image_size_style">
+                                <span>会员管理</span>
+                            </div>
+                        </li>
+                        <li th:href="@{/internal/showPDF/pdfDetail(type=5)}">
+                            <div class="parent">
+                                <img th:src="@{/images/handbook_icon.png}" class="image_size_style">
+                                <span>营销管理</span>
+                            </div>
+                        </li>
+                        <li th:href="@{/internal/showPDF/pdfDetail(type=6)}">
+                            <div class="parent">
+                                <img th:src="@{/images/handbook_icon.png}" class="image_size_style">
+                                <span>拼团管理</span>
+                            </div>
+                        </li>
+                        <li th:href="@{/internal/showPDF/pdfDetail(type=7)}">
+                            <div class="parent">
+                                <img th:src="@{/images/handbook_icon.png}" class="image_size_style">
+                                <span>秒杀管理</span>
+                            </div>
+                        </li>
+                        <li th:href="@{/internal/showPDF/pdfDetail(type=8)}">
+                            <div class="parent">
+                                <img th:src="@{/images/handbook_icon.png}" class="image_size_style">
+                                <span>砍价管理</span>
+                            </div>
+                        </li>
+                        <li th:href="@{/internal/showPDF/pdfDetail(type=9)}">
+                            <div class="parent">
+                                <img th:src="@{/images/handbook_icon.png}" class="image_size_style">
+                                <span>次卡管理</span>
+                            </div>
+                        </li>
+                        <li th:href="@{/internal/showPDF/pdfDetail(type=10)}">
+                            <div class="parent">
+                                <img th:src="@{/images/handbook_icon.png}" class="image_size_style">
+                                <span>同行特惠</span>
+                            </div>
+                        </li>
+                        <li th:href="@{/internal/showPDF/pdfDetail(type=11)}">
+                            <div class="parent">
+                                <img th:src="@{/images/handbook_icon.png}" class="image_size_style">
+                                <span>分享营销</span>
+                            </div>
+                        </li>
+                        <li th:href="@{/internal/showPDF/pdfDetail(type=12)}">
+                            <div class="parent">
+                                <img th:src="@{/images/handbook_icon.png}" class="image_size_style">
+                                <span>推广有礼</span>
+                            </div>
+                        </li>
+                        <li th:href="@{/internal/showPDF/pdfDetail(type=13)}">
+                            <div class="parent">
+                                <img th:src="@{/images/handbook_icon.png}" class="image_size_style">
+                                <span>员工绩效</span>
+                            </div>
+                        </li>
+                        <li th:href="@{/internal/showPDF/pdfDetail(type=14)}">
+                            <div class="parent">
+                                <img th:src="@{/images/handbook_icon.png}" class="image_size_style">
+                                <span>预约管理</span>
+                            </div>
+                        </li>
+                        <li th:href="@{/internal/showPDF/pdfDetail(type=15)}">
+                            <div class="parent">
+                                <img th:src="@{/images/handbook_icon.png}" class="image_size_style">
+                                <span>开单收银</span>
+                            </div>
+                        </li>
+                        </li>
+
+                    </ul>
+
+                    <div class="select-tab" style="width: 100%; height: 100%">
+                        <div style="display:block; width: 100%; height: 100%" class="tabs">
+                            <iframe id="dish_iframe" th:src="@{/internal/showPDF/pdfDetail(type=1)}" width="100%" height="100%" style="border: 0px"></iframe>
                         </div>
-                </center>
+                    </div>
+
+                </div>
+
             </div>
         </div>
+
     </div>
 
     <div class="page_footer">
@@ -121,6 +166,7 @@
             蜀ICP备18028814号-1 众美云服科技有限公司提供技术支持
         </div>
     </div>
+
 </div>
 
 

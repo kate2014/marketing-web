@@ -24,36 +24,16 @@
 
     <div class="page_page">
 
-        <div class="parent" style="background: #f3f3f3;border: 1px solid #f7f7f7;height: 50px">
-
-            <div class="parent" style="cursor: pointer;width: 250px" onclick="avascript :history.back(-1);" >
-                <img th:src="@{/images/back_icon.png}" style="margin:10px" width="20px">
-                <p class="back_lable_style">返回</p>
-            </div>
-
-            <div class="panel-heading" align="center" style="padding: 16px;width: 100%;margin-left: -250px">
-                <h2>系统安装手册</h2>
-            </div>
-        </div>
-
         <center>
             <div class="panel panel-primary">
                 <div class="panel-body" >
-                    <a class="media" th:href="@{http://media.zhongmeiyunfu.com/%E8%A3%85%E6%9C%BA%E6%89%8B%E5%86%8C.pdf}" href="http://media.zhongmeiyunfu.com/%E8%A3%85%E6%9C%BA%E6%89%8B%E5%86%8C.pdf"></a>
+                    <a class="media" th:href="@{${pdfURL}}" href="http://media.zhongmeiyunfu.com/system_frame.pdf"></a>
                 </div>
             </div>
         </center>
     </div>
 
 
-
-
-    <div class="page_footer">
-        <div class="container parent_h" style="height: 100%">
-            <img th:src="@{/images/bottom_logo .png}" style="margin:10px;cursor:pointer;" width="100px" onclick="javascript:window.open('http://www.zhongmeiyunfu.com/');">
-            蜀ICP备18028814号-1 众美云服科技有限公司提供技术支持
-        </div>
-    </div>
 </div>
 
 </body>
