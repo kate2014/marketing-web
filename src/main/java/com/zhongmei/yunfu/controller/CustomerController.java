@@ -4,6 +4,8 @@ package com.zhongmei.yunfu.controller;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.zhongmei.yunfu.controller.model.CustomerEditModel;
 import com.zhongmei.yunfu.controller.model.CustomerSearchModel;
+import com.zhongmei.yunfu.controller.model.excel.ExcelData;
+import com.zhongmei.yunfu.controller.model.excel.ExcelUtils;
 import com.zhongmei.yunfu.core.security.Password;
 import com.zhongmei.yunfu.domain.entity.AuthUserEntity;
 import com.zhongmei.yunfu.domain.entity.CustomerEntity;
@@ -12,12 +14,19 @@ import com.zhongmei.yunfu.service.AuthUserService;
 import com.zhongmei.yunfu.service.CustomerSearchRuleService;
 import com.zhongmei.yunfu.service.CustomerService;
 import com.zhongmei.yunfu.service.LoginManager;
+import com.zhongmei.yunfu.util.DateFormatUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -201,5 +210,85 @@ public class CustomerController extends BaseController {
         return redirect("/customer/list");
     }
 
+    @RequestMapping("/export/excel")
+    public void exportExcel(HttpServletResponse response, CustomerSearchModel searchModel) throws Exception {
+        LoginManager.setUser(searchModel);
+        Page<CustomerEntity> listPage = null;
+        CustomerSearchRuleEntity searchRuleEntity = getCustomerSearchRuleEntity(searchModel);
+        if (searchModel.getType() != null) {
+            switch (searchModel.getType()) {
+                case CustomerSearchModel.consumptionMainCount:
+                    listPage = customerService.selectByTrade(searchModel,
+                            searchRuleEntity.getConsumptionMainDay(),
+                            searchRuleEntity.getConsumptionMainAmount(),
+                            searchRuleEntity.getConsumptionMainNumber());
+                    break;
+                case CustomerSearchModel.membersWillCount:
+                    listPage = customerService.selectByTrade(searchModel,
+                            searchRuleEntity.getMembersWillDay(),
+                            searchRuleEntity.getMembersWillAmount(),
+                            searchRuleEntity.getMembersWillNumber());
+                    break;
+                case CustomerSearchModel.membersLossCount:
+                    listPage = customerService.selectByTrade(searchModel,
+                            searchRuleEntity.getMembersLossDay(),
+                            searchRuleEntity.getMembersLossAmount(),
+                            searchRuleEntity.getMembersLossNumber());
+                    break;
+                case CustomerSearchModel.membersNewIntervalCount:
+                    listPage = customerService.selectByNewMember(searchModel, searchRuleEntity.getMembersNewIntervalDay());
+                    break;
+                case CustomerSearchModel.membersBirthdayCount:
+                    listPage = customerService.selectByBirthday(searchModel, searchRuleEntity.getMembersBirthdayBeforeDay());
+                    break;
+                case CustomerSearchModel.membersAnniversaryCount:
+                    listPage = customerService.selectByAnniversary(searchModel, searchRuleEntity.getMembersAnniversaryBeforeDay());
+                    break;
+            }
+        }
+
+        if (listPage == null) {
+            listPage = customerService.findListPage(searchModel, searchModel.getPageSize());
+        }
+
+
+        ExcelData data = new ExcelData();
+        data.setSheetName("会员");
+        List<String> titles = new ArrayList();
+        titles.add("序");
+        titles.add("姓名");
+        titles.add("性别");
+        titles.add("生日");
+        titles.add("手机号");
+        titles.add("会员等级");
+        titles.add("邮箱");
+        titles.add("喜好");
+        titles.add("所在地址");
+        titles.add("备注");
+        data.setTitles(titles);
+
+        List<List<Object>> rows = new ArrayList();
+        data.setRows(rows);
+
+        int i = 1;
+        for (CustomerEntity entity : listPage.getRecords()) {
+            List<Object> row = new ArrayList();
+            rows.add(row);
+            row.add(i++);
+            row.add(entity.getName());
+            row.add(entity.getGender() != null ? entity.getGender() == 1 ? "男" : "女" : "");
+            row.add(DateFormatUtil.formatDate(entity.getBirthday()));
+            row.add(entity.getMobile());
+            row.add(entity.getGroupLevel());
+            row.add(entity.getEmail());
+            row.add(entity.getHobby());
+            row.add(entity.getAddress());
+            row.add(entity.getProfile());
+        }
+
+        SimpleDateFormat fdate = new SimpleDateFormat("yyyyMMdd");
+        String fileName = String.format("customer-%s.xls", fdate.format(new Date()));
+        ExcelUtils.exportExcel(response, fileName, data);
+    }
 }
 
