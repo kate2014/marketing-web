@@ -81,7 +81,11 @@ public interface CustomerService extends IService<CustomerEntity> {
 
     Page<CustomerEntity> findListPage(CustomerSearchModel searchModel, int pageSize);
 
+    Page<CustomerEntity> findListPage(Page<CustomerEntity> page, CustomerSearchModel search);
+
     Page<CustomerEntity> findListPage(CustomerDrainSearchModel searchModel);
+
+    Page<CustomerEntity> findListPage(CustomerDrainSearchModel searchModel, Page<CustomerEntity> page);
 
     /**
      * 添加会员
@@ -203,6 +207,8 @@ public interface CustomerService extends IService<CustomerEntity> {
 
     Page<CustomerEntity> selectByTrade(CustomerSearchModel searchModel, Integer recentDay, Integer tradeCount, Integer tradeAmountSum);
 
+    Page<CustomerEntity> selectByTrade(Page<CustomerEntity> page, CustomerSearchModel searchModel, Integer recentDay, Integer tradeCount, Integer tradeAmountSum);
+
     /**
      * 统计最近几天将要过生日的会员
      *
@@ -214,6 +220,8 @@ public interface CustomerService extends IService<CustomerEntity> {
 
     Page<CustomerEntity> selectByBirthday(CustomerSearchModel searchModel, Integer recentDay);
 
+    Page<CustomerEntity> selectByBirthday(Page<CustomerEntity> page, CustomerSearchModel searchModel, Integer recentDay);
+
     /**
      * 统计最近几天注册的新会员
      *
@@ -224,6 +232,8 @@ public interface CustomerService extends IService<CustomerEntity> {
 
     Page<CustomerEntity> selectByNewMember(CustomerSearchModel searchModel, Integer recentDay);
 
+    Page<CustomerEntity> selectByNewMember(Page<CustomerEntity> page, CustomerSearchModel searchModel, Integer recentDay);
+
     /**
      * 统计最近将要满周年的会员
      *
@@ -233,4 +243,6 @@ public interface CustomerService extends IService<CustomerEntity> {
     Integer selectCountByAnniversary(Long shop_identy, Integer recentDay);
 
     Page<CustomerEntity> selectByAnniversary(CustomerSearchModel searchModel, Integer recentDay);
+
+    Page<CustomerEntity> selectByAnniversary(Page<CustomerEntity> page, CustomerSearchModel searchModel, Integer recentDay);
 }

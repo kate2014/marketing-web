@@ -140,6 +140,17 @@
                 })
             });
         })
+
+        $("#export_excel").click(function () {
+            var consumptionLastTime = $("input[name='consumptionLastTime']").val();
+            var storedBalance = $("input[name='storedBalance']").val();
+            var cardResidueCount = $("input[name='cardResidueCount']").val();
+            var params = "opType=le" +
+                "&consumptionLastTime=" + consumptionLastTime +
+                "&storedBalance=" + storedBalance +
+                "&cardResidueCount=" + cardResidueCount;
+            location.href = "[[${basePath}]]/customer/export/excel?" + params;
+        });
     });
 </script>
 <body>
@@ -224,7 +235,7 @@
 
             <button class="orange_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
             <button id="service_push" class="blue_button_style select-shop" value="" onclick="return false;" style="margin-left: 10px">服务推送</button>
-            <!--<input class="blue_button_style select-shop" value="服务推送" style="margin-left: 10px"/>-->
+            <input type="button" id="export_excel" class="blue_button_style" value="会员导出" style="margin-left: 10px"/>
         </div>
         </form>
         <table>
