@@ -32,7 +32,14 @@ public class ShowPDFController {
         if(type == 1){
             model.addAttribute("pdfURL", "http://media.zhongmeiyunfu.com/system_frame.pdf");
             return "show_pdf";
-        }else{
+        }else if(type == 2){
+            model.addAttribute("pdfURL", "http://media.zhongmeiyunfu.com/pdf商户基本信息配置.pdf");
+            return "show_pdf";
+        }else if(type == 3){
+            model.addAttribute("pdfURL", "http://media.zhongmeiyunfu.com/pdf员工管理.pdf");
+            return "show_pdf";
+        }
+        else{
             return "mading";
         }
 
