@@ -142,13 +142,16 @@
         })
 
         $("#export_excel").click(function () {
-            var consumptionLastTime = $("input[name='consumptionLastTime']").val();
-            var storedBalance = $("input[name='storedBalance']").val();
-            var cardResidueCount = $("input[name='cardResidueCount']").val();
-            var params = "opType=le" +
-                "&consumptionLastTime=" + consumptionLastTime +
-                "&storedBalance=" + storedBalance +
-                "&cardResidueCount=" + cardResidueCount;
+            var type = $("input[name='type']").val();
+            var sourceId = $("select[name='sourceId']").val();
+            var groupLevelId = $("select[name='groupLevelId']").val();
+            var name = $("input[name='name']").val();
+            var mobile = $("input[name='mobile']").val();
+            var params = "type=" + type +
+                "&sourceId=" + sourceId +
+                "&groupLevelId=" + groupLevelId +
+                "&name=" + name +
+                "&mobile=" + mobile;
             location.href = "[[${basePath}]]/customer/export/excel?" + params;
         });
     });

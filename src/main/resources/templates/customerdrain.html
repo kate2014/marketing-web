@@ -31,9 +31,7 @@
     .table_card .tab li {color:#fff; float:left; height:37px; line-height:37px; padding:0 25px; margin-right:4px; border-radius: 5px 5px 0 0;}
     .table_card .tab li:hover { height:37px; cursor:pointer}
     .table_card .activ { height:37px !important; !important;}
-    .table_card .tabCon .off { display:none}
-    .table_card .tabCon .on { display:block}
-    .table_card .tabCon .hint {color: white; display:block; text-align: center;}
+    .table_card .hint {color: white; display:block; text-align: center;}
 </style>
 
 <head>
@@ -147,20 +145,35 @@
         });
 
         $("#export_excel").click(function () {
+            var opType = $("input[name='opType']").val();
             var consumptionLastTime = $("input[name='consumptionLastTime']").val();
             var storedBalance = $("input[name='storedBalance']").val();
             var cardResidueCount = $("input[name='cardResidueCount']").val();
-            var params = "opType=le" +
+            var params = "opType=" + opType +
                 "&consumptionLastTime=" + consumptionLastTime +
                 "&storedBalance=" + storedBalance +
                 "&cardResidueCount=" + cardResidueCount;
             location.href = "[[${basePath}]]/customer/drain/export/excel?" + params;
         });
 
-
+        var opType = "[[${searchModel.opType}]]";
+        opType = opType ? opType : 1;
+        $(".tab li").eq(opType).addClass("activ").siblings().removeClass("activ");
+        var tabIndex = $(".tab li.activ").index();
+        $(".tabCon").children("div").hide().eq(tabIndex).show();
         $(".tab li").click(function(){
-            $(".tab li").eq($(this).index()).addClass("activ").siblings().removeClass("activ");
-            $(".tabCon").children("div").hide().eq($(this).index()).show();
+            var clickIndex = $(this).index();
+            $(".tab li").eq(clickIndex).addClass("activ").siblings().removeClass("activ");
+            $(".tabCon").children("div").hide().eq(clickIndex).show();
+
+            $("input[name='opType']").val(clickIndex);
+            if (clickIndex == 1) {
+                $("#card_balance").html("卡余额>=");
+                $("#service_residue").html("剩余服务次数>=");
+            } else {
+                $("#card_balance").html("卡余额<=");
+                $("#service_residue").html("剩余服务次数<=");
+            }
         })
     });
 </script>
@@ -169,62 +182,14 @@
 <div class="table_card">
     <ul class="tab">
         <li class="activ" style="background: #5F9CD3">最少剩余</li>
-        <li style="background:#FB6320" class="">最多剩余</li>
+        <li style="background:#FB6320">最多剩余</li>
     </ul>
     <div class="tabCon">
-        <div class="on">
+        <div>
             <h3 class="hint" style="background: #5F9CD3;">备注：可用于查询储值、次卡剩余比较多的会员，进行推送，触动消费</h3>
-            <!--<form action="couponadd.html" th:action="@{/customer/drain}" th:object="${searchModel}">
-                <div class="parent_h">
-                    <label class="text_navigation">最近消费时间</label>
-                    <div class="lable_02" style="margin-left: 5px">
-                        <p class="lable_text_style" date-bofer="7">一周</p>
-                    </div>
-                    <div class="lable_02" style="margin-left: 5px">
-                        <p class="lable_text_style" date-bofer="14">两周</p>
-                    </div>
-                    <div class="lable_02" style="margin-left: 5px">
-                        <p class="lable_text_style" date-bofer="30">一个月</p>
-                    </div>
-                    <label class="text_navigation" style="margin-left: 10px">自定义时间>=</label>
-                    <input type="text" id="endTime" class="select_date_input" placeholder="最近消费时间" name="consumptionLastTime" th:value="*{consumptionLastTime}" style="margin-left: 5px">
-
-                    <label class="text_navigation" style="margin-left: 10px">卡余额>=</label>
-                    <input class="select_input" style="height: 28px;width: 100px;margin-left: 5px" type="text" name="storedBalance" th:value="*{storedBalance}" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="10"/>
-                    <label class="text_navigation" style="margin-left: 10px">剩余服务次数>=</label>
-                    <input class="select_input" style="height: 28px;width: 100px;margin-left: 5px" type="text" name="cardResidueCount" th:value="*{cardResidueCount}" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="10"/>
-
-                    <button class="orange_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
-                    <button id="service_push" class="blue_button_style" value="" onclick="return false;" style="margin-left: 10px">服务推送</button>
-                </div>
-            </form>-->
         </div>
-        <div class="off">
+        <div>
             <h3 class="hint" style="background: #FB6320;">备注：可用于查询储值、次卡剩余比较少的会员，进行推送，触动消费</h3>
-            <!--<form action="couponadd.html" th:action="@{/customer/drain}" th:object="${searchModel}">
-                <div class="parent_h">
-                    <label class="text_navigation">最近消费时间</label>
-                    <div class="lable_02" style="margin-left: 5px">
-                        <p class="lable_text_style" date-bofer="7">一周</p>
-                    </div>
-                    <div class="lable_02" style="margin-left: 5px">
-                        <p class="lable_text_style" date-bofer="14">两周</p>
-                    </div>
-                    <div class="lable_02" style="margin-left: 5px">
-                        <p class="lable_text_style" date-bofer="30">一个月</p>
-                    </div>
-                    <label class="text_navigation" style="margin-left: 10px">自定义时间>=</label>
-                    <input type="text" id="endTime" class="select_date_input" placeholder="最近消费时间" name="consumptionLastTime" th:value="*{consumptionLastTime}" style="margin-left: 5px">
-
-                    <label class="text_navigation" style="margin-left: 10px">卡余额<=</label>
-                    <input class="select_input" style="height: 28px;width: 100px;margin-left: 5px" type="text" name="storedBalance" th:value="*{storedBalance}" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="10"/>
-                    <label class="text_navigation" style="margin-left: 10px">剩余服务次数<=</label>
-                    <input class="select_input" style="height: 28px;width: 100px;margin-left: 5px" type="text" name="cardResidueCount" th:value="*{cardResidueCount}" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="10"/>
-
-                    <button class="orange_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
-                    <button id="service_push" class="blue_button_style" value="" onclick="return false;" style="margin-left: 10px">服务推送</button>
-                </div>
-            </form>-->
         </div>
     </div>
 </div>
@@ -233,6 +198,7 @@
         <div class="customer-main">
             <div class="customer-tab">
                 <form action="couponadd.html" th:action="@{/customer/drain}" th:object="${searchModel}">
+                    <input type="hidden" name="opType" value="">
                     <div class="parent_h">
                     <label class="text_navigation">最近消费时间</label>
                     <div class="lable_02" style="margin-left: 5px">
@@ -247,9 +213,9 @@
                     <label class="text_navigation" style="margin-left: 10px">自定义时间>=</label>
                     <input type="text" id="endTime" class="select_date_input" placeholder="最近消费时间" name="consumptionLastTime" th:value="*{consumptionLastTime}" style="margin-left: 5px">
 
-                    <label class="text_navigation" style="margin-left: 10px">卡余额>=</label>
+                    <label id="card_balance" class="text_navigation" style="margin-left: 10px">卡余额>=</label>
                     <input class="select_input" style="height: 28px;width: 100px;margin-left: 5px" type="text" name="storedBalance" th:value="*{storedBalance}" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="10"/>
-                    <label class="text_navigation" style="margin-left: 10px">剩余服务次数>=</label>
+                    <label id="service_residue" class="text_navigation" style="margin-left: 10px">剩余服务次数>=</label>
                     <input class="select_input" style="height: 28px;width: 100px;margin-left: 5px" type="text" name="cardResidueCount" th:value="*{cardResidueCount}" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="10"/>
 
                     <button class="orange_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
