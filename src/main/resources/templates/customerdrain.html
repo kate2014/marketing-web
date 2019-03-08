@@ -156,8 +156,8 @@
             location.href = "[[${basePath}]]/customer/drain/export/excel?" + params;
         });
 
-        var opType = "[[${searchModel.opType}]]";
-        opType = opType ? opType : 1;
+        var opType = $("input[name='opType']").val();
+        opType = opType ? opType : 0;
         $(".tab li").eq(opType).addClass("activ").siblings().removeClass("activ");
         var tabIndex = $(".tab li.activ").index();
         $(".tabCon").children("div").hide().eq(tabIndex).show();
@@ -198,7 +198,7 @@
         <div class="customer-main">
             <div class="customer-tab">
                 <form action="couponadd.html" th:action="@{/customer/drain}" th:object="${searchModel}">
-                    <input type="hidden" name="opType" value="">
+                    <input type="hidden" name="opType" th:value="*{opType}">
                     <div class="parent_h">
                     <label class="text_navigation">最近消费时间</label>
                     <div class="lable_02" style="margin-left: 5px">
