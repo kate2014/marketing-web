@@ -76,7 +76,7 @@ public class CustomerCardTimeServiceImpl extends ServiceImpl<CustomerCardTimeMap
         //cardTimeEntity.setShopIdenty();
         cardTimeEntity.setStatusFlag(StatusFlag.VALiD.value());
         EntityWrapper<CustomerCardTimeEntity> entityWrapper = new EntityWrapper<>(cardTimeEntity);
-        entityWrapper.ne("residue_count","0");
+        entityWrapper.ne("residue_count", "0");
         entityWrapper.andNew("card_expire_date >= {0} OR card_expire_date IS NULL", DateFormatUtil.formatDate(new Date()));
         return selectPage(new Page<>(pageNo, pageSize), new EntityWrapper<>(cardTimeEntity));
     }
@@ -118,7 +118,16 @@ public class CustomerCardTimeServiceImpl extends ServiceImpl<CustomerCardTimeMap
                 }
 
                 //统计最近的服务过期时间
-                if (cardTimeEntity.getCardExpireDate() != null) {
+                Calendar current = Calendar.getInstance();
+                current.set(Calendar.HOUR_OF_DAY, 0);
+                current.set(Calendar.MINUTE, 0);
+                current.set(Calendar.SECOND, 0);
+                current.set(Calendar.MILLISECOND, 0);
+
+                if (cardExpireDate != null && cardExpireDate.before(current.getTime())) {
+                    cardExpireDate = null;
+                }
+                if (cardTimeEntity.getCardExpireDate() != null && cardTimeEntity.getCardExpireDate().compareTo(current.getTime()) >= 0) {
                     if (cardExpireDate == null || cardTimeEntity.getCardExpireDate().before(cardExpireDate)) {
                         cardExpireDate = cardTimeEntity.getCardExpireDate();
                     }
