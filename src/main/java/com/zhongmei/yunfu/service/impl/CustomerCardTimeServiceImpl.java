@@ -127,6 +127,7 @@ public class CustomerCardTimeServiceImpl extends ServiceImpl<CustomerCardTimeMap
         }
 
         insertBatch(result);
+        customerEntity.setCardExpireDate(cardExpireDate);
         customerEntity.setCardResidueCount(cardResidueCount);
         customerService.updateById(customerEntity);
     }

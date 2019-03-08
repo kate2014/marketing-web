@@ -166,12 +166,13 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
         EntityWrapperFilter eWrapper = new EntityWrapperFilter<>(customerEntity);
         //eWrapper.eq("relate_id", 0L);
         if (searchModel.getOpType() == null || searchModel.getOpType() == 1) {
-            eWrapper.ge("stored_balance", searchModel.getStoredBalance());
-            eWrapper.ge("card_residue_count", searchModel.getCardResidueCount());
-        } else {
             eWrapper.le("stored_balance", searchModel.getStoredBalance());
             eWrapper.le("card_residue_count", searchModel.getCardResidueCount());
+        } else {
+            eWrapper.ge("stored_balance", searchModel.getStoredBalance());
+            eWrapper.ge("card_residue_count", searchModel.getCardResidueCount());
         }
+
         eWrapper.gt("consumption_last_time", searchModel.getConsumptionLastTime());
         Page<CustomerEntity> page = new Page<>(searchModel.getPageNo(), searchModel.getPageSize());
         return selectPage(page, eWrapper);
