@@ -303,4 +303,10 @@ public class TradeServiceImpl extends ServiceImpl<TradeMapper, TradeEntity> impl
         List<CustomerSaveReport> listSalse = baseMapper.queryCustomerSave(eWrapper);
         return listSalse;
     }
+
+    @Override
+    public List<ShopSalesReport> shopSalesReport(TradeModel mTradeModel) {
+
+        return null;
+    }
 }

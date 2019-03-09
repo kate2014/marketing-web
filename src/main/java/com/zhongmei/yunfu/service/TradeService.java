@@ -5,6 +5,7 @@ import com.zhongmei.yunfu.controller.model.TradeDataModel;
 import com.zhongmei.yunfu.controller.model.TradeModel;
 import com.zhongmei.yunfu.domain.entity.CustomerSaveReport;
 import com.zhongmei.yunfu.domain.entity.SalesReport;
+import com.zhongmei.yunfu.domain.entity.ShopSalesReport;
 import com.zhongmei.yunfu.domain.entity.TradeEntity;
 import com.baomidou.mybatisplus.service.IService;
 
@@ -152,4 +153,11 @@ public interface TradeService extends IService<TradeEntity> {
      * @throws Exception
      */
     List<CustomerSaveReport> customerSaveReport(TradeModel mTradeModel)throws Exception;
+
+    /**
+     * 门店销售排行TOP 10
+     * @param mTradeModel
+     * @return
+     */
+    List<ShopSalesReport> shopSalesReport(TradeModel mTradeModel);
 }

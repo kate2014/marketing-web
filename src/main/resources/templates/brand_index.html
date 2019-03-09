@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>品牌管理首页</title>
+
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" type="text/css" />
+
+    <script type="text/javascript" src="../static/js/base.js" th:src="@{/js/base.js}"></script>
+    <script type="text/javascript" src="../static/js/echarts.min.js" th:src="@{/js/echarts.min.js}"></script>
+
+</head>
+<body>
+
+<div class="parent" style="width: 100%;height: 50px; vertical-align: center">
+
+    <p class="main_lable_style" style="margin-left: 15px">品牌今日营业数据信息</p>
+
+    <p style="margin-left: 20px">
+        <lable class="report_time_style" th:text="${stateDate}"></lable>
+        <lable class="report_time_style">至</lable>
+        <lable class="report_time_style" th:text="${endDate}"></lable>
+    </p>
+
+</div>
+
+<div class="parent_h" style="margin-left: 10px;margin-right: 10px">
+
+    <div class="reportBgimage_1" style="width: 24%;padding-right: 20px;padding-left: 20px;display: table;">
+
+        <div style="display: table-cell;vertical-align: middle;">
+            <div class="parent">
+                <img th:src="@{/images/sales_total_icon.png}" style="margin-right:10px" width="18px">
+                <p class="report_title_lable_style" style="margin-top: 0px;">营业总额</p>
+            </div>
+
+
+            <div style="text-align: center">
+                <p class="report_value_style" style="margin-top: 10px">￥<lable th:text="${salesTotal}"></lable></p>
+            </div>
+            <p class="report_lable_style">成交订单量：<lable class="report_lable_style" th:text="${totalCount}"></lable>&nbsp&nbsp笔</p>
+
+        </div>
+
+    </div>
+
+    <div class="reportBgimage_2" style="width: 24%;padding-right: 20px;padding-left: 20px;margin-left: 15px;display: table;">
+        <div style="display: table-cell;vertical-align: middle;">
+            <div class="parent">
+                <img th:src="@{/images/sales_order_amount_icon.png}" style="margin-right:10px" width="15px">
+                <p class="report_title_lable_style"  style="margin-top: 0px">销货单</p>
+            </div>
+
+
+            <p class="report_lable_style">成交额：<lable class="name_style" th:text="${salesAmount}"></lable>&nbsp&nbsp元</p>
+            <p class="report_lable_style">成交笔数：<lable class="report_lable_style_1" th:text="${salesCount}"></lable>&nbsp&nbsp笔</p>
+        </div>
+
+    </div>
+
+    <div class="reportBgimage_3" style="width: 24%;padding-right: 20px;padding-left: 20px;margin-left: 15px;display: table;">
+        <div style="display: table-cell;vertical-align: middle;">
+            <div class="parent">
+                <img th:src="@{/images/save_order_amount_icon.png}" style="margin-right:10px" width="15px">
+                <p class="report_title_lable_style" style="margin-top: 0px">余额、次卡服务储值收入</p>
+            </div>
+
+            <p class="report_lable_style">成交额：<lable class="name_style" th:text="${saveAmount}"></lable>&nbsp&nbsp元</p>
+            <p class="report_lable_style">成交笔数：<lable class="report_lable_style_1" th:text="${saveCount}"></lable>&nbsp&nbsp笔</p>
+        </div>
+    </div>
+
+    <div class="reportBgimage_4" style="width: 24%;padding-right: 20px;padding-left: 20px;margin-left: 15px;display: table;">
+        <div style="display: table-cell;vertical-align: middle;">
+            <div class="parent">
+                <img th:src="@{/images/return_order_amount_icon.png}" style="margin-right:10px" width="15px">
+                <p class="report_title_lable_style" style="margin-top: 0px">退货单</p>
+            </div>
+
+            <p class="report_lable_style">退货额：<lable class="name_style" th:text="${returnAmount}"></lable>&nbsp&nbsp元</p>
+            <p class="report_lable_style">退货笔数：<lable class="report_lable_style_1" th:text="${returnCount}"></lable>&nbsp&nbsp笔</p>
+        </div>
+    </div>
+</div>
+
+
+<div class="parent_h" style="width: 100%;text-align: center; margin-right: 20px;margin-top: 20px; background-color: #FFFFFF;">
+
+    <div style="width: 30%; text-align: center; margin: 20px;">
+        <div id="saleAmountReport" style="width: 100%;height:300px;"></div>
+        <p style="font-weight: bold;">营业额来源分布</p>
+    </div>
+
+    <div style="width: 30%; text-align: center;margin-left: 50px;margin-top: 20px;">
+        <div id="saleStatueReport" style="width: 100%;height:300px;"></div>
+        <p style="font-weight: bold;">订单销货、退货占比</p>
+    </div>
+
+    <div style="width: 30%; text-align: center;margin-left: 50px;margin-top: 20px">
+        <div id="payStateReport" style="width: 100%;height:300px;"></div>
+        <p style="font-weight: bold;">订单已收银、未收银占比</p>
+    </div>
+</div>
+
+<div class="parent_h" style="width: 100%;text-align: center; background-color: #FFFFFF;margin-top: 20px;margin-right:10px;">
+    <div style="width: 100%; text-align: center; margin: 20px;">
+        <div id="salseOrder" style="width: 100%;height:400px;"></div>
+        <p style="font-weight: bold;">订单销售轨迹</p>
+    </div>
+</div>
+
+<div class="parent_h" style="width: 100%;text-align: center; background-color: #FFFFFF;margin-top: 20px;margin-right:10px;">
+
+    <div style="width: 60%;height:450px; align-content: center;margin-top: 20px">
+        <div id="paymentReport" style="width: 100%;height:400px;"></div>
+        <p style="font-weight: bold; margin-bottom: 20px">各支付方式支付情况</p>
+    </div>
+
+    <div style="width: 30%;height:450px; text-align: center;margin-left: 50px">
+        <div id="paymentModle" style="width: 100%;height:400px;margin-top: 20px"></div>
+        <p style="font-weight: bold; margin-bottom: 20px">各支付方式支付金额占比</p>
+    </div>
+
+</div>
+
+<div align="center" style="margin-top: 20px;margin-bottom:80px;background-color: #FFFFFF;padding: 20px;">
+    <p style="font-weight: bold; margin-left: 6px;size: 20px">门店业绩排名TOP 100</p>
+
+</div>
+
+
+
+
+<script th:inline="javascript">
+
+
+    //------------------营业额来源分布-------------------
+    var dom = document.getElementById("saleAmountReport");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '营业额分布';
+
+    option = {
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b}: {c} ({d}%)"
+        },
+        legend: {
+            orient: 'horizontal',
+            x: 'left',
+            data:['销货服务收入','储值收入','次卡购买收入']
+        },
+        series: [
+            {
+                name:'营业额分布',
+                type:'pie',
+                radius: ['50%', '70%'],
+                avoidLabelOverlap: false,
+                label: {
+                    normal: {
+                        show: false,
+                        position: 'center'
+                    },
+                    emphasis: {
+                        show: true,
+                        textStyle: {
+                            fontSize: '30',
+                            fontWeight: 'bold'
+                        }
+                    }
+                },
+                labelLine: {
+                    normal: {
+                        show: false
+                    }
+                },
+                data:[
+                    {value:[[${salesAmount}]], name:'销货服务收入'},
+                    {value:[[${storeAmount}]], name:'储值收入'},
+                    {value:[[${cardTimeAmount}]], name:'次卡购买收入'},
+
+                ]
+            }
+        ]
+    };
+    ;
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+
+
+    //------------------订单销货、退货占比-------------------
+    var dom = document.getElementById("saleStatueReport");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '订单销货、退货占比';
+
+    option = {
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b}: {c} ({d}%)"
+        },
+        legend: {
+            orient: 'horizontal',
+            x: 'left',
+            data:['销货单','退货单']
+        },
+        series: [
+            {
+                name:'订单销货、退货占比',
+                type:'pie',
+                radius: ['50%', '70%'],
+                avoidLabelOverlap: false,
+                label: {
+                    normal: {
+                        show: false,
+                        position: 'center'
+                    },
+                    emphasis: {
+                        show: true,
+                        textStyle: {
+                            fontSize: '30',
+                            fontWeight: 'bold'
+                        }
+                    }
+                },
+                labelLine: {
+                    normal: {
+                        show: false
+                    }
+                },
+                data:[
+                    {value:[[${saldAmount}]], name:'销货单'},
+                    {value:[[${returnAmount}]], name:'退货单'},
+
+                ]
+            }
+        ]
+    };
+    ;
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+
+    //------------------订单已收银、未收银占比-------------------
+    var dom = document.getElementById("payStateReport");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '订单已收银、未收银占比';
+
+    option = {
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b}: {c} ({d}%)"
+        },
+        legend: {
+            orient: 'horizontal',
+            x: 'left',
+            data:['已收银','未收银']
+        },
+        series: [
+            {
+                name:'订单已收银、未收银占比',
+                type:'pie',
+                radius: ['50%', '70%'],
+                avoidLabelOverlap: false,
+                label: {
+                    normal: {
+                        show: false,
+                        position: 'center'
+                    },
+                    emphasis: {
+                        show: true,
+                        textStyle: {
+                            fontSize: '30',
+                            fontWeight: 'bold'
+                        }
+                    }
+                },
+                labelLine: {
+                    normal: {
+                        show: false
+                    }
+                },
+                data:[
+                    {value:[[${salesTotal}]], name:'已收银'},
+                    {value:[[${notSalesAmount}]], name:'未收银'},
+
+                ]
+            }
+        ]
+    };
+    ;
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+
+
+    //---------------------订单销售轨迹--------------
+    var dom = document.getElementById("salseOrder");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    option = {
+        // title: {
+        //     text: '订单销售轨迹'
+        // },
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            data:['订单销售轨迹']
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        toolbox: {
+            feature: {
+                saveAsImage: {}
+            }
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: [[${listTime}]]
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [
+            {
+                name:'订单销售额',
+
+                type:'line',
+                stack: '总量',
+                data:[[${listAmount}]]
+            },
+        ]
+    };
+    ;
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+
+    //=============支付情况================
+    var dom = document.getElementById("paymentReport");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '销售报表';
+
+    option = {
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        toolbox: {
+            feature: {
+                dataView: {show: true, readOnly: false},
+                magicType: {show: true, type: ['line', 'bar']},
+                restore: {show: true},
+                saveAsImage: {show: true}
+            }
+        },
+        legend: {
+            data:['支付金额','支付笔数']
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: [[${listPayName}]],
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '支付金额',
+                min: 0,
+                max: [[${payMaxAmount}]],
+                interval: [[${payIntervalAmount}]],
+                axisLabel: {
+                    formatter: '{value} 元'
+                }
+            },
+            {
+                type: 'value',
+                name: '支付笔数',
+                min: 0,
+                max: [[${payMaxCount}]],
+                interval: [[${payIntervalCount}]],
+                axisLabel: {
+                    formatter: '{value} 笔'
+                }
+            }
+
+        ],
+        series: [
+            {
+                name:'支付金额',
+                type:'bar',
+                data:[[${listPayAmount}]],
+                barMaxWidth : 35,//柱图宽度
+            },
+            {
+                name:'支付笔数',
+                type:'line',
+                yAxisIndex: 1,
+                data:[[${listPayCount}]]
+            }
+        ]
+    };
+    ;
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+
+
+    //==========各支付方式收款占比分布===========
+    var dom = document.getElementById("paymentModle");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '营业额支付方式分布';
+
+    option = {
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b}: {c} ({d}%)"
+        },
+        legend: {
+            orient: 'vertical',
+            x: 'left',
+            data:['会员余额','现金','银联','微信支付','支付宝']
+        },
+        series: [
+            {
+                name:'营业额支付方式分布',
+                type:'pie',
+                radius: ['50%', '70%'],
+                avoidLabelOverlap: false,
+                label: {
+                    normal: {
+                        show: false,
+                        position: 'center'
+                    },
+                    emphasis: {
+                        show: true,
+                        textStyle: {
+                            fontSize: '30',
+                            fontWeight: 'bold'
+                        }
+                    }
+                },
+                labelLine: {
+                    normal: {
+                        show: false
+                    }
+                },
+                data:[
+
+                    {value:[[${hyAmount}]], name:"会员余额"},
+                    {value:[[${xjAmount}]], name:'现金'},
+                    {value:[[${yhAmount}]], name:"银联"},
+                    {value:[[${wxAmount}]], name:'微信支付'},
+                    {value:[[${zfAmount}]], name:'支付宝'},
+
+                ]
+            }
+        ]
+    };
+    ;
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+
+</script>
+
+
+</body>
+</html>
