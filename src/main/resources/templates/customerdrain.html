@@ -26,11 +26,12 @@
     <!-- 选项卡 -->
     ol, ul, li{	list-style: none}
     /*html,body { margin:0; padding:0; height:100%}*/
-    .table_card { /*width:96%;*/ margin: 5px 24px 0 24px;}
+    .table_card { /*width:96%;*/ margin: 5px 20px 0 20px;}
     .table_card .tab { height:37px; font-size:14px;}
-    .table_card .tab li {color:#fff; float:left; height:37px; line-height:37px; padding:0 25px; margin-right:4px; border-radius: 5px 5px 0 0;}
-    .table_card .tab li:hover { height:37px; cursor:pointer}
-    .table_card .activ { height:37px !important; !important;}
+    .table_card .tab li {font-size: 10px; float:left; height:37px; line-height:37px; padding:0 25px; margin-right:4px; border-radius: 5px 5px 0 0;}
+    .table_card .tab li:hover { height:37px; cursor:pointer;}
+    .table_card .activ { height:37px !important; !important; border-top:1px solid #e1e1e1;border-left:1px solid #e1e1e1;border-right:1px solid #e1e1e1;background-color: #FFFFFF;color: #3b3b1f}
+    .table_card .inverse { height:37px; background-color: #e1e1e1;color: #a6a6a6}
     .table_card .hint {color: white; display:block; text-align: center;}
 </style>
 
@@ -168,9 +169,15 @@
 
             $("input[name='opType']").val(clickIndex);
             if (clickIndex == 0) {
+                $("#least").addClass("activ");
+                $("#most").addClass("inverse");
+
                 $("#card_balance").html("卡余额>=");
                 $("#service_residue").html("剩余服务次数>=");
             } else {
+                $("#least").addClass("inverse");
+                $("#most").addClass("activ");
+
                 $("#card_balance").html("卡余额<=");
                 $("#service_residue").html("剩余服务次数<=");
             }
@@ -180,18 +187,22 @@
 
 <body>
 <div class="table_card">
-    <ul class="tab">
-        <li class="activ" style="background: #5F9CD3">最少剩余</li>
-        <li style="background:#e1e1e1">最多剩余</li>
+
+    <ul class="tab" style="margin-left: 30px">
+        <li id="least" class="activ" style="margin-bottom: -1px">最少剩余</li>
+        <li id="most" class="inverse" style="margin-bottom: -1px">最多剩余</li>
+
     </ul>
+    <div style="height: 1px;width: 100%;background-color: #e1e1e1;margin-top: -1px"></div>
     <div class="tabCon">
         <div>
-            <h3 class="hint" style="background: #5F9CD3;">备注：可用于查询储值、次卡剩余比较多的会员，进行推送，触动消费</h3>
+            <h3 class="hint" style="font-size: 10px;color: #FF6600;padding-top: 10px">备注：可用于查询储值余额、次卡剩余比较多的会员，进行推送，促动消费</h3>
         </div>
         <div>
-            <h3 class="hint" style="background: #FB6320;">备注：可用于查询储值、次卡剩余比较少的会员，进行推送，触动消费</h3>
+            <h3 class="hint" style="font-size: 10px;color: #FF6600;padding-top: 10px">备注：可用于查询储值余额、次卡剩余比较少的会员，进行推送，促动会员进行储值购买</h3>
         </div>
     </div>
+
 </div>
 <div class='customer-com'>
     <div class="customer-centent">
