@@ -32,6 +32,10 @@ public class DishShopServiceImpl extends ServiceImpl<DishShopMapper, DishShopEnt
     @Override
     public Page<DishShopEntity> queryDishShopList(CardTimeModel mCardTimeModel) throws Exception{
 
+        if(mCardTimeModel.getShopIdenty() == null || mCardTimeModel.getShopIdenty().equals("")){
+            return null;
+        }
+
         DishShopEntity mDishShopEntity = new DishShopEntity();
         mDishShopEntity.setBrandIdenty(mCardTimeModel.getBrandIdenty());
         mDishShopEntity.setShopIdenty(mCardTimeModel.getShopIdenty());
@@ -39,7 +43,7 @@ public class DishShopServiceImpl extends ServiceImpl<DishShopMapper, DishShopEnt
 
         Page<DishShopEntity> listPage = new Page<>(mCardTimeModel.getPageNo(), mCardTimeModel.getPageSize());
         EntityWrapper<DishShopEntity> eWrapper = new EntityWrapper<>(mDishShopEntity);
-        eWrapper.setSqlSelect("id,name,market_price,dish_increase_unit,valid_time,unvalid_time");
+        eWrapper.setSqlSelect("id,name,type,market_price,sale_total,dish_increase_unit,valid_time,unvalid_time,min_num,max_num,server_create_time");
         eWrapper.in("type","3,4");
         eWrapper.orderBy("server_create_time", false);
         Page<DishShopEntity> listData = selectPage(listPage, eWrapper);
@@ -63,10 +67,15 @@ public class DishShopServiceImpl extends ServiceImpl<DishShopMapper, DishShopEnt
 
     @Override
     public DishShopEntity addDishShop(CardTimeModel mCardTimeModel) throws Exception {
+
         Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
         Long shopIdentity = LoginManager.get().getUser().getShopIdenty();
         Long creatorId = LoginManager.get().getUser().getCreatorId();
         String creatorName = LoginManager.get().getUser().getCreatorName();
+
+        if(shopIdentity == null || shopIdentity.equals("")){
+            return null;
+        }
 
         DishShopEntity mDishShopEntity = new DishShopEntity();
         mDishShopEntity.setUuid(ToolsUtil.genOnlyIdentifier());
@@ -159,8 +168,14 @@ public class DishShopServiceImpl extends ServiceImpl<DishShopMapper, DishShopEnt
             mDishShopEntity.setSaleTotal(mCardTimeModel.getSaleTotal());
         }
 
-        mDishShopEntity.setMaxNum(mCardTimeModel.getMaxNum());
-        mDishShopEntity.setMinNum(mCardTimeModel.getMinNum());
+        //如MinNum为空这标识不限制时间
+        if(mCardTimeModel.getMinNum() == null || mCardTimeModel.getMinNum().equals("")){
+            mDishShopEntity.setMaxNum(-1);
+            mDishShopEntity.setMinNum(-1);
+        }else{
+            mDishShopEntity.setMaxNum(mCardTimeModel.getMaxNum());
+            mDishShopEntity.setMinNum(mCardTimeModel.getMinNum());
+        }
 
         EntityWrapper<DishShopEntity> eWrapper = new EntityWrapper<>(new DishShopEntity());
         eWrapper.eq("brand_identy",brandIdentity);

@@ -91,6 +91,7 @@ public class CardTimeController extends BaseController{
             //isAllDish 1:部分   2: 全部
             Integer isAllDish = mCardTimeModel.getIsAllDish();
 
+
             if(isAllDish == 2){
                 mCardTimeModel.setType(4);//可使用全部商品
             }else{
