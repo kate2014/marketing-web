@@ -22,11 +22,11 @@ class CustomerScoreRuleEntity : BaseEntity() {
     @TableId(value = "id", type = IdType.AUTO)
     var id: Long? = null
     /**
-     * 类型 1：积分成长规则  2：积分抵用规则
+     * 类型 1：积分成长规则  2：积分抵用规则  3：积分抵用上限
      */
     var type: Int? = null
     /**
-     * 1.积分成长值增长值：1元消费增加多少成长值; 2.积分抵用规则：多少积分可抵用1元
+     * 1.积分成长值增长值：1元消费增加多少成长值; 2.积分抵用规则：多少积分可抵用1元  3：积分抵用上限
      */
     var convertValue: Int? = null
     /**

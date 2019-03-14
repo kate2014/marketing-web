@@ -9,10 +9,15 @@ public class CustomerScoreRuleModel {
 
     private Long idS;
     private Integer typeS;
+    private Integer convertValueS;
+
     private Long idD;
     private Integer typeD;
-    private Integer convertValueS;
     private Integer convertValueD;
+
+    private Long idM;
+    private Integer typeM;
+    private Integer convertValueM;
 
     private Long shopIdenty;
     private Long brandIdenty;
@@ -165,4 +170,27 @@ public class CustomerScoreRuleModel {
         this.serverUpdateTime = serverUpdateTime;
     }
 
+    public Integer getConvertValueM() {
+        return convertValueM;
+    }
+
+    public void setConvertValueM(Integer convertValueM) {
+        this.convertValueM = convertValueM;
+    }
+
+    public Long getIdM() {
+        return idM;
+    }
+
+    public void setIdM(Long idM) {
+        this.idM = idM;
+    }
+
+    public Integer getTypeM() {
+        return typeM;
+    }
+
+    public void setTypeM(Integer typeM) {
+        this.typeM = typeM;
+    }
 }

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<style type="text/css">
+
+    html,body{
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        background-color: #FFFFFF;
+    }
+
+    div.parent {
+        /* 启用弹性盒布局 */
+        display: flex;
+        /* 使子元素垂直居中 */
+        align-items: center;
+    }
+
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <title>活动推送列表</title>
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../css/base.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../css/common.css" type="text/css" />
+
+    <!-- diglog -->
+    <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/diy_dialog.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/diy_dialog.css}" type="text/css" />
+</head>
+
+<script type="text/javascript">
+
+
+
+</script>
+
+<body>
+
+<form method="post" action="" th:action="@{/internal/brand/shopList}" th:object="${mShopSearchModel}">
+    <div style="margin-top: 10px">
+
+        <input type="hidden" name="brandIdenty" th:value="${mShopSearchModel.brandIdenty}">
+
+        <label class="text_navigation" style="margin-left: 20px">门店状态</label>
+        <select class="select_style" name="mShopSearchModel" style="margin-left: 5px">
+            <option value="">全部</option>
+            <option th:selected="${mShopSearchModel.invalidStatus==1}" th:value="1">营业中</option>
+            <option th:selected="${mShopSearchModel.invalidStatus==2}" th:value="2">停止营业</option>
+        </select>
+
+        <label class="text_navigation" style="margin-left: 10px">门店名称</label>
+        <input class="input_style" style="margin-left: 5px" type="text" th:value="${mShopSearchModel.commercialName}" name="commercialName"/>
+
+        <label class="text_navigation" style="margin-left: 10px">省份</label>
+        <input class="input_style" style="margin-left: 5px;width: 100px" type="text" th:value="${mShopSearchModel.province}" name="province"/>
+
+        <label class="text_navigation" style="margin-left: 10px">城市</label>
+        <input class="input_style" style="margin-left: 5px;width: 100px" type="text" th:value="${mShopSearchModel.city}" name="city"/>
+
+        <label class="text_navigation" style="margin-left: 10px">区域</label>
+        <input class="input_style" style="margin-left: 5px;width: 100px" type="text" th:value="${mShopSearchModel.region}" name="region"/>
+
+        <button class="orange_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
+
+    </div>
+</form>
+
+
+<div align="center" style="margin-top: 10px">
+    <table class="gridtablestyle" style="width: 96%; vertical-align: middle">
+        <tr style="width: 100%">
+            <th>门店名称</th>
+            <th>地区</th>
+            <th>联系人</th>
+            <th>联系电话</th>
+            <th>门店状态</th>
+            <th>操作</th>
+        </tr>
+        <tr th:each="item:${listShop}">
+            <td th:text="${item.commercialName}"></td>
+            <td><span th:text="${item.province}"></span>-<span th:text="${item.city}"></span>-<span th:text="${item.region}"></span></td>
+            <td th:text="${item.commercialContact}"></td>
+            <td th:text="${item.commercialPhone}"></td>
+            <td>
+                <div th:switch="${item.invalidStatus}">
+                    <p th:case="'1'">
+                        营业中
+                    </p>
+                    <p th:case="'2'">
+                        停止营业
+                    </p>
+                </div>
+            </td>
+
+            <td align="center">
+                <a href="activityadd.html" th:href="@{/pushPlanActivity/gotoActivityPage(id=${item.commercialId})}">编辑</a>
+                <a th:onclick="'javascript:checkDelete(\''+${item.commercialId}+'\',\''+${item.commercialName}+'\')'" style="cursor: pointer">删除</a>
+            </td>
+
+        </tr>
+
+    </table>
+</div>
+
+
+</body>
+</html>

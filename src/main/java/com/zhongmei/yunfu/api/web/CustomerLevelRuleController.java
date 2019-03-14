@@ -101,10 +101,12 @@ public class CustomerLevelRuleController  extends BaseController{
                 if (cs.getType() == 1) {
                     cusRM.setIdS(cs.getId());
                     cusRM.setConvertValueS(cs.getConvertValue());
-
                 } else if (cs.getType() == 2) {
                     cusRM.setIdD(cs.getId());
                     cusRM.setConvertValueD(cs.getConvertValue());
+                } else if (cs.getType() == 3) {
+                    cusRM.setIdM(cs.getId());
+                    cusRM.setConvertValueM(cs.getConvertValue());
                 }
             }
 

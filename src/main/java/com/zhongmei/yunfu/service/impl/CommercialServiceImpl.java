@@ -50,7 +50,7 @@ public class CommercialServiceImpl extends ServiceImpl<CommercialMapper, Commerc
         eWrapper.eq("brand_id", brandId);
         eWrapper.eq("status", 0);
         eWrapper.eq("invalid_status", 1);
-        eWrapper.setSqlSelect("commercial_id,commercial_name,commercial_contact,commercial_phone,commercial_adress,commercial_desc,commercial_logo,branch_name,open_time");
+        eWrapper.setSqlSelect("commercial_id,commercial_name,commercial_contact,commercial_phone,commercial_adress,commercial_desc,commercial_logo,branch_name,open_time,province,city,region,invalid_status");
         List<CommercialEntity> listData = selectList(eWrapper);
         return listData;
     }

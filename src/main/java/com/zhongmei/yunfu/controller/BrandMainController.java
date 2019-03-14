@@ -3,13 +3,12 @@ package com.zhongmei.yunfu.controller;
 
 import com.zhongmei.yunfu.controller.model.AuthUserModel;
 import com.zhongmei.yunfu.controller.model.PaymentItemModel;
+import com.zhongmei.yunfu.controller.model.ShopSearchModel;
 import com.zhongmei.yunfu.controller.model.TradeModel;
+import com.zhongmei.yunfu.domain.entity.CommercialEntity;
 import com.zhongmei.yunfu.domain.entity.DishReport;
 import com.zhongmei.yunfu.domain.entity.TradeEntity;
-import com.zhongmei.yunfu.service.AuthUserService;
-import com.zhongmei.yunfu.service.PaymentItemService;
-import com.zhongmei.yunfu.service.TradeItemService;
-import com.zhongmei.yunfu.service.TradeService;
+import com.zhongmei.yunfu.service.*;
 import com.zhongmei.yunfu.util.DateFormatUtil;
 import com.zhongmei.yunfu.util.ToolsUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +29,8 @@ public class BrandMainController extends BaseController{
     TradeItemService mTradeItemService;
     @Autowired
     PaymentItemService mPaymentItemService;
+    @Autowired
+    CommercialService mCommercialService;
 
     @RequestMapping({"/main"})
     public String mianPage(Model model, AuthUserModel mAuthUserModel) {
@@ -142,9 +143,6 @@ public class BrandMainController extends BaseController{
 
             model.addAttribute("listTime", listTime);
             model.addAttribute("listAmount", listAmount);
-
-            //门店业绩排行榜
-            orderByShop(model, mTradeModel, stateDate, endDate);
 
             return "brand_index";
         }catch (Exception e){
@@ -283,6 +281,23 @@ public class BrandMainController extends BaseController{
 
         return model;
     }
+
+    @RequestMapping({"/shopList"})
+    public String shopList(Model model, ShopSearchModel mShopSearchModel) {
+
+        try {
+            List<CommercialEntity> listShop = mCommercialService.queryCommercialByBrandId(mShopSearchModel.getBrandIdenty());
+
+            model.addAttribute("listShop", listShop);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+        model.addAttribute("mShopSearchModel", mShopSearchModel);
+        return "shop_list";
+    }
+
 
 
 }
