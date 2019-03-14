@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * 商户管理
  */
 @Controller
-@RequestMapping("/shopManager")
+@RequestMapping("/internal/erp/shopManager")
 public class ShopManager extends BaseController {
 
     @Autowired
@@ -32,6 +32,7 @@ public class ShopManager extends BaseController {
         try {
             Page<BrandEntity> listBrand = mBrandService.queryBrandList(mERPBrandModel);
             model.addAttribute("listBrand",listBrand.getRecords());
+            setWebPage(model, "/erp/shopManager/brandList", listBrand, mERPBrandModel);
 
         }catch (Exception e){
             e.printStackTrace();

@@ -1,6 +1,8 @@
 package com.zhongmei.yunfu.controller.model;
 
-public class ShopSearchModel {
+import com.zhongmei.yunfu.controller.model.base.WebBaseModel;
+
+public class ShopSearchModel extends WebBaseModel {
 
     /**
      * 品牌标识
@@ -23,7 +25,7 @@ public class ShopSearchModel {
 
     private String city;
 
-    private String region;
+    private String area;
 
     public Long getBrandIdenty() {
         return brandIdenty;
@@ -89,11 +91,11 @@ public class ShopSearchModel {
         this.city = city;
     }
 
-    public String getRegion() {
-        return region;
+    public String getArea() {
+        return area;
     }
 
-    public void setRegion(String region) {
-        this.region = region;
+    public void setArea(String area) {
+        this.area = area;
     }
 }

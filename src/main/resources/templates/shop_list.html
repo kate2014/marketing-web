@@ -29,16 +29,16 @@
     <!-- diglog -->
     <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/diy_dialog.js}"></script>
+    <script type="text/javascript" th:src="@{/js/select_address.js}" src="../static/js/select_address.js"></script>
+
     <link rel="stylesheet" th:href="@{/css/diy_dialog.css}" type="text/css" />
 </head>
 
 <script type="text/javascript">
 
-
-
 </script>
 
-<body>
+<body onload="initAddress()">
 
 <form method="post" action="" th:action="@{/internal/brand/shopList}" th:object="${mShopSearchModel}">
     <div style="margin-top: 10px">
@@ -46,7 +46,7 @@
         <input type="hidden" name="brandIdenty" th:value="${mShopSearchModel.brandIdenty}">
 
         <label class="text_navigation" style="margin-left: 20px">门店状态</label>
-        <select class="select_style" name="mShopSearchModel" style="margin-left: 5px">
+        <select class="select_style" name="mShopSearchModel" style="margin-left: 5px;width: 130px">
             <option value="">全部</option>
             <option th:selected="${mShopSearchModel.invalidStatus==1}" th:value="1">营业中</option>
             <option th:selected="${mShopSearchModel.invalidStatus==2}" th:value="2">停止营业</option>
@@ -56,13 +56,21 @@
         <input class="input_style" style="margin-left: 5px" type="text" th:value="${mShopSearchModel.commercialName}" name="commercialName"/>
 
         <label class="text_navigation" style="margin-left: 10px">省份</label>
-        <input class="input_style" style="margin-left: 5px;width: 100px" type="text" th:value="${mShopSearchModel.province}" name="province"/>
+        <select id="province" class="select_style" name="province" style="margin-left: 5px;width: 130px" onchange="chooseProvince(this)">
+            <option value="">全部</option>
+        </select>
+
 
         <label class="text_navigation" style="margin-left: 10px">城市</label>
-        <input class="input_style" style="margin-left: 5px;width: 100px" type="text" th:value="${mShopSearchModel.city}" name="city"/>
+        <select id="city" class="select_style" name="city" style="margin-left: 5px;width: 130px" onchange="chooseCity(this)">
+            <option value="">全部</option>
+        </select>
+
 
         <label class="text_navigation" style="margin-left: 10px">区域</label>
-        <input class="input_style" style="margin-left: 5px;width: 100px" type="text" th:value="${mShopSearchModel.region}" name="region"/>
+        <select id="area" class="select_style" name="area" style="margin-left: 5px;width: 130px">
+            <option value="">全部</option>
+        </select>
 
         <button class="orange_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
 
@@ -82,7 +90,7 @@
         </tr>
         <tr th:each="item:${listShop}">
             <td th:text="${item.commercialName}"></td>
-            <td><span th:text="${item.province}"></span>-<span th:text="${item.city}"></span>-<span th:text="${item.region}"></span></td>
+            <td><span th:text="${item.province}"></span>-<span th:text="${item.city}"></span>-<span th:text="${item.area}"></span></td>
             <td th:text="${item.commercialContact}"></td>
             <td th:text="${item.commercialPhone}"></td>
             <td>
@@ -106,6 +114,11 @@
     </table>
 </div>
 
+<div class="paging">
+
+    <div th:replace="page_info::pagination"/>
+
+</div>
 
 </body>
 </html>

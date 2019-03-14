@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.zhongmei.yunfu.api.ApiResponseStatus;
 import com.zhongmei.yunfu.api.ApiResponseStatusException;
+import com.zhongmei.yunfu.controller.model.ShopSearchModel;
 import com.zhongmei.yunfu.erp.model.ERPCommercialModel;
 import com.zhongmei.yunfu.domain.entity.CommercialEntity;
 import com.zhongmei.yunfu.domain.enums.StatusFlag;
@@ -50,9 +51,39 @@ public class CommercialServiceImpl extends ServiceImpl<CommercialMapper, Commerc
         eWrapper.eq("brand_id", brandId);
         eWrapper.eq("status", 0);
         eWrapper.eq("invalid_status", 1);
-        eWrapper.setSqlSelect("commercial_id,commercial_name,commercial_contact,commercial_phone,commercial_adress,commercial_desc,commercial_logo,branch_name,open_time,province,city,region,invalid_status");
+        eWrapper.setSqlSelect("commercial_id,commercial_name,commercial_contact,commercial_phone,commercial_adress,commercial_desc,commercial_logo,branch_name,open_time,province,city,area,invalid_status");
         List<CommercialEntity> listData = selectList(eWrapper);
         return listData;
+    }
+
+    @Override
+    public Page<CommercialEntity> queryCommercialList(ShopSearchModel mShopSearchModel, int pageIdx, int pageSize) throws Exception {
+
+        EntityWrapper<CommercialEntity> eWrapper = new EntityWrapper<>(new CommercialEntity());
+        eWrapper.eq("brand_id", mShopSearchModel.getBrandIdenty());
+
+        if(mShopSearchModel.getInvalidStatus() != null && !mShopSearchModel.getInvalidStatus().equals("")){
+            eWrapper.eq("invalid_status", mShopSearchModel.getInvalidStatus());
+        }
+        if(mShopSearchModel.getCommercialName() != null && !mShopSearchModel.getCommercialName().equals("")){
+            eWrapper.like("commercial_name", mShopSearchModel.getCommercialName());
+        }
+        if(mShopSearchModel.getProvince() != null && !mShopSearchModel.getProvince().equals("") && !mShopSearchModel.getProvince().equals("全部")){
+            eWrapper.eq("province", mShopSearchModel.getProvince());
+        }
+        if(mShopSearchModel.getCity() != null && !mShopSearchModel.getCity().equals("") && !mShopSearchModel.getCity().equals("全部")){
+            eWrapper.eq("city", mShopSearchModel.getCity());
+        }
+        if(mShopSearchModel.getArea() != null && !mShopSearchModel.getArea().equals("") && !mShopSearchModel.getArea().equals("全部")){
+            eWrapper.eq("area", mShopSearchModel.getArea());
+        }
+        eWrapper.setSqlSelect("commercial_id,commercial_name,commercial_contact,commercial_phone,province,city,area,invalid_status");
+
+        Page<CommercialEntity> listPage = new Page<>(pageIdx,pageSize);
+
+        Page<CommercialEntity> listCommercail = selectPage(listPage,eWrapper);
+
+        return listCommercail;
     }
 
     @Override

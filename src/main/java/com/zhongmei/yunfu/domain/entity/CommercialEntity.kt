@@ -90,7 +90,7 @@ class CommercialEntity : BaseEntity() {
     /**
      * 区域
      */
-    var region: String? = null
+    var area: String? = null
 
     override fun toString(): String {
         return "CommercialEntity{" +
@@ -113,7 +113,7 @@ class CommercialEntity : BaseEntity() {
                 ", currentVersion=" + currentVersion +
                 ", province=" + province +
                 ", city=" + city +
-                ", region=" + region +
+                ", area=" + area +
                 "}"
     }
 }

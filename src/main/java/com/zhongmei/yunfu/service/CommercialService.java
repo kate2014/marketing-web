@@ -3,6 +3,7 @@ package com.zhongmei.yunfu.service;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.IService;
 import com.zhongmei.yunfu.api.ApiResponseStatusException;
+import com.zhongmei.yunfu.controller.model.ShopSearchModel;
 import com.zhongmei.yunfu.erp.model.ERPCommercialModel;
 import com.zhongmei.yunfu.domain.entity.CommercialEntity;
 
@@ -33,6 +34,15 @@ public interface CommercialService extends IService<CommercialEntity> {
      */
     List<CommercialEntity> queryCommercialByBrandId(Long brandId) throws Exception;
 
+    /**
+     * 获取门店列表
+     * @param mShopSearchModel
+     * @param pageIdx
+     * @param pageSize
+     * @return
+     * @throws Exception
+     */
+    Page<CommercialEntity> queryCommercialList(ShopSearchModel mShopSearchModel, int pageIdx, int pageSize)throws Exception;
     /**
      * 根据id获取门店信息
      *
