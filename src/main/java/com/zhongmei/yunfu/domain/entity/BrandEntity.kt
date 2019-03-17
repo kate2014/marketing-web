@@ -57,20 +57,35 @@ class BrandEntity : BaseEntity() {
      * 类型 0代表集团 1代表公司
      */
     var type: Int? = null
+    /**
+     * 省份
+     */
+    var province: String? = null
+    /**
+     * 城市
+     */
+    var city: String? = null
+    /**
+     * 区域
+     */
+    var area: String? = null
 
 
     override fun toString(): String {
         return "BrandEntity{" +
-        ", id=" + id +
-        ", name=" + name +
-        ", logo=" + logo +
-        ", contacts=" + contacts +
-        ", contactsPhone=" + contactsPhone +
-        ", contactsMail=" + contactsMail +
-        ", commercialGroupAdress=" + commercialGroupAdress +
-        ", status=" + status +
-        ", parentId=" + parentId +
-        ", type=" + type +
-        "}"
+                ", id=" + id +
+                ", name=" + name +
+                ", logo=" + logo +
+                ", contacts=" + contacts +
+                ", contactsPhone=" + contactsPhone +
+                ", contactsMail=" + contactsMail +
+                ", commercialGroupAdress=" + commercialGroupAdress +
+                ", status=" + status +
+                ", parentId=" + parentId +
+                ", type=" + type +
+                ", province=" + province +
+                ", city=" + city +
+                ", area=" + area +
+                "}"
     }
 }

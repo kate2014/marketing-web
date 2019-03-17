@@ -126,6 +126,9 @@ public class CouponController extends BaseController {
 
     @RequestMapping("/delete")
     public String deleteNewDishPushPlan(Model model, Long id) {
+        if(id == null){
+            return "fail";
+        }
         boolean result = couponService.deleteCoupon(id);
         return "success";
     }

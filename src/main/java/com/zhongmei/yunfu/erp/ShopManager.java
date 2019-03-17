@@ -3,6 +3,7 @@ package com.zhongmei.yunfu.erp;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.zhongmei.yunfu.controller.BaseController;
+import com.zhongmei.yunfu.controller.model.BrandModel;
 import com.zhongmei.yunfu.erp.model.ERPBrandModel;
 import com.zhongmei.yunfu.erp.model.ERPCommercialModel;
 import com.zhongmei.yunfu.domain.entity.BrandEntity;
@@ -31,9 +32,10 @@ public class ShopManager extends BaseController {
 
         try {
             Page<BrandEntity> listBrand = mBrandService.queryBrandList(mERPBrandModel);
-            model.addAttribute("listBrand",listBrand.getRecords());
-            setWebPage(model, "/erp/shopManager/brandList", listBrand, mERPBrandModel);
+            model.addAttribute("brandlist",listBrand.getRecords());
+            setWebPage(model, "/internal/erp/shopManager/brandList", listBrand, mERPBrandModel);
 
+            model.addAttribute("mERPBrandModel",mERPBrandModel);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -58,9 +60,64 @@ public class ShopManager extends BaseController {
         return "";
     }
 
-    @RequestMapping("/createBrand")
-    public String createBrand(){
+    @RequestMapping("/gotoCreateBrand")
+    public String gotoCreateBrand(Model model, ERPBrandModel mERPBrandModel){
 
-        return "";
+        try {
+            BrandEntity mBrandEntity = new BrandEntity ();
+            if(mERPBrandModel.getId() != null){
+                mBrandEntity = mBrandService.queryBrandById(mERPBrandModel.getId());
+            }
+
+            model.addAttribute("mERPBrandModel",mERPBrandModel);
+
+            model.addAttribute("mBrandModel",mBrandEntity);
+
+            return "brand_create";
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return "fail";
+        }
+
     }
+
+    @RequestMapping("/createBrand")
+    public String createBrand(Model model, ERPBrandModel mERPBrandModel){
+        try {
+            Boolean isSuccess = true;
+            if(mERPBrandModel.getId() == null){
+                mERPBrandModel.setStatusFlag(1);
+                isSuccess = mBrandService.createBrand(mERPBrandModel);
+            }else{
+                isSuccess = mBrandService.modifyBrandById(mERPBrandModel);
+            }
+            if(isSuccess){
+                return redirect("/internal/erp/shopManager/brandList?creatorId="+mERPBrandModel.getCreatorId()+"&creatorName="+mERPBrandModel.getCreatorName());
+            }else{
+                return "fail";
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return "fail";
+        }
+    }
+
+    @RequestMapping("/deleteBrand")
+    public String deleteBrand(Model model, ERPBrandModel mERPBrandModel){
+        try {
+            if(mERPBrandModel.getId()!=null){
+                mBrandService.deleteBrandById(mERPBrandModel.getId());
+                return "success";
+            }else{
+                return "fail";
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return "fail";
+        }
+    }
+
 }

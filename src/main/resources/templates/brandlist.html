@@ -1,45 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>品牌列表数据</title>
 </head>
+
+<link rel="stylesheet" th:href="@{/css/public.css}" href="../css/public.css" type="text/css" />
+<link rel="stylesheet" th:href="@{/css/widget.css}" href="../css/widget.css" type="text/css" />
+<link rel="stylesheet" th:href="@{/css/base.css}" href="../css/base.css" type="text/css" />
+<link rel="stylesheet" th:href="@{/css/common.css}" href="../css/common.css" type="text/css" />
+
+<!-- diglog -->
+<script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+<script type="text/javascript" src="../static/js/diy_dialog.js" th:src="@{/js/diy_dialog.js}"></script>
+<link rel="stylesheet" href="../static/css/diy_dialog.css" th:href="@{/css/diy_dialog.css}" type="text/css" />
+
+
+<script type="text/javascript" th:src="@{/js/select_address.js}" src="../static/js/select_address.js"></script>
+
+<script type="text/javascript">
+
+    function checkDelete(deleteId, name){
+        var message = "请确认是否要删除: "+name+"?";
+        dialogBox(message,
+            function () {
+                deleteRequest(deleteId);
+            },
+            function(){
+
+            }
+        );
+    }
+
+    function deleteRequest (deleteId) {
+
+        const Url = "[[${basePath}]]/internal/erp/shopManager/deleteBrand?id="+deleteId;
+
+        const Http = new XMLHttpRequest();
+
+        Http.open("GET",Url);
+
+        Http.send();
+
+        Http.onreadystatechange=function () {
+            if(this.readyState == 4 && this.status == 200){
+                location.reload();
+            }
+        }
+
+    }
+
+</script>
+
 <body>
 
+<div class="parent top_view_style">
+    <img th:src="@{/images/lable.jpg}" width="5" height="26" style="margin-left: 20px">
+    <label class="text_navigation" style="margin-left: 10px;width: 80%">品牌信息列表</label>
+
+
+    <div class="parent_h container" style="margin: 20px; border: 1px dotted #029ef3;width: 130px;height: 30px;padding: 10px;border-radius: 6px;background-color:#93c6ef;text-align: center;cursor: pointer"
+         th:onclick="@{|location='${basePath}/internal/erp/shopManager/gotoCreateBrand?creatorId=${mERPBrandModel.creatorId}&creatorName=${mERPBrandModel.creatorName}'|}">
+        <img th:src="@{/images/create_icon.png}" src="../static/images/create_icon.png" class="icon_size_style" style="cursor: pointer">
+        <span class="text_navigation" style="margin-left: 10px; color: #FFFFFF;cursor: pointer">新建品牌</span>
+    </div>
+
+</div>
+
+<div id="showDialog"></div>
+
+<form method="post" action="" th:action="@{/internal/erp/shopManager/brandList(creatorId=${mERPBrandModel.creatorId},creatorName=${mERPBrandModel.creatorName})}" th:object="${mERPBrandModel}">
+    <div style="margin-top: 10px">
+
+        <label class="text_navigation" style="margin-left: 20px">品牌状态</label>
+
+        <select class="select_style" name="status" style="margin-left: 5px;width: 130px">
+            <option value="">全部</option>
+            <option th:value="0">正在使用</option>
+            <option th:value="-1">暂停使用</option>
+        </select>
+
+        <label class="text_navigation" style="margin-left: 10px">门店名称</label>
+        <input class="input_style" style="margin-left: 5px" type="text" name="name"/>
+
+        <label class="text_navigation" style="margin-left: 10px">省份</label>
+        <select id="province" class="select_style" name="province" style="margin-left: 5px;width: 130px" onload="initAddress()" onchange="chooseProvince(this)">
+            <option value="">全部</option>
+        </select>
+
+
+        <label class="text_navigation" style="margin-left: 10px">城市</label>
+        <select id="city" class="select_style" name="city" style="margin-left: 5px;width: 130px" onchange="chooseCity(this)">
+            <option value="">全部</option>
+        </select>
+
+
+        <label class="text_navigation" style="margin-left: 10px">区域</label>
+        <select id="area" class="select_style" name="area" style="margin-left: 5px;width: 130px">
+            <option value="">全部</option>
+        </select>
+
+        <button class="orange_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
+
+    </div>
+</form>
+
 <div align="center" style="margin-top: 10px">
-    <table class="gridtablestyle" style="width: 90%; vertical-align: middle">
+    <table class="gridtablestyle" style="width: 96%; vertical-align: middle">
         <tr style="width: 100%">
             <th>品牌名称</th>
             <th>联系人</th>
             <th>联系电话</th>
-            <th>省份</th>
-            <th>城市</th>
+            <th>地区</th>
             <th>状态</th>
+            <th>创建时间</th>
             <th>操作</th>
         </tr>
         <tr th:each="item:${brandlist}">
             <td th:text="${item.name}"></td>
-
             <td th:text="${item.contacts}"></td>
-            <td th:text="${item.shareNumber}"></td>
-            <td th:text="${item.shareNumber}"></td>
-            <td th:text="${item.shareNumber}"></td>
+            <td th:text="${item.contactsPhone}"></td>
+            <td><span th:text="${item.province}"></span>-<span th:text="${item.city}"></span>-<span th:text="${item.area}"></span></td>
             <td>
-                <div th:switch="${item.planState}">
-                    <p th:case="'1'">
-                        投放中
+                <div th:switch="${item.status}">
+                    <p th:case="'0'">
+                        正在使用
                     </p>
-                    <p th:case="'2'">
-                        停止
+                    <p th:case="'-1'">
+                        暂停使用
                     </p>
                 </div>
             </td>
 
+            <td th:text="${#dates.format(item.serverCreateTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+
             <td align="center">
-                <a href="activityadd.html" th:href="@{/pushPlanActivity/gotoActivityPage(id=${item.id})}">编辑</a>
-                <a href="activityadd.html" th:href="@{/pushPlanActivity/updateState(id=${item.id}, planState=1)}">投放</a>
-                <a href="activityadd.html" th:href="@{/pushPlanActivity/updateState(id=${item.id}, planState=2)}">停用</a>
-                <a href="activityadd.html" th:href="@{/pushPlanActivity/delelte(id=${item.id})}">删除</a>
+                <a th:href="@{/internal/erp/shopManager/gotoCreateBrand(id=${item.id},creatorId=${mERPBrandModel.creatorId},creatorName=${mERPBrandModel.creatorName})}">编辑</a>
+
+                <a th:onclick="'javascript:checkDelete(\''+${item.id}+'\',\''+${item.name}+'\')'" style="cursor: pointer">删除</a>
             </td>
 
         </tr>

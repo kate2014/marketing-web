@@ -196,6 +196,10 @@ public class FlashSalesMarketingController extends BaseController{
     @RequestMapping("/deleteById")
     public String deleteById(Model model, FlashSalesModel mFlashSalesModel) {
         try {
+            if(mFlashSalesModel.getId() == null){
+                return "fail";
+            }
+
             Boolean isSuccess = mFlashSalesMarketingService.deleteFlashSalesById(mFlashSalesModel.getId());
             if (isSuccess) {
                 return "success";

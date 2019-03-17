@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>品牌管理</title>
+    <title>ERP管理后台</title>
 </head>
 <style type="text/css">
 
@@ -29,15 +29,15 @@
     <div class="parent" style="width: 100%;height: 50px;vertical-align: center">
 
         <div class="parent" style="width: 100%">
-            <img th:src="@{/images/shop_icon.png}" style="margin-left:25px;margin-right: 10px" width="40px">
-            <p class="main_lable_style" style="color: #FFFFFF">品牌名称：xxxxx</p>
+            <img th:src="@{/images/logo_icon.png}" style="margin-left:25px;margin-right: 10px;margin-top: 5px" width="60px">
+            <p class="main_lable_style" style="color: #FFFFFF;margin-top: 5px">ERP后台管理</p>
         </div>
 
 
         <div class="parent_h" style="width: 30%;align-items: center" align="right">
             <img th:src="@{/images/login_user_icon.png}" style="margin:10px" width="25px">
 
-            <p class="main_lable_style" style="color: #FFFFFF">登录用户：<span th:text="${mAuthUserModel.creatorName}"></span></p>
+            <p class="main_lable_style" style="color: #FFFFFF">登录用户：<span th:text="${mERPBrandModel.creatorName}"></span></p>
         </div>
 
     </div>
@@ -51,10 +51,10 @@
 
                     <div class="customer-main" style="height: 100%;">
                         <ul class="tab" style="height: 100%">
-                            <li th:href="@{/internal/brand/shopList(brandIdenty=${mAuthUserModel.brandIdenty},shopIdenty=${mAuthUserModel.shopIdenty},creatorId=${mAuthUserModel.creatorId},creatorName=${mAuthUserModel.creatorName})}" class="parent">
+                            <li th:href="@{/internal/erp/shopManager/brandList(creatorId=${mERPBrandModel.creatorId},creatorName=${mERPBrandModel.creatorName})}" class="current">
                                 <div class="parent">
                                     <img th:src="@{/images/brand_shop_icon.png}" src="../static/images/brand_shop_icon.png" class="image_size_style">
-                                    <span>门店管理</span>
+                                    <span>商户管理</span>
                                 </div>
                             </li>
 
@@ -67,22 +67,8 @@
 
                             <li th:href="@{/internal/showPDF/pdfDetail(type=1)}" class="parent">
                                 <div class="parent">
-                                    <img th:src="@{/images/brand_product_icon.png}" src="../static/images/brand_product_icon.png" class="image_size_style">
-                                    <span>品项管理</span>
-                                </div>
-                            </li>
-
-                            <li th:href="@{/internal/showPDF/pdfDetail(type=1)}" class="parent">
-                                <div class="parent">
                                     <img th:src="@{/images/brand_customer_icon.png}" src="../static/images/brand_customer_icon.png" class="image_size_style">
                                     <span>会员管理</span>
-                                </div>
-                            </li>
-
-                            <li th:href="@{/internal/showPDF/pdfDetail(type=1)}" class="parent">
-                                <div class="parent">
-                                    <img th:src="@{/images/brand_marketing_icon.png}" src="../static/images/brand_marketing_icon.png" class="image_size_style">
-                                    <span>营销管理</span>
                                 </div>
                             </li>
 
@@ -93,18 +79,12 @@
                                 </div>
                             </li>
 
-                            <li th:href="@{/internal/showPDF/pdfDetail(type=1)}" class="parent">
-                                <div class="parent">
-                                    <img th:src="@{/images/brand_setting_icon.png}" src="../static/images/brand_report_icon.png" class="image_size_style">
-                                    <span>品牌设置</span>
-                                </div>
-                            </li>
 
                         </ul>
 
-                        <div class="select-tab" style="width: 100%; height: 100%">
+                        <div class="select-tab" style="width: 100%; height: 90%;">
                             <div style="display:block; width: 100%; height: 100%" class="tabs">
-                                <iframe id="dish_iframe" th:src="@{/internal/brand/index(brandIdenty=${mAuthUserModel.brandIdenty},shopIdenty=${mAuthUserModel.shopIdenty},creatorId=${mAuthUserModel.creatorId},creatorName=${mAuthUserModel.creatorName})}" width="100%" height="100%" style="border: 0px"></iframe>
+                                <iframe id="dish_iframe" th:src="@{/internal/erp/shopManager/brandList(creatorId=${mERPBrandModel.creatorId},creatorName=${mERPBrandModel.creatorName})}" width="100%" height="100%" style="border: 0px"></iframe>
                             </div>
                         </div>
 

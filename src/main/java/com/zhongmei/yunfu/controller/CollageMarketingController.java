@@ -200,6 +200,9 @@ public class CollageMarketingController extends BaseController{
     @RequestMapping("/deleteById")
     public String deleteById(Model model, CollageMarketingModel mCollageMarketingModel) {
         try {
+            if(mCollageMarketingModel.getId() == null){
+                return "fail";
+            }
             Boolean isSuccess = mCollageMarketingService.deleteCollageById(mCollageMarketingModel.getId());
             if (isSuccess) {
                 return "success";

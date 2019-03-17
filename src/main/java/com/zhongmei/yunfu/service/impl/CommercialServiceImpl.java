@@ -68,13 +68,13 @@ public class CommercialServiceImpl extends ServiceImpl<CommercialMapper, Commerc
         if(mShopSearchModel.getCommercialName() != null && !mShopSearchModel.getCommercialName().equals("")){
             eWrapper.like("commercial_name", mShopSearchModel.getCommercialName());
         }
-        if(mShopSearchModel.getProvince() != null && !mShopSearchModel.getProvince().equals("") && !mShopSearchModel.getProvince().equals("全部")){
+        if(mShopSearchModel.getProvince() != null && !mShopSearchModel.getProvince().equals("")){
             eWrapper.eq("province", mShopSearchModel.getProvince());
         }
-        if(mShopSearchModel.getCity() != null && !mShopSearchModel.getCity().equals("") && !mShopSearchModel.getCity().equals("全部")){
+        if(mShopSearchModel.getCity() != null && !mShopSearchModel.getCity().equals("")){
             eWrapper.eq("city", mShopSearchModel.getCity());
         }
-        if(mShopSearchModel.getArea() != null && !mShopSearchModel.getArea().equals("") && !mShopSearchModel.getArea().equals("全部")){
+        if(mShopSearchModel.getArea() != null && !mShopSearchModel.getArea().equals("")){
             eWrapper.eq("area", mShopSearchModel.getArea());
         }
         eWrapper.setSqlSelect("commercial_id,commercial_name,commercial_contact,commercial_phone,province,city,area,invalid_status");
@@ -110,7 +110,7 @@ public class CommercialServiceImpl extends ServiceImpl<CommercialMapper, Commerc
         eWrapper.eq("brand_id", mCommercialModel.getBrandId());
         eWrapper.eq("status", mCommercialModel.getStatus());
         eWrapper.eq("invalid_status", mCommercialModel.getInvalidStatus());
-
+        eWrapper.orderBy("server_create_time",false);
         Page<CommercialEntity> listPage = new Page<>(pageIdx,pageSize);
 
         Page<CommercialEntity> listCommercail = selectPage(listPage,eWrapper);
