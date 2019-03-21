@@ -33,6 +33,7 @@ class AuthRolePermissionEntity : BaseEntity() {
      * 品牌标识 : 品牌标识
      */
     var brandIdenty: Long? = null
+
     var platform: Int? = null
     /**
      * 是门店资源还是品牌资源，1品牌，2门店，3pos收银，4OnMobile

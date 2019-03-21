@@ -2,6 +2,10 @@ package com.zhongmei.yunfu.service;
 
 import com.baomidou.mybatisplus.service.IService;
 import com.zhongmei.yunfu.domain.entity.AuthRoleEntity;
+import com.zhongmei.yunfu.domain.entity.AuthUserEntity;
+import com.zhongmei.yunfu.erp.model.ERPCommercialModel;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +16,21 @@ import com.zhongmei.yunfu.domain.entity.AuthRoleEntity;
  * @since 2018-08-26
  */
 public interface AuthRoleService extends IService<AuthRoleEntity> {
+
+    /**
+     * 创建门店角色
+     * @param mAuthRoleEntity
+     * @return
+     * @throws Exception
+     */
+    Boolean addAuthRole(AuthRoleEntity mAuthRoleEntity)throws Exception;
+
+    /**
+     *
+     * @param mAuthRoleEntity
+     * @return
+     * @throws Exception
+     */
+    List<AuthRoleEntity> querySystemAuthRole(AuthRoleEntity mAuthRoleEntity)throws Exception;
 
 }

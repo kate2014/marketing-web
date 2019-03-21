@@ -2,6 +2,9 @@ package com.zhongmei.yunfu.service;
 
 import com.baomidou.mybatisplus.service.IService;
 import com.zhongmei.yunfu.domain.entity.AuthRolePermissionEntity;
+import com.zhongmei.yunfu.erp.model.ERPCommercialModel;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,17 @@ import com.zhongmei.yunfu.domain.entity.AuthRolePermissionEntity;
  */
 public interface AuthRolePermissionService extends IService<AuthRolePermissionEntity> {
 
+    /**
+     * 添加角色权限
+     * @return
+     * @throws Exception
+     */
+    Boolean andAuthRolePermission(AuthRolePermissionEntity mAuthRolePermissionEntity)throws Exception;
+
+    /**
+     * 初始化角色权限
+     * @return
+     * @throws Exception
+     */
+    Boolean insertBatchData(List<AuthRolePermissionEntity> listData) throws Exception;
 }

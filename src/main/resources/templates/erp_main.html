@@ -53,26 +53,39 @@
                         <ul class="tab" style="height: 100%">
                             <li th:href="@{/internal/erp/shopManager/brandList(creatorId=${mERPBrandModel.creatorId},creatorName=${mERPBrandModel.creatorName})}" class="current">
                                 <div class="parent">
+                                    <img th:src="@{/images/brand_icon.png}" src="../static/images/brand_icon.png" class="image_size_style">
+                                    <span>品牌管理</span>
+                                </div>
+                            </li>
+                            <li th:href="@{/internal/erp/shopManager/shopList(creatorId=${mERPBrandModel.creatorId},creatorName=${mERPBrandModel.creatorName})}" class="parent">
+                                <div class="parent">
                                     <img th:src="@{/images/brand_shop_icon.png}" src="../static/images/brand_shop_icon.png" class="image_size_style">
                                     <span>商户管理</span>
                                 </div>
                             </li>
 
-                            <li th:href="@{/internal/showPDF/pdfDetail(type=1)}" class="parent">
+                            <li th:href="@{/internal/erp/shopManager/shopList(creatorId=${mERPBrandModel.creatorId},creatorName=${mERPBrandModel.creatorName})}" class="parent">
+                                <div class="parent">
+                                    <img th:src="@{/images/device_icon.png}" src="../static/images/device_icon.png" class="image_size_style">
+                                    <span>设备管理</span>
+                                </div>
+                            </li>
+
+                            <li th:href="@{/}" class="parent">
                                 <div class="parent">
                                     <img th:src="@{/images/brand_user_icon.png}" src="../static/images/brand_user_icon.png" class="image_size_style">
                                     <span>员工管理</span>
                                 </div>
                             </li>
 
-                            <li th:href="@{/internal/showPDF/pdfDetail(type=1)}" class="parent">
+                            <li th:href="@{/}" class="parent">
                                 <div class="parent">
                                     <img th:src="@{/images/brand_customer_icon.png}" src="../static/images/brand_customer_icon.png" class="image_size_style">
                                     <span>会员管理</span>
                                 </div>
                             </li>
 
-                            <li th:href="@{/internal/showPDF/pdfDetail(type=1)}" class="parent">
+                            <li th:href="@{/}" class="parent">
                                 <div class="parent">
                                     <img th:src="@{/images/brand_report_icon.png}" src="../static/images/brand_report_icon.png" class="image_size_style">
                                     <span>报表分析</span>

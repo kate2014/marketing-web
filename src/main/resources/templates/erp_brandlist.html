@@ -73,31 +73,34 @@
 <form method="post" action="" th:action="@{/internal/erp/shopManager/brandList(creatorId=${mERPBrandModel.creatorId},creatorName=${mERPBrandModel.creatorName})}" th:object="${mERPBrandModel}">
     <div style="margin-top: 10px">
 
-        <label class="text_navigation" style="margin-left: 20px">品牌状态</label>
+        <label class="text_navigation" style="margin-left: 20px">状态</label>
 
-        <select class="select_style" name="status" style="margin-left: 5px;width: 130px">
+        <select class="select_style" name="status" style="margin-left: 5px;width: 100px">
             <option value="">全部</option>
             <option th:value="0">正在使用</option>
             <option th:value="-1">暂停使用</option>
         </select>
 
-        <label class="text_navigation" style="margin-left: 10px">门店名称</label>
-        <input class="input_style" style="margin-left: 5px" type="text" name="name"/>
+        <label class="text_navigation" style="margin-left: 10px">名称</label>
+        <input class="input_style" style="margin-left: 5px;width: 130px" type="text" name="name"/>
+
+        <label class="text_navigation" style="margin-left: 10px">编号</label>
+        <input class="input_style" style="margin-left: 5px;width: 130px" type="text" name="id"/>
 
         <label class="text_navigation" style="margin-left: 10px">省份</label>
-        <select id="province" class="select_style" name="province" style="margin-left: 5px;width: 130px" onload="initAddress()" onchange="chooseProvince(this)">
+        <select id="province" class="select_style" name="province" style="margin-left: 5px;width: 100px" onclick="initAddress()" onchange="chooseProvince(this)">
             <option value="">全部</option>
         </select>
 
 
         <label class="text_navigation" style="margin-left: 10px">城市</label>
-        <select id="city" class="select_style" name="city" style="margin-left: 5px;width: 130px" onchange="chooseCity(this)">
+        <select id="city" class="select_style" name="city" style="margin-left: 5px;width: 100px" onchange="chooseCity(this)">
             <option value="">全部</option>
         </select>
 
 
         <label class="text_navigation" style="margin-left: 10px">区域</label>
-        <select id="area" class="select_style" name="area" style="margin-left: 5px;width: 130px">
+        <select id="area" class="select_style" name="area" style="margin-left: 5px;width: 100px">
             <option value="">全部</option>
         </select>
 
@@ -110,8 +113,8 @@
     <table class="gridtablestyle" style="width: 96%; vertical-align: middle">
         <tr style="width: 100%">
             <th>品牌名称</th>
-            <th>联系人</th>
-            <th>联系电话</th>
+            <th>品牌编号</th>
+            <th>联系信息</th>
             <th>地区</th>
             <th>状态</th>
             <th>创建时间</th>
@@ -119,8 +122,8 @@
         </tr>
         <tr th:each="item:${brandlist}">
             <td th:text="${item.name}"></td>
-            <td th:text="${item.contacts}"></td>
-            <td th:text="${item.contactsPhone}"></td>
+            <td th:text="${item.id}"></td>
+            <td><span th:text="${item.contacts}"></span>：<span th:text="${item.contactsPhone}"></span></td>
             <td><span th:text="${item.province}"></span>-<span th:text="${item.city}"></span>-<span th:text="${item.area}"></span></td>
             <td>
                 <div th:switch="${item.status}">

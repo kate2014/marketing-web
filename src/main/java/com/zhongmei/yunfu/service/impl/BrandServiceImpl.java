@@ -46,6 +46,9 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, BrandEntity> impl
         if(mERPBrandModel.getStatus() != null && !mERPBrandModel.getStatus().equals("")){
             eWrapper.eq("status", mERPBrandModel.getStatus());
         }
+        if(mERPBrandModel.getId() != null && !mERPBrandModel.getId().equals("")){
+            eWrapper.eq("id", mERPBrandModel.getId());
+        }
         if(mERPBrandModel.getName() != null && !mERPBrandModel.getName().equals("")){
             eWrapper.like("name", mERPBrandModel.getName());
         }
@@ -101,8 +104,13 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, BrandEntity> impl
     @Override
     public Boolean deleteBrandById(Long brandId) throws Exception {
 
-        Boolean isSuccess = deleteById(brandId);
-        return isSuccess;
+        if(brandId != null){
+            Boolean isSuccess = deleteById(brandId);
+            return isSuccess;
+        }else {
+            return false;
+        }
+
     }
 
     @Override

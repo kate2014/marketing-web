@@ -6,6 +6,7 @@ import com.zhongmei.yunfu.core.security.Token;
 import com.zhongmei.yunfu.domain.entity.AuthPermissionEntity;
 import com.zhongmei.yunfu.domain.entity.AuthUserEntity;
 import com.zhongmei.yunfu.domain.mapper.AuthUserMapper;
+import com.zhongmei.yunfu.erp.model.ERPCommercialModel;
 import com.zhongmei.yunfu.service.AuthUserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -84,5 +85,11 @@ public class AuthUserServiceImpl extends ServiceImpl<AuthUserMapper, AuthUserEnt
         List<AuthPermissionEntity> authPermissionEntityBy = baseMapper.getAuthPermissionEntity(authUserId, shopId);
         authPermissionEntityBy.forEach(it -> result.put(it.getCode(), it.getName()));
         return result;
+    }
+
+    @Override
+    public Boolean addAuthUser(AuthUserEntity mAuthUserEntity) throws Exception {
+        Boolean isSuccess = insert(mAuthUserEntity);
+        return isSuccess;
     }
 }

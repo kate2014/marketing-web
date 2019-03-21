@@ -67,4 +67,20 @@ public interface CommercialService extends IService<CommercialEntity> {
      * @throws Exception
      */
     Page<CommercialEntity> queryCommercialList(ERPCommercialModel mCommercialModel, int pageIdx, int pageSize)throws Exception;
+
+    /**
+     * 创建门店
+     * @param mCommercialEntity
+     * @return
+     * @throws Exception
+     */
+    Boolean createCommercial(CommercialEntity mCommercialEntity) throws Exception;
+
+    /**
+     * 删除门店
+     * @param mCommercialModel
+     * @return
+     * @throws Exception
+     */
+    Boolean deleteCommercial(ERPCommercialModel mCommercialModel) throws Exception;
 }

@@ -73,8 +73,8 @@
 
     <form method="post" name="addForm" th:action="@{/internal/erp/shopManager/createBrand}" th:object="${mERPBrandModel}">
 
-        <input type="text" name="creatorId" th:value="${mERPBrandModel.creatorId}">
-        <input type="text" name="creatorName" th:value="${mERPBrandModel.creatorName}">
+        <input type="hidden" name="creatorId" th:value="${mERPBrandModel.creatorId}">
+        <input type="hidden" name="creatorName" th:value="${mERPBrandModel.creatorName}">
 
         <input type="hidden" name="id" th:value="${mERPBrandModel.id}">
 
@@ -91,7 +91,7 @@
         </div>
 
         <div style="margin-top: 15px">
-            <label class="text_navigation" style="margin-left: 10px;width: 100px;display:inline-block">联电话:</label>
+            <label class="text_navigation" style="margin-left: 10px;width: 100px;display:inline-block">联系电话:</label>
             <input class="input_style" style="margin-left: 5px; width: 300px" type="text" th:value="${mBrandModel.contactsPhone}" name="contactsPhone" id="contactsPhone"/>
         </div>
 
@@ -147,7 +147,8 @@
 
         </div>
     </form>
-    <div style="margin-top: 15px; margin-left: 105px">
+    <div style="width: 100%;height: 1px;background-color: #e3e3e3;margin-top: 20px"></div>
+    <div style="margin-top: 20px;" class="container parent_h">
         <button class="blue_button_style" onclick="sendForm()" style="margin-left: 10px" >保存</button>
         <button class="gray_button_style" onclick="avascript :history.back(-1);" style="margin-left: 10px">取消</button>
     </div>

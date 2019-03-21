@@ -107,15 +107,55 @@ public class CommercialServiceImpl extends ServiceImpl<CommercialMapper, Commerc
     public Page<CommercialEntity> queryCommercialList(ERPCommercialModel mCommercialModel, int pageIdx, int pageSize) throws Exception {
 
         EntityWrapper<CommercialEntity> eWrapper = new EntityWrapper<>(new CommercialEntity());
-        eWrapper.eq("brand_id", mCommercialModel.getBrandId());
-        eWrapper.eq("status", mCommercialModel.getStatus());
-        eWrapper.eq("invalid_status", mCommercialModel.getInvalidStatus());
+
+        if(mCommercialModel.getCommercialId() != null && !mCommercialModel.getCommercialId().equals("")){
+            eWrapper.eq("commercial_id", mCommercialModel.getCommercialId());
+        }
+        if(mCommercialModel.getCommercialName() != null && !mCommercialModel.getCommercialName().equals("")){
+            eWrapper.like("commercial_name", mCommercialModel.getCommercialName());
+        }
+        if(mCommercialModel.getProvince() != null && !mCommercialModel.getProvince().equals("")){
+            eWrapper.eq("province", mCommercialModel.getProvince());
+        }
+        if(mCommercialModel.getCity() != null && !mCommercialModel.getCity().equals("")){
+            eWrapper.eq("city", mCommercialModel.getCity());
+        }
+        if(mCommercialModel.getArea() != null && !mCommercialModel.getArea().equals("")){
+            eWrapper.eq("area", mCommercialModel.getArea());
+        }
+        if(mCommercialModel.getStatus() != null && !mCommercialModel.getStatus().equals("")){
+            eWrapper.eq("status", mCommercialModel.getStatus());
+        }
+        if(mCommercialModel.getInvalidStatus() != null && !mCommercialModel.getInvalidStatus().equals("")){
+            eWrapper.eq("invalid_status", mCommercialModel.getInvalidStatus());
+        }
+        if(mCommercialModel.getBrandId() != null && !mCommercialModel.getBrandId().equals("")){
+            eWrapper.eq("brand_id", mCommercialModel.getBrandId());
+        }
+
         eWrapper.orderBy("server_create_time",false);
         Page<CommercialEntity> listPage = new Page<>(pageIdx,pageSize);
 
         Page<CommercialEntity> listCommercail = selectPage(listPage,eWrapper);
 
         return listCommercail;
+    }
+
+    @Override
+    public Boolean createCommercial(CommercialEntity mCommercialEntity) throws Exception {
+
+        Boolean isSuccess = insert(mCommercialEntity);
+        return isSuccess;
+    }
+
+    @Override
+    public Boolean deleteCommercial(ERPCommercialModel mCommercialModel) throws Exception {
+        if(mCommercialModel.getCommercialId() != null && !mCommercialModel.equals("")){
+            Boolean isSuccess = deleteById(mCommercialModel.getCommercialId());
+            return isSuccess;
+        }else{
+            return false;
+        }
     }
 
 
