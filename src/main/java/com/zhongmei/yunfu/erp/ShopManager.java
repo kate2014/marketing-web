@@ -8,7 +8,6 @@ import com.zhongmei.yunfu.erp.model.ERPBrandModel;
 import com.zhongmei.yunfu.erp.model.ERPCommercialModel;
 import com.zhongmei.yunfu.service.*;
 import com.zhongmei.yunfu.util.DateFormatUtil;
-import com.zhongmei.yunfu.util.ToolsUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -238,8 +237,8 @@ public class ShopManager extends BaseController {
 
             //已设置过，直接返回成功
             if(listSystem != null && listSystem.size()!=0){
+                mCommercialModel.setSuccessOrfail("success");
                 model.addAttribute("mCommercialModel",mCommercialModel);
-                model.addAttribute("successOrfail","success");
                 return "erp_shop_initialize";
             }
 
@@ -283,7 +282,7 @@ public class ShopManager extends BaseController {
             List<AuthPermissionEntity> listData = mAuthPermissionService.queryAuthPermission();
             for(AuthPermissionEntity ap:listData){
                 AuthRolePermissionEntity mAuthRolePermissionEntity = new AuthRolePermissionEntity();
-                mAuthRolePermissionEntity.setRoleId(mAuthUserEntity.getId());
+                mAuthRolePermissionEntity.setRoleId(mAuthRoleEntity.getId());
                 mAuthRolePermissionEntity.setPermissionId(ap.getId());
                 mAuthRolePermissionEntity.setGroupFlag(2);
                 mAuthRolePermissionEntity.setPlatform(ap.getPlatform());
@@ -296,20 +295,25 @@ public class ShopManager extends BaseController {
             isSuccess = mAuthRolePermissionService.insertBatchData(listARP);
 
             if(isSuccess){
-                model.addAttribute("mCommercialModel",mCommercialModel);
                 mCommercialModel.setSuccessOrfail("success");
             }else{
                 mCommercialModel.setSuccessOrfail("fail");
             }
-            gotoInitializeShop(model, mCommercialModel);
+            model.addAttribute("mCommercialModel",mCommercialModel);
             return "erp_shop_initialize";
         }catch (Exception e){
             e.printStackTrace();
             mCommercialModel.setSuccessOrfail("fail");
-            gotoInitializeShop(model, mCommercialModel);
+            model.addAttribute("mCommercialModel",mCommercialModel);
             return "erp_shop_initialize";
         }
-
-
     }
+
+    @RequestMapping("/deviceList")
+    public String deviceList(Model model, ERPCommercialModel mCommercialModel){
+
+        return "erp_devicelist";
+    }
+
+
 }

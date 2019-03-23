@@ -1,9 +1,7 @@
 package com.zhongmei.yunfu.erp;
 
 import com.zhongmei.yunfu.controller.BaseController;
-import com.zhongmei.yunfu.controller.model.AuthUserModel;
 import com.zhongmei.yunfu.erp.model.ERPBrandModel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
