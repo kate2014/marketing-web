@@ -258,13 +258,16 @@ public class ShopManager extends BaseController {
             isSuccess = mAuthRoleService.addAuthRole(mAuthRoleEntity);
 
             //创建员工
+            String temp = DateFormatUtil.format(new Date(),DateFormatUtil.FORMAT_DATE);
+            String ymd = DateFormatUtil.parseDate(temp,DateFormatUtil.FORMAT_DATE).getTime()+"";
             AuthUserEntity mAuthUserEntity = new AuthUserEntity();
             mAuthUserEntity.setName("超级管理员");
             mAuthUserEntity.setMobile("1000000000");
             mAuthUserEntity.setJobNumber("100001");
             mAuthUserEntity.setJobEmployeeType("1");
             mAuthUserEntity.setRoleId(mAuthRoleEntity.getId());
-            mAuthUserEntity.setJobEntryTime(DateFormatUtil.format(new Date(),DateFormatUtil.FORMAT_FULL_DATE));
+            mAuthUserEntity.setJobEntryTime(ymd);
+            mAuthUserEntity.setJobPositiveTime(ymd);
             mAuthUserEntity.setJobPosition(mAuthRoleEntity.getId()+"");
             mAuthUserEntity.setSalaryBase("0");
             mAuthUserEntity.setSalaryPost("0");

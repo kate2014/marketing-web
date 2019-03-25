@@ -112,8 +112,8 @@
             <label class="text_navigation" style="margin-left: 10px;width: 100px;;display:inline-block">品牌状态:</label>
             <select id="status" class="select_style" name="status" style="margin-left: 5px;width: 300px">
                 <option th:selected="${mCommercialEntity.status==0}" th:value="0">可用</option>
-                <option th:selected="${mCommercialEntity.status==2}" th:value="-1">不可用</option>
-                <option th:selected="${mCommercialEntity.status==2}" th:value="1">预装</option>
+                <option th:selected="${mCommercialEntity.status==-1}" th:value="-1">不可用</option>
+                <option th:selected="${mCommercialEntity.status==1}" th:value="1">预装</option>
             </select>
         </div>
 
