@@ -68,20 +68,20 @@
 
 <div id="showDialog"></div>
 
-<form method="post" action="" th:action="@{/internal/erp/device/gotoBinding(creatorId=${mERPDeviceModel.creatorId},creatorName=${mERPDeviceModel.creatorName})}" th:object="${mERPDeviceModel}">
+<form method="post" action="" th:action="@{/internal/erp/device/list(creatorId=${mERPDeviceModel.creatorId},creatorName=${mERPDeviceModel.creatorName})}" th:object="${mERPDeviceModel}">
     <div style="margin-top: 10px">
 
         <label class="text_navigation" style="margin-left: 10px">品牌编号</label>
-        <input class="input_style" style="margin-left: 5px;width: 130px" type="text" name="brandIdenty"/>
+        <input class="input_style" style="margin-left: 5px;width: 150px" type="text" name="brandIdenty"/>
 
         <label class="text_navigation" style="margin-left: 10px">门店编号</label>
-        <input class="input_style" style="margin-left: 5px;width: 130px" type="text" name="shopIdenty"/>
+        <input class="input_style" style="margin-left: 5px;width: 150px" type="text" name="shopIdenty"/>
 
         <label class="text_navigation" style="margin-left: 10px">设备编号</label>
-        <input class="input_style" style="margin-left: 5px;width: 130px" type="text" name="deviceNo"/>
+        <input class="input_style" style="margin-left: 5px;width: 150px" type="text" name="deviceNo"/>
 
         <label class="text_navigation" style="margin-left: 10px">MAC地址</label>
-        <input class="input_style" style="margin-left: 5px;width: 130px" type="text" name="deviceMac"/>
+        <input class="input_style" style="margin-left: 5px;width: 150px" type="text" name="deviceMac"/>
 
         <button class="orange_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
 

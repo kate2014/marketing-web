@@ -51,16 +51,16 @@ public class ShopDeviceServiceImpl extends ServiceImpl<ShopDeviceMapper, ShopDev
     @Override
     public Page<ShopDeviceEntity> queryShopDevice(ShopDeviceEntity mShopDeviceEntity, int pageIdx, int pageSize) throws Exception {
         EntityWrapper<ShopDeviceEntity> eWrapper = new EntityWrapper<>(new ShopDeviceEntity());
-        if(mShopDeviceEntity.getBrandIdenty() != null){
+        if(mShopDeviceEntity.getBrandIdenty() != null && !mShopDeviceEntity.getBrandIdenty().equals("")){
             eWrapper.eq("brand_identy",mShopDeviceEntity.getBrandIdenty());
         }
-        if(mShopDeviceEntity.getShopIdenty() != null){
+        if(mShopDeviceEntity.getShopIdenty() != null && !mShopDeviceEntity.getShopIdenty().equals("")){
             eWrapper.eq("shop_identy",mShopDeviceEntity.getShopIdenty());
         }
-        if(mShopDeviceEntity.getDeviceNo() != null){
+        if(mShopDeviceEntity.getDeviceNo() != null && !mShopDeviceEntity.getDeviceNo().equals("")){
             eWrapper.eq("device_no",mShopDeviceEntity.getDeviceNo());
         }
-        if(mShopDeviceEntity.getDeviceMac() != null){
+        if(mShopDeviceEntity.getDeviceMac() != null && !mShopDeviceEntity.getDeviceMac().equals("")){
             eWrapper.eq("device_mac",mShopDeviceEntity.getDeviceMac());
         }
 
