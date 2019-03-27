@@ -52,9 +52,16 @@ public class MarketingExpandedApiController {
         try {
             expandedMarketingModel.setStatusFlag(1);
             MarketingExpandedEntity mMarketingExpanded = mMarketingExpandedService.findMarketingExpanded(expandedMarketingModel);
-            mBaseDataModel.setState("1000");
-            mBaseDataModel.setMsg("获取全员推广数据成功");
-            mBaseDataModel.setData(mMarketingExpanded);
+            if(mMarketingExpanded != null){
+                mBaseDataModel.setState("1000");
+                mBaseDataModel.setMsg("获取全员推广数据成功");
+                mBaseDataModel.setData(mMarketingExpanded);
+            }else{
+                mBaseDataModel.setState("1001");
+                mBaseDataModel.setMsg("未启动全员推广");
+                mBaseDataModel.setData(false);
+            }
+
 
         } catch (Exception e) {
             e.printStackTrace();

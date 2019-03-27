@@ -19,7 +19,7 @@ public interface MarketingTogetherService extends IService<MarketingTogetherEnti
      * @param shopIdentity
      * @return
      */
-    MarketingTogetherEntity findMarketingTogether(Long shopIdentity, Integer statusFlag);
+    MarketingTogetherEntity findMarketingTogether(Long shopIdentity, Integer statusFlag, Integer state);
 
     /**
      * 根据方案id获取方案信息

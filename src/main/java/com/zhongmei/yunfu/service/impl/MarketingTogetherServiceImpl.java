@@ -23,10 +23,14 @@ import java.util.Map;
 public class MarketingTogetherServiceImpl extends ServiceImpl<MarketingTogetherMapper, MarketingTogetherEntity> implements MarketingTogetherService {
 
     @Override
-    public MarketingTogetherEntity findMarketingTogether(Long shopIdentity, Integer statusFlag) {
+    public MarketingTogetherEntity findMarketingTogether(Long shopIdentity, Integer statusFlag,Integer state) {
         Map<String, Object> map = new HashMap<>();
         map.put("shop_identy", shopIdentity);
         map.put("status_flag", statusFlag);
+        if(state != null){
+            map.put("state", state);
+        }
+
         List<MarketingTogetherEntity> listPlan = selectByMap(map);
         MarketingTogetherEntity mMarketingTogether = null;
         if (listPlan != null && listPlan.size() != 0) {

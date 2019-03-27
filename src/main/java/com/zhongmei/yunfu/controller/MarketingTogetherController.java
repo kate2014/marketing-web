@@ -45,7 +45,7 @@ public class MarketingTogetherController extends BaseController {
             Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
             Long shopIdentity = LoginManager.get().getUser().getShopIdenty();
 
-            MarketingTogetherEntity mMarketingTogether = marketingTogetherService.findMarketingTogether(shopIdentity, 1);
+            MarketingTogetherEntity mMarketingTogether = marketingTogetherService.findMarketingTogether(shopIdentity, 1,null);
 
             if (mMarketingTogether != null) {
                 togetherMarketingModel.setId(mMarketingTogether.getId());

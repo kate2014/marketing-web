@@ -82,21 +82,27 @@ public class ScenarioMarketingApiController {
             cm.setBrandIdentity(mScenariomarketingModel.getBrandIdenty());
             cm.setShopIdentity(mScenariomarketingModel.getShopIdenty());
             CollageMarketingEntity collage = mCollageMarketingService.queryNewCollage(cm);
-            mShopScenariomarketingModel.setCollage(collage);
+            if(collage != null){
+                mShopScenariomarketingModel.setCollage(collage);
+            }
 
             //获取最新一条砍价活动
             CutDownMarketingEntity mCutDownMarketing = new CutDownMarketingEntity();
             mCutDownMarketing.setBrandIdentity(mScenariomarketingModel.getBrandIdenty());
             mCutDownMarketing.setShopIdentity(mScenariomarketingModel.getShopIdenty());
             CutDownMarketingEntity cutDown = mCutDownMarketingService.queryNewCutDown(mCutDownMarketing);
-            mShopScenariomarketingModel.setCutDown(cutDown);
+            if(cutDown !=null){
+                mShopScenariomarketingModel.setCutDown(cutDown);
+            }
 
             //获取最新一条秒杀活动
             FlashSalesMarketingEntity mFlashSalesMarketing = new FlashSalesMarketingEntity();
             mFlashSalesMarketing.setBrandIdentity(mScenariomarketingModel.getBrandIdenty());
             mFlashSalesMarketing.setShopIdentity(mScenariomarketingModel.getShopIdenty());
             FlashSalesMarketingEntity flashSales = mFlashSalesMarketingService.queryNewFlashSales(mFlashSalesMarketing);
-            mShopScenariomarketingModel.setFlashSales(flashSales);
+            if(flashSales != null){
+                mShopScenariomarketingModel.setFlashSales(flashSales);
+            }
 
             mBaseDataModel.setState("1000");
             mBaseDataModel.setMsg("获取门店场景营销活动数据成功");
