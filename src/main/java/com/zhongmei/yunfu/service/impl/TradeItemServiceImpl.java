@@ -2,6 +2,7 @@ package com.zhongmei.yunfu.service.impl;
 
 import com.baomidou.mybatisplus.mapper.Condition;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.zhongmei.yunfu.controller.model.TradeModel;
 import com.zhongmei.yunfu.core.mybatis.mapper.ConditionFilter;
 import com.zhongmei.yunfu.domain.entity.DishReport;
 import com.zhongmei.yunfu.domain.entity.TradeItemEntity;
@@ -85,4 +86,22 @@ public class TradeItemServiceImpl extends ServiceImpl<TradeItemMapper, TradeItem
         Boolean isSuccess = delete(eWrapper);
         return isSuccess;
     }
+
+    @Override
+    public List<DishReport> dishSalesExportExcel(TradeModel mTradeModel) throws Exception {
+
+        Condition eWrapper = ConditionFilter.create();
+        eWrapper.isWhere(true);
+        eWrapper.eq("brand_identy", mTradeModel.getBrandIdenty());
+        eWrapper.eq("shop_identy", mTradeModel.getShopIdenty());
+        eWrapper.eq("trade_status", 4);
+        eWrapper.eq("business_type", mTradeModel.getBusinessType());
+        eWrapper.eq("trade_type", 1);//售货
+        eWrapper.eq("status_flag", 1);
+        eWrapper.between("server_create_time", mTradeModel.getStartDate(), mTradeModel.getEndDate());
+        List<DishReport> listData = baseMapper.dishSalesExportExcel(eWrapper);
+        return listData;
+    }
+
+
 }

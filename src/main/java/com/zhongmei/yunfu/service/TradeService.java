@@ -1,6 +1,7 @@
 package com.zhongmei.yunfu.service;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import com.zhongmei.yunfu.controller.model.ReportSalesExportModel;
 import com.zhongmei.yunfu.controller.model.TradeDataModel;
 import com.zhongmei.yunfu.controller.model.TradeModel;
 import com.zhongmei.yunfu.domain.entity.CustomerSaveReport;
@@ -160,4 +161,11 @@ public interface TradeService extends IService<TradeEntity> {
      * @return
      */
     List<ShopSalesReport> shopSalesReport(TradeModel mTradeModel);
+
+    /**
+     * 获取营业报表导出数据
+     * @param mTradeModel
+     * @return
+     */
+    List<ReportSalesExportModel> querySalseExportExcel(TradeModel mTradeModel);
 }

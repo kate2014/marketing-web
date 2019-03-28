@@ -2,6 +2,8 @@ package com.zhongmei.yunfu.api.web;
 
 
 import com.zhongmei.yunfu.controller.model.TradeModel;
+import com.zhongmei.yunfu.controller.model.excel.ExcelData;
+import com.zhongmei.yunfu.controller.model.excel.ExcelUtils;
 import com.zhongmei.yunfu.domain.entity.BrandEntity;
 import com.zhongmei.yunfu.domain.entity.CommercialEntity;
 import com.zhongmei.yunfu.domain.entity.CustomerSaveReport;
@@ -17,7 +19,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
@@ -114,4 +118,39 @@ public class ReportCustomerSaveController {
         return model;
     }
 
+    @RequestMapping("/export/excel")
+    public void exportExcel(HttpServletResponse response, TradeModel mTradeModel) throws Exception{
+
+        mTradeModel.setBusinessType(2);
+        List<CustomerSaveReport> listData = mTradeService.customerSaveReport(mTradeModel);
+
+        ExcelData data = new ExcelData();
+        data.setSheetName("储值报表");
+        List<String> titles = new ArrayList();
+        titles.add("序");
+        titles.add("交易日期");
+        titles.add("储值单数");
+        titles.add("储值金额");
+
+        data.setTitles(titles);
+
+        List<List<Object>> rows = new ArrayList();
+        data.setRows(rows);
+
+        int i = 1;
+        if(listData != null){
+            for (CustomerSaveReport entity : listData) {
+                List<Object> row = new ArrayList();
+                rows.add(row);
+                row.add(i++);
+                row.add(entity.getCreateDate());
+                row.add(entity.getTradeCount());
+                row.add(entity.getSalesAmount());
+            }
+        }
+
+        SimpleDateFormat fdate = new SimpleDateFormat("yyyyMMdd");
+        String fileName = String.format("储值报表-%s.xls", fdate.format(new Date()));
+        ExcelUtils.exportExcel(response, fileName, data);
+    }
 }

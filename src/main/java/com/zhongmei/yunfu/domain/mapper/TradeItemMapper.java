@@ -21,5 +21,8 @@ public interface TradeItemMapper extends BaseMapper<TradeItemEntity> {
 
     @Select("select sum(actual_amount) as salesAmount , sum(quantity) as salseCount, dish_name as dishName ,price from trade_item where status_flag = 1 and trade_id in (select id from trade ${ew.sqlSegment}) group by dish_name order by sum(quantity) desc limit 20 ")
     List<DishReport> queryDishSales(@Param("ew") Condition wrapper);
+
+    @Select("select sum(actual_amount) as salesAmount , sum(quantity) as salseCount, dish_name as dishName ,price from trade_item where status_flag = 1 and trade_id in (select id from trade ${ew.sqlSegment}) group by dish_name order by sum(quantity) desc")
+    List<DishReport> dishSalesExportExcel(@Param("ew") Condition wrapper);
 }
 
