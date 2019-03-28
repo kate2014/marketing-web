@@ -172,7 +172,12 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
             eWrapper.le("stored_balance", searchModel.getStoredBalance());
             eWrapper.le("card_residue_count", searchModel.getCardResidueCount());
         }
-
+        if (searchModel.getWillExpireDay() != null && searchModel.getWillExpireDay() > 0) {
+            Calendar calendarOfDay = Calendar.getInstance();
+            calendarOfDay.add(Calendar.DAY_OF_MONTH, searchModel.getWillExpireDay());
+            eWrapper.le("card_expire_date", DateFormatUtil.formatDate(calendarOfDay.getTime()));
+            eWrapper.ge("card_expire_date", DateFormatUtil.formatDate(new Date()));
+        }
         eWrapper.gt("consumption_last_time", searchModel.getConsumptionLastTime());
         eWrapper.orderBy("card_expire_date");
         Page<CustomerEntity> page = new Page<>(searchModel.getPageNo(), searchModel.getPageSize());

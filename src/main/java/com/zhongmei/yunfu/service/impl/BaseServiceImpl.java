@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.apache.ibatis.session.RowBounds;
 
+import java.io.Serializable;
+
 public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, T> {
 
     public Page<T> selectPage(Page<T> page, Wrapper<T> wrapper) {
@@ -25,4 +27,10 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
         return page;
     }
 
+    /*@Override
+    public boolean deleteById(Serializable id) {
+        //return super.deleteById(id);
+        T entity = baseMapper.selectById(id);
+        return true;
+    }*/
 }

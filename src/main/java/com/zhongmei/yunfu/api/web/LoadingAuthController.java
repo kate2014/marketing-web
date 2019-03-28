@@ -18,7 +18,7 @@ import java.util.*;
 
 @Controller
 @RequestMapping("/internal/request")
-public class LoadingController {
+public class LoadingAuthController {
 
     @RequestMapping("/loading")
     public String reportAddCustomer(Model model, LoadingModel mLoadingModel) {
