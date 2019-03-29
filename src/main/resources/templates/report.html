@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <style type="text/css">
 
     html,body{
@@ -118,6 +118,14 @@
                     </li>
                 </div>
 
+                <!--<div th:if="${haveBookingReport} eq '1'">-->
+                    <!--<li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty},requestUrlType=6)}" class="parent">-->
+                        <!--<div class="parent">-->
+                            <!--<img th:src="@{/images/purchase_sale.png}" class="image_size_style">-->
+                            <!--<span>进销存报表</span>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                <!--</div>-->
 
             </ul>
 

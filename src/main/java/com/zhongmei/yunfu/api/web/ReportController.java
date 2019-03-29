@@ -1,5 +1,6 @@
 package com.zhongmei.yunfu.api.web;
 
+import com.zhongmei.yunfu.domain.entity.CommercialEntity;
 import com.zhongmei.yunfu.service.*;
 import com.zhongmei.yunfu.util.DateFormatUtil;
 import com.zhongmei.yunfu.util.ToolsUtil;
@@ -27,6 +28,8 @@ public class ReportController {
     PaymentItemService mPaymentItemService;
     @Autowired
     AuthUserService authUserService;
+    @Autowired
+    CommercialService mCommercialService;
 
     @RequestMapping("/showEmptyReport")
     public String showEmptyReport(Model model, TradeModel mTradeModel) {
@@ -228,6 +231,10 @@ public class ReportController {
 
             //商品销售排行榜
             dishSalesReport(model, mTradeModel, stateDate, endDate);
+
+            //获取门店信息
+            CommercialEntity mCommercialEntity = mCommercialService.queryCommercialById(mTradeModel.getShopIdenty());
+            model.addAttribute("mCommercialEntity", mCommercialEntity);
         } catch (Exception e) {
             e.printStackTrace();
             return "fail";
