@@ -132,7 +132,7 @@ public class ReportCardTimeController {
         List<DishReport> listData = mTradeItemService.dishSalesExportExcel(mTradeModel);
 
         ExcelData data = new ExcelData();
-        data.setSheetName("品项销售报表");
+        data.setSheetName("次卡服务销售数据");
         List<String> titles = new ArrayList();
         titles.add("序");
         titles.add("次卡服务名称");
