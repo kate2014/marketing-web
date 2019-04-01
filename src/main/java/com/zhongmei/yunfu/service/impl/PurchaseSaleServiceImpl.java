@@ -67,4 +67,20 @@ public class PurchaseSaleServiceImpl extends ServiceImpl<PurchaseSaleMapper, Pur
         List<PurchaseSaleDetailReport> listData = baseMapper.listPurchaseAndSaleDetail(eWrapper);
         return listData;
     }
+
+    @Override
+    public List<PurchaseSaleReport> purchaseList(PurchSaleModel mPurchSaleModel) throws Exception {
+
+        Condition eWrapper = ConditionFilter.create();
+
+        eWrapper.eq("p.shop_identy", mPurchSaleModel.getShopIdenty());
+        eWrapper.eq("p.brand_identy", mPurchSaleModel.getBrandIdenty());
+        eWrapper.like("p.source_name", mPurchSaleModel.getSourceName());
+        eWrapper.eq("p.type", 1);//1：进货 2：销货
+        eWrapper.like("d.name", mPurchSaleModel.getDishName());
+
+        eWrapper.between("p.server_create_time", mPurchSaleModel.getStartDate(), mPurchSaleModel.getEndDate());
+        List<PurchaseSaleReport> listData = baseMapper.purchaseList(eWrapper);
+        return listData;
+    }
 }

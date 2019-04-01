@@ -20,7 +20,11 @@ public class PurchSaleModel {
 
     private Long sourceId;
 
+    private String sourceName;
+
     private Long dishShopId;
+
+    private String dishName;
 
     public String getName() {
         return name;
@@ -86,6 +90,14 @@ public class PurchSaleModel {
         this.type = type;
     }
 
+    public String getSourceName() {
+        return sourceName;
+    }
+
+    public void setSourceName(String sourceName) {
+        this.sourceName = sourceName;
+    }
+
     public Long getSourceId() {
         return sourceId;
     }
@@ -100,5 +112,13 @@ public class PurchSaleModel {
 
     public void setDishShopId(Long dishShopId) {
         this.dishShopId = dishShopId;
+    }
+
+    public String getDishName() {
+        return dishName;
+    }
+
+    public void setDishName(String dishName) {
+        this.dishName = dishName;
     }
 }

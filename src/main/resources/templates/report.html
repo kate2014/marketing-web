@@ -119,7 +119,7 @@
                 </div>
 
                 <div th:if="${haveBookingReport} eq '1'">
-                    <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty},requestUrlType=9)}" class="parent">
+                    <li th:href="@{/internal/purchaseSale/goToReport(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty})}" class="parent">
                         <div class="parent">
                             <img th:src="@{/images/purchase_sale.png}" class="image_size_style">
                             <span>进销存报表</span>
