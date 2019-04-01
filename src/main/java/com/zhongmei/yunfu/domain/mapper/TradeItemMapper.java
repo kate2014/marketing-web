@@ -21,5 +21,22 @@ public interface TradeItemMapper extends BaseMapper<TradeItemEntity> {
 
     @Select("select sum(actual_amount) as salesAmount , sum(quantity) as salseCount, dish_name as dishName ,price from trade_item where status_flag = 1 and trade_id in (select id from trade ${ew.sqlSegment}) group by dish_name order by sum(quantity) desc limit 20 ")
     List<DishReport> queryDishSales(@Param("ew") Condition wrapper);
+
+    @Select("select sum(actual_amount) as salesAmount , sum(quantity) as salseCount, dish_name as dishName ,price from trade_item where status_flag = 1 and trade_id in (select id from trade ${ew.sqlSegment}) group by dish_name order by sum(quantity) desc")
+    List<DishReport> dishSalesExportExcel(@Param("ew") Condition wrapper);
+
+    @Select("SELECT  i.`dish_id` ,i.`dish_name` ,i.`quantity`,t.`server_create_time`   FROM trade t LEFT JOIN  `trade_item` i on t.`id` = i.`trade_id` \n" +
+            "${ew.sqlSegment} " +
+            "ORDER BY server_create_time desc;")
+    List<TradeItemEntity> dishSaleDetail(@Param("ew") Condition wrapper);
+
+
+
+    @Select("SELECT sum(i.`quantity`) as quantity,i.`dish_id` , i.dish_name , sum(i.`actual_amount`) as actual_amount\n" +
+            "FROM trade t , `trade_item` i \n" +
+            "WHERE t.`id` = i.`trade_id` ${ew.sqlSegment}\n" +
+            "GROUP BY i.`dish_id` ;")
+    List<TradeItemEntity> dishSaleData(@Param("ew") Condition wrapper);
+
 }
 

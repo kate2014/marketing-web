@@ -67,8 +67,18 @@
         <div class="parent" style="width: 100%;height: 50px;vertical-align: center">
 
             <div class="parent" style="width: 70%">
-                <img th:src="@{/images/shop_icon.png}" style="margin-left:25px;margin-right: 10px" width="30px">
-                <p class="main_lable_style">门店今日营业数据信息</p>
+
+                <div th:if="${#strings.isEmpty(mCommercialEntity.commercialLogo)}">
+                    <img th:src="@{/images/shop_icon.png}" style="margin-left:25px;margin-right: 10px" width="30px" height="30px">
+                </div>
+                <div th:if="${not #strings.isEmpty(mCommercialEntity.commercialLogo)}">
+                    <img src="" th:src="${mCommercialEntity.commercialLogo}" style="margin-left:10px;margin-right: 10px" width="36px" height="36px">
+                </div>
+
+                <lable class="notify_lable_style" th:text="${mCommercialEntity.commercialName}"></lable>
+
+
+                <p class="main_lable_style" style="margin-left: 20px">今日营业数据信息</p>
 
                 <p style="margin-left: 20px">
                     <lable class="report_time_style" th:text="${stateDate}"></lable>

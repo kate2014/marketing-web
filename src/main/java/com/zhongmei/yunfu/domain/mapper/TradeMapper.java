@@ -2,6 +2,7 @@ package com.zhongmei.yunfu.domain.mapper;
 
 import com.baomidou.mybatisplus.mapper.Condition;
 import com.baomidou.mybatisplus.mapper.Wrapper;
+import com.zhongmei.yunfu.controller.model.ReportSalesExportModel;
 import com.zhongmei.yunfu.domain.entity.CustomerSaveReport;
 import com.zhongmei.yunfu.domain.entity.SalesReport;
 import com.zhongmei.yunfu.domain.entity.TradeEntity;
@@ -60,4 +61,36 @@ public interface TradeMapper extends BaseMapper<TradeEntity> {
             "group by date_format(trade_time,'%Y-%m-%d')\n" +
             "order by date_format(trade_time,'%Y-%m-%d'); ")
     List<CustomerSaveReport> queryCustomerSave(@Param("ew") Condition wrapper);
+
+
+    @Select("SELECT \n" +
+            "t.`server_create_time` AS tradeDate,\n" +
+            "CASE t.trade_type \n" +
+            "WHEN 1 THEN '销货单' \n" +
+            "WHEN 2 THEN '退回单' END AS tradeType,\n" +
+            "CASE t.`business_type` \n" +
+            "WHEN 1 THEN '销货'\n" +
+            "WHEN 2 THEN '余额储值'\n" +
+            "WHEN 3 THEN '次卡购买'\n" +
+            "WHEN 4 THEN '小程序服务购买' END AS businessType,\n" +
+            "t.`trade_amount` AS tradeAmount,\n" +
+            "CASE t.`source` \n" +
+            "WHEN 1 THEN '门店POS端'\n" +
+            "WHEN 2 THEN '小程序端' END AS tradeSource,\n" +
+            "CASE t.`trade_pay_status`  \n" +
+            "WHEN 1 THEN '未支付'\n" +
+            "WHEN 2 THEN '支付中'\n" +
+            "WHEN 3 THEN '已支付'\n" +
+            "WHEN 4 THEN '退款中'\n" +
+            "WHEN 5 THEN '已退款'\n" +
+            "WHEN 6 THEN '退款失败'\n" +
+            "WHEN 7 THEN '预支付'\n" +
+            "WHEN 8 THEN '等待退款'\n" +
+            "WHEN 9 THEN '支付失败' END AS tradeState,\n" +
+            "i.pay_mode_name AS tradeMode FROM trade t, `payment` p ,`payment_item` i \n" +
+            "WHERE t.`id` = p.`relate_id` and p.`id` = i.`payment_id` \n" +
+            "${ew.sqlSegment} " +
+            "ORDER BY t.id desc;")
+    List<ReportSalesExportModel> querySalseExportExcel(@Param("ew") Condition wrapper);
+
 }

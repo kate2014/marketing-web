@@ -3,6 +3,7 @@ package com.zhongmei.yunfu.service;
 import com.baomidou.mybatisplus.service.IService;
 import com.zhongmei.yunfu.domain.entity.AuthPermissionEntity;
 import com.zhongmei.yunfu.domain.entity.AuthUserEntity;
+import com.zhongmei.yunfu.erp.model.ERPCommercialModel;
 
 import java.util.List;
 import java.util.Map;
@@ -44,4 +45,12 @@ public interface AuthUserService extends IService<AuthUserEntity> {
      * @return
      */
     Map<String, String> getAuthPermissionMap(Long authUserId, Long shopId);
+
+    /**
+     * 创建门店用户
+     * @param mAuthUserEntity
+     * @return
+     * @throws Exception
+     */
+    Boolean addAuthUser(AuthUserEntity mAuthUserEntity)throws Exception;
 }

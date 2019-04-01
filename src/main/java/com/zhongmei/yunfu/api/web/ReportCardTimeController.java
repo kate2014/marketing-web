@@ -3,6 +3,8 @@ package com.zhongmei.yunfu.api.web;
 
 import com.zhongmei.yunfu.controller.model.BookingSearchModel;
 import com.zhongmei.yunfu.controller.model.TradeModel;
+import com.zhongmei.yunfu.controller.model.excel.ExcelData;
+import com.zhongmei.yunfu.controller.model.excel.ExcelUtils;
 import com.zhongmei.yunfu.domain.entity.BrandEntity;
 import com.zhongmei.yunfu.domain.entity.CommercialEntity;
 import com.zhongmei.yunfu.domain.entity.DishReport;
@@ -17,7 +19,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
@@ -119,6 +123,44 @@ public class ReportCardTimeController {
         model.addAttribute("brand", brand);
         model.addAttribute("listCommercial", listCommercial);
         return model;
+    }
+
+    @RequestMapping("/export/excel")
+    public void exportExcel(HttpServletResponse response, TradeModel mTradeModel) throws Exception{
+
+        mTradeModel.setBusinessType(3);
+        List<DishReport> listData = mTradeItemService.dishSalesExportExcel(mTradeModel);
+
+        ExcelData data = new ExcelData();
+        data.setSheetName("次卡服务销售数据");
+        List<String> titles = new ArrayList();
+        titles.add("序");
+        titles.add("次卡服务名称");
+        titles.add("销售单价");
+        titles.add("销售数量");
+        titles.add("销售金额");
+
+        data.setTitles(titles);
+
+        List<List<Object>> rows = new ArrayList();
+        data.setRows(rows);
+
+        int i = 1;
+        if(listData != null){
+            for (DishReport entity : listData) {
+                List<Object> row = new ArrayList();
+                rows.add(row);
+                row.add(i++);
+                row.add(entity.getDishName());
+                row.add(entity.getPrice());
+                row.add(entity.getSalseCount());
+                row.add(entity.getSalesAmount());
+            }
+        }
+
+        SimpleDateFormat fdate = new SimpleDateFormat("yyyyMMdd");
+        String fileName = String.format("次卡服务销售报表-%s.xls", fdate.format(new Date()));
+        ExcelUtils.exportExcel(response, fileName, data);
     }
 
 }

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>营业报表</title>
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" type="text/css" />
+
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/test/jeDate-test.css}">
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/skin/jedate.css}">
+    <script type="text/javascript" th:src="@{/selectdate/src/jedate.js}"></script>
+
+    <script type="text/javascript" src="../static/js/echarts.min.js" th:src="@{/js/echarts.min.js}"></script>
+
+    <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}" src="../static/js/jquery-3.1.1.min.js" ></script>
+
+</head>
+
+<script type="text/javascript">
+    function exportExcel() {
+        var brandIdenty = $("input[name='brandIdenty']").val();
+        var shopIdenty = $("input[name='shopIdenty']").val();
+        var name = $("input[name='name']").val();
+        var startDate = $("input[name='startDate']").val();
+        var endDate = $("input[name='endDate']").val();
+        var params = "brandIdenty=" + brandIdenty +
+            "&shopIdenty=" + shopIdenty +
+            "&startDate=" + startDate +
+            "&endDate=" + endDate;
+        location.href = "[[${basePath}]]/internal/purchaseSale/export/excel?" + params;
+    }
+</script>
+
+<body>
+
+
+    <div class="parent" style="margin-top: 20px">
+        <form method="post" name="queryData" action="" th:action="@{/internal/purchaseSale/report}" th:object="${mPurchSaleModel}">
+
+            <input type="hidden" name="brandIdenty" th:value="${mPurchSaleModel.brandIdenty}">
+
+            <input type="hidden" name="shopIdenty" th:value="${mPurchSaleModel.shopIdenty}">
+
+            <label class="text_navigation" style="margin-left: 10px">品项名称</label>
+            <input class="input_style" style="margin-left: 5px" type="text" th:value="${mPurchSaleModel.name}" name="name"/>
+
+            <label class="text_navigation" style="margin-left: 10px">查询时间</label>
+            <input type="text" class="input_min_style" id="startDate" name="startDate" placeholder="设置查询起始时间" th:value="${mPurchSaleModel.startDate}">
+            <label class="text_navigation">--</label>
+            <input type="text" class="input_min_style" id="endDate" name="endDate" placeholder="设置查询结束时间" th:value="${mPurchSaleModel.endDate}">
+
+            <button class="orange_mine_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
+
+        </form>
+        <div class="parent" id="export_excel" onclick="exportExcel()" style="margin-left: 20px;cursor:pointer;">
+            <img th:src="@{/images/excel_icon.png}" src="../static/images/excel_icon.png" style="width: 21px;height: 21px">
+            <span style="font-size: 10px;margin-left: 6px">数据导出</span>
+        </div>
+    </div>
+
+
+
+
+<img class="line_style" th:src="@{/images/line.jpg}" style="margin-top: 20px">
+
+    <div align="center" style="margin-top: 10px;margin-bottom: 26px">
+        <table class="gridtablestyle" style="width: 95%; vertical-align: middle">
+            <tr style="width: 100%">
+                <th>品项名称</th>
+                <th>剩余库存</th>
+                <th>入库数量</th>
+                <th>采购金额</th>
+                <th>销货数量</th>
+                <th>销货金额</th>
+                <th>操作</th>
+            </tr>
+            <tr th:each="item:${listPurchaseSaleReport}">
+                <td th:text="${item.name}"></td>
+                <td th:text="${item.dishQty}"></td>
+                <td th:text="${item.number}"></td>
+                <td th:text="${item.totalPurchasePrice}"></td>
+                <td th:text="${item.saleTotal}"></td>
+                <td th:text="${item.salePrice}"></td>
+                <td align="center">
+                    <a href="activityadd.html" th:href="@{/internal/purchaseSale/report(id=${item.id})}">查看详情</a>
+                </td>
+
+            </tr>
+
+        </table>
+    </div>
+
+<script type="text/javascript" th:src="@{/selectdate/test/demo.js}"></script>
+
+</body>
+</html>

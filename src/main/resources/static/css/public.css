@@ -159,3 +159,9 @@ div.modle {
     padding: 10px;
     cursor:pointer;
 }
+
+.icon_size_style{
+    width: 23px;
+    height: 23px;
+    border: 0px;
+}

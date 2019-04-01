@@ -1,5 +1,6 @@
 package com.zhongmei.yunfu.service;
 
+import com.zhongmei.yunfu.controller.model.TradeModel;
 import com.zhongmei.yunfu.domain.entity.DishReport;
 import com.zhongmei.yunfu.domain.entity.TradeItemEntity;
 import com.baomidou.mybatisplus.service.IService;
@@ -68,4 +69,28 @@ public interface TradeItemService extends IService<TradeItemEntity> {
      * @return
      */
     Boolean deleteByTradeId(Long tradeId);
+
+    /**
+     * 查收商品销售排行榜
+     *
+     * @param mTradeModel
+     * @return
+     */
+    List<DishReport> dishSalesExportExcel(TradeModel mTradeModel) throws Exception;
+
+    /**
+     * 查询品项销售情况
+     * @param mTradeModel
+     * @return
+     * @throws Exception
+     */
+    List<TradeItemEntity> dishSaleDetail(TradeModel mTradeModel) throws Exception;
+
+    /**
+     * 菜品销售情况
+     * @param mTradeModel
+     * @return
+     * @throws Exception
+     */
+    List<TradeItemEntity> dishSaleData(TradeModel mTradeModel) throws Exception;
 }

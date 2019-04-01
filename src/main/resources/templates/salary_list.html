@@ -54,6 +54,20 @@
         document.getElementById("show_detail").style.display='none';
     }
 
+    function exportExcel() {
+        var brandIdenty = $("input[name='brandIdenty']").val();
+        var shopIdenty = $("input[name='shopIdenty']").val();
+        var startDate = $("input[name='startDate']").val();
+        var endDate = $("input[name='endDate']").val();
+        var creatorId = $("input[name='creatorId']").val();
+        var params = "brandIdenty=" + brandIdenty +
+            "&shopIdenty=" + shopIdenty +
+            "&creatorId=" + creatorId +
+            "&startDate=" + startDate +
+            "&endDate=" + endDate;
+        location.href = "[[${basePath}]]/internal/salary/export/excel?" + params;
+    }
+
 </script>
 
 <body>
@@ -64,22 +78,26 @@
 </div>
 
 
-
-<form method="post" action="" th:action="@{/internal/salary/userSalary}" th:object="${salaryModel}">
-    <input type="hidden" id="brandIdenty" name="brandIdenty" th:value="${salaryModel.brandIdenty}">
-    <input type="hidden" id="shopIdenty" name="shopIdenty" th:value="${salaryModel.shopIdenty}">
-    <input type="hidden" id="creatorId" name="creatorId" th:value="${salaryModel.creatorId}">
-
-    <div style="margin-top: 10px; margin-left: 50px">
+<div class="parent" style="margin-top: 10px; margin-left: 50px">
+    <form method="post" action="" th:action="@{/internal/salary/userSalary}" th:object="${salaryModel}">
+        <input type="hidden" id="brandIdenty" name="brandIdenty" th:value="${salaryModel.brandIdenty}">
+        <input type="hidden" id="shopIdenty" name="shopIdenty" th:value="${salaryModel.shopIdenty}">
+        <input type="hidden" id="creatorId" name="creatorId" th:value="${salaryModel.creatorId}">
 
         <label class="text_navigation" style="margin-left: 10px">查询时间段</label>
         <input type="text" class="input_style" name="startDate" placeholder="设置查询起始时间" id="startDate"  th:value="${salaryModel.startDate}">
         <label class="text_navigation" style="margin-left: 10px">--</label>
         <input type="text" class="input_style" name="endDate" placeholder="设置查询结束时间" id="endDate"  th:value="${salaryModel.endDate}">
-        <button class="orange_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
+        <button class="orange_mine_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
+    </form>
 
+    <div class="parent" id="export_excel" onclick="exportExcel()" style="margin-left: 20px;cursor:pointer;">
+        <img th:src="@{/images/excel_icon.png}" src="../static/images/excel_icon.png" style="width: 21px;height: 21px">
+        <span style="font-size: 10px;margin-left: 6px">数据导出</span>
     </div>
-</form>
+</div>
+
+
 
 <div align="center" style="margin-top: 10px;margin-bottom: 30px">
     <table class="gridtablestyle" style="width: 90%; vertical-align: middle;text-align: center" align=center>

@@ -1,24 +1,25 @@
 package com.zhongmei.yunfu.api.web;
 
 
-import com.zhongmei.yunfu.domain.entity.TradeEntity;
+import com.baomidou.mybatisplus.plugins.Page;
+import com.zhongmei.yunfu.controller.model.CustomerSearchModel;
+import com.zhongmei.yunfu.controller.model.ReportSalesExportModel;
+import com.zhongmei.yunfu.controller.model.excel.ExcelData;
+import com.zhongmei.yunfu.controller.model.excel.ExcelUtils;
+import com.zhongmei.yunfu.domain.entity.*;
+import com.zhongmei.yunfu.service.*;
 import com.zhongmei.yunfu.util.DateFormatUtil;
 import com.zhongmei.yunfu.util.ToolsUtil;
 import com.zhongmei.yunfu.controller.model.PaymentItemModel;
 import com.zhongmei.yunfu.controller.model.TradeModel;
-import com.zhongmei.yunfu.domain.entity.BrandEntity;
-import com.zhongmei.yunfu.domain.entity.CommercialEntity;
-import com.zhongmei.yunfu.domain.entity.SalesReport;
-import com.zhongmei.yunfu.service.BrandService;
-import com.zhongmei.yunfu.service.CommercialService;
-import com.zhongmei.yunfu.service.PaymentItemService;
-import com.zhongmei.yunfu.service.TradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
@@ -327,5 +328,48 @@ public class ReportSalesController {
         model.addAttribute("listName", listName);
         model.addAttribute("listAmount", listAmount);
         model.addAttribute("listCount", listCount);
+    }
+
+    @RequestMapping("/export/excel")
+    public void exportExcel(HttpServletResponse response, TradeModel mTradeModel) throws Exception{
+
+        List<ReportSalesExportModel> listData = mTradeService.querySalseExportExcel(mTradeModel);
+
+        ExcelData data = new ExcelData();
+        data.setSheetName("营业报表");
+        List<String> titles = new ArrayList();
+        titles.add("序");
+        titles.add("交易时间");
+        titles.add("交易类别");
+        titles.add("交易类型");
+        titles.add("交易金额");
+        titles.add("交易来源");
+        titles.add("交易方式");
+        titles.add("交易状态");
+
+        data.setTitles(titles);
+
+        List<List<Object>> rows = new ArrayList();
+        data.setRows(rows);
+
+        int i = 1;
+        if(listData != null){
+            for (ReportSalesExportModel entity : listData) {
+                List<Object> row = new ArrayList();
+                rows.add(row);
+                row.add(i++);
+                row.add(entity.getTradeDate());
+                row.add(entity.getTradeType());
+                row.add(entity.getBusinessType());
+                row.add(entity.getTradeAmount());
+                row.add(entity.getTradeSource());
+                row.add(entity.getTradeMode());
+                row.add(entity.getTradeState());
+            }
+        }
+
+        SimpleDateFormat fdate = new SimpleDateFormat("yyyyMMdd");
+        String fileName = String.format("营业统计报表-%s.xls", fdate.format(new Date()));
+        ExcelUtils.exportExcel(response, fileName, data);
     }
 }

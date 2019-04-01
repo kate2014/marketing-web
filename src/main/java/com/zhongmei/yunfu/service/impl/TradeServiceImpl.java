@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.zhongmei.yunfu.controller.model.ReportSalesExportModel;
 import com.zhongmei.yunfu.controller.model.TradeDataModel;
 import com.zhongmei.yunfu.controller.model.TradeModel;
 import com.zhongmei.yunfu.core.mybatis.mapper.ConditionFilter;
@@ -308,5 +309,18 @@ public class TradeServiceImpl extends ServiceImpl<TradeMapper, TradeEntity> impl
     public List<ShopSalesReport> shopSalesReport(TradeModel mTradeModel) {
 
         return null;
+    }
+
+    @Override
+    public List<ReportSalesExportModel> querySalseExportExcel(TradeModel mTradeModel) {
+        Condition eWrapper = ConditionFilter.create();
+        eWrapper.eq("t.brand_identy", mTradeModel.getBrandIdenty());
+        eWrapper.eq("t.shop_identy", mTradeModel.getShopIdenty());
+        eWrapper.eq("t.status_flag", 1);
+        eWrapper.between("t.server_create_time", mTradeModel.getStartDate(), mTradeModel.getEndDate());
+
+        List<ReportSalesExportModel> listData = baseMapper.querySalseExportExcel(eWrapper);
+
+        return listData;
     }
 }

@@ -103,6 +103,7 @@ public class TradeModel extends WebBaseModel {
 
     private String creatorName;
 
+    private Long dishShopId;
 
     public String getWxOpenId() {
         return wxOpenId;
@@ -334,5 +335,13 @@ public class TradeModel extends WebBaseModel {
 
     public void setMarketingName(String marketingName) {
         this.marketingName = marketingName;
+    }
+
+    public Long getDishShopId() {
+        return dishShopId;
+    }
+
+    public void setDishShopId(Long dishShopId) {
+        this.dishShopId = dishShopId;
     }
 }

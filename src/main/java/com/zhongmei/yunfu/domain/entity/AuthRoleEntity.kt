@@ -38,9 +38,7 @@ class AuthRoleEntity : BaseEntity() {
      */
     var brandIdenty: Long? = null
     /**
-     * 1:用户(b.kry用户创建,)
-2:系统(b.kry不可见,系统自动创建,如营销发布员)
-3:品牌(只读模式,系统自动创建如admin)
+     * 1:用户 2:系统 3:品牌
      */
     var sourceFlag: Int? = null
     /**

@@ -56,7 +56,7 @@ public class CustomerScoreRuleServiceImpl extends ServiceImpl<CustomerScoreRuleM
                 mCustomerScoreRule.setServerUpdateTime(new Date());
 
                 isSuccess = insert(mCustomerScoreRule);
-            } else if (mCustomerScoreRuleMode.getConvertValueS() != null) {
+            }else if(mCustomerScoreRuleMode.getConvertValueS() != null){
                 CustomerScoreRuleEntity mCustomerScoreRule = new CustomerScoreRuleEntity();
                 mCustomerScoreRule.setId(mCustomerScoreRuleMode.getIdS());
                 mCustomerScoreRule.setConvertValue(mCustomerScoreRuleMode.getConvertValueS());
@@ -69,6 +69,7 @@ public class CustomerScoreRuleServiceImpl extends ServiceImpl<CustomerScoreRuleM
 
         //积分抵用
         if (mCustomerScoreRuleMode.getTypeD() != null && mCustomerScoreRuleMode.getTypeD() == 2) {
+            //抵用规则：多少积分抵用多少金额
             if (mCustomerScoreRuleMode.getIdD() == null && mCustomerScoreRuleMode.getConvertValueD() != null) {
                 CustomerScoreRuleEntity mCustomerScoreRule = new CustomerScoreRuleEntity();
                 mCustomerScoreRule.setBrandIdenty(mCustomerScoreRuleMode.getBrandIdenty());
@@ -84,7 +85,7 @@ public class CustomerScoreRuleServiceImpl extends ServiceImpl<CustomerScoreRuleM
                 mCustomerScoreRule.setServerUpdateTime(mCustomerScoreRuleMode.getServerUpdateTime());
 
                 isSuccess = insert(mCustomerScoreRule);
-            } else if (mCustomerScoreRuleMode.getConvertValueD() != null) {
+            }else if(mCustomerScoreRuleMode.getConvertValueD() != null){
                 CustomerScoreRuleEntity mCustomerScoreRule = new CustomerScoreRuleEntity();
                 mCustomerScoreRule.setId(mCustomerScoreRuleMode.getIdD());
                 mCustomerScoreRule.setConvertValue(mCustomerScoreRuleMode.getConvertValueD());
@@ -93,6 +94,32 @@ public class CustomerScoreRuleServiceImpl extends ServiceImpl<CustomerScoreRuleM
                 mCustomerScoreRule.setServerUpdateTime(new Date());
                 isSuccess = updateById(mCustomerScoreRule);
             }
+            //抵用规则：单笔订单抵用上限
+            if (mCustomerScoreRuleMode.getIdM() == null && mCustomerScoreRuleMode.getConvertValueM() != null) {
+                CustomerScoreRuleEntity mCustomerScoreRule = new CustomerScoreRuleEntity();
+                mCustomerScoreRule.setBrandIdenty(mCustomerScoreRuleMode.getBrandIdenty());
+                mCustomerScoreRule.setShopIdenty(mCustomerScoreRuleMode.getShopIdenty());
+                mCustomerScoreRule.setType(3);
+                mCustomerScoreRule.setConvertValue(mCustomerScoreRuleMode.getConvertValueM());
+                mCustomerScoreRule.setStatusFlag(1);
+                mCustomerScoreRule.setCreatorId(mCustomerScoreRuleMode.getCreatorId());
+                mCustomerScoreRule.setCreatorName(mCustomerScoreRuleMode.getCreatorName());
+                mCustomerScoreRule.setUpdatorId(mCustomerScoreRuleMode.getUpdatorId());
+                mCustomerScoreRule.setUpdatorName(mCustomerScoreRuleMode.getUpdatorName());
+                mCustomerScoreRule.setServerCreateTime(mCustomerScoreRuleMode.getServerCreateTime());
+                mCustomerScoreRule.setServerUpdateTime(mCustomerScoreRuleMode.getServerUpdateTime());
+
+                isSuccess = insert(mCustomerScoreRule);
+            }else if(mCustomerScoreRuleMode.getConvertValueM() != null) {
+                CustomerScoreRuleEntity mCustomerScoreRule = new CustomerScoreRuleEntity();
+                mCustomerScoreRule.setId(mCustomerScoreRuleMode.getIdM());
+                mCustomerScoreRule.setConvertValue(mCustomerScoreRuleMode.getConvertValueM());
+                mCustomerScoreRule.setUpdatorId(mCustomerScoreRuleMode.getUpdatorId());
+                mCustomerScoreRule.setUpdatorName(mCustomerScoreRuleMode.getUpdatorName());
+                mCustomerScoreRule.setServerUpdateTime(new Date());
+                isSuccess = updateById(mCustomerScoreRule);
+            }
+
         }
 
         return isSuccess;

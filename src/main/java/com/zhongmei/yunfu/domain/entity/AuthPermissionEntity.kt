@@ -62,7 +62,7 @@ class AuthPermissionEntity : BaseEntity() {
      */
     var sourceFlag: Int? = null
     /**
-     * 组织结构类型，1-公司、2-门店、6-配送站、7-公司及门店、8-公司及配送站、9-门店及配送站、10-公司、门店及配送站
+     * 组织结构类型，1-公司、2-门店
      */
     var groupFlag: Int? = null
     /**

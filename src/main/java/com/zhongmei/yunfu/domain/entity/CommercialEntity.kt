@@ -19,7 +19,7 @@ class CommercialEntity : BaseEntity() {
     /**
      * 主键id
      */
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "commercial_id", type = IdType.AUTO)
     var commercialId: Long? = null
     var commercialName: String? = null
     /**
@@ -79,26 +79,41 @@ class CommercialEntity : BaseEntity() {
      * 系统当前版本号
      */
     var currentVersion: Int? = null
+    /**
+     * 省份
+     */
+    var province: String? = null
+    /**
+     * 城市
+     */
+    var city: String? = null
+    /**
+     * 区域
+     */
+    var area: String? = null
 
     override fun toString(): String {
         return "CommercialEntity{" +
-        ", commercialId=" + commercialId +
-        ", commercialName=" + commercialName +
-        ", commercialContact=" + commercialContact +
-        ", commercialPhone=" + commercialPhone +
-        ", commercialAdress=" + commercialAdress +
-        ", commercialDesc=" + commercialDesc +
-        ", commercialLogo=" + commercialLogo +
-        ", status=" + status +
-        ", invalidStatus=" + invalidStatus +
-        ", brandId=" + brandId +
-        ", branchName=" + branchName +
-        ", openTime=" + openTime +
-        ", consumePerson=" + consumePerson +
-        ", deviceType=" + deviceType +
-        ", longitude=" + longitude +
-        ", latitude=" + latitude +
-        ", currentVersion=" + currentVersion +
-        "}"
+                ", commercialId=" + commercialId +
+                ", commercialName=" + commercialName +
+                ", commercialContact=" + commercialContact +
+                ", commercialPhone=" + commercialPhone +
+                ", commercialAdress=" + commercialAdress +
+                ", commercialDesc=" + commercialDesc +
+                ", commercialLogo=" + commercialLogo +
+                ", status=" + status +
+                ", invalidStatus=" + invalidStatus +
+                ", brandId=" + brandId +
+                ", branchName=" + branchName +
+                ", openTime=" + openTime +
+                ", consumePerson=" + consumePerson +
+                ", deviceType=" + deviceType +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
+                ", currentVersion=" + currentVersion +
+                ", province=" + province +
+                ", city=" + city +
+                ", area=" + area +
+                "}"
     }
 }

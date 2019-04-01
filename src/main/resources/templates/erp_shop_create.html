@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>创建门店</title>
+</head>
+
+<link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
+<link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
+<link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" />
+<link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" />
+<link rel="stylesheet" th:href="@{/css/customer.css}" href="../static/css/customer.css" />
+
+<script type="text/javascript" th:src="@{/js/select_address.js}" src="../static/js/select_address.js"></script>
+
+<script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+
+<link th:href="@{/upload/upload-one.css}" href="../static/upload/upload-one.css" type="text/css" rel="stylesheet" />
+<script th:src="@{/upload/upload-one.js}" src="../static/upload/upload-one.js"></script>
+<link th:href="@{/upload/upload-file.css}" href="../static/upload/upload-file.css" type="text/css" rel="stylesheet" />
+<script th:src="@{/upload/upload-file.js}" src="../static/upload/upload-file.js"></script>
+
+<!-- tips 提示框引用-->
+<link rel="stylesheet" th:href="@{/tips/jquery.toast.css}">
+<script type="text/javascript" th:src="@{/tips/jquery.toast.js}"></script>
+<script type="text/javascript" th:src="@{/tips/tips.js}"></script>
+
+<script type="text/javascript">
+
+    function sendForm() {
+
+        var commercialName = document.getElementById("commercialName").value.replace(/(^\s*)|(\s*$)/g, '');
+        var commercialContact = document.getElementById("commercialContact").value.replace(/(^\s*)|(\s*$)/g, '');
+        var commercialPhone = document.getElementById("commercialPhone").value.replace(/(^\s*)|(\s*$)/g, '');
+        var brandId = document.getElementById("brandId").value.replace(/(^\s*)|(\s*$)/g, '');
+
+        var province = document.getElementById("province").value.replace(/(^\s*)|(\s*$)/g, '');
+        var city = document.getElementById("city").value.replace(/(^\s*)|(\s*$)/g, '');
+        var area = document.getElementById("area").value.replace(/(^\s*)|(\s*$)/g, '');
+
+        if(commercialName == '' || commercialName == undefined || commercialName == null){
+            warningTips("操作异常提示","门店名称不能为空");
+        }else if(commercialContact == '' || commercialContact == undefined || commercialContact == null){
+            warningTips("操作异常提示","联系人不能为空");
+        }else if(commercialPhone == '' || commercialPhone == undefined || commercialPhone == null){
+            warningTips("操作异常提示","联系电话不能为空");
+        }else if(brandId == '' || brandId == undefined || brandId == null){
+            warningTips("操作异常提示","所属品牌ID不能为空");
+        }else if(province == '' || province == undefined || province == null){
+            warningTips("操作异常提示","请选择省份");
+        }else if(city == '' || city == undefined || city == null){
+            warningTips("操作异常提示","请选择城市");
+        }else if(area == '' || area == undefined || area == null){
+            warningTips("操作异常提示","请选择区域");
+        }else{
+            document.addForm.submit();
+        }
+    }
+
+
+
+</script>
+
+<body onload="initAddress()">
+
+<div class="parent top_view_style">
+    <img th:src="@{/images/lable.jpg}" width="5" height="26" style="margin-left: 20px">
+    <label class="text_navigation" style="margin-left: 10px;width: 80%">新建门店</label>
+
+    <button class="gray_button_style" onclick="avascript :history.back(-1);">返回列表</button>
+</div>
+
+
+
+<div style="margin: 20px">
+
+    <form method="post" name="addForm" th:action="@{/internal/erp/shopManager/createShop}" th:object="${mCommercialEntity}">
+
+        <input type="hidden" name="creatorId" th:value="${mCommercialModel.creatorId}">
+        <input type="hidden" name="creatorName" th:value="${mCommercialModel.creatorName}">
+
+        <input type="hidden" name="commercialId" th:value="${mCommercialModel.commercialId}">
+
+        <div style="margin-top: 15px">
+            <label class="text_navigation" style="margin-left: 10px; width: 100px;display:inline-block">门店名称:</label>
+
+            <input class="input_style" style="margin-left: 5px; width: 300px" type="text" th:value="${mCommercialEntity.commercialName}" name="commercialName" id="commercialName"/>
+        </div>
+
+        <div style="margin-top: 15px">
+            <label class="text_navigation" style="margin-left: 10px; width: 100px;display:inline-block">联系人:</label>
+
+            <input class="input_style" style="margin-left: 5px; width: 300px" type="text" th:value="${mCommercialEntity.commercialContact}" name="commercialContact" id="commercialContact"/>
+        </div>
+
+        <div style="margin-top: 15px">
+            <label class="text_navigation" style="margin-left: 10px;width: 100px;display:inline-block">联系电话:</label>
+            <input class="input_style" style="margin-left: 5px; width: 300px" type="text" th:value="${mCommercialEntity.commercialPhone}" name="commercialPhone" id="commercialPhone"/>
+        </div>
+
+        <div style="margin-top: 15px">
+            <label class="text_navigation" style="margin-left: 10px; width: 100px;display:inline-block">所属品牌ID:</label>
+            <input class="input_style" style="margin-left: 5px; width: 300px" type="text" th:value="${mCommercialEntity.brandId}" name="brandId" id="brandId"/>
+        </div>
+
+        <div style="margin-top: 15px">
+            <label class="text_navigation" style="margin-left: 10px; width: 100px;;display:inline-block">分店名称:</label>
+            <input class="input_style" style="margin-left: 5px; width: 300px" type="text" th:value="${mCommercialEntity.branchName}" name="branchName" id="branchName"/>
+        </div>
+
+        <div style="margin-top: 15px">
+            <label class="text_navigation" style="margin-left: 10px;width: 100px;;display:inline-block">品牌状态:</label>
+            <select id="status" class="select_style" name="status" style="margin-left: 5px;width: 300px">
+                <option th:selected="${mCommercialEntity.status==0}" th:value="0">可用</option>
+                <option th:selected="${mCommercialEntity.status==-1}" th:value="-1">不可用</option>
+                <option th:selected="${mCommercialEntity.status==1}" th:value="1">预装</option>
+            </select>
+        </div>
+
+        <div style="margin-top: 15px">
+            <label class="text_navigation" style="margin-left: 10px;width: 100px;;display:inline-block">品牌状态:</label>
+            <select id="invalidStatus" class="select_style" name="invalidStatus" style="margin-left: 5px;width: 300px">
+                <option th:selected="${mCommercialEntity.invalidStatus==1}" th:value="1">正常使用</option>
+                <option th:selected="${mCommercialEntity.invalidStatus==2}" th:value="2">暂停使用</option>
+            </select>
+        </div>
+
+        <div style="margin-top: 15px">
+            <label class="text_navigation" style="margin-left: 10px;width: 100px;;display:inline-block">省份:</label>
+            <select id="province" class="select_style" name="province" style="margin-left: 5px;width: 300px" onchange="chooseProvince(this)">
+                <option th:value="${mCommercialEntity.province}" th:text="${mCommercialEntity.province}"></option>
+            </select>
+        </div>
+
+        <div style="margin-top: 15px">
+            <label class="text_navigation" style="margin-left: 10px;width: 100px;;display:inline-block">城市:</label>
+            <select id="city" class="select_style" name="city" style="margin-left: 5px;width: 300px" onchange="chooseCity(this)">
+                <option th:value="${mCommercialEntity.city}" th:text="${mCommercialEntity.city}"></option>
+            </select>
+        </div>
+
+        <div style="margin-top: 15px">
+            <label class="text_navigation" style="margin-left: 10px;width: 100px;;display:inline-block">区域:</label>
+            <select id="area" class="select_style" name="area" style="margin-left: 5px;width: 300px">
+                <option th:value="${mCommercialEntity.area}" th:text="${mCommercialEntity.area}"></option>
+            </select>
+        </div>
+
+        <div style="margin-top: 15px">
+            <label class="text_navigation" style="margin-left: 10px; width: 100px;;display:inline-block">门店地址:</label>
+            <input class="input_style" style="margin-left: 5px; width: 300px" type="text" th:value="${mCommercialEntity.commercialAdress}" name="commercialAdress" id="commercialAdress"/>
+        </div>
+
+        <div style="margin-top: 15px">
+            <label class="text_navigation" style="margin-left: 10px; width: 100px;;display:inline-block">门店经度:</label>
+            <input class="input_style" style="margin-left: 5px; width: 300px" type="text" th:value="${mCommercialEntity.longitude}" name="longitude" id="longitude"/>
+        </div>
+        <div style="margin-top: 15px">
+            <label class="text_navigation" style="margin-left: 10px; width: 100px;;display:inline-block">门店纬度:</label>
+            <input class="input_style" style="margin-left: 5px; width: 300px" type="text" th:value="${mCommercialEntity.latitude}" name="latitude" id="latitude"/>
+        </div>
+        <div style="margin-top: 15px;">
+            <label class="text_navigation" style="margin-left: 10px; width: 100px;;display:inline-block">品牌Logo:</label>
+
+            <div class="upload-box" th:src="${mCommercialEntity.commercialLogo}" name="commercialLogo">
+                <div class="upload-btn">
+                    <input type="file" name="file" id="upload-input"/>
+                </div>
+            </div>
+
+            <h6 style="margin-left: 15px">点击图片进行上传或替换，仅可上传1张图片(图片大小 90*90px)</h6>
+
+        </div>
+
+        <div style="margin-top: 15px">
+            <label class="text_navigation" style="margin-left: 10px;width: 100px;display:inline-block">门店简介:</label>
+            <input class="input_style" style="margin-left: 5px; width: 300px" type="text" th:value="${mCommercialEntity.commercialDesc}" name="commercialDesc" id="commercialDesc"/>
+        </div>
+
+
+    </form>
+
+    <div style="width: 100%;height: 1px;background-color: #e3e3e3;margin-top: 20px"></div>
+    <div style="margin-top: 20px;" class="container parent_h">
+        <button class="blue_button_style" onclick="sendForm()" style="margin-left: 10px" >保存</button>
+        <button class="gray_button_style" onclick="avascript :history.back(-1);" style="margin-left: 10px">取消</button>
+    </div>
+
+</div>
+
+
+</body>
+</html>

@@ -2,6 +2,7 @@ package com.zhongmei.yunfu.service.impl;
 
 import com.baomidou.mybatisplus.mapper.Condition;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.zhongmei.yunfu.controller.model.TradeModel;
 import com.zhongmei.yunfu.core.mybatis.mapper.ConditionFilter;
 import com.zhongmei.yunfu.domain.entity.DishReport;
 import com.zhongmei.yunfu.domain.entity.TradeItemEntity;
@@ -85,4 +86,53 @@ public class TradeItemServiceImpl extends ServiceImpl<TradeItemMapper, TradeItem
         Boolean isSuccess = delete(eWrapper);
         return isSuccess;
     }
+
+    @Override
+    public List<DishReport> dishSalesExportExcel(TradeModel mTradeModel) throws Exception {
+
+        Condition eWrapper = ConditionFilter.create();
+        eWrapper.isWhere(true);
+        eWrapper.eq("brand_identy", mTradeModel.getBrandIdenty());
+        eWrapper.eq("shop_identy", mTradeModel.getShopIdenty());
+        eWrapper.eq("trade_status", 4);
+        eWrapper.eq("business_type", mTradeModel.getBusinessType());
+        eWrapper.eq("trade_type", 1);//售货
+        eWrapper.eq("status_flag", 1);
+        eWrapper.between("server_create_time", mTradeModel.getStartDate(), mTradeModel.getEndDate());
+        List<DishReport> listData = baseMapper.dishSalesExportExcel(eWrapper);
+        return listData;
+    }
+
+    @Override
+    public List<TradeItemEntity> dishSaleDetail(TradeModel mTradeModel) throws Exception {
+
+        Condition eWrapper = ConditionFilter.create();
+        eWrapper.isWhere(true);
+        eWrapper.eq("brand_identy", mTradeModel.getBrandIdenty());
+        eWrapper.eq("shop_identy", mTradeModel.getShopIdenty());
+        eWrapper.eq("trade_status", 4);
+        eWrapper.eq("business_type", 1);//美业销货
+        eWrapper.eq("status_flag", 1);
+        eWrapper.between("server_create_time", mTradeModel.getStartDate(), mTradeModel.getEndDate());
+        List<TradeItemEntity> listData = baseMapper.dishSaleDetail(eWrapper);
+
+        return listData;
+    }
+
+    @Override
+    public List<TradeItemEntity> dishSaleData(TradeModel mTradeModel) throws Exception {
+        Condition eWrapper = ConditionFilter.create();
+        eWrapper.eq("t.brand_identy", mTradeModel.getBrandIdenty());
+        eWrapper.eq("t.shop_identy", mTradeModel.getShopIdenty());
+        eWrapper.eq("t.trade_status", mTradeModel.getTradeStatus());
+        eWrapper.eq("t.business_type", 1);//美业销货
+        eWrapper.eq("t.trade_type", mTradeModel.getTradeType());//1销货  2退货
+        eWrapper.eq("t.status_flag", 1);
+        eWrapper.between("t.server_create_time", mTradeModel.getStartDate(), mTradeModel.getEndDate());
+        List<TradeItemEntity> listData = baseMapper.dishSaleData(eWrapper);
+
+        return listData;
+    }
+
+
 }

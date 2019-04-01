@@ -36,8 +36,8 @@ public class TogetherMApiController {
 
     @GetMapping("/findTogetherM")
     public BaseDataModel findTogetherMarketing(Model model, TogetherMarketingModel togetherMarketingModel) {
-        MarketingTogetherEntity mMarketingTogether = new MarketingTogetherEntity();
-        mMarketingTogether = marketingTogetherService.findMarketingTogether(togetherMarketingModel.getShopIdenty(), 1);
+
+        MarketingTogetherEntity mMarketingTogether = marketingTogetherService.findMarketingTogether(togetherMarketingModel.getShopIdenty(), 1,1);
         BaseDataModel mBaseDataModel = new BaseDataModel();
 
         if (mMarketingTogether != null) {
@@ -51,7 +51,7 @@ public class TogetherMApiController {
         } else {
             mBaseDataModel.setState("1001");
             mBaseDataModel.setMsg("商户未开通该活动");
-            mBaseDataModel.setData(mMarketingTogether);
+            mBaseDataModel.setData(false);
         }
 
 
@@ -94,12 +94,14 @@ public class TogetherMApiController {
         BaseDataModel mBaseDataModel = new BaseDataModel();
         try {
             //获取活动优惠券
-            MarketingTogetherEntity mMarketingTogether = marketingTogetherService.findMarketingTogether(mCustomerMTModel.getShopIdenty(), 1);
-            mCustomerMTModel.setCouponId(mMarketingTogether.getCouponId());
-            mCustomerMTModel.setCouponName(mMarketingTogether.getCouponName());
-            mCustomerMTModel.setValidData(mMarketingTogether.getEndDate());
-            mCustomerMTModel.setStatus(2); //1：结束 2：未接受 3:接受 4：拒绝
-            mCustomerMTModel = customerMarketingTogetherService.installCMT(mCustomerMTModel);
+            MarketingTogetherEntity mMarketingTogether = marketingTogetherService.findMarketingTogether(mCustomerMTModel.getShopIdenty(), 1,1);
+            if(mMarketingTogether != null){
+                mCustomerMTModel.setCouponId(mMarketingTogether.getCouponId());
+                mCustomerMTModel.setCouponName(mMarketingTogether.getCouponName());
+                mCustomerMTModel.setValidData(mMarketingTogether.getEndDate());
+                mCustomerMTModel.setStatus(2); //1：结束 2：未接受 3:接受 4：拒绝
+                mCustomerMTModel = customerMarketingTogetherService.installCMT(mCustomerMTModel);
+            }
 
             mBaseDataModel.setState("1000");
             mBaseDataModel.setMsg("操作成功");
@@ -137,7 +139,7 @@ public class TogetherMApiController {
 
                 if (mCustomerMTModel.getStatus() == 3) {
                     //获取活动优惠券
-                    MarketingTogetherEntity mMarketingTogether = marketingTogetherService.findMarketingTogether(mCustomerMTModel.getShopIdenty(), 1);
+                    MarketingTogetherEntity mMarketingTogether = marketingTogetherService.findMarketingTogether(mCustomerMTModel.getShopIdenty(), 1,1);
                     mCustomerMarketingTogether = customerMarketingTogetherService.queryCMTByBatchCode(mCustomerMTModel.getBatchCode());
                     if (mMarketingTogether != null && mCustomerMarketingTogether != null) {
                         //给受邀用户发券

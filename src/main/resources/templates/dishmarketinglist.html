@@ -88,7 +88,7 @@
     <label class="text_navigation" style="margin-left: 10px;width: 30%">营销 》新品推送</label>
 
     <div align="right" style="width: 100%;margin-right: 50px">
-        <button class="blue_button_style" value="" th:onclick="@{|location='${basePath}/pushPlanNewDish/addNewDishPushPlanPage'|}">+添加新品推送</button>
+        <button class="blue_button_style" value="" th:onclick="@{|location='${basePath}/pushPlanNewDish/addNewDishPushPlanPage'|}">+添加新品</button>
 
         <button class="gray_button_style" value="" th:onclick="@{|location='${basePath}/home'|}" style="margin-left: 10px">返回</button>
     </div>
@@ -106,7 +106,7 @@
 
     <label class="text_navigation" style="margin-left: 10px">新品名称</label>
     <input class="input_style" style="margin-left: 5px" type="text" name="keyWord" th:value="${keyWord}" />
-    <button class="orange_button_style" name="curPage" value="1" onclick="this" style="margin-left: 10px">查询</button>
+    <button class="orange_mine_button_style" name="curPage" value="1" onclick="this" style="margin-left: 10px">查询</button>
     </form>
 </div>
 <div align="center" style="margin-top: 10px">

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>创建门店</title>
+</head>
+
+<link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
+<link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
+<link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" />
+<link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" />
+<link rel="stylesheet" th:href="@{/css/customer.css}" href="../static/css/customer.css" />
+
+<script type="text/javascript" th:src="@{/js/select_address.js}" src="../static/js/select_address.js"></script>
+
+<script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+
+<link th:href="@{/upload/upload-one.css}" href="../static/upload/upload-one.css" type="text/css" rel="stylesheet" />
+<script th:src="@{/upload/upload-one.js}" src="../static/upload/upload-one.js"></script>
+<link th:href="@{/upload/upload-file.css}" href="../static/upload/upload-file.css" type="text/css" rel="stylesheet" />
+<script th:src="@{/upload/upload-file.js}" src="../static/upload/upload-file.js"></script>
+
+<!-- tips 提示框引用-->
+<link rel="stylesheet" th:href="@{/tips/jquery.toast.css}">
+<script type="text/javascript" th:src="@{/tips/jquery.toast.js}"></script>
+<script type="text/javascript" th:src="@{/tips/tips.js}"></script>
+
+<script type="text/javascript">
+
+    function sendForm() {
+
+        var brandIdenty = document.getElementById("brandIdenty").value.replace(/(^\s*)|(\s*$)/g, '');
+        var shopIdenty = document.getElementById("shopIdenty").value.replace(/(^\s*)|(\s*$)/g, '');
+        var deviceNo = document.getElementById("deviceNo").value.replace(/(^\s*)|(\s*$)/g, '');
+        var deviceMac = document.getElementById("deviceMac").value.replace(/(^\s*)|(\s*$)/g, '');
+
+        if(brandIdenty == '' || brandIdenty == undefined || brandIdenty == null){
+            warningTips("操作异常提示","品牌编号不能为空");
+        }else if(shopIdenty == '' || shopIdenty == undefined || shopIdenty == null){
+            warningTips("操作异常提示","门店编号不能为空");
+        }else if(deviceNo == '' || deviceNo == undefined || deviceNo == null){
+            warningTips("操作异常提示","设备编号不能为空");
+        }else if(deviceMac == '' || deviceMac == undefined || deviceMac == null){
+            warningTips("操作异常提示","MAC地址不能为空");
+        }else{
+            document.addForm.submit();
+        }
+    }
+
+
+
+</script>
+
+<body onload="initAddress()">
+
+<div class="parent top_view_style">
+    <img th:src="@{/images/lable.jpg}" width="5" height="26" style="margin-left: 20px">
+    <label class="text_navigation" style="margin-left: 10px;width: 80%">新建门店</label>
+
+    <button class="gray_button_style" onclick="avascript :history.back(-1);">返回列表</button>
+</div>
+
+
+
+<div style="margin: 20px">
+
+    <form method="post" name="addForm" th:action="@{/internal/erp/device/bindingDevice}" th:object="${mCommercialEntity}">
+
+        <input type="hidden" name="creatorId" th:value="${mERPDeviceModel.creatorId}">
+        <input type="hidden" name="creatorName" th:value="${mERPDeviceModel.creatorName}">
+        <input type="hidden" name="id" th:value="${mERPDeviceModel.id}">
+
+        <div style="margin-top: 15px">
+            <label class="text_navigation" style="margin-left: 10px; width: 100px;display:inline-block">品牌编号:</label>
+
+            <input class="input_style" style="margin-left: 5px; width: 300px" type="text" th:value="${mShopDeviceEntity.brandIdenty}" name="brandIdenty" id="brandIdenty"/>
+        </div>
+
+        <div style="margin-top: 15px">
+            <label class="text_navigation" style="margin-left: 10px; width: 100px;display:inline-block">门店编号:</label>
+
+            <input class="input_style" style="margin-left: 5px; width: 300px" type="text" th:value="${mShopDeviceEntity.shopIdenty}" name="shopIdenty" id="shopIdenty"/>
+        </div>
+
+        <div style="margin-top: 15px">
+            <label class="text_navigation" style="margin-left: 10px;width: 100px;display:inline-block">设备编号:</label>
+            <input class="input_style" style="margin-left: 5px; width: 300px" type="text" th:value="${mShopDeviceEntity.deviceNo}" name="deviceNo" id="deviceNo"/>
+        </div>
+
+        <div style="margin-top: 15px">
+            <label class="text_navigation" style="margin-left: 10px; width: 100px;display:inline-block">MAC地址:</label>
+            <input class="input_style" style="margin-left: 5px; width: 300px" type="text" th:value="${mShopDeviceEntity.deviceMac}" name="deviceMac" id="deviceMac"/>
+        </div>
+
+        <div style="margin-top: 15px">
+            <label class="text_navigation" style="margin-left: 10px;width: 100px;;display:inline-block">启用状态:</label>
+            <select id="statusFlag" class="select_style" name="statusFlag" style="margin-left: 5px;width: 300px" >
+                <option th:selected="${mShopDeviceEntity.statusFlag==1}" th:value="1">正常使用</option>
+                <option th:selected="${mShopDeviceEntity.statusFlag==2}" th:value="2">停止使用</option>
+            </select>
+        </div>
+        
+    </form>
+
+    <div style="width: 100%;height: 1px;background-color: #e3e3e3;margin-top: 20px"></div>
+    <div style="margin-top: 20px;" class="container parent_h">
+        <button class="blue_button_style" onclick="sendForm()" style="margin-left: 10px" >保存</button>
+        <button class="gray_button_style" onclick="avascript :history.back(-1);" style="margin-left: 10px">取消</button>
+    </div>
+
+</div>
+
+
+</body>
+</html>

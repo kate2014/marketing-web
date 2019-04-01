@@ -385,7 +385,7 @@ public class CustomerApiController {
 
         }else{
             //为设置appid和secret
-            mBaseDataModel.setState("1004");
+            mBaseDataModel.setState("10000");
             mBaseDataModel.setMsg("商户未配置门店appid");
             mBaseDataModel.setData(false);
             return 1001;

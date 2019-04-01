@@ -245,8 +245,8 @@
             <label class="text_navigation" style="margin-left: 10px">手机号</label>
             <input class="input_style" style="margin-left: 5px" type="text" name="mobile" th:value="*{mobile}" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="20"/>
 
-            <button class="orange_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
-            <button id="service_push" class="blue_button_style select-shop" value="" onclick="return false;" style="margin-left: 10px">服务推送</button>
+            <button class="orange_mine_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
+            <button id="service_push" class="blue_mine_button_style select-shop" value="" onclick="return false;" style="margin-left: 10px">服务推送</button>
 
             <div class="parent" id="export_excel" style="margin-left: 10px;cursor:pointer;" th:if="${#lists.contains(session.loginManager.permissionCodeList, 'CUSTOMER_EXPORT')}">
                 <img th:src="@{/images/excel_icon.png}" style="width: 21px;height: 21px">

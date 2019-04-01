@@ -209,6 +209,10 @@ public class CutDownMarketingController extends BaseController{
     @RequestMapping("/deleteById")
     public String deleteById(Model model, CutDownModel mCutDownModel) {
         try {
+            if(mCutDownModel.getId() == null){
+                return "fail";
+            }
+
             Boolean isSuccess = mCutDownMarketingService.deleteCutDownById(mCutDownModel.getId());
             if (isSuccess) {
                 return "success";

@@ -88,18 +88,44 @@
             <th>卡项名称</th>
             <th>售价</th>
             <th>使用次数</th>
-            <th>使用起始时间</th>
-            <th>使用结束数据</th>
+            <th>使用时长</th>
+            <th>创建时间</th>
             <th>操作</th>
         </tr>
         <tr th:each="item:${list}">
             <td th:text="${item.name}"></td>
-
-
             <td th:text="${item.marketPrice}"></td>
-            <td th:text="${item.dishIncreaseUnit}"></td>
-            <td th:text="${#dates.format(item.validTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
-            <td th:text="${#dates.format(item.unvalidTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td>
+                <span th:if="${item.saleTotal} eq '-1'">
+                    无限次数
+                </span>
+                <span th:if="${item.saleTotal} ne '-1'">
+                    <span th:text="${item.saleTotal}"></span>
+                </span>
+            </td>
+            <td>
+
+                <span th:if="${item.minNum} eq '-1'">
+                    永久有效
+                </span>
+                <div th:if="${item.minNum} ne '-1'" class="parent_h">
+                    <span th:text="${item.minNum}"></span>
+
+                    <span th:switch="${item.maxNum}">
+                        <p th:case="'1'">
+                            天
+                        </p>
+                        <p th:case="'2'">
+                            周
+                        </p>
+                        <p th:case="'3'">
+                            月
+                        </p>
+                    </span>
+                </div>
+
+            </td>
+            <td th:text="${#dates.format(item.serverCreateTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
 
             <td align="center">
                 <a href="activityadd.html" th:href="@{/cardTime/gotoAddCardTime(id=${item.id})}">编辑</a>

@@ -16,13 +16,28 @@
     <script type="text/javascript" th:src="@{/selectdate/src/jedate.js}"></script>
 
     <script type="text/javascript" src="../static/js/echarts.min.js" th:src="@{/js/echarts.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}" src="../static/js/jquery-3.1.1.min.js" ></script>
 </head>
+
+<script type="text/javascript">
+    function exportExcel() {
+        var brandIdenty = $("input[name='brandIdenty']").val();
+        var shopIdenty = $("input[name='shopIdenty']").val();
+        var startDate = $("input[name='startDate']").val();
+        var endDate = $("input[name='endDate']").val();
+        var params = "brandIdenty=" + brandIdenty +
+            "&shopIdenty=" + shopIdenty +
+            "&startDate=" + startDate +
+            "&endDate=" + endDate;
+        location.href = "[[${basePath}]]/internal/dish/export/excel?" + params;
+    }
+</script>
 
 <body>
 
-<form method="post" action="" th:action="@{/internal/dish/dishReport}" th:object="${mTradeModel}">
-    <div style="margin-top: 20px">
 
+<div class="parent" style="margin-top: 20px">
+    <form method="post" action="" th:action="@{/internal/dish/dishReport}" th:object="${mTradeModel}">
         <input type="hidden" name="brandIdenty" th:value="${mTradeModel.brandIdenty}">
 
         <input type="hidden" name="shopIdenty" th:value="${mTradeModel.shopIdenty}">
@@ -30,8 +45,8 @@
         <!--<label class="text_navigation" style="margin-left: 20px">范围</label>-->
         <!--<select class="select_min_style" name="shopIdenty" style="margin-left: 5px">-->
 
-            <!--<option value="">品牌下全门店</option>-->
-            <!--<option th:selected="${mTradeModel.shopIdenty eq list.commercialId}" th:each="list:${listCommercial}" th:value="${list.commercialId}" th:text="${list.commercialName}"></option>-->
+        <!--<option value="">品牌下全门店</option>-->
+        <!--<option th:selected="${mTradeModel.shopIdenty eq list.commercialId}" th:each="list:${listCommercial}" th:value="${list.commercialId}" th:text="${list.commercialName}"></option>-->
 
         <!--</select>-->
 
@@ -41,9 +56,14 @@
         <label class="text_navigation">--</label>
         <input type="text" class="input_min_style" name="endDate" placeholder="设置查询结束时间" id="endDate"  th:value="${mTradeModel.endDate}">
         <button class="orange_mine_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
-
+    </form>
+    <div class="parent" id="export_excel" onclick="exportExcel()" style="margin-left: 20px;cursor:pointer;">
+        <img th:src="@{/images/excel_icon.png}" src="../static/images/excel_icon.png" style="width: 21px;height: 21px">
+        <span style="font-size: 10px;margin-left: 6px">数据导出</span>
     </div>
-</form>
+
+</div>
+
 
 <img class="line_style" th:src="@{/images/line.jpg}" style="margin-bottom: 30px;margin-top: 20px">
 

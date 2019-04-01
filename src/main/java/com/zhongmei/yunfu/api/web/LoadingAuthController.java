@@ -55,6 +55,10 @@ public class LoadingAuthController {
             String url = "/internal/saveReport/customerSave?brandIdenty="+mLoadingModel.getBrandIdenty()+"&shopIdenty="+mLoadingModel.getShopIdenty();
             mLoadingModel.setRequestUrl(url);
 
+        }else if(mLoadingModel.getRequestUrlType() == 9){
+            String url = "/internal/purchaseSale/report?brandIdenty="+mLoadingModel.getBrandIdenty()+"&shopIdenty="+mLoadingModel.getShopIdenty();
+            mLoadingModel.setRequestUrl(url);
+
         }
 
         model.addAttribute("mLoadingModel", mLoadingModel);
