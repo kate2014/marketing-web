@@ -78,4 +78,19 @@ public interface TradeItemService extends IService<TradeItemEntity> {
      */
     List<DishReport> dishSalesExportExcel(TradeModel mTradeModel) throws Exception;
 
+    /**
+     * 查询品项销售情况
+     * @param mTradeModel
+     * @return
+     * @throws Exception
+     */
+    List<TradeItemEntity> dishSaleDetail(TradeModel mTradeModel) throws Exception;
+
+    /**
+     * 菜品销售情况
+     * @param mTradeModel
+     * @return
+     * @throws Exception
+     */
+    List<TradeItemEntity> dishSaleData(TradeModel mTradeModel) throws Exception;
 }

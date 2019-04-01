@@ -220,4 +220,24 @@ public class DishShopServiceImpl extends ServiceImpl<DishShopMapper, DishShopEnt
 
         return listDishShop;
     }
+
+    @Override
+    public List<DishShopEntity> queryAllDishShop(DishShopEntity mDishShopEntity) throws Exception {
+        EntityWrapper<DishShopEntity> eWrapper = new EntityWrapper<>(new DishShopEntity());
+
+        eWrapper.eq("brand_identy",mDishShopEntity.getBrandIdenty());
+        eWrapper.eq("shop_identy",mDishShopEntity.getShopIdenty());
+        if(mDishShopEntity.getName() != null){
+            eWrapper.like("name",mDishShopEntity.getName());
+        }
+        eWrapper.in("type","0,1");
+        eWrapper.orderBy("dish_qty");
+
+        eWrapper.setSqlSelect("id,name,type,market_price,sale_total,dish_qty,dish_increase_unit,valid_time,unvalid_time,min_num,max_num,server_create_time");
+
+
+        List<DishShopEntity> listData = selectList(eWrapper);
+
+        return listData;
+    }
 }

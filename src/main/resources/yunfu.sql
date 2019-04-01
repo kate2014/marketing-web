@@ -1440,6 +1440,8 @@ CREATE TABLE `purchase_and_sale` (
   `creator_name` varchar(32) NOT NULL,
   `creator_id` bigint(20) NOT NULL,
   `server_create_time` timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+  `brand_identy` bigint(20) DEFAULT NULL COMMENT '品牌id',
+  `shop_identy` bigint(20) DEFAULT NULL COMMENT '门店id',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1553,6 +1555,8 @@ CREATE TABLE `supplier` (
   `updator_id` bigint(20) DEFAULT NULL,
   `server_update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `server_create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `brand_identy` bigint(20) NOT NULL COMMENT '品牌标识',
+  `shop_identy` bigint(20) NOT NULL COMMENT '门店标识',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
