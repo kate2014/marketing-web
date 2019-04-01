@@ -280,7 +280,7 @@
                     <div class="parent_h">
                         <!--<a th:if="${#lists.contains(session.loginManager.permissionCodeList, 'CUSTOMER_MODIFY')}" th:href="@{/customer/{id}/edit(id=${item.id})}"><img class="see_modify" th:src="@{/images/modify.jpg}" src="../static/images/modify.jpg" style="margin-left: 10px"></a>-->
                         <a class="op-link" th:if="${#lists.contains(session.loginManager.permissionCodeList, 'CUSTOMER_MODIFY')}" th:href="@{/customer/{id}/edit(id=${item.id})}">编辑</a>
-                        <a class="op-link" style="margin-left: 8px" th:if="${#lists.contains(session.loginManager.permissionCodeList, 'CUSTOMER_DEL')}" th:href="@{/customer/{id}/del(id=${item.id})}">删除</a>
+                        <a class="op-link" style="margin-left: 8px" th:if="${#lists.contains(session.loginManager.permissionCodeList, 'CUSTOMER_DEL')}" th:href="@{/customer/{id}/del(id=${item.id})}" onclick="return confirm('确定将此记录删除?')">删除</a>
                     </div>
                 </td>
             </tr>

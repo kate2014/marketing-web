@@ -245,4 +245,6 @@ public interface CustomerService extends IService<CustomerEntity> {
     Page<CustomerEntity> selectByAnniversary(CustomerSearchModel searchModel, Integer recentDay);
 
     Page<CustomerEntity> selectByAnniversary(Page<CustomerEntity> page, CustomerSearchModel searchModel, Integer recentDay);
+
+    boolean existsMobile(Long shopId, String mobile, Long id);
 }
