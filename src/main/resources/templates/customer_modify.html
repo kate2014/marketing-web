@@ -19,18 +19,18 @@
     <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
     <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" />
     <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" />
-    <link rel="stylesheet" th:href="@{/editor/themes/default/default.css}" href="../static/editor/themes/default/default.css" type="text/css" />
-    <script type="text/javascript" th:src="@{/editor/kindeditor-all.js.js}" src="../static/editor/kindeditor-all.js.js" ></script>
-    <script type="text/javascript" th:src="@{/editor/kindeditor-all-min.js}" src="../static/editor/kindeditor-all-min.js" ></script>
     <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}" src="../static/js/jquery-3.1.1.min.js" ></script>
     <script type="text/javascript" th:src="@{/js/base.js}" src="../static/js/base.js" ></script>
-
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/test/jeDate-test.css}">
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/skin/jedate.css}">
+    <script type="text/javascript" th:src="@{/selectdate/src/jedate.js}"></script>
+    <script type="text/javascript" th:src="@{/selectdate/test/je_notime_date.js}"></script>
 </head>
 
 <script type="text/javascript">
-    laydate.render({
+    /*laydate.render({
         elem: '#times'
-    });
+    })*/;
     $(function () {
         var password = $("input[name='password']").val();
         if (password == '' || password.trim().length == 0) {
@@ -39,9 +39,13 @@
         if (password !=  $("input[name='passwordConfirm']").val()) {
             alert("确认密码与密码不一致");
         }
+
+        var errorMsg = "[[${errorMsg}]]";
+        if (errorMsg) {
+            alert(errorMsg);
+        }
     })
 </script>
-
 
 <body>
 <form method="post" th:action="@{/customer/save}" th:object="${editModel}">
@@ -82,7 +86,7 @@
         <div style="margin-top: 10px; width: 60%; height: 100%;">
             <div class="details-bom">
                 <ul class="spell-content">
-                    <li><span>*生日</span><input type="text" name="birthday" th:value="*{birthday}" placeholder="请选择会员生日" id="times"></li>
+                    <li><span>*生日</span><input type="text" name="birthday" th:value="*{birthday}" placeholder="请选择会员生日" id="endTime"></li>
                     <li><span>*会员等级</span>
                         <select name="groupLevel">
                             <option value="银卡" th:selected="*{groupLevel=='银卡'}">银卡</option>

@@ -94,10 +94,10 @@ public class CustomerPosApi extends PosApiController {
         mCustomer.setProfile(req.getMemo());
 
         if (req.getCustomerId() == null) {
-            CustomerEntity customerEntity = customerService.getCustomerByMobile(req.getHeader().getShopId(), req.getMobile());
+            /*CustomerEntity customerEntity = customerService.getCustomerByMobile(req.getHeader().getShopId(), req.getMobile());
             if (customerEntity != null) {
                 throw new ApiResponseStatusException(ApiResponseStatus.CUSTOMER_MOBILE_INVALID);
-            }
+            }*/
 
             String consumePassword = req.getConsumePassword();
             if (StringUtils.isNotBlank(consumePassword)) {

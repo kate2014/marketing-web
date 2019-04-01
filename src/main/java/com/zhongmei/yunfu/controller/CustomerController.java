@@ -184,12 +184,27 @@ public class CustomerController extends BaseController {
     }
 
     @RequestMapping("/save")
-    public String save(CustomerEditModel editModel) {
+    public String save(Model model,CustomerEditModel editModel) {
         AuthUserEntity loginUser = LoginManager.get().getUser();
         CustomerEntity customer = new CustomerEntity();
         customer.setId(editModel.getId());
         if (customer.getId() == null) {
             customer.baseCreate(loginUser.getCreatorId(), loginUser.getCreatorName());
+            if (StringUtils.isNotBlank(editModel.getMobile())) {
+                //判断在数据库里是否存在
+                if (customerService.existsMobile(loginUser.getShopIdenty(), editModel.getMobile(), editModel.getId())) {
+                    model.addAttribute("errorMsg", ApiResponseStatus.CUSTOMER_MOBILE_INVALID.getReason());
+                    return edit(model, editModel.getId(), editModel);
+                }
+            }
+        } else {
+            if (StringUtils.isNotBlank(editModel.getMobile())) {
+                //判断在数据库里是否存在
+                if (customerService.existsMobile(loginUser.getShopIdenty(), editModel.getMobile(), editModel.getId())) {
+                    model.addAttribute("errorMsg", ApiResponseStatus.CUSTOMER_MOBILE_INVALID.getReason());
+                    return edit(model, editModel.getId(), editModel);
+                }
+            }
         }
         customer.setShopIdenty(loginUser.getShopIdenty());
         customer.setBrandIdenty(loginUser.getBrandIdenty());
