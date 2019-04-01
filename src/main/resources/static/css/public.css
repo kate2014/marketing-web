@@ -165,3 +165,20 @@ div.modle {
     height: 23px;
     border: 0px;
 }
+
+.gary_card_bg_style{
+    width: auto;
+    height: 60px;
+    padding-left: 25px;
+    padding-right: 25px;
+    border:1px solid #f1f1e3;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    box-shadow: 1px 2px 4px #999999;
+    cursor:pointer;
+}
+
+.report_lable_style{
+    font-size:13px;
+    color: #707070;
+}

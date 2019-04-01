@@ -36,4 +36,9 @@ public interface PurchaseSaleMapper extends BaseMapper<PurchaseAndSaleEntity> {
             "WHERE p.`dish_shop_id` = d.`id` ${ew.sqlSegment}\n" +
             "ORDER BY `server_create_time` desc;")
     List<PurchaseSaleDetailReport> listPurchaseAndSaleDetail(@Param("ew") Condition wrapper);
+
+    @Select("SELECT p.`server_create_time` ,p.`purchase_price` as purchasePrice ,p.`number` as number,p.`total_purchase_price` as totalPurchasePrice ,p.`source_name` as sourceName ,d.`name` as name FROM `purchase_and_sale` p LEFT JOIN `dish_shop` d on p.`dish_shop_id` = d.`id` " +
+            "${ew.sqlSegment} \n" +
+            "ORDER BY `server_create_time` desc;")
+    List<PurchaseSaleReport> purchaseList(@Param("ew") Condition wrapper);
 }

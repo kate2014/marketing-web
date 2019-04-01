@@ -5,10 +5,7 @@ import com.zhongmei.yunfu.controller.model.ReportSalesExportModel;
 import com.zhongmei.yunfu.controller.model.TradeModel;
 import com.zhongmei.yunfu.controller.model.excel.ExcelData;
 import com.zhongmei.yunfu.controller.model.excel.ExcelUtils;
-import com.zhongmei.yunfu.domain.entity.DishShopEntity;
-import com.zhongmei.yunfu.domain.entity.PurchaseAndSaleEntity;
-import com.zhongmei.yunfu.domain.entity.PurchaseSaleReport;
-import com.zhongmei.yunfu.domain.entity.TradeItemEntity;
+import com.zhongmei.yunfu.domain.entity.*;
 import com.zhongmei.yunfu.service.DishShopService;
 import com.zhongmei.yunfu.service.PurchasSaleService;
 import com.zhongmei.yunfu.service.TradeItemService;
@@ -40,8 +37,23 @@ public class ReportPurchaseSaleController {
     @Autowired
     DishShopService mDishShopService;
 
+    @RequestMapping("/goToReport")
+    public String goToreport(Model model, PurchSaleModel mPurchSaleModel) {
+
+        try {
+
+            model.addAttribute("mPurchSaleModel", mPurchSaleModel);
+
+            return "report_purchase_sale_main";
+        }catch (Exception e){
+            e.printStackTrace();
+            return "fail";
+        }
+
+    }
+
     @RequestMapping("/report")
-    public String reportAddCustomer(Model model, PurchSaleModel mPurchSaleModel) {
+    public String reportPurchaseSale(Model model, PurchSaleModel mPurchSaleModel) {
 
         try {
 
@@ -143,6 +155,20 @@ public class ReportPurchaseSaleController {
 
         }
         return listPurchaseSaleReport;
+    }
+
+    @RequestMapping("/purchase")
+    public String purchaseList(Model model, PurchSaleModel mPurchSaleModel){
+        try {
+            List<PurchaseSaleReport> listData = mPurchasSaleService.purchaseList(mPurchSaleModel);
+            model.addAttribute("listData", listData);
+            model.addAttribute("mPurchSaleModel", mPurchSaleModel);
+            return "report_purchase";
+        }catch (Exception e){
+            e.printStackTrace();
+            return "fail";
+        }
+
     }
 
     @RequestMapping("/detail")

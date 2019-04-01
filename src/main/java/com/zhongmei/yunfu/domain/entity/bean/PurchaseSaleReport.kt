@@ -41,6 +41,8 @@ class PurchaseSaleReport : Serializable {
 
     var salePrice: BigDecimal? = null
 
+    var serverCreateTime: Date? =null
+
     override fun toString(): String {
         return "PurchaseSaleReport{" +
                 ", id=" + id +
@@ -56,6 +58,7 @@ class PurchaseSaleReport : Serializable {
                 ", type=" + type +
                 ", saleTotal=" + saleTotal +
                 ", salePrice=" + salePrice +
+                ", serverCreateTime=" + serverCreateTime +
                 "}"
     }
 }

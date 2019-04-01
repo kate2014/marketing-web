@@ -38,4 +38,12 @@ public interface PurchasSaleService extends IService<PurchaseAndSaleEntity> {
      * @throws Exception
      */
     List<PurchaseSaleDetailReport> listPurchaseAndSaleDetail(PurchSaleModel mPurchSaleModel) throws Exception;
+
+    /**
+     * 获取进货数据
+     * @param mPurchSaleModel
+     * @return
+     * @throws Exception
+     */
+    List<PurchaseSaleReport> purchaseList(PurchSaleModel mPurchSaleModel) throws Exception;
 }

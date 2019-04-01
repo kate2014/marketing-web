@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>营业报表</title>
+    <title>进货报表</title>
     <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
     <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
     <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" type="text/css" />
@@ -70,24 +70,20 @@
     <div align="center" style="margin-top: 10px;margin-bottom: 26px">
         <table class="gridtablestyle" style="width: 95%; vertical-align: middle">
             <tr style="width: 100%">
+                <th>入库时间</th>
                 <th>品项名称</th>
-                <th>剩余库存</th>
                 <th>入库数量</th>
+                <th>采购单价</th>
                 <th>采购金额</th>
-                <th>销货数量</th>
-                <th>销货金额</th>
-                <th>操作</th>
+                <th>货源名称</th>
             </tr>
-            <tr th:each="item:${listPurchaseSaleReport}">
+            <tr th:each="item:${listData}">
+                <td th:text="${item.serverCreateTime}"></td>
                 <td th:text="${item.name}"></td>
-                <td th:text="${item.dishQty}"></td>
                 <td th:text="${item.number}"></td>
+                <td th:text="${item.purchasePrice}"></td>
                 <td th:text="${item.totalPurchasePrice}"></td>
-                <td th:text="${item.saleTotal}"></td>
-                <td th:text="${item.salePrice}"></td>
-                <td align="center">
-                    <a href="activityadd.html" th:href="@{/internal/purchaseSale/report(id=${item.id})}">查看详情</a>
-                </td>
+                <td th:text="${item.sourceName}"></td>
 
             </tr>
 
