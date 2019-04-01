@@ -9,4 +9,5 @@ class CustomerDrainSearchModel : WebBaseModel() {
     var consumptionLastTime: String? = null
     var storedBalance: BigDecimal? = null
     var cardResidueCount: Int? = null
+    var willExpireDay: Int? = null
 }

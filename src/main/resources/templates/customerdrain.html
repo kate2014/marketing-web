@@ -223,12 +223,12 @@
                     </div>
                     <label class="text_navigation" style="margin-left: 10px">自定义时间>=</label>
                     <input type="text" id="endTime" class="select_date_input" placeholder="最近消费时间" name="consumptionLastTime" th:value="*{consumptionLastTime}" style="margin-left: 5px">
-
+                    <label class="text_navigation" style="margin-left: 10px">将要过期（天）</label>
+                    <input class="select_input" style="height: 28px;width: 100px;margin-left: 5px" type="text" name="willExpireDay" th:value="*{willExpireDay}" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="10"/>
                     <label id="card_balance" class="text_navigation" style="margin-left: 10px">卡余额>=</label>
                     <input class="select_input" style="height: 28px;width: 100px;margin-left: 5px" type="text" name="storedBalance" th:value="*{storedBalance}" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="10"/>
                     <label id="service_residue" class="text_navigation" style="margin-left: 10px">剩余服务次数>=</label>
                     <input class="select_input" style="height: 28px;width: 100px;margin-left: 5px" type="text" name="cardResidueCount" th:value="*{cardResidueCount}" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="10"/>
-
                     <button class="orange_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
                     <button id="service_push" class="blue_button_style" value="" onclick="return false;" style="margin-left: 10px">服务推送</button>
                 </div>

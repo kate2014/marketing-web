@@ -1,5 +1,7 @@
 package com.zhongmei.yunfu.util;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -62,11 +64,16 @@ public class DateFormatUtil {
 
     //获取当天起始时间
     public static Date getStartTime() {
+        Calendar todayStart = getCalendarOfDay();
+        return todayStart.getTime();
+    }
+
+    public static Calendar getCalendarOfDay() {
         Calendar todayStart = Calendar.getInstance();
         todayStart.set(Calendar.HOUR_OF_DAY, 0);
         todayStart.set(Calendar.MINUTE, 0);
         todayStart.set(Calendar.SECOND, 0);
         todayStart.set(Calendar.MILLISECOND, 0);
-        return todayStart.getTime();
+        return todayStart;
     }
 }

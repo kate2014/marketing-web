@@ -2,6 +2,8 @@ package com.zhongmei.yunfu.controller;
 
 
 import com.baomidou.mybatisplus.plugins.Page;
+import com.zhongmei.yunfu.api.ApiResponseStatus;
+import com.zhongmei.yunfu.api.ApiResponseStatusException;
 import com.zhongmei.yunfu.controller.model.CustomerEditModel;
 import com.zhongmei.yunfu.controller.model.CustomerSearchModel;
 import com.zhongmei.yunfu.controller.model.excel.ExcelData;
@@ -10,6 +12,7 @@ import com.zhongmei.yunfu.core.security.Password;
 import com.zhongmei.yunfu.domain.entity.AuthUserEntity;
 import com.zhongmei.yunfu.domain.entity.CustomerEntity;
 import com.zhongmei.yunfu.domain.entity.CustomerSearchRuleEntity;
+import com.zhongmei.yunfu.domain.enums.StatusFlag;
 import com.zhongmei.yunfu.service.AuthUserService;
 import com.zhongmei.yunfu.service.CustomerSearchRuleService;
 import com.zhongmei.yunfu.service.CustomerService;
@@ -208,6 +211,16 @@ public class CustomerController extends BaseController {
         customer.setPassword(password);
         customerService.insertOrUpdate(customer);
         return redirect("/customer/list");
+    }
+
+    @RequestMapping(value = {"/{id}/del"})
+    public String del(Model model, @PathVariable Long id, CustomerSearchModel searchModel) {
+        CustomerEntity customerEntity = customerService.selectById(id);
+        if (customerEntity != null) {
+            customerEntity.setStatusFlag(StatusFlag.INVALID.value());
+            customerService.updateById(customerEntity);
+        }
+        return list(model, searchModel);
     }
 
     @RequestMapping("/export/excel")

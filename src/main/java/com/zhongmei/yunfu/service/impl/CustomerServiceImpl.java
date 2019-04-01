@@ -129,6 +129,7 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
     @Override
     public Page<CustomerEntity> findListPage(CustomerSearchModel searchModel, int pageSize) {
         CustomerEntity coupon = new CustomerEntity();
+        coupon.setStatusFlag(StatusFlag.VALiD.value());
         coupon.setRelateId(0L); //表示主会员记录
         coupon.setShopIdenty(searchModel.getUser().getShopIdenty());
         coupon.setSourceId(searchModel.getSourceId());
@@ -146,6 +147,7 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
     @Override
     public Page<CustomerEntity> findListPage(Page<CustomerEntity> page, CustomerSearchModel searchModel) {
         CustomerEntity coupon = new CustomerEntity();
+        coupon.setStatusFlag(StatusFlag.VALiD.value());
         coupon.setRelateId(0L); //表示主会员记录
         coupon.setShopIdenty(searchModel.getUser().getShopIdenty());
         coupon.setSourceId(searchModel.getSourceId());
@@ -161,6 +163,7 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
     @Override
     public Page<CustomerEntity> findListPage(CustomerDrainSearchModel searchModel) {
         CustomerEntity customerEntity = new CustomerEntity();
+        customerEntity.setStatusFlag(StatusFlag.VALiD.value());
         customerEntity.setRelateId(0L);
         customerEntity.setShopIdenty(searchModel.getUser().getShopIdenty());
         EntityWrapperFilter eWrapper = new EntityWrapperFilter<>(customerEntity);
@@ -172,7 +175,12 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
             eWrapper.le("stored_balance", searchModel.getStoredBalance());
             eWrapper.le("card_residue_count", searchModel.getCardResidueCount());
         }
-
+        if (searchModel.getWillExpireDay() != null && searchModel.getWillExpireDay() > 0) {
+            Calendar calendarOfDay = Calendar.getInstance();
+            calendarOfDay.add(Calendar.DAY_OF_MONTH, searchModel.getWillExpireDay());
+            eWrapper.le("card_expire_date", DateFormatUtil.formatDate(calendarOfDay.getTime()));
+            eWrapper.ge("card_expire_date", DateFormatUtil.formatDate(new Date()));
+        }
         eWrapper.gt("consumption_last_time", searchModel.getConsumptionLastTime());
         eWrapper.orderBy("card_expire_date");
         Page<CustomerEntity> page = new Page<>(searchModel.getPageNo(), searchModel.getPageSize());
@@ -182,6 +190,7 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
     @Override
     public Page<CustomerEntity> findListPage(CustomerDrainSearchModel searchModel, Page<CustomerEntity> page) {
         CustomerEntity customerEntity = new CustomerEntity();
+        customerEntity.setStatusFlag(StatusFlag.VALiD.value());
         customerEntity.setRelateId(0L);
         customerEntity.setShopIdenty(searchModel.getUser().getShopIdenty());
         EntityWrapperFilter eWrapper = new EntityWrapperFilter<>(customerEntity);
@@ -573,5 +582,15 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
         page = existOrCreate(page);
         page.setRecords(baseMapper.selectByAnniversary(page, wrapper, searchModel.getUser().getShopIdenty(), startTime, endTime));
         return page;
+    }
+
+    @Override
+    public boolean existsMobile(Long shopId, String mobile, Long id) {
+        CustomerEntity customerEntity = new CustomerEntity();
+        customerEntity.setShopIdenty(shopId);
+        customerEntity.setMobile(mobile);
+        EntityWrapper<CustomerEntity> wrapper = new EntityWrapperFilter<>(customerEntity);
+        wrapper.ne("id", id);
+        return selectCount(wrapper) > 0;
     }
 }

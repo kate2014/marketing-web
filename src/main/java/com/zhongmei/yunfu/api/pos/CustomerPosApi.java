@@ -114,10 +114,25 @@ public class CustomerPosApi extends PosApiController {
             mCustomer.setShopIdenty(req.getHeader().getShopId());
             mCustomer.setBrandIdenty(req.getHeader().getBrandId());
             mCustomer.setEnabledFlag(EnabledFlag.ENABLED.value());
+            if (StringUtils.isNotBlank(req.getMobile())) {
+                //判断在数据库里是否存在
+                if (customerService.existsMobile(req.getHeader().getShopId(), req.getMobile(), req.getCustomerId())) {
+                    throw new ApiResponseStatusException(ApiResponseStatus.CUSTOMER_MOBILE_INVALID);
+                }
+            }
             customerService.insert(mCustomer);
         } else {
             mCustomer.baseUpdate(req.getUserId(), req.getUserName());
             mCustomer.setId(req.getCustomerId());
+            CustomerEntity current = customerService.selectById(req.getCustomerId());
+            if (current != null && !StringUtils.equals(current.getMobile(), req.getMobile())) {
+                if (StringUtils.isNotBlank(req.getMobile())) {
+                    //判断在数据库里是否存在
+                    if (customerService.existsMobile(req.getHeader().getShopId(), req.getMobile(), req.getCustomerId())) {
+                        throw new ApiResponseStatusException(ApiResponseStatus.CUSTOMER_MOBILE_INVALID);
+                    }
+                }
+            }
             customerService.updateById(mCustomer);
         }
 

@@ -54,7 +54,7 @@ public interface CustomerMapper extends BaseMapper<CustomerEntity> {
             "FROM\n" +
             "  customer\n" +
             "WHERE shop_identy = ${shopId}\n" +
-            "  AND relate_id = 0\n" +
+            "  AND status_flag = 1 AND relate_id = 0\n" +
             "  AND id IN\n" +
             "  (SELECT\n" +
             "    tc.customer_id\n" +
@@ -62,7 +62,7 @@ public interface CustomerMapper extends BaseMapper<CustomerEntity> {
             "    trade t\n" +
             "    INNER JOIN trade_customer tc\n" +
             "      ON t.id = tc.trade_id\n" +
-            "  WHERE t.shop_identy = ${shopId}\n" +
+            "  WHERE t.status_flag = 1 AND t.shop_identy = ${shopId}\n" +
             "    AND t.server_create_time >= #{serverCreateTime}\n" +
             "  GROUP BY tc.customer_id\n" +
             "  HAVING COUNT(1) > ${tradeCount}\n" +
@@ -72,7 +72,7 @@ public interface CustomerMapper extends BaseMapper<CustomerEntity> {
     @Select("SELECT\n" +
             " c.*, wc.third_id wx_open_id\n" +
             "FROM customer c LEFT JOIN customer wc ON c.id = wc.relate_id\n" +
-            "WHERE c.relate_id = 0\n" +
+            "WHERE c.status_flag = 1 AND c.relate_id = 0\n" +
             "  AND c.id IN\n" +
             "  (SELECT\n" +
             "    tc.customer_id\n" +
@@ -80,7 +80,7 @@ public interface CustomerMapper extends BaseMapper<CustomerEntity> {
             "    trade t\n" +
             "    INNER JOIN trade_customer tc\n" +
             "      ON t.id = tc.trade_id\n" +
-            "  WHERE t.shop_identy = ${shopId}\n" +
+            "  WHERE t.status_flag = 1 AND t.shop_identy = ${shopId}\n" +
             "    AND t.server_create_time >= #{serverCreateTime}\n" +
             "  GROUP BY tc.customer_id\n" +
             "  HAVING COUNT(1) > ${tradeCount}\n" +
@@ -99,7 +99,7 @@ public interface CustomerMapper extends BaseMapper<CustomerEntity> {
             "  COUNT(1)\n" +
             "FROM\n" +
             "  customer\n" +
-            "WHERE shop_identy = ${shopId}\n" +
+            "WHERE status_flag = 1 AND shop_identy = ${shopId}\n" +
             "  AND relate_id = 0\n" +
             "  AND DATEDIFF(\n" +
             "    CAST(CONCAT('0000', DATE_FORMAT(birthday, '-%m-%d')) AS DATE),\n" +
@@ -114,7 +114,7 @@ public interface CustomerMapper extends BaseMapper<CustomerEntity> {
     @Select("SELECT\n" +
             " c.*, wc.third_id wx_open_id\n" +
             "FROM customer c LEFT JOIN customer wc ON c.id = wc.relate_id\n" +
-            "WHERE c.shop_identy = ${shopId}\n" +
+            "WHERE c.status_flag = 1 AND c.shop_identy = ${shopId}\n" +
             "  AND c.relate_id = 0\n" +
             "  AND DATEDIFF(\n" +
             "    CAST(CONCAT('0000', DATE_FORMAT(c.birthday, '-%m-%d')) AS DATE),\n" +
@@ -134,10 +134,10 @@ public interface CustomerMapper extends BaseMapper<CustomerEntity> {
      * @param server_create_time
      * @return
      */
-    @Select("SELECT COUNT(1) FROM customer WHERE shop_identy = ${shopId} AND relate_id = 0 AND server_create_time >= #{serverCreateTime}")
+    @Select("SELECT COUNT(1) FROM customer WHERE status_flag = 1 AND shop_identy = ${shopId} AND relate_id = 0 AND server_create_time >= #{serverCreateTime}")
     Integer selectCountByNewMember(@Param("shopId") Long shop_identy, @Param("serverCreateTime") String server_create_time);
 
-    @Select("SELECT c.*, wc.third_id wx_open_id FROM customer c LEFT JOIN customer wc ON c.id = wc.relate_id WHERE c.shop_identy = ${shopId} AND c.relate_id = 0 AND c.server_create_time >= #{serverCreateTime} ${ew.sqlSegment}")
+    @Select("SELECT c.*, wc.third_id wx_open_id FROM customer c LEFT JOIN customer wc ON c.id = wc.relate_id WHERE c.status_flag = 1 AND c.shop_identy = ${shopId} AND c.relate_id = 0 AND c.server_create_time >= #{serverCreateTime} ${ew.sqlSegment}")
     List<CustomerEntity> selectByNewMember(RowBounds page, @Param("ew") Wrapper wrapper, @Param("shopId") Long shop_identy, @Param("serverCreateTime") String server_create_time);
 
     /**
@@ -147,9 +147,9 @@ public interface CustomerMapper extends BaseMapper<CustomerEntity> {
      * @param startTime
      * @return
      */
-    @Select("SELECT COUNT(1) FROM customer WHERE shop_identy = ${shopId} AND relate_id = 0 AND server_create_time >= #{startTime} AND server_create_time <= #{endTime}")
+    @Select("SELECT COUNT(1) FROM customer WHERE status_flag = 1 AND shop_identy = ${shopId} AND relate_id = 0 AND server_create_time >= #{startTime} AND server_create_time <= #{endTime}")
     Integer selectCountByAnniversary(@Param("shopId") Long shop_identy, @Param("startTime") String startTime, @Param("endTime") String endTime);
 
-    @Select("SELECT c.*, wc.third_id wx_open_id FROM customer c LEFT JOIN customer wc ON c.id = wc.relate_id WHERE c.shop_identy = ${shopId} AND c.relate_id = 0 AND c.server_create_time >= #{startTime} AND c.server_create_time <= #{endTime} ${ew.sqlSegment}")
+    @Select("SELECT c.*, wc.third_id wx_open_id FROM customer c LEFT JOIN customer wc ON c.id = wc.relate_id WHERE c.status_flag = 1 AND c.shop_identy = ${shopId} AND c.relate_id = 0 AND c.server_create_time >= #{startTime} AND c.server_create_time <= #{endTime} ${ew.sqlSegment}")
     List<CustomerEntity> selectByAnniversary(RowBounds page, @Param("ew") Wrapper wrapper, @Param("shopId") Long shop_identy, @Param("startTime") String startTime, @Param("endTime") String endTime);
 }

@@ -36,5 +36,4 @@ public class ApplicationTest {
         CustomerCardTimeBuyReq customerCardTimeBuyReq = JSON.parseObject("", CustomerCardTimeBuyReq.class);
         customerCardTimeService.buy(customerCardTimeBuyReq);
     }
-
 }
