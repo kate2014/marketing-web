@@ -105,6 +105,8 @@ public class TradeModel extends WebBaseModel {
 
     private Long dishShopId;
 
+    private String tradeUser;
+
     public String getWxOpenId() {
         return wxOpenId;
     }
@@ -343,5 +345,13 @@ public class TradeModel extends WebBaseModel {
 
     public void setDishShopId(Long dishShopId) {
         this.dishShopId = dishShopId;
+    }
+
+    public String getTradeUser() {
+        return tradeUser;
+    }
+
+    public void setTradeUser(String tradeUser) {
+        this.tradeUser = tradeUser;
     }
 }

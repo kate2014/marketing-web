@@ -2,6 +2,8 @@ package com.zhongmei.yunfu.controller.model;
 
 public class PurchSaleModel {
 
+    private Long dishShopId;
+
     private String name;
 
     private String startDate;
@@ -22,9 +24,9 @@ public class PurchSaleModel {
 
     private String sourceName;
 
-    private Long dishShopId;
+    private String tradeUser;
 
-    private String dishName;
+    private String customerName;
 
     public String getName() {
         return name;
@@ -114,11 +116,19 @@ public class PurchSaleModel {
         this.dishShopId = dishShopId;
     }
 
-    public String getDishName() {
-        return dishName;
+    public String getTradeUser() {
+        return tradeUser;
     }
 
-    public void setDishName(String dishName) {
-        this.dishName = dishName;
+    public void setTradeUser(String tradeUser) {
+        this.tradeUser = tradeUser;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 }
