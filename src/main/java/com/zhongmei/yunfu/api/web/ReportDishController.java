@@ -129,7 +129,7 @@ public class ReportDishController {
         List<DishReport> listData = mTradeItemService.dishSalesExportExcel(mTradeModel);
 
         ExcelData data = new ExcelData();
-        data.setSheetName("品项销售报表");
+        data.setSheetName("品项销售排行报表");
         List<String> titles = new ArrayList();
         titles.add("序");
         titles.add("品项名称");
@@ -156,7 +156,7 @@ public class ReportDishController {
         }
 
         SimpleDateFormat fdate = new SimpleDateFormat("yyyyMMdd");
-        String fileName = String.format("品项销售报表-%s.xls", fdate.format(new Date()));
+        String fileName = String.format("品项销售排行报表-%s.xls", fdate.format(new Date()));
         ExcelUtils.exportExcel(response, fileName, data);
     }
 }

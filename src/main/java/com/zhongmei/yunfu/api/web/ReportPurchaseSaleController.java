@@ -312,13 +312,13 @@ public class ReportPurchaseSaleController {
         data.setSheetName("品项入库报表");
         List<String> titles = new ArrayList();
         titles.add("序");
-        titles.add("入库时间");
         titles.add("品项名称");
         titles.add("类型");
         titles.add("数量");
         titles.add("采购单价");
         titles.add("采购金额");
         titles.add("货源名称");
+        titles.add("入库时间");
 
         data.setTitles(titles);
 
@@ -331,13 +331,13 @@ public class ReportPurchaseSaleController {
                 List<Object> row = new ArrayList();
                 rows.add(row);
                 row.add(i++);
-                row.add(entity.getServerCreateTime());
                 row.add(entity.getName());
                 row.add(entity.getType());
                 row.add(entity.getNumber());
                 row.add(entity.getPurchasePrice());
                 row.add(entity.getTotalPurchasePrice());
                 row.add(entity.getSourceName());
+                row.add(entity.getServerCreateTime());
             }
         }
 
