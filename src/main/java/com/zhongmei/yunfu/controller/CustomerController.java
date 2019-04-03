@@ -235,7 +235,7 @@ public class CustomerController extends BaseController {
             customerEntity.setStatusFlag(StatusFlag.INVALID.value());
             customerService.updateById(customerEntity);
         }
-        return list(model, searchModel);
+        return "success";
     }
 
     @RequestMapping("/export/excel")
