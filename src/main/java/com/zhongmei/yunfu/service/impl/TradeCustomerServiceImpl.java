@@ -36,8 +36,18 @@ public class TradeCustomerServiceImpl extends ServiceImpl<TradeCustomerMapper, T
         EntityWrapper<TradeCustomerEntity> eWrapper = new EntityWrapper<>(new TradeCustomerEntity());
         eWrapper.eq("trade_id", tradeId);
         eWrapper.eq("customer_type", 3);
+        eWrapper.eq("status_flag", 1);
         TradeCustomerEntity mTradeCustomer = selectOne(eWrapper);
         return mTradeCustomer;
+    }
+
+    @Override
+    public List<TradeCustomerEntity> queryTradeCustomerList(Long tradeId) throws Exception {
+        EntityWrapper<TradeCustomerEntity> eWrapper = new EntityWrapper<>(new TradeCustomerEntity());
+        eWrapper.eq("trade_id", tradeId);
+        eWrapper.eq("status_flag", 1);
+        List<TradeCustomerEntity> listData = selectList(eWrapper);
+        return listData;
     }
 
     @Override

@@ -34,6 +34,14 @@ public interface TradeCustomerService extends IService<TradeCustomerEntity> {
     TradeCustomerEntity queryTradeCustomer(Long tradeId) throws Exception;
 
     /**
+     * 获取订单所有会员
+     * @param tradeId
+     * @return
+     * @throws Exception
+     */
+    List<TradeCustomerEntity> queryTradeCustomerList(Long tradeId) throws Exception;
+
+    /**
      * 获取会员相关的订单
      *
      * @param mTradeModel

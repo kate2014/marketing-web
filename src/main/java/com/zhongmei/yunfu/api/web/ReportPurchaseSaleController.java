@@ -86,7 +86,7 @@ public class ReportPurchaseSaleController {
             mPurchSaleModel.setEndDate(DateFormatUtil.format(new Date(), DateFormatUtil.FORMAT_FULL_DATE));
         }
 
-
+        mPurchSaleModel.setType(1);
         List<PurchaseAndSaleEntity> listPurchaseSale = mPurchasSaleService.queryPurchase(mPurchSaleModel);
         Map<Long,PurchaseAndSaleEntity> mapPurchaseSale = new HashMap<>();
         for(PurchaseAndSaleEntity purchaseAndSale : listPurchaseSale){
@@ -352,7 +352,7 @@ public class ReportPurchaseSaleController {
         List<DishSaleReport> listDishSale = queryDishSale(mPurchSaleModel);
 
         ExcelData data = new ExcelData();
-        data.setSheetName("品项消耗报表");
+        data.setSheetName("品项销售详情报表");
         List<String> titles = new ArrayList();
         titles.add("序");
         titles.add("消耗类型");
@@ -385,7 +385,7 @@ public class ReportPurchaseSaleController {
         }
 
         SimpleDateFormat fdate = new SimpleDateFormat("yyyyMMdd");
-        String fileName = String.format("品项消耗报表-%s.xls", fdate.format(new Date()));
+        String fileName = String.format("品项销售详情报表-%s.xls", fdate.format(new Date()));
         ExcelUtils.exportExcel(response, fileName, data);
     }
 }
