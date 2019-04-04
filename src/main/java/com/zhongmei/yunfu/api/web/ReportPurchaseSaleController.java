@@ -297,7 +297,10 @@ public class ReportPurchaseSaleController {
                     listDishSaleReport.add(dishSale);
                 }
             }
-            return listDishSaleReport;
+
+            listDishSale.clear();
+            listDishSale.addAll(listDishSaleReport);
+
         }
 
         if(mTradeModel.getCustomerName() != null && !mTradeModel.getCustomerName().equals("")){
@@ -307,7 +310,8 @@ public class ReportPurchaseSaleController {
                     listDishSaleReport.add(dishSale);
                 }
             }
-            return listDishSaleReport;
+            listDishSale.clear();
+            listDishSale.addAll(listDishSaleReport);
         }
 
         return listDishSale;
