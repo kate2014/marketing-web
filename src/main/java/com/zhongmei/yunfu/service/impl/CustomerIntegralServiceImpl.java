@@ -8,11 +8,13 @@ import com.zhongmei.yunfu.api.pos.vo.CustomerIntegralTradeReq;
 import com.zhongmei.yunfu.domain.entity.CustomerEntity;
 import com.zhongmei.yunfu.domain.entity.CustomerIntegralEntity;
 import com.zhongmei.yunfu.domain.entity.CustomerLevelRuleEntity;
+import com.zhongmei.yunfu.domain.entity.TradeEntity;
 import com.zhongmei.yunfu.domain.enums.RecordType;
 import com.zhongmei.yunfu.domain.mapper.CustomerIntegralMapper;
 import com.zhongmei.yunfu.service.CustomerIntegralService;
 import com.zhongmei.yunfu.service.CustomerLevelRuleService;
 import com.zhongmei.yunfu.service.CustomerService;
+import com.zhongmei.yunfu.service.TradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +38,9 @@ public class CustomerIntegralServiceImpl extends ServiceImpl<CustomerIntegralMap
     @Autowired
     CustomerLevelRuleService customerLevelRuleService;
 
+    @Autowired
+    TradeService tradeService;
+
     @Override
     public void checkIntegral(Long customerId, Long integral) throws Exception {
         CustomerEntity customerEntity = customerService.getCustomerEntity(customerId, true);
@@ -48,6 +53,9 @@ public class CustomerIntegralServiceImpl extends ServiceImpl<CustomerIntegralMap
     public void income(CustomerIntegralTradeReq req) throws Exception {
         CustomerEntity customerEntity = customerService.getCustomerEntity(req.getCustomerId(), true);
         customerEntity.setConsumptionLastTime(new Date());
+        customerEntity.setConsumptionNumber(customerEntity.getConsumptionNumber() + 1);
+        TradeEntity tradeEntity = tradeService.selectById(req.getTradeId());
+        customerEntity.setConsumptionAmount(customerEntity.getConsumptionAmount().add(tradeEntity.getTradeAmount()));
         Integer integral = customerEntity.getIntegralTotal();
         int currentIntegral = integral + req.getTradeIntegral();
         updateIntegralOfCustomer(req, customerEntity, currentIntegral, customerEntity.getIntegralUsed());
