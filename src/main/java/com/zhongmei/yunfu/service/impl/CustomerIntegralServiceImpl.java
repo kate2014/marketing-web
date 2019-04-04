@@ -46,14 +46,12 @@ public class CustomerIntegralServiceImpl extends ServiceImpl<CustomerIntegralMap
 
     @Override
     public void income(CustomerIntegralTradeReq req) throws Exception {
-        if (req.getTradeIntegral() > 0) {
-            CustomerEntity customerEntity = customerService.getCustomerEntity(req.getCustomerId(), true);
-            customerEntity.setConsumptionLastTime(new Date());
-            Integer integral = customerEntity.getIntegralTotal();
-            int currentIntegral = integral + req.getTradeIntegral();
-            updateIntegralOfCustomer(req, customerEntity, currentIntegral, customerEntity.getIntegralUsed());
-            addCustomerIntegralRecord(integral, customerEntity, req, RecordType.BUY);
-        }
+        CustomerEntity customerEntity = customerService.getCustomerEntity(req.getCustomerId(), true);
+        customerEntity.setConsumptionLastTime(new Date());
+        Integer integral = customerEntity.getIntegralTotal();
+        int currentIntegral = integral + req.getTradeIntegral();
+        updateIntegralOfCustomer(req, customerEntity, currentIntegral, customerEntity.getIntegralUsed());
+        addCustomerIntegralRecord(integral, customerEntity, req, RecordType.BUY);
     }
 
     @Override
