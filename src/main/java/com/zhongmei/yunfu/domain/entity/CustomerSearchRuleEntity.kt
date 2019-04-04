@@ -35,6 +35,14 @@ class CustomerSearchRuleEntity : BaseEntity() {
      */
     var consumptionMainNumber: Int? = null
     /**
+     * 消费主力群金额到多少区间
+     */
+    var intervalConsumptionMainAmount: Int? = null
+    /**
+     * 主力消费群累计次数到多少区间
+     */
+    var intervalConsumptionMainNumber: Int? = null
+    /**
      * 将流失会员
      */
     var membersWillDay: Int? = null
@@ -47,17 +55,33 @@ class CustomerSearchRuleEntity : BaseEntity() {
      */
     var membersWillNumber: Int? = null
     /**
+     * 将流失会员金额到多少区间
+     */
+    var intervalMembersWillAmount: Int? = null
+    /**
+     * 将流失会员累计次数到多少区间
+     */
+    var intervalMembersWillNumber: Int? = null
+    /**
      * 已流失会员
      */
     var membersLossDay: Int? = null
     /**
-     * 已流失会员天数
+     * 已流失会员金额
      */
     var membersLossAmount: Int? = null
     /**
      * 已流失会员累计次数
      */
     var membersLossNumber: Int? = null
+    /**
+     * 已流失会员金额多少区间
+     */
+    var intervalMembersLossAmount: Int? = null
+    /**
+     * 已流失会员累计次数多少区间
+     */
+    var intervalMembersLossNumber: Int? = null
     /**
      * 新会员 多少天为新会员
      */
@@ -87,12 +111,18 @@ class CustomerSearchRuleEntity : BaseEntity() {
                 ", consumptionMainDay=" + consumptionMainDay +
                 ", consumptionMainAmount=" + consumptionMainAmount +
                 ", consumptionMainNumber=" + consumptionMainNumber +
+                ", intervalConsumptionMainAmount=" + intervalConsumptionMainAmount +
+                ", intervalConsumptionMainNumber=" + intervalConsumptionMainNumber +
                 ", membersWillDay=" + membersWillDay +
                 ", membersWillAmount=" + membersWillAmount +
                 ", membersWillNumber=" + membersWillNumber +
+                ", intervalMembersWillAmount=" + intervalMembersWillAmount +
+                ", intervalMembersWillNumber=" + intervalMembersWillNumber +
                 ", membersLossDay=" + membersLossDay +
                 ", membersLossAmount=" + membersLossAmount +
                 ", membersLossNumber=" + membersLossNumber +
+                ", intervalMembersLossAmount=" + intervalMembersLossAmount +
+                ", intervalMembersLossNumber=" + intervalMembersLossNumber +
                 ", membersNewIntervalDay=" + membersNewIntervalDay +
                 ", membersBirthdayBeforeDay=" + membersBirthdayBeforeDay +
                 ", membersAnniversaryBeforeDay=" + membersAnniversaryBeforeDay +

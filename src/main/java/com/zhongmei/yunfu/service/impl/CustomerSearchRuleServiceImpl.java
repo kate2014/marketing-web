@@ -40,12 +40,21 @@ public class CustomerSearchRuleServiceImpl extends ServiceImpl<CustomerSearchRul
         customerSearchRuleEntity.setConsumptionMainDay(settingVo.getConsumptionMainDay());
         customerSearchRuleEntity.setConsumptionMainAmount(settingVo.getConsumptionMainAmount());
         customerSearchRuleEntity.setConsumptionMainNumber(settingVo.getConsumptionMainNumber());
+        customerSearchRuleEntity.setIntervalConsumptionMainAmount(settingVo.getIntervalConsumptionMainAmount());
+        customerSearchRuleEntity.setIntervalConsumptionMainNumber(settingVo.getIntervalConsumptionMainNumber());
+
         customerSearchRuleEntity.setMembersWillDay(settingVo.getMembersWillDay());
         customerSearchRuleEntity.setMembersWillAmount(settingVo.getMembersWillAmount());
         customerSearchRuleEntity.setMembersWillNumber(settingVo.getMembersWillNumber());
+        customerSearchRuleEntity.setIntervalMembersWillAmount(settingVo.getIntervalMembersWillAmount());
+        customerSearchRuleEntity.setIntervalMembersWillNumber(settingVo.getIntervalMembersWillNumber());
+
         customerSearchRuleEntity.setMembersLossDay(settingVo.getMembersLossDay());
         customerSearchRuleEntity.setMembersLossAmount(settingVo.getMembersLossAmount());
         customerSearchRuleEntity.setMembersLossNumber(settingVo.getMembersLossNumber());
+        customerSearchRuleEntity.setIntervalMembersLossAmount(settingVo.getIntervalMembersLossAmount());
+        customerSearchRuleEntity.setIntervalMembersLossNumber(settingVo.getIntervalMembersLossNumber());
+
         customerSearchRuleEntity.setMembersNewIntervalDay(settingVo.getMembersNewIntervalDay());
         customerSearchRuleEntity.setMembersBirthdayBeforeDay(settingVo.getMembersBirthdayBeforeDay());
         customerSearchRuleEntity.setMembersAnniversaryBeforeDay(settingVo.getMembersAnniversaryBeforeDay());
