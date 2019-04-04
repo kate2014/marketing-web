@@ -135,6 +135,35 @@ public class TradeItemServiceImpl extends ServiceImpl<TradeItemMapper, TradeItem
         return listData;
     }
 
+//    @Override
+//    public List<DishSaleReport> listSaleReport(TradeModel mTradeModel) throws Exception {
+//        Condition eWrapper = ConditionFilter.create();
+//        eWrapper.isWhere(true);
+//        eWrapper.eq("t.brand_identy", mTradeModel.getBrandIdenty());
+//        eWrapper.eq("t.shop_identy", mTradeModel.getShopIdenty());
+//        eWrapper.eq("t.business_type", 1);
+//        eWrapper.in("t.trade_status", "4,5");
+//        if(mTradeModel.getTradeType() == null){
+//            eWrapper.in("t.trade_type", "1,2");
+//        }else{
+//            eWrapper.eq("t.trade_type", mTradeModel.getTradeType());
+//        }
+//        if(mTradeModel.getDishName() != null){
+//            eWrapper.like("i.dish_name", mTradeModel.getDishName());
+//        }
+//        if(mTradeModel.getTradeUser() != null){
+//            eWrapper.like("u.user_name", mTradeModel.getTradeUser());
+//        }
+//        if(mTradeModel.getCustomerName() != null){
+//            eWrapper.like("c.customer_name", mTradeModel.getCustomerName());
+//        }
+//        eWrapper.eq("t.status_flag", 1);
+//        eWrapper.between("i.server_create_time", mTradeModel.getStartDate(), mTradeModel.getEndDate());
+//        List<DishSaleReport> listData = baseMapper.listDishSale(eWrapper);
+//
+//        return listData;
+//    }
+
     @Override
     public List<DishSaleReport> listSaleReport(TradeModel mTradeModel) throws Exception {
         Condition eWrapper = ConditionFilter.create();
@@ -151,18 +180,11 @@ public class TradeItemServiceImpl extends ServiceImpl<TradeItemMapper, TradeItem
         if(mTradeModel.getDishName() != null){
             eWrapper.like("i.dish_name", mTradeModel.getDishName());
         }
-        if(mTradeModel.getTradeUser() != null){
-            eWrapper.like("u.user_name", mTradeModel.getTradeUser());
-        }
-        if(mTradeModel.getCustomerName() != null){
-            eWrapper.like("c.customer_name", mTradeModel.getCustomerName());
-        }
         eWrapper.eq("t.status_flag", 1);
         eWrapper.between("i.server_create_time", mTradeModel.getStartDate(), mTradeModel.getEndDate());
         List<DishSaleReport> listData = baseMapper.listDishSale(eWrapper);
 
         return listData;
     }
-
 
 }

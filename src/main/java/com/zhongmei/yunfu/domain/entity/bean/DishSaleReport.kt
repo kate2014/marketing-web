@@ -35,6 +35,12 @@ class DishSaleReport : Serializable {
 
     var tradeUser: String? = null
 
+    var tradeId: Long? = null
+
+    var tradeItemId: Long? = null
+
+    var tradeNo: String? = null
+
     override fun toString(): String {
         return "PurchaseSaleReport{" +
                 ", id=" + id +
@@ -47,6 +53,9 @@ class DishSaleReport : Serializable {
                 ", serverCreateTime=" + serverCreateTime +
                 ", customerName=" + customerName +
                 ", tradeUser=" + tradeUser +
+                ", tradeId=" + tradeId +
+                ", tradeItemId=" + tradeItemId +
+                ", tradeNo=" + tradeNo +
                 "}"
     }
 }

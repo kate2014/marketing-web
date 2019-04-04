@@ -50,6 +50,8 @@ public class TradeModel extends WebBaseModel {
      * 顾客姓名
      */
     private String customerName;
+
+    private Integer customerType;
     /**
      * 顾客性别:
      * 1男,0女,-1未知
@@ -353,5 +355,13 @@ public class TradeModel extends WebBaseModel {
 
     public void setTradeUser(String tradeUser) {
         this.tradeUser = tradeUser;
+    }
+
+    public Integer getCustomerType() {
+        return customerType;
+    }
+
+    public void setCustomerType(Integer customerType) {
+        this.customerType = customerType;
     }
 }

@@ -102,4 +102,5 @@ public interface TradeItemService extends IService<TradeItemEntity> {
      * @throws Exception
      */
     List<DishSaleReport> listSaleReport (TradeModel mTradeModel) throws Exception;
+
 }

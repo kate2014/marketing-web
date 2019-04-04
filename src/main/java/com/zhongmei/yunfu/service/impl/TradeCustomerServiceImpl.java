@@ -75,4 +75,23 @@ public class TradeCustomerServiceImpl extends ServiceImpl<TradeCustomerMapper, T
         Boolean isSuccess = delete(eWrapper);
         return isSuccess;
     }
+
+    @Override
+    public List<TradeCustomerEntity> queryTradeCustomerList(TradeModel mTradeModel) throws Exception {
+        EntityWrapper<TradeCustomerEntity> eWrapper = new EntityWrapper<>(new TradeCustomerEntity());
+        eWrapper.eq("brand_identy", mTradeModel.getBrandIdenty());
+        eWrapper.eq("shop_identy", mTradeModel.getShopIdenty());
+        eWrapper.eq("customer_type", mTradeModel.getCustomerType());
+
+        if(mTradeModel.getCustomerName() != null && !mTradeModel.getCustomerName().equals("")){
+            eWrapper.like("customer_name", mTradeModel.getCustomerName());
+        }
+        eWrapper.eq("status_flag", 1);
+        eWrapper.between("server_create_time", mTradeModel.getStartDate(), mTradeModel.getEndDate());
+        eWrapper.setSqlSelect("trade_id,customer_type,customer_id,customer_name,customer_phone,customer_sex");
+        eWrapper.orderBy("server_create_time",false);
+        List<TradeCustomerEntity> listData = selectList(eWrapper);
+
+        return listData;
+    }
 }

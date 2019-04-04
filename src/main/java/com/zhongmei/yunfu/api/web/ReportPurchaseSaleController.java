@@ -6,11 +6,9 @@ import com.zhongmei.yunfu.controller.model.TradeModel;
 import com.zhongmei.yunfu.controller.model.excel.ExcelData;
 import com.zhongmei.yunfu.controller.model.excel.ExcelUtils;
 import com.zhongmei.yunfu.domain.entity.*;
-import com.zhongmei.yunfu.service.DishShopService;
-import com.zhongmei.yunfu.service.PurchasSaleService;
-import com.zhongmei.yunfu.service.TradeItemService;
-import com.zhongmei.yunfu.service.TradeService;
+import com.zhongmei.yunfu.service.*;
 import com.zhongmei.yunfu.util.DateFormatUtil;
+import org.jooq.util.derby.sys.Sys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,6 +34,10 @@ public class ReportPurchaseSaleController {
     PurchasSaleService mPurchasSaleService;
     @Autowired
     DishShopService mDishShopService;
+    @Autowired
+    TradeCustomerService mTradeCustomerService;
+    @Autowired
+    TradeUserService mTradeUserService;
 
     @RequestMapping("/goToReport")
     public String goToreport(Model model, PurchSaleModel mPurchSaleModel) {
@@ -260,6 +262,54 @@ public class ReportPurchaseSaleController {
         mTradeModel.setCustomerName(mPurchSaleModel.getCustomerName());
         List<DishSaleReport> listDishSale = mTradeItemService.listSaleReport(mTradeModel);
 
+        //获取所以的tradeCustomer
+        mTradeModel.setCustomerType(3);
+        List<TradeCustomerEntity> listCustomer = mTradeCustomerService.queryTradeCustomerList(mTradeModel);
+        Map<Long,TradeCustomerEntity> customerMap = new HashMap<>();
+        for(TradeCustomerEntity tradeCustomer : listCustomer){
+            customerMap.put(tradeCustomer.getTradeId(),tradeCustomer);
+        }
+
+        //获取订单服务员信息
+        List<TradeUserEntity> listUser = mTradeUserService.queryTradeUserList(mTradeModel);
+        Map<Long,TradeUserEntity> userMap = new HashMap<>();
+        for(TradeUserEntity tradeUser : listUser){
+            userMap.put(tradeUser.getTradeItemId(),tradeUser);
+        }
+
+        for(DishSaleReport dishSale : listDishSale){
+            TradeCustomerEntity mTradeCustomerEntity = customerMap.get(dishSale.getTradeId());
+
+            if(mTradeCustomerEntity != null){
+                dishSale.setCustomerName(mTradeCustomerEntity.getCustomerName());
+            }
+
+            TradeUserEntity mTradeUserEntity = userMap.get(dishSale.getTradeItemId());
+            if(mTradeUserEntity != null){
+                dishSale.setTradeUser(mTradeUserEntity.getUserName());
+            }
+        }
+
+        if(mTradeModel.getTradeUser() != null && !mTradeModel.getTradeUser().equals("")){
+            List<DishSaleReport> listDishSaleReport = new ArrayList<>();
+            for(DishSaleReport dishSale : listDishSale){
+                if(dishSale.getTradeUser() != null && dishSale.getTradeUser().equals(mTradeModel.getTradeUser())){
+                    listDishSaleReport.add(dishSale);
+                }
+            }
+            return listDishSaleReport;
+        }
+
+        if(mTradeModel.getCustomerName() != null && !mTradeModel.getCustomerName().equals("")){
+            List<DishSaleReport> listDishSaleReport = new ArrayList<>();
+            for(DishSaleReport dishSale : listDishSale){
+                if(dishSale.getCustomerName() != null && dishSale.getCustomerName().equals(mTradeModel.getCustomerName())){
+                    listDishSaleReport.add(dishSale);
+                }
+            }
+            return listDishSaleReport;
+        }
+
         return listDishSale;
     }
 
@@ -356,6 +406,7 @@ public class ReportPurchaseSaleController {
         List<String> titles = new ArrayList();
         titles.add("序");
         titles.add("消耗类型");
+        titles.add("订单号");
         titles.add("品项名称");
         titles.add("消耗数量");
         titles.add("销售金额");
@@ -375,6 +426,8 @@ public class ReportPurchaseSaleController {
                 rows.add(row);
                 row.add(i++);
                 row.add(entity.getType());
+                row.add(entity.getTradeNo()
+                );
                 row.add(entity.getName());
                 row.add(entity.getNumber());
                 row.add(entity.getActualAmount());

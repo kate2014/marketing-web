@@ -102,6 +102,7 @@
         <table class="gridtablestyle" style="width: 95%; vertical-align: middle">
             <tr style="width: 100%">
                 <th>消耗类型</th>
+                <th>订单号</th>
                 <th>品项名称</th>
                 <th>消耗数量</th>
                 <th>销售金额</th>
@@ -110,7 +111,19 @@
                 <th>消耗时间</th>
             </tr>
             <tr th:each="item:${listData}">
-                <td th:text="${item.type}"></td>
+                <td>
+                    <div th:switch="${item.type}" >
+                        <div th:case="'退货'" class="parent_h container">
+                            <img class="icon_size_style" th:src="@{/images/return_dish_icon.png}">
+                            <label style="margin-left: 5px">退货</label>
+                        </div>
+                        <div th:case="'销货'" class="parent_h container">
+                            <img class="icon_size_style" th:src="@{/images/sale_dish_icon.png}">
+                            <label style="margin-left: 5px">销货</label>
+                        </div>
+                    </div>
+                </td>
+                <td th:text="${item.tradeNo}"></td>
                 <td th:text="${item.name}"></td>
                 <td th:text="${item.number}"></td>
                 <td th:text="${item.actualAmount}"></td>
