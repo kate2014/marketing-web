@@ -73,6 +73,12 @@ public class CustomerIntegralServiceImpl extends ServiceImpl<CustomerIntegralMap
             updateIntegralOfCustomer(req, customerEntity, currentIntegral, integralUsed);
             addCustomerIntegralRecord(integral, customerEntity, req, RecordType.REFUND);
         }
+
+        customerEntity.setConsumptionLastTime(new Date());
+        customerEntity.setConsumptionNumber(customerEntity.getConsumptionNumber() - 1);
+        TradeEntity tradeEntity = tradeService.selectById(req.getTradeId());
+        customerEntity.setConsumptionAmount(customerEntity.getConsumptionAmount().subtract(tradeEntity.getTradeAmount()));
+        customerService.updateById(customerEntity);
     }
 
     @Override
