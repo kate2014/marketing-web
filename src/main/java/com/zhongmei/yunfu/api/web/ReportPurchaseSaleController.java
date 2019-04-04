@@ -260,7 +260,9 @@ public class ReportPurchaseSaleController {
         mTradeModel.setDishName(mPurchSaleModel.getName());
         mTradeModel.setTradeUser(mPurchSaleModel.getTradeUser());
         mTradeModel.setCustomerName(mPurchSaleModel.getCustomerName());
-        List<DishSaleReport> listDishSale = mTradeItemService.listSaleReport(mTradeModel);
+
+        List<DishSaleReport> listDishSale = new ArrayList<>();
+        listDishSale.addAll(mTradeItemService.listSaleReport(mTradeModel));
 
         //获取所以的tradeCustomer
         mTradeModel.setCustomerType(3);
@@ -291,27 +293,27 @@ public class ReportPurchaseSaleController {
         }
 
         if(mTradeModel.getTradeUser() != null && !mTradeModel.getTradeUser().equals("")){
-            List<DishSaleReport> listDishSaleReport = new ArrayList<>();
+            List<DishSaleReport> listTradeUser = new ArrayList<>();
             for(DishSaleReport dishSale : listDishSale){
-                if(dishSale.getTradeUser() != null && dishSale.getTradeUser().equals(mTradeModel.getTradeUser())){
-                    listDishSaleReport.add(dishSale);
+                if(dishSale.getTradeUser() != null && dishSale.getTradeUser().indexOf(mTradeModel.getTradeUser()) >= 0){
+                    listTradeUser.add(dishSale);
                 }
             }
 
             listDishSale.clear();
-            listDishSale.addAll(listDishSaleReport);
+            listDishSale.addAll(listTradeUser);
 
         }
 
         if(mTradeModel.getCustomerName() != null && !mTradeModel.getCustomerName().equals("")){
-            List<DishSaleReport> listDishSaleReport = new ArrayList<>();
+            List<DishSaleReport> listTradeCustomer = new ArrayList<>();
             for(DishSaleReport dishSale : listDishSale){
-                if(dishSale.getCustomerName() != null && dishSale.getCustomerName().equals(mTradeModel.getCustomerName())){
-                    listDishSaleReport.add(dishSale);
+                if(dishSale.getCustomerName() != null && dishSale.getCustomerName().indexOf(mTradeModel.getCustomerName()) >= 0){
+                    listTradeCustomer.add(dishSale);
                 }
             }
             listDishSale.clear();
-            listDishSale.addAll(listDishSaleReport);
+            listDishSale.addAll(listTradeCustomer);
         }
 
         return listDishSale;

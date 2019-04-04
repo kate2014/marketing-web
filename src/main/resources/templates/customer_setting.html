@@ -142,7 +142,7 @@
             </div>
         </div>
     </form>
-    <form method="post" name="scoreD" action="" th:action="@{/internal/customerScoreRule/modify}" th:object="${CustomerScoreRuleModel}">
+    <form method="post" name="scoreD" action="" th:action="@{/internal/customerScoreRule/modify}" th:object="${cusRM}">
 
 
         <input type="hidden" name="shopIdenty" th:value="${levelRule.shopIdenty}">
@@ -192,7 +192,7 @@
                 <label class="text_navigation" style="margin-left: 10px; font-weight: bold">会员查询规则设置</label>
             </div>
 
-            <div style="margin-top: 15px">
+            <div style="customer_smargin-top: 15px">
                 <label class="text_navigation" style="margin-left: 10px; margin-top: 15px; min-width: 300px">主力消费群：&nbsp;&nbsp;&nbsp;</label>
                 <label class="text_navigation" style="margin-left: 8px; margin-top: 15px;">消费时长</label>
                 <input class="input_style zm_input_number" placeholder="设置消费时长天数" style="margin-left: 5px" type="text" th:value="*{consumptionMainDay}" name="consumptionMainDay"/><label class="text_navigation" style="margin-left: 3px;margin-right: 10px; margin-top: 15px;">天</label>

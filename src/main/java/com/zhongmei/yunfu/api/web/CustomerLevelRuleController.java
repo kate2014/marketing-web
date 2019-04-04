@@ -116,6 +116,9 @@ public class CustomerLevelRuleController  extends BaseController{
             CustomerSearchRuleEntity customerSearchRuleEntity = customerSearchRuleService.selectByShopId(
                     mCustomerLevelRuleModel.getBrandIdenty(),
                     mCustomerLevelRuleModel.getShopIdenty());
+            if(customerSearchRuleEntity == null){
+                customerSearchRuleEntity = new CustomerSearchRuleEntity();
+            }
             model.addAttribute("searchRuleEntity", customerSearchRuleEntity);
 
             model.addAttribute("successOrfail", mCustomerLevelRuleModel.getSuccessOrfail());
