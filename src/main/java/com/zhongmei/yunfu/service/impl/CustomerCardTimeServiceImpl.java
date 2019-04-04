@@ -146,8 +146,8 @@ public class CustomerCardTimeServiceImpl extends ServiceImpl<CustomerCardTimeMap
     public void expense(CustomerCardTimeExpenseReq req) throws Exception {
         CustomerEntity customerEntity = customerService.getCustomerEntity(req.getCustomerId(), true);
 
-        System.out.println("============ConsumptionNumber=" + customerEntity.getConsumptionNumber());
-        int consumptionNumber = customerEntity.getConsumptionNumber();
+        //System.out.println("============ConsumptionNumber=" + customerEntity.getConsumptionNumber());
+        //int consumptionNumber = customerEntity.getConsumptionNumber();
         int cardResidueCount = customerEntity.getCardResidueCount();
         List<CustomerCardTimeExpendEntity> result = new ArrayList<>();
         if (req.getDishs() != null) {
@@ -175,7 +175,7 @@ public class CustomerCardTimeServiceImpl extends ServiceImpl<CustomerCardTimeMap
                     }
                 }
 
-                consumptionNumber += dish.getTradeCount();
+                //consumptionNumber += dish.getTradeCount();
                 int expendResidueCount = cardTimeEntity.getResidueCount();
                 if (cardTimeEntity.getTradeCount() != UNLIMITED_TIMES) {
                     cardResidueCount -= dish.getTradeCount();
@@ -209,8 +209,8 @@ public class CustomerCardTimeServiceImpl extends ServiceImpl<CustomerCardTimeMap
         customerCardTimeExpendService.insertBatch(result);
         //更新会员信息
         customerEntity.baseUpdate(req.getCreatorId(), req.getCreatorName());
-        customerEntity.setConsumptionLastTime(new Date());
-        customerEntity.setConsumptionNumber(consumptionNumber);
+        //customerEntity.setConsumptionLastTime(new Date());
+        //customerEntity.setConsumptionNumber(consumptionNumber);
         customerEntity.setCardResidueCount(cardResidueCount);
         customerService.updateById(customerEntity);
     }
@@ -220,7 +220,7 @@ public class CustomerCardTimeServiceImpl extends ServiceImpl<CustomerCardTimeMap
     public void refund(CustomerCardTimeRefundReq req) throws Exception {
         CustomerEntity customerEntity = customerService.getCustomerEntity(req.getCustomerId(), true);
 
-        int consumptionNumber = customerEntity.getConsumptionNumber();
+        //int consumptionNumber = customerEntity.getConsumptionNumber();
         int cardResidueCount = customerEntity.getCardResidueCount();
 
         List<CustomerCardTimeExpendEntity> result = new ArrayList<>();
@@ -228,7 +228,7 @@ public class CustomerCardTimeServiceImpl extends ServiceImpl<CustomerCardTimeMap
         for (CustomerCardTimeExpendEntity entity : byTradeId) {
             CustomerCardTimeEntity cardTimeEntity = getCustomerCardTimeEntity(entity.getCustomerCardTimeId(), true);
 
-            consumptionNumber -= entity.getTradeCount();
+            //consumptionNumber -= entity.getTradeCount();
             int expendResidueCount = cardTimeEntity.getResidueCount();
             if (cardTimeEntity.getTradeCount() != UNLIMITED_TIMES) {
                 cardResidueCount += entity.getTradeCount();
@@ -262,8 +262,8 @@ public class CustomerCardTimeServiceImpl extends ServiceImpl<CustomerCardTimeMap
 
         //更新会员信息
         customerEntity.baseUpdate(req.getCreatorId(), req.getCreatorName());
-        customerEntity.setConsumptionLastTime(new Date());
-        customerEntity.setConsumptionNumber(consumptionNumber);
+        //customerEntity.setConsumptionLastTime(new Date());
+        //customerEntity.setConsumptionNumber(consumptionNumber);
         customerEntity.setCardResidueCount(cardResidueCount);
         customerService.updateById(customerEntity);
     }
