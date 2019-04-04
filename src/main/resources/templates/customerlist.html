@@ -72,6 +72,11 @@
     <link rel="stylesheet" th:href="@{/css/zm-ui.css}" href="../static/css/zm-ui.css" />
     <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}" src="../static/js/jquery-3.1.1.min.js" ></script>
     <script type="text/javascript" th:src="@{/js/base.js}" src="../static/js/base.js" ></script>
+
+    <!-- diglog -->
+    <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/diy_dialog.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/diy_dialog.css}" type="text/css" />
 </head>
 <script type="text/javascript">
     $(function () {
@@ -164,8 +169,40 @@
             location.href = "[[${basePath}]]/customer/export/excel?" + params;
         });
     });
+
+    function checkDelete(deleteId, name){
+        var message = "请确认是否要删除会员: "+name+"?";
+        dialogBox(message,
+            function () {
+                deleteRequest(deleteId);
+            },
+            function(){
+
+            }
+        );
+    }
+
+    function deleteRequest (deleteId) {
+        // /customer/{id}/del(id=${item.id})
+        const Url = "[[${basePath}]]/customer/"+deleteId+"/del?id="+deleteId;
+
+        const Http = new XMLHttpRequest();
+
+        Http.open("GET",Url);
+
+        Http.send();
+
+        Http.onreadystatechange=function () {
+            if(this.readyState == 4 && this.status == 200){
+                location.reload();
+            }
+        }
+
+    }
+
 </script>
 <body>
+<div id="showDialog"></div>
 
 <div class='customer-com'>
     <div class="customer-centent">
@@ -280,7 +317,7 @@
                     <div class="parent_h">
                         <!--<a th:if="${#lists.contains(session.loginManager.permissionCodeList, 'CUSTOMER_MODIFY')}" th:href="@{/customer/{id}/edit(id=${item.id})}"><img class="see_modify" th:src="@{/images/modify.jpg}" src="../static/images/modify.jpg" style="margin-left: 10px"></a>-->
                         <a class="op-link" th:if="${#lists.contains(session.loginManager.permissionCodeList, 'CUSTOMER_MODIFY')}" th:href="@{/customer/{id}/edit(id=${item.id})}">编辑</a>
-                        <a class="op-link" style="margin-left: 8px" th:if="${#lists.contains(session.loginManager.permissionCodeList, 'CUSTOMER_DEL')}" th:href="@{/customer/{id}/del(id=${item.id})}" onclick="return confirm('确定将此记录删除?')">删除</a>
+                        <a class="op-link" style="margin-left: 8px;cursor: pointer" th:if="${#lists.contains(session.loginManager.permissionCodeList, 'CUSTOMER_DEL')}" th:onclick="'javascript:checkDelete(\''+${item.id}+'\',\''+${item.name}+'\')'">删除</a>
                     </div>
                 </td>
             </tr>

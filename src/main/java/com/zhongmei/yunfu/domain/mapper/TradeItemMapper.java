@@ -2,6 +2,7 @@ package com.zhongmei.yunfu.domain.mapper;
 
 import com.baomidou.mybatisplus.mapper.Condition;
 import com.zhongmei.yunfu.domain.entity.DishReport;
+import com.zhongmei.yunfu.domain.entity.DishSaleReport;
 import com.zhongmei.yunfu.domain.entity.TradeItemEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
@@ -37,6 +38,20 @@ public interface TradeItemMapper extends BaseMapper<TradeItemEntity> {
             "WHERE t.`id` = i.`trade_id` ${ew.sqlSegment}\n" +
             "GROUP BY i.`dish_id` ;")
     List<TradeItemEntity> dishSaleData(@Param("ew") Condition wrapper);
+
+//    @Select("SELECT i.`dish_name` as name ,i.`quantity` as number ,i.`actual_amount` as actualAmount ,CASE t.`trade_type` WHEN 1 THEN '销货' WHEN 2 THEN '退货' END AS type , date_format(i.`server_create_time`,'%Y-%m-%d %H:%i:%s') as serverCreateTime ,c.`customer_name` ,u.`user_name` as tradeUser\n" +
+//            "FROM trade t LEFT JOIN `trade_item` i on t.`id` = i.`trade_id` LEFT JOIN `trade_customer` c on t.`id` = c.`trade_id` LEFT JOIN `trade_user` u on i.`id` = u.`trade_item_id` \n" +
+//            "${ew.sqlSegment} \n" +
+//            "GROUP BY i.`id` \n" +
+//            "ORDER BY `serverCreateTime` desc; ")
+//    List<DishSaleReport> listDishSale(@Param("ew") Condition wrapper);
+
+    @Select("SELECT t.id as tradeId,t.trade_no as tradeNo, i.id as tradeItemId, i.`dish_name` as name ,i.`quantity` as number ,i.`actual_amount` as actualAmount ,CASE t.`trade_type` WHEN 1 THEN '销货' WHEN 2 THEN '退货' END AS type , date_format(i.`server_create_time`,'%Y-%m-%d %H:%i:%s') as serverCreateTime \n" +
+            "FROM trade t LEFT JOIN `trade_item` i on t.`id` = i.`trade_id` \n" +
+            "${ew.sqlSegment} \n" +
+            "ORDER BY `serverCreateTime` desc; ")
+    List<DishSaleReport> listDishSale(@Param("ew") Condition wrapper);
+
 
 }
 

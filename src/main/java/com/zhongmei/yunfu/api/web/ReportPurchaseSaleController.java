@@ -6,11 +6,9 @@ import com.zhongmei.yunfu.controller.model.TradeModel;
 import com.zhongmei.yunfu.controller.model.excel.ExcelData;
 import com.zhongmei.yunfu.controller.model.excel.ExcelUtils;
 import com.zhongmei.yunfu.domain.entity.*;
-import com.zhongmei.yunfu.service.DishShopService;
-import com.zhongmei.yunfu.service.PurchasSaleService;
-import com.zhongmei.yunfu.service.TradeItemService;
-import com.zhongmei.yunfu.service.TradeService;
+import com.zhongmei.yunfu.service.*;
 import com.zhongmei.yunfu.util.DateFormatUtil;
+import org.jooq.util.derby.sys.Sys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,6 +34,10 @@ public class ReportPurchaseSaleController {
     PurchasSaleService mPurchasSaleService;
     @Autowired
     DishShopService mDishShopService;
+    @Autowired
+    TradeCustomerService mTradeCustomerService;
+    @Autowired
+    TradeUserService mTradeUserService;
 
     @RequestMapping("/goToReport")
     public String goToreport(Model model, PurchSaleModel mPurchSaleModel) {
@@ -86,7 +88,7 @@ public class ReportPurchaseSaleController {
             mPurchSaleModel.setEndDate(DateFormatUtil.format(new Date(), DateFormatUtil.FORMAT_FULL_DATE));
         }
 
-
+        mPurchSaleModel.setType(1);
         List<PurchaseAndSaleEntity> listPurchaseSale = mPurchasSaleService.queryPurchase(mPurchSaleModel);
         Map<Long,PurchaseAndSaleEntity> mapPurchaseSale = new HashMap<>();
         for(PurchaseAndSaleEntity purchaseAndSale : listPurchaseSale){
@@ -160,7 +162,7 @@ public class ReportPurchaseSaleController {
     @RequestMapping("/purchase")
     public String purchaseList(Model model, PurchSaleModel mPurchSaleModel){
         try {
-            List<PurchaseSaleReport> listData = mPurchasSaleService.purchaseList(mPurchSaleModel);
+            List<PurchaseSaleReport> listData = listPurchase(mPurchSaleModel);
             model.addAttribute("listData", listData);
             model.addAttribute("mPurchSaleModel", mPurchSaleModel);
             return "report_purchase";
@@ -169,6 +171,30 @@ public class ReportPurchaseSaleController {
             return "fail";
         }
 
+    }
+
+    public List<PurchaseSaleReport> listPurchase(PurchSaleModel mPurchSaleModel)throws Exception{
+        //设置默认查询时间
+        if (mPurchSaleModel.getStartDate() == null) {
+            Calendar c = Calendar.getInstance();
+            //过去15天
+            c.setTime(new Date());
+            c.add(Calendar.DATE, -15);
+            Date start = c.getTime();
+            String temp = DateFormatUtil.format(start, DateFormatUtil.FORMAT_FULL_DATE);
+            mPurchSaleModel.setStartDate(temp);
+
+        }
+
+        if (mPurchSaleModel.getEndDate() == null) {
+            mPurchSaleModel.setEndDate(DateFormatUtil.format(new Date(), DateFormatUtil.FORMAT_FULL_DATE));
+        }
+
+        List<PurchaseSaleReport> listData = mPurchasSaleService.purchaseList(mPurchSaleModel);
+        for(PurchaseSaleReport entity : listData){
+        }
+
+        return listData;
     }
 
     @RequestMapping("/detail")
@@ -190,6 +216,107 @@ public class ReportPurchaseSaleController {
             return "fail";
         }
 
+    }
+
+    @RequestMapping("/saleReport")
+    public String saleReport(Model model, PurchSaleModel mPurchSaleModel){
+        try {
+
+            List<DishSaleReport> listDishSale = queryDishSale(mPurchSaleModel);
+            model.addAttribute("listData", listDishSale);
+            model.addAttribute("mPurchSaleModel", mPurchSaleModel);
+
+            return "report_dish_sale";
+        }catch (Exception e){
+            e.printStackTrace();
+            return "fail";
+        }
+
+    }
+
+    public List<DishSaleReport> queryDishSale(PurchSaleModel mPurchSaleModel)throws Exception{
+        //设置默认查询时间
+        if (mPurchSaleModel.getStartDate() == null) {
+            Calendar c = Calendar.getInstance();
+            //过去15天
+            c.setTime(new Date());
+            c.add(Calendar.DATE, -7);
+            Date start = c.getTime();
+            String temp = DateFormatUtil.format(start, DateFormatUtil.FORMAT_FULL_DATE);
+            mPurchSaleModel.setStartDate(temp);
+
+        }
+
+        if (mPurchSaleModel.getEndDate() == null) {
+            mPurchSaleModel.setEndDate(DateFormatUtil.format(new Date(), DateFormatUtil.FORMAT_FULL_DATE));
+        }
+
+        TradeModel mTradeModel = new TradeModel();
+        mTradeModel.setShopIdenty(mPurchSaleModel.getShopIdenty());
+        mTradeModel.setBrandIdenty(mPurchSaleModel.getBrandIdenty());
+        mTradeModel.setStartDate(mPurchSaleModel.getStartDate());
+        mTradeModel.setEndDate(mPurchSaleModel.getEndDate());
+        mTradeModel.setTradeType(mPurchSaleModel.getType());
+        mTradeModel.setDishName(mPurchSaleModel.getName());
+        mTradeModel.setTradeUser(mPurchSaleModel.getTradeUser());
+        mTradeModel.setCustomerName(mPurchSaleModel.getCustomerName());
+
+        List<DishSaleReport> listDishSale = new ArrayList<>();
+        listDishSale.addAll(mTradeItemService.listSaleReport(mTradeModel));
+
+        //获取所以的tradeCustomer
+        mTradeModel.setCustomerType(3);
+        List<TradeCustomerEntity> listCustomer = mTradeCustomerService.queryTradeCustomerList(mTradeModel);
+        Map<Long,TradeCustomerEntity> customerMap = new HashMap<>();
+        for(TradeCustomerEntity tradeCustomer : listCustomer){
+            customerMap.put(tradeCustomer.getTradeId(),tradeCustomer);
+        }
+
+        //获取订单服务员信息
+        List<TradeUserEntity> listUser = mTradeUserService.queryTradeUserList(mTradeModel);
+        Map<Long,TradeUserEntity> userMap = new HashMap<>();
+        for(TradeUserEntity tradeUser : listUser){
+            userMap.put(tradeUser.getTradeItemId(),tradeUser);
+        }
+
+        for(DishSaleReport dishSale : listDishSale){
+            TradeCustomerEntity mTradeCustomerEntity = customerMap.get(dishSale.getTradeId());
+
+            if(mTradeCustomerEntity != null){
+                dishSale.setCustomerName(mTradeCustomerEntity.getCustomerName());
+            }
+
+            TradeUserEntity mTradeUserEntity = userMap.get(dishSale.getTradeItemId());
+            if(mTradeUserEntity != null){
+                dishSale.setTradeUser(mTradeUserEntity.getUserName());
+            }
+        }
+
+        if(mTradeModel.getTradeUser() != null && !mTradeModel.getTradeUser().equals("")){
+            List<DishSaleReport> listTradeUser = new ArrayList<>();
+            for(DishSaleReport dishSale : listDishSale){
+                if(dishSale.getTradeUser() != null && dishSale.getTradeUser().indexOf(mTradeModel.getTradeUser()) >= 0){
+                    listTradeUser.add(dishSale);
+                }
+            }
+
+            listDishSale.clear();
+            listDishSale.addAll(listTradeUser);
+
+        }
+
+        if(mTradeModel.getCustomerName() != null && !mTradeModel.getCustomerName().equals("")){
+            List<DishSaleReport> listTradeCustomer = new ArrayList<>();
+            for(DishSaleReport dishSale : listDishSale){
+                if(dishSale.getCustomerName() != null && dishSale.getCustomerName().indexOf(mTradeModel.getCustomerName()) >= 0){
+                    listTradeCustomer.add(dishSale);
+                }
+            }
+            listDishSale.clear();
+            listDishSale.addAll(listTradeCustomer);
+        }
+
+        return listDishSale;
     }
 
     @RequestMapping("/export/excel")
@@ -230,6 +357,94 @@ public class ReportPurchaseSaleController {
 
         SimpleDateFormat fdate = new SimpleDateFormat("yyyyMMdd");
         String fileName = String.format("进销存报表-%s.xls", fdate.format(new Date()));
+        ExcelUtils.exportExcel(response, fileName, data);
+    }
+    @RequestMapping("/export/purchase")
+    public void exportPurchase(HttpServletResponse response, PurchSaleModel mPurchSaleModel) throws Exception{
+
+        List<PurchaseSaleReport> listData = listPurchase(mPurchSaleModel);
+
+        ExcelData data = new ExcelData();
+        data.setSheetName("品项入库报表");
+        List<String> titles = new ArrayList();
+        titles.add("序");
+        titles.add("品项名称");
+        titles.add("类型");
+        titles.add("数量");
+        titles.add("采购单价");
+        titles.add("采购金额");
+        titles.add("货源名称");
+        titles.add("入库时间");
+
+        data.setTitles(titles);
+
+        List<List<Object>> rows = new ArrayList();
+        data.setRows(rows);
+
+        int i = 1;
+        if(listData != null){
+            for (PurchaseSaleReport entity : listData) {
+                List<Object> row = new ArrayList();
+                rows.add(row);
+                row.add(i++);
+                row.add(entity.getName());
+                row.add(entity.getType());
+                row.add(entity.getNumber());
+                row.add(entity.getPurchasePrice());
+                row.add(entity.getTotalPurchasePrice());
+                row.add(entity.getSourceName());
+                row.add(entity.getServerCreateTime());
+            }
+        }
+
+        SimpleDateFormat fdate = new SimpleDateFormat("yyyyMMdd");
+        String fileName = String.format("品项入库报表-%s.xls", fdate.format(new Date()));
+        ExcelUtils.exportExcel(response, fileName, data);
+    }
+
+    @RequestMapping("/export/dishSale")
+    public void exportDishSale(HttpServletResponse response, PurchSaleModel mPurchSaleModel) throws Exception{
+
+        List<DishSaleReport> listDishSale = queryDishSale(mPurchSaleModel);
+
+        ExcelData data = new ExcelData();
+        data.setSheetName("品项销售详情报表");
+        List<String> titles = new ArrayList();
+        titles.add("序");
+        titles.add("消耗类型");
+        titles.add("订单号");
+        titles.add("品项名称");
+        titles.add("消耗数量");
+        titles.add("销售金额");
+        titles.add("服务员名称");
+        titles.add("顾客名称");
+        titles.add("消耗时间");
+
+        data.setTitles(titles);
+
+        List<List<Object>> rows = new ArrayList();
+        data.setRows(rows);
+
+        int i = 1;
+        if(listDishSale != null){
+            for (DishSaleReport entity : listDishSale) {
+                List<Object> row = new ArrayList();
+                rows.add(row);
+                row.add(i++);
+                row.add(entity.getType());
+                row.add(entity.getTradeNo()
+                );
+                row.add(entity.getName());
+                row.add(entity.getNumber());
+                row.add(entity.getActualAmount());
+                row.add(entity.getTradeUser());
+                row.add(entity.getCustomerName());
+                row.add(entity.getServerCreateTime());
+            }
+        }
+
+        SimpleDateFormat fdate = new SimpleDateFormat("yyyyMMdd");
+        String fileName = String.format("品项销售详情报表-%s.xls", fdate.format(new Date()));
         ExcelUtils.exportExcel(response, fileName, data);
     }
 }

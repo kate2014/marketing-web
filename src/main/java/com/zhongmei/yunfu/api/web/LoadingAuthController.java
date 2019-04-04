@@ -63,6 +63,10 @@ public class LoadingAuthController {
             String url = "/internal/purchaseSale/purchase?brandIdenty="+mLoadingModel.getBrandIdenty()+"&shopIdenty="+mLoadingModel.getShopIdenty();
             mLoadingModel.setRequestUrl(url);
 
+        }else if(mLoadingModel.getRequestUrlType() == 11){
+            String url = "/internal/purchaseSale/saleReport?brandIdenty="+mLoadingModel.getBrandIdenty()+"&shopIdenty="+mLoadingModel.getShopIdenty();
+            mLoadingModel.setRequestUrl(url);
+
         }
 
         model.addAttribute("mLoadingModel", mLoadingModel);

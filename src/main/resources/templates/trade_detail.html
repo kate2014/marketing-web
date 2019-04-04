@@ -206,6 +206,51 @@
 <div style="margin: 20px;padding: 20px" class="modle_background_style">
     <div class="parent">
         <img th:src="@{/images/lable.jpg}" style="height: 25px; width: 4px; font-weight: bold;">
+        <label class="text_navigation" style="margin-left: 10px; font-weight: bold">会员信息</label>
+    </div>
+    <table class="gridtablestyle" style="width: 95%; vertical-align: middle">
+        <tr style="width: 100%">
+            <th>操作类型</th>
+            <th>会员名称</th>
+            <th>会员性别</th>
+            <th>会员联系电话</th>
+        </tr>
+
+        <tr th:each="item:${listTradeCustomer}">
+            <td>
+                <div th:switch="${item.customerType}">
+                    <p th:case="'1'">
+                        预约会员
+                    </p>
+                    <p th:case="'2'">
+                        登录权益会员
+                    </p>
+                    <p th:case="'3'">
+                        余额支付会员
+                    </p>
+                </div>
+            </td>
+            <td th:text="${item.customerName}"></td>
+            <td>
+                <div th:switch="${item.customerSex}">
+                    <p th:case="'0'">
+                        女士
+                    </p>
+                    <p th:case="'1'">
+                        男士
+                    </p>
+                </div>
+            </td>
+            <td th:text="${item.customerPhone}"></td>
+        </tr>
+
+    </table>
+
+</div>
+
+<div style="margin: 20px;padding: 20px" class="modle_background_style">
+    <div class="parent">
+        <img th:src="@{/images/lable.jpg}" style="height: 25px; width: 4px; font-weight: bold;">
         <label class="text_navigation" style="margin-left: 10px; font-weight: bold">整单优惠</label>
     </div>
     <table class="gridtablestyle" style="width: 95%; vertical-align: middle">
@@ -224,6 +269,8 @@
     </table>
 
 </div>
+
+
 
 <div style="margin: 20px;padding: 20px" class="modle_background_style">
     <div class="parent">
@@ -254,6 +301,11 @@
         </tr>
 
     </table>
+
+    <div style="margin-top: 15px" class="parent" th:if="${not #strings.isEmpty(userForTrade.userName)}">
+        <label class="detail_value_style">整单归属服务员工：</label>
+        <lable class="detail_value_style" th:text="${userForTrade.userName}"/>
+    </div>
 
 </div>
 

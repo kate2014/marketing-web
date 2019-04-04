@@ -1,13 +1,13 @@
 package com.zhongmei.yunfu.dubbo.service.impl;
 
-import com.alibaba.dubbo.config.annotation.Service;
+//import com.alibaba.dubbo.config.annotation.Service;
 import com.zhongmei.yunfu.domain.entity.AuthUserEntity;
 import com.zhongmei.yunfu.dubbo.service.UserService;
 
 import java.util.List;
 import java.util.Map;
 
-@Service
+//@Service
 public class UserServiceImpl implements UserService {
 
     @Override

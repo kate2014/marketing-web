@@ -124,6 +124,27 @@ public class ReportController {
             model.addAttribute("haveCustomerSaveReport", 1);
         }
 
+        //品项消耗详情报表
+        if(permissionData.get("DISH_SALE_REPORT") == null || permissionData.get("DISH_SALE_REPORT").equals("")){
+            model.addAttribute("haveDishSaleDetailReport", 0);
+        }else{
+            model.addAttribute("haveDishSaleDetailReport", 1);
+        }
+
+        //品项库存报表
+        if(permissionData.get("DISH_KC_REPORT") == null || permissionData.get("DISH_KC_REPORT").equals("")){
+            model.addAttribute("haveDishSaveReport", 0);
+        }else{
+            model.addAttribute("haveDishSaveReport", 1);
+        }
+
+        //品项入库报表
+        if(permissionData.get("DISH_RK_ERPORT") == null || permissionData.get("DISH_RK_ERPORT").equals("")){
+            model.addAttribute("haveDishPurchaseReport", 0);
+        }else{
+            model.addAttribute("haveDishPurchaseReport", 1);
+        }
+
         return "report";
     }
 

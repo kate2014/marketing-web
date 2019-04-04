@@ -27,6 +27,7 @@
         var endDate = $("input[name='endDate']").val();
         var params = "brandIdenty=" + brandIdenty +
             "&shopIdenty=" + shopIdenty +
+            "&name=" + name +
             "&startDate=" + startDate +
             "&endDate=" + endDate;
         location.href = "[[${basePath}]]/internal/purchaseSale/export/excel?" + params;
@@ -59,7 +60,7 @@
             <span style="font-size: 10px;margin-left: 6px">数据导出</span>
         </div>
 
-        <button class="gray_button_style" value="" onclick="avascript :history.back(-1);" style="margin-left: 10%">返回</button>
+
     </div>
 
 
@@ -76,7 +77,6 @@
                 <th>采购金额</th>
                 <th>销货数量</th>
                 <th>销货金额</th>
-                <th>操作</th>
             </tr>
             <tr th:each="item:${listPurchaseSaleReport}">
                 <td th:text="${item.name}"></td>
@@ -85,9 +85,6 @@
                 <td th:text="${item.totalPurchasePrice}"></td>
                 <td th:text="${item.saleTotal}"></td>
                 <td th:text="${item.salePrice}"></td>
-                <td align="center">
-                    <a href="activityadd.html" th:href="@{/internal/purchaseSale/report(id=${item.id})}">查看详情</a>
-                </td>
 
             </tr>
 

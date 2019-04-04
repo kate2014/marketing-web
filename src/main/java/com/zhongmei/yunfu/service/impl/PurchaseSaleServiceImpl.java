@@ -75,9 +75,16 @@ public class PurchaseSaleServiceImpl extends ServiceImpl<PurchaseSaleMapper, Pur
 
         eWrapper.eq("p.shop_identy", mPurchSaleModel.getShopIdenty());
         eWrapper.eq("p.brand_identy", mPurchSaleModel.getBrandIdenty());
-        eWrapper.like("p.source_name", mPurchSaleModel.getSourceName());
-        eWrapper.eq("p.type", 1);//1：进货 2：销货
-        eWrapper.like("d.name", mPurchSaleModel.getDishName());
+        if(mPurchSaleModel.getSourceName() != null){
+            eWrapper.like("p.source_name", mPurchSaleModel.getSourceName());
+        }
+        if(mPurchSaleModel.getName() != null){
+            eWrapper.like("d.name", mPurchSaleModel.getName());
+        }
+
+        if(mPurchSaleModel.getType() != null){
+            eWrapper.eq("p.type", mPurchSaleModel.getType());//1：进货 2：销货
+        }
 
         eWrapper.between("p.server_create_time", mPurchSaleModel.getStartDate(), mPurchSaleModel.getEndDate());
         List<PurchaseSaleReport> listData = baseMapper.purchaseList(eWrapper);

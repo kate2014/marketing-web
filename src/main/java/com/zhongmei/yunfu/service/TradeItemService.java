@@ -2,6 +2,7 @@ package com.zhongmei.yunfu.service;
 
 import com.zhongmei.yunfu.controller.model.TradeModel;
 import com.zhongmei.yunfu.domain.entity.DishReport;
+import com.zhongmei.yunfu.domain.entity.DishSaleReport;
 import com.zhongmei.yunfu.domain.entity.TradeItemEntity;
 import com.baomidou.mybatisplus.service.IService;
 
@@ -93,4 +94,13 @@ public interface TradeItemService extends IService<TradeItemEntity> {
      * @throws Exception
      */
     List<TradeItemEntity> dishSaleData(TradeModel mTradeModel) throws Exception;
+
+    /**
+     * 销售报表
+     * @param mTradeModel
+     * @return
+     * @throws Exception
+     */
+    List<DishSaleReport> listSaleReport (TradeModel mTradeModel) throws Exception;
+
 }

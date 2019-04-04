@@ -9,6 +9,7 @@ import com.zhongmei.yunfu.domain.entity.*;
 import com.zhongmei.yunfu.service.*;
 import com.zhongmei.yunfu.util.DateFormatUtil;
 import org.apache.velocity.util.ArrayListWrapper;
+import org.jooq.util.derby.sys.Sys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +41,8 @@ public class TradeController extends BaseController{
     TradePrivilegeService mTradePrivilegeService;
     @Autowired
     TradeUserService mTradeUserService;
+    @Autowired
+    TradeCustomerService mTradeCustomerService;
 
     @RequestMapping("/listData")
     public String tradeListPage(Model model, TradeModel mTradeModel) {
@@ -93,7 +96,27 @@ public class TradeController extends BaseController{
 
             List<TradePrivilegeEntity> tradePrivilageForTrade = new ArrayList<>();
 
-            List<TradeUserEntity> tradeUserForTrade = new ArrayList<>();
+            TradeUserEntity tradeUserForTrade = new TradeUserEntity();
+
+            Map<Long,TradePrivilegeEntity> privilegeMap = new HashMap<>();
+            Map<Long,TradeUserEntity> tradeUserMap = new HashMap<>();
+
+            for(TradePrivilegeEntity privilage : listPrivilage){
+                if(privilage.getTradeItemId() == null || privilage.getTradeItemId().equals("")){
+                    tradePrivilageForTrade.add(privilage);
+                }else{
+                    privilegeMap.put(privilage.getTradeItemId(),privilage);
+                }
+
+            }
+            for(TradeUserEntity user : listTradeUser){
+                if(user.getTradeItemId() == null || user.getTradeItemId().equals("")){
+                    tradeUserForTrade = user;
+                    System.out.println("=====tradeUserForTrade===="+tradeUserForTrade.getUserName()+"===="+user.getUserName());
+                }else{
+                    tradeUserMap.put(user.getTradeItemId(),user);
+                }
+            }
 
             for(TradeItemEntity item : listItem){
                 TradeItemModel mTradeItemModel = new TradeItemModel();
@@ -103,35 +126,30 @@ public class TradeController extends BaseController{
                 mTradeItemModel.setAmount(item.getAmount());
                 mTradeItemModel.setPrivilege("/");
                 mTradeItemModel.setCreatorName(item.getCreatorName());
-                for(TradePrivilegeEntity privilage : listPrivilage){
-                    if(privilage.getTradeItemId() != null && privilage.getTradeItemId().longValue() == item.getId().longValue()){
-                        mTradeItemModel.setPrivilege(privilage.getPrivilegeName()+"："+privilage.getPrivilegeAmount());
-                        break;
-                    }
+
+                TradePrivilegeEntity mTradePrivilegeEntity = privilegeMap.get(item.getId());
+                if(mTradePrivilegeEntity != null){
+                    mTradeItemModel.setPrivilege(mTradePrivilegeEntity.getPrivilegeName()+"："+mTradePrivilegeEntity.getPrivilegeAmount());
                 }
+
                 mTradeItemModel.setActualAmount(item.getActualAmount());
                 mTradeItemModel.setTradeUser("/");
-                for(TradeUserEntity user : listTradeUser){
-                    if(user.getTradeItemId() != null && user.getTradeItemId().longValue() == item.getId().longValue()){
-                        mTradeItemModel.setTradeUser(user.getUserName());
-                        break;
-                    }
+
+                TradeUserEntity mTradeUserEntity = tradeUserMap.get(item.getId());
+                if(mTradeUserEntity != null){
+                    mTradeItemModel.setTradeUser(mTradeUserEntity.getUserName());
                 }
+
                 listTradeItem.add(mTradeItemModel);
             }
 
-            for(TradePrivilegeEntity privilage : listPrivilage){
-                if(privilage.getTradeItemId() == null || privilage.getTradeItemId().equals("")){
-                    tradePrivilageForTrade.add(privilage);
-                }
-            }
-            for(TradeUserEntity user : listTradeUser){
-                if(user.getTradeItemId() == null || user.getTradeItemId().equals("")){
-                    tradeUserForTrade.add(user);
-                }
-            }
 
             List<PaymentItemEntity> listPayment = mPaymentItemService.queryPaymentItemsByTradeId(mTradeEntity.getId());
+
+
+            List<TradeCustomerEntity> listTradeCustomer = mTradeCustomerService.queryTradeCustomerList(mTradeModel.getTradeId());
+
+            model.addAttribute("listTradeCustomer", listTradeCustomer);
 
             model.addAttribute("listPayment", listPayment);
 
