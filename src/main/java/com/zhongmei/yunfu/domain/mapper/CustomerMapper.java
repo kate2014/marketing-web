@@ -65,9 +65,9 @@ public interface CustomerMapper extends BaseMapper<CustomerEntity> {
             "  WHERE t.status_flag = 1 AND t.shop_identy = ${shopId}\n" +
             "    AND t.server_create_time >= #{serverCreateTime}\n" +
             "  GROUP BY tc.customer_id\n" +
-            "  HAVING COUNT(1) > ${tradeCount}\n" +
-            "    OR SUM(t.trade_amount) > ${tradeAmountSum})")
-    Integer selectCountByTrade(@Param("shopId") Long shop_identy, @Param("serverCreateTime") String server_create_time, @Param("tradeCount") Integer tradeCount, @Param("tradeAmountSum") Integer tradeAmountSum);
+            "  HAVING (COUNT(1) > ${tradeCount} AND COUNT(1) < ${tradeCountMax})\n" +
+            "    OR (SUM(t.trade_amount) > ${tradeAmountSum} AND SUM(t.trade_amount) < ${tradeAmountSumMax}))")
+    Integer selectCountByTrade(@Param("shopId") Long shop_identy, @Param("serverCreateTime") String server_create_time, @Param("tradeCount") Integer tradeCount, @Param("tradeCountMax") Integer tradeCountMax, @Param("tradeAmountSum") Integer tradeAmountSum, @Param("tradeAmountSumMax") Integer tradeAmountSumMax);
 
     @Select("SELECT\n" +
             " c.*, wc.third_id wx_open_id\n" +
@@ -83,9 +83,9 @@ public interface CustomerMapper extends BaseMapper<CustomerEntity> {
             "  WHERE t.status_flag = 1 AND t.shop_identy = ${shopId}\n" +
             "    AND t.server_create_time >= #{serverCreateTime}\n" +
             "  GROUP BY tc.customer_id\n" +
-            "  HAVING COUNT(1) > ${tradeCount}\n" +
-            "    OR SUM(t.trade_amount) > ${tradeAmountSum}) ${ew.sqlSegment}")
-    List<CustomerEntity> selectByTrade(RowBounds page, @Param("ew") Wrapper wrapper, @Param("shopId") Long shop_identy, @Param("serverCreateTime") String server_create_time, @Param("tradeCount") Integer tradeCount, @Param("tradeAmountSum") Integer tradeAmountSum);
+            "  HAVING (COUNT(1) > ${tradeCount} AND COUNT(1) < ${tradeCountMax})\n" +
+            "    OR (SUM(t.trade_amount) > ${tradeAmountSum} AND SUM(t.trade_amount) < ${tradeAmountSumMax})) ${ew.sqlSegment}")
+    List<CustomerEntity> selectByTrade(RowBounds page, @Param("ew") Wrapper wrapper, @Param("shopId") Long shopId, @Param("serverCreateTime") String serverCreateTime, @Param("tradeCount") Integer tradeCount, @Param("tradeCountMax") Integer tradeCountMax, @Param("tradeAmountSum") Integer tradeAmountSum, @Param("tradeAmountSumMax") Integer tradeAmountSumMax);
 
     /**
      * 统计最近几天将要过生日的会员

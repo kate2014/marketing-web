@@ -145,22 +145,6 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
     }
 
     @Override
-    public Page<CustomerEntity> findListPage(Page<CustomerEntity> page, CustomerSearchModel searchModel) {
-        CustomerEntity coupon = new CustomerEntity();
-        coupon.setStatusFlag(StatusFlag.VALiD.value());
-        coupon.setRelateId(0L); //表示主会员记录
-        coupon.setShopIdenty(searchModel.getUser().getShopIdenty());
-        coupon.setSourceId(searchModel.getSourceId());
-        coupon.setGroupLevelId(searchModel.getGroupLevelId());
-        EntityWrapper<CustomerEntity> eWrapper = new EntityWrapperFilter<>(coupon);
-        eWrapper.like("name", searchModel.getName(), SqlLike.RIGHT);
-        eWrapper.like("mobile", searchModel.getMobile(), SqlLike.RIGHT);
-        eWrapper.orderBy("consumption_last_time", false);
-        Page<CustomerEntity> roleDOList = selectPage(page, eWrapper);
-        return roleDOList;
-    }
-
-    @Override
     public Page<CustomerEntity> findListPage(CustomerDrainSearchModel searchModel) {
         CustomerEntity customerEntity = new CustomerEntity();
         customerEntity.setStatusFlag(StatusFlag.VALiD.value());
@@ -394,15 +378,15 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
     }
 
     @Override
-    public Integer selectCountByTrade(Long shop_identy, Integer recentDay, Integer tradeCount, Integer tradeAmountSum) {
+    public Integer selectCountByTrade(Long shop_identy, Integer recentDay, Integer tradeCount, Integer tradeCountMax, Integer tradeAmountSum, Integer tradeAmountSumMax) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_MONTH, -recentDay);
         String format = DateFormatUtil.format(calendar.getTime(), DateFormatUtil.FORMAT_DATE) + " 00:00:00";
-        return baseMapper.selectCountByTrade(shop_identy, format, tradeCount, tradeAmountSum);
+        return baseMapper.selectCountByTrade(shop_identy, format, tradeCount, tradeCountMax, tradeAmountSum, tradeAmountSumMax);
     }
 
     @Override
-    public Page<CustomerEntity> selectByTrade(CustomerSearchModel searchModel, Integer recentDay, Integer tradeCount, Integer tradeAmountSum) {
+    public Page<CustomerEntity> selectByTrade(CustomerSearchModel searchModel, Integer recentDay, Integer tradeCount, Integer tradeCountMax, Integer tradeAmountSum, Integer tradeAmountSumMax) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_MONTH, -recentDay);
         String format = DateFormatUtil.format(calendar.getTime(), DateFormatUtil.FORMAT_DATE) + " 00:00:00";
@@ -418,28 +402,7 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
         wrapper.orderBy("c.consumption_last_time", false);
         Page<CustomerEntity> page = new Page<>(searchModel.getPageNo(), searchModel.getPageSize());
         wrapper = (EntityWrapper<CustomerEntity>) SqlHelper.fillWrapper(page, wrapper);
-        page.setRecords(baseMapper.selectByTrade(page, wrapper, searchModel.getUser().getShopIdenty(), format, tradeCount, tradeAmountSum));
-        return page;
-    }
-
-    @Override
-    public Page<CustomerEntity> selectByTrade(Page<CustomerEntity> page, CustomerSearchModel searchModel, Integer recentDay, Integer tradeCount, Integer tradeAmountSum) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DAY_OF_MONTH, -recentDay);
-        String format = DateFormatUtil.format(calendar.getTime(), DateFormatUtil.FORMAT_DATE) + " 00:00:00";
-
-        //CustomerEntity customerEntity = new CustomerEntity();
-        //customerEntity.setRelateId(0L);
-        //customerEntity.setShopIdenty(searchModel.getUser().getShopIdenty());
-        EntityWrapper<CustomerEntity> wrapper = new EntityWrapperFilter<>();
-        wrapper.eq("c.source_id", searchModel.getSourceId());
-        wrapper.eq("c.group_level_id", searchModel.getGroupLevelId());
-        wrapper.like("c.name", searchModel.getName(), SqlLike.RIGHT);
-        wrapper.like("c.mobile", searchModel.getMobile(), SqlLike.RIGHT);
-        wrapper.orderBy("c.consumption_last_time", false);
-        wrapper = (EntityWrapper<CustomerEntity>) SqlHelper.fillWrapper(page, wrapper);
-        page = existOrCreate(page);
-        page.setRecords(baseMapper.selectByTrade(page, wrapper, searchModel.getUser().getShopIdenty(), format, tradeCount, tradeAmountSum));
+        page.setRecords(baseMapper.selectByTrade(page, wrapper, searchModel.getUser().getShopIdenty(), format, tradeCount, tradeCountMax, tradeAmountSum, tradeAmountSumMax));
         return page;
     }
 
@@ -464,24 +427,6 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
         wrapper.orderBy("c.consumption_last_time", false);
         Page<CustomerEntity> page = new Page<>(searchModel.getPageNo(), searchModel.getPageSize());
         wrapper = (EntityWrapper<CustomerEntity>) SqlHelper.fillWrapper(page, wrapper);
-        page.setRecords(baseMapper.selectByBirthday(page, wrapper, searchModel.getUser().getShopIdenty(), recentDay, betweenRight2));
-        return page;
-    }
-
-    @Override
-    public Page<CustomerEntity> selectByBirthday(Page<CustomerEntity> page, CustomerSearchModel searchModel, Integer recentDay) {
-        int betweenRight2 = recentDay - 365;
-        //CustomerEntity customerEntity = new CustomerEntity();
-        //customerEntity.setRelateId(0L);
-        //customerEntity.setShopIdenty(searchModel.getUser().getShopIdenty());
-        EntityWrapper<CustomerEntity> wrapper = new EntityWrapperFilter<>();
-        wrapper.eq("c.source_id", searchModel.getSourceId());
-        wrapper.eq("c.group_level_id", searchModel.getGroupLevelId());
-        wrapper.like("c.name", searchModel.getName(), SqlLike.RIGHT);
-        wrapper.like("c.mobile", searchModel.getMobile(), SqlLike.RIGHT);
-        wrapper.orderBy("c.consumption_last_time", false);
-        wrapper = (EntityWrapper<CustomerEntity>) SqlHelper.fillWrapper(page, wrapper);
-        page = existOrCreate(page);
         page.setRecords(baseMapper.selectByBirthday(page, wrapper, searchModel.getUser().getShopIdenty(), recentDay, betweenRight2));
         return page;
     }
@@ -514,24 +459,6 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
     }
 
     @Override
-    public Page<CustomerEntity> selectByNewMember(Page<CustomerEntity> page, CustomerSearchModel searchModel, Integer recentDay) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DAY_OF_MONTH, -recentDay);
-        String format = DateFormatUtil.format(calendar.getTime(), DateFormatUtil.FORMAT_DATE) + " 00:00:00";
-        EntityWrapper<CustomerEntity> wrapper = new EntityWrapperFilter<>(new CustomerEntity());
-        wrapper.eq("c.source_id", searchModel.getSourceId());
-        wrapper.eq("c.group_level_id", searchModel.getGroupLevelId());
-        wrapper.like("c.name", searchModel.getName(), SqlLike.RIGHT);
-        wrapper.like("c.mobile", searchModel.getMobile(), SqlLike.RIGHT);
-        wrapper.orderBy("c.consumption_last_time", false);
-        //return selectPage(page, wrapper);
-        wrapper = (EntityWrapper<CustomerEntity>) SqlHelper.fillWrapper(page, wrapper);
-        page = existOrCreate(page);
-        page.setRecords(baseMapper.selectByNewMember(page, wrapper, searchModel.getUser().getShopIdenty(), format));
-        return page;
-    }
-
-    @Override
     public Integer selectCountByAnniversary(Long shop_identy, Integer recentDay) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.YEAR, -1);
@@ -559,27 +486,6 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
         Page<CustomerEntity> page = new Page<>(searchModel.getPageNo(), searchModel.getPageSize());
         //return selectPage(page, wrapper);
         wrapper = (EntityWrapper<CustomerEntity>) SqlHelper.fillWrapper(page, wrapper);
-        page.setRecords(baseMapper.selectByAnniversary(page, wrapper, searchModel.getUser().getShopIdenty(), startTime, endTime));
-        return page;
-    }
-
-    @Override
-    public Page<CustomerEntity> selectByAnniversary(Page<CustomerEntity> page, CustomerSearchModel searchModel, Integer recentDay) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.YEAR, -1);
-        String startTime = DateFormatUtil.format(calendar.getTime(), DateFormatUtil.FORMAT_DATE) + " 00:00:00";
-        calendar.add(Calendar.DAY_OF_MONTH, recentDay);
-        String endTime = DateFormatUtil.format(calendar.getTime(), DateFormatUtil.FORMAT_DATE) + " 00:00:00";
-
-        EntityWrapper<CustomerEntity> wrapper = new EntityWrapperFilter<>(new CustomerEntity());
-        wrapper.eq("c.source_id", searchModel.getSourceId());
-        wrapper.eq("c.group_level_id", searchModel.getGroupLevelId());
-        wrapper.like("c.name", searchModel.getName(), SqlLike.RIGHT);
-        wrapper.like("c.mobile", searchModel.getMobile(), SqlLike.RIGHT);
-        wrapper.orderBy("c.consumption_last_time", false);
-        //return selectPage(page, wrapper);
-        wrapper = (EntityWrapper<CustomerEntity>) SqlHelper.fillWrapper(page, wrapper);
-        page = existOrCreate(page);
         page.setRecords(baseMapper.selectByAnniversary(page, wrapper, searchModel.getUser().getShopIdenty(), startTime, endTime));
         return page;
     }

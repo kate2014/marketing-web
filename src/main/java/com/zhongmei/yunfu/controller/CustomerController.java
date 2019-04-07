@@ -19,6 +19,7 @@ import com.zhongmei.yunfu.service.CustomerService;
 import com.zhongmei.yunfu.service.LoginManager;
 import com.zhongmei.yunfu.util.DateFormatUtil;
 import org.apache.commons.lang.StringUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -60,43 +61,8 @@ public class CustomerController extends BaseController {
     @RequestMapping("/list")
     public String list(Model model, CustomerSearchModel searchModel) {
         LoginManager.setUser(searchModel);
-        Page<CustomerEntity> listPage = null;
         CustomerSearchRuleEntity searchRuleEntity = getCustomerSearchRuleEntity(searchModel);
-        if (searchModel.getType() != null) {
-            switch (searchModel.getType()) {
-                case CustomerSearchModel.consumptionMainCount:
-                    listPage = customerService.selectByTrade(searchModel,
-                            searchRuleEntity.getConsumptionMainDay(),
-                            searchRuleEntity.getConsumptionMainAmount(),
-                            searchRuleEntity.getConsumptionMainNumber());
-                    break;
-                case CustomerSearchModel.membersWillCount:
-                    listPage = customerService.selectByTrade(searchModel,
-                            searchRuleEntity.getMembersWillDay(),
-                            searchRuleEntity.getMembersWillAmount(),
-                            searchRuleEntity.getMembersWillNumber());
-                    break;
-                case CustomerSearchModel.membersLossCount:
-                    listPage = customerService.selectByTrade(searchModel,
-                            searchRuleEntity.getMembersLossDay(),
-                            searchRuleEntity.getMembersLossAmount(),
-                            searchRuleEntity.getMembersLossNumber());
-                    break;
-                case CustomerSearchModel.membersNewIntervalCount:
-                    listPage = customerService.selectByNewMember(searchModel, searchRuleEntity.getMembersNewIntervalDay());
-                    break;
-                case CustomerSearchModel.membersBirthdayCount:
-                    listPage = customerService.selectByBirthday(searchModel, searchRuleEntity.getMembersBirthdayBeforeDay());
-                    break;
-                case CustomerSearchModel.membersAnniversaryCount:
-                    listPage = customerService.selectByAnniversary(searchModel, searchRuleEntity.getMembersAnniversaryBeforeDay());
-                    break;
-            }
-        }
-
-        if (listPage == null) {
-            listPage = customerService.findListPage(searchModel, searchModel.getPageSize());
-        }
+        Page<CustomerEntity> listPage = getListPage(searchModel, searchRuleEntity);
 
         setWebPage(model, "/customer/list", listPage, searchModel);
         model.addAttribute("searchModel", searchModel);
@@ -105,17 +71,23 @@ public class CustomerController extends BaseController {
         Integer consumptionMainCount = customerService.selectCountByTrade(searchRuleEntity.getShopIdenty(),
                 searchRuleEntity.getConsumptionMainDay(),
                 searchRuleEntity.getConsumptionMainAmount(),
-                searchRuleEntity.getConsumptionMainNumber());
+                searchRuleEntity.getIntervalConsumptionMainAmount(),
+                searchRuleEntity.getConsumptionMainNumber(),
+                searchRuleEntity.getIntervalConsumptionMainNumber());
 
         Integer membersWillCount = customerService.selectCountByTrade(searchRuleEntity.getShopIdenty(),
                 searchRuleEntity.getMembersWillDay(),
                 searchRuleEntity.getMembersWillAmount(),
-                searchRuleEntity.getMembersWillNumber());
+                searchRuleEntity.getIntervalMembersWillAmount(),
+                searchRuleEntity.getMembersWillNumber(),
+                searchRuleEntity.getIntervalMembersWillNumber());
 
         Integer membersLossCount = customerService.selectCountByTrade(searchRuleEntity.getShopIdenty(),
                 searchRuleEntity.getMembersLossDay(),
                 searchRuleEntity.getMembersLossAmount(),
-                searchRuleEntity.getMembersLossNumber());
+                searchRuleEntity.getIntervalMembersLossAmount(),
+                searchRuleEntity.getMembersLossNumber(),
+                searchRuleEntity.getIntervalMembersLossNumber());
 
         Integer membersNewIntervalCount = customerService.selectCountByNewMember(searchRuleEntity.getShopIdenty(), searchRuleEntity.getMembersNewIntervalDay());
         Integer membersBirthdayCount = customerService.selectCountByBirthday(searchRuleEntity.getShopIdenty(), searchRuleEntity.getMembersBirthdayBeforeDay());
@@ -135,6 +107,52 @@ public class CustomerController extends BaseController {
         model.addAttribute("membersAnniversaryCount", membersAnniversaryCount);
 
         return "customerlist";
+    }
+
+    private Page<CustomerEntity> getListPage(CustomerSearchModel searchModel, CustomerSearchRuleEntity searchRuleEntity) {
+        Page<CustomerEntity> listPage = null;
+        if (searchModel.getType() != null) {
+            switch (searchModel.getType()) {
+                case CustomerSearchModel.consumptionMainCount:
+                    listPage = customerService.selectByTrade(searchModel,
+                            searchRuleEntity.getConsumptionMainDay(),
+                            searchRuleEntity.getConsumptionMainAmount(),
+                            searchRuleEntity.getIntervalConsumptionMainAmount(),
+                            searchRuleEntity.getConsumptionMainNumber(),
+                            searchRuleEntity.getIntervalConsumptionMainNumber());
+                    break;
+                case CustomerSearchModel.membersWillCount:
+                    listPage = customerService.selectByTrade(searchModel,
+                            searchRuleEntity.getMembersWillDay(),
+                            searchRuleEntity.getMembersWillAmount(),
+                            searchRuleEntity.getIntervalMembersWillAmount(),
+                            searchRuleEntity.getMembersWillNumber(),
+                            searchRuleEntity.getIntervalMembersWillNumber());
+                    break;
+                case CustomerSearchModel.membersLossCount:
+                    listPage = customerService.selectByTrade(searchModel,
+                            searchRuleEntity.getMembersLossDay(),
+                            searchRuleEntity.getMembersLossAmount(),
+                            searchRuleEntity.getIntervalMembersLossAmount(),
+                            searchRuleEntity.getMembersLossNumber(),
+                            searchRuleEntity.getIntervalMembersLossNumber());
+                    break;
+                case CustomerSearchModel.membersNewIntervalCount:
+                    listPage = customerService.selectByNewMember(searchModel, searchRuleEntity.getMembersNewIntervalDay());
+                    break;
+                case CustomerSearchModel.membersBirthdayCount:
+                    listPage = customerService.selectByBirthday(searchModel, searchRuleEntity.getMembersBirthdayBeforeDay());
+                    break;
+                case CustomerSearchModel.membersAnniversaryCount:
+                    listPage = customerService.selectByAnniversary(searchModel, searchRuleEntity.getMembersAnniversaryBeforeDay());
+                    break;
+            }
+        }
+
+        if (listPage == null) {
+            listPage = customerService.findListPage(searchModel, searchModel.getPageSize());
+        }
+        return listPage;
     }
 
     private CustomerSearchRuleEntity getCustomerSearchRuleEntity(CustomerSearchModel searchModel) {
@@ -241,48 +259,10 @@ public class CustomerController extends BaseController {
     @RequestMapping("/export/excel")
     public void exportExcel(HttpServletResponse response, CustomerSearchModel searchModel) throws Exception {
         LoginManager.setUser(searchModel);
-        Page<CustomerEntity> listPage = null;
+        searchModel.setPageNo(RowBounds.NO_ROW_OFFSET);
+        searchModel.setPageSize(RowBounds.NO_ROW_LIMIT);
         CustomerSearchRuleEntity searchRuleEntity = getCustomerSearchRuleEntity(searchModel);
-        if (searchModel.getType() != null) {
-            switch (searchModel.getType()) {
-                case CustomerSearchModel.consumptionMainCount:
-                    listPage = customerService.selectByTrade(null,
-                            searchModel,
-                            searchRuleEntity.getConsumptionMainDay(),
-                            searchRuleEntity.getConsumptionMainAmount(),
-                            searchRuleEntity.getConsumptionMainNumber());
-                    break;
-                case CustomerSearchModel.membersWillCount:
-                    listPage = customerService.selectByTrade(null,
-                            searchModel,
-                            searchRuleEntity.getMembersWillDay(),
-                            searchRuleEntity.getMembersWillAmount(),
-                            searchRuleEntity.getMembersWillNumber());
-                    break;
-                case CustomerSearchModel.membersLossCount:
-                    listPage = customerService.selectByTrade(null,
-                            searchModel,
-                            searchRuleEntity.getMembersLossDay(),
-                            searchRuleEntity.getMembersLossAmount(),
-                            searchRuleEntity.getMembersLossNumber());
-                    break;
-                case CustomerSearchModel.membersNewIntervalCount:
-                    listPage = customerService.selectByNewMember(null, searchModel, searchRuleEntity.getMembersNewIntervalDay());
-                    break;
-                case CustomerSearchModel.membersBirthdayCount:
-                    listPage = customerService.selectByBirthday(null, searchModel, searchRuleEntity.getMembersBirthdayBeforeDay());
-                    break;
-                case CustomerSearchModel.membersAnniversaryCount:
-                    listPage = customerService.selectByAnniversary(null, searchModel, searchRuleEntity.getMembersAnniversaryBeforeDay());
-                    break;
-            }
-        }
-
-        if (listPage == null) {
-            listPage = customerService.findListPage(null, searchModel);
-        }
-
-
+        Page<CustomerEntity> listPage = getListPage(searchModel, searchRuleEntity);
         ExcelData data = new ExcelData();
         data.setSheetName("会员");
         List<String> titles = new ArrayList();
