@@ -48,7 +48,6 @@ public interface CustomerMapper extends BaseMapper<CustomerEntity> {
      * @param tradeAmountSum
      * @return
      */
-    //@Select("SELECT tc.customer_id, COUNT(1), SUM(t.trade_amount) FROM trade t INNER JOIN trade_customer tc ON t.id = tc.trade_id WHERE t.shop_identy = 1 AND t.server_create_time >= '' GROUP BY tc.customer_id\n")
     @Select("SELECT\n" +
             "  count(*)\n" +
             "FROM\n" +

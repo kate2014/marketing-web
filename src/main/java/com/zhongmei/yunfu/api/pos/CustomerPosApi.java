@@ -198,7 +198,7 @@ public class CustomerPosApi extends PosApiController {
             balanceResp.setUserName(storedEntity.getCreatorName());
             balanceResp.setCreateDateTime(storedEntity.getServerCreateTime().getTime());
             balanceResp.setAddValuecard(storedEntity.getTradeAmount());
-            balanceResp.setEndValuecard(storedEntity.getTradeAmount());
+            balanceResp.setEndValuecard(storedEntity.getResidueBalance());
             result.add(balanceResp);
         }
 
