@@ -70,24 +70,24 @@ public class CustomerController extends BaseController {
 
         Integer consumptionMainCount = customerService.selectCountByTrade(searchRuleEntity.getShopIdenty(),
                 searchRuleEntity.getConsumptionMainDay(),
-                searchRuleEntity.getConsumptionMainAmount(),
-                searchRuleEntity.getIntervalConsumptionMainAmount(),
                 searchRuleEntity.getConsumptionMainNumber(),
-                searchRuleEntity.getIntervalConsumptionMainNumber());
+                searchRuleEntity.getIntervalConsumptionMainNumber(),
+                searchRuleEntity.getConsumptionMainAmount(),
+                searchRuleEntity.getIntervalConsumptionMainAmount());
 
         Integer membersWillCount = customerService.selectCountByTrade(searchRuleEntity.getShopIdenty(),
                 searchRuleEntity.getMembersWillDay(),
-                searchRuleEntity.getMembersWillAmount(),
-                searchRuleEntity.getIntervalMembersWillAmount(),
                 searchRuleEntity.getMembersWillNumber(),
-                searchRuleEntity.getIntervalMembersWillNumber());
+                searchRuleEntity.getIntervalMembersWillNumber(),
+                searchRuleEntity.getMembersWillAmount(),
+                searchRuleEntity.getIntervalMembersWillAmount());
 
         Integer membersLossCount = customerService.selectCountByTrade(searchRuleEntity.getShopIdenty(),
                 searchRuleEntity.getMembersLossDay(),
-                searchRuleEntity.getMembersLossAmount(),
-                searchRuleEntity.getIntervalMembersLossAmount(),
                 searchRuleEntity.getMembersLossNumber(),
-                searchRuleEntity.getIntervalMembersLossNumber());
+                searchRuleEntity.getIntervalMembersLossNumber(),
+                searchRuleEntity.getMembersLossAmount(),
+                searchRuleEntity.getIntervalMembersLossAmount());
 
         Integer membersNewIntervalCount = customerService.selectCountByNewMember(searchRuleEntity.getShopIdenty(), searchRuleEntity.getMembersNewIntervalDay());
         Integer membersBirthdayCount = customerService.selectCountByBirthday(searchRuleEntity.getShopIdenty(), searchRuleEntity.getMembersBirthdayBeforeDay());
@@ -116,26 +116,26 @@ public class CustomerController extends BaseController {
                 case CustomerSearchModel.consumptionMainCount:
                     listPage = customerService.selectByTrade(searchModel,
                             searchRuleEntity.getConsumptionMainDay(),
-                            searchRuleEntity.getConsumptionMainAmount(),
-                            searchRuleEntity.getIntervalConsumptionMainAmount(),
                             searchRuleEntity.getConsumptionMainNumber(),
-                            searchRuleEntity.getIntervalConsumptionMainNumber());
+                            searchRuleEntity.getIntervalConsumptionMainNumber(),
+                            searchRuleEntity.getConsumptionMainAmount(),
+                            searchRuleEntity.getIntervalConsumptionMainAmount());
                     break;
                 case CustomerSearchModel.membersWillCount:
                     listPage = customerService.selectByTrade(searchModel,
                             searchRuleEntity.getMembersWillDay(),
-                            searchRuleEntity.getMembersWillAmount(),
-                            searchRuleEntity.getIntervalMembersWillAmount(),
                             searchRuleEntity.getMembersWillNumber(),
-                            searchRuleEntity.getIntervalMembersWillNumber());
+                            searchRuleEntity.getIntervalMembersWillNumber(),
+                            searchRuleEntity.getMembersWillAmount(),
+                            searchRuleEntity.getIntervalMembersWillAmount());
                     break;
                 case CustomerSearchModel.membersLossCount:
                     listPage = customerService.selectByTrade(searchModel,
                             searchRuleEntity.getMembersLossDay(),
-                            searchRuleEntity.getMembersLossAmount(),
-                            searchRuleEntity.getIntervalMembersLossAmount(),
                             searchRuleEntity.getMembersLossNumber(),
-                            searchRuleEntity.getIntervalMembersLossNumber());
+                            searchRuleEntity.getIntervalMembersLossNumber(),
+                            searchRuleEntity.getMembersLossAmount(),
+                            searchRuleEntity.getIntervalMembersLossAmount());
                     break;
                 case CustomerSearchModel.membersNewIntervalCount:
                     listPage = customerService.selectByNewMember(searchModel, searchRuleEntity.getMembersNewIntervalDay());
