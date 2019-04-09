@@ -93,7 +93,7 @@
                 .val($(this).attr("type"))
                 .parents("form").submit();
         });
-        
+
         $("#service_push").click(function(){
             var customerIds = [];
             $("input[name='checkItem']:checked").each(function () {
@@ -208,122 +208,123 @@
     <div class="customer-centent">
         <div class="customer-main">
             <div class="customer-tab">
-                <p style="display:block;" class="tabs">
-                <p class="tab-top">
-                    <div class="parent_h">
-                        <div class="customer_modle">
-                <p class="modle_name_style">主力会员</p>
-                <p class="modle_message_style">会员数：[[${consumptionMainCount}]]</p>
-                <p class="modle_message_style">占比：[[${consumptionMainCountPercent}]]%</p>
-            </div>
-            <div class="customer_modle" style="margin-left: 40px">
-                <p class="modle_name_style">将流失会员</p>
-                <p class="modle_message_style">会员数：[[${membersWillCount}]]</p>
-                <p class="modle_message_style">占比：[[${membersWillCountPercent}]]%</p>
-            </div>
-            <div class="customer_modle" style="margin-left: 40px">
-                <p class="modle_name_style">已流失会员</p>
-                <p class="modle_message_style">会员数：[[${membersLossCount}]]</p>
-                <p class="modle_message_style">占比：[[${membersLossCountPercent}]]%</p>
-            </div>
-            <div class="customer_modle" style="margin-left: 40px">
-                <p class="modle_name_style">新会员</p>
-                <p class="modle_message_style">会员数：[[${membersNewIntervalCount}]]</p>
-                <p class="modle_message_style">占比：[[${membersNewIntervalCountPercent}]]%</p>
-            </div>
-        </div>
-        <div class="parent_h" style="margin-top: 20px">
-            <div class="lable_01 ct-menu-item" type="all">
-                <p class="lable_text_style">全部([[${membersCount}]])</p>
-            </div>
-            <div class="lable_02 ct-menu-item" style="margin-left: 20px" type="consumptionMainCount">
-                <p class="lable_text_style">主力消费群([[${consumptionMainCount}]])</p>
-            </div>
-            <div class="lable_02 ct-menu-item" style="margin-left: 20px" type="membersWillCount">
-                <p class="lable_text_style">将流失会员([[${membersWillCount}]])</p>
-            </div>
-            <div class="lable_02 ct-menu-item" style="margin-left: 20px" type="membersLossCount">
-                <p class="lable_text_style">已流失会员([[${membersLossCount}]])</p>
-            </div>
-            <div class="lable_02 ct-menu-item" style="margin-left: 20px" type="membersNewIntervalCount">
-                <p class="lable_text_style">新会员([[${membersNewIntervalCount}]])</p>
-            </div>
-            <div class="lable_02 ct-menu-item" style="margin-left: 20px" type="membersBirthdayCount">
-                <p class="lable_text_style">将过生日会员([[${membersBirthdayCount}]])</p>
-            </div>
-            <div class="lable_02 ct-menu-item" style="margin-left: 20px" type="membersAnniversaryCount">
-                <p class="lable_text_style">满周年会员([[${membersAnniversaryCount}]])</p>
-            </div>
-        </div>
-        <form action="couponadd.html" th:action="@{/customer/list}" th:object="${searchModel}">
-            <input type="hidden" name="type" th:value="*{type}">
-        <div class="parent_h" style="margin-top: 20px">
-            <label class="text_navigation">来源</label>
-            <select name="sourceId" class="select_style" style="margin-left: 5px">
-                <option value="">全部</option>
-                <option value="1" th:selected="*{sourceId==1}">门店POS</option>
-                <option value="2" th:selected="*{sourceId==2}">小程序</option>
-            </select>
 
-            <label class="text_navigation" style="margin-left: 10px">会员等级</label>
-            <select name="groupLevelId" class="select_style" style="margin-left: 5px">
-                <option value="">全部</option>
-                <option th:selected="*{groupLevelId==1}" value="1">银卡</option>
-                <option th:selected="*{groupLevelId==2}" value="2">金卡</option>
-                <option th:selected="*{groupLevelId==3}" value="3">白金卡</option>
-                <option th:selected="*{groupLevelId==4}" value="4">黑金卡</option>
-                <option th:selected="*{groupLevelId==5}" value="5">钻石卡</option>
-                <option th:selected="*{groupLevelId==6}" value="6">至尊卡</option>
-            </select>
-
-            <label class="text_navigation" style="margin-left: 10px">姓名</label>
-            <input class="input_style" style="margin-left: 5px" type="text" name="name" th:value="*{name}" />
-
-            <label class="text_navigation" style="margin-left: 10px">手机号</label>
-            <input class="input_style" style="margin-left: 5px" type="text" name="mobile" th:value="*{mobile}" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="20"/>
-
-            <button class="orange_mine_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
-            <button id="service_push" class="blue_mine_button_style select-shop" value="" onclick="return false;" style="margin-left: 10px">服务推送</button>
-
-            <div class="parent" id="export_excel" style="margin-left: 10px;cursor:pointer;" th:if="${#lists.contains(session.loginManager.permissionCodeList, 'CUSTOMER_EXPORT')}">
-                <img th:src="@{/images/excel_icon.png}" style="width: 21px;height: 21px">
-                <span style="font-size: 10px;margin-left: 6px">会员导出</span>
-            </div>
-
-        </div>
-        </form>
-        <table>
-            <tr>
-                <th><input type="checkbox" id="checkAll"></th>
-                <th>姓名</th>
-                <th>手机号</th>
-                <th>会员等级</th>
-                <th>最后一次消费时间</th>
-                <th>消费次数</th>
-                <th>消费总额</th>
-                <th>来源</th>
-                <th>操作</th>
-            </tr>
-            <tr th:each="item:${list}">
-                <td><input name="checkItem" type="checkbox" th:id="${item.id}"></td>
-                <td th:text="${item.name}">张三</td>
-                <td th:text="${item.mobile}">18908069999</td>
-                <td th:text="${item.groupLevel}">白金卡</td>
-                <td th:text="${#dates.format(item.consumptionLastTime, 'yyyy-MM-dd')}">2018-09-09</td>
-                <td th:text="${item.consumptionNumber}">20</td>
-                <td th:text="${item.consumptionAmount}">20000</td>
-                <td th:text="${item.sourceId==2}?'小程序':'门店POS'">门店POS</td>
-                <td>
-                    <div class="parent_h">
-                        <!--<a th:if="${#lists.contains(session.loginManager.permissionCodeList, 'CUSTOMER_MODIFY')}" th:href="@{/customer/{id}/edit(id=${item.id})}"><img class="see_modify" th:src="@{/images/modify.jpg}" src="../static/images/modify.jpg" style="margin-left: 10px"></a>-->
-                        <a class="op-link" th:if="${#lists.contains(session.loginManager.permissionCodeList, 'CUSTOMER_MODIFY')}" th:href="@{/customer/{id}/edit(id=${item.id})}">编辑</a>
-                        <a class="op-link" style="margin-left: 8px;cursor: pointer" th:if="${#lists.contains(session.loginManager.permissionCodeList, 'CUSTOMER_DEL')}" th:onclick="'javascript:checkDelete(\''+${item.id}+'\',\''+${item.name}+'\')'">删除</a>
+                <div class="parent_h container">
+                    <div class="customer_modle">
+                        <p class="modle_name_style">主力会员</p>
+                        <p class="modle_message_style">会员数：[[${consumptionMainCount}]]</p>
+                        <p class="modle_message_style">占比：[[${consumptionMainCountPercent}]]%</p>
                     </div>
-                </td>
-            </tr>
-        </table>
-        <div th:replace="page_info::pagination"/>
-        <div style="height: 30px" />
+                    <div class="customer_modle" style="margin-left: 40px">
+                        <p class="modle_name_style">将流失会员</p>
+                        <p class="modle_message_style">会员数：[[${membersWillCount}]]</p>
+                        <p class="modle_message_style">占比：[[${membersWillCountPercent}]]%</p>
+                    </div>
+                    <div class="customer_modle" style="margin-left: 40px">
+                        <p class="modle_name_style">已流失会员</p>
+                        <p class="modle_message_style">会员数：[[${membersLossCount}]]</p>
+                        <p class="modle_message_style">占比：[[${membersLossCountPercent}]]%</p>
+                    </div>
+                    <div class="customer_modle" style="margin-left: 40px">
+                        <p class="modle_name_style">新会员</p>
+                        <p class="modle_message_style">会员数：[[${membersNewIntervalCount}]]</p>
+                        <p class="modle_message_style">占比：[[${membersNewIntervalCountPercent}]]%</p>
+                    </div>
+                </div>
+                <div class="parent_h" style="margin-top: 20px">
+                    <div class="lable_01 ct-menu-item" type="all">
+                        <p class="lable_text_style">全部([[${membersCount}]])</p>
+                    </div>
+                    <div class="lable_02 ct-menu-item" style="margin-left: 20px" type="consumptionMainCount">
+                        <p class="lable_text_style">主力消费群([[${consumptionMainCount}]])</p>
+                    </div>
+                    <div class="lable_02 ct-menu-item" style="margin-left: 20px" type="membersWillCount">
+                        <p class="lable_text_style">将流失会员([[${membersWillCount}]])</p>
+                    </div>
+                    <div class="lable_02 ct-menu-item" style="margin-left: 20px" type="membersLossCount">
+                        <p class="lable_text_style">已流失会员([[${membersLossCount}]])</p>
+                    </div>
+                    <div class="lable_02 ct-menu-item" style="margin-left: 20px" type="membersNewIntervalCount">
+                        <p class="lable_text_style">新会员([[${membersNewIntervalCount}]])</p>
+                    </div>
+                    <div class="lable_02 ct-menu-item" style="margin-left: 20px" type="membersBirthdayCount">
+                        <p class="lable_text_style">将过生日会员([[${membersBirthdayCount}]])</p>
+                    </div>
+                    <div class="lable_02 ct-menu-item" style="margin-left: 20px" type="membersAnniversaryCount">
+                        <p class="lable_text_style">满周年会员([[${membersAnniversaryCount}]])</p>
+                    </div>
+                </div>
+                <form action="couponadd.html" th:action="@{/customer/list}" th:object="${searchModel}">
+                    <input type="hidden" name="type" th:value="*{type}">
+                    <div class="parent_h" style="margin-top: 20px">
+                        <label class="text_navigation">来源</label>
+                        <select name="sourceId" class="select_style" style="margin-left: 5px">
+                            <option value="">全部</option>
+                            <option value="1" th:selected="*{sourceId==1}">门店POS</option>
+                            <option value="2" th:selected="*{sourceId==2}">小程序</option>
+                        </select>
+
+                        <label class="text_navigation" style="margin-left: 10px">会员等级</label>
+                        <select name="groupLevelId" class="select_style" style="margin-left: 5px">
+                            <option value="">全部</option>
+                            <option th:selected="*{groupLevelId==1}" value="1">银卡</option>
+                            <option th:selected="*{groupLevelId==2}" value="2">金卡</option>
+                            <option th:selected="*{groupLevelId==3}" value="3">白金卡</option>
+                            <option th:selected="*{groupLevelId==4}" value="4">黑金卡</option>
+                            <option th:selected="*{groupLevelId==5}" value="5">钻石卡</option>
+                            <option th:selected="*{groupLevelId==6}" value="6">至尊卡</option>
+                        </select>
+
+                        <label class="text_navigation" style="margin-left: 10px">姓名</label>
+                        <input class="input_style" style="margin-left: 5px" type="text" name="name" th:value="*{name}" />
+
+                        <label class="text_navigation" style="margin-left: 10px">手机号</label>
+                        <input class="input_style" style="margin-left: 5px" type="text" name="mobile" th:value="*{mobile}" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="20"/>
+
+                        <button class="orange_mine_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
+                        <button id="service_push" class="blue_mine_button_style select-shop" value="" onclick="return false;" style="margin-left: 10px">服务推送</button>
+
+                        <div class="parent" id="export_excel" style="margin-left: 10px;cursor:pointer;" th:if="${#lists.contains(session.loginManager.permissionCodeList, 'CUSTOMER_EXPORT')}">
+                            <img th:src="@{/images/excel_icon.png}" style="width: 21px;height: 21px">
+                            <span style="font-size: 10px;margin-left: 6px">会员导出</span>
+                        </div>
+
+                    </div>
+                </form>
+                <table>
+                    <tr>
+                        <th><input type="checkbox" id="checkAll"></th>
+                        <th>姓名</th>
+                        <th>手机号</th>
+                        <th>会员等级</th>
+                        <th>最后一次消费时间</th>
+                        <th>消费次数</th>
+                        <th>消费总额</th>
+                        <th>来源</th>
+                        <th>操作</th>
+                    </tr>
+                    <tr th:each="item:${list}">
+                        <td><input name="checkItem" type="checkbox" th:id="${item.id}"></td>
+                        <td th:text="${item.name}">张三</td>
+                        <td th:text="${item.mobile}">18908069999</td>
+                        <td th:text="${item.groupLevel}">白金卡</td>
+                        <td th:text="${#dates.format(item.consumptionLastTime, 'yyyy-MM-dd')}">2018-09-09</td>
+                        <td th:text="${item.consumptionNumber}">20</td>
+                        <td th:text="${item.consumptionAmount}">20000</td>
+                        <td th:text="${item.sourceId==2}?'小程序':'门店POS'">门店POS</td>
+                        <td>
+                            <div class="parent_h">
+                                <!--<a th:if="${#lists.contains(session.loginManager.permissionCodeList, 'CUSTOMER_MODIFY')}" th:href="@{/customer/{id}/edit(id=${item.id})}"><img class="see_modify" th:src="@{/images/modify.jpg}" src="../static/images/modify.jpg" style="margin-left: 10px"></a>-->
+                                <a class="op-link" th:if="${#lists.contains(session.loginManager.permissionCodeList, 'CUSTOMER_MODIFY')}" th:href="@{/customer/{id}/edit(id=${item.id})}">编辑</a>
+                                <a class="op-link" style="margin-left: 8px;cursor: pointer" th:if="${#lists.contains(session.loginManager.permissionCodeList, 'CUSTOMER_DEL')}" th:onclick="'javascript:checkDelete(\''+${item.id}+'\',\''+${item.name}+'\')'">删除</a>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <div th:replace="page_info::pagination"/>
+                <div style="height: 30px" />
+            </div>
+        </div>
     </div>
 </div>
 <!-- 弹窗 -->
