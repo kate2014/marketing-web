@@ -253,7 +253,9 @@
                         <td th:text="${#dates.format(item.cardExpireDate, 'yyyy-MM-dd')}">0</td>
                         <td th:text="${#dates.format(item.consumptionLastTime, 'yyyy-MM-dd')}">2018-09-09</td>
                         <td>
-                            <img class="see_modify" th:src="@{/images/see_detail.jpg}" src="../static/images/see_detail.jpg" th:href="@{/customer/drain/{customerId}/report/expense(customerId=${item.id})}">
+                            <div class="parent_h container">
+                                <img class="see_modify" th:src="@{/images/see_detail.jpg}" src="../static/images/see_detail.jpg" th:href="@{/customer/drain/{customerId}/report/expense(customerId=${item.id})}">
+                            </div>
                         </td>
                     </tr>
                 </table>
