@@ -72,19 +72,19 @@
         <table class="gridtablestyle" style="width: 95%; vertical-align: middle">
             <tr style="width: 100%">
                 <th>品项名称</th>
-                <th>剩余库存</th>
                 <th>入库数量</th>
                 <th>采购金额</th>
                 <th>销货数量</th>
                 <th>销货金额</th>
+                <th>剩余库存</th>
             </tr>
             <tr th:each="item:${listPurchaseSaleReport}">
                 <td th:text="${item.name}"></td>
-                <td th:text="${item.dishQty}"></td>
                 <td th:text="${item.number}"></td>
                 <td th:text="${item.totalPurchasePrice}"></td>
                 <td th:text="${item.saleTotal}"></td>
                 <td th:text="${item.salePrice}"></td>
+                <td th:text="${item.dishQty}"></td>
 
             </tr>
 

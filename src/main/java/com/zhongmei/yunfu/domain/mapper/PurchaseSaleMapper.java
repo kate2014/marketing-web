@@ -37,7 +37,7 @@ public interface PurchaseSaleMapper extends BaseMapper<PurchaseAndSaleEntity> {
             "ORDER BY `server_create_time` desc;")
     List<PurchaseSaleDetailReport> listPurchaseAndSaleDetail(@Param("ew") Condition wrapper);
 
-    @Select("SELECT date_format(p.`server_create_time`,  '%Y-%m-%d %H:%i:%s')as serverCreateTime ,d.name as name,p.`purchase_price` ,p.`number`,p.`total_purchase_price` ,p.`source_name`, CASE p.`type` WHEN 1 THEN '入库' WHEN 2 THEN '耗损' END AS type \n" +
+    @Select("SELECT date_format(p.`server_create_time`,  '%Y-%m-%d %H:%i:%s')as serverCreateTime ,d.name as name,p.`purchase_price` ,p.`number`,p.`total_purchase_price` ,p.`source_name`, CASE p.`type` WHEN 1 THEN '入库' WHEN 2 THEN '耗损' END AS typeName, p.type \n" +
             "FROM `purchase_and_sale` p , `dish_shop` d \n" +
             "where p.`dish_shop_id` = d.`id` ${ew.sqlSegment} \n" +
             "ORDER BY `serverCreateTime` desc;")
