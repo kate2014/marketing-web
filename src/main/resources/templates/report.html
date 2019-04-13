@@ -163,6 +163,15 @@
                     </li>
                 </div>
 
+                <div th:if="${havaStaffSalaryReport} eq '1'">
+                    <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty},requestUrlType=13)}" class="parent">
+                        <div class="parent">
+                            <img th:src="@{/images/customer_into_shop_report.png}" class="image_size_style">
+                            <span>会员到店报表</span>
+                        </div>
+                    </li>
+                </div>
+
             </ul>
 
             <div class="select-tab" style="width: 100%; height: 100%">

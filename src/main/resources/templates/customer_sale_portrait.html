@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+<head>
+    <meta charset="utf-8">
+</head>
+
+<script type="text/javascript" src="../static/js/echarts.min.js" th:src="@{/js/echarts.min.js}"></script>
+<link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
+
+<body style="height: 100%; margin: 0">
+
+<input type="hidden" id="searchData" th:value="${searchData}">
+
+<div class="parent" style="margin-top: 10px;margin-left: 10px">
+
+    <div style="font-size: 12px;color: #12306f;font-weight: bold;margin-left: 20px">查询时段：</div>
+    <div th:if="${searchData} eq '-7'">
+        <button class="lable_button_click_style" th:onclick="@{|location='${basePath}/customer/salePortait?searchData=-7'|}">7天</button>
+    </div>
+    <div th:if="${searchData} ne '-7'">
+        <button class="lable_button_style" th:onclick="@{|location='${basePath}/customer/salePortait?searchData=-7'|}">7天</button>
+    </div>
+
+    <div th:if="${searchData} eq '-15'">
+        <button class="lable_button_click_style" style="margin-left: 10px" th:onclick="@{|location='${basePath}/customer/salePortait?searchData=-15'|}">15天</button>
+    </div>
+    <div th:if="${searchData} ne '-15'">
+        <button class="lable_button_style" style="margin-left: 10px" th:onclick="@{|location='${basePath}/customer/salePortait?searchData=-15'|}">15天</button>
+    </div>
+
+    <div th:if="${searchData} eq '-30'">
+        <button class="lable_button_click_style" style="margin-left: 10px" th:onclick="@{|location='${basePath}/customer/salePortait?searchData=-30'|}">一个月</button>
+    </div>
+    <div th:if="${searchData} ne '-30'">
+        <button class="lable_button_style" style="margin-left: 10px" th:onclick="@{|location='${basePath}/customer/salePortait?searchData=-30'|}">一个月</button>
+    </div>
+
+    <div th:if="${searchData} eq '-60'">
+        <button class="lable_button_click_style" style="margin-left: 10px" th:onclick="@{|location='${basePath}/customer/salePortait?searchData=-60'|}">两个月</button>
+    </div>
+    <div th:if="${searchData} ne '-60'">
+        <button class="lable_button_style" style="margin-left: 10px" th:onclick="@{|location='${basePath}/customer/salePortait?searchData=-60'|}">两个月</button>
+    </div>
+
+    <div th:if="${searchData} eq '-90'">
+        <button class="lable_button_click_style" style="margin-left: 10px" th:onclick="@{|location='${basePath}/customer/salePortait?searchData=-90'|}">三个月</button>
+    </div>
+    <div th:if="${searchData} ne '-90'">
+        <button class="lable_button_style" style="margin-left: 10px" th:onclick="@{|location='${basePath}/customer/salePortait?searchData=-90'|}">三个月</button>
+    </div>
+
+    <div th:if="${searchData} eq '-120'">
+        <button class="lable_button_click_style" style="margin-left: 10px" th:onclick="@{|location='${basePath}/customer/salePortait?searchData=-120'|}">四个月</button>
+    </div>
+    <div th:if="${searchData} ne '-120'">
+        <button class="lable_button_style" style="margin-left: 10px" th:onclick="@{|location='${basePath}/customer/salePortait?searchData=-120'|}">四个月</button>
+    </div>
+
+    <div th:if="${searchData} eq '-150'">
+        <button class="lable_button_click_style" style="margin-left: 10px" th:onclick="@{|location='${basePath}/customer/salePortait?searchData=-150'|}">五个月</button>
+    </div>
+    <div th:if="${searchData} ne '-150'">
+        <button class="lable_button_style" style="margin-left: 10px" th:onclick="@{|location='${basePath}/customer/salePortait?searchData=-150'|}">五个月</button>
+    </div>
+
+    <div th:if="${searchData} eq '-180'">
+        <button class="lable_button_click_style" style="margin-left: 10px" th:onclick="@{|location='${basePath}/customer/salePortait?searchData=-180'|}">半年</button>
+    </div>
+    <div th:if="${searchData} ne '-180'">
+        <button class="lable_button_style" style="margin-left: 10px" th:onclick="@{|location='${basePath}/customer/salePortait?searchData=-180'|}">半年</button>
+    </div>
+
+</div>
+
+<div id="container" style="height: 500px;width: 98%"></div>
+
+<div class="parent_h container" style="background-color: #f3f3f3;border: #e1e1e1 1px;width: 98%;margin-left: 1%">
+    <div style="width: 13%;height: 40px; border-right: #e4e4e4 solid 1px" class="report_lable_style container parent_h">20岁以下：<label th:text="${age20sale}"></label>元</div>
+    <div style="width: 12%;height: 40px; border-right: #e4e4e4 solid 1px" class="report_lable_style container parent_h">20-25岁：<label th:text="${age25sale}"></label>元</div>
+    <div style="width: 12%;height: 40px; border-right: #e4e4e4 solid 1px" class="report_lable_style container parent_h">26-30岁：<label th:text="${age30sale}"></label>元</div>
+    <div style="width: 12%;height: 40px; border-right: #e4e4e4 solid 1px" class="report_lable_style container parent_h">31-35岁：<label th:text="${age35sale}"></label>元</div>
+    <div style="width: 12%;height: 40px; border-right: #e4e4e4 solid 1px" class="report_lable_style container parent_h">36-40岁：<label th:text="${age40sale}"></label>元</div>
+    <div style="width: 12%;height: 40px; border-right: #e4e4e4 solid 1px" class="report_lable_style container parent_h">41-45岁：<label th:text="${age45sale}"></label>元</div>
+    <div style="width: 12%;height: 40px; border-right: #e4e4e4 solid 1px" class="report_lable_style container parent_h">46岁以上：<label th:text="${age45msale}"></label>元</div>
+    <div style="width: 14%;height: 40px; border-right: #e4e4e4 solid 1px" class="report_lable_style container parent_h">未知年龄段：<label th:text="${unknowAgesale}"></label>元</div>
+</div>
+<div class="container parent" style="margin-left: 20px;margin-top: 20px">
+    <img th:src="@{/images/lable.jpg}" src="../static/images/lable.jpg" width="5" height="26">
+    <p style="font-weight: bold; margin-left: 6px">不同性别消息分布</p>
+</div>
+
+<div class="container parent_h" style="margin-left: 20px;margin-top: 40px;margin-bottom: 40px">
+    <div>
+        <img th:src="@{/images/man_icon.png}" src="../static/images/man_icon.png" width="80px" height="80px">
+        <div style="font-weight: bold; margin-left: 6px; margin-top: 10px">男士：<label th:text="${mansale}"></label>元</div>
+    </div>
+
+    <div style="margin-left: 130px">
+        <img th:src="@{/images/woman_icon.png}" src="../static/images/woman_icon.png" width="80px" height="80px">
+        <div style="font-weight: bold; margin-left: 6px; margin-top: 10px">女士：<label th:text="${womansale}"></label>元</div>
+    </div>
+
+    <div style="margin-left: 130px">
+        <img th:src="@{/images/unkown_sex_icon.png}" src="../static/images/unkown_sex_icon.png" width="80px" height="80px">
+        <div style="font-weight: bold; margin-left: 6px; margin-top: 10px">未知性别：<label th:text="${unknowGendersale}"></label>元</div>
+    </div>
+
+</div>
+
+
+<script type="text/javascript">
+    var dom = document.getElementById("container");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    var pathSymbols = {
+        titleIcon: 'image://../static/images/money_icon.png'
+    };
+
+    option = {
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'none'
+            },
+            formatter: function (params) {
+                return params[0].name + ': ' + params[0].value;
+            }
+        },
+        xAxis: {
+            data: ['20岁以下', '20-25岁', '26-30岁', '31-35岁', '36-40岁', '41-45岁','45岁以上','未知年龄段'],
+            axisTick: {show: true},
+            axisLine: {show: true},
+            axisLabel: {
+                textStyle: {
+                    color: '#e54035'
+                }
+            }
+        },
+        yAxis: {
+            splitLine: {show: true},
+            axisTick: {show: false},
+            axisLine: {show: false},
+            axisLabel: {show: true}
+        },
+        color: ['#e54035'],
+        series: [{
+            name: 'hill',
+            type: 'pictorialBar',
+            barCategoryGap: '-130%',
+            // symbol: 'path://M0,10 L10,10 L5,0 L0,10 z',
+            symbol: 'path://M0,10 L10,10 C5.5,10 5.5,5 5,0 C4.5,5 4.5,10 0,10 z',
+            itemStyle: {
+                normal: {
+                    opacity: 0.8
+                },
+                emphasis: {
+                    opacity: 1
+                }
+            },
+            data: [[${listSalesCount}]],
+            z: 10
+        }, {
+            name: 'glyph',
+            type: 'pictorialBar',
+            barGap: '-100%',
+            symbolPosition: 'end',
+            symbolSize: 50,
+            symbolOffset: [0, '-120%'],
+            data: [{
+                value: [[${age20sale}]],
+                symbol: pathSymbols.titleIcon,
+                symbolSize: [40, 40]
+            }, {
+                value: [[${age25sale}]],
+                symbol: pathSymbols.titleIcon,
+                symbolSize: [40, 40]
+            }, {
+                value: [[${age30sale}]],
+                symbol: pathSymbols.titleIcon,
+                symbolSize: [40, 40]
+            }, {
+                value: [[${age35sale}]],
+                symbol: pathSymbols.titleIcon,
+                symbolSize: [40, 40]
+            }, {
+                value: [[${age40sale}]],
+                symbol: pathSymbols.titleIcon,
+                symbolSize: [40, 40]
+            }, {
+                value: [[${age45sale}]],
+                symbol: pathSymbols.titleIcon,
+                symbolSize: [40, 40]
+            }, {
+                value: [[${age45msale}]],
+                symbol: pathSymbols.titleIcon,
+                symbolSize: [40, 40]
+            }, {
+                value: [[${unknowAgesale}]],
+                symbol: pathSymbols.titleIcon,
+                symbolSize: [40, 40]
+            }]
+        }]
+    };;
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+</script>
+</body>
+</html>

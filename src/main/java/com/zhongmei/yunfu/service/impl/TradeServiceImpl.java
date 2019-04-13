@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.zhongmei.yunfu.controller.model.CustomerSaleModel;
 import com.zhongmei.yunfu.controller.model.ReportSalesExportModel;
 import com.zhongmei.yunfu.controller.model.TradeDataModel;
 import com.zhongmei.yunfu.controller.model.TradeModel;
@@ -320,6 +321,38 @@ public class TradeServiceImpl extends ServiceImpl<TradeMapper, TradeEntity> impl
         eWrapper.between("t.server_create_time", mTradeModel.getStartDate(), mTradeModel.getEndDate());
 
         List<ReportSalesExportModel> listData = baseMapper.querySalseExportExcel(eWrapper);
+
+        return listData;
+    }
+
+    @Override
+    public List<CustomerSaleModel> queryCustomerSale(TradeModel mTradeModel) throws Exception{
+        Condition eWrapper = ConditionFilter.create();
+        eWrapper.eq("t.brand_identy", mTradeModel.getBrandIdenty());
+        eWrapper.eq("t.shop_identy", mTradeModel.getShopIdenty());
+        eWrapper.eq("t.status_flag", 1);
+        eWrapper.eq("t.business_type", 1);
+        eWrapper.eq("t.trade_status", 4);
+        eWrapper.eq("tc.customer_type", 3);
+        eWrapper.between("t.server_create_time", mTradeModel.getStartDate(), mTradeModel.getEndDate());
+
+        List<CustomerSaleModel> listData = baseMapper.queryCustomerSale(eWrapper);
+
+        return listData;
+    }
+
+    @Override
+    public List<CustomerSaleModel> queryCustomerSaleDetail(TradeModel mTradeModel) throws Exception{
+        Condition eWrapper = ConditionFilter.create();
+        eWrapper.eq("t.brand_identy", mTradeModel.getBrandIdenty());
+        eWrapper.eq("t.shop_identy", mTradeModel.getShopIdenty());
+        eWrapper.eq("t.status_flag", 1);
+        eWrapper.eq("t.business_type", 1);
+        eWrapper.eq("t.trade_status", 4);
+        eWrapper.eq("tc.customer_type", 3);
+        eWrapper.between("t.server_create_time", mTradeModel.getStartDate(), mTradeModel.getEndDate());
+
+        List<CustomerSaleModel> listData = baseMapper.queryCustomerSaleDetail(eWrapper);
 
         return listData;
     }

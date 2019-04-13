@@ -247,4 +247,13 @@ public interface CustomerService extends IService<CustomerEntity> {
     //Page<CustomerEntity> selectByAnniversary(Page<CustomerEntity> page, CustomerSearchModel searchModel, Integer recentDay);
 
     boolean existsMobile(Long shopId, String mobile, Long id);
+
+    /**
+     * 查询门店所有会员
+     * @param brandIdenty
+     * @param shopIdenty
+     * @return
+     * @throws Exception
+     */
+    public List<CustomerEntity> queryAllCustomer(Long brandIdenty, Long shopIdenty) throws Exception;
 }

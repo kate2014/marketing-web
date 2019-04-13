@@ -499,4 +499,16 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
         wrapper.ne("id", id);
         return selectCount(wrapper) > 0;
     }
+
+    @Override
+    public List<CustomerEntity> queryAllCustomer(Long brandIdenty, Long shopIdenty) throws Exception {
+        EntityWrapper<CustomerEntity> eWrapper = new EntityWrapperFilter<>();
+        eWrapper.eq("brand_identy", brandIdenty);
+        eWrapper.eq("shop_identy", shopIdenty);
+        eWrapper.eq("enabled_flag", 1);
+        eWrapper.eq("status_flag", 1);
+
+        List<CustomerEntity> listCustomer = selectList(eWrapper);
+        return listCustomer;
+    }
 }

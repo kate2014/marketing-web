@@ -2,6 +2,7 @@ package com.zhongmei.yunfu.domain.mapper;
 
 import com.baomidou.mybatisplus.mapper.Condition;
 import com.baomidou.mybatisplus.mapper.Wrapper;
+import com.zhongmei.yunfu.controller.model.CustomerSaleModel;
 import com.zhongmei.yunfu.controller.model.ReportSalesExportModel;
 import com.zhongmei.yunfu.domain.entity.CustomerSaveReport;
 import com.zhongmei.yunfu.domain.entity.SalesReport;
@@ -93,4 +94,15 @@ public interface TradeMapper extends BaseMapper<TradeEntity> {
             "ORDER BY t.id desc;")
     List<ReportSalesExportModel> querySalseExportExcel(@Param("ew") Condition wrapper);
 
+    @Select("SELECT sum(t.`trade_amount`) as saleAmount, tc.`customer_id` as customerId ,c.`name` as customerName , c.`gender` as gender,c.`birthday`  as birthday\n" +
+            "FROM `trade_customer` tc ,`trade` t, `customer` c\n" +
+            "WHERE tc.`trade_id` = t.`id`and t.`shop_identy` = 1 and tc.`customer_id` = c.id ${ew.sqlSegment}\n" +
+            "GROUP BY tc.`customer_id` ;")
+    List<CustomerSaleModel> queryCustomerSale(@Param("ew") Condition wrapper);
+
+
+    @Select("SELECT t.`trade_amount` as saleAmount ,ti.`dish_id` as dishId , ti.`dish_name` as dishName,ti.`quantity`  as quantity, tc.`customer_id` as customerId ,c.`name` as customerName , c.`gender` as gender,c.`birthday`  as birthday\n" +
+            "FROM `trade_customer` tc ,`trade` t, `customer` c, `trade_item` ti\n" +
+            "WHERE tc.`trade_id` = t.`id`and t.`shop_identy` = 1 and tc.`customer_id` = c.id and t.`id` = ti.`trade_id` ${ew.sqlSegment}")
+    List<CustomerSaleModel> queryCustomerSaleDetail(@Param("ew") Condition wrapper);
 }
