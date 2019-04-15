@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import java.lang.reflect.AnnotatedElement
+import java.lang.reflect.Modifier
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -106,19 +107,20 @@ abstract class BaseController {
             val declaredFields = searchModel.javaClass.declaredFields
             for (i in declaredFields.indices) {
                 val declaredField = declaredFields[i]
-                try {
-                    declaredField.isAccessible = true
-                    val value = declaredField.get(searchModel)
-                    if (value != null) {
-                        if (i > 0) {
-                            urlParams.append("&")
+                if (!Modifier.isStatic(declaredField.modifiers)) {
+                    try {
+                        declaredField.isAccessible = true
+                        val value = declaredField.get(searchModel)
+                        if (value != null) {
+                            if (i > 0) {
+                                urlParams.append("&")
+                            }
+                            urlParams.append(declaredField.name + "=" + value)
                         }
-                        urlParams.append(declaredField.name + "=" + value)
+                    } catch (e: IllegalAccessException) {
+                        e.printStackTrace()
                     }
-                } catch (e: IllegalAccessException) {
-                    e.printStackTrace()
                 }
-
             }
         }
 

@@ -122,6 +122,7 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
         CustomerEntity coupon = new CustomerEntity();
         coupon.setRelateId(0L); //表示主会员记录
         coupon.setShopIdenty(shopIdenty);
+        coupon.setStatusFlag(StatusFlag.VALiD.value());
         EntityWrapper<CustomerEntity> eWrapper = new EntityWrapperFilter<>(coupon);
         return super.selectCount(eWrapper);
     }
