@@ -51,6 +51,8 @@ public class CustomerModel {
 
     private BookingEntity mBookingEntity;
 
+    private Integer searchData;
+
     public Long getId() {
         return id;
     }
@@ -225,5 +227,13 @@ public class CustomerModel {
 
     public void setmBookingEntity(BookingEntity mBookingEntity) {
         this.mBookingEntity = mBookingEntity;
+    }
+
+    public Integer getSearchData() {
+        return searchData;
+    }
+
+    public void setSearchData(Integer searchData) {
+        this.searchData = searchData;
     }
 }

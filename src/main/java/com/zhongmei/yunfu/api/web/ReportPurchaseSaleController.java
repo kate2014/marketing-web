@@ -77,7 +77,7 @@ public class ReportPurchaseSaleController {
             Calendar c = Calendar.getInstance();
             //过去15天
             c.setTime(new Date());
-            c.add(Calendar.DATE, -15);
+            c.add(Calendar.DATE, -7);
             Date start = c.getTime();
             String temp = DateFormatUtil.format(start, DateFormatUtil.FORMAT_FULL_DATE);
             mPurchSaleModel.setStartDate(temp);
@@ -162,7 +162,36 @@ public class ReportPurchaseSaleController {
     public String purchaseList(Model model, PurchSaleModel mPurchSaleModel){
         try {
             List<PurchaseSaleReport> listData = listPurchase(mPurchSaleModel);
+
+            BigDecimal totalPurchaseCount = BigDecimal.ZERO;
+            BigDecimal totalPurchaseAmount = BigDecimal.ZERO;
+            BigDecimal totalSHCount = BigDecimal.ZERO;
+            BigDecimal totalSHAmount = BigDecimal.ZERO;
+
+            for(PurchaseSaleReport ps : listData){
+                if(ps.getType() == 1){
+                    if(ps.getNumber() != null){
+                        totalPurchaseCount = totalPurchaseCount.add(ps.getNumber());
+                    }
+                    if(ps.getTotalPurchasePrice() != null){
+                        totalPurchaseAmount = totalPurchaseAmount.add(ps.getTotalPurchasePrice());
+                    }
+                }else{
+                    if(ps.getNumber() != null){
+                        totalSHCount = totalSHCount.add(ps.getNumber());
+                    }
+//                    if(ps.getTotalPurchasePrice() != null){
+//                        totalSHAmount = totalSHAmount.add(ps.getTotalPurchasePrice());
+//                    }
+                }
+            }
+
             model.addAttribute("listData", listData);
+            model.addAttribute("totalPurchaseCount", totalPurchaseCount);
+            model.addAttribute("totalPurchaseAmount", totalPurchaseAmount);
+            model.addAttribute("totalSHCount", totalSHCount);
+//            model.addAttribute("totalSHAmount", totalSHAmount);
+
             model.addAttribute("mPurchSaleModel", mPurchSaleModel);
             return "report_purchase";
         }catch (Exception e){
@@ -178,7 +207,7 @@ public class ReportPurchaseSaleController {
             Calendar c = Calendar.getInstance();
             //过去15天
             c.setTime(new Date());
-            c.add(Calendar.DATE, -15);
+            c.add(Calendar.DATE, -7);
             Date start = c.getTime();
             String temp = DateFormatUtil.format(start, DateFormatUtil.FORMAT_FULL_DATE);
             mPurchSaleModel.setStartDate(temp);
@@ -190,8 +219,6 @@ public class ReportPurchaseSaleController {
         }
 
         List<PurchaseSaleReport> listData = mPurchasSaleService.purchaseList(mPurchSaleModel);
-        for(PurchaseSaleReport entity : listData){
-        }
 
         return listData;
     }
@@ -328,11 +355,11 @@ public class ReportPurchaseSaleController {
         List<String> titles = new ArrayList();
         titles.add("序");
         titles.add("品项名称");
-        titles.add("剩余库存");
         titles.add("入库数量");
         titles.add("采购金额");
         titles.add("销货数量");
         titles.add("销货金额");
+        titles.add("剩余库存");
 
         data.setTitles(titles);
 
@@ -346,11 +373,11 @@ public class ReportPurchaseSaleController {
                 rows.add(row);
                 row.add(i++);
                 row.add(entity.getName());
-                row.add(entity.getDishQty());
                 row.add(entity.getNumber());
                 row.add(entity.getTotalPurchasePrice());
                 row.add(entity.getSaleTotal());
                 row.add(entity.getSalePrice());
+                row.add(entity.getDishQty());
             }
         }
 
@@ -395,6 +422,38 @@ public class ReportPurchaseSaleController {
                 row.add(entity.getServerCreateTime());
             }
         }
+
+
+        BigDecimal totalPurchaseCount = BigDecimal.ZERO;
+        BigDecimal totalPurchaseAmount = BigDecimal.ZERO;
+        BigDecimal totalSHCount = BigDecimal.ZERO;
+        BigDecimal totalSHAmount = BigDecimal.ZERO;
+
+        for(PurchaseSaleReport ps : listData){
+            if(ps.getType() == 1){
+                if(ps.getNumber() != null){
+                    totalPurchaseCount = totalPurchaseCount.add(ps.getNumber());
+                }
+                if(ps.getTotalPurchasePrice() != null){
+                    totalPurchaseAmount = totalPurchaseAmount.add(ps.getTotalPurchasePrice());
+                }
+            }else{
+                if(ps.getNumber() != null){
+                    totalSHCount = totalSHCount.add(ps.getNumber());
+                }
+//                if(ps.getTotalPurchasePrice() != null){
+//                    totalSHAmount = totalSHAmount.add(ps.getTotalPurchasePrice());
+//                }
+            }
+        }
+
+        List<Object> row = new ArrayList();
+        rows.add(row);
+        row.add(i++);
+        row.add("合计");
+        row.add("采购总数量："+totalPurchaseCount);
+        row.add("采购总总金额："+totalPurchaseAmount);
+        row.add("损耗总数量："+totalSHCount);
 
         SimpleDateFormat fdate = new SimpleDateFormat("yyyyMMdd");
         String fileName = String.format("品项入库报表-%s.xls", fdate.format(new Date()));

@@ -79,7 +79,7 @@
                     <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty},requestUrlType=9)}" class="parent">
                         <div class="parent">
                             <img th:src="@{/images/report_purchase_icon.png}" class="image_size_style">
-                            <span>品项库存报表</span>
+                            <span>进销存报表</span>
                         </div>
                     </li>
                 </div>
@@ -141,6 +141,33 @@
                         <div class="parent">
                             <img th:src="@{/images/report_booking_icon.png}" class="image_size_style">
                             <span>预订报表</span>
+                        </div>
+                    </li>
+                </div>
+
+                <div th:if="${havaAccountReport} eq '1'">
+                    <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty},requestUrlType=12)}" class="parent">
+                        <div class="parent">
+                            <img th:src="@{/images/report_accounts_icon.png}" class="image_size_style">
+                            <span>每日对账报表</span>
+                        </div>
+                    </li>
+                </div>
+
+                <div th:if="${havaStaffSalaryReport} eq '1'">
+                    <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty},requestUrlType=13)}" class="parent">
+                        <div class="parent">
+                            <img th:src="@{/images/report_staff_salary_icon.png}" class="image_size_style">
+                            <span>员工业绩报表</span>
+                        </div>
+                    </li>
+                </div>
+
+                <div th:if="${havaStaffSalaryReport} eq '1'">
+                    <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty},requestUrlType=13)}" class="parent">
+                        <div class="parent">
+                            <img th:src="@{/images/customer_into_shop_report.png}" class="image_size_style">
+                            <span>会员到店报表</span>
                         </div>
                     </li>
                 </div>

@@ -35,13 +35,16 @@ class PurchaseSaleReport : Serializable {
 
     var totalPurchasePrice: BigDecimal? = null
 
-    var type: String? = null
+    var typeName: String? = null
+
+    var type: Int? = null
 
     var saleTotal: BigDecimal? = null
 
     var salePrice: BigDecimal? = null
 
     var serverCreateTime: String? =null
+
 
     override fun toString(): String {
         return "PurchaseSaleReport{" +
@@ -56,6 +59,7 @@ class PurchaseSaleReport : Serializable {
                 ", purchasePrice=" + purchasePrice +
                 ", totalPurchasePrice=" + totalPurchasePrice +
                 ", type=" + type +
+                ", typeName=" + typeName +
                 ", saleTotal=" + saleTotal +
                 ", salePrice=" + salePrice +
                 ", serverCreateTime=" + serverCreateTime +

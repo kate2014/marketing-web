@@ -145,6 +145,23 @@ public class ReportController {
             model.addAttribute("haveDishPurchaseReport", 1);
         }
 
+        //每日对账报表
+        if(permissionData.get("ACCOUNTS_ERPORT") == null || permissionData.get("ACCOUNTS_ERPORT").equals("")){
+            model.addAttribute("havaAccountReport", 0);
+        }else{
+            model.addAttribute("havaAccountReport", 1);
+        }
+
+        //员工业绩报表
+        if(permissionData.get("STAFF_SALARY_REPORT") == null || permissionData.get("STAFF_SALARY_REPORT").equals("")){
+            model.addAttribute("havaStaffSalaryReport", 0);
+        }else{
+            model.addAttribute("havaStaffSalaryReport", 1);
+        }
+
+
+
+
         return "report";
     }
 

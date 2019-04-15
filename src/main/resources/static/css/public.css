@@ -182,3 +182,28 @@ div.modle {
     font-size:13px;
     color: #707070;
 }
+
+.lable_button_style{
+    font-size:10px;
+    color: #707070;
+    /*background-color: #e1e1e1;*/
+    border: 0px;
+    width: 100px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    cursor:pointer;
+}
+
+.lable_button_click_style{
+    font-size:10px;
+    color: #FFFFFF;
+    background-color: #ff5500;
+    cursor:pointer;
+    border: 0px;
+    width: 100px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+}
+

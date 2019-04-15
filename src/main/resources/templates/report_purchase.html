@@ -94,15 +94,29 @@
             </tr>
             <tr th:each="item:${listData}">
                 <td th:text="${item.name}"></td>
-                <td th:text="${item.type}"></td>
-                <td th:text="${item.number}"></td>
+                <td th:text="${item.typeName}"></td>
+                <td>
+
+                    <div th:switch="${item.type}">
+                        <p th:case="'1'">
+                            <span th:text="${item.number}"></span>
+                        </p>
+                        <p th:case="'2'">
+                            -<span th:text="${item.number}"></span>
+                        </p>
+                    </div>
+                </td>
                 <td th:text="${item.purchasePrice}"></td>
                 <td th:text="${item.totalPurchasePrice}"></td>
                 <td th:text="${item.sourceName}"></td>
                 <td th:text="${item.serverCreateTime}"></td>
-
             </tr>
 
+            <tr bgcolor="#e1e1e1">
+                <th> 合计: </th>
+                <th colspan="3">采购总数量: <span th:text="${totalPurchaseCount}"></span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;采购总金额:<span th:text="${totalPurchaseAmount}"></span> </th>
+                <th colspan="3">损耗总数量: <span th:text="${totalSHCount}"></span></th>
+            </tr>
         </table>
     </div>
 
