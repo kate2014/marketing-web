@@ -25,16 +25,14 @@
     <span>共<i th:text="${pageInfo.rowCount}">3</i>条</span>
     <ul>
         <li>
-            <a th:if="${pageInfo.hasPrePage}" th:href="@{${pageInfo.url}(pageNo=${pageInfo.prePageNum})}">&lt;</a>
+            <a th:if="${pageInfo.hasPrePage}" th:href="@{${pageInfo.url}(pageNo=${pageInfo.lowNum-1})}">&lt;</a>
             <span th:unless="${pageInfo.hasPrePage}">&lt;</span>
         </li>
-        <li th:each="pageNo : ${#numbers.sequence(1, pageInfo.pageRangeNum)}">
-            <!--<span th:if="${pageInfo.prePageNum+pageNo<=pageInfo.totalPage}">-->
-            <a th:class="${pageInfo.currentPage == pageInfo.prePageNum+pageNo}?'active':'no_active'" th:href="@{${pageInfo.url}(pageNo=${pageInfo.prePageNum+pageNo})}" th:text="${pageInfo.prePageNum+pageNo}">1</a>
-            <!--</span>-->
+        <li th:each="pageNo : ${#numbers.sequence(pageInfo.lowNum, pageInfo.higNum)}">
+            <a th:class="${pageInfo.currentPage == pageNo}?'active':'no_active'" th:href="@{${pageInfo.url}(pageNo=${pageNo})}" th:text="${pageNo}">1</a>
         </li>
         <li>
-            <a th:if="${pageInfo.hasNextPage}" th:href="@{${pageInfo.url}(pageNo=${pageInfo.nextPageNum})}">&gt;</a>
+            <a th:if="${pageInfo.hasNextPage}" th:href="@{${pageInfo.url}(pageNo=${pageInfo.higNum+1})}">&gt;</a>
             <span th:unless="${pageInfo.hasNextPage}">&gt;</span>
         </li>
     </ul>
