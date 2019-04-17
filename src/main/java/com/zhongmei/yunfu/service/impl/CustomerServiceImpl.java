@@ -11,6 +11,7 @@ import com.zhongmei.yunfu.api.ApiResponseStatusException;
 import com.zhongmei.yunfu.api.pos.vo.CustomerLoginReq;
 import com.zhongmei.yunfu.api.pos.vo.CustomerSearchReq;
 import com.zhongmei.yunfu.controller.model.CustomerDrainSearchModel;
+import com.zhongmei.yunfu.controller.model.CustomerModel;
 import com.zhongmei.yunfu.controller.model.CustomerSearchModel;
 import com.zhongmei.yunfu.core.mybatis.mapper.ConditionFilter;
 import com.zhongmei.yunfu.core.mybatis.mapper.EntityWrapperFilter;
@@ -511,5 +512,31 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
 
         List<CustomerEntity> listCustomer = selectList(eWrapper);
         return listCustomer;
+    }
+
+    @Override
+    public List<CustomerReport> customerShopReport(CustomerModel mCustomerModel) throws Exception {
+        Condition eWrapper = ConditionFilter.create();
+        eWrapper.eq("t.brand_identy", mCustomerModel.getBrandIdenty());
+        eWrapper.eq("t.shop_identy", mCustomerModel.getShopIdenty());
+        eWrapper.eq("t.trade_status", 4);
+        eWrapper.eq("t.status_flag", 1);
+        eWrapper.between("t.server_create_time", mCustomerModel.getStartDate(), mCustomerModel.getEndDate());
+        List<CustomerReport> listData = baseMapper.customerShopReport(eWrapper);
+        return listData;
+    }
+
+    @Override
+    public List<CustomerReport> customerShopDetailReport(CustomerModel mCustomerModel) throws Exception {
+        Condition eWrapper = ConditionFilter.create();
+        eWrapper.isWhere(true);
+        eWrapper.eq("t.brand_identy", mCustomerModel.getBrandIdenty());
+        eWrapper.eq("t.shop_identy", mCustomerModel.getShopIdenty());
+        eWrapper.eq("t.trade_status", 4);
+        eWrapper.eq("t.status_flag", 1);
+//        eWrapper.isNotNull("tc.customer_name");
+        eWrapper.between("t.server_create_time", mCustomerModel.getStartDate(), mCustomerModel.getEndDate());
+        List<CustomerReport> listData = baseMapper.customerShopDetailReport(eWrapper);
+        return listData;
     }
 }

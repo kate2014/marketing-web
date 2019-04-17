@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.service.IService;
 import com.zhongmei.yunfu.api.pos.vo.CustomerLoginReq;
 import com.zhongmei.yunfu.api.pos.vo.CustomerSearchReq;
 import com.zhongmei.yunfu.controller.model.CustomerDrainSearchModel;
+import com.zhongmei.yunfu.controller.model.CustomerModel;
 import com.zhongmei.yunfu.controller.model.CustomerSearchModel;
 import com.zhongmei.yunfu.domain.entity.CustomerEntity;
 import com.zhongmei.yunfu.domain.entity.CustomerReport;
@@ -256,4 +257,20 @@ public interface CustomerService extends IService<CustomerEntity> {
      * @throws Exception
      */
     public List<CustomerEntity> queryAllCustomer(Long brandIdenty, Long shopIdenty) throws Exception;
+
+    /**
+     * 获取会员到店统计报表
+     * @param mCustomerModel
+     * @return
+     * @throws Exception
+     */
+    List<CustomerReport> customerShopReport(CustomerModel mCustomerModel) throws Exception;
+
+    /**
+     * 获取会员到店统计详情报表
+     * @param mCustomerModel
+     * @return
+     * @throws Exception
+     */
+    List<CustomerReport> customerShopDetailReport(CustomerModel mCustomerModel) throws Exception;
 }

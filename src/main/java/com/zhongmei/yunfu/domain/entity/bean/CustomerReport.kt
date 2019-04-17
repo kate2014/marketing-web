@@ -1,6 +1,7 @@
 package com.zhongmei.yunfu.domain.entity
 
 import java.io.Serializable
+import java.math.BigDecimal
 import java.util.*
 
 /**
@@ -23,10 +24,28 @@ class CustomerReport : CustomerEntity(), Serializable {
      */
     var createDate: Date? = null
 
+    var tradeAmount: BigDecimal? = null
+
+    var tradeDate: String? = null
+
+    var dishName: String? = null
+
+    var customerName: String? = null
+
+    var tradeId: Long? = null
+
+    var businessType: Int? = null
+
     override fun toString(): String {
         return "CustomerReport{" +
                 ", count=" + count +
                 ", createDate=" + createDate +
+                ", tradeAmount=" + tradeAmount +
+                ", tradeDate=" + tradeDate +
+                ", dishName=" + dishName +
+                ", customerName=" + customerName +
+                ", tradeId=" + tradeId +
+                ", businessType=" + tradeId +
                 "}"
     }
 }

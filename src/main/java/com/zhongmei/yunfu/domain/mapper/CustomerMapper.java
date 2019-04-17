@@ -151,4 +151,17 @@ public interface CustomerMapper extends BaseMapper<CustomerEntity> {
 
     @Select("SELECT c.*, wc.third_id wx_open_id FROM customer c LEFT JOIN customer wc ON c.id = wc.relate_id WHERE c.status_flag = 1 AND c.shop_identy = ${shopId} AND c.relate_id = 0 AND c.server_create_time >= #{startTime} AND c.server_create_time <= #{endTime} ${ew.sqlSegment}")
     List<CustomerEntity> selectByAnniversary(RowBounds page, @Param("ew") Wrapper wrapper, @Param("shopId") Long shop_identy, @Param("startTime") String startTime, @Param("endTime") String endTime);
+
+    @Select("SELECT count(tc.id) as count, sum(t.`trade_amount`) as tradeAmount ,date_format(t.`trade_time`, '%Y-%m-%d') as tradeDate\n" +
+            "FROM trade t, `trade_customer` tc\n" +
+            "WHERE t.`id` = tc.`trade_id` ${ew.sqlSegment} \n" +
+            "group by date_format(trade_time,'%Y-%m-%d')\n" +
+            "order by date_format(trade_time,'%Y-%m-%d') DESC ;")
+    List<CustomerReport> customerShopReport(@Param("ew") Condition wrapper);
+
+    @Select("SELECT t.`id`,t.`business_type`  ,t.`trade_amount` ,tc.`customer_name`, ti.`dish_name`,t.`trade_time` as tradeDate\n" +
+            "FROM `trade_customer`  tc LEFT JOIN `trade` t on t.`id` = tc.`trade_id` LEFT JOIN `trade_item` ti on t.`id` = ti.`trade_id` \n" +
+            "${ew.sqlSegment} \n" +
+            "ORDER BY t.`trade_time` desc;")
+    List<CustomerReport> customerShopDetailReport(@Param("ew") Condition wrapper);
 }
