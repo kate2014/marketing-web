@@ -24,7 +24,7 @@ class WebPage {
         this.pageSize = pageSize
         this.totalPage = if (rowCount == 0L || pageSize == 0L) 0 else rowCount / pageSize + Math.min(rowCount % pageSize, 1)
         this.currentPage = Math.min(Math.max(pageNo, 1), totalPage)
-        this.pageRangeNum = Math.min(showPageNum, totalPage)
+        this.pageRangeNum = showPageNum
 
         //计算高位与低位
         /*var mid = pageRangeNum / 2
