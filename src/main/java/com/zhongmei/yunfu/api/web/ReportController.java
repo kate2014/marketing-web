@@ -159,6 +159,12 @@ public class ReportController {
             model.addAttribute("havaStaffSalaryReport", 1);
         }
 
+        //会员到店
+        if(permissionData.get("CUSTOMER_SHOP_REPORT") == null || permissionData.get("CUSTOMER_SHOP_REPORT").equals("")){
+            model.addAttribute("havaCustomerShopReport", 0);
+        }else{
+            model.addAttribute("havaCustomerShopReport", 1);
+        }
 
 
 
