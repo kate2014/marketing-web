@@ -236,10 +236,18 @@ public class ReportCustomerController {
 
             listDetail.clear();
 
+            int totalCustomer = 0;
+            BigDecimal totalAmount = BigDecimal.ZERO;
+
             for (CustomerReport value : tempMap.values()) {
                 listDetail.add(value);
+                totalAmount = totalAmount.add(value.getTradeAmount());
             }
+            totalCustomer = listDetail.size();
+
             model.addAttribute("listTradeDetail", listDetail);
+            model.addAttribute("totalCustomer", totalCustomer);
+            model.addAttribute("totalAmount", totalAmount);
 
 
         }catch (Exception e){
@@ -253,7 +261,23 @@ public class ReportCustomerController {
     @RequestMapping("/customerShop/excel")
     public void exportExcel(HttpServletResponse response, CustomerModel mCustomerModel) throws Exception{
 
+        //会员到店消费详情
+        Map<Long,CustomerReport>tempMap = new LinkedHashMap<>();
+
         List<CustomerReport> listDetail = customerService.customerShopDetailReport(mCustomerModel);
+        for(CustomerReport entity : listDetail){
+            CustomerReport cr = tempMap.get(entity.getId());
+            if(cr != null){
+                entity.setDishName(cr.getDishName()+","+entity.getDishName());
+            }
+            tempMap.put(entity.getId(),entity);
+        }
+
+        listDetail.clear();
+
+        for (CustomerReport value : tempMap.values()) {
+            listDetail.add(value);
+        }
 
         ExcelData data = new ExcelData();
         data.setSheetName("会员到店报表");
