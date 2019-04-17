@@ -156,7 +156,7 @@ public interface CustomerMapper extends BaseMapper<CustomerEntity> {
             "FROM trade t, `trade_customer` tc\n" +
             "WHERE t.`id` = tc.`trade_id` ${ew.sqlSegment} \n" +
             "group by date_format(trade_time,'%Y-%m-%d')\n" +
-            "order by date_format(trade_time,'%Y-%m-%d') DESC ;")
+            "order by date_format(trade_time,'%Y-%m-%d') ;")
     List<CustomerReport> customerShopReport(@Param("ew") Condition wrapper);
 
     @Select("SELECT t.`id`,t.`business_type`  ,t.`trade_amount` ,tc.`customer_name`, ti.`dish_name`,t.`trade_time` as tradeDate\n" +

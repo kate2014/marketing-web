@@ -250,7 +250,7 @@ public class ReportCustomerController {
         return "report_customer_shop";
     }
 
-    @RequestMapping("/export/excel")
+    @RequestMapping("/customerShop/excel")
     public void exportExcel(HttpServletResponse response, CustomerModel mCustomerModel) throws Exception{
 
         List<CustomerReport> listDetail = customerService.customerShopDetailReport(mCustomerModel);

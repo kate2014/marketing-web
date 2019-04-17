@@ -1,8 +1,10 @@
 package com.zhongmei.yunfu.service;
 
 import com.baomidou.mybatisplus.service.IService;
+import com.zhongmei.yunfu.controller.model.AuthUserModel;
 import com.zhongmei.yunfu.domain.entity.AuthPermissionEntity;
 import com.zhongmei.yunfu.domain.entity.AuthUserEntity;
+import com.zhongmei.yunfu.domain.entity.UserSalaryReport;
 import com.zhongmei.yunfu.erp.model.ERPCommercialModel;
 
 import java.util.List;
@@ -53,4 +55,21 @@ public interface AuthUserService extends IService<AuthUserEntity> {
      * @throws Exception
      */
     Boolean addAuthUser(AuthUserEntity mAuthUserEntity)throws Exception;
+
+    /**
+     * 获取门店员工业绩排行榜
+     * @param mAuthUserModel
+     * @return
+     * @throws Exception
+     */
+    List<UserSalaryReport> querUserSaleryReport(AuthUserModel mAuthUserModel)throws Exception;
+
+    /**
+     * 员工业绩详情
+     * @param mAuthUserModel
+     * @return
+     * @throws Exception
+     */
+    List<UserSalaryReport> querUserSaleryDetailReport(AuthUserModel mAuthUserModel)throws Exception;
+
 }

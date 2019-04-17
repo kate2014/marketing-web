@@ -20,7 +20,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>会员到店报表</title>
+    <title>员工业绩报表</title>
     <link rel="stylesheet" th:href="@{/css/public.css}" href="../css/public.css" type="text/css" />
     <link rel="stylesheet" th:href="@{/css/widget.css}" href="../css/widget.css" type="text/css" />
     <link rel="stylesheet" th:href="@{/css/base.css}" href="../css/base.css" type="text/css" />
@@ -47,7 +47,7 @@
             "&shopIdenty=" + shopIdenty +
             "&startDate=" + startDate +
             "&endDate=" + endDate;
-        location.href = "[[${basePath}]]/internal/report/customerShop/excel?" + params;
+        location.href = "[[${basePath}]]/internal/report/userSalary/excel?" + params;
     }
 </script>
 
@@ -55,10 +55,10 @@
 
 
 <div class="parent" style="margin-top: 20px">
-    <form method="post" action="" th:action="@{/internal/report/customerShop}" th:object="${mCustomerModel}">
-        <input type="hidden" name="brandIdenty" th:value="${mCustomerModel.brandIdenty}">
+    <form method="post" action="" th:action="@{/internal/report/userReport}" th:object="${mAuthUserModel}">
+        <input type="hidden" name="brandIdenty" th:value="${mAuthUserModel.brandIdenty}">
 
-        <input type="hidden" name="shopIdenty" th:value="${mCustomerModel.shopIdenty}">
+        <input type="hidden" name="shopIdenty" th:value="${mAuthUserModel.shopIdenty}">
         <!---->
         <!--<label class="text_navigation" style="margin-left: 20px">范围</label>-->
         <!--<select class="select_min_style" name="shopIdenty" style="margin-left: 5px">-->
@@ -70,9 +70,9 @@
 
 
         <label class="text_navigation" style="margin-left: 10px">查询时间段</label>
-        <input type="text" class="input_min_style" name="startDate" placeholder="设置查询起始时间" id="startDate"  th:value="${mCustomerModel.startDate}">
+        <input type="text" class="input_min_style" name="startDate" placeholder="设置查询起始时间" id="startDate"  th:value="${mAuthUserModel.startDate}">
         <label class="text_navigation">--</label>
-        <input type="text" class="input_min_style" name="endDate" placeholder="设置查询结束时间" id="endDate"  th:value="${mCustomerModel.endDate}">
+        <input type="text" class="input_min_style" name="endDate" placeholder="设置查询结束时间" id="endDate"  th:value="${mAuthUserModel.endDate}">
         <button class="orange_mine_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
     </form>
     <div class="parent" id="export_excel" onclick="exportExcel()" style="margin-left: 20px;cursor:pointer;">
@@ -87,12 +87,12 @@
 
 <div class="container" style="margin-left: 20px">
     <img th:src="@{/images/lable.jpg}" width="5" height="26">
-    <p style="font-weight: bold; margin-left: 6px">每日会员到店情况</p>
+    <p style="font-weight: bold; margin-left: 6px">员工业绩排行榜</p>
 </div>
 
 <div style="width: 95%;height:400px; align-content: center; text-align: center";>
     <div id="container" style="width: 100%;height:400px;"></div>
-    <p style="font-weight: bold; margin-left: 6px">每日会员到店分布</p>
+    <p style="font-weight: bold; margin-left: 6px">员工业绩排行榜</p>
 </div>
 
 
@@ -106,7 +106,7 @@
     var myChart = echarts.init(dom);
     var app = {};
     option = null;
-    app.title = '会员每日到店情况';
+    app.title = '员工业绩排行榜';
 
     option = {
         tooltip: {
@@ -127,12 +127,12 @@
             }
         },
         legend: {
-            data:['到店会员数','会员消费额度']
+            data:['成交金额','成交单数']
         },
         xAxis: [
             {
                 type: 'category',
-                data: [[${listTradeDate}]],
+                data: [[${listUserName}]],
                 axisPointer: {
                     type: 'shadow'
                 },
@@ -145,20 +145,20 @@
         yAxis: [
             {
                 type: 'value',
-                name: '到店会员数',
+                name: '成交金额',
                 min: 0,
-                max: [[${maxCount}]],
-                interval: [[${intervalCount}]],
+                max: [[${maxAmount}]],
+                interval: [[${intervalAmount}]],
                 axisLabel: {
                     formatter: '{value}'
                 }
             },
             {
                 type: 'value',
-                name: '会员消费额度',
+                name: '成交单数',
                 min: 0,
-                max: [[${maxAmount}]],
-                interval: [[${intervalAmount}]],
+                max: [[${maxCount}]],
+                interval: [[${intervalCount}]],
                 axisLabel: {
                     formatter: '{value} 元'
                 }
@@ -167,16 +167,16 @@
         ],
         series: [
             {
-                name:'到店会员数',
+                name:'成交金额',
                 type:'bar',
                 barMaxWidth : 30,//柱图宽度
-                data:[[${listCount}]]
+                data:[[${listAmount}]]
             },
             {
-                name:'会员消费额度',
+                name:'成交单数',
                 type:'line',
                 yAxisIndex: 1,
-                data:[[${listTradeAmount}]]
+                data:[[${listCount}]]
             }
         ]
     };
@@ -190,16 +190,16 @@
 <div align="center" style="margin-top: 10px; margin-bottom: 100px; width: 100%">
     <table class="gridtablestyle" style="width: 95%; vertical-align: middle; table-layout: fixed;">
         <tr style="width: 100%">
-            <th width="15%">会员名称</th>
+            <th width="15%">员工名称</th>
             <th width="12%">消费类型</th>
-            <th width="12%">消费金额</th>
-            <th style="word-break: break-all;word-wrap: break-word">消费服务品项</th>
-            <th width="17%">消费时间</th>
+            <th style="word-break: break-all;word-wrap: break-word">服务项目名称</th>
+            <th width="12%">成交金额</th>
+            <th width="17%">服务时间</th>
 
         </tr>
-        <tr th:each="item:${listTradeDetail}">
+        <tr th:each="item:${listDetailData}">
 
-            <td th:text="${item.customerName}"></td>
+            <td th:text="${item.userName}"></td>
             <td>
                 <div th:switch="${item.businessType}">
                     <p th:case="'1'">
@@ -216,8 +216,8 @@
                     </p>
                 </div>
             </td>
-            <td th:text="${item.tradeAmount}"></td>
-            <td style="word-break: break-all;word-wrap: break-word" th:text="${item.dishName}"></td>
+            <td th:text="${item.dishName}"></td>
+            <td style="word-break: break-all;word-wrap: break-word" th:text="${item.amount}"></td>
             <td th:text="${item.tradeDate}"></td>
 
         </tr>

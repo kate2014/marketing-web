@@ -15,6 +15,10 @@ public class AuthUserModel {
 
     private String creatorName;
 
+    private String startDate;
+
+    private String endDate;
+
     public Long getBrandIdenty() {
         return brandIdenty;
     }
@@ -45,5 +49,21 @@ public class AuthUserModel {
 
     public void setCreatorName(String creatorName) {
         this.creatorName = creatorName;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
     }
 }

@@ -1,10 +1,15 @@
 package com.zhongmei.yunfu.service.impl;
 
+import com.baomidou.mybatisplus.mapper.Condition;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.zhongmei.yunfu.controller.model.AuthUserModel;
+import com.zhongmei.yunfu.core.mybatis.mapper.ConditionFilter;
 import com.zhongmei.yunfu.core.security.Password;
 import com.zhongmei.yunfu.core.security.Token;
 import com.zhongmei.yunfu.domain.entity.AuthPermissionEntity;
 import com.zhongmei.yunfu.domain.entity.AuthUserEntity;
+import com.zhongmei.yunfu.domain.entity.CustomerReport;
+import com.zhongmei.yunfu.domain.entity.UserSalaryReport;
 import com.zhongmei.yunfu.domain.mapper.AuthUserMapper;
 import com.zhongmei.yunfu.erp.model.ERPCommercialModel;
 import com.zhongmei.yunfu.service.AuthUserService;
@@ -91,5 +96,31 @@ public class AuthUserServiceImpl extends ServiceImpl<AuthUserMapper, AuthUserEnt
     public Boolean addAuthUser(AuthUserEntity mAuthUserEntity) throws Exception {
         Boolean isSuccess = insert(mAuthUserEntity);
         return isSuccess;
+    }
+
+    @Override
+    public List<UserSalaryReport> querUserSaleryReport(AuthUserModel mAuthUserModel) throws Exception {
+        Condition eWrapper = ConditionFilter.create();
+        eWrapper.isWhere(true);
+        eWrapper.eq("t.brand_identy", mAuthUserModel.getBrandIdenty());
+        eWrapper.eq("t.shop_identy", mAuthUserModel.getShopIdenty());
+        eWrapper.eq("t.trade_status", 4);
+        eWrapper.eq("t.status_flag", 1);
+        eWrapper.between("t.server_create_time", mAuthUserModel.getStartDate(), mAuthUserModel.getEndDate());
+        List<UserSalaryReport> listData = baseMapper.querUserSaleryReport(eWrapper);
+        return listData;
+    }
+
+    @Override
+    public List<UserSalaryReport> querUserSaleryDetailReport(AuthUserModel mAuthUserModel) throws Exception {
+        Condition eWrapper = ConditionFilter.create();
+        eWrapper.isWhere(true);
+        eWrapper.eq("t.brand_identy", mAuthUserModel.getBrandIdenty());
+        eWrapper.eq("t.shop_identy", mAuthUserModel.getShopIdenty());
+        eWrapper.eq("t.trade_status", 4);
+        eWrapper.eq("t.status_flag", 1);
+        eWrapper.between("t.server_create_time", mAuthUserModel.getStartDate(), mAuthUserModel.getEndDate());
+        List<UserSalaryReport> listData = baseMapper.querUserSaleryDetailReport(eWrapper);
+        return listData;
     }
 }

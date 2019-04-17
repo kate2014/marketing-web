@@ -519,6 +519,7 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
         Condition eWrapper = ConditionFilter.create();
         eWrapper.eq("t.brand_identy", mCustomerModel.getBrandIdenty());
         eWrapper.eq("t.shop_identy", mCustomerModel.getShopIdenty());
+        eWrapper.eq("tc.customer_type", 3);
         eWrapper.eq("t.trade_status", 4);
         eWrapper.eq("t.status_flag", 1);
         eWrapper.between("t.server_create_time", mCustomerModel.getStartDate(), mCustomerModel.getEndDate());
@@ -532,6 +533,7 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
         eWrapper.isWhere(true);
         eWrapper.eq("t.brand_identy", mCustomerModel.getBrandIdenty());
         eWrapper.eq("t.shop_identy", mCustomerModel.getShopIdenty());
+        eWrapper.eq("tc.customer_type", 3);
         eWrapper.eq("t.trade_status", 4);
         eWrapper.eq("t.status_flag", 1);
 //        eWrapper.isNotNull("tc.customer_name");

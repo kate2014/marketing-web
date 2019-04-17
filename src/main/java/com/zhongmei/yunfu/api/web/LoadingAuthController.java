@@ -47,7 +47,8 @@ public class LoadingAuthController {
             String url = "/internal/report/customerShop?brandIdenty="+mLoadingModel.getBrandIdenty()+"&shopIdenty="+mLoadingModel.getShopIdenty();
             mLoadingModel.setRequestUrl(url);
         }else if(mLoadingModel.getRequestUrlType() == 7){
-
+            String url = "/internal/report/userReport?brandIdenty="+mLoadingModel.getBrandIdenty()+"&shopIdenty="+mLoadingModel.getShopIdenty();
+            mLoadingModel.setRequestUrl(url);
         }else if(mLoadingModel.getRequestUrlType() == 8){
             String url = "/internal/purchaseSale/report?brandIdenty="+mLoadingModel.getBrandIdenty()+"&shopIdenty="+mLoadingModel.getShopIdenty();
             mLoadingModel.setRequestUrl(url);
