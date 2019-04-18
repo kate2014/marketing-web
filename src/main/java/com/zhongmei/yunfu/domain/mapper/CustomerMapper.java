@@ -49,41 +49,63 @@ public interface CustomerMapper extends BaseMapper<CustomerEntity> {
      * @return
      */
     @Select("SELECT\n" +
-            "  count(*)\n" +
+            "  COUNT(*)\n" +
             "FROM\n" +
-            "  customer\n" +
-            "WHERE shop_identy = ${shopId}\n" +
-            "  AND status_flag = 1 AND relate_id = 0\n" +
-            "  AND id IN\n" +
-            "  (SELECT\n" +
-            "    tc.customer_id\n" +
-            "  FROM\n" +
-            "    trade t\n" +
-            "    INNER JOIN trade_customer tc\n" +
-            "      ON t.id = tc.trade_id\n" +
-            "  WHERE t.status_flag = 1 AND t.shop_identy = ${shopId}\n" +
-            "    AND t.server_create_time >= #{serverCreateTime}\n" +
-            "  GROUP BY tc.customer_id\n" +
-            "  HAVING (COUNT(1) > ${tradeCount} AND COUNT(1) < ${tradeCountMax})\n" +
-            "    OR (SUM(t.trade_amount) > ${tradeAmountSum} AND SUM(t.trade_amount) < ${tradeAmountSumMax}))")
+            "  customer c\n" +
+            "  LEFT JOIN customer wc\n" +
+            "    ON c.id = wc.relate_id\n" +
+            "  LEFT JOIN\n" +
+            "    (SELECT\n" +
+            "      tc.customer_id,\n" +
+            "      COUNT(1) _count,\n" +
+            "      SUM(t.trade_amount) _trade_amount\n" +
+            "    FROM\n" +
+            "      trade t\n" +
+            "      INNER JOIN trade_customer tc\n" +
+            "        ON t.id = tc.trade_id\n" +
+            "    WHERE t.status_flag = 1\n" +
+            "      AND t.shop_identy = ${shopId}\n" +
+            "      AND t.server_create_time >= #{serverCreateTime}\n" +
+            "    GROUP BY tc.customer_id) t\n" +
+            "    ON c.id = t.customer_id\n" +
+            "WHERE c.status_flag = 1\n" +
+            "  AND c.relate_id = 0\n" +
+            "  AND c.shop_identy = ${shopId}\n" +
+            "  AND IFNULL(t._count, 0) >= ${tradeCount}\n" +
+            "  AND IFNULL(t._count, 0) < ${tradeCountMax}\n" +
+            "  AND IFNULL(t._trade_amount, 0) >= ${tradeAmountSum}\n" +
+            "  AND IFNULL(t._trade_amount, 0) < ${tradeAmountSumMax}")
     Integer selectCountByTrade(@Param("shopId") Long shop_identy, @Param("serverCreateTime") String server_create_time, @Param("tradeCount") Integer tradeCount, @Param("tradeCountMax") Integer tradeCountMax, @Param("tradeAmountSum") Integer tradeAmountSum, @Param("tradeAmountSumMax") Integer tradeAmountSumMax);
 
     @Select("SELECT\n" +
-            " c.*, wc.third_id wx_open_id\n" +
-            "FROM customer c LEFT JOIN customer wc ON c.id = wc.relate_id\n" +
-            "WHERE c.status_flag = 1 AND c.relate_id = 0\n" +
-            "  AND c.id IN\n" +
-            "  (SELECT\n" +
-            "    tc.customer_id\n" +
-            "  FROM\n" +
-            "    trade t\n" +
-            "    INNER JOIN trade_customer tc\n" +
-            "      ON t.id = tc.trade_id\n" +
-            "  WHERE t.status_flag = 1 AND t.shop_identy = ${shopId}\n" +
-            "    AND t.server_create_time >= #{serverCreateTime}\n" +
-            "  GROUP BY tc.customer_id\n" +
-            "  HAVING (COUNT(1) > ${tradeCount} AND COUNT(1) < ${tradeCountMax})\n" +
-            "    OR (SUM(t.trade_amount) > ${tradeAmountSum} AND SUM(t.trade_amount) < ${tradeAmountSumMax})) ${ew.sqlSegment}")
+            "  c.*,\n" +
+            "  wc.third_id wx_open_id\n" +
+            "FROM\n" +
+            "  customer c\n" +
+            "  LEFT JOIN customer wc\n" +
+            "    ON c.id = wc.relate_id\n" +
+            "  LEFT JOIN\n" +
+            "    (SELECT\n" +
+            "      tc.customer_id,\n" +
+            "      COUNT(1) _count,\n" +
+            "      SUM(t.trade_amount) _trade_amount\n" +
+            "    FROM\n" +
+            "      trade t\n" +
+            "      INNER JOIN trade_customer tc\n" +
+            "        ON t.id = tc.trade_id\n" +
+            "    WHERE t.status_flag = 1\n" +
+            "      AND t.shop_identy = ${shopId}\n" +
+            "      AND t.server_create_time >= #{serverCreateTime}\n" +
+            "    GROUP BY tc.customer_id) t\n" +
+            "    ON c.id = t.customer_id\n" +
+            "WHERE c.status_flag = 1\n" +
+            "  AND c.relate_id = 0\n" +
+            "  AND c.shop_identy = ${shopId}\n" +
+            "  AND IFNULL(t._count, 0) >= ${tradeCount}\n" +
+            "  AND IFNULL(t._count, 0) < ${tradeCountMax}\n" +
+            "  AND IFNULL(t._trade_amount, 0) >= ${tradeAmountSum}\n" +
+            "  AND IFNULL(t._trade_amount, 0) < ${tradeAmountSumMax}\n" +
+            "  ${ew.sqlSegment}")
     List<CustomerEntity> selectByTrade(RowBounds page, @Param("ew") Wrapper wrapper, @Param("shopId") Long shopId, @Param("serverCreateTime") String serverCreateTime, @Param("tradeCount") Integer tradeCount, @Param("tradeCountMax") Integer tradeCountMax, @Param("tradeAmountSum") Integer tradeAmountSum, @Param("tradeAmountSumMax") Integer tradeAmountSumMax);
 
     /**
