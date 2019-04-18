@@ -75,6 +75,10 @@ public class ReportCardTimeController {
 
             Long maxCount = 0l;
             Long maxAmount = 0l;
+
+            BigDecimal totalCount = BigDecimal.ZERO;
+            BigDecimal totalAmount = BigDecimal.ZERO;
+
             for (DishReport dp : listData) {
 
                 listDishName.add(dp.getDishName());
@@ -88,6 +92,8 @@ public class ReportCardTimeController {
                     maxAmount = dp.getSalesAmount().longValue();
                 }
 
+                totalCount = totalCount.add(new BigDecimal(dp.getSalseCount()));
+                totalAmount = totalAmount.add(dp.getSalesAmount());
             }
 
             maxCount = ToolsUtil.getMaxData(maxCount);
@@ -104,6 +110,9 @@ public class ReportCardTimeController {
             model.addAttribute("listSalesCount", listSalesCount);
 
             model.addAttribute("listData", listData);
+
+            model.addAttribute("totalCount", totalCount);
+            model.addAttribute("totalAmount", totalAmount);
 
         }catch (Exception e){
             e.printStackTrace();
