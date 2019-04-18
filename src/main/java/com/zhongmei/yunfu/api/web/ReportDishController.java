@@ -74,19 +74,25 @@ public class ReportDishController {
 
             Long maxCount = 0l;
             Long maxAmount = 0l;
+
+            BigDecimal totalCount = BigDecimal.ZERO;
+            BigDecimal totalAmount = BigDecimal.ZERO;
+
             for (DishReport dp : listData) {
 
                 listDishName.add(dp.getDishName());
                 listSalesAmount.add(dp.getSalesAmount());
-                listSalesCount.add(dp.getSalseCount());
+                listSalesCount.add(dp.getSalseCount().longValue());
 
-                if (maxCount < dp.getSalseCount()) {
-                    maxCount = dp.getSalseCount();
+                if (maxCount < dp.getSalseCount().longValue()) {
+                    maxCount = dp.getSalseCount().longValue();
                 }
                 if (maxAmount < dp.getSalesAmount().longValue()) {
                     maxAmount = dp.getSalesAmount().longValue();
                 }
 
+                totalCount = totalCount.add(new BigDecimal(dp.getSalseCount()));
+                totalAmount = totalAmount.add(dp.getSalesAmount());
             }
 
             maxCount = ToolsUtil.getMaxData(maxCount);
@@ -103,6 +109,9 @@ public class ReportDishController {
             model.addAttribute("listSalesCount", listSalesCount);
 
             model.addAttribute("listData", listData);
+
+            model.addAttribute("totalCount", totalCount);
+            model.addAttribute("totalAmount", totalAmount);
         } catch (Exception e) {
             e.printStackTrace();
             return "fail";
