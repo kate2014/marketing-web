@@ -28,11 +28,14 @@ class CustomerSaveReport : CustomerEntity(), Serializable {
      */
     var createDate: String? = null
 
+    var customerName: String? = null
+
     override fun toString(): String {
         return "CustomerReport{" +
                 ", tradeCount=" + tradeCount +
                 ", salesAmount=" + salesAmount +
                 ", createDate=" + createDate +
+                ", customerName=" + customerName +
                 "}"
     }
 }

@@ -156,6 +156,14 @@ public interface TradeService extends IService<TradeEntity> {
      */
     List<CustomerSaveReport> customerSaveReport(TradeModel mTradeModel)throws Exception;
 
+
+    /**
+     * 门店会员储值明细报表
+     * @return
+     * @throws Exception
+     */
+    List<CustomerSaveReport> customerSaveDetailReport(TradeModel mTradeModel)throws Exception;
+
     /**
      * 门店销售排行TOP 10
      * @param mTradeModel

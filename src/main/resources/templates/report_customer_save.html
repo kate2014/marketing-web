@@ -63,7 +63,7 @@
 </div>
 
 
-<img class="line_style" th:src="@{/images/line.jpg}" style="margin-bottom: 30px;margin-top: 20px">
+<img class="line_style" th:src="@{/images/line.jpg}" style="margin-bottom: 20px;margin-top: 20px">
 
 <div class="container" style="margin-left: 20px">
     <img th:src="@{/images/lable.jpg}" width="5" height="26">
@@ -72,6 +72,34 @@
 
 <div style="width: 95%;height:400px; align-content: center; text-align: center; margin-left: 20px">
     <div id="container" style="width: 100%;height:100%;"></div>
+</div>
+
+<img class="line_style" th:src="@{/images/line.jpg}" style="margin-top: 50px">
+
+<div class="container" style="margin: 20px">
+    <img th:src="@{/images/lable.jpg}" width="5" height="26">
+    <p style="font-weight: bold; margin-left: 6px">会员储值明细</p>
+</div>
+
+<div align="center" style="margin-top: 10px; margin-bottom: 100px; width: 100%">
+    <table class="gridtablestyle" style="width: 95%; vertical-align: middle; table-layout: fixed;">
+        <tr style="width: 100%">
+            <th>会员名称</th>
+            <th>储值金额</th>
+            <th>充值时间</th>
+
+        </tr>
+        <tr th:each="item:${listDetailData}">
+
+            <td th:text="${item.customerName}"></td>
+            <td th:text="${item.salesAmount}"></td>
+            <td th:text="${item.createDate}"></td>
+
+        </tr>
+        <tr style="width: 100%">
+            <th width="100%" colspan="3">合计：储值总单数：<span style="margin-right: 88px" th:text="${totalCount}"></span>储值总金额：<span th:text="${totalAmount}"></span></th>
+        </tr>
+    </table>
 </div>
 
 <script th:inline="javascript">
