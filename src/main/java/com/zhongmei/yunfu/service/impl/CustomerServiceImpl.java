@@ -168,7 +168,7 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
             eWrapper.ge("card_expire_date", DateFormatUtil.formatDate(new Date()));
         }
         eWrapper.gt("consumption_last_time", searchModel.getConsumptionLastTime());
-        eWrapper.orderBy("card_expire_date");
+        eWrapper.orderBy("IFNULL(card_expire_date, '9999-99-99')");
         Page<CustomerEntity> page = new Page<>(searchModel.getPageNo(), searchModel.getPageSize());
         return selectPage(page, eWrapper);
     }
