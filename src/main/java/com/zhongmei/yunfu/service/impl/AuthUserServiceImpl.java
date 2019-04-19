@@ -101,12 +101,12 @@ public class AuthUserServiceImpl extends ServiceImpl<AuthUserMapper, AuthUserEnt
     @Override
     public List<UserSalaryReport> querUserSaleryReport(AuthUserModel mAuthUserModel) throws Exception {
         Condition eWrapper = ConditionFilter.create();
-        eWrapper.isWhere(true);
         eWrapper.eq("t.brand_identy", mAuthUserModel.getBrandIdenty());
         eWrapper.eq("t.shop_identy", mAuthUserModel.getShopIdenty());
         eWrapper.eq("t.trade_status", 4);
         eWrapper.eq("t.status_flag", 1);
         eWrapper.between("t.server_create_time", mAuthUserModel.getStartDate(), mAuthUserModel.getEndDate());
+
         List<UserSalaryReport> listData = baseMapper.querUserSaleryReport(eWrapper);
         return listData;
     }
@@ -114,7 +114,6 @@ public class AuthUserServiceImpl extends ServiceImpl<AuthUserMapper, AuthUserEnt
     @Override
     public List<UserSalaryReport> querUserSaleryDetailReport(AuthUserModel mAuthUserModel) throws Exception {
         Condition eWrapper = ConditionFilter.create();
-        eWrapper.isWhere(true);
         eWrapper.eq("t.brand_identy", mAuthUserModel.getBrandIdenty());
         eWrapper.eq("t.shop_identy", mAuthUserModel.getShopIdenty());
         eWrapper.eq("t.trade_status", 4);
