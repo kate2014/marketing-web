@@ -22,12 +22,17 @@
     function exportExcel() {
         var brandIdenty = $("input[name='brandIdenty']").val();
         var shopIdenty = $("input[name='shopIdenty']").val();
-        var type = $("select[name='type']").val();
+
+        var type = document.getElementById("type").value;
         var name = $("input[name='name']").val();
         var tradeUser = $("input[name='tradeUser']").val();
         var customerName = $("input[name='customerName']").val();
+
+        document.getElementById("startDate").value = document.getElementById("diyStartDate").value;
+        document.getElementById("endDate").value = document.getElementById("diyEndDate").value;
         var startDate = $("input[name='startDate']").val();
         var endDate = $("input[name='endDate']").val();
+
         var params = "brandIdenty=" + brandIdenty +
             "&shopIdenty=" + shopIdenty +
             "&type=" + type +
@@ -59,7 +64,7 @@
             document.getElementById("startDate").value = document.getElementById("diyStartDate").value;
             document.getElementById("endDate").value = document.getElementById("diyEndDate").value;
         }
-        document.queryData.submit();
+        document.queryData.submit(document.getElementById("type").value);
 
     }
 </script>
@@ -74,10 +79,10 @@
             <div style="font-size: 12px;color: #12306f;font-weight: bold;margin-left: 20px">查询时间：</div>
 
             <div th:if="${mPurchSaleModel.searchDate} eq '1'">
-                <div class="lable_button_click_style" style="width: 90px" type="all" onclick="searchAction(1)">今天</div>
+                <div class="lable_button_click_style" style="width: 90px" onclick="searchAction(1)">今天</div>
             </div>
             <div th:if="${mPurchSaleModel.searchDate} ne '1'">
-                <div class="lable_button_style" style="width: 90px" type="all" onclick="searchAction(1)">今天</div>
+                <div class="lable_button_style" style="width: 90px" onclick="searchAction(1)">今天</div>
             </div>
 
 
@@ -96,7 +101,7 @@
             </div>
 
 
-            <div class="parent" style="margin-left: 10px;" type="membersLossCount">
+            <div class="parent" style="margin-left: 10px;">
                 <span style="font-size:10px;color: #707070;">自定义时间</span>
                 <input type="text" class="input_style" id="diyStartDate" placeholder="设置查询起始时间" th:value="${mPurchSaleModel.startDate}" style="margin-left: 5px">
                 <label class="text_navigation" style="margin-left: 5px">--</label>
