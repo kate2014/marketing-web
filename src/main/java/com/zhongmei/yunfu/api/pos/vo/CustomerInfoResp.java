@@ -11,7 +11,7 @@ public class CustomerInfoResp {
     public Long customerMainId;
     public String customerName;
     public String mobile;
-    public String tel;
+    public String hobby;
     public Integer sex;
     public Long levelId;
     public Long level;
