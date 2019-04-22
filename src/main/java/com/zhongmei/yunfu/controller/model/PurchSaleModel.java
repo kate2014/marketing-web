@@ -32,6 +32,8 @@ public class PurchSaleModel {
 
     private Integer searchType;
 
+    private Integer rquestSource;
+
     public String getName() {
         return name;
     }
@@ -150,5 +152,13 @@ public class PurchSaleModel {
 
     public void setSearchType(Integer searchType) {
         this.searchType = searchType;
+    }
+
+    public Integer getRquestSource() {
+        return rquestSource;
+    }
+
+    public void setRquestSource(Integer rquestSource) {
+        this.rquestSource = rquestSource;
     }
 }

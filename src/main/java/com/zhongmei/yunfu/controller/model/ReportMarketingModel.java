@@ -15,6 +15,8 @@ public class ReportMarketingModel {
 
     private String endDate;
 
+    private Integer rquestSource;
+
     public Long getShopIdenty() {
         return shopIdenty;
     }
@@ -45,5 +47,13 @@ public class ReportMarketingModel {
 
     public void setBrandIdenty(Long brandIdenty) {
         this.brandIdenty = brandIdenty;
+    }
+
+    public Integer getRquestSource() {
+        return rquestSource;
+    }
+
+    public void setRquestSource(Integer rquestSource) {
+        this.rquestSource = rquestSource;
     }
 }

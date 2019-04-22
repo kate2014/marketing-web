@@ -19,6 +19,8 @@ public class AuthUserModel {
 
     private String endDate;
 
+    private Integer rquestSource;
+
     public Long getBrandIdenty() {
         return brandIdenty;
     }
@@ -65,5 +67,13 @@ public class AuthUserModel {
 
     public void setEndDate(String endDate) {
         this.endDate = endDate;
+    }
+
+    public Integer getRquestSource() {
+        return rquestSource;
+    }
+
+    public void setRquestSource(Integer rquestSource) {
+        this.rquestSource = rquestSource;
     }
 }

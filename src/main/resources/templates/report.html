@@ -43,7 +43,7 @@
 
                 <div th:if="${havaAccountReport} eq '1'">
 
-                    <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty},requestUrlType=1)}" class="parent">
+                    <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty},requestUrlType=1,rquestSource=1)}" class="parent">
                         <div class="parent">
                             <img th:src="@{/images/report_accounts_icon.png}" class="image_size_style">
                             <span>每日对账报表</span>
@@ -52,7 +52,7 @@
                 </div>
 
                 <div th:if="${haveSalesReport} eq '1'">
-                    <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty},requestUrlType=2)}" class="parent">
+                    <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty},requestUrlType=2,rquestSource=1)}" class="parent">
                         <div class="parent">
                             <img th:src="@{/images/report_sales_icon.png}" class="image_size_style">
                             <span>营业报表</span>
@@ -61,7 +61,7 @@
                 </div>
 
                 <div th:if="${haveDishReport} eq '1'">
-                    <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty},requestUrlType=3)}" class="parent">
+                    <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty},requestUrlType=3,rquestSource=1)}" class="parent">
                         <div class="parent">
                             <img th:src="@{/images/report_dish_icon.png}" class="image_size_style">
                             <span>品项销售报表</span>
@@ -70,7 +70,7 @@
                 </div>
 
                 <div th:if="${haveCardTimeReport} eq '1'">
-                    <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty},requestUrlType=4)}" class="parent">
+                    <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty},requestUrlType=4,rquestSource=1)}" class="parent">
                         <div class="parent">
                             <img th:src="@{/images/report_card_time.png}" class="image_size_style">
                             <span>次卡销售报表</span>
@@ -78,7 +78,7 @@
                     </li>
                 </div>
                 <div th:if="${haveCustomerSaveReport} eq '1'">
-                    <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty},requestUrlType=5)}" class="parent">
+                    <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty},requestUrlType=5,rquestSource=1)}" class="parent">
                         <div class="parent">
                             <img th:src="@{/images/report_customer_sace.png}" class="image_size_style">
                             <span>储值报表</span>
@@ -87,7 +87,7 @@
                 </div>
 
                 <div th:if="${havaCustomerShopReport} eq '1'">
-                    <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty},requestUrlType=6)}" class="parent">
+                    <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty},requestUrlType=6,rquestSource=1)}" class="parent">
                         <div class="parent">
                             <img th:src="@{/images/customer_into_shop_report.png}" class="image_size_style">
                             <span>会员到店报表</span>
@@ -96,7 +96,7 @@
                 </div>
 
                 <div th:if="${havaStaffSalaryReport} eq '1'">
-                    <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty},requestUrlType=7)}" class="parent">
+                    <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty},requestUrlType=7,rquestSource=1)}" class="parent">
                         <div class="parent">
                             <img th:src="@{/images/report_staff_salary_icon.png}" class="image_size_style">
                             <span>员工业绩报表</span>
@@ -105,7 +105,7 @@
                 </div>
 
                 <div th:if="${haveDishSaveReport} eq '1'">
-                    <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty},requestUrlType=8)}" class="parent">
+                    <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty},requestUrlType=8,rquestSource=1)}" class="parent">
                         <div class="parent">
                             <img th:src="@{/images/report_purchase_icon.png}" class="image_size_style">
                             <span>进销存报表</span>
@@ -114,7 +114,7 @@
                 </div>
 
                 <div th:if="${haveDishPurchaseReport} eq '1'">
-                    <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty},requestUrlType=9)}" class="parent">
+                    <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty},requestUrlType=9,rquestSource=1)}" class="parent">
                         <div class="parent">
                             <img th:src="@{/images/report_save_dish_icon.png}" class="image_size_style">
                             <span>品项入库报表</span>
@@ -123,7 +123,7 @@
                 </div>
 
                 <div th:if="${haveMemberReport} eq '1'">
-                    <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty},requestUrlType=10)}" class="parent">
+                    <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty},requestUrlType=10,rquestSource=1)}" class="parent">
                         <div class="parent">
                             <img th:src="@{/images/report_customer_icon.png}" class="image_size_style">
                             <span>会员报表</span>
@@ -132,7 +132,7 @@
                 </div>
 
                 <div th:if="${haveMarketingReport} eq '1'">
-                    <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty},requestUrlType=11)}" class="parent">
+                    <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty},requestUrlType=11,rquestSource=1)}" class="parent">
                         <div class="parent">
                             <img th:src="@{/images/report_marketing_icon.png}" class="image_size_style">
                             <span>场景营销报表</span>
@@ -141,7 +141,7 @@
                 </div>
 
                 <div th:if="${haveCouponReport} eq '1'">
-                    <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty},requestUrlType=12)}" class="parent">
+                    <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty},requestUrlType=12,rquestSource=1)}" class="parent">
                         <div class="parent">
                             <img th:src="@{/images/report_coupon_icon.png}" class="image_size_style">
                             <span>优惠券报表</span>
@@ -150,7 +150,7 @@
                 </div>
 
                 <div th:if="${haveBookingReport} eq '1'">
-                    <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty},requestUrlType=13)}" class="parent">
+                    <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty},requestUrlType=13,rquestSource=1)}" class="parent">
                         <div class="parent">
                             <img th:src="@{/images/report_booking_icon.png}" class="image_size_style">
                             <span>预订报表</span>

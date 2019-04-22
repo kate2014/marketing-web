@@ -16,6 +16,8 @@ public class BookingSearchModel {
 
     private Integer orderStatus;
 
+    private Integer rquestSource;
+
     public Long getCommercialId() {
         return commercialId;
     }
@@ -70,5 +72,13 @@ public class BookingSearchModel {
 
     public void setOrderStatus(Integer orderStatus) {
         this.orderStatus = orderStatus;
+    }
+
+    public Integer getRquestSource() {
+        return rquestSource;
+    }
+
+    public void setRquestSource(Integer rquestSource) {
+        this.rquestSource = rquestSource;
     }
 }

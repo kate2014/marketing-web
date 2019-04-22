@@ -2,13 +2,15 @@ package com.zhongmei.yunfu.controller.model;
 
 public class LoadingModel {
 
-    Long brandIdenty;
+    private Long brandIdenty;
 
-    Long shopIdenty;
+    private Long shopIdenty;
 
-    Integer requestUrlType;
+    private Integer requestUrlType;
 
     private String requestUrl;
+
+    private Integer rquestSource;//来源：1 web商家后台 2：POS端
 
     public Long getBrandIdenty() {
         return brandIdenty;
@@ -40,5 +42,13 @@ public class LoadingModel {
 
     public void setRequestUrl(String requestUrl) {
         this.requestUrl = requestUrl;
+    }
+
+    public Integer getRquestSource() {
+        return rquestSource;
+    }
+
+    public void setRquestSource(Integer rquestSource) {
+        this.rquestSource = rquestSource;
     }
 }

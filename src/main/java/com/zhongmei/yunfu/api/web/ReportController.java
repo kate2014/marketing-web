@@ -40,6 +40,18 @@ public class ReportController {
     @RequestMapping("/salesReport")
     public String reportSalse(Model model, TradeModel mTradeModel) {
 
+        createData(model,mTradeModel);
+
+        return "report";
+    }
+
+    @RequestMapping("/posReport")
+    public String posReport(Model model, TradeModel mTradeModel){
+        createData(model,mTradeModel);
+        return "pos_report_main";
+    }
+
+    public void createData(Model model, TradeModel mTradeModel){
         model.addAttribute("brandIdenty", mTradeModel.getBrandIdenty());
         model.addAttribute("shopIdenty", mTradeModel.getShopIdenty());
 
@@ -165,10 +177,6 @@ public class ReportController {
         }else{
             model.addAttribute("havaCustomerShopReport", 1);
         }
-
-
-
-        return "report";
     }
 
     @RequestMapping("/main")

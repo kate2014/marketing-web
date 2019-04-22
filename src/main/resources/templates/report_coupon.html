@@ -21,6 +21,21 @@
 
 <body>
 
+<div th:if="${mReportMarketingModel.rquestSource} eq '2'">
+    <div class="parent top_view_style">
+
+        <img th:src="@{/images/lable.jpg}" width="5" height="26" style="margin-left: 20px">
+
+        <label class="text_navigation" style="margin-left: 20px">优惠券报表</label>
+
+
+        <div class="parent container" style="margin-left: 82%; cursor: pointer" onclick="avascript :history.back(-1);">
+            <img th:src="@{/images/back_icon.png}" src="../static/images/back_icon.png" width="21" height="21">
+            <label class="text_navigation" style="margin-left: 10px">返回</label>
+        </div>
+
+    </div>
+</div>
 
 <form method="post" action="" th:action="@{/internal/marketingReport/coupon}" th:object="${mReportMarketingModel}">
     <div style="margin-top: 20px">
@@ -47,9 +62,9 @@
     </div>
 </form>
 
-<img class="line_style" th:src="@{/images/line.jpg}" style="margin-bottom: 30px;margin-top: 20px">
+<img class="line_style" th:src="@{/images/line.jpg}" style="margin-top: 20px">
 
-<div class="container" style="margin-left: 20px">
+<div class="container" style="margin: 20px">
     <img th:src="@{/images/lable.jpg}" width="5" height="26">
     <p style="font-weight: bold; margin-left: 6px">优惠券投放、使用情况</p>
 </div>
