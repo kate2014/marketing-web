@@ -65,6 +65,7 @@ public class CustomerPosApi extends PosApiController {
         customerResp.sex = customer.getGender();
         customerResp.birthday = DateFormatUtil.formatDate(customer.getBirthday());
         customerResp.mobile = customer.getMobile();
+        customerResp.hobby = customer.getHobby();
         customerResp.address = customer.getAddress();
         customerResp.isDisable = (customer.getEnabledFlag() == EnabledFlag.DISABLED.value()) ? 1 : 2;
         customerResp.levelId = customer.getGroupLevelId();
