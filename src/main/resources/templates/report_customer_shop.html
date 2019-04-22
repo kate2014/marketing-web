@@ -97,7 +97,10 @@
 
 
 <img class="line_style" th:src="@{/images/line.jpg}" style="margin-top: 50px">
-
+<div class="container" style="margin: 20px">
+    <img th:src="@{/images/lable.jpg}" width="5" height="26">
+    <p style="font-weight: bold; margin-left: 6px">会员到店详情</p>
+</div>
 
 <script th:inline="javascript">
 
@@ -222,7 +225,7 @@
 
         </tr>
         <tr style="width: 100%">
-            <th width="15%" colspan="5">合计：到店会员数：<span style="margin-right: 88px" th:text="${totalCustomer}"></span>消费总额：<span th:text="${totalAmount}"></span></th>
+            <th width="100%" colspan="5">合计：到店会员数：<span style="margin-right: 88px" th:text="${totalCustomer}"></span>消费总额：<span th:text="${totalAmount}"></span></th>
         </tr>
     </table>
 </div>

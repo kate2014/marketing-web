@@ -63,6 +63,10 @@ public interface TradeMapper extends BaseMapper<TradeEntity> {
             "order by date_format(trade_time,'%Y-%m-%d'); ")
     List<CustomerSaveReport> queryCustomerSave(@Param("ew") Condition wrapper);
 
+    @Select("SELECT t.`trade_amount` as salesAmount, tc.`customer_name` as customerName,t.`server_create_time` as createDate  FROM `trade_customer` tc LEFT JOIN `trade` t on tc.`trade_id` = t.`id` \n" +
+            "${ew.sqlSegment} \n" +
+            "ORDER BY trade_time desc;\n")
+    List<CustomerSaveReport> customerSaveDetailReport(@Param("ew") Condition wrapper);
 
     @Select("SELECT \n" +
             "t.`server_create_time` AS tradeDate,\n" +

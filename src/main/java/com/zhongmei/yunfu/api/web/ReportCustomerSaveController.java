@@ -67,6 +67,7 @@ public class ReportCustomerSaveController {
 
             Long maxCount = 0l;
             Long maxAmount = 0l;
+            BigDecimal totalAmount = BigDecimal.ZERO;
 
             for (CustomerSaveReport dp : listData) {
 
@@ -80,7 +81,7 @@ public class ReportCustomerSaveController {
                 if (maxAmount < dp.getSalesAmount().longValue()) {
                     maxAmount = dp.getSalesAmount().longValue();
                 }
-
+                totalAmount = totalAmount.add(dp.getSalesAmount());
             }
 
 
@@ -97,6 +98,12 @@ public class ReportCustomerSaveController {
             model.addAttribute("listTradeCount", listTradeCount);
             model.addAttribute("listSalesAmount", listSalesAmount);
             model.addAttribute("listCreateDate", listCreateDate);
+
+            //储值详情
+            List<CustomerSaveReport> listDetailData = mTradeService.customerSaveDetailReport(mTradeModel);
+            model.addAttribute("listDetailData", listDetailData);
+            model.addAttribute("totalCount", listDetailData.size());
+            model.addAttribute("totalAmount", totalAmount);
 
         }catch (Exception e){
             e.printStackTrace();
@@ -121,16 +128,16 @@ public class ReportCustomerSaveController {
     @RequestMapping("/export/excel")
     public void exportExcel(HttpServletResponse response, TradeModel mTradeModel) throws Exception{
 
-        mTradeModel.setBusinessType(2);
-        List<CustomerSaveReport> listData = mTradeService.customerSaveReport(mTradeModel);
+        //储值详情
+        List<CustomerSaveReport> listData = mTradeService.customerSaveDetailReport(mTradeModel);
 
         ExcelData data = new ExcelData();
         data.setSheetName("储值报表");
         List<String> titles = new ArrayList();
         titles.add("序");
-        titles.add("交易日期");
-        titles.add("储值单数");
+        titles.add("会员名称");
         titles.add("储值金额");
+        titles.add("储值时间");
 
         data.setTitles(titles);
 
@@ -143,9 +150,9 @@ public class ReportCustomerSaveController {
                 List<Object> row = new ArrayList();
                 rows.add(row);
                 row.add(i++);
-                row.add(entity.getCreateDate());
-                row.add(entity.getTradeCount());
+                row.add(entity.getCustomerName());
                 row.add(entity.getSalesAmount());
+                row.add(entity.getCreateDate());
             }
         }
 

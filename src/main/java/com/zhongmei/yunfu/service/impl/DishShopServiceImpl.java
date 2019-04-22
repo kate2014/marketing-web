@@ -195,12 +195,13 @@ public class DishShopServiceImpl extends ServiceImpl<DishShopMapper, DishShopEnt
         if(dishId == null || shopIdentity == null){
             return false;
         }
-        EntityWrapper<DishShopEntity> eWrapper = new EntityWrapper<>(new DishShopEntity());
-        eWrapper.eq("brand_identy",brandIdentity);
-        eWrapper.eq("shop_identy",shopIdentity);
-        eWrapper.eq("id",dishId);
 
-        Boolean isSuccess = delete(eWrapper);
+        DishShopEntity mDishShopEntity = new DishShopEntity();
+        mDishShopEntity.setBrandIdenty(brandIdentity);
+        mDishShopEntity.setShopIdenty(shopIdentity);
+        mDishShopEntity.setId(dishId);
+        mDishShopEntity.setStatusFlag(2);
+        Boolean isSuccess = updateById(mDishShopEntity);
         return isSuccess;
     }
 

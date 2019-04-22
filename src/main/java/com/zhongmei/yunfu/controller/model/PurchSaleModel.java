@@ -28,6 +28,10 @@ public class PurchSaleModel {
 
     private String customerName;
 
+    private Integer searchDate;
+
+    private Integer searchType;
+
     public String getName() {
         return name;
     }
@@ -130,5 +134,21 @@ public class PurchSaleModel {
 
     public void setCustomerName(String customerName) {
         this.customerName = customerName;
+    }
+
+    public Integer getSearchDate() {
+        return searchDate;
+    }
+
+    public void setSearchDate(Integer searchDate) {
+        this.searchDate = searchDate;
+    }
+
+    public Integer getSearchType() {
+        return searchType;
+    }
+
+    public void setSearchType(Integer searchType) {
+        this.searchType = searchType;
     }
 }

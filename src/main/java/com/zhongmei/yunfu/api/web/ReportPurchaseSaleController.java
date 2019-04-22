@@ -249,6 +249,15 @@ public class ReportPurchaseSaleController {
         try {
 
             List<DishSaleReport> listDishSale = queryDishSale(mPurchSaleModel);
+            BigDecimal totalCount = BigDecimal.ZERO;
+            BigDecimal totalAmount = BigDecimal.ZERO;
+            for(DishSaleReport entity : listDishSale){
+                totalCount = totalCount.add(entity.getNumber());
+                totalAmount = totalAmount.add(entity.getActualAmount());
+            }
+
+            model.addAttribute("totalCount", totalCount);
+            model.addAttribute("totalAmount", totalAmount);
             model.addAttribute("listData", listDishSale);
             model.addAttribute("mPurchSaleModel", mPurchSaleModel);
 
@@ -261,6 +270,43 @@ public class ReportPurchaseSaleController {
     }
 
     public List<DishSaleReport> queryDishSale(PurchSaleModel mPurchSaleModel)throws Exception{
+
+        if(mPurchSaleModel.getStartDate() == null || mPurchSaleModel.getEndDate() == null || mPurchSaleModel.getStartDate().equals("") || mPurchSaleModel.getEndDate().equals("")){
+
+            if(mPurchSaleModel.getSearchDate() == null){
+                mPurchSaleModel.setSearchDate(1);
+            }
+
+            int searchDate = mPurchSaleModel.getSearchDate();
+
+            Calendar cal=Calendar.getInstance();
+            cal.add(Calendar.DATE,0);
+
+            if(searchDate == 1){
+                cal.add(Calendar.DATE,0);
+            }else if(searchDate == 2){
+                cal.add(Calendar.DATE,-1);
+            }else if(searchDate == 3){
+                cal.add(Calendar.DATE,-2);
+            }
+
+            Date d=cal.getTime();
+            SimpleDateFormat sp=new SimpleDateFormat("yyyy-MM-dd");
+            String ZUOTIAN=sp.format(d);//获取昨天日期
+
+            String startDate = ZUOTIAN + " 00:00:00";
+            String endDate = ZUOTIAN + " 23:59:59";
+
+            mPurchSaleModel.setStartDate(startDate);
+            mPurchSaleModel.setEndDate(endDate);
+        }
+
+        if(mPurchSaleModel.getSearchType() == null){
+            mPurchSaleModel.setSearchType(0);
+        }
+
+
+
         //设置默认查询时间
         if (mPurchSaleModel.getStartDate() == null) {
             Calendar c = Calendar.getInstance();
