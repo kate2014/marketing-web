@@ -29,7 +29,7 @@
         <label class="text_navigation" style="margin-left: 20px">优惠券报表</label>
 
 
-        <div class="parent container" style="margin-left: 82%; cursor: pointer" onclick="avascript :history.back(-1);">
+        <div class="parent container" style="margin-left: 80%; cursor: pointer" th:onclick="@{|location='${basePath}/internal/report/posReport?brandIdenty=${mReportMarketingModel.brandIdenty}&shopIdenty=${mReportMarketingModel.shopIdenty}'|}">
             <img th:src="@{/images/back_icon.png}" src="../static/images/back_icon.png" width="21" height="21">
             <label class="text_navigation" style="margin-left: 10px">返回</label>
         </div>
@@ -43,6 +43,8 @@
         <input type="hidden" name="brandIdenty" th:value="${mReportMarketingModel.brandIdenty}">
 
         <input type="hidden" name="shopIdenty" th:value="${mReportMarketingModel.shopIdenty}">
+
+        <input type="hidden" name="rquestSource" th:value="${mReportMarketingModel.rquestSource}">
 
         <!--<label class="text_navigation" style="margin-left: 20px">状态</label>-->
         <!--<select class="select_min_style" name="shopIdenty" style="margin-left: 5px">-->

@@ -79,7 +79,7 @@
         <label class="text_navigation" style="margin-left: 20px">每日对账报表</label>
 
 
-        <div class="parent container" style="margin-left: 82%; cursor: pointer" onclick="avascript :history.back(-1);">
+        <div class="parent container" style="margin-left: 80%; cursor: pointer" th:onclick="@{|location='${basePath}/internal/report/posReport?brandIdenty=${mPurchSaleModel.brandIdenty}&shopIdenty=${mPurchSaleModel.shopIdenty}'|}">
             <img th:src="@{/images/back_icon.png}" src="../static/images/back_icon.png" width="21" height="21">
             <label class="text_navigation" style="margin-left: 10px">返回</label>
         </div>
@@ -165,6 +165,8 @@
                 <input type="hidden" id="startDate" name = "startDate">
                 <input type="hidden" id="endDate" name = "endDate">
 
+                <input type="hidden" name="rquestSource" th:value="${mPurchSaleModel.rquestSource}">
+
                 <span style="font-size: 12px;color: #12306f;font-weight: bold;margin-left: 20px">筛选条件：</span>
 
                 <span style="font-size:10px;color: #707070;">品项名称</span>
@@ -178,7 +180,7 @@
 
             <button class="orange_mine_button_style" value="" onclick="searchAction(7)" style="margin-left: 20px;">查询</button>
 
-            <div class="parent" id="export_excel" onclick="exportExcel()" style="margin-left: 20px;margin-top: 5px;cursor:pointer;width: 150px">
+            <div class="parent" id="export_excel" onclick="exportExcel()" style="margin-left: 20px;margin-top: 5px;cursor:pointer;width: 150px" th:if="${mPurchSaleModel.rquestSource} eq '1'">
                 <img th:src="@{/images/excel_icon.png}" src="../static/images/excel_icon.png" style="width: 21px;height: 21px">
                 <span style="font-size: 10px;margin-left: 6px">数据导出</span>
             </div>

@@ -48,7 +48,7 @@
         <label class="text_navigation" style="margin-left: 20px">品项入口报表</label>
 
 
-        <div class="parent container" style="margin-left: 82%; cursor: pointer" onclick="avascript :history.back(-1);">
+        <div class="parent container" style="margin-left: 80%; cursor: pointer" th:onclick="@{|location='${basePath}/internal/report/posReport?brandIdenty=${mPurchSaleModel.brandIdenty}&shopIdenty=${mPurchSaleModel.shopIdenty}'|}">
             <img th:src="@{/images/back_icon.png}" src="../static/images/back_icon.png" width="21" height="21">
             <label class="text_navigation" style="margin-left: 10px">返回</label>
         </div>
@@ -63,6 +63,8 @@
             <input type="hidden" name="brandIdenty" th:value="${mPurchSaleModel.brandIdenty}">
 
             <input type="hidden" name="shopIdenty" th:value="${mPurchSaleModel.shopIdenty}">
+
+            <input type="hidden" name="rquestSource" th:value="${mPurchSaleModel.rquestSource}">
 
             <label class="text_navigation" style="margin-left: 10px">类型</label>
             <select class="select_style" name="type" style="margin-left: 5px">
@@ -85,7 +87,7 @@
             <button class="orange_mine_button_style" value="" onclick="this" style="margin-left: 5px">查询</button>
 
         </form>
-        <div class="parent" id="export_excel" onclick="exportExcel()" style="margin-left: 5px;cursor:pointer;">
+        <div class="parent" id="export_excel" onclick="exportExcel()" style="margin-left: 5px;cursor:pointer;" th:if="${mPurchSaleModel.rquestSource} eq '1'">
             <img th:src="@{/images/excel_icon.png}" src="../static/images/excel_icon.png" style="width: 21px;height: 21px">
             <span style="font-size: 10px;margin-left: 6px">数据导出</span>
         </div>

@@ -1,5 +1,6 @@
 package com.zhongmei.yunfu.api.web;
 
+import com.zhongmei.yunfu.domain.entity.AuthUserEntity;
 import com.zhongmei.yunfu.domain.entity.CommercialEntity;
 import com.zhongmei.yunfu.service.*;
 import com.zhongmei.yunfu.util.DateFormatUtil;
@@ -75,6 +76,20 @@ public class ReportController {
                 LoginManager.get().getUser().setShopIdenty(shopId);
             }else{
                 shopId = LoginManager.get().getUser().getShopIdenty();
+            }
+        }else{
+            LoginManager.get().setLoginUser(new AuthUserEntity());
+
+            if(creatorId != null && !creatorId.equals("")){
+                LoginManager.get().getUser().setCreatorId(creatorId);
+            }
+
+            if(creatorName != null && !creatorName.equals("")){
+                LoginManager.get().getUser().setCreatorName(creatorName);
+            }
+
+            if(shopId != null && !shopId.equals("")){
+                LoginManager.get().getUser().setShopIdenty(shopId);
             }
         }
 
