@@ -13,7 +13,11 @@
 
 <body>
 
-<div class="parent_h container" style="padding-top: 10%">
+<div class="container parent_h" style="margin-top: 30px">
+    <img th:src="@{/images/empty.png}" src="../static/images/empty.png" style="height: 88px;width: auto">
+    <p class="tips_fail_mini_text_style" style="margin-left: 20px">门店报表信息</p>
+</div>
+<div class="parent_h container" style="padding-top: 5%">
 
     <div th:if="${havaAccountReport} eq '1'" class="parent gary_card_bg_style" th:onclick="@{|location='${basePath}/internal/request/loading?brandIdenty=${brandIdenty}&shopIdenty=${shopIdenty}&requestUrlType=1&rquestSource=2'|}">
         <img th:src="@{/images/report_accounts_icon.png}" class="icon_style">
