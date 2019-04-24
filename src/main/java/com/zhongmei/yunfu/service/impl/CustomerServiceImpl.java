@@ -504,13 +504,13 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
 
     @Override
     public List<CustomerEntity> queryAllCustomer(Long brandIdenty, Long shopIdenty) throws Exception {
-        EntityWrapper<CustomerEntity> eWrapper = new EntityWrapperFilter<>();
+
+        Condition eWrapper = ConditionFilter.create();
         eWrapper.eq("brand_identy", brandIdenty);
         eWrapper.eq("shop_identy", shopIdenty);
         eWrapper.eq("enabled_flag", 1);
         eWrapper.eq("status_flag", 1);
-
-        List<CustomerEntity> listCustomer = selectList(eWrapper);
+        List<CustomerEntity> listCustomer = baseMapper.selectAllCustomer(eWrapper);
         return listCustomer;
     }
 

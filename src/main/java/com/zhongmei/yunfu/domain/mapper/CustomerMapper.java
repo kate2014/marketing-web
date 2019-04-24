@@ -186,4 +186,9 @@ public interface CustomerMapper extends BaseMapper<CustomerEntity> {
             "${ew.sqlSegment} \n" +
             "ORDER BY t.`trade_time` desc;")
     List<CustomerReport> customerShopDetailReport(@Param("ew") Condition wrapper);
+
+    @Select("SELECT * from ((SELECT * FROM `customer`  WHERE `source_id` = 2 and `relate_id` = 0  ${ew.sqlSegment} )\n" +
+            "UNION \n" +
+            "(SELECT * from `customer` WHERE `source_id` = 1 ${ew.sqlSegment})) a")
+    List<CustomerEntity> selectAllCustomer(@Param("ew") Condition wrapper);
 }
