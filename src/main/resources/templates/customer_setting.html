@@ -177,6 +177,30 @@
         </div>
     </form>
 
+    <!--储值支付是否需要密码-->
+    <form method="post" name="scoreS" action="" th:action="@{/internal/customerScoreRule/modify}" th:object="${CustomerScoreRuleModel}">
+        <input type="hidden" name="shopIdenty" th:value="${levelRule.shopIdenty}">
+        <input type="hidden" name="brandIdenty" th:value="${levelRule.brandIdenty}">
+        <input type="hidden" name="creatorId" th:value="${levelRule.creatorId}">
+        <input type="hidden" name="creatorName" th:value="${levelRule.creatorName}">
+        <input type="hidden" name="idS" th:value="${cusRM.idS}">
+        <input type="hidden" name="typeS" value="1">
+        <div style="margin: 20px;padding: 20px" class="modle_background_style">
+            <div class="parent">
+                <img th:src="@{/images/lable.jpg}" style="height: 25px; width: 4px">
+                <label class="text_navigation" style="margin-left: 10px; font-weight: bold">储值支付密码设置</label>
+            </div>
+            <div style="margin-top: 15px">
+                <label class="text_navigation" style="margin-left: 10px">会员储值支付时是否需要密码验证：</label>
+                <input class="input_style" placeholder="输入转换成长值" style="margin-left: 5px" type="text" th:value="${cusRM.convertValueS}" name="convertValueS"/>
+            </div>
+            <div style="margin-top: 15px">
+                <button class="blue_button_style" onclick="submitRuleSForm()" style="margin-left: 10px">保存</button>
+                <button class="gray_button_style" th:onclick="this" style="margin-left: 10px">取消</button>
+            </div>
+        </div>
+    </form>
+
     <!-- 会员查询规则 -->
     <form method="post" name="levelRule" action="" th:action="@{/internal/customer/search/rule/save}" th:object="${searchRuleEntity}">
 

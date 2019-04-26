@@ -1,7 +1,8 @@
-package com.zhongmei.yunfu.controller;
+package com.zhongmei.yunfu.controller.brand;
 
 
 import com.baomidou.mybatisplus.plugins.Page;
+import com.zhongmei.yunfu.controller.BaseController;
 import com.zhongmei.yunfu.controller.model.AuthUserModel;
 import com.zhongmei.yunfu.controller.model.PaymentItemModel;
 import com.zhongmei.yunfu.controller.model.ShopSearchModel;
@@ -22,7 +23,7 @@ import java.util.*;
 
 @Controller
 @RequestMapping("/internal/brand")
-public class BrandMainController extends BaseController{
+public class BrandMainController extends BaseController {
 
     @Autowired
     TradeService mTradeService;
@@ -266,38 +267,6 @@ public class BrandMainController extends BaseController{
         model.addAttribute("listPayName", listPayName);
         model.addAttribute("listPayAmount", listPayAmount);
         model.addAttribute("listPayCount", listPayCount);
-    }
-
-    /**
-     * 门店业绩排名
-     * @param model
-     * @param mTradeModel
-     * @param start
-     * @param end
-     * @return
-     * @throws Exception
-     */
-    public Model orderByShop(Model model, TradeModel mTradeModel, Date start, Date end) throws Exception {
-
-
-        return model;
-    }
-
-    @RequestMapping({"/shopList"})
-    public String shopList(Model model, ShopSearchModel mShopSearchModel) {
-
-        try {
-            Page<CommercialEntity> listCommercail = mCommercialService.queryCommercialList(mShopSearchModel,mShopSearchModel.getPageNo(), mShopSearchModel.getPageSize());
-
-            model.addAttribute("listShop",listCommercail.getRecords());
-            setWebPage(model, "/internal/brand/shopList", listCommercail, mShopSearchModel);
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-        model.addAttribute("mShopSearchModel", mShopSearchModel);
-        return "shop_list";
     }
 
 

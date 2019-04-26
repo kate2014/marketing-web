@@ -64,7 +64,7 @@
                                 </div>
                             </li>
 
-                            <li href="/" class="parent">
+                            <li th:href="@{/internal/brand/staffList(brandIdenty=${mAuthUserModel.brandIdenty},shopIdenty=${mAuthUserModel.shopIdenty},creatorId=${mAuthUserModel.creatorId},creatorName=${mAuthUserModel.creatorName})}" class="parent">
                                 <div class="parent">
                                     <img th:src="@{/images/brand_user_icon.png}" src="../static/images/brand_user_icon.png" class="image_size_style">
                                     <span>员工管理</span>
