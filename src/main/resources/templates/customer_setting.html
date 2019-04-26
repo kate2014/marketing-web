@@ -188,11 +188,11 @@
         <div style="margin: 20px;padding: 20px" class="modle_background_style">
             <div class="parent">
                 <img th:src="@{/images/lable.jpg}" style="height: 25px; width: 4px">
-                <label class="text_navigation" style="margin-left: 10px; font-weight: bold">储值支付密码设置</label>
+                <label class="text_navigation" style="margin-left: 10px; font-weight: bold">储值支付密码验证设置</label>
             </div>
             <div style="margin-top: 15px">
                 <label class="text_navigation" style="margin-left: 10px">会员储值支付时是否需要密码验证：</label>
-                <input class="input_style" placeholder="输入转换成长值" style="margin-left: 5px" type="text" th:value="${cusRM.convertValueS}" name="convertValueS"/>
+                <input type="radio" value="验证"/>
             </div>
             <div style="margin-top: 15px">
                 <button class="blue_button_style" onclick="submitRuleSForm()" style="margin-left: 10px">保存</button>

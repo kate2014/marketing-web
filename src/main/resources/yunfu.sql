@@ -1999,7 +1999,7 @@ CREATE TABLE `wx_trade_customer` (
 
 
 /*------- CREATE SQL---------*/
-DROP TABLE IF EXISTS  `setting_table`;
+DROP TABLE IF EXISTS  `shop_setting`;
 CREATE TABLE `setting_table` (
   `id` bigint(32) NOT NULL AUTO_INCREMENT,
   `key` varchar(32) NOT NULL COMMENT '设备标签',
