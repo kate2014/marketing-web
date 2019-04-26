@@ -1,6 +1,8 @@
 package com.zhongmei.yunfu.controller.model;
 
-public class AuthUserModel {
+import com.zhongmei.yunfu.controller.model.base.WebBaseModel;
+
+public class AuthUserModel extends WebBaseModel {
 
     /**
      * 品牌标识
