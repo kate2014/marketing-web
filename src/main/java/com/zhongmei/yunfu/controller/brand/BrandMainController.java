@@ -7,6 +7,7 @@ import com.zhongmei.yunfu.controller.model.AuthUserModel;
 import com.zhongmei.yunfu.controller.model.PaymentItemModel;
 import com.zhongmei.yunfu.controller.model.ShopSearchModel;
 import com.zhongmei.yunfu.controller.model.TradeModel;
+import com.zhongmei.yunfu.domain.entity.BrandEntity;
 import com.zhongmei.yunfu.domain.entity.CommercialEntity;
 import com.zhongmei.yunfu.domain.entity.DishReport;
 import com.zhongmei.yunfu.domain.entity.TradeEntity;
@@ -33,6 +34,8 @@ public class BrandMainController extends BaseController {
     PaymentItemService mPaymentItemService;
     @Autowired
     CommercialService mCommercialService;
+    @Autowired
+    BrandService mBrandService;
 
     @RequestMapping({"/main"})
     public String mianPage(Model model, AuthUserModel mAuthUserModel) {
@@ -145,6 +148,9 @@ public class BrandMainController extends BaseController {
 
             model.addAttribute("listTime", listTime);
             model.addAttribute("listAmount", listAmount);
+
+            BrandEntity mBrandEntity = mBrandService.queryBrandById(mAuthUserModel.getBrandIdenty());
+            model.addAttribute("mBrandEntity", mBrandEntity);
 
             return "brand_index";
         }catch (Exception e){
