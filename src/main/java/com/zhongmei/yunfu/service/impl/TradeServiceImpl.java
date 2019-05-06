@@ -5,10 +5,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
-import com.zhongmei.yunfu.controller.model.CustomerSaleModel;
-import com.zhongmei.yunfu.controller.model.ReportSalesExportModel;
-import com.zhongmei.yunfu.controller.model.TradeDataModel;
-import com.zhongmei.yunfu.controller.model.TradeModel;
+import com.zhongmei.yunfu.controller.model.*;
 import com.zhongmei.yunfu.core.mybatis.mapper.ConditionFilter;
 import com.zhongmei.yunfu.domain.entity.*;
 import com.zhongmei.yunfu.domain.mapper.TradeMapper;
@@ -370,6 +367,20 @@ public class TradeServiceImpl extends ServiceImpl<TradeMapper, TradeEntity> impl
 
         List<CustomerSaleModel> listData = baseMapper.queryCustomerSaleDetail(eWrapper);
 
+        return listData;
+    }
+
+    @Override
+    public List<TradePrivilageReport> queryTradePrivilage(ReportMarketingModel mReportMarketingModel) throws Exception {
+        Condition eWrapper = ConditionFilter.create();
+        eWrapper.eq("t.brand_identy", mReportMarketingModel.getBrandIdenty());
+        eWrapper.eq("t.shop_identy", mReportMarketingModel.getShopIdenty());
+        eWrapper.eq("t.status_flag", 1);
+        eWrapper.eq("t.trade_status", 4);
+        eWrapper.eq("p.privilege_type", mReportMarketingModel.getPrivilageType());
+        eWrapper.between("t.server_create_time", mReportMarketingModel.getStartDate(), mReportMarketingModel.getEndDate());
+
+        List<TradePrivilageReport> listData = baseMapper.queryTradePrivilage(eWrapper);
         return listData;
     }
 }

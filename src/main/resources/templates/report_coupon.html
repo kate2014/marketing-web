@@ -78,7 +78,7 @@
 </div>
 
 <img class="line_style" th:src="@{/images/line.jpg}" style="margin-top: 50px">
-<div class="parent" style="margin-top: 30px;margin-bottom: 80px">
+<div class="parent" style="margin-top: 30px;margin-bottom: 20px">
     <div class="bgimage" style="margin-bottom: 100px;">
         <p class="message_style" style="margin-top: 20px">优惠券投放总数：<lable class="name_style" th:text="${total}"></lable>张</p>
         <p class="message_style">优惠券已使用数：<lable class="name_style" th:text="${used}"></lable>张</p>
@@ -90,6 +90,25 @@
         <div id="useProportion" style="width: 100%;height:400px;"></div>
         <p style="font-weight: bold; margin-left: 6px">优惠券投放、使用占比</p>
     </div>
+</div>
+
+<img class="line_style" th:src="@{/images/line.jpg}" style="margin-bottom: 20px;margin-top: 20px">
+
+<div class="container" style="margin-left: 20px">
+    <img th:src="@{/images/lable.jpg}" width="5" height="26">
+    <p style="font-weight: bold; margin-left: 6px">带动消费信息</p>
+</div>
+
+<div class="parent_h">
+    <div class="parent_h container tradeprivilageBg">
+        带动消费总金额:   <span th:text="${totalAmount}" style="margin-right: 50px"></span>
+        带动消费总单数:   <span th:text="${totalCount}"></span>
+    </div>
+</div>
+
+
+<div style="width: 98%;height:500px; align-content: center; text-align: center;margin-top: 20px;margin-bottom: 30px">
+    <div id="privilageContainer" style="width: 100%;height:100%;"></div>
 </div>
 
 
@@ -201,6 +220,91 @@
                     {value:[[${used}]], name:'已使用'},
 
                 ]
+            }
+        ]
+    };
+    ;
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+
+
+    //=============带动储值消费================
+    var dom = document.getElementById("privilageContainer");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '带动储值消费';
+
+    option = {
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        toolbox: {
+            feature: {
+                dataView: {show: true, readOnly: false},
+                magicType: {show: true, type: ['line', 'bar']},
+                restore: {show: true},
+                saveAsImage: {show: true}
+            }
+        },
+        legend: {
+            data:['带动消费金额','带动消费单量']
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: [[${privilageNameList}]],
+                axisPointer: {
+                    type: 'shadow'
+                },
+                axisLabel:{
+                    interval:0,
+                    rotate:20
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '带动消费金额',
+                min: 0,
+                max: [[${maxAmount}]],
+                interval: [[${intervalAmount}]],
+                axisLabel: {
+                    formatter: '{value} 元'
+                }
+            },
+            {
+                type: 'value',
+                name: '带动消费单量',
+                min: 0,
+                max: [[${maxCount}]],
+                interval: [[${intervalCount}]],
+                axisLabel: {
+                    formatter: '{value} 笔'
+                }
+            }
+
+        ],
+        series: [
+            {
+                name:'带动消费金额',
+                type:'bar',
+                barMaxWidth : 30,//柱图宽度
+                data:[[${amountList}]]
+            },
+            {
+                name:'带动消费单量',
+                type:'line',
+                yAxisIndex: 1,
+                data:[[${countList}]]
             }
         ]
     };
