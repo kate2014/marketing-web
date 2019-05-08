@@ -1,5 +1,6 @@
-package com.zhongmei.yunfu;
+package com.zhongmei.yunfu.config;
 
+import com.zhongmei.yunfu.AuthLoginException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

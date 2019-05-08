@@ -1,4 +1,4 @@
-package com.zhongmei.yunfu;
+package com.zhongmei.yunfu.config;
 
 import com.alibaba.fastjson.JSON;
 import com.zhongmei.yunfu.api.ApiResponseStatusException;

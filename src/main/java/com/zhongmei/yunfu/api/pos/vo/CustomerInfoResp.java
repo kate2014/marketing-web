@@ -5,10 +5,10 @@ import java.util.List;
 
 public class CustomerInfoResp {
 
+    public Long id;
+    public String name;
     public Long brandId;
-    public Long memberId;
     public Long customerId;
-    public Long customerMainId;
     public String customerName;
     public String mobile;
     public String hobby;
@@ -17,50 +17,17 @@ public class CustomerInfoResp {
     public Long level;
     public String levelName;
     public String memo;
-    public String interest;
-    public String invoice;
-    public String invoiceTitle;
     public String address;
-    public String entityCard;
-    public Long groupId;
-    public String groupName;
     public String birthday;
     public Integer isDisable;
-    public String openId;
     public BigDecimal remainValue;
     public Integer integral;
     public Integer cardCount;
     public Integer coupCount;
-    public Double creditableValue;
-    public Double remainCreditValue;
-    public Double usedCreditValue;
     public String password;
     public Long commercialId;
     public String commercialName;
-    //public List<CustomerCardItem> cardList;
-    public Integer hasFaceCode;
-    public String faceCode;
-    public String peopleId;
-    public int faceGrade;
-    public String nation;
-    public String country;
-    public String nationalTelCode;
-    public Long localModifyDateTime;
-    public String synFlag;
     public Integer source = 1;
-    public Integer loginType;
-    public String loginId;
-    public Long modifyDateTime;
-    public Long upgradeTime;
-    //public CustomerLevel customerLevel;
-    //public CrmCustomerLevelRights customerLevelRights;
-    public List<Long> customerLevelRightsDishs;
-    //public EcCard card;
-    public boolean needRefresh = false;
-    //public List<Card> otherCardList;
-    public boolean isLoginByCard;
-    public Long id;
-    public String name;
-    //public CustomerLoginType customerLoginType;
-    //public FaceFeatureVo mFaceFeatureVo;
+    public String cardNo;
+
 }

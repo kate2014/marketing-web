@@ -1,6 +1,6 @@
 package com.zhongmei.yunfu.thymeleaf;
 
-import com.zhongmei.yunfu.WebAppConfig;
+import com.zhongmei.yunfu.config.WebAppConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.support.RequestDataValueProcessor;
 

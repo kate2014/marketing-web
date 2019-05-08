@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongmei.yunfu.domain.mapper.CustomerMapper">
+
+    <resultMap id="customerMap" type="com.zhongmei.yunfu.domain.entity.CustomerEntity">
+        <result property="groupLevelId"         column="group_level_id"/>
+        <result property="groupLevel"           column="group_level"/>
+        <result property="relateId"             column="relate_id"/>
+        <result property="thirdId"              column="third_id"/>
+        <result property="integralTotal"        column="integral_total"/>
+        <result property="integralUsed"         column="integral_used"/>
+        <result property="sourceId"             column="source_id"/>
+        <result property="expandedId"           column="expanded_id"/>
+        <result property="consumptionLastTime"  column="consumption_last_time"/>
+        <result property="consumptionAmount"    column="consumption_amount"/>
+        <result property="consumptionNumber"    column="consumption_number"/>
+        <result property="storedBalance"        column="stored_balance"/>
+        <result property="storedBalanceUsed"    column="stored_balance_used"/>
+        <result property="cardResidueCount"     column="card_residue_count"/>
+        <result property="cardExpireDate"       column="card_expire_date"/>
+        <result property="shopIdenty"           column="shop_identy"/>
+        <result property="brandIdenty"          column="brand_identy"/>
+        <result property="enabledFlag"          column="enabled_flag"/>
+    </resultMap>
+
+    <select id="selectByKey"
+            parameterType="Long"
+            resultType="com.zhongmei.yunfu.domain.bean.CustomerInfo">
+        SELECT
+          c.*,
+          ce.id card_id,
+          ce.card_no
+        FROM
+          customer c
+          LEFT JOIN customer_entity_card ce
+            ON c.id = ce.customer_id
+        WHERE c.id = #{id}
+    </select>
+
+
+</mapper>

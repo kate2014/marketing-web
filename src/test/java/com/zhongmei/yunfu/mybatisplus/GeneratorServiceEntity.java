@@ -99,7 +99,8 @@ public class GeneratorServiceEntity {
                 "customer_search_rule",
                 "wx_form",
                 "commercial_group",
-                "system_version"
+                "system_version",
+                "customer_entity_card"
         );
     }
 
