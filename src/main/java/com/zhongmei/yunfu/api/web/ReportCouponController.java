@@ -1,5 +1,7 @@
 package com.zhongmei.yunfu.api.web;
 
+import com.zhongmei.yunfu.domain.entity.TradePrivilageReport;
+import com.zhongmei.yunfu.service.TradeService;
 import com.zhongmei.yunfu.util.DateFormatUtil;
 import com.zhongmei.yunfu.controller.model.ReportMarketingModel;
 import com.zhongmei.yunfu.domain.entity.BrandEntity;
@@ -27,7 +29,8 @@ public class ReportCouponController {
     BrandService mBrandService;
     @Autowired
     CommercialService mCommercialService;
-
+    @Autowired
+    TradeService mTradeService;
     /**
      * 优惠券数据报表
      * @param model
@@ -125,12 +128,67 @@ public class ReportCouponController {
             model.addAttribute("notUsedCount", notUsedCount);
 
             model.addAttribute("mReportMarketingModel", mReportMarketingModel);
+
+            queryTradePrivilageReport(model, mReportMarketingModel);
         } catch (Exception e) {
             e.printStackTrace();
 
         }
 
         return "report_coupon";
+    }
+
+    /**
+     * 查询优惠券拉动消费额
+     */
+    public void queryTradePrivilageReport(Model model, ReportMarketingModel mReportMarketingModel){
+        try{
+            //4为优惠券
+            mReportMarketingModel.setPrivilageType(4);
+            List<TradePrivilageReport> listData = mTradeService.queryTradePrivilage(mReportMarketingModel);
+            List<String> privilageNameList = new LinkedList<>();
+            List<BigDecimal> countList = new LinkedList<>();
+            List<BigDecimal> amountList = new LinkedList<>();
+
+            BigDecimal totalCount = BigDecimal.ZERO;
+            BigDecimal totalAmount = BigDecimal.ZERO;
+
+            Long maxCount = 0l;
+            Long maxAmount = 0l;
+
+            for(TradePrivilageReport tp : listData){
+                privilageNameList.add(tp.getPrivilageName());
+                countList.add(tp.getTradeCount());
+                amountList.add(tp.getTradeAmount());
+
+                totalCount = totalCount.add(tp.getTradeCount());
+                totalAmount = totalAmount.add(tp.getTradeAmount());
+
+                if (maxCount < tp.getTradeCount().longValue()) {
+                    maxCount = tp.getTradeCount().longValue();
+                }
+                if (maxAmount < tp.getTradeAmount().longValue()) {
+                    maxAmount = tp.getTradeAmount().longValue();
+                }
+            }
+
+
+            model.addAttribute("maxCount", maxCount);
+            model.addAttribute("intervalCount", maxCount / 10);
+            model.addAttribute("maxAmount", maxAmount);
+            model.addAttribute("intervalAmount", maxAmount / 10);
+
+            model.addAttribute("privilageNameList", privilageNameList);
+            model.addAttribute("countList", countList);
+            model.addAttribute("amountList", amountList);
+            model.addAttribute("totalCount", totalCount);
+            model.addAttribute("totalAmount", totalAmount);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
     }
 
     public Model queryShopMessage(Model model, ReportMarketingModel mReportMarketingModel) throws Exception {

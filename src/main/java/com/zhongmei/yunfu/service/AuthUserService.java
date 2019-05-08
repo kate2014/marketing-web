@@ -1,5 +1,6 @@
 package com.zhongmei.yunfu.service;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.IService;
 import com.zhongmei.yunfu.controller.model.AuthUserModel;
 import com.zhongmei.yunfu.domain.entity.AuthPermissionEntity;
@@ -71,5 +72,13 @@ public interface AuthUserService extends IService<AuthUserEntity> {
      * @throws Exception
      */
     List<UserSalaryReport> querUserSaleryDetailReport(AuthUserModel mAuthUserModel)throws Exception;
+
+    /**
+     * 获取品牌下所有员工
+     * @param mAuthUserModel
+     * @return
+     * @throws Exception
+     */
+    Page<AuthUserEntity> queryAuthUserByBrand(AuthUserModel mAuthUserModel,int curPage, int pageSize)throws Exception;
 
 }

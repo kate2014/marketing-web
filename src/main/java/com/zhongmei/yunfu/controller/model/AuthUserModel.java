@@ -1,6 +1,8 @@
 package com.zhongmei.yunfu.controller.model;
 
-public class AuthUserModel {
+import com.zhongmei.yunfu.controller.model.base.WebBaseModel;
+
+public class AuthUserModel extends WebBaseModel {
 
     /**
      * 品牌标识
@@ -18,6 +20,8 @@ public class AuthUserModel {
     private String startDate;
 
     private String endDate;
+
+    private Integer rquestSource;
 
     public Long getBrandIdenty() {
         return brandIdenty;
@@ -65,5 +69,13 @@ public class AuthUserModel {
 
     public void setEndDate(String endDate) {
         this.endDate = endDate;
+    }
+
+    public Integer getRquestSource() {
+        return rquestSource;
+    }
+
+    public void setRquestSource(Integer rquestSource) {
+        this.rquestSource = rquestSource;
     }
 }

@@ -109,6 +109,8 @@ public class TradeModel extends WebBaseModel {
 
     private String tradeUser;
 
+    private Integer rquestSource;
+
     public String getWxOpenId() {
         return wxOpenId;
     }
@@ -363,5 +365,13 @@ public class TradeModel extends WebBaseModel {
 
     public void setCustomerType(Integer customerType) {
         this.customerType = customerType;
+    }
+
+    public Integer getRquestSource() {
+        return rquestSource;
+    }
+
+    public void setRquestSource(Integer rquestSource) {
+        this.rquestSource = rquestSource;
     }
 }

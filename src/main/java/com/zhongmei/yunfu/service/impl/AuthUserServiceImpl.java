@@ -1,15 +1,15 @@
 package com.zhongmei.yunfu.service.impl;
 
 import com.baomidou.mybatisplus.mapper.Condition;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.zhongmei.yunfu.controller.model.AuthUserModel;
 import com.zhongmei.yunfu.core.mybatis.mapper.ConditionFilter;
 import com.zhongmei.yunfu.core.security.Password;
 import com.zhongmei.yunfu.core.security.Token;
-import com.zhongmei.yunfu.domain.entity.AuthPermissionEntity;
-import com.zhongmei.yunfu.domain.entity.AuthUserEntity;
-import com.zhongmei.yunfu.domain.entity.CustomerReport;
-import com.zhongmei.yunfu.domain.entity.UserSalaryReport;
+import com.zhongmei.yunfu.domain.entity.*;
+import com.zhongmei.yunfu.domain.enums.StatusFlag;
 import com.zhongmei.yunfu.domain.mapper.AuthUserMapper;
 import com.zhongmei.yunfu.erp.model.ERPCommercialModel;
 import com.zhongmei.yunfu.service.AuthUserService;
@@ -120,6 +120,20 @@ public class AuthUserServiceImpl extends ServiceImpl<AuthUserMapper, AuthUserEnt
         eWrapper.eq("t.status_flag", 1);
         eWrapper.between("t.server_create_time", mAuthUserModel.getStartDate(), mAuthUserModel.getEndDate());
         List<UserSalaryReport> listData = baseMapper.querUserSaleryDetailReport(eWrapper);
+        return listData;
+    }
+
+    @Override
+    public Page<AuthUserEntity> queryAuthUserByBrand(AuthUserModel mAuthUserModel, int curPage, int pageSize) throws Exception {
+
+        EntityWrapper<AuthUserEntity> eWrapper = new EntityWrapper<>(new AuthUserEntity());
+        eWrapper.setSqlSelect("id", "role_id", "name", "gender", "mobile", "job_number", "job_employee_type", "job_position", "source_flag","assigned_group","shop_identy","brand_identy");
+        eWrapper.and().eq("brand_identy", mAuthUserModel.getBrandIdenty());
+        eWrapper.and().eq("status_flag", StatusFlag.VALiD.value());
+        eWrapper.orderBy("shop_identy",false);
+        Page<AuthUserEntity> page = new Page<>(curPage, pageSize);
+        Page<AuthUserEntity> listData = selectPage(page, eWrapper);
+
         return listData;
     }
 }

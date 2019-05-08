@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<style type="text/css">
+
+    html,body{
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        background-color: #FFFFFF;
+    }
+
+    div.parent {
+        /* 启用弹性盒布局 */
+        display: flex;
+        /* 使子元素垂直居中 */
+        align-items: center;
+    }
+
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <title>品牌员工列表</title>
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../css/base.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../css/common.css" type="text/css" />
+
+    <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+</head>
+
+<script type="text/javascript">
+
+</script>
+
+<body>
+
+<div align="center" style="margin-top: 10px">
+    <table class="gridtablestyle" style="width: 95%; vertical-align: middle">
+        <tr style="width: 100%">
+            <th>员工编号</th>
+            <th>名称</th>
+            <th>类型</th>
+            <th>角色</th>
+            <th>门店</th>
+            <th>电话</th>
+            <th>层级</th>
+            <th>操作</th>
+        </tr>
+        <tr th:each="item:${list}">
+
+            <td th:text="${item.jobNumber}"></td>
+            <td th:text="${item.name}"></td>
+            <td>
+                <div th:switch="${item.jobEmployeeType}">
+                    <p th:case="'1'">
+                        正式员工
+                    </p>
+                    <p th:case="'2'">
+                        试用期员工
+                    </p>
+                    <p th:case="'3'">
+                        外聘员工
+                    </p>
+                </div>
+            </td>
+            <td th:text="${item.jobPosition}"></td>
+            <td th:text="${item.shopIdenty}"></td>
+            <td th:text="${item.mobile}"></td>
+            <td>
+                <div th:switch="${item.assignedGroup}">
+                    <p th:case="'1'">
+                        品牌员工
+                    </p>
+                    <p th:case="'2'">
+                        门店员工
+                    </p>
+                </div>
+            </td>
+            <td align="center">
+                <a href="activityadd.html" th:href="@{/pushPlanActivity/updateState(id=${item.id}, planState=2)}">查看</a>
+            </td>
+
+        </tr>
+
+    </table>
+</div>
+
+<div class="paging" style="margin-bottom: 30px">
+
+    <div th:replace="page_info::pagination"/>
+
+</div>
+
+
+</body>
+</html>

@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>品牌管理首页</title>
-
+    <title>品牌首页</title>
     <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
     <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
     <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" type="text/css" />
@@ -13,118 +12,246 @@
     <script type="text/javascript" src="../static/js/echarts.min.js" th:src="@{/js/echarts.min.js}"></script>
 
 </head>
-<body>
 
-<div class="parent" style="width: 100%;height: 50px; vertical-align: center">
+<script type="text/javascript">
 
-    <p class="main_lable_style" style="margin-left: 15px">品牌今日营业数据信息</p>
+    var index=0;//每张图片的下标，
 
-    <p style="margin-left: 20px">
-        <lable class="report_time_style" th:text="${stateDate}"></lable>
-        <lable class="report_time_style">至</lable>
-        <lable class="report_time_style" th:text="${endDate}"></lable>
-    </p>
+    window.onload=function(){
+        var start=setInterval(autoPlay,2000);//开始轮播，每秒换一张图
+        document.getElementById("imgchangediv").onmouseover=function(){//当鼠标光标停在图片上，则停止轮播
+            clearInterval(start);
+        }
+        document.getElementById("imgchangediv").onmouseout=function(){//当鼠标光标停在图片上，则开始轮播
+            start=setInterval(autoPlay,2000);
+        }
 
-</div>
+        var lis=document.getElementById("imgyuan").getElementsByTagName('font');//得到所有圆圈
+        //当移动到圆圈，则停滞对应的图片
+        var funny = function(i){
+            lis[i].onmouseover = function(){
+                changeImg(i)
+            }
+        }
+        for(var i=0;i<lis.length;i++){
+            funny(i);
+        }
+    }
+    //一轮过后，还是第二轮
+    function autoPlay(){
+        if(index>2){
+            index=0;
+        }
+        changeImg(index++);
+    }
+    //对应圆圈和图片同步
+    function changeImg(index){
+        var list=document.getElementById('imgchangediv').getElementsByTagName('img');
+        var list1=document.getElementById('imgyuan').getElementsByTagName('font');
+        for(i=0;i<list.length;i++){
+            list[i].style.display='none';
+            list1[i].style.backgroundColor='white';
+        }
+        list[index].style.display='block';
+        list1[index].style.backgroundColor='red';
+    }
 
-<div class="parent_h" style="margin-left: 10px;margin-right: 10px">
+</script>
 
-    <div class="reportBgimage_1" style="width: 24%;padding-right: 20px;padding-left: 20px;display: table;">
+<body style="background-color: #FFFFFF">
 
-        <div style="display: table-cell;vertical-align: middle;">
-            <div class="parent">
-                <img th:src="@{/images/sales_total_icon.png}" style="margin-right:10px" width="18px">
-                <p class="report_title_lable_style" style="margin-top: 0px;">营业总额</p>
+<div id="container" style="border-radius: 8px; background-color:#f0f0f0;margin: 10px;padding: 0px">
+
+    <div id="page" class="page">
+
+        <div class="parent" style="width: 100%;height: 50px;vertical-align: center">
+
+            <div class="parent" style="width: 70%">
+
+                <div th:if="${#strings.isEmpty(mBrandEntity.logo)}">
+                    <img th:src="@{/images/shop_icon.png}" style="margin-left:25px;margin-right: 10px" width="30px" height="30px">
+                </div>
+                <div th:if="${not #strings.isEmpty(mBrandEntity.logo)}">
+                    <img src="" th:src="${mCommercialEntity.commercialLogo}" style="margin-left:10px;margin-right: 10px" width="36px" height="36px">
+                </div>
+
+                <lable class="notify_lable_style" th:text="${mBrandEntity.name}"></lable>
+
+
+                <p class="main_lable_style" style="margin-left: 20px">今日营业数据信息</p>
+
+                <p style="margin-left: 20px">
+                    <lable class="report_time_style" th:text="${stateDate}"></lable>
+                    <lable class="report_time_style">至</lable>
+                    <lable class="report_time_style" th:text="${endDate}"></lable>
+                </p>
+
             </div>
 
 
-            <div style="text-align: center">
-                <p class="report_value_style" style="margin-top: 10px">￥<lable th:text="${salesTotal}"></lable></p>
+            <div class="parent_h" style="width: 30%;align-items: center" align="right">
+                <img th:src="@{/images/login_user_icon.png}" style="margin:10px" width="25px">
+
+                <p class="main_lable_style">登录用户：<span th:text="${mAuthUserModel.creatorName}"></span></p>
             </div>
-            <p class="report_lable_style">成交订单量：<lable class="report_lable_style" th:text="${totalCount}"></lable>&nbsp&nbsp笔</p>
 
         </div>
 
-    </div>
+        <div style="width: 100%;height: 1px;background-color: #e4e4e4"></div>
+        <div class="parent_h" style="margin: 10px;height: 100%">
+            <div style="width: 85%;">
+                <div class="parent_h">
 
-    <div class="reportBgimage_2" style="width: 24%;padding-right: 20px;padding-left: 20px;margin-left: 15px;display: table;">
-        <div style="display: table-cell;vertical-align: middle;">
-            <div class="parent">
-                <img th:src="@{/images/sales_order_amount_icon.png}" style="margin-right:10px" width="15px">
-                <p class="report_title_lable_style"  style="margin-top: 0px">销货单</p>
+                    <div class="reportBgimage_1" style="width: 24%;padding-right: 20px;padding-left: 20px;display: table;">
+
+                        <div style="display: table-cell;vertical-align: middle;">
+                            <div class="parent">
+                                <img th:src="@{/images/sales_total_icon.png}" style="margin-right:10px" width="18px">
+                                <p class="report_title_lable_style" style="margin-top: 0px;">营业总额</p>
+                            </div>
+
+
+                            <div style="text-align: center">
+                                <p class="report_value_style" style="margin-top: 10px">￥<lable th:text="${salesTotal}"></lable></p>
+                            </div>
+                            <p class="report_lable_style">成交订单量：<lable class="report_lable_style" th:text="${totalCount}"></lable>&nbsp&nbsp笔</p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="reportBgimage_2" style="width: 24%;padding-right: 20px;padding-left: 20px;margin-left: 15px;display: table;">
+                        <div style="display: table-cell;vertical-align: middle;">
+                            <div class="parent">
+                                <img th:src="@{/images/sales_order_amount_icon.png}" style="margin-right:10px" width="15px">
+                                <p class="report_title_lable_style"  style="margin-top: 0px">销货单</p>
+                            </div>
+
+
+                            <p class="report_lable_style">成交额：<lable class="name_style" th:text="${salesAmount}"></lable>&nbsp&nbsp元</p>
+                            <p class="report_lable_style">成交笔数：<lable class="report_lable_style_1" th:text="${salesCount}"></lable>&nbsp&nbsp笔</p>
+                        </div>
+
+                    </div>
+
+                    <div class="reportBgimage_3" style="width: 24%;padding-right: 20px;padding-left: 20px;margin-left: 15px;display: table;">
+                        <div style="display: table-cell;vertical-align: middle;">
+                            <div class="parent">
+                                <img th:src="@{/images/save_order_amount_icon.png}" style="margin-right:10px" width="15px">
+                                <p class="report_title_lable_style" style="margin-top: 0px">余额、次卡服务储值收入</p>
+                            </div>
+
+                            <p class="report_lable_style">成交额：<lable class="name_style" th:text="${saveAmount}"></lable>&nbsp&nbsp元</p>
+                            <p class="report_lable_style">成交笔数：<lable class="report_lable_style_1" th:text="${saveCount}"></lable>&nbsp&nbsp笔</p>
+                        </div>
+                    </div>
+
+                    <div class="reportBgimage_4" style="width: 24%;padding-right: 20px;padding-left: 20px;margin-left: 15px;display: table;">
+                        <div style="display: table-cell;vertical-align: middle;">
+                            <div class="parent">
+                                <img th:src="@{/images/return_order_amount_icon.png}" style="margin-right:10px" width="15px">
+                                <p class="report_title_lable_style" style="margin-top: 0px">退货单</p>
+                            </div>
+
+                            <p class="report_lable_style">退货额：<lable class="name_style" th:text="${returnAmount}"></lable>&nbsp&nbsp元</p>
+                            <p class="report_lable_style">退货笔数：<lable class="report_lable_style_1" th:text="${returnCount}"></lable>&nbsp&nbsp笔</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="parent_h" style="width: 100%;text-align: center; margin-right: 20px;margin-top: 20px; background-color: #FFFFFF;">
+
+                    <div style="width: 30%; text-align: center; margin: 20px;">
+                        <div id="saleAmountReport" style="width: 100%;height:300px;"></div>
+                        <p style="font-weight: bold;">营业额来源分布</p>
+                    </div>
+
+                    <div style="width: 30%; text-align: center;margin-left: 50px;margin-top: 20px;">
+                        <div id="saleStatueReport" style="width: 100%;height:300px;"></div>
+                        <p style="font-weight: bold;">订单销货、退货占比</p>
+                    </div>
+
+                    <div style="width: 30%; text-align: center;margin-left: 50px;margin-top: 20px">
+                        <div id="payStateReport" style="width: 100%;height:300px;"></div>
+                        <p style="font-weight: bold;">订单已收银、未收银占比</p>
+                    </div>
+                </div>
+
+                <div class="parent_h" style="width: 100%;text-align: center; background-color: #FFFFFF;margin-top: 20px;margin-right:10px;">
+                    <div style="width: 100%; text-align: center; margin: 20px;">
+                        <div id="salseOrder" style="width: 100%;height:400px;"></div>
+                        <p style="font-weight: bold;">订单销售轨迹</p>
+                    </div>
+                </div>
+
+                <div class="parent_h" style="width: 100%;text-align: center; background-color: #FFFFFF;margin-top: 20px;margin-right:10px;margin-bottom: 10px">
+
+                    <div style="width: 60%;height:450px; align-content: center;margin-top: 20px">
+                        <div id="paymentReport" style="width: 100%;height:400px;"></div>
+                        <p style="font-weight: bold; margin-bottom: 20px">各支付方式支付情况</p>
+                    </div>
+
+                    <div style="width: 30%;height:450px; text-align: center;margin-left: 50px">
+                        <div id="paymentModle" style="width: 100%;height:400px;margin-top: 20px"></div>
+                        <p style="font-weight: bold; margin-bottom: 20px">各支付方式支付金额占比</p>
+                    </div>
+
+                </div>
+
+            </div>
+            <div style="width: 15%;height:100%; margin-left: 10px;">
+
+                <!--<div class="container" style="width: 100%;height: 50px;background-color: #FFFFFF;border: 1px #F4F4F4">-->
+                <!--<div class="parent">-->
+                <!--<img th:src="@{/images/telphone.png}" style="margin:10px" width="30px">-->
+                <!--<p class="notify_lable_style" align="left">400-00-00</p>-->
+                <!--</div>-->
+                <!--</div>-->
+
+
+
+                <div class="container" style="width: 100%;height: 50px;background-color: #FFFFFF;border: 1px #F4F4F4;cursor: pointer " th:onclick="@{|location='${basePath}/internal/download/page'|}">
+                    <div class="parent">
+                        <img th:src="@{/images/dowload_data_icon.png}" style="margin:10px" width="30px">
+                        <p class="notify_lable_style">资源查看/下载</p>
+                    </div>
+                </div>
+
+                <div id="imgchangediv" align="center" style="margin-top: 10px">
+                    <img th:src="@{/images/gg_01.jpg}" style="display: block; width: 100%"/>
+                    <img th:src="@{/images/gg_02.jpg}" style="display: none; width: 100%"/>
+                    <img th:src="@{/images/gg_03.jpg}" style="display: none; width: 100%"/>
+                    <div id="imgyuan">
+                        <font></font>
+                        <font></font>
+                        <font></font>
+                    </div>
+                </div>
+
+
+
+                <div style="width: 100%;text-align: center; background-color: #FFFFFF;border: 1px #F4F4F4;margin-top: 10px">
+                    <div style="padding: 15px">
+                        <div class="parent">
+                            <img th:src="@{/images/notify.png}" style="width:30px">
+                            <p class="activity_style" align="left" style="margin-left: 15px">系统公告</p>
+                        </div>
+                        <img class="line_style" th:src="@{/images/line.jpg}" style="margin-top: 10px">
+                        <div class="notify_lable_style" style="margin-top: 10px">新增营销工具</div>
+                        <div class="notify_style" align="center" style="margin-top: 10px">
+                            多种营销工具,社群营销&节日营销，拉新、转化、复购面面俱到,系统化管理客户,客户画像帮您了解客户，会员卡/储值卡实现精准营销
+                        </div>
+                    </div>
+                </div>
             </div>
 
-
-            <p class="report_lable_style">成交额：<lable class="name_style" th:text="${salesAmount}"></lable>&nbsp&nbsp元</p>
-            <p class="report_lable_style">成交笔数：<lable class="report_lable_style_1" th:text="${salesCount}"></lable>&nbsp&nbsp笔</p>
-        </div>
-
-    </div>
-
-    <div class="reportBgimage_3" style="width: 24%;padding-right: 20px;padding-left: 20px;margin-left: 15px;display: table;">
-        <div style="display: table-cell;vertical-align: middle;">
-            <div class="parent">
-                <img th:src="@{/images/save_order_amount_icon.png}" style="margin-right:10px" width="15px">
-                <p class="report_title_lable_style" style="margin-top: 0px">余额、次卡服务储值收入</p>
-            </div>
-
-            <p class="report_lable_style">成交额：<lable class="name_style" th:text="${saveAmount}"></lable>&nbsp&nbsp元</p>
-            <p class="report_lable_style">成交笔数：<lable class="report_lable_style_1" th:text="${saveCount}"></lable>&nbsp&nbsp笔</p>
         </div>
     </div>
 
-    <div class="reportBgimage_4" style="width: 24%;padding-right: 20px;padding-left: 20px;margin-left: 15px;display: table;">
-        <div style="display: table-cell;vertical-align: middle;">
-            <div class="parent">
-                <img th:src="@{/images/return_order_amount_icon.png}" style="margin-right:10px" width="15px">
-                <p class="report_title_lable_style" style="margin-top: 0px">退货单</p>
-            </div>
-
-            <p class="report_lable_style">退货额：<lable class="name_style" th:text="${returnAmount}"></lable>&nbsp&nbsp元</p>
-            <p class="report_lable_style">退货笔数：<lable class="report_lable_style_1" th:text="${returnCount}"></lable>&nbsp&nbsp笔</p>
-        </div>
-    </div>
 </div>
 
 
-<div class="parent_h" style="width: 100%;text-align: center; margin-right: 20px;margin-top: 20px; background-color: #FFFFFF;">
 
-    <div style="width: 30%; text-align: center; margin: 20px;">
-        <div id="saleAmountReport" style="width: 100%;height:300px;"></div>
-        <p style="font-weight: bold;">营业额来源分布</p>
-    </div>
-
-    <div style="width: 30%; text-align: center;margin-left: 50px;margin-top: 20px;">
-        <div id="saleStatueReport" style="width: 100%;height:300px;"></div>
-        <p style="font-weight: bold;">订单销货、退货占比</p>
-    </div>
-
-    <div style="width: 30%; text-align: center;margin-left: 50px;margin-top: 20px">
-        <div id="payStateReport" style="width: 100%;height:300px;"></div>
-        <p style="font-weight: bold;">订单已收银、未收银占比</p>
-    </div>
-</div>
-
-<div class="parent_h" style="width: 100%;text-align: center; background-color: #FFFFFF;margin-top: 20px;margin-right:10px;">
-    <div style="width: 100%; text-align: center; margin: 20px;">
-        <div id="salseOrder" style="width: 100%;height:400px;"></div>
-        <p style="font-weight: bold;">订单销售轨迹</p>
-    </div>
-</div>
-
-<div class="parent_h" style="width: 100%;text-align: center; background-color: #FFFFFF;margin-top: 20px;margin-right:10px;">
-
-    <div style="width: 60%;height:450px; align-content: center;margin-top: 20px">
-        <div id="paymentReport" style="width: 100%;height:400px;"></div>
-        <p style="font-weight: bold; margin-bottom: 20px">各支付方式支付情况</p>
-    </div>
-
-    <div style="width: 30%;height:450px; text-align: center;margin-left: 50px">
-        <div id="paymentModle" style="width: 100%;height:400px;margin-top: 20px"></div>
-        <p style="font-weight: bold; margin-bottom: 20px">各支付方式支付金额占比</p>
-    </div>
-
-</div>
 
 
 
@@ -486,6 +613,7 @@
     }
 
 </script>
+
 
 
 </body>

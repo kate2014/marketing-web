@@ -8,6 +8,7 @@ import com.zhongmei.yunfu.domain.entity.CustomerSaveReport;
 import com.zhongmei.yunfu.domain.entity.SalesReport;
 import com.zhongmei.yunfu.domain.entity.TradeEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import com.zhongmei.yunfu.domain.entity.TradePrivilageReport;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.session.RowBounds;
@@ -109,4 +110,10 @@ public interface TradeMapper extends BaseMapper<TradeEntity> {
             "FROM `trade_customer` tc ,`trade` t, `customer` c, `trade_item` ti\n" +
             "WHERE tc.`trade_id` = t.`id`and t.`shop_identy` = 1 and tc.`customer_id` = c.id and t.`id` = ti.`trade_id` ${ew.sqlSegment}")
     List<CustomerSaleModel> queryCustomerSaleDetail(@Param("ew") Condition wrapper);
+
+    @Select("SELECT sum(t.`trade_amount`) as tradeAmount,count(t.id) as tradeCount,p.`privilege_name` as privilageName ,p.`promo_id` as promoId  FROM `trade_privilege`  p, trade t\n" +
+            "WHERE p.`trade_id`  = t.`id` ${ew.sqlSegment} \n" +
+            "GROUP BY p.`promo_id` \n" +
+            "ORDER BY sum(t.`trade_amount`) desc;")
+    List<TradePrivilageReport> queryTradePrivilage(@Param("ew") Condition wrapper);
 }

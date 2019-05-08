@@ -18,120 +18,83 @@
 <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
 <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
 <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" />
-<link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" />
+<!--<link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" />-->
 <link rel="stylesheet" th:href="@{/css/customer.css}" href="../static/css/customer.css" />
 <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}" src="../static/js/jquery-3.1.1.min.js" ></script>
 <script type="text/javascript" th:src="@{/js/base.js}" src="../static/js/base.js" ></script>
 
+<script type="text/javascript">
+
+    $(function () {
+
+        $("#main").attr("class", "brand_head_select_style");
+
+        $("#main").click(function () {
+            $(".brand_head_select_style").attr("class", "brand_head_defort_stype");
+            $("#main").attr("class", "brand_head_select_style");
+        })
+
+        $(".brand_head_defort_stype").click(function () {
+            $(".brand_head_select_style").attr("class", "brand_head_defort_stype");
+            $(this).attr("class", "brand_head_select_style");
+        })
+
+    });
+
+</script>
 <body >
 
-<div style="margin: 10px;border-radius: 8px; background-color:#2e9ad0;height: 100%;">
-    <div class="parent" style="width: 100%;height: 50px;vertical-align: center">
+<div style="height: 55px; width: 100%;background-color: black;padding-top: 10px" class="parent">
 
-        <div class="parent" style="width: 100%">
-            <img th:src="@{/images/shop_icon.png}" style="margin-left:25px;margin-right: 10px" width="40px">
-            <p class="main_lable_style" style="color: #FFFFFF">品牌名称：xxxxx</p>
-        </div>
+    <img th:src="@{/images/logo_icon.png}" src="../static/images/logo_icon.png" style="margin-left:25px;margin-right: 10px;" width="70px">
 
+    <a id="main" th:href="@{/internal/brand/index(brandIdenty=${mAuthUserModel.brandIdenty},shopIdenty=${mAuthUserModel.shopIdenty},creatorId=${mAuthUserModel.creatorId},creatorName=${mAuthUserModel.creatorName})}" class="brand_head_defort_stype" align="center" target="my_iframe">
+        <img th:src="@{/images/brand_main_icon.png}" src="../static/images/brand_main_icon.png" class="icon_style" style="margin: 0 auto">
+        <span>品牌首页</span>
+    </a>
+    <a th:href="@{/internal/brand/shopList(brandIdenty=${mAuthUserModel.brandIdenty},shopIdenty=${mAuthUserModel.shopIdenty},creatorId=${mAuthUserModel.creatorId},creatorName=${mAuthUserModel.creatorName})}" class="brand_head_defort_stype" align="center" target="my_iframe">
+        <img th:src="@{/images/brand_shop_icon.png}" src="../static/images/brand_shop_icon.png" class="icon_style" style="margin: 0 auto">
+        <span>门店管理</span>
+    </a>
 
-        <div class="parent_h" style="width: 30%;align-items: center" align="right">
-            <img th:src="@{/images/login_user_icon.png}" style="margin:10px" width="25px">
+    <a th:href="@{/internal/brand/staffList(brandIdenty=${mAuthUserModel.brandIdenty},shopIdenty=${mAuthUserModel.shopIdenty},creatorId=${mAuthUserModel.creatorId},creatorName=${mAuthUserModel.creatorName})}" class="brand_head_defort_stype" align="center" target="my_iframe">
+        <img th:src="@{/images/brand_user_icon.png}" src="../static/images/brand_user_icon.png" class="icon_style" style="margin: 0 auto">
+        <span>员工管理</span>
+    </a>
 
-            <p class="main_lable_style" style="color: #FFFFFF">登录用户：<span th:text="${mAuthUserModel.creatorName}"></span></p>
-        </div>
+    <a href="/"  class="brand_head_defort_stype" align="center">
+        <img th:src="@{/images/brand_product_icon.png}" src="../static/images/brand_product_icon.png" class="icon_style" style="margin: 0 auto">
+        <span class="head_navigation_text_style">品项管理</span>
+    </a>
 
-    </div>
-    <div class="page_container" style="margin: 1px">
+    <a href="/"  class="brand_head_defort_stype" align="center">
+        <img th:src="@{/images/brand_customer_icon.png}" src="../static/images/brand_customer_icon.png" class="icon_style" style="margin: 0 auto">
+        <span class="head_navigation_text_style">会员管理</span>
+    </a>
 
-        <div class="page_page">
+    <a href="/"  class="brand_head_defort_stype" align="center">
+        <img th:src="@{/images/brand_marketing_icon.png}" src="../static/images/brand_marketing_icon.png" class="icon_style" style="margin: 0 auto">
+        <span class="head_navigation_text_style">营销管理</span>
+    </a>
 
-            <div class='customer-com' style="height: 100%">
-                <div class="customer-centent">
+    <a href="/"  class="brand_head_defort_stype" align="center">
+        <img th:src="@{/images/brand_report_icon.png}" src="../static/images/brand_report_icon.png" class="icon_style" style="margin: 0 auto">
+        <span class="head_navigation_text_style">报表分析</span>
+    </a>
 
+    <a href="/"  class="brand_head_defort_stype" align="center">
+        <img th:src="@{/images/brand_setting_icon.png}" src="../static/images/brand_setting_icon.png" class="icon_style" style="margin: 0 auto">
+        <span class="head_navigation_text_style">品牌设置</span>
+    </a>
 
-                    <div class="customer-main" style="height: 100%;">
-                        <ul class="tab" style="height: 100%">
-                            <li th:href="@{/internal/brand/index(brandIdenty=${mAuthUserModel.brandIdenty},shopIdenty=${mAuthUserModel.shopIdenty},creatorId=${mAuthUserModel.creatorId},creatorName=${mAuthUserModel.creatorName})}" class="current">
-                                <div class="parent">
-                                    <img th:src="@{/images/brand_main_icon.png}" src="../static/images/brand_main_icon.png" class="image_size_style">
-                                    <span>品牌首页</span>
-                                </div>
-                            </li>
-                            <li th:href="@{/internal/brand/shopList(brandIdenty=${mAuthUserModel.brandIdenty},shopIdenty=${mAuthUserModel.shopIdenty},creatorId=${mAuthUserModel.creatorId},creatorName=${mAuthUserModel.creatorName})}" class="parent">
-                                <div class="parent">
-                                    <img th:src="@{/images/brand_shop_icon.png}" src="../static/images/brand_shop_icon.png" class="image_size_style">
-                                    <span>门店管理</span>
-                                </div>
-                            </li>
-
-                            <li href="/" class="parent">
-                                <div class="parent">
-                                    <img th:src="@{/images/brand_user_icon.png}" src="../static/images/brand_user_icon.png" class="image_size_style">
-                                    <span>员工管理</span>
-                                </div>
-                            </li>
-
-                            <li href="/" class="parent">
-                                <div class="parent">
-                                    <img th:src="@{/images/brand_product_icon.png}" src="../static/images/brand_product_icon.png" class="image_size_style">
-                                    <span>品项管理</span>
-                                </div>
-                            </li>
-
-                            <li href="/" class="parent">
-                                <div class="parent">
-                                    <img th:src="@{/images/brand_customer_icon.png}" src="../static/images/brand_customer_icon.png" class="image_size_style">
-                                    <span>会员管理</span>
-                                </div>
-                            </li>
-
-                            <li href="/" class="parent">
-                                <div class="parent">
-                                    <img th:src="@{/images/brand_marketing_icon.png}" src="../static/images/brand_marketing_icon.png" class="image_size_style">
-                                    <span>营销管理</span>
-                                </div>
-                            </li>
-
-                            <li href="/" class="parent">
-                                <div class="parent">
-                                    <img th:src="@{/images/brand_report_icon.png}" src="../static/images/brand_report_icon.png" class="image_size_style">
-                                    <span>报表分析</span>
-                                </div>
-                            </li>
-
-                            <li href="/" class="parent">
-                                <div class="parent">
-                                    <img th:src="@{/images/brand_setting_icon.png}" src="../static/images/brand_report_icon.png" class="image_size_style">
-                                    <span>品牌设置</span>
-                                </div>
-                            </li>
-
-                        </ul>
-
-                        <div class="select-tab" style="width: 100%; height: 100%">
-                            <div style="display:block; width: 100%; height: 100%" class="tabs">
-                                <iframe id="dish_iframe" th:src="@{/internal/brand/index(brandIdenty=${mAuthUserModel.brandIdenty},shopIdenty=${mAuthUserModel.shopIdenty},creatorId=${mAuthUserModel.creatorId},creatorName=${mAuthUserModel.creatorName})}" width="100%" height="100%" style="border: 0px"></iframe>
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
-            </div>
-
-        </div>
-
-        <div class="page_footer">
-            <div class="container parent_h" style="height: 100%;background-color: #2e9ad0;color: #f3f3f3">
-                <img th:src="@{/images/logo_icon.png}" style="margin:10px;cursor:pointer;" width="60px" onclick="javascript:window.open('http://www.zhongmeiyunfu.com/');">
-                蜀ICP备18028814号-1 众美云服科技有限公司提供技术支持
-            </div>
-        </div>
-
-    </div>
 </div>
 
+<iframe id="my_iframe" name="my_iframe" th:src="@{/internal/brand/index(brandIdenty=${mAuthUserModel.brandIdenty},shopIdenty=${mAuthUserModel.shopIdenty},creatorId=${mAuthUserModel.creatorId},creatorName=${mAuthUserModel.creatorName})}" width="100%" height="100%" style="border: 0px"></iframe>
 
+<div class="container parent_h" style="height: 50px;background-color: #3e3e3e;color: #f3f3f3;font-size: 8px">
+    <img th:src="@{/images/logo_icon.png}" style="margin:10px;cursor:pointer;" width="60px" onclick="javascript:window.open('http://www.zhongmeiyunfu.com/');">
+    蜀ICP备18028814号-1 众美云服科技有限公司提供技术支持
+</div>
 
 </body>
 </html>

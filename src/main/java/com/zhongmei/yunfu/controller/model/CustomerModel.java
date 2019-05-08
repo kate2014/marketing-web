@@ -53,6 +53,8 @@ public class CustomerModel {
 
     private Integer searchData;
 
+    private Integer rquestSource;
+
     public Long getId() {
         return id;
     }
@@ -235,5 +237,13 @@ public class CustomerModel {
 
     public void setSearchData(Integer searchData) {
         this.searchData = searchData;
+    }
+
+    public Integer getRquestSource() {
+        return rquestSource;
+    }
+
+    public void setRquestSource(Integer rquestSource) {
+        this.rquestSource = rquestSource;
     }
 }

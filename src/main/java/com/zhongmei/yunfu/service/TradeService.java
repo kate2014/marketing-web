@@ -1,14 +1,8 @@
 package com.zhongmei.yunfu.service;
 
 import com.baomidou.mybatisplus.plugins.Page;
-import com.zhongmei.yunfu.controller.model.CustomerSaleModel;
-import com.zhongmei.yunfu.controller.model.ReportSalesExportModel;
-import com.zhongmei.yunfu.controller.model.TradeDataModel;
-import com.zhongmei.yunfu.controller.model.TradeModel;
-import com.zhongmei.yunfu.domain.entity.CustomerSaveReport;
-import com.zhongmei.yunfu.domain.entity.SalesReport;
-import com.zhongmei.yunfu.domain.entity.ShopSalesReport;
-import com.zhongmei.yunfu.domain.entity.TradeEntity;
+import com.zhongmei.yunfu.controller.model.*;
+import com.zhongmei.yunfu.domain.entity.*;
 import com.baomidou.mybatisplus.service.IService;
 
 import java.math.BigDecimal;
@@ -191,5 +185,13 @@ public interface TradeService extends IService<TradeEntity> {
      * @return
      */
     List<CustomerSaleModel> queryCustomerSaleDetail(TradeModel mTradeModel)throws Exception;
+
+    /**
+     * 订单优惠信息
+     * @param mReportMarketingModel
+     * @return
+     * @throws Exception
+     */
+    List<TradePrivilageReport> queryTradePrivilage(ReportMarketingModel mReportMarketingModel)throws Exception;
 
 }

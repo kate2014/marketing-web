@@ -24,53 +24,53 @@ public class LoadingAuthController {
     public String reportAddCustomer(Model model, LoadingModel mLoadingModel) {
 
         if(mLoadingModel.getRequestUrlType() == 1){
-            String url = "/internal/purchaseSale/saleReport?brandIdenty="+mLoadingModel.getBrandIdenty()+"&shopIdenty="+mLoadingModel.getShopIdenty();
+            String url = "/internal/purchaseSale/saleReport?brandIdenty="+mLoadingModel.getBrandIdenty()+"&shopIdenty="+mLoadingModel.getShopIdenty()+"&rquestSource="+mLoadingModel.getRquestSource();
             mLoadingModel.setRequestUrl(url);
 
         }else if(mLoadingModel.getRequestUrlType() == 2){
-            String url = "/internal/sales/salesReport?brandIdenty="+mLoadingModel.getBrandIdenty()+"&shopIdenty="+mLoadingModel.getShopIdenty();
+            String url = "/internal/sales/salesReport?brandIdenty="+mLoadingModel.getBrandIdenty()+"&shopIdenty="+mLoadingModel.getShopIdenty()+"&rquestSource="+mLoadingModel.getRquestSource();
             mLoadingModel.setRequestUrl(url);
 
         }else if(mLoadingModel.getRequestUrlType() == 3){
-            String url = "/internal/dish/dishReport?brandIdenty="+mLoadingModel.getBrandIdenty()+"&shopIdenty="+mLoadingModel.getShopIdenty();
+            String url = "/internal/dish/dishReport?brandIdenty="+mLoadingModel.getBrandIdenty()+"&shopIdenty="+mLoadingModel.getShopIdenty()+"&rquestSource="+mLoadingModel.getRquestSource();
             mLoadingModel.setRequestUrl(url);
 
         }else if(mLoadingModel.getRequestUrlType() == 4){
-            String url = "/internal/cardTimeReport/cardTime?brandIdenty="+mLoadingModel.getBrandIdenty()+"&shopIdenty="+mLoadingModel.getShopIdenty();
+            String url = "/internal/cardTimeReport/cardTime?brandIdenty="+mLoadingModel.getBrandIdenty()+"&shopIdenty="+mLoadingModel.getShopIdenty()+"&rquestSource="+mLoadingModel.getRquestSource();
             mLoadingModel.setRequestUrl(url);
 
         }else if(mLoadingModel.getRequestUrlType() == 5){
-            String url = "/internal/saveReport/customerSave?brandIdenty="+mLoadingModel.getBrandIdenty()+"&shopIdenty="+mLoadingModel.getShopIdenty();
+            String url = "/internal/saveReport/customerSave?brandIdenty="+mLoadingModel.getBrandIdenty()+"&shopIdenty="+mLoadingModel.getShopIdenty()+"&rquestSource="+mLoadingModel.getRquestSource();
             mLoadingModel.setRequestUrl(url);
 
         }else if(mLoadingModel.getRequestUrlType() == 6){
-            String url = "/internal/report/customerShop?brandIdenty="+mLoadingModel.getBrandIdenty()+"&shopIdenty="+mLoadingModel.getShopIdenty();
+            String url = "/internal/report/customerShop?brandIdenty="+mLoadingModel.getBrandIdenty()+"&shopIdenty="+mLoadingModel.getShopIdenty()+"&rquestSource="+mLoadingModel.getRquestSource();
             mLoadingModel.setRequestUrl(url);
         }else if(mLoadingModel.getRequestUrlType() == 7){
-            String url = "/internal/report/userReport?brandIdenty="+mLoadingModel.getBrandIdenty()+"&shopIdenty="+mLoadingModel.getShopIdenty();
+            String url = "/internal/report/userReport?brandIdenty="+mLoadingModel.getBrandIdenty()+"&shopIdenty="+mLoadingModel.getShopIdenty()+"&rquestSource="+mLoadingModel.getRquestSource();
             mLoadingModel.setRequestUrl(url);
         }else if(mLoadingModel.getRequestUrlType() == 8){
-            String url = "/internal/purchaseSale/report?brandIdenty="+mLoadingModel.getBrandIdenty()+"&shopIdenty="+mLoadingModel.getShopIdenty();
+            String url = "/internal/purchaseSale/report?brandIdenty="+mLoadingModel.getBrandIdenty()+"&shopIdenty="+mLoadingModel.getShopIdenty()+"&rquestSource="+mLoadingModel.getRquestSource();
             mLoadingModel.setRequestUrl(url);
 
         }else if(mLoadingModel.getRequestUrlType() == 9){
-            String url = "/internal/purchaseSale/purchase?brandIdenty="+mLoadingModel.getBrandIdenty()+"&shopIdenty="+mLoadingModel.getShopIdenty();
+            String url = "/internal/purchaseSale/purchase?brandIdenty="+mLoadingModel.getBrandIdenty()+"&shopIdenty="+mLoadingModel.getShopIdenty()+"&rquestSource="+mLoadingModel.getRquestSource();
             mLoadingModel.setRequestUrl(url);
 
         }else if(mLoadingModel.getRequestUrlType() == 10){
-            String url = "/internal/report/customerReport?brandIdenty="+mLoadingModel.getBrandIdenty()+"&shopIdenty="+mLoadingModel.getShopIdenty();
+            String url = "/internal/report/customerReport?brandIdenty="+mLoadingModel.getBrandIdenty()+"&shopIdenty="+mLoadingModel.getShopIdenty()+"&rquestSource="+mLoadingModel.getRquestSource();
             mLoadingModel.setRequestUrl(url);
 
         }else if(mLoadingModel.getRequestUrlType() == 11){
-            String url = "/internal/marketingReport/marketing?brandIdenty="+mLoadingModel.getBrandIdenty()+"&shopIdenty="+mLoadingModel.getShopIdenty();
+            String url = "/internal/marketingReport/marketing?brandIdenty="+mLoadingModel.getBrandIdenty()+"&shopIdenty="+mLoadingModel.getShopIdenty()+"&rquestSource="+mLoadingModel.getRquestSource();
             mLoadingModel.setRequestUrl(url);
 
         }else if(mLoadingModel.getRequestUrlType() == 12){
-            String url = "/internal/marketingReport/coupon?brandIdenty="+mLoadingModel.getBrandIdenty()+"&shopIdenty="+mLoadingModel.getShopIdenty();
+            String url = "/internal/marketingReport/coupon?brandIdenty="+mLoadingModel.getBrandIdenty()+"&shopIdenty="+mLoadingModel.getShopIdenty()+"&rquestSource="+mLoadingModel.getRquestSource();
             mLoadingModel.setRequestUrl(url);
 
         }else if(mLoadingModel.getRequestUrlType() == 13){
-            String url = "/internal/bookingReport/booking?brandIdenty="+mLoadingModel.getBrandIdenty()+"&shopIdenty="+mLoadingModel.getShopIdenty();
+            String url = "/internal/bookingReport/booking?brandIdenty="+mLoadingModel.getBrandIdenty()+"&shopIdenty="+mLoadingModel.getShopIdenty()+"&rquestSource="+mLoadingModel.getRquestSource();
             mLoadingModel.setRequestUrl(url);
 
         }
