@@ -383,4 +383,17 @@ public class TradeServiceImpl extends ServiceImpl<TradeMapper, TradeEntity> impl
         List<TradePrivilageReport> listData = baseMapper.queryTradePrivilage(eWrapper);
         return listData;
     }
+
+    @Override
+    public List<ShopSalesReport> queryShopOrderSales(TradeModel mTradeModel) throws Exception {
+        Condition eWrapper = ConditionFilter.create();
+        eWrapper.eq("t.brand_identy", mTradeModel.getBrandIdenty());
+        eWrapper.eq("t.status_flag", 1);
+        eWrapper.eq("t.trade_status", 4);
+        eWrapper.eq("t.trade_type", 1);
+        eWrapper.between("t.server_create_time", mTradeModel.getStartDate(), mTradeModel.getEndDate());
+
+        List<ShopSalesReport> listData = baseMapper.queryShopOrderSales(eWrapper,mTradeModel.getBrandIdenty(),mTradeModel.getStartDate(),mTradeModel.getEndDate());
+        return listData;
+    }
 }

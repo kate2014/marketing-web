@@ -4,11 +4,8 @@ import com.baomidou.mybatisplus.mapper.Condition;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.zhongmei.yunfu.controller.model.CustomerSaleModel;
 import com.zhongmei.yunfu.controller.model.ReportSalesExportModel;
-import com.zhongmei.yunfu.domain.entity.CustomerSaveReport;
-import com.zhongmei.yunfu.domain.entity.SalesReport;
-import com.zhongmei.yunfu.domain.entity.TradeEntity;
+import com.zhongmei.yunfu.domain.entity.*;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import com.zhongmei.yunfu.domain.entity.TradePrivilageReport;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.session.RowBounds;
@@ -70,10 +67,11 @@ public interface TradeMapper extends BaseMapper<TradeEntity> {
     List<CustomerSaveReport> customerSaveDetailReport(@Param("ew") Condition wrapper);
 
     @Select("SELECT \n" +
+            "t.`shop_identy` AS shopIdenty,\n" +
             "t.`server_create_time` AS tradeDate,\n" +
             "CASE t.trade_type \n" +
             "WHEN 1 THEN '销货单' \n" +
-            "WHEN 2 THEN '退回单' END AS tradeType,\n" +
+            "WHEN 2 THEN '退货单' END AS tradeType,\n" +
             "CASE t.`business_type` \n" +
             "WHEN 1 THEN '销货'\n" +
             "WHEN 2 THEN '余额储值'\n" +
@@ -116,4 +114,12 @@ public interface TradeMapper extends BaseMapper<TradeEntity> {
             "GROUP BY p.`promo_id` \n" +
             "ORDER BY sum(t.`trade_amount`) desc;")
     List<TradePrivilageReport> queryTradePrivilage(@Param("ew") Condition wrapper);
+
+    @Select("SELECT c.`commercial_name` as shopName, c.`commercial_id` as shopIdenty,SUM(t.`trade_amount`) as salesAmount,count(t.id) as salesCount \n" +
+            "FROM `commercial` c LEFT JOIN `trade` t on c.`commercial_id` = t.`shop_identy` \n" +
+            "where t.id not in (SELECT relate_trade_id FROM trade WHERE brand_identy = ${brandIdenty} AND status_flag = 1 AND trade_status = 5 AND trade_type = 2 AND server_create_time BETWEEN '${startDate}' AND '${endDate}')  \n" +
+            "${ew.sqlSegment} \n" +
+            "GROUP BY c.`commercial_id` \n" +
+            "ORDER BY SUM(t.`trade_amount`) desc")
+    List<ShopSalesReport> queryShopOrderSales(@Param("ew") Condition wrapper,@Param("brandIdenty") Long brandIdenty,@Param("startDate") String startDate,@Param("endDate") String endDate);
 }

@@ -72,12 +72,12 @@
         <span class="head_navigation_text_style">会员管理</span>
     </a>
 
-    <a href="/"  class="brand_head_defort_stype" align="center">
+    <a th:href="@{/internal/brand/marketing/main(brandIdenty=${mAuthUserModel.brandIdenty},shopIdenty=${mAuthUserModel.shopIdenty},creatorId=${mAuthUserModel.creatorId},creatorName=${mAuthUserModel.creatorName})}"  class="brand_head_defort_stype" align="center" target="my_iframe">
         <img th:src="@{/images/brand_marketing_icon.png}" src="../static/images/brand_marketing_icon.png" class="icon_style" style="margin: 0 auto">
         <span class="head_navigation_text_style">营销管理</span>
     </a>
 
-    <a href="/"  class="brand_head_defort_stype" align="center">
+    <a th:href="@{/internal/brand/report/main(brandIdenty=${mAuthUserModel.brandIdenty},shopIdenty=${mAuthUserModel.shopIdenty},creatorId=${mAuthUserModel.creatorId},creatorName=${mAuthUserModel.creatorName})}"  class="brand_head_defort_stype" align="center" target="my_iframe">
         <img th:src="@{/images/brand_report_icon.png}" src="../static/images/brand_report_icon.png" class="icon_style" style="margin: 0 auto">
         <span class="head_navigation_text_style">报表分析</span>
     </a>

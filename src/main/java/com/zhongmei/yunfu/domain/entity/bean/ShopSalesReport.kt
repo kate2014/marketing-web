@@ -15,19 +15,22 @@ import java.util.*
  */
 class ShopSalesReport{
 
-    /**
-     * 储值单数
-     */
+    var shopIdenty: Long? = null
+
     var shopName: String? = null
     /**
      * 消费额度
      */
     val salesAmount: BigDecimal? = null
 
+    val salesCount: BigDecimal? = null
+
     override fun toString(): String {
         return "CustomerReport{" +
+                ", shopIdenty=" + shopIdenty +
                 ", shopName=" + shopName +
                 ", salesAmount=" + salesAmount +
+                ", salesCount=" + salesCount +
                 "}"
     }
 }
