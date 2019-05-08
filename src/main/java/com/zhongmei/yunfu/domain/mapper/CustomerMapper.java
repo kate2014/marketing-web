@@ -3,6 +3,7 @@ package com.zhongmei.yunfu.domain.mapper;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.baomidou.mybatisplus.mapper.Condition;
 import com.baomidou.mybatisplus.mapper.Wrapper;
+import com.zhongmei.yunfu.domain.bean.CustomerInfo;
 import com.zhongmei.yunfu.domain.entity.CustomerEntity;
 import com.zhongmei.yunfu.domain.entity.CustomerExtraEntity;
 import com.zhongmei.yunfu.domain.entity.CustomerReport;
@@ -10,6 +11,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.session.RowBounds;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -21,6 +23,8 @@ import java.util.List;
  * @since 2018-08-29
  */
 public interface CustomerMapper extends BaseMapper<CustomerEntity> {
+
+    CustomerInfo selectByKey(Serializable key);
 
     //List<CustomerExtra> selectUserList(Pagination page, String state);
 

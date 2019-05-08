@@ -7,9 +7,11 @@ import com.zhongmei.yunfu.api.pos.vo.CustomerSearchReq;
 import com.zhongmei.yunfu.controller.model.CustomerDrainSearchModel;
 import com.zhongmei.yunfu.controller.model.CustomerModel;
 import com.zhongmei.yunfu.controller.model.CustomerSearchModel;
+import com.zhongmei.yunfu.domain.bean.CustomerInfo;
 import com.zhongmei.yunfu.domain.entity.CustomerEntity;
 import com.zhongmei.yunfu.domain.entity.CustomerReport;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -24,6 +26,10 @@ import java.util.Map;
  * @since 2018-08-29
  */
 public interface CustomerService extends IService<CustomerEntity> {
+
+    CustomerInfo selectByKey(Serializable key);
+
+    void save(CustomerEntity customerEntity, String cardNo);
 
     /**
      * 是否校验顾客状态

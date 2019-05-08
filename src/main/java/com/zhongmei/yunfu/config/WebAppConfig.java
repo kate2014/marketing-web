@@ -1,9 +1,10 @@
-package com.zhongmei.yunfu;
+package com.zhongmei.yunfu.config;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
+import com.zhongmei.yunfu.AuthLoginException;
 import com.zhongmei.yunfu.service.LoginManager;
 import com.zhongmei.yunfu.thymeleaf.ThymeleafRequestDataValueProcessor;
 import org.slf4j.Logger;
@@ -46,6 +47,7 @@ import java.util.List;
 public class WebAppConfig implements WebMvcConfigurer {
 
     private static final Logger log = LoggerFactory.getLogger(WebAppConfig.class);
+    public static final String ERROR_PATH = "/error";
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -146,7 +148,7 @@ public class WebAppConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/**/*.ico");
         registry.addInterceptor(new UserInterceptor())
                 .addPathPatterns("/**")
-                .excludePathPatterns(MainsiteErrorController.ERROR_PATH)
+                .excludePathPatterns(ERROR_PATH)
                 .excludePathPatterns("/demo/**")
                 .excludePathPatterns("/internal/**")
                 .excludePathPatterns("/pos/**")
@@ -313,7 +315,7 @@ public class WebAppConfig implements WebMvcConfigurer {
         }
 
         private boolean excludePathPatterns(String requestURI) {
-            return requestURI.equals(MainsiteErrorController.ERROR_PATH)
+            return requestURI.equals(ERROR_PATH)
                     || requestURI.equals("/login")
                     || requestURI.startsWith("/login/");
         }

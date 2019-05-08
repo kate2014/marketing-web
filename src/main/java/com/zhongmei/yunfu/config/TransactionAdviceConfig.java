@@ -1,4 +1,4 @@
-package com.zhongmei.yunfu;
+package com.zhongmei.yunfu.config;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.aop.Advisor;
@@ -17,7 +17,8 @@ import org.springframework.transaction.interceptor.TransactionInterceptor;
 @Configuration
 public class TransactionAdviceConfig {
 
-    private static final String AOP_POINTCUT_EXPRESSION = "execution (* com.***.service.*.*(..))";
+    //定义在service包和所有子包里的任意类的任意方法的执行
+    private static final String AOP_POINTCUT_EXPRESSION = "execution (* com.zhongmei..service..*.*(..))";
 
     @Autowired
     private PlatformTransactionManager transactionManager;
@@ -32,20 +33,14 @@ public class TransactionAdviceConfig {
         txAttr_REQUIRED_READONLY.setReadOnly(true);
 
         NameMatchTransactionAttributeSource source = new NameMatchTransactionAttributeSource();
-        source.addTransactionalMethod("insert*", txAttr_REQUIRED);
-        source.addTransactionalMethod("add*", txAttr_REQUIRED);
-        source.addTransactionalMethod("save*", txAttr_REQUIRED);
-        source.addTransactionalMethod("delete*", txAttr_REQUIRED);
-        source.addTransactionalMethod("update*", txAttr_REQUIRED);
-        source.addTransactionalMethod("exec*", txAttr_REQUIRED);
-        source.addTransactionalMethod("set*", txAttr_REQUIRED);
         source.addTransactionalMethod("select*", txAttr_REQUIRED_READONLY);
-        source.addTransactionalMethod("get*", txAttr_REQUIRED_READONLY);
         source.addTransactionalMethod("query*", txAttr_REQUIRED_READONLY);
+        source.addTransactionalMethod("get*", txAttr_REQUIRED_READONLY);
         source.addTransactionalMethod("find*", txAttr_REQUIRED_READONLY);
         source.addTransactionalMethod("list*", txAttr_REQUIRED_READONLY);
         source.addTransactionalMethod("count*", txAttr_REQUIRED_READONLY);
         source.addTransactionalMethod("is*", txAttr_REQUIRED_READONLY);
+        source.addTransactionalMethod("*", txAttr_REQUIRED);
         return new TransactionInterceptor(transactionManager, source);
     }
 

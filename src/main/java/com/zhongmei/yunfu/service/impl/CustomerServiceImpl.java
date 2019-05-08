@@ -15,19 +15,24 @@ import com.zhongmei.yunfu.controller.model.CustomerModel;
 import com.zhongmei.yunfu.controller.model.CustomerSearchModel;
 import com.zhongmei.yunfu.core.mybatis.mapper.ConditionFilter;
 import com.zhongmei.yunfu.core.mybatis.mapper.EntityWrapperFilter;
+import com.zhongmei.yunfu.domain.bean.CustomerInfo;
 import com.zhongmei.yunfu.domain.entity.CustomerEntity;
+import com.zhongmei.yunfu.domain.entity.CustomerEntityCardEntity;
 import com.zhongmei.yunfu.domain.entity.CustomerReport;
 import com.zhongmei.yunfu.domain.enums.EnabledFlag;
 import com.zhongmei.yunfu.domain.enums.StatusFlag;
+import com.zhongmei.yunfu.domain.mapper.CustomerEntityCardMapper;
 import com.zhongmei.yunfu.domain.mapper.CustomerMapper;
 import com.zhongmei.yunfu.service.CouponService;
 import com.zhongmei.yunfu.service.CustomerCardTimeService;
 import com.zhongmei.yunfu.service.CustomerService;
 import com.zhongmei.yunfu.service.TradeService;
 import com.zhongmei.yunfu.util.DateFormatUtil;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -49,6 +54,34 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
 
     @Autowired
     TradeService tradeService;
+
+    @Autowired
+    CustomerEntityCardMapper customerEntityCardMapper;
+
+    @Override
+    public CustomerInfo selectByKey(Serializable key) {
+        return baseMapper.selectByKey(key);
+    }
+
+    @Override
+    public void save(CustomerEntity customerEntity, String cardNo) {
+        insertOrUpdate(customerEntity);
+        if (customerEntity.getId() != null) {
+            CustomerEntityCardEntity customerEntityCardEntity = customerEntityCardMapper.selectByCustomerId(customerEntity.getId());
+            if (customerEntityCardEntity != null) {
+                customerEntityCardEntity.baseUpdate(customerEntity.getUpdatorId(), customerEntity.getUpdatorName());
+                customerEntityCardEntity.setCardNo(cardNo);
+                customerEntityCardMapper.insert(customerEntityCardEntity);
+            }
+        } else {
+            if (StringUtils.isNotBlank(cardNo)) {
+                CustomerEntityCardEntity customerEntityCardEntity = new CustomerEntityCardEntity();
+                customerEntityCardEntity.baseCreate(customerEntity.getCreatorId(), customerEntity.getCreatorName());
+                customerEntityCardEntity.setCardNo(cardNo);
+                customerEntityCardMapper.updateById(customerEntityCardEntity);
+            }
+        }
+    }
 
     @Override
     public CustomerEntity getCustomerEntity(Long customerId, boolean isCheckState) throws Exception {

@@ -8,6 +8,7 @@ import com.zhongmei.yunfu.api.ApiResult;
 import com.zhongmei.yunfu.api.PosApiController;
 import com.zhongmei.yunfu.api.pos.vo.*;
 import com.zhongmei.yunfu.core.security.Password;
+import com.zhongmei.yunfu.domain.bean.CustomerInfo;
 import com.zhongmei.yunfu.domain.entity.*;
 import com.zhongmei.yunfu.domain.enums.*;
 import com.zhongmei.yunfu.service.*;
@@ -57,7 +58,7 @@ public class CustomerPosApi extends PosApiController {
 
     @RequestMapping("/info")
     public ApiResult info(@RequestBody CustomerInfoReq req) throws ApiResponseStatusException {
-        CustomerEntity customer = customerService.selectById(req.getCustomerId());
+        CustomerInfo customer = customerService.selectByKey(req.getCustomerId());
         CustomerInfoResp customerResp = new CustomerInfoResp();
         customerResp.customerId = customer.getId();
         customerResp.customerName = customer.getName();
@@ -78,6 +79,7 @@ public class CustomerPosApi extends PosApiController {
         int cardTimeCount = customerCardTimeService.selectCount(customer.getId(), customer.getShopIdenty());
         customerResp.coupCount = couponCount;
         customerResp.cardCount = cardTimeCount;
+        customerResp.cardNo = customer.getCardNo();
 
         return ApiResult.newSuccess(customerResp);
     }
@@ -95,10 +97,12 @@ public class CustomerPosApi extends PosApiController {
         mCustomer.setProfile(req.getMemo());
 
         if (req.getCustomerId() == null) {
-            /*CustomerEntity customerEntity = customerService.getCustomerByMobile(req.getHeader().getShopId(), req.getMobile());
-            if (customerEntity != null) {
-                throw new ApiResponseStatusException(ApiResponseStatus.CUSTOMER_MOBILE_INVALID);
-            }*/
+            if (StringUtils.isNotBlank(req.getMobile())) {
+                //判断在数据库里是否存在
+                if (customerService.existsMobile(req.getHeader().getShopId(), req.getMobile(), req.getCustomerId())) {
+                    throw new ApiResponseStatusException(ApiResponseStatus.CUSTOMER_MOBILE_INVALID);
+                }
+            }
 
             String consumePassword = req.getConsumePassword();
             if (StringUtils.isNotBlank(consumePassword)) {
@@ -115,16 +119,8 @@ public class CustomerPosApi extends PosApiController {
             mCustomer.setShopIdenty(req.getHeader().getShopId());
             mCustomer.setBrandIdenty(req.getHeader().getBrandId());
             mCustomer.setEnabledFlag(EnabledFlag.ENABLED.value());
-            if (StringUtils.isNotBlank(req.getMobile())) {
-                //判断在数据库里是否存在
-                if (customerService.existsMobile(req.getHeader().getShopId(), req.getMobile(), req.getCustomerId())) {
-                    throw new ApiResponseStatusException(ApiResponseStatus.CUSTOMER_MOBILE_INVALID);
-                }
-            }
-            customerService.insert(mCustomer);
+            customerService.save(mCustomer, req.getCardNo());
         } else {
-            mCustomer.baseUpdate(req.getUserId(), req.getUserName());
-            mCustomer.setId(req.getCustomerId());
             CustomerEntity current = customerService.selectById(req.getCustomerId());
             if (current != null && !StringUtils.equals(current.getMobile(), req.getMobile())) {
                 if (StringUtils.isNotBlank(req.getMobile())) {
@@ -134,7 +130,9 @@ public class CustomerPosApi extends PosApiController {
                     }
                 }
             }
-            customerService.updateById(mCustomer);
+            mCustomer.baseUpdate(req.getUserId(), req.getUserName());
+            mCustomer.setId(req.getCustomerId());
+            customerService.save(mCustomer, req.getCardNo());
         }
 
         return ApiResult.newSuccess(mCustomer);
