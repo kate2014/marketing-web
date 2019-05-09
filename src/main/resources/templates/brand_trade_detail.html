@@ -19,7 +19,7 @@
         <label class="text_navigation" style="margin-left: 10px;width: 30%">订单列表 》订单详情</label>
 
         <div align="right" style="width: 100%;margin-right: 50px">
-            <button class="gray_button_style" value="" th:onclick="@{|location='${basePath}/internal/trade/listData?brandIdenty=${mTradeModel.brandIdenty}&shopIdenty=${mTradeModel.shopIdenty}'|}" style="margin-left: 10px">返回列表</button>
+            <button class="gray_button_style" value="" th:onclick="@{|location='${basePath}/internal/brand/trade/listData?brandIdenty=${mTradeModel.brandIdenty}'|}" style="margin-left: 10px">返回列表</button>
         </div>
     </div>
 </div>
@@ -163,7 +163,7 @@
                         退款中
                         <span th:if="${item.payStatus} eq '4'">
                             <span th:if="${mTradeEntity.source} eq '2'">
-                                <span class="refresh_but" th:onclick="@{|location='${basePath}/internal/trade/refundquery?paymentItemId=${item.id}&tradeId=${mTradeEntity.id}'|}">刷新退款结果</span>
+                                <span class="refresh_but" th:onclick="@{|location='${basePath}/internal/brand/trade/refundquery?paymentItemId=${item.id}&tradeId=${mTradeEntity.id}'|}">刷新退款结果</span>
                             </span>
                         </span>
                     </p>
@@ -174,7 +174,7 @@
                         退款失败
                         <span th:if="${item.payStatus} eq '6'">
                             <span th:if="${mTradeEntity.source} eq '2'">
-                                <span class="refresh_but" th:onclick="@{|location='${basePath}/internal/trade/refundTrade?paymentItemId=${item.id}&tradeId=${mTradeEntity.id}&relationTradeId=${mTradeEntity.relateTradeId}'|}">重新发起退款</span>
+                                <span class="refresh_but" th:onclick="@{|location='${basePath}/internal/brand/trade/refundTrade?paymentItemId=${item.id}&tradeId=${mTradeEntity.id}&relationTradeId=${mTradeEntity.relateTradeId}'|}">重新发起退款</span>
                             </span>
                         </span>
                     </p>

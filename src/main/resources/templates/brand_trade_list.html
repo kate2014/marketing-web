@@ -54,11 +54,11 @@
     <label class="text_navigation" style="margin-left: 10px;width: 30%">订单列表</label>
 </div>
 
-<form method="post" action="" th:action="@{/internal/trade/listData}" th:object="${mTradeModel}">
+<form method="post" action="" th:action="@{/internal/brand/trade/listData}" th:object="${mTradeModel}">
     <div style="margin-top: 10px"  align="center" >
 
         <input type="hidden" name="brandIdenty" th:value="${mTradeModel.brandIdenty}">
-        <input type="hidden" name="shopIdenty" th:value="${mTradeModel.shopIdenty}">
+        <!--<input type="hidden" name="shopIdenty" th:value="${mTradeModel.shopIdenty}">-->
 
         <label class="text_navigation">订单号</label>
         <input class="input_min_style" style="margin-left: 5px" type="text" onkeyup="onlyNumber(this)" th:value="${mTradeModel.tradeNo}" name="tradeNo" id="tradeNo"/>
@@ -182,7 +182,7 @@
             <td th:text="${#dates.format(item.serverCreateTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
 
             <td align="center" style="vertical-align: center">
-                <img class="see_modify" th:src="@{/images/see_detail.jpg}" th:onclick="@{|location='${basePath}/internal/trade/tradeDetail?tradeId=${item.id}&brandIdenty=${mTradeModel.brandIdenty}&shopIdenty=${mTradeModel.shopIdenty}'|}">
+                <img class="see_modify" th:src="@{/images/see_detail.jpg}" th:onclick="@{|location='${basePath}/internal/brand/trade/tradeDetail?tradeId=${item.id}&brandIdenty=${mTradeModel.brandIdenty}'|}">
                     <!--<a th:href="@{/internal/trade/tradeDetail(tradeId=${item.id},brandIdenty=${mTradeModel.brandIdenty},shopIdenty=${mTradeModel.shopIdenty})}"><img class="see_modify" th:src="@{/images/see_detail.jpg}"></a>-->
             </td>
 

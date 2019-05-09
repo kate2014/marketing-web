@@ -167,8 +167,12 @@ public class TradeServiceImpl extends ServiceImpl<TradeMapper, TradeEntity> impl
     @Override
     public Page<TradeEntity> queryListTradePage(TradeModel mTradeModel) throws Exception {
         EntityWrapper<TradeEntity> eWrapper = new EntityWrapper<>(new TradeEntity());
-        eWrapper.eq("shop_identy", mTradeModel.getShopIdenty());
-        eWrapper.eq("brand_identy", mTradeModel.getBrandIdenty());
+        if(mTradeModel.getShopIdenty() != null){
+            eWrapper.eq("shop_identy", mTradeModel.getShopIdenty());
+        }
+        if(mTradeModel.getBrandIdenty() != null){
+            eWrapper.eq("brand_identy", mTradeModel.getBrandIdenty());
+        }
         if (mTradeModel.getSource() != null) {
             eWrapper.eq("source", mTradeModel.getSource());
         }
