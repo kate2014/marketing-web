@@ -1,12 +1,10 @@
 package com.zhongmei.yunfu.controller.brand;
 
-import com.baomidou.mybatisplus.plugins.Page;
 import com.zhongmei.yunfu.controller.BaseController;
-import com.zhongmei.yunfu.controller.model.ShopSearchModel;
 import com.zhongmei.yunfu.controller.model.TradeModel;
-import com.zhongmei.yunfu.domain.entity.CommercialEntity;
-import com.zhongmei.yunfu.domain.entity.ShopSalesReport;
-import com.zhongmei.yunfu.service.CommercialService;
+import com.zhongmei.yunfu.controller.model.excel.ExcelData;
+import com.zhongmei.yunfu.controller.model.excel.ExcelUtils;
+import com.zhongmei.yunfu.domain.entity.bean.ShopSalesReport;
 import com.zhongmei.yunfu.service.TradeService;
 import com.zhongmei.yunfu.util.DateFormatUtil;
 import com.zhongmei.yunfu.util.ToolsUtil;
@@ -15,11 +13,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 
 /**
@@ -67,13 +64,7 @@ public class BrandReportShopOrderController extends BaseController {
             Long maxCount = 0l;
             Long maxAmount = 0l;
 
-            int i = 0;
             for(ShopSalesReport entity : listData){
-
-                if(i==20){
-                    break;
-                }
-                i++;
 
                 totalCount = totalCount.add(entity.getSalesCount());
                 totalAmount = totalAmount.add(entity.getSalesAmount());
@@ -106,13 +97,115 @@ public class BrandReportShopOrderController extends BaseController {
             model.addAttribute("totalCount", totalCount);
             model.addAttribute("totalAmount", totalAmount);
 
-            model.addAttribute("listData", listData);
+            //获取门店业绩详情
+            Map<Long,ShopSalesReport> temp = shopSalesData(mTradeModel);
+
+            List<ShopSalesReport> listDetail = new ArrayList<>();
+            for (Long key : temp.keySet()) {
+                listDetail.add(temp.get(key));
+            }
+
+            model.addAttribute("listData", listDetail);
         }catch (Exception e){
             e.printStackTrace();
         }
 
         model.addAttribute("mTradeModel", mTradeModel);
         return "brand_report_shop_order";
+    }
+
+    public Map<Long,ShopSalesReport> shopSalesData(TradeModel mTradeModel) throws Exception{
+        //获取门店业绩详情
+        List<ShopSalesReport> templist = mTradeService.queryShopSalesData(mTradeModel);
+
+        Map<Long,ShopSalesReport> temp = new HashMap<>();
+        for(ShopSalesReport entity : templist){
+            ShopSalesReport mShopSalesReport = temp.get(entity.getShopIdenty());
+            if(mShopSalesReport == null){
+                mShopSalesReport = new ShopSalesReport();
+                temp.put(entity.getShopIdenty(),mShopSalesReport);
+
+                mShopSalesReport.setShopName(entity.getShopName());
+            }
+            if(entity.getBusinessType() == 1){
+                mShopSalesReport.setSalesAmount(entity.getSalesAmount());
+                mShopSalesReport.setSalesCount(entity.getSalesCount());
+            }else if(entity.getBusinessType() == 2){
+                mShopSalesReport.setTotalSave(entity.getSalesAmount());
+                mShopSalesReport.setTotalSaveCount(entity.getSalesCount());
+            }else if(entity.getBusinessType() == 3){
+                mShopSalesReport.setTotalCard(entity.getSalesAmount());
+                mShopSalesReport.setTotalCardCount(entity.getSalesCount());
+            }else if(entity.getBusinessType() == 4){
+                mShopSalesReport.setTotalWeiXin(entity.getSalesAmount());
+                mShopSalesReport.setTotalWeiXinCount(entity.getSalesCount());
+            }
+
+            if(mShopSalesReport.getTotalAmount() == null){
+                mShopSalesReport.setTotalAmount(BigDecimal.ZERO);
+                mShopSalesReport.setTotalAmountCount(BigDecimal.ZERO);
+            }
+
+            mShopSalesReport.setTotalAmount(mShopSalesReport.getTotalAmount().add(entity.getSalesAmount()));
+            mShopSalesReport.setTotalAmountCount(mShopSalesReport.getTotalAmountCount().add(entity.getSalesCount()));
+
+        }
+
+        return temp;
+    }
+
+    @RequestMapping("/shopOrder/export/excel")
+    public void exportExcel(HttpServletResponse response, TradeModel mTradeModel) throws Exception{
+
+        //获取门店业绩详情
+        Map<Long,ShopSalesReport> temp = shopSalesData(mTradeModel);
+
+        ExcelData data = new ExcelData();
+        data.setSheetName("各门店业绩报表");
+        List<String> titles = new ArrayList();
+        titles.add("序");
+        titles.add("门店名称");
+        titles.add("储值笔数");
+        titles.add("储值金额");
+        titles.add("次卡销售笔数");
+        titles.add("次卡销售金额");
+        titles.add("小程序销售笔数");
+        titles.add("小程序销售金额");
+        titles.add("销货笔数");
+        titles.add("销货金额");
+        titles.add("营业总单数");
+        titles.add("营业合计");
+        data.setTitles(titles);
+
+        List<List<Object>> rows = new ArrayList();
+        data.setRows(rows);
+
+        int i = 1;
+        if(temp != null){
+            for (Long key : temp.keySet()) {
+
+                ShopSalesReport entity = temp.get(key);
+
+                List<Object> row = new ArrayList();
+                rows.add(row);
+                row.add(i++);
+                row.add(entity.getShopName());
+                row.add(entity.getTotalSaveCount());
+                row.add(entity.getTotalSave());
+                row.add(entity.getTotalCardCount());
+                row.add(entity.getTotalCard());
+                row.add(entity.getTotalWeiXinCount());
+                row.add(entity.getTotalWeiXin());
+                row.add(entity.getSalesCount());
+                row.add(entity.getSalesAmount());
+                row.add(entity.getTotalAmountCount());
+                row.add(entity.getTotalAmount());
+            }
+        }
+
+        SimpleDateFormat fdate = new SimpleDateFormat("yyyyMMdd");
+        String fileName = String.format("各门店业绩报表-%s.xls", fdate.format(new Date()));
+        ExcelUtils.exportExcel(response, fileName, data);
     }
 
 }

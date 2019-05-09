@@ -6,6 +6,7 @@ import com.zhongmei.yunfu.controller.model.CustomerSaleModel;
 import com.zhongmei.yunfu.controller.model.ReportSalesExportModel;
 import com.zhongmei.yunfu.domain.entity.*;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import com.zhongmei.yunfu.domain.entity.bean.ShopSalesReport;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.session.RowBounds;
@@ -120,6 +121,15 @@ public interface TradeMapper extends BaseMapper<TradeEntity> {
             "where t.id not in (SELECT relate_trade_id FROM trade WHERE brand_identy = ${brandIdenty} AND status_flag = 1 AND trade_status = 5 AND trade_type = 2 AND server_create_time BETWEEN '${startDate}' AND '${endDate}')  \n" +
             "${ew.sqlSegment} \n" +
             "GROUP BY c.`commercial_id` \n" +
-            "ORDER BY SUM(t.`trade_amount`) desc")
-    List<ShopSalesReport> queryShopOrderSales(@Param("ew") Condition wrapper,@Param("brandIdenty") Long brandIdenty,@Param("startDate") String startDate,@Param("endDate") String endDate);
+            "ORDER BY SUM(t.`trade_amount`) desc limit 20")
+    List<ShopSalesReport> queryShopOrderSales(@Param("ew") Condition wrapper, @Param("brandIdenty") Long brandIdenty, @Param("startDate") String startDate, @Param("endDate") String endDate);
+
+
+    @Select("SELECT c.`commercial_name` as shopName, c.`commercial_id` as shopIdenty,SUM(t.`trade_amount`) as salesAmount,count(t.id) as salesCount , t.`business_type` as businessType\n" +
+            "FROM `commercial` c LEFT JOIN `trade` t on c.`commercial_id` = t.`shop_identy` \n" +
+            "where t.id not in (SELECT relate_trade_id FROM trade WHERE brand_identy = ${brandIdenty} AND status_flag = 1 AND trade_status = 5 AND trade_type = 2 AND server_create_time BETWEEN '${startDate}' AND '${endDate}') \n" +
+            "${ew.sqlSegment} \n" +
+            "GROUP BY c.`commercial_id` , t.`business_type` \n" +
+            "ORDER BY SUM(t.`trade_amount`) desc ;")
+    List<ShopSalesReport> queryShopSalesData(@Param("ew") Condition wrapper,@Param("brandIdenty") Long brandIdenty,@Param("startDate") String startDate,@Param("endDate") String endDate);
 }

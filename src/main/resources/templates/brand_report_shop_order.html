@@ -22,14 +22,12 @@
 <script type="text/javascript">
     function exportExcel() {
         var brandIdenty = $("input[name='brandIdenty']").val();
-        var shopIdenty = $("input[name='shopIdenty']").val();
         var startDate = $("input[name='startDate']").val();
         var endDate = $("input[name='endDate']").val();
         var params = "brandIdenty=" + brandIdenty +
-            "&shopIdenty=" + shopIdenty +
             "&startDate=" + startDate +
             "&endDate=" + endDate;
-        location.href = "[[${basePath}]]/internal/dish/export/excel?" + params;
+        location.href = "[[${basePath}]]/internal/brand/report/shopOrder/export/excel?" + params;
     }
 </script>
 
@@ -55,7 +53,7 @@
         <input type="text" class="input_style" name="endDate" placeholder="设置查询结束时间" id="endDate"  th:value="${mTradeModel.endDate}">
         <button class="orange_mine_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
     </form>
-    <div class="parent" id="export_excel" onclick="exportExcel()" style="margin-left: 20px;cursor:pointer;" th:if="${mTradeModel.rquestSource} eq '1'">
+    <div class="parent" id="export_excel" onclick="exportExcel()" style="margin-left: 20px;cursor:pointer;">
         <img th:src="@{/images/excel_icon.png}" src="../static/images/excel_icon.png" style="width: 21px;height: 21px">
         <span style="font-size: 10px;margin-left: 6px">数据导出</span>
     </div>
@@ -166,22 +164,30 @@
 
 
 <div align="center" style="margin-top: 10px; margin-bottom: 100px">
-    <table class="gridtablestyle" style="width: 90%; vertical-align: middle">
+    <table class="gridtablestyle" style="width:95%; vertical-align: middle">
         <tr style="width: 100%">
             <th>门店名称</th>
-            <th>营业单数</th>
-            <th>营业金额</th>
+            <th>储值金额</th>
+            <th>次卡销售金额</th>
+            <th>小程序销售金额</th>
+            <th>销货金额</th>
+            <th>营业总单数</th>
+            <th>营业合计</th>
 
         </tr>
         <tr th:each="item:${listData}">
 
             <td th:text="${item.shopName}"></td>
-            <td th:text="${item.salesCount}"></td>
+            <td th:text="${item.totalSave}"></td>
+            <td th:text="${item.totalCard}"></td>
+            <td th:text="${item.totalWeiXin}"></td>
             <td th:text="${item.salesAmount}"></td>
+            <td th:text="${item.totalAmountCount}"></td>
+            <td th:text="${item.totalAmount}"></td>
 
         </tr>
         <tr>
-            <th colspan="4">合计：营业总单数：<span th:text="${totalCount}" style="margin-right: 88px"></span>营业总金额：<span th:text="${totalAmount}"></span></th>
+            <th colspan="7">合计：营业总单数：<span th:text="${totalCount}" style="margin-right: 88px"></span>营业总金额：<span th:text="${totalAmount}"></span></th>
         </tr>
 
     </table>
