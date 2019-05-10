@@ -56,6 +56,10 @@ class TradePrivilegeEntity : BaseEntity() {
      */
     var promoId: Long? = null
     /**
+     * 优惠券Id
+     */
+    var couponId: Long? = null
+    /**
      * 附加费名称
      */
     var surchargeName: String? = null
@@ -103,6 +107,7 @@ class TradePrivilegeEntity : BaseEntity() {
                 ", privilegeType=" + privilegeType +
                 ", privilegeValue=" + privilegeValue +
                 ", privilegeAmount=" + privilegeAmount +
+                ", couponId=" + couponId +
                 ", promoId=" + promoId +
                 ", surchargeName=" + surchargeName +
                 ", privilegeName=" + privilegeName +

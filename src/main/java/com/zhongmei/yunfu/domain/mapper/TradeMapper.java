@@ -112,7 +112,7 @@ public interface TradeMapper extends BaseMapper<TradeEntity> {
 
     @Select("SELECT sum(t.`trade_amount`) as tradeAmount,count(t.id) as tradeCount,p.`privilege_name` as privilageName ,p.`promo_id` as promoId  FROM `trade_privilege`  p, trade t\n" +
             "WHERE p.`trade_id`  = t.`id` ${ew.sqlSegment} \n" +
-            "GROUP BY p.`promo_id` \n" +
+            "GROUP BY p.`coupon_id` \n" +
             "ORDER BY sum(t.`trade_amount`) desc;")
     List<TradePrivilageReport> queryTradePrivilage(@Param("ew") Condition wrapper);
 
