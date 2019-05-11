@@ -56,7 +56,7 @@ public class CustomerStoredServiceImpl extends ServiceImpl<CustomerStoredMapper,
         MemberChargeMessage wxTempMsg = new MemberChargeMessage();
         wxTempMsg.setChargeType("余额储值");
         wxTempMsg.setMobileAccount(customerEntity.getMobile());
-        wxTempMsg.setChargeTime(DateFormatUtil.format(customerEntity.getServerCreateTime(), DateFormatUtil.FORMAT_FULL_DATE));
+        wxTempMsg.setChargeTime(DateFormatUtil.format(tradeEntity.getServerCreateTime(), DateFormatUtil.FORMAT_FULL_DATE));
         wxTempMsg.setChargeAmount(customerStored.getTradeAmount() + "元");
         wxTempMsg.setTradeNo(tradeEntity.getTradeNo());
         wxTempMsg.setGivenAmount("0.00元");
