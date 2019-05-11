@@ -3,11 +3,7 @@ package com.zhongmei.yunfu.thirdlib.wxapp.msg
 /**
  * 优惠活动推送
  */
-class CouponPushMessage : WxTempMsg() {
-
-    init {
-        msgType = msgType_CouponPush
-    }
+class CouponPushMessage : WxTempMsg(msgType_CouponPush) {
 
     var sendDate: Long? = null
     var endDate: Long? = null

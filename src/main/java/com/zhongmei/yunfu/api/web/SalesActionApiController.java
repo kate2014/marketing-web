@@ -307,7 +307,6 @@ public class SalesActionApiController {
         wxTempMsg.setBrandIdenty(mTradeEntity.getBrandIdenty());
         wxTempMsg.setShopIdenty(mTradeEntity.getShopIdenty());
         wxTempMsg.setCustomerId(customerId);
-        wxTempMsg.setMsgType(WxTempMsg.msgType_OrderPay);
 
         mWxTemplateMessageHandler.send(wxTempMsg);
     }

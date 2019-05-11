@@ -423,7 +423,6 @@ public class ScenarioMarketingApiController {
 
     public void sendServiceMessage(TradeEntity mTrade,CollageCustomerModel ccm){
         ColloageFailMessage wxTempMsg = new ColloageFailMessage();
-        wxTempMsg.setMsgType(WxTempMsg.msgCollage_fail);
         wxTempMsg.setCustomerId(ccm.getCustomerId());
         wxTempMsg.setBrandIdenty(ccm.getBrandIdentity());
         wxTempMsg.setShopIdenty(ccm.getShopIdentity());

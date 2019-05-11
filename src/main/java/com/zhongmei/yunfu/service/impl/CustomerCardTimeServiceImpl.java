@@ -9,17 +9,17 @@ import com.zhongmei.yunfu.api.ApiResponseStatusException;
 import com.zhongmei.yunfu.api.internal.vo.CustomerCardTimeBuyReq;
 import com.zhongmei.yunfu.api.internal.vo.CustomerCardTimeExpenseReq;
 import com.zhongmei.yunfu.api.internal.vo.CustomerCardTimeRefundReq;
-import com.zhongmei.yunfu.domain.entity.CustomerCardTimeEntity;
-import com.zhongmei.yunfu.domain.entity.CustomerCardTimeExpendEntity;
-import com.zhongmei.yunfu.domain.entity.CustomerEntity;
+import com.zhongmei.yunfu.domain.entity.*;
 import com.zhongmei.yunfu.domain.enums.EnabledFlag;
 import com.zhongmei.yunfu.domain.enums.RecordType;
 import com.zhongmei.yunfu.domain.enums.StatusFlag;
 import com.zhongmei.yunfu.domain.mapper.CustomerCardTimeMapper;
-import com.zhongmei.yunfu.service.CustomerCardTimeExpendService;
-import com.zhongmei.yunfu.service.CustomerCardTimeService;
-import com.zhongmei.yunfu.service.CustomerService;
+import com.zhongmei.yunfu.service.*;
+import com.zhongmei.yunfu.thirdlib.wxapp.WxTemplateMessageHandler;
+import com.zhongmei.yunfu.thirdlib.wxapp.msg.MemberChargeMessage;
+import com.zhongmei.yunfu.thirdlib.wxapp.msg.OrderPayMessage;
 import com.zhongmei.yunfu.util.DateFormatUtil;
+import com.zhongmei.yunfu.util.ToolsUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,6 +44,12 @@ public class CustomerCardTimeServiceImpl extends ServiceImpl<CustomerCardTimeMap
 
     @Autowired
     CustomerCardTimeExpendService customerCardTimeExpendService;
+
+    @Autowired
+    TradeService tradeService;
+
+    @Autowired
+    TradeItemService mTradeItemService;
 
     @Override
     public CustomerCardTimeEntity getCustomerCardTimeEntity(Long id, boolean isCheckState) throws Exception {
@@ -81,7 +87,6 @@ public class CustomerCardTimeServiceImpl extends ServiceImpl<CustomerCardTimeMap
         return selectPage(new Page<>(pageNo, pageSize), new EntityWrapper<>(cardTimeEntity));
     }
 
-    @Transactional(rollbackFor = Exception.class)
     @Override
     public void buy(CustomerCardTimeBuyReq req) throws Exception {
         CustomerEntity customerEntity = customerService.getCustomerEntity(req.getCustomerId(), true);
@@ -139,6 +144,27 @@ public class CustomerCardTimeServiceImpl extends ServiceImpl<CustomerCardTimeMap
         customerEntity.setCardExpireDate(cardExpireDate);
         customerEntity.setCardResidueCount(cardResidueCount);
         customerService.updateById(customerEntity);
+
+        List<TradeItemEntity> listItem = mTradeItemService.querTradeItemByTradeId(req.getTradeId());
+        String dishList = "";
+        for(TradeItemEntity item : listItem){
+            if(dishList.equals("")){
+                dishList = item.getDishName()+" X "+ ToolsUtil.subZeroAndDot(item.getQuantity().toString());
+            }else{
+                dishList = dishList +";"+ item.getDishName()+" X "+ToolsUtil.subZeroAndDot(item.getQuantity().toString());
+            }
+        }
+
+        TradeEntity tradeEntity = tradeService.selectById(req.getTradeId());
+        OrderPayMessage wxTempMsg = new OrderPayMessage();
+        wxTempMsg.setTradeNo(tradeEntity.getTradeNo());
+        wxTempMsg.setTradePayAmount(tradeEntity.getTradeAmount());
+        wxTempMsg.setPayDate(DateFormatUtil.format(tradeEntity.getServerUpdateTime(),DateFormatUtil.FORMAT_FULL_DATE));
+        wxTempMsg.setDishList(dishList);
+        wxTempMsg.setBrandIdenty(req.getBrandId());
+        wxTempMsg.setShopIdenty(req.getShopId());
+        wxTempMsg.setCustomerId(req.getCustomerId());
+        WxTemplateMessageHandler.sendWxTemplateMessage(wxTempMsg);
     }
 
     @Transactional(rollbackFor = Exception.class)

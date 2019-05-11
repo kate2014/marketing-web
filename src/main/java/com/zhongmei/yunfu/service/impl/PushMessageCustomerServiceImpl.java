@@ -126,7 +126,6 @@ public class PushMessageCustomerServiceImpl extends ServiceImpl<PushMessageCusto
             //发送消息
             for (PushMessageCustomerEntity customerCouponEntity : listData) {
                 CouponPushMessage couponPushMessage = new CouponPushMessage();
-                couponPushMessage.setMsgType(WxTempMsg.msgType_CouponPush);
                 couponPushMessage.setBrandIdenty(customerCouponEntity.getBrandIdenty());
                 couponPushMessage.setShopIdenty(customerCouponEntity.getShopIdenty());
                 couponPushMessage.setCustomerId(customerCouponEntity.getCustomerId());

@@ -27,7 +27,6 @@ public class TypeUtilsTest {
         orderPayMessage.setTradePayAmount(BigDecimal.ONE);
         orderPayMessage.setBrandIdenty(1L);
         orderPayMessage.setShopIdenty(2L);
-        orderPayMessage.setMsgType(1);
         orderPayMessage.setCustomerId(1L);
         String jsonBody = JSON.toJSONString(orderPayMessage);
         WxTempMsg wxTempMsg = (WxTempMsg) JSON.parseObject(jsonBody, genericClass);

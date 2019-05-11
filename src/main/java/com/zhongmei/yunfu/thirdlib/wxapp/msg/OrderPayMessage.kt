@@ -5,7 +5,7 @@ import java.math.BigDecimal
 /**
  * 订单支付成功
  */
-class OrderPayMessage : WxTempMsg() {
+class OrderPayMessage : WxTempMsg(WxTempMsg.msgType_OrderPay) {
 
     var tradePayAmount: BigDecimal? = null
     var tradeNo: String? = null
