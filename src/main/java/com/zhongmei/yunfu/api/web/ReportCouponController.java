@@ -10,6 +10,7 @@ import com.zhongmei.yunfu.domain.entity.bean.CustomerCouponReport;
 import com.zhongmei.yunfu.service.BrandService;
 import com.zhongmei.yunfu.service.CommercialService;
 import com.zhongmei.yunfu.service.CustomerCouponService;
+import com.zhongmei.yunfu.util.ToolsUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -172,6 +173,9 @@ public class ReportCouponController {
                 }
             }
 
+
+            maxCount = ToolsUtil.getMaxData(maxCount);
+            maxAmount = ToolsUtil.getMaxData(maxAmount);
 
             model.addAttribute("maxCount", maxCount);
             model.addAttribute("intervalCount", maxCount / 10);

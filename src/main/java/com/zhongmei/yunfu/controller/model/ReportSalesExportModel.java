@@ -38,6 +38,8 @@ public class ReportSalesExportModel extends WebBaseModel {
      */
     private String tradeState;
 
+    private Long shopIdenty;
+
     public String getBusinessType() {
         return businessType;
     }
@@ -92,5 +94,13 @@ public class ReportSalesExportModel extends WebBaseModel {
 
     public void setTradeState(String tradeState) {
         this.tradeState = tradeState;
+    }
+
+    public Long getShopIdenty() {
+        return shopIdenty;
+    }
+
+    public void setShopIdenty(Long shopIdenty) {
+        this.shopIdenty = shopIdenty;
     }
 }

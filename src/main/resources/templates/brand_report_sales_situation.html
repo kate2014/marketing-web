@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>营业报表</title>
+    <title>品牌营业报表</title>
     <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
     <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
     <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" type="text/css" />
@@ -21,14 +21,14 @@
 <script type="text/javascript">
     function exportExcel() {
         var brandIdenty = $("input[name='brandIdenty']").val();
-        var shopIdenty = $("input[name='shopIdenty']").val();
+        var shopIdenty = $("#shopIdenty").val();
         var startDate = $("input[name='startDate']").val();
         var endDate = $("input[name='endDate']").val();
         var params = "brandIdenty=" + brandIdenty +
             "&shopIdenty=" + shopIdenty +
             "&startDate=" + startDate +
             "&endDate=" + endDate;
-        location.href = "[[${basePath}]]/internal/sales/export/excel?" + params;
+        location.href = "[[${basePath}]]/internal/brand/report/export/excel?" + params;
     }
 </script>
 
@@ -52,21 +52,19 @@
 
 
     <div class="parent" style="margin-top: 20px">
-        <form method="post" name="queryData" action="" th:action="@{/internal/sales/salesReport}" th:object="${mTradeModel}">
+        <form method="post" name="queryData" action="" th:action="@{/internal/brand/report/salesReport}" th:object="${mTradeModel}">
 
             <input type="hidden" name="brandIdenty" th:value="${mTradeModel.brandIdenty}">
 
-            <input type="hidden" name="shopIdenty" th:value="${mTradeModel.shopIdenty}">
-
             <input type="hidden" name="rquestSource" th:value="${mTradeModel.rquestSource}">
 
-            <!--<label class="text_navigation" style="margin-left: 20px">范围</label>-->
-            <!--<select class="select_min_style" name="shopIdenty" style="margin-left: 5px">-->
+            <label class="text_navigation" style="margin-left: 20px">范围</label>
+            <select class="select_style" id="shopIdenty" name="shopIdenty" style="margin-left: 5px">
 
-                <!--<option value="">品牌下全门店</option>-->
-                <!--<option th:selected="${mTradeModel.shopIdenty eq list.commercialId}" th:each="list:${listCommercial}" th:value="${list.commercialId}" th:text="${list.commercialName}"></option>-->
+                <option value="">品牌下全门店</option>
+                <option th:selected="${mTradeModel.shopIdenty eq list.commercialId}" th:each="list:${listCommercial}" th:value="${list.commercialId}" th:text="${list.commercialName}"></option>
 
-            <!--</select>-->
+            </select>
 
             <label class="text_navigation" style="margin-left: 10px">查询时间</label>
             <input type="text" class="input_style" id="startDate" name="startDate" placeholder="设置查询起始时间" th:value="${mTradeModel.startDate}">

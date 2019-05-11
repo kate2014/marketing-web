@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.zhongmei.yunfu.controller.model.*;
 import com.zhongmei.yunfu.domain.entity.*;
 import com.baomidou.mybatisplus.service.IService;
+import com.zhongmei.yunfu.domain.entity.bean.ShopSalesReport;
 
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -193,5 +194,21 @@ public interface TradeService extends IService<TradeEntity> {
      * @throws Exception
      */
     List<TradePrivilageReport> queryTradePrivilage(ReportMarketingModel mReportMarketingModel)throws Exception;
+
+    /**
+     * 获取门店业绩排行榜
+     * @param mTradeModel
+     * @return
+     * @throws Exception
+     */
+    List<ShopSalesReport> queryShopOrderSales(TradeModel mTradeModel)throws Exception;
+
+    /**
+     * 获取门店业绩详情
+     * @param mTradeModel
+     * @return
+     * @throws Exception
+     */
+    List<ShopSalesReport> queryShopSalesData(TradeModel mTradeModel)throws Exception;
 
 }

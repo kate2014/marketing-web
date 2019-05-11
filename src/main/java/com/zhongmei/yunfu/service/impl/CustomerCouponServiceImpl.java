@@ -176,7 +176,7 @@ public class CustomerCouponServiceImpl extends ServiceImpl<CustomerCouponMapper,
         eWrapper.eq("enabled_flag", 1);
         eWrapper.eq("status_flag", 1);
         eWrapper.eq("status", status);
-        eWrapper.between("server_create_time", start, end);
+        eWrapper.between("server_update_time", start, end);
 
         List<CustomerCouponReport> listData = baseMapper.selectCouponReport(eWrapper);
         return listData;

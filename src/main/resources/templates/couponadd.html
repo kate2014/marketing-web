@@ -107,7 +107,7 @@
     <form method="post" name="addForm" th:action="@{/coupon/addOrEdit}" th:object="${couponModel}">
         <input type="hidden" name="couponState" id="couponState"/>
         <input type="hidden" name="id" th:value="${couponModel.id}">
-        <input type="hidden" id="dishId" th:value="${couponModel.dishId}">
+        <input type="hidden" id="dishId" name="dishId" th:value="${couponModel.dishId}">
 
         <div class="details-bom">
             <ul class="spell-content">

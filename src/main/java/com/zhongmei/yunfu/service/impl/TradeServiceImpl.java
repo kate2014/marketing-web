@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.zhongmei.yunfu.controller.model.*;
 import com.zhongmei.yunfu.core.mybatis.mapper.ConditionFilter;
 import com.zhongmei.yunfu.domain.entity.*;
+import com.zhongmei.yunfu.domain.entity.bean.ShopSalesReport;
 import com.zhongmei.yunfu.domain.mapper.TradeMapper;
 import com.zhongmei.yunfu.service.*;
 import com.zhongmei.yunfu.util.DateFormatUtil;
@@ -166,8 +167,12 @@ public class TradeServiceImpl extends ServiceImpl<TradeMapper, TradeEntity> impl
     @Override
     public Page<TradeEntity> queryListTradePage(TradeModel mTradeModel) throws Exception {
         EntityWrapper<TradeEntity> eWrapper = new EntityWrapper<>(new TradeEntity());
-        eWrapper.eq("shop_identy", mTradeModel.getShopIdenty());
-        eWrapper.eq("brand_identy", mTradeModel.getBrandIdenty());
+        if(mTradeModel.getShopIdenty() != null){
+            eWrapper.eq("shop_identy", mTradeModel.getShopIdenty());
+        }
+        if(mTradeModel.getBrandIdenty() != null){
+            eWrapper.eq("brand_identy", mTradeModel.getBrandIdenty());
+        }
         if (mTradeModel.getSource() != null) {
             eWrapper.eq("source", mTradeModel.getSource());
         }
@@ -381,6 +386,32 @@ public class TradeServiceImpl extends ServiceImpl<TradeMapper, TradeEntity> impl
         eWrapper.between("t.server_create_time", mReportMarketingModel.getStartDate(), mReportMarketingModel.getEndDate());
 
         List<TradePrivilageReport> listData = baseMapper.queryTradePrivilage(eWrapper);
+        return listData;
+    }
+
+    @Override
+    public List<ShopSalesReport> queryShopOrderSales(TradeModel mTradeModel) throws Exception {
+        Condition eWrapper = ConditionFilter.create();
+        eWrapper.eq("t.brand_identy", mTradeModel.getBrandIdenty());
+        eWrapper.eq("t.status_flag", 1);
+        eWrapper.eq("t.trade_status", 4);
+        eWrapper.eq("t.trade_type", 1);
+        eWrapper.between("t.server_create_time", mTradeModel.getStartDate(), mTradeModel.getEndDate());
+
+        List<ShopSalesReport> listData = baseMapper.queryShopOrderSales(eWrapper,mTradeModel.getBrandIdenty(),mTradeModel.getStartDate(),mTradeModel.getEndDate());
+        return listData;
+    }
+
+    @Override
+    public List<ShopSalesReport> queryShopSalesData(TradeModel mTradeModel) throws Exception {
+        Condition eWrapper = ConditionFilter.create();
+        eWrapper.eq("t.brand_identy", mTradeModel.getBrandIdenty());
+        eWrapper.eq("t.status_flag", 1);
+        eWrapper.eq("t.trade_status", 4);
+        eWrapper.eq("t.trade_type", 1);
+        eWrapper.between("t.server_create_time", mTradeModel.getStartDate(), mTradeModel.getEndDate());
+
+        List<ShopSalesReport> listData = baseMapper.queryShopSalesData(eWrapper,mTradeModel.getBrandIdenty(),mTradeModel.getStartDate(),mTradeModel.getEndDate());
         return listData;
     }
 }

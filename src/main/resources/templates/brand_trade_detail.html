@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>订单详情</title>
+
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" type="text/css" />
+
+</head>
+
+
+<body style="background-color: #EFF1F4">
+<div th:if="${mTradeModel.source} ne '1'">
+    <div class="parent top_view_style">
+        <img th:src="@{/images/lable.jpg}" width="5" height="26" style="margin-left: 20px">
+        <label class="text_navigation" style="margin-left: 10px;width: 30%">订单列表 》订单详情</label>
+
+        <div align="right" style="width: 100%;margin-right: 50px">
+            <button class="gray_button_style" value="" th:onclick="@{|location='${basePath}/internal/brand/trade/listData?brandIdenty=${mTradeModel.brandIdenty}'|}" style="margin-left: 10px">返回列表</button>
+        </div>
+    </div>
+</div>
+<div style="margin: 20px;padding: 20px" class="modle_background_style">
+    <div class="parent">
+        <img th:src="@{/images/lable.jpg}" style="height: 25px; width: 4px; font-weight: bold;">
+        <label class="text_navigation" style="margin-left: 10px; font-weight: bold">订单信息</label>
+    </div>
+
+
+    <div style="margin-top: 15px" class="parent">
+        <label class="detail_lable_style">订单号：</label>
+        <lable class="detail_value_style" th:text="${mTradeEntity.tradeNo}"/>
+    </div>
+
+    <div style="margin-top: 15px" class="parent" align="left">
+
+        <div style="width: 300px" class="parent">
+            <label class="detail_lable_style">下单时间：</label>
+            <lable class="detail_value_style" th:text="${#dates.format(mTradeEntity.serverCreateTime, 'yyyy-MM-dd HH:mm:ss')}"/>
+        </div>
+        <div style="width: 300px" class="parent">
+            <label class="detail_lable_style">订单类型：</label>
+
+            <label th:switch="${mTradeEntity.businessType}" class="detail_value_style">
+                <p th:case="'1'">
+                    消费单
+                </p>
+                <p th:case="'2'">
+                    余额储值单
+                </p>
+                <p th:case="'3'">
+                    次卡服务
+                </p>
+                <p th:case="'4'">
+                    小程序服务购买
+                </p>
+            </label>
+        </div>
+        <div style="width: 300px" class="parent">
+            <label class="detail_lable_style">交易类型：</label>
+
+            <label th:switch="${mTradeEntity.businessType}" class="detail_value_style">
+                <p th:case="'1'">
+                    消费单
+                </p>
+                <p th:case="'2'">
+                    余额储值单
+                </p>
+                <p th:case="'3'">
+                    次卡充值
+                </p>
+                <p th:case="'4'">
+                    小程序服务购买
+                </p>
+            </label>
+        </div>
+        <div style="width: 300px" class="parent">
+            <label class="detail_lable_style">支付状态：</label>
+
+            <label th:switch="${mTradeEntity.tradePayStatus}" class="detail_value_style">
+                <p th:case="'1'">
+                    未支付
+                </p>
+                <p th:case="'3'">
+                    已支付
+                </p>
+                <p th:case="'9'">
+                    支付失败
+                </p>
+                <p th:case="'4'">
+                    退款中
+                </p>
+                <p th:case="'5'">
+                    已退款
+                </p>
+                <p th:case="'6'">
+                    退款失败
+                </p>
+
+            </label>
+        </div>
+
+
+    </div>
+    <div style="margin-top: 15px" class="parent" align="left">
+        <div style="width: 300px">
+            <label class="detail_lable_style">订单原价：</label>
+            <lable class="detail_value_style" th:text="${mTradeEntity.saleAmount}"/>
+        </div>
+        <div style="width: 300px">
+            <label class="detail_lable_style">订单优惠：</label>
+            <lable class="detail_value_style" th:text="${mTradeEntity.privilegeAmount}"/>
+        </div>
+        <div style="width: 300px">
+            <label class="detail_lable_style">订单实收：</label>
+            <lable class="detail_value_style" th:text="${mTradeEntity.tradeAmount}"/>
+        </div>
+        <div style="width: 300px">
+            <label class="detail_lable_style">开单操作员：</label>
+            <lable class="detail_value_style" th:text="${mTradeEntity.creatorName}"/>
+        </div>
+
+    </div>
+
+</div>
+
+<div style="margin: 20px;padding: 20px" class="modle_background_style">
+    <div class="parent">
+        <img th:src="@{/images/lable.jpg}" style="height: 25px; width: 4px; font-weight: bold;">
+        <label class="text_navigation" style="margin-left: 10px; font-weight: bold">订单支付信息</label>
+    </div>
+
+    <table class="gridtablestyle" style="width: 95%; vertical-align: middle">
+        <tr style="width: 100%">
+            <th>支付方式</th>
+            <th>应付金额</th>
+            <th>实付金额</th>
+            <th>支付时间</th>
+            <th>支付状态</th>
+            <th>支付备注</th>
+        </tr>
+
+        <tr th:each="item:${listPayment}">
+            <td style="padding-right: 10px;padding-left: 10px" th:text="${item.payModeName}"></td>
+            <td style="padding-right: 10px;padding-left: 10px" th:text="${item.usefulAmount}"></td>
+            <td style="padding-right: 10px;padding-left: 10px" th:text="${item.usefulAmount}"></td>
+            <td style="padding-right: 10px;padding-left: 10px" th:text="${#dates.format(item.serverCreateTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td>
+                <div th:switch="${item.payStatus}">
+                    <p th:case="'1'">
+                        未支付
+                    </p>
+                    <p th:case="'2'">
+                        支付中
+                    </p>
+                    <p th:case="'3'">
+                        已支付
+                    </p>
+                    <p th:case="'4'">
+                        退款中
+                        <span th:if="${item.payStatus} eq '4'">
+                            <span th:if="${mTradeEntity.source} eq '2'">
+                                <span class="refresh_but" th:onclick="@{|location='${basePath}/internal/brand/trade/refundquery?paymentItemId=${item.id}&tradeId=${mTradeEntity.id}'|}">刷新退款结果</span>
+                            </span>
+                        </span>
+                    </p>
+                    <p th:case="'5'">
+                        已退款
+                    </p>
+                    <p th:case="'6'">
+                        退款失败
+                        <span th:if="${item.payStatus} eq '6'">
+                            <span th:if="${mTradeEntity.source} eq '2'">
+                                <span class="refresh_but" th:onclick="@{|location='${basePath}/internal/brand/trade/refundTrade?paymentItemId=${item.id}&tradeId=${mTradeEntity.id}&relationTradeId=${mTradeEntity.relateTradeId}'|}">重新发起退款</span>
+                            </span>
+                        </span>
+                    </p>
+                    <p th:case="'7'">
+                        预支付
+                    </p>
+                    <p th:case="'8'">
+                        等待退款
+                    </p>
+                    <p th:case="'9'">
+                        支付失败
+                    </p>
+                    <p th:case="'10'">
+                        重复支付
+                    </p>
+                    <p th:case="'11'">
+                        异常支付
+                    </p>
+                </div>
+            </td>
+            <td style="padding-right: 10px;padding-left: 10px" th:text="${item.payMemo}"></td>
+
+        </tr>
+
+    </table>
+
+</div>
+
+<div style="margin: 20px;padding: 20px" class="modle_background_style">
+    <div class="parent">
+        <img th:src="@{/images/lable.jpg}" style="height: 25px; width: 4px; font-weight: bold;">
+        <label class="text_navigation" style="margin-left: 10px; font-weight: bold">会员信息</label>
+    </div>
+    <table class="gridtablestyle" style="width: 95%; vertical-align: middle">
+        <tr style="width: 100%">
+            <th>操作类型</th>
+            <th>会员名称</th>
+            <th>会员性别</th>
+            <th>会员联系电话</th>
+        </tr>
+
+        <tr th:each="item:${listTradeCustomer}">
+            <td>
+                <div th:switch="${item.customerType}">
+                    <p th:case="'1'">
+                        预约会员
+                    </p>
+                    <p th:case="'3'">
+                        登录权益会员
+                    </p>
+                    <p th:case="'2'">
+                        余额支付会员
+                    </p>
+                </div>
+            </td>
+            <td th:text="${item.customerName}"></td>
+            <td>
+                <div th:switch="${item.customerSex}">
+                    <p th:case="'0'">
+                        女士
+                    </p>
+                    <p th:case="'1'">
+                        男士
+                    </p>
+                </div>
+            </td>
+            <td th:text="${item.customerPhone}"></td>
+        </tr>
+
+    </table>
+
+</div>
+
+<div style="margin: 20px;padding: 20px" class="modle_background_style">
+    <div class="parent">
+        <img th:src="@{/images/lable.jpg}" style="height: 25px; width: 4px; font-weight: bold;">
+        <label class="text_navigation" style="margin-left: 10px; font-weight: bold">整单优惠</label>
+    </div>
+    <table class="gridtablestyle" style="width: 95%; vertical-align: middle">
+        <tr style="width: 100%">
+            <th>优惠名称</th>
+            <th>优惠金额</th>
+            <th>优惠操作员</th>
+        </tr>
+
+        <tr th:each="item:${privilageForTrade}">
+            <td style="padding-right: 10px;padding-left: 10px;width: 40%" th:text="${item.privilegeName}"></td>
+            <td style="padding-right: 10px;padding-left: 10px" th:text="${item.privilegeAmount}"></td>
+            <td style="padding-right: 10px;padding-left: 10px" th:text="${item.creatorName}"></td>
+        </tr>
+
+    </table>
+
+</div>
+
+
+
+<div style="margin: 20px;padding: 20px" class="modle_background_style">
+    <div class="parent">
+        <img th:src="@{/images/lable.jpg}" style="height: 25px; width: 4px; font-weight: bold;">
+        <label class="text_navigation" style="margin-left: 10px; font-weight: bold">订单详情</label>
+    </div>
+    <table class="gridtablestyle" style="width: 95%; vertical-align: middle">
+        <tr style="width: 100%">
+            <th>品项名称</th>
+            <th>品项单价</th>
+            <th>购买数量</th>
+            <th>应售金额</th>
+            <th>优惠金额</th>
+            <th>实售金额</th>
+            <th>服务员</th>
+            <th>订单操作员</th>
+        </tr>
+
+        <tr th:each="item:${listItem}">
+            <td style="padding-right: 10px;padding-left: 10px" th:text="${item.dishName}"></td>
+            <td style="padding-right: 10px;padding-left: 10px" th:text="${item.price}"></td>
+            <td style="padding-right: 10px;padding-left: 10px" th:text="${item.quantity}"></td>
+            <td style="padding-right: 10px;padding-left: 10px" th:text="${item.amount}"></td>
+            <td style="padding-right: 10px;padding-left: 10px" th:text="${item.privilege}"></td>
+            <td style="padding-right: 10px;padding-left: 10px" th:text="${item.actualAmount}"></td>
+            <td style="padding-right: 10px;padding-left: 10px" th:text="${item.tradeUser}"></td>
+            <td style="padding-right: 10px;padding-left: 10px" th:text="${item.creatorName}"></td>
+        </tr>
+
+    </table>
+
+    <div style="margin-top: 15px" class="parent" th:if="${not #strings.isEmpty(userForTrade.userName)}">
+        <label class="detail_value_style">整单归属服务员工：</label>
+        <lable class="detail_value_style" th:text="${userForTrade.userName}"/>
+    </div>
+
+</div>
+
+</body>
+</html>
