@@ -1998,23 +1998,3 @@ CREATE TABLE `wx_trade_customer` (
 ) ENGINE=InnoDB AUTO_INCREMENT=370 DEFAULT CHARSET=utf8 COMMENT='微信小程序购买使用记录';
 
 
-/*------- CREATE SQL---------*/
-DROP TABLE IF EXISTS  `shop_setting`;
-CREATE TABLE `setting_table` (
-  `id` bigint(32) NOT NULL AUTO_INCREMENT,
-  `key` varchar(32) NOT NULL COMMENT '设备标签',
-  `value` varchar(32) NOT NULL COMMENT '设置内容',
-  `status_flag` int(4) NOT NULL COMMENT '状态标识1:启用 2:禁用',
-  `shop_identy` bigint(32) NOT NULL,
-  `brand_identy` bigint(32) DEFAULT NULL,
-  `creator_id` bigint(32) DEFAULT NULL,
-  `creator_name` varchar(32) DEFAULT NULL,
-  `updator_id` bigint(32) DEFAULT NULL,
-  `updator_name` bigint(32) DEFAULT NULL,
-  `server_create_time` timestamp NULL DEFAULT NULL,
-  `server_update_time` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
-
-SET FOREIGN_KEY_CHECKS = 1;
-

@@ -32,6 +32,8 @@ public class BrandStaffController extends BaseController {
             model.addAttribute("mAuthUserModel", mAuthUserModel);
             model.addAttribute("list", listAuthUser.getRecords());
 
+            model.addAttribute("opType", 0);
+
         }catch (Exception e){
             e.printStackTrace();
         }

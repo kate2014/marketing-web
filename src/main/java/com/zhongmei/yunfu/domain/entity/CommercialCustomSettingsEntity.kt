@@ -41,9 +41,6 @@ class CommercialCustomSettingsEntity : BaseEntity() {
      * value
      */
     var settingValue: String? = null
-    var value: String? = null
-    var brandIdentity: Long? = null
-    var shopIdentity: Long? = null
 
 
     override fun toString(): String {
@@ -54,9 +51,6 @@ class CommercialCustomSettingsEntity : BaseEntity() {
         ", type=" + type +
         ", settingKey=" + settingKey +
         ", settingValue=" + settingValue +
-        ", value=" + value +
-        ", brandIdentity=" + brandIdentity +
-        ", shopIdentity=" + shopIdentity +
         "}"
     }
 }

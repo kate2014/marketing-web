@@ -3,13 +3,11 @@ package com.zhongmei.yunfu.api.web;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.zhongmei.yunfu.controller.BaseController;
+import com.zhongmei.yunfu.controller.model.CommercailSettingModel;
 import com.zhongmei.yunfu.controller.model.CustomerLevelRuleModel;
 import com.zhongmei.yunfu.controller.model.CustomerScoreRuleModel;
 import com.zhongmei.yunfu.controller.model.CustomerSearchSettingVo;
-import com.zhongmei.yunfu.domain.entity.AuthUserEntity;
-import com.zhongmei.yunfu.domain.entity.CustomerLevelRuleEntity;
-import com.zhongmei.yunfu.domain.entity.CustomerScoreRuleEntity;
-import com.zhongmei.yunfu.domain.entity.CustomerSearchRuleEntity;
+import com.zhongmei.yunfu.domain.entity.*;
 import com.zhongmei.yunfu.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,6 +38,8 @@ public class CustomerLevelRuleController  extends BaseController{
     CustomerSearchRuleService customerSearchRuleService;
     @Autowired
     AuthUserService authUserService;
+    @Autowired
+    CommercialCustomSettingsService mCommercialCustomSettingsService;
 
     @RequestMapping("/customerLevelRule/gotoPage")
     public String gotoPage(Model model, CustomerLevelRuleModel mCustomerLevelRuleModel) {
@@ -120,6 +120,13 @@ public class CustomerLevelRuleController  extends BaseController{
                 customerSearchRuleEntity = new CustomerSearchRuleEntity();
             }
             model.addAttribute("searchRuleEntity", customerSearchRuleEntity);
+
+            CommercailSettingModel mCommercailSettingModel = new CommercailSettingModel();
+            mCommercailSettingModel.setBrandIdenty(mCustomerLevelRuleModel.getBrandIdenty());
+            mCommercailSettingModel.setShopIdenty(mCustomerLevelRuleModel.getShopIdenty());
+            mCommercailSettingModel.setSettingKey("IS_CKECK_PASSWORD_DOPAY");//获取支付密码验证设置
+            CommercialCustomSettingsEntity mCommercialCustomSettingsEntity = mCommercialCustomSettingsService.queryByKey(mCommercailSettingModel);
+            model.addAttribute("mCommercialCustomSettingsEntity", mCommercialCustomSettingsEntity);
 
             model.addAttribute("successOrfail", mCustomerLevelRuleModel.getSuccessOrfail());
             return "customer_setting";

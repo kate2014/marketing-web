@@ -40,7 +40,12 @@
                 errorTips('操作失败','设置失败，请优先排查输入信息');
             }
         }
+
+        //设置会员支付密码验证默认选中项
+        var settingValue =  document.getElementById("settingValue").value;
+        $(":radio[name='settingValue'][value='" + settingValue + "']").prop("checked", "checked");
     }
+
 
 </script>
 
@@ -178,13 +183,13 @@
     </form>
 
     <!--储值支付是否需要密码-->
-    <form method="post" name="scoreS" action="" th:action="@{/internal/customerScoreRule/modify}" th:object="${CustomerScoreRuleModel}">
+    <form method="post" name="scoreS" action="" th:action="@{/internal/commercailSetting/customer/pay/checkpassword}" th:object="${CommercailSettingModel}">
         <input type="hidden" name="shopIdenty" th:value="${levelRule.shopIdenty}">
         <input type="hidden" name="brandIdenty" th:value="${levelRule.brandIdenty}">
         <input type="hidden" name="creatorId" th:value="${levelRule.creatorId}">
         <input type="hidden" name="creatorName" th:value="${levelRule.creatorName}">
-        <input type="hidden" name="idS" th:value="${cusRM.idS}">
-        <input type="hidden" name="typeS" value="1">
+        <input type="hidden" name="id" th:value="${mCommercialCustomSettingsEntity.id}">
+        <input type="hidden" id="settingValue" th:value="${mCommercialCustomSettingsEntity.settingValue}">
         <div style="margin: 20px;padding: 20px" class="modle_background_style">
             <div class="parent">
                 <img th:src="@{/images/lable.jpg}" style="height: 25px; width: 4px">
@@ -192,8 +197,8 @@
             </div>
             <div style="margin-top: 15px">
                 <label class="text_navigation" style="margin-left: 10px">会员储值支付时是否需要密码验证：</label>
-                <input type="radio" value="0" name="checkPassword"/><span class="text_navigation" style="margin-right: 20px; margin-left: 10px">不验证</span>
-                <input type="radio" value="1" name="checkPassword"/><span class="text_navigation" style="margin-left: 10px">验证</span>
+                <input type="radio" value="0" name="settingValue"/><span class="text_navigation" style="margin-right: 20px; margin-left: 10px">不验证</span>
+                <input type="radio" value="1" name="settingValue"/><span class="text_navigation" style="margin-left: 10px">验证</span>
             </div>
             <div style="margin-top: 15px">
                 <button class="blue_button_style" onclick="submitRuleSForm()" style="margin-left: 10px">保存</button>
