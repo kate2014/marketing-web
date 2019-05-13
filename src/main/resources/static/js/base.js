@@ -1,4 +1,10 @@
+window.WEB_BASEPATH = "/marketing/";
 $(function(){
+    var windowsExtScript = document.createElement("script");
+    windowsExtScript.type = "text/javascript";
+    windowsExtScript.src = WEB_BASEPATH + "/js/windows.ext.js";
+    document.getElementsByTagName("head")[0].appendChild(windowsExtScript);
+
 	$(".project").keyup(function(){
          var content_len = $(".project").val().length;
          $(".sub").text(content_len);
