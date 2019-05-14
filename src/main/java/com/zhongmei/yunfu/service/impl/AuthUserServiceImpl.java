@@ -130,6 +130,20 @@ public class AuthUserServiceImpl extends ServiceImpl<AuthUserMapper, AuthUserEnt
         eWrapper.setSqlSelect("id", "role_id", "name", "gender", "mobile", "job_number", "job_employee_type", "job_position", "source_flag","assigned_group","shop_identy","brand_identy");
         eWrapper.and().eq("brand_identy", mAuthUserModel.getBrandIdenty());
         eWrapper.and().eq("status_flag", StatusFlag.VALiD.value());
+        eWrapper.and().eq("assigned_group", mAuthUserModel.getAssignedGroup());
+        if(mAuthUserModel.getShopIdenty() != null){
+            eWrapper.and().eq("shop_identy", mAuthUserModel.getShopIdenty());
+        }
+        if(mAuthUserModel.getJobEmployeeType() != null){
+            eWrapper.and().eq("job_employee_type", mAuthUserModel.getJobEmployeeType());
+        }
+        if(mAuthUserModel.getJobNumber() != null && !mAuthUserModel.getJobNumber().equals("")){
+            eWrapper.and().eq("job_number", mAuthUserModel.getJobNumber());
+        }
+        if(mAuthUserModel.getName() != null && !mAuthUserModel.getName().equals("")){
+            eWrapper.and().like("name", mAuthUserModel.getName());
+        }
+
         eWrapper.orderBy("shop_identy",false);
         Page<AuthUserEntity> page = new Page<>(curPage, pageSize);
         Page<AuthUserEntity> listData = selectPage(page, eWrapper);

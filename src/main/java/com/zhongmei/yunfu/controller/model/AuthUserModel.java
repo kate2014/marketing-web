@@ -13,6 +13,12 @@ public class AuthUserModel extends WebBaseModel {
      */
     private Long shopIdenty;
 
+    private String name;
+
+    private Integer jobEmployeeType;
+
+    private String jobNumber;
+
     private Long creatorId;
 
     private String creatorName;
@@ -22,6 +28,14 @@ public class AuthUserModel extends WebBaseModel {
     private String endDate;
 
     private Integer rquestSource;
+    /**
+     * 0: 品牌员工  1：门店员工
+     */
+    private Integer opType;
+    /**
+     * 账号归属：1：品牌，2：门店
+     */
+    private Integer assignedGroup;
 
     public Long getBrandIdenty() {
         return brandIdenty;
@@ -77,5 +91,45 @@ public class AuthUserModel extends WebBaseModel {
 
     public void setRquestSource(Integer rquestSource) {
         this.rquestSource = rquestSource;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getJobEmployeeType() {
+        return jobEmployeeType;
+    }
+
+    public void setJobEmployeeType(Integer jobEmployeeType) {
+        this.jobEmployeeType = jobEmployeeType;
+    }
+
+    public String getJobNumber() {
+        return jobNumber;
+    }
+
+    public void setJobNumber(String jobNumber) {
+        this.jobNumber = jobNumber;
+    }
+
+    public Integer getOpType() {
+        return opType;
+    }
+
+    public void setOpType(Integer opType) {
+        this.opType = opType;
+    }
+
+    public Integer getAssignedGroup() {
+        return assignedGroup;
+    }
+
+    public void setAssignedGroup(Integer assignedGroup) {
+        this.assignedGroup = assignedGroup;
     }
 }

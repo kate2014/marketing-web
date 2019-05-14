@@ -27,12 +27,17 @@ public class BrandStaffController extends BaseController {
     public String staffList(Model model, AuthUserModel mAuthUserModel) {
 
         try{
+            //查询品牌员工
+            if(mAuthUserModel.getOpType() == null || mAuthUserModel.getOpType() == 0){
+                mAuthUserModel.setAssignedGroup(1);
+            }else{
+                mAuthUserModel.setAssignedGroup(2);
+            }
             Page<AuthUserEntity> listAuthUser = mAuthUserService.queryAuthUserByBrand(mAuthUserModel,mAuthUserModel.getPageNo(),mAuthUserModel.getPageSize());
             setWebPage(model, "/internal/brand/staffList", listAuthUser, mAuthUserModel);
             model.addAttribute("mAuthUserModel", mAuthUserModel);
             model.addAttribute("list", listAuthUser.getRecords());
 
-            model.addAttribute("opType", 0);
 
         }catch (Exception e){
             e.printStackTrace();

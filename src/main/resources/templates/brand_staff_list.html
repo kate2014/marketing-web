@@ -19,7 +19,7 @@
     <!-- 选项卡 -->
     ol, ul, li{	list-style: none}
     /*html,body { margin:0; padding:0; height:100%}*/
-    .table_card { /*width:96%;*/ margin: 5px 20px 0 20px;}
+    .table_card { /*width:96%;*/ margin: 10px 20px 0 20px;}
     .table_card .tab { height:37px; font-size:14px;}
     .table_card .tab li {font-size: 10px; float:left; height:37px; line-height:37px; padding:0 25px; margin-right:4px; border-radius: 5px 5px 0 0;}
     .table_card .tab li:hover { height:37px; cursor:pointer;}
@@ -38,6 +38,7 @@
     <link rel="stylesheet" th:href="@{/css/common.css}" href="../css/common.css" type="text/css" />
 
     <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/base.js}" src="../static/js/base.js" ></script>
 </head>
 
 <script type="text/javascript">
@@ -48,6 +49,16 @@
         $(".tab li").eq(opType).addClass("activ").siblings().removeClass("activ");
         var tabIndex = $(".tab li.activ").index();
         $(".tabCon").children("div").hide().eq(tabIndex).show();
+
+        if(opType == 0){
+            $("#least").addClass("activ");
+            $("#most").addClass("inverse");
+        }else{
+            $("#least").addClass("inverse");
+            $("#most").addClass("activ");
+        }
+
+
         $(".tab li").click(function(){
             var clickIndex = $(this).index();
             $(".tab li").eq(clickIndex).addClass("activ").siblings().removeClass("activ");
@@ -63,6 +74,16 @@
                 $("#most").addClass("activ");
 
             }
+
+            var brandIdenty = $("input[name='brandIdenty']").val();
+            var creatorId = $("input[name='creatorId']").val();
+            var creatorName = $("input[name='creatorName']").val();
+
+            var params = "brandIdenty=" + brandIdenty +
+                "&creatorId=" + creatorId +
+                "&creatorName=" + creatorName+
+                "&opType=" + clickIndex;
+            location.href = "[[${basePath}]]/internal/brand/staffList?" + params;
         })
     });
 
@@ -73,23 +94,57 @@
 <div class="table_card">
 
     <ul class="tab" style="margin-left: 30px">
-        <li id="least" class="activ" style="margin-bottom: -1px">门店员工</li>
-        <li id="most" class="inverse" style="margin-bottom: -1px">品牌员工</li>
-
+        <li id="least" style="margin-bottom: -1px">品牌员工</li>
+        <li id="most" style="margin-bottom: -1px">门店员工</li>
     </ul>
     <div style="height: 1px;width: 100%;background-color: #e1e1e1;margin-top: -1px"></div>
     <div class="tabCon">
         <div>
-            <h3 class="hint" style="font-size: 12px;color: #FF6600;padding-top: 10px">备注：可用于查询储值余额、次卡剩余比较多的会员，进行推送，促动消费</h3>
+            <h3 class="hint" style="font-size: 12px;color: #FF6600;padding-top: 10px">备注：品牌管理员工，可进行添加、删除和更改权限，对应权限为品牌业务操作权限</h3>
         </div>
         <div>
-            <h3 class="hint" style="font-size: 12px;color: #FF6600;padding-top: 10px">备注：可用于查询储值余额、次卡剩余比较少的会员，进行推送，促动会员进行储值购买</h3>
+            <h3 class="hint" style="font-size: 12px;color: #FF6600;padding-top: 10px">备注：呈现出品牌下所有门店的员工信息，可进行查看</h3>
         </div>
     </div>
 
 </div>
 
-<input type="hidden" name="opType" th:value="*{opType}">
+
+
+<div class="parent_h" style="margin-top: 10px">
+    <form method="post" action="" th:action="@{/internal/brand/staffList}" th:object="${mAuthUserModel}">
+        <input type="hidden" name="brandIdenty" th:value="${mAuthUserModel.brandIdenty}">
+        <input type="hidden" name="creatorId" th:value="${mAuthUserModel.creatorId}">
+        <input type="hidden" name="creatorName" th:value="${mAuthUserModel.creatorName}">
+        <input type="hidden" name="opType" th:value="${mAuthUserModel.opType}">
+
+        <label class="text_navigation" style="margin-left: 10px">门店编号</label>
+        <input class="input_style" style="margin-left: 5px" type="text" th:value="${mAuthUserModel.shopIdenty}" name="shopIdenty"/>
+
+        <label class="text_navigation" style="margin-left: 10px">员工类型</label>
+        <select class="select_style" name="jobEmployeeType" style="margin-left: 5px">
+            <option value="">全部</option>
+            <option th:selected="${mAuthUserModel.jobEmployeeType==1}" th:value="1">正式员工</option>
+            <option th:selected="${mAuthUserModel.jobEmployeeType==2}" th:value="2">试用期员工</option>
+            <option th:selected="${mAuthUserModel.jobEmployeeType==3}" th:value="3">外聘员工</option>
+        </select>
+
+
+        <label class="text_navigation" style="margin-left: 10px">员工编号</label>
+        <input class="input_style" style="margin-left: 5px" type="text" th:value="${mAuthUserModel.jobNumber}" name="jobNumber"/>
+
+        <label class="text_navigation" style="margin-left: 10px">员工名称</label>
+        <input class="input_style" style="margin-left: 5px" type="text" th:value="${mAuthUserModel.name}" name="name"/>
+
+        <button class="orange_mine_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
+
+    </form>
+
+    <div class="parent" id="export_excel" onclick="exportExcel()" style="margin-left: 20px;cursor:pointer;">
+        <img th:src="@{/images/excel_icon.png}" src="../static/images/excel_icon.png" style="width: 21px;height: 21px">
+        <span style="font-size: 10px;margin-left: 6px">数据导出</span>
+    </div>
+</div>
 
 <div align="center" style="margin-top: 10px">
     <table class="gridtablestyle" style="width: 95%; vertical-align: middle">
