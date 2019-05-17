@@ -23,6 +23,4 @@ class CustomerSaveReq : PosReq() {
     var environmentHobby: String? = null
     var invoiceTitle: String? = null
     var memo: String? = null
-    //var cardId: Long? = null
-    var cardNo: String? = null
 }

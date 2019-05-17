@@ -24,6 +24,8 @@ import java.util.List;
  */
 public interface CustomerMapper extends BaseMapper<CustomerEntity> {
 
+    CustomerEntity loginCardNoEntity(@Param("loginId") String loginId, @Param("shopId") Long shopId);
+
     CustomerInfo selectByKey(Serializable key);
 
     //List<CustomerExtra> selectUserList(Pagination page, String state);

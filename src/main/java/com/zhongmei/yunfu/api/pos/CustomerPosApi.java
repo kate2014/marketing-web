@@ -119,7 +119,7 @@ public class CustomerPosApi extends PosApiController {
             mCustomer.setShopIdenty(req.getHeader().getShopId());
             mCustomer.setBrandIdenty(req.getHeader().getBrandId());
             mCustomer.setEnabledFlag(EnabledFlag.ENABLED.value());
-            customerService.save(mCustomer, req.getCardNo());
+            customerService.save(mCustomer);
         } else {
             CustomerEntity current = customerService.selectById(req.getCustomerId());
             if (current != null && !StringUtils.equals(current.getMobile(), req.getMobile())) {
@@ -132,7 +132,7 @@ public class CustomerPosApi extends PosApiController {
             }
             mCustomer.baseUpdate(req.getUserId(), req.getUserName());
             mCustomer.setId(req.getCustomerId());
-            customerService.save(mCustomer, req.getCardNo());
+            customerService.save(mCustomer);
         }
 
         return ApiResult.newSuccess(mCustomer);

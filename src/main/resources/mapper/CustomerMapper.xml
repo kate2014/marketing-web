@@ -23,8 +23,19 @@
         <result property="enabledFlag"          column="enabled_flag"/>
     </resultMap>
 
+    <select id="loginCardNoEntity"
+            resultType="com.zhongmei.yunfu.domain.entity.CustomerEntity">
+        SELECT
+          c.*
+        FROM
+          customer c
+          LEFT JOIN customer_entity_card ce
+            ON c.id = ce.customer_id
+        WHERE c.shop_identy = #{shopId}
+           AND ce.card_no = #{loginId}
+    </select>
+
     <select id="selectByKey"
-            parameterType="Long"
             resultType="com.zhongmei.yunfu.domain.bean.CustomerInfo">
         SELECT
           c.*,

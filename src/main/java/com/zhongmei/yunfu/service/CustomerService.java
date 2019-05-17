@@ -2,6 +2,7 @@ package com.zhongmei.yunfu.service;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.IService;
+import com.zhongmei.yunfu.api.pos.vo.CustomerECardSaveReq;
 import com.zhongmei.yunfu.api.pos.vo.CustomerLoginReq;
 import com.zhongmei.yunfu.api.pos.vo.CustomerSearchReq;
 import com.zhongmei.yunfu.controller.model.CustomerDrainSearchModel;
@@ -9,6 +10,7 @@ import com.zhongmei.yunfu.controller.model.CustomerModel;
 import com.zhongmei.yunfu.controller.model.CustomerSearchModel;
 import com.zhongmei.yunfu.domain.bean.CustomerInfo;
 import com.zhongmei.yunfu.domain.entity.CustomerEntity;
+import com.zhongmei.yunfu.domain.entity.CustomerEntityCardEntity;
 import com.zhongmei.yunfu.domain.entity.CustomerReport;
 
 import java.io.Serializable;
@@ -29,7 +31,9 @@ public interface CustomerService extends IService<CustomerEntity> {
 
     CustomerInfo selectByKey(Serializable key);
 
-    void save(CustomerEntity customerEntity, String cardNo);
+    void save(CustomerEntity customerEntity);
+
+    CustomerEntityCardEntity saveEntityCard(CustomerECardSaveReq req);
 
     /**
      * 是否校验顾客状态

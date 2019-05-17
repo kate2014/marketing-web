@@ -18,7 +18,7 @@ public class CustomerLoginReq extends PosReq {
     //新增登录参数（新接口）
     //private Long brandId; //品牌id
     //private Long shopId;//门店id
-    private Integer loginType;//登录方式：0、手机号码；1、微信OPENID；2、座机号；101、微信会员卡卡号；102、顾客customerId
+    private Integer loginType;//登录方式 @link LoginType
     private String loginId;//手机号码\微信openId\座机号码\顾客ID
     private String password;
     private boolean isNeedPwd;//是否需要密码(1:需要，其他不需要) 非必传入
@@ -125,6 +125,8 @@ public class CustomerLoginReq extends PosReq {
 
         //"微信openid"
         WECHAT_OPENID(3),
+
+        CARD_NO_ENTITY(4),
 
         //"微信会员卡卡号"
         WECHAT_MEMBERCARD_ID(101),

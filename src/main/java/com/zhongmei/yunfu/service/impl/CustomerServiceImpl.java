@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.zhongmei.yunfu.api.ApiResponseStatus;
 import com.zhongmei.yunfu.api.ApiResponseStatusException;
+import com.zhongmei.yunfu.api.pos.vo.CustomerECardSaveReq;
 import com.zhongmei.yunfu.api.pos.vo.CustomerLoginReq;
 import com.zhongmei.yunfu.api.pos.vo.CustomerSearchReq;
 import com.zhongmei.yunfu.controller.model.CustomerDrainSearchModel;
@@ -28,7 +29,6 @@ import com.zhongmei.yunfu.service.CustomerCardTimeService;
 import com.zhongmei.yunfu.service.CustomerService;
 import com.zhongmei.yunfu.service.TradeService;
 import com.zhongmei.yunfu.util.DateFormatUtil;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -64,23 +64,18 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
     }
 
     @Override
-    public void save(CustomerEntity customerEntity, String cardNo) {
+    public void save(CustomerEntity customerEntity) {
         insertOrUpdate(customerEntity);
-        if (customerEntity.getId() != null) {
-            CustomerEntityCardEntity customerEntityCardEntity = customerEntityCardMapper.selectByCustomerId(customerEntity.getId());
-            if (customerEntityCardEntity != null) {
-                customerEntityCardEntity.baseUpdate(customerEntity.getUpdatorId(), customerEntity.getUpdatorName());
-                customerEntityCardEntity.setCardNo(cardNo);
-                customerEntityCardMapper.insert(customerEntityCardEntity);
-            }
-        } else {
-            if (StringUtils.isNotBlank(cardNo)) {
-                CustomerEntityCardEntity customerEntityCardEntity = new CustomerEntityCardEntity();
-                customerEntityCardEntity.baseCreate(customerEntity.getCreatorId(), customerEntity.getCreatorName());
-                customerEntityCardEntity.setCardNo(cardNo);
-                customerEntityCardMapper.updateById(customerEntityCardEntity);
-            }
-        }
+        //saveEntityCard(customerEntity, cardNo);
+    }
+
+    @Override
+    public CustomerEntityCardEntity saveEntityCard(CustomerECardSaveReq req) {
+        CustomerEntityCardEntity customerEntityCardEntity = new CustomerEntityCardEntity();
+        customerEntityCardEntity.baseCreate(req.getUserId(), req.getUserName());
+        customerEntityCardEntity.setCardNo(req.getCardNo());
+        customerEntityCardMapper.insert(customerEntityCardEntity);
+        return customerEntityCardEntity;
     }
 
     @Override
@@ -356,6 +351,9 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
             case WECHAT_OPENID:
                 customerEntity = loginWxOpenId(loginId, shopId);
                 break;
+            case CARD_NO_ENTITY:
+                customerEntity = loginCardNoEntity(loginId, shopId);
+                break;
         }
 
         if (isNeedPwd && !password.equals(customerEntity.getPassword())) {
@@ -403,6 +401,10 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
         customerEntity.setShopIdenty(shopId);
         customerEntity.setThirdId(loginId);
         return selectOne(new EntityWrapper<>(customerEntity));
+    }
+
+    private CustomerEntity loginCardNoEntity(String loginId, Long shopId) {
+        return baseMapper.loginCardNoEntity(loginId, shopId);
     }
 
     @Override
