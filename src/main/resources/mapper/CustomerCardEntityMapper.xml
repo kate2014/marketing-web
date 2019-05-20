@@ -8,6 +8,18 @@
         FROM
           customer_entity_card
         WHERE customer_id = #{customerId}
+          AND status_flag = 1
+    </select>
+
+    <select id="getByCardNo"
+            resultType="com.zhongmei.yunfu.domain.entity.CustomerEntityCardEntity">
+        SELECT
+          *
+        FROM
+          customer_entity_card
+        WHERE shop_identy = #{shopId}
+          AND card_no = #{cardNo}
+          AND status_flag = 1
     </select>
 
 </mapper>

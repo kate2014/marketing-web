@@ -26,6 +26,17 @@ public class CustomerEntityCardEntity extends BaseEntity {
      */
     private String cardNo;
 
+    /**
+     * 如果归属门店，则为门店id；如果归属品牌，则为品牌id.
+     新的权限体系下，全部为品牌id
+     就是登录标示!!仅登录使用
+     */
+    private Long shopIdenty;
+    /**
+     * 品牌标识 : 品牌标识
+     */
+    private Long brandIdenty;
+
 
     public Long getId() {
         return id;
@@ -49,6 +60,22 @@ public class CustomerEntityCardEntity extends BaseEntity {
 
     public void setCardNo(String cardNo) {
         this.cardNo = cardNo;
+    }
+
+    public Long getShopIdenty() {
+        return shopIdenty;
+    }
+
+    public void setShopIdenty(Long shopIdenty) {
+        this.shopIdenty = shopIdenty;
+    }
+
+    public Long getBrandIdenty() {
+        return brandIdenty;
+    }
+
+    public void setBrandIdenty(Long brandIdenty) {
+        this.brandIdenty = brandIdenty;
     }
 
     @Override
