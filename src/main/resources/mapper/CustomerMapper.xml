@@ -32,7 +32,9 @@
           LEFT JOIN customer_entity_card ce
             ON c.id = ce.customer_id
         WHERE c.shop_identy = #{shopId}
-           AND ce.card_no = #{loginId}
+           AND c.status_flag = 1
+           AND ce.card_no = #{cardNo}
+           AND ce.status_flag = 1
     </select>
 
     <select id="selectByKey"
@@ -46,6 +48,7 @@
           LEFT JOIN customer_entity_card ce
             ON c.id = ce.customer_id
         WHERE c.id = #{id}
+          AND c.status_flag = 1
     </select>
 
 

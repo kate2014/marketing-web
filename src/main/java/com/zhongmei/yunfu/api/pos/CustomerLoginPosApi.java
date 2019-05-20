@@ -32,7 +32,7 @@ public class CustomerLoginPosApi extends PosApiController {
      */
     @RequestMapping("/customer/login")
     public ApiResult login(@RequestBody CustomerLoginReq req) throws Exception {
-        CustomerEntity customerEntity = customerService.login(req.getLoginType(), req.getLoginId(), req.getPassword(), req.getIsNeedPwd(), req.getHeader().getShopId());
+        CustomerEntity customerEntity = customerService.login(req.getHeader().getShopId(), req.getLoginType(), req.getLoginId(), req.getIsNeedPwd(), req.getPassword());
         customerService.checkState(customerEntity);
 
         int couponCount = customerCouponService.selectCouponEntityCount(customerEntity.getId(), customerEntity.getShopIdenty());

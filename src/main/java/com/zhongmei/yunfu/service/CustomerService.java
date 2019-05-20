@@ -33,7 +33,7 @@ public interface CustomerService extends IService<CustomerEntity> {
 
     void save(CustomerEntity customerEntity);
 
-    CustomerEntityCardEntity saveEntityCard(CustomerECardSaveReq req);
+    CustomerEntityCardEntity saveEntityCard(CustomerECardSaveReq req) throws Exception;
 
     /**
      * 是否校验顾客状态
@@ -191,12 +191,15 @@ public interface CustomerService extends IService<CustomerEntity> {
     /**
      * 会员信息
      *
+     * @param shopId
      * @param loginType
      * @param loginId
+     * @param isNeedPwd
      * @param password
-     * @param shopId
+     * @return
+     * @throws Exception
      */
-    CustomerEntity login(CustomerLoginReq.LoginType loginType, String loginId, String password, boolean isNeedPwd, Long shopId) throws Exception;
+    CustomerEntity login(Long shopId, CustomerLoginReq.LoginType loginType, String loginId, boolean isNeedPwd, String password) throws Exception;
 
     /**
      * 会员消费报表
@@ -261,6 +264,7 @@ public interface CustomerService extends IService<CustomerEntity> {
 
     /**
      * 查询门店所有会员
+     *
      * @param brandIdenty
      * @param shopIdenty
      * @return
@@ -270,6 +274,7 @@ public interface CustomerService extends IService<CustomerEntity> {
 
     /**
      * 获取会员到店统计报表
+     *
      * @param mCustomerModel
      * @return
      * @throws Exception
@@ -278,6 +283,7 @@ public interface CustomerService extends IService<CustomerEntity> {
 
     /**
      * 获取会员到店统计详情报表
+     *
      * @param mCustomerModel
      * @return
      * @throws Exception

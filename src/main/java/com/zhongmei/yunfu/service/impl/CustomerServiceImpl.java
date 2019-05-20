@@ -70,8 +70,15 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
     }
 
     @Override
-    public CustomerEntityCardEntity saveEntityCard(CustomerECardSaveReq req) {
+    public CustomerEntityCardEntity saveEntityCard(CustomerECardSaveReq req) throws Exception {
+        CustomerEntityCardEntity byCardNo = customerEntityCardMapper.getByCardNo(req.getHeader().getShopId(), req.getCardNo());
+        if (byCardNo != null) {
+            throw new ApiResponseStatusException(ApiResponseStatus.CUSTOMER_ENTITY_CARD_BINDED);
+        }
+
         CustomerEntityCardEntity customerEntityCardEntity = new CustomerEntityCardEntity();
+        customerEntityCardEntity.setBrandIdenty(req.getHeader().getBrandId());
+        customerEntityCardEntity.setShopIdenty(req.getHeader().getShopId());
         customerEntityCardEntity.baseCreate(req.getUserId(), req.getUserName());
         customerEntityCardEntity.setCustomerId(req.getCustomerId());
         customerEntityCardEntity.setCardNo(req.getCardNo());
@@ -340,7 +347,7 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
     }
 
     @Override
-    public CustomerEntity login(CustomerLoginReq.LoginType loginType, String loginId, String password, boolean isNeedPwd, Long shopId) throws Exception {
+    public CustomerEntity login(Long shopId, CustomerLoginReq.LoginType loginType, String loginId, boolean isNeedPwd, String password) throws Exception {
         CustomerEntity customerEntity = null;
         switch (loginType) {
             case MOBILE:
@@ -404,8 +411,8 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
         return selectOne(new EntityWrapper<>(customerEntity));
     }
 
-    private CustomerEntity loginCardNoEntity(String loginId, Long shopId) {
-        return baseMapper.loginCardNoEntity(loginId, shopId);
+    private CustomerEntity loginCardNoEntity(String cardNo, Long shopId) {
+        return baseMapper.loginCardNoEntity(cardNo, shopId);
     }
 
     @Override

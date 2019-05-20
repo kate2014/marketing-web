@@ -19,6 +19,11 @@ public class CustomerEntityCardPosApi extends PosApiController {
 
     @RequestMapping("/bind")
     public ApiResult save(@RequestBody CustomerECardSaveReq req) throws Exception {
+        /*CustomerEntity login = customerService.login(req.getHeader().getShopId(), CustomerLoginReq.LoginType.CARD_NO_ENTITY, req.getCardNo(), false, null);
+        if (login != null) {
+            throw new ApiResponseStatusException(ApiResponseStatus.CUSTOMER_ENTITY_CARD_BINDED);
+        }*/
+
         CustomerEntityCardEntity customerEntityCardEntity = customerService.saveEntityCard(req);
         return ApiResult.newSuccess(customerEntityCardEntity);
     }
