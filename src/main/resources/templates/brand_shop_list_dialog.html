@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>核算明细</title>
+    <style type="text/css">
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0px;
+            background-color: #FFFFFF;
+        }
+
+        div.modle {
+            /* 启用弹性盒布局 */
+            display: flex;
+            align-items: flex-start
+        }
+    </style>
+    <link rel="stylesheet" th:href="@{/css/public.css}" type="text/css"/>
+    <link rel="stylesheet" th:href="@{/css/widget.css}" type="text/css"/>
+    <link rel="stylesheet" th:href="@{/css/common.css}"/>
+    <link rel="stylesheet" th:href="@{/css/base.css}"/>
+
+    <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/base.js}"></script>
+</head>
+
+<script type="text/javascript">
+
+    $(function() {
+        $(".dialog_submit").click(function(){
+
+            var ids=[];
+            $("#shop_iframe").contents()
+                .find("input[name='selectShop']:checked")
+                .each(function () {
+                    var dishId=$(this).attr("id");
+                    var dishName=$(this).attr("dishName")
+                });
+
+            $(".select-com").hide();
+        });
+    });
+
+</script>
+
+<body>
+
+<div class='select-com' style="display: block">
+    <div id="container" class="select-centent">
+        <header>
+            <h3>选择投放门店</h3>
+            <img th:src="@{/static/images/close.png}" class="close"/>
+        </header>
+
+        <div class="select-main">
+
+            <div align="center" style="width: 100%;">
+
+                <input type="hidden" th:value="${mShopSearchModel.relatedId}">
+
+                <div style="width:100%;height:100%;overflow:hidden;display:block">
+
+                    <iframe id="shop_iframe" style="width:100%;height:100%;" frameborder="0" th:src="@{/internal/brand/selectShopList}" src="/"></iframe>
+
+                </div>
+
+            </div>
+
+        </div>
+        <footer>
+            <button class="dialog_submit">确定投放</button>
+        </footer>
+    </div>
+</div>
+</body>
+</html>

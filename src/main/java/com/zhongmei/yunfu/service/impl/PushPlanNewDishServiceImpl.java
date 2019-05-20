@@ -32,9 +32,10 @@ public class PushPlanNewDishServiceImpl extends ServiceImpl<PushPlanNewDishMappe
         newDishPlan.setStatusFlag(StatusFlag.VALiD.value());
         newDishPlan.setBrandIdentity(searchModel.getBrandIdenty());
         newDishPlan.setShopIdentity(searchModel.getShopIdenty());
+        newDishPlan.setSourceType(searchModel.getSourceType());
 
         EntityWrapper<PushPlanNewDishEntity> eWrapper = new EntityWrapper<>(newDishPlan);
-        eWrapper.setSqlSelect("id", "name", "shop_identity", "brand_identity", "plan_state", "begin_time", "scan_number", "share_number", "img_url","plan_desc","dish_id","dish_name");
+        eWrapper.setSqlSelect("id", "name", "shop_identity", "brand_identity", "plan_state", "begin_time", "scan_number", "share_number", "img_url","plan_desc","dish_id","dish_name","acceptancea_state","source_type","source_id");
         eWrapper.and().like("name", searchModel.getKeyWord());
         eWrapper.orderBy("server_create_time",false);
         Page<PushPlanNewDishEntity> page = new Page<>(searchModel.getPageNo(), searchModel.getPageSize());

@@ -75,6 +75,13 @@
 
     }
 
+    $(function() {
+        $(".icon_size_style").click(function(){
+            var relatedId = $(this).attr("id");
+            $('.zm-dialog').load('[[${basePath}]]/internal/brand/gotToSelectShop?relatedId='+relatedId); //#container
+        });
+    });
+
 </script>
 
 <body>
@@ -88,7 +95,7 @@
     <label class="text_navigation" style="margin-left: 10px;width: 30%">营销 》新品推送</label>
 
     <div align="right" style="width: 100%;margin-right: 50px">
-        <button class="blue_button_style" value="" th:onclick="@{|location='${basePath}/pushPlanNewDish/addNewDishPushPlanPage'|}">+添加新品</button>
+        <button class="blue_button_style" value="" th:onclick="@{|location='${basePath}/internal/brand/marketing/pushDish/gotoEditPage'|}">+添加新品</button>
 
         <button class="gray_button_style" value="" th:onclick="@{|location='${basePath}/home'|}" style="margin-left: 10px">返回</button>
     </div>
@@ -119,6 +126,7 @@
             <th>浏览次数</th>
             <th>分享次数</th>
             <th>操作</th>
+            <th style="width: 100px">下发投放</th>
         </tr>
         <tr  th:each="item:${list}">
             <td th:text="${item.name}" />
@@ -127,10 +135,13 @@
             <td th:text="${item.scanNumber}" />
             <td th:text="${item.shareNumber}" />
             <td align="center">
-                <a href="dishmarketiingadd.html" th:href="@{/pushPlanNewDish/editPage(id=${item.id})}">编辑</a>
-                <a href="dishmarketiingadd.html" th:href="@{/pushPlanNewDish/enable(id=${item.id})}">投放</a>
-                <a href="dishmarketiingadd.html" th:href="@{/pushPlanNewDish/disable(id=${item.id})}">停用</a>
+                <a href="/" th:href="@{/pushPlanNewDish/editPage(id=${item.id})}">编辑</a>
+                <a href="/" th:href="@{/pushPlanNewDish/enable(id=${item.id})}">启用</a>
+                <a href="/" th:href="@{/pushPlanNewDish/disable(id=${item.id})}">停用</a>
                 <a th:onclick="'javascript:checkDelete(\''+${item.id}+'\',\''+${item.name}+'\')'" style="cursor: pointer">删除</a>
+            </td>
+            <td>
+                <img class="icon_size_style" style="cursor: pointer;margin-left: 36px" th:id="${item.id}" th:src="@{/images/send_to.png}" />
             </td>
         </tr>
     </table>
@@ -140,6 +151,8 @@
 </div>
 
 </section>
+
+<div class='zm-dialog' />
 
 </body>
 </html>

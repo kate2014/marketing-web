@@ -83,4 +83,12 @@ public interface CommercialService extends IService<CommercialEntity> {
      * @throws Exception
      */
     Boolean deleteCommercial(ERPCommercialModel mCommercialModel) throws Exception;
+
+    /**
+     * 根据品牌id获取所以门店信息
+     *
+     * @param mShopSearchModel
+     * @return
+     */
+    List<CommercialEntity> queryShopList(ShopSearchModel mShopSearchModel) throws Exception;
 }

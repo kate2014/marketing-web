@@ -35,6 +35,8 @@ public interface CouponService extends IService<CouponEntity> {
 
     Page<CouponEntity> findListPage(CouponSearchModel searchModel);
 
+    Page<CouponEntity> findBrandCouponList(CouponSearchModel searchModel);
+
     /**
      * 查询所有优惠券
      * @param brandIdenty

@@ -2,8 +2,11 @@ package com.zhongmei.yunfu.controller.model;
 
 import com.zhongmei.yunfu.controller.model.base.WebBaseModel;
 
+import java.util.List;
+
 public class ShopSearchModel extends WebBaseModel {
 
+    private Long  relatedId;
     /**
      * 品牌标识
      */
@@ -26,6 +29,16 @@ public class ShopSearchModel extends WebBaseModel {
     private String city;
 
     private String area;
+
+    private List<Long> selectShop;
+
+    public Long getRelatedId() {
+        return relatedId;
+    }
+
+    public void setRelatedId(Long relatedId) {
+        this.relatedId = relatedId;
+    }
 
     public Long getBrandIdenty() {
         return brandIdenty;
@@ -97,5 +110,13 @@ public class ShopSearchModel extends WebBaseModel {
 
     public void setArea(String area) {
         this.area = area;
+    }
+
+    public List<Long> getSelectShop() {
+        return selectShop;
+    }
+
+    public void setSelectShop(List<Long> selectShop) {
+        this.selectShop = selectShop;
     }
 }

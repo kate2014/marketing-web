@@ -87,6 +87,29 @@ public class CouponServiceImpl extends ServiceImpl<CouponMapper, CouponEntity> i
     }
 
     @Override
+    public Page<CouponEntity> findBrandCouponList(CouponSearchModel searchModel) {
+        CouponEntity coupon = new CouponEntity();
+        if (searchModel.getCouponType() != 0) {
+            coupon.setCouponType(searchModel.getCouponType());
+        }
+        if (searchModel.getCouponState() != 0) {
+            coupon.setCouponState(searchModel.getCouponState());
+        }
+        coupon.setSourceType(1);//活动来源类型 1：品牌下发  2：门店自建
+
+        coupon.setBrandIdenty(searchModel.getBrandIdenty());
+        coupon.setShopIdenty(searchModel.getShopIdenty());
+        Page<CouponEntity> page = new Page<>(searchModel.getPageNo(), searchModel.getPageSize());
+        EntityWrapper<CouponEntity> eWrapper = new EntityWrapper<>(coupon);
+        eWrapper.setSqlSelect("id", "name", "brand_identy", "shop_identy", "coupon_type", "push_number", "use_number", "coupon_state", "end_time", "server_create_time");
+        eWrapper.and().like("name", searchModel.getKeyWord());
+        eWrapper.and().eq("status_flag", StatusFlag.VALiD.value());
+        eWrapper.orderBy("server_create_time",false);
+        Page<CouponEntity> roleDOList = selectPage(page, eWrapper);
+        return roleDOList;
+    }
+
+    @Override
     public Page<CouponEntity> queryList(Long brandIdenty, Long shopIdenty, Integer type,int curPage, int pageSize) {
         CouponEntity coupon = new CouponEntity();
 

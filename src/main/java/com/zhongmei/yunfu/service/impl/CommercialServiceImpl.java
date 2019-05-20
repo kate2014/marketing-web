@@ -158,5 +158,11 @@ public class CommercialServiceImpl extends ServiceImpl<CommercialMapper, Commerc
         }
     }
 
+    @Override
+    public List<CommercialEntity> queryShopList(ShopSearchModel mShopSearchModel) throws Exception {
+
+        return null;
+    }
+
 
 }

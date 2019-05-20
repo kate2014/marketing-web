@@ -85,12 +85,12 @@
     <label class="text_navigation" style="margin-left: 10px;width: 30%">营销 》优惠券推送</label>
 
     <div align="right" style="width: 100%;margin-right: 50px">
-        <button class="blue_button_style" value="" th:onclick="@{|location='${basePath}/coupon/addCouponPage'|}">+新建优惠券</button>
+        <button class="blue_button_style" value="" th:onclick="@{|location='${basePath}/internal/brand/marketing/coupon/goToAddOrEdit'|}">+新建优惠券</button>
         <button class="gray_button_style" value="" th:onclick="@{|location='${basePath}/home'|}" style="margin-left: 10px">返回</button>
     </div>
 </div>
 
-<form method="post" action="couponadd.html" th:action="@{/coupon}" th:object="${searchModel}">
+<form method="post" action="couponadd.html" th:action="@{/internal/brand/marketing/coupon/list}" th:object="${searchModel}">
     <div style="margin-top: 10px">
         <label class="text_navigation" style="margin-left: 100px">类型</label>
         <select name="couponType" class="select_style" style="margin-left: 5px">
@@ -135,7 +135,7 @@
             <td th:text="${item.pushNumber}" ／>
             <td th:text="${item.useNumber}" ／>
             <td align="center">
-                <a href="couponadd.html" th:href="@{/coupon/editPage(id=${item.id})}">编辑</a>
+                <a href="couponadd.html" th:href="@{/internal/brand/marketing/coupon/goToAddOrEdit(id=${item.id})}">编辑</a>
                 <a href="couponadd.html" th:href="@{/coupon/enable(id=${item.id})}">投放</a>
                 <a href="couponadd.html" th:href="@{/coupon/disable(id=${item.id})}">停用</a>
             <a th:onclick="'javascript:checkDelete(\''+${item.id}+'\',\''+${item.name}+'\')'" style="cursor: pointer">删除</a>

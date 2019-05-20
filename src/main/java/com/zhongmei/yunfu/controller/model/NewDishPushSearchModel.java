@@ -6,8 +6,16 @@ import com.zhongmei.yunfu.controller.model.base.WebBaseModel;
 public class NewDishPushSearchModel extends WebBaseModel implements IShopIdenty {
     private Integer planState = 0; //0:全部 1:进行中; 2:停止;
     private String keyWord;//查询关键字
+    private Integer sourceType;
     private Long shopIdenty;
     private Long brandIdenty;
+    public Integer getSourceType() {
+        return sourceType;
+    }
+
+    public void setSourceType(Integer sourceType) {
+        this.sourceType = sourceType;
+    }
 
     public int getPlanState() {
         return planState;
