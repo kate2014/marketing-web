@@ -73,6 +73,7 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
     public CustomerEntityCardEntity saveEntityCard(CustomerECardSaveReq req) {
         CustomerEntityCardEntity customerEntityCardEntity = new CustomerEntityCardEntity();
         customerEntityCardEntity.baseCreate(req.getUserId(), req.getUserName());
+        customerEntityCardEntity.setCustomerId(req.getCustomerId());
         customerEntityCardEntity.setCardNo(req.getCardNo());
         customerEntityCardMapper.insert(customerEntityCardEntity);
         return customerEntityCardEntity;
