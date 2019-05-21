@@ -44,10 +44,7 @@ public class BrandPushDishController extends BaseController {
 
         setWebPage(model, "/pushPlanNewDish/list", newDishPush, newDishPushModel);
         model.addAttribute("list", planModeList);
-        model.addAttribute("pageNo", newDishPush.getCurrent());
-        model.addAttribute("totalPage", newDishPush.getPages());
-        model.addAttribute("keyWord", newDishPushModel.getKeyWord());
-        model.addAttribute("planState", newDishPushModel.getPlanState());
+        model.addAttribute("newDishPushModel", newDishPushModel);
 
         return "brand_push_dish_list";
     }
@@ -98,4 +95,17 @@ public class BrandPushDishController extends BaseController {
 
         return redirect("/internal/brand/marketing/pushDish/list");
     }
+
+    @RequestMapping({"/updateStatus"})
+    public String updateStatus(Model model, NewDishPushModel newDishPlanModel) {
+        mPushNewDishService.enableNewDishPushPlan(newDishPlanModel.getId(),newDishPlanModel.getPlanState());
+        return redirect("/internal/brand/marketing/pushDish/list");
+    }
+
+    @RequestMapping({"/deleteData"})
+    public String deleteData(Model model, NewDishPushModel newDishPlanModel) {
+        mPushNewDishService.deleteNewDishPushPlan(newDishPlanModel.getId());
+        return redirect("/internal/brand/marketing/pushDish/list");
+    }
+
 }
