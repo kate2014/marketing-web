@@ -52,13 +52,12 @@ public class BrandCouponController extends BaseController {
     @RequestMapping({"/goToAddOrEdit"})
     public String goToAddOrEdit(Model model, CouponModel couponModel) {
 
-        couponModel = new CouponModel();
-
         if(couponModel.getId() != null){
             CouponEntity mCouponEntity =couponService.queryByid(couponModel.getId());
             couponModel = new CouponModel(mCouponEntity);
+        }else{
+            couponModel = new CouponModel();
         }
-
 
         model.addAttribute("couponModel", couponModel);
         return "brand_coupon_add";
@@ -97,5 +96,18 @@ public class BrandCouponController extends BaseController {
 
         return redirect("/internal/brand/marketing/coupon/list");
     }
+
+    @RequestMapping({"/updateStatus"})
+    public String updateStatus(Model model, CouponModel couponModel) {
+        couponService.enableCoupon(couponModel.getId(),couponModel.getCouponState());
+        return redirect("/internal/brand/marketing/coupon/list");
+    }
+
+    @RequestMapping({"/deleteData"})
+    public String deleteData(Model model, CouponModel couponModel) {
+        couponService.deleteCoupon(couponModel.getId());
+        return redirect("/internal/brand/marketing/coupon/list");
+    }
+
 
 }

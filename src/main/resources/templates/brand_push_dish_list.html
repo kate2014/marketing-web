@@ -107,8 +107,8 @@
     <label class="text_navigation" style="margin-left: 100px">状态</label>
     <select  name="planState" class="select_style" style="margin-left: 5px" onchange="getTitleData()">
         <option th:selected="${newDishPushModel.planState==0}" value="0">全部</option>
-        <option th:selected="${newDishPushModel.planState==1}" value="1">已投放</option>
-        <option th:selected="${newDishPushModel.planState==2}" value="2">已停用</option>
+        <option th:selected="${newDishPushModel.planState==1}" value="1">进行中</option>
+        <option th:selected="${newDishPushModel.planState==2}" value="2">已停止</option>
     </select>
 
     <label class="text_navigation" style="margin-left: 10px">新品名称</label>

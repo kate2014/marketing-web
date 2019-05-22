@@ -59,7 +59,7 @@
 
     function deleteRequest (deleteId) {
 
-        const Url = "[[${basePath}]]/coupon/delete?id="+deleteId;
+        const Url = "[[${basePath}]]/internal/brand/marketing/coupon/deleteData?id="+deleteId;
 
         const Http = new XMLHttpRequest();
 
@@ -86,7 +86,7 @@
 
     <div align="right" style="width: 100%;margin-right: 50px">
         <button class="blue_button_style" value="" th:onclick="@{|location='${basePath}/internal/brand/marketing/coupon/goToAddOrEdit'|}">+新建优惠券</button>
-        <button class="gray_button_style" value="" th:onclick="@{|location='${basePath}/home'|}" style="margin-left: 10px">返回</button>
+        <button class="gray_button_style" value="" th:onclick="@{|location='${basePath}/internal/brand/marketing/main'|}" style="margin-left: 10px">返回</button>
     </div>
 </div>
 
@@ -103,8 +103,8 @@
         <label class="text_navigation" style="margin-left: 10px">状态</label>
         <select name="couponState" class="select_style" style="margin-left: 5px">
             <option value="0" th:selected="*{couponState==0}">全部</option>
-            <option value="1" th:selected="*{couponState==1}">已投放</option>
-            <option value="2" th:selected="*{couponState==2}">已停用</option>
+            <option value="1" th:selected="*{couponState==1}">进行中</option>
+            <option value="2" th:selected="*{couponState==2}">已停止</option>
         </select>
 
         <label class="text_navigation" style="margin-left: 10px">方案名称</label>
@@ -125,6 +125,7 @@
             <th>投放数量</th>
             <th>已使用数量</th>
             <th>操作</th>
+            <th style="width: 100px">下发投放</th>
         </tr>
         <tr th:each="item:${list}">
             <td th:text="${item.name}" />
@@ -136,9 +137,12 @@
             <td th:text="${item.useNumber}" ／>
             <td align="center">
                 <a href="couponadd.html" th:href="@{/internal/brand/marketing/coupon/goToAddOrEdit(id=${item.id})}">编辑</a>
-                <a href="couponadd.html" th:href="@{/coupon/enable(id=${item.id})}">投放</a>
-                <a href="couponadd.html" th:href="@{/coupon/disable(id=${item.id})}">停用</a>
-            <a th:onclick="'javascript:checkDelete(\''+${item.id}+'\',\''+${item.name}+'\')'" style="cursor: pointer">删除</a>
+                <a href="couponadd.html" th:href="@{/internal/brand/marketing/coupon/updateStatus(id=${item.id}, couponState=1)}">投放</a>
+                <a href="couponadd.html" th:href="@{/internal/brand/marketing/coupon/updateStatus(id=${item.id},couponState=2)}">停用</a>
+                <a th:onclick="'javascript:checkDelete(\''+${item.id}+'\',\''+${item.name}+'\')'" style="cursor: pointer">删除</a>
+            </td>
+            <td align="center" style="vertical-align: center">
+                <img class="icon_size_style" style="cursor: pointer; vertical-align: middle" th:id="${item.id}" th:src="@{/images/send_to.png}" />
             </td>
         </tr>
     </table>
