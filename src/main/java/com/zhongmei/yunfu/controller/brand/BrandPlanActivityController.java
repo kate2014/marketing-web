@@ -39,19 +39,18 @@ public class BrandPlanActivityController extends BaseController {
             searchModel.setName(null);
         }
         Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
-        Long shopIdentity = LoginManager.get().getUser().getShopIdenty();
 
-        Page<PushPlanActivityEntity> listPage = pushPlanActivityService.findListPage(brandIdentity, shopIdentity, searchModel.getPlanState(), searchModel.getName(), searchModel.getPageNo(), searchModel.getPageSize());
+        Page<PushPlanActivityEntity> listPage = pushPlanActivityService.findListPage(brandIdentity, null, searchModel.getPlanState(), searchModel.getName(), 1,searchModel.getPageNo(), searchModel.getPageSize());
         setWebPage(model, "/pushPlanActivity/list", listPage, searchModel);
         model.addAttribute("searchModel", searchModel);
         model.addAttribute("list", listPage.getRecords());
-        return "activitylist";
+        return "brand_activity_list";
     }
 
     @RequestMapping("/addPlanActivityPage")
     public String addPlanActivityPage(Model model, ActivityModifyModel activityaddModel) {
         model.addAttribute("planActivity", activityaddModel);
-        return "activityadd";
+        return "brand_activity_add";
 
     }
 
@@ -88,6 +87,7 @@ public class BrandPlanActivityController extends BaseController {
                 }
                 mPushPlanActivity.setBrandIdentity(brandIdentity);
                 mPushPlanActivity.setShopIdentity(shopIdentity);
+                mPushPlanActivity.setSourceType(1);
                 mPushPlanActivity.setScanNumber(0);
                 mPushPlanActivity.setShareNumber(0);
                 mPushPlanActivity.setServerCreateTime(new Date());
@@ -113,7 +113,7 @@ public class BrandPlanActivityController extends BaseController {
 
             return "fail";
         }
-        return redirect("/pushPlanActivity/list");
+        return redirect("/brand/pushPlanActivity/list");
     }
 
     @RequestMapping("/gotoActivityPage")
@@ -122,35 +122,9 @@ public class BrandPlanActivityController extends BaseController {
         PushPlanActivityEntity mPushPlanActivity = pushPlanActivityService.findActivityById(searchModel.getId());
         model.addAttribute("planActivity", mPushPlanActivity);
 
-        return "activityadd";
+        return "brand_activity_add";
 
     }
-
-//    /**
-//     * 编辑活动状态
-//     *
-//     * @param model
-//     * @param activityModifyModel
-//     * @return
-//     */
-//    @RequestMapping("/modify")
-//    public String modifyPlanActivity(Model model, ActivityModifyModel activityModifyModel) {
-//
-//        PushPlanActivityEntity mPushPlanActivity = pushPlanActivityService.findActivityById(activityModifyModel.getId());
-//        Long creatorId = LoginManager.get().getUser().getCreatorId();
-//        String creatorname = LoginManager.get().getUser().getCreatorName();
-//        mPushPlanActivity.setUpdatorId(creatorId);
-//        mPushPlanActivity.setUpdatorName(creatorname);
-//        mPushPlanActivity.setPlanState(activityModifyModel.getPlanState());
-//        if (activityModifyModel.getPlanState() == 1) {
-//            mPushPlanActivity.setBeginTime(new Date());
-//        }
-//        Boolean isSuccess = pushPlanActivityService.modifyActivity(mPushPlanActivity);
-//        if (!isSuccess) {
-//            return "fail";
-//        }
-//        return redirect("/pushPlanActivity/list");
-//    }
 
     /**
      * 编辑活动状态
@@ -166,7 +140,7 @@ public class BrandPlanActivityController extends BaseController {
         if (!isSuccess) {
             return "fail";
         }
-        return redirect("/pushPlanActivity/list");
+        return redirect("/brand/pushPlanActivity/list");
     }
 
     /**

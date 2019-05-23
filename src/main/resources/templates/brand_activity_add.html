@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+<style type="text/css">
+
+    html,body{
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        background-color: #FFFFFF;
+    }
+
+    div.parent {
+        /* 启用弹性盒布局 */
+        display: flex;
+        /* 使子元素水平居中
+        justify-content: center;
+        */
+        /* 使子元素垂直居中 */
+        align-items: center;
+    }
+
+    div.modle {
+        /* 启用弹性盒布局 */
+        display: flex;
+        align-items: flex-start
+    }
+
+    .weixin_pic_style{
+        width: 20%;
+        box-shadow: 2px 4px 6px #999999;
+        margin-top: 30px;
+        margin-left: 30px;
+    }
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <title>添加新品推</title>
+
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../css/base.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../css/common.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/editor/themes/default/default.css}" type="text/css" />
+
+    <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <script type="text/javascript" src="../static/js/base.js" th:src="@{/js/base.js}"></script>
+
+
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/test/jeDate-test.css}|">
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/skin/jedate.css}|">
+    <script type="text/javascript" th:src="@{/selectdate/src/jedate.js}"></script>
+
+    <link th:href="@{/upload/upload-one.css}" href="../static/upload/upload-one.css" type="text/css" rel="stylesheet" />
+    <script th:src="@{/upload/upload-one.js}"></script>
+
+    <!-- tips 提示框引用-->
+    <link rel="stylesheet" th:href="@{/tips/jquery.toast.css}">
+    <script type="text/javascript" th:src="@{/tips/jquery.toast.js}"></script>
+    <script type="text/javascript" th:src="@{/tips/tips.js}"></script>
+</head>
+
+<script type="text/javascript" th:src="@{/ckeditor/ckeditor.js}"></script>
+<script type="text/javascript">
+    CKEDITOR.replace('describe');
+    //如果是在ASP.NET环境下用的服务器端控 件<TextBox>
+    CKEDITOR.replace('tbContent');
+    //如 果<TextBox>控件在母版页中，要这样写
+    CKEDITOR.replace('<%=tbContent.ClientID.Replace("_","$") %>');
+</script>
+
+<script type="text/javascript">
+
+
+    function sendForm(planStateValue) {
+
+        var name = document.getElementById("name").value.replace(/(^\s*)|(\s*$)/g, '');
+        var endTime = document.getElementById("endTime").value.replace(/(^\s*)|(\s*$)/g, '');
+        var planDesc = document.getElementById("planDesc").value.replace(/(^\s*)|(\s*$)/g, '');
+        var uploadInput = document.getElementById("upload-input").value.replace(/(^\s*)|(\s*$)/g, '');
+        var uploadInput = $(".img-show");
+
+        if(name == '' || name == undefined || name == null){
+            warningTips("操作异常提示","活动名称不能为空");
+        }else if(endTime == '' || endTime == undefined || endTime == null){
+            warningTips("操作异常提示","活动结束时间不能为空");
+        }else if(planDesc == '' || planDesc == undefined || planDesc == null){
+            warningTips("操作异常提示","活动简介不能为空");
+        }
+        // else if(uploadInput.length == 0){
+        //     warningTips("操作异常提示","活动图片不能为空");
+        // }
+        else{
+            document.getElementById("planState").value = planStateValue;
+            document.addform.submit();
+        }
+    }
+
+
+
+</script>
+
+
+<body>
+
+<section class="mark-details">
+
+    <div class="parent top_view_style">
+        <img th:src="@{/images/lable.jpg}" width="5" height="26" style="margin-left: 20px">
+        <label class="text_navigation" style="margin-left: 10px;width: 30%">营销 》活动推送 》创建活动推送</label>
+
+        <div align="right" style="width: 100%;margin-right: 50px">
+                <button class="orange_button_style" value="" onclick="sendForm(1)" style="margin-left: 10px">保存</button>
+                <button class="gray_button_style" value="" th:onclick="@{|location='${basePath}/brand/pushPlanActivity/list'|}" style="margin-left: 10px">返回</button>
+             </div>
+    </div>
+
+    <form method="post" name="addform" action="" th:action="@{/brand/pushPlanActivity/addPlanActivity}" th:object="${activityaddModel}">
+        <input type="hidden" name="planState" id="planState"/>
+        <input type="hidden" name="id" id="id" th:value="${planActivity.id}"/>
+        <div class="modle" style="margin-bottom: 50px">
+            <img th:src="@{/images/weixin_activity.png}" class="weixin_pic_style">
+            <div style="margin-left: 20px;margin-top: 10px; width: 100%; height: 100%">
+
+                <div class="details-bom">
+                    <ul class="spell-content">
+
+                        <li><span>*活动名称</span><label><input type="text" name="name" id="name" placeholder="输入活动名称" maxlength="10" th:value="${planActivity.name}"/></label></li>
+
+                        <li><span>*结束时间</span><input type="text" name="endTime" id="endTime" placeholder="设置活动结束时间" th:value="${#dates.format(planActivity.endTime, 'yyyy-MM-dd HH:mm:ss')}"></li>
+                        <li><span>*活动简介</span><input type="text" name="planDesc" id="planDesc" placeholder="输入字符不超过100字" maxlength="100" th:value="${planActivity.planDesc}"></li>
+
+                        <li>
+                            <span>*上传活动图片</span>
+                            <div class="upload-box" th:src="${planActivity.imgUrl}" name="imgUrl">
+                                <div class="upload-btn">
+                                    <input type="file" name="file" id="upload-input"/>
+                                </div>
+                            </div>
+                            <h6>仅可上传1张图片</h6>
+                        </li>
+                        <li></li>
+                    </ul>
+
+                    <div style="margin-bottom: 50px;margin-left: 15px;margin-top: 40px;">
+
+                        <div class="detail_lable_style" style="margin-bottom: 20px">活动详情描述</div>
+
+                        <textarea id="describe" name="describe" cols="100" rows="50" class="ckeditor"
+                                  th:text="${planActivity.describe}"></textarea>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </form>
+
+</section>
+
+<script type="text/javascript" th:src="@{/selectdate/test/je_date.js}"></script>
+
+</body>
+</html>

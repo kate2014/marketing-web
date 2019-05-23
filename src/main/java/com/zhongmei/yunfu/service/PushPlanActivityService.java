@@ -24,7 +24,7 @@ public interface PushPlanActivityService extends IService<PushPlanActivityEntity
      * @param pageSize
      * @return
      */
-    Page<PushPlanActivityEntity> findListPage(Long brandIdentity, Long shopIdentity, Integer planState, String name, int pageIdx, int pageSize);
+    Page<PushPlanActivityEntity> findListPage(Long brandIdentity, Long shopIdentity, Integer planState, String name,int sourceType, int pageIdx, int pageSize);
 
     Page<PushPlanActivityEntity> findListPage(ActivitySearchModel searchModel);
 

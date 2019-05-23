@@ -39,7 +39,7 @@ class PushPlanActivityEntity : BaseEntity() {
      */
     var planDesc: String? = null
     /**
-     * 1, 进行中;2, 停止; 
+     * 1, 进行中;2, 停止;
      */
     var planState: Int? = null
     /**
@@ -66,22 +66,37 @@ class PushPlanActivityEntity : BaseEntity() {
      * 分享次数
      */
     var shareNumber: Int? = null
+    /**
+     * 下发活动接受状态 1：接受  2：未接受
+     */
+    var acceptanceaState: Int? = null
+    /**
+     * 活动来源类型 1：品牌下发  2：门店自建
+     */
+    var sourceType: Int? = null
+    /**
+     * 活动来源Id
+     */
+    var sourceId: Long? = null
 
 
     override fun toString(): String {
         return "PushPlanActivityEntity{" +
-        ", id=" + id +
-        ", brandIdentity=" + brandIdentity +
-        ", shopIdentity=" + shopIdentity +
-        ", name=" + name +
-        ", planDesc=" + planDesc +
-        ", planState=" + planState +
-        ", beginTime=" + beginTime +
-        ", endTime=" + endTime +
-        ", describe=" + describe +
-        ", imgUrl=" + imgUrl +
-        ", scanNumber=" + scanNumber +
-        ", shareNumber=" + shareNumber +
-        "}"
+                ", id=" + id +
+                ", brandIdentity=" + brandIdentity +
+                ", shopIdentity=" + shopIdentity +
+                ", name=" + name +
+                ", planDesc=" + planDesc +
+                ", planState=" + planState +
+                ", beginTime=" + beginTime +
+                ", endTime=" + endTime +
+                ", describe=" + describe +
+                ", imgUrl=" + imgUrl +
+                ", scanNumber=" + scanNumber +
+                ", shareNumber=" + shareNumber +
+                ", acceptanceaState=" + acceptanceaState +
+                ", sourceType=" + sourceType +
+                ", sourceId=" + sourceId +
+                "}"
     }
 }

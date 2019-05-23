@@ -24,13 +24,14 @@ public class PushPlanActivityServiceImpl extends ServiceImpl<PushPlanActivityMap
 
 
     @Override
-    public Page<PushPlanActivityEntity> findListPage(Long brandIdentity, Long shopIdentity, Integer planState, String name, int pageIdx, int pageSize) {
+    public Page<PushPlanActivityEntity> findListPage(Long brandIdentity, Long shopIdentity, Integer planState, String name,int sourceType, int pageIdx, int pageSize) {
         PushPlanActivityEntity mPushPlanActivity = new PushPlanActivityEntity();
         mPushPlanActivity.setBrandIdentity(brandIdentity);
         mPushPlanActivity.setShopIdentity(shopIdentity);
         mPushPlanActivity.setPlanState(planState);
         mPushPlanActivity.setStatusFlag(1);
         mPushPlanActivity.setName(name);
+        mPushPlanActivity.setSourceType(sourceType);
         Page<PushPlanActivityEntity> listPage = new Page<>(pageIdx, pageSize);
         EntityWrapper<PushPlanActivityEntity> eWrapper = new EntityWrapper<>(mPushPlanActivity);
         eWrapper.setSqlSelect("id,img_url,brand_identity,shop_identity,name,plan_state,begin_time,end_time,scan_number,share_number,status_flag");
