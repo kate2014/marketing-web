@@ -37,7 +37,15 @@ public class FlashSalesMarketingServiceImpl extends ServiceImpl<FlashSalesMarket
         EntityWrapper<FlashSalesMarketingEntity> eWrapper = new EntityWrapper<>(mCollageMarketing);
         eWrapper.setSqlSelect("id,name,begin_time,end_time,original_price,flash_price,sales_count,sold_count,img_url,enabled_flag,profile,img_url");
         eWrapper.eq("brand_identity", mFlashSalesModel.getBrandIdentity());
-        eWrapper.eq("shop_identity", mFlashSalesModel.getShopIdentity());
+
+        if(mFlashSalesModel.getShopIdentity() != null){
+            eWrapper.eq("shop_identity", mFlashSalesModel.getShopIdentity());
+        }
+
+        if(mFlashSalesModel.getSourceType() != null){
+            eWrapper.eq("source_type", mFlashSalesModel.getSourceType());
+        }
+
         eWrapper.eq("status_flag", 1);
 
         if (mFlashSalesModel.getEnabledFlag() != null) {

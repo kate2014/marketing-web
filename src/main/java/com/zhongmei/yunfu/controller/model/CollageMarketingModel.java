@@ -112,6 +112,10 @@ public class CollageMarketingModel extends WebBaseModel {
      * 服务器更新时间
      */
     private Date serverUpdateTime;
+    /**
+     * 活动来源类型 1：品牌下发  2：门店自建
+     */
+    private Integer sourceType;
 
     public String getProfile() {
         return profile;
@@ -329,5 +333,13 @@ public class CollageMarketingModel extends WebBaseModel {
 
     public void setValidityPeriod(String validityPeriod) {
         this.validityPeriod = validityPeriod;
+    }
+
+    public Integer getSourceType() {
+        return sourceType;
+    }
+
+    public void setSourceType(Integer sourceType) {
+        this.sourceType = sourceType;
     }
 }

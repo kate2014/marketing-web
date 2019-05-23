@@ -42,7 +42,7 @@ public class BrandPushDishController extends BaseController {
             }
         }
 
-        setWebPage(model, "/pushPlanNewDish/list", newDishPush, newDishPushModel);
+        setWebPage(model, "/internal/brand/marketing/pushDish/list", newDishPush, newDishPushModel);
         model.addAttribute("list", planModeList);
         model.addAttribute("newDishPushModel", newDishPushModel);
 

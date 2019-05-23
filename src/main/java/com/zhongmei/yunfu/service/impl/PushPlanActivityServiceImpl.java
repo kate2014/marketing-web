@@ -24,7 +24,7 @@ public class PushPlanActivityServiceImpl extends ServiceImpl<PushPlanActivityMap
 
 
     @Override
-    public Page<PushPlanActivityEntity> findListPage(Long brandIdentity, Long shopIdentity, Integer planState, String name,int sourceType, int pageIdx, int pageSize) {
+    public Page<PushPlanActivityEntity> findListPage(Long brandIdentity, Long shopIdentity, Integer planState, String name,Integer sourceType, int pageIdx, int pageSize) {
         PushPlanActivityEntity mPushPlanActivity = new PushPlanActivityEntity();
         mPushPlanActivity.setBrandIdentity(brandIdentity);
         mPushPlanActivity.setShopIdentity(shopIdentity);

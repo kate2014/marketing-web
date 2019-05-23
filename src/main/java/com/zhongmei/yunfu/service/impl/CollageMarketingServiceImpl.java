@@ -40,14 +40,20 @@ public class CollageMarketingServiceImpl extends ServiceImpl<CollageMarketingMap
         EntityWrapper<CollageMarketingEntity> eWrapper = new EntityWrapper<>(mCollageMarketing);
         eWrapper.setSqlSelect("id,name,begin_time,end_time,collage_people_count,collage_price,original_price,join_count,open_group_count,finish_group_count,enabled_flag,profile,img_url,product_id,product_name");
         eWrapper.eq("brand_identity", mCollageMarketingModel.getBrandIdentity());
-        eWrapper.eq("shop_identity", mCollageMarketingModel.getShopIdentity());
+
         eWrapper.eq("status_flag", 1);
 
+        if(mCollageMarketingModel.getShopIdentity() != null){
+            eWrapper.eq("shop_identity", mCollageMarketingModel.getShopIdentity());
+        }
         if (mCollageMarketingModel.getEnabledFlag() != null) {
             eWrapper.eq("enabled_flag", mCollageMarketingModel.getEnabledFlag());
         }
         if (mCollageMarketingModel.getName() != null) {
             eWrapper.like("name", mCollageMarketingModel.getName());
+        }
+        if(mCollageMarketingModel.getSourceType() != null){
+            eWrapper.eq("source_type",mCollageMarketingModel.getSourceType());
         }
 
         eWrapper.orderBy("server_create_time", false);

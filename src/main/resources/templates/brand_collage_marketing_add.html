@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>拼团</title>
+    <link rel="stylesheet" th:href="@{/css/public.css}" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" type="text/css" />
+
+    <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/base.js}"></script>
+
+    <!--<link rel="stylesheet" th:href="@{/ckeditor/contents.css}" type="text/css" />-->
+    <!--<script type="text/javascript" th:src="@{/ckeditor/ckeditor.js}"></script>-->
+    <!--<script type="text/javascript" th:src="@{/ckeditor/contents.css}"></script>-->
+    <!--<script type="text/javascript" th:src="@{/ckeditor/ckeditor.js}"></script>-->
+    <!--<script type="text/javascript" th:src="@{/ckeditor/config.js}"></script>-->
+    <!--<script type="text/javascript" th:src="@{/ckeditor/styles.js}"></script>-->
+
+
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/test/jeDate-test.css}">
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/skin/jedate.css}">
+    <script type="text/javascript" th:src="@{/selectdate/src/jedate.js}"></script>
+
+    <link th:href="@{/upload/upload-one.css}" type="text/css" rel="stylesheet" />
+    <script th:src="@{/upload/upload-one.js}"></script>
+
+    <!-- tips 提示框引用-->
+    <link rel="stylesheet" th:href="@{/tips/jquery.toast.css}">
+    <script type="text/javascript" th:src="@{/tips/jquery.toast.js}"></script>
+    <script type="text/javascript" th:src="@{/tips/tips.js}"></script>
+</head>
+
+<script type="text/javascript" th:src="@{/ckeditor/ckeditor.js}"></script>
+<script type="text/javascript">
+    CKEDITOR.replace('describe');
+    //如果是在ASP.NET环境下用的服务器端控 件<TextBox>
+    CKEDITOR.replace('tbContent');
+    //如 果<TextBox>控件在母版页中，要这样写
+    CKEDITOR.replace('<%=tbContent.ClientID.Replace("_","$") %>');
+</script>
+
+<script type="text/javascript">
+
+    $(function () {
+        $("#dish_select").click(function () {
+            $('.zm-dialog').load('[[${basePath}]]/dish/selectShopPage'); //#container
+
+        })
+    });
+
+    function setDishInfo(dishId, dishName, dishPrice, dishDesc) {
+        $("#productId").attr('value', dishId);
+        $("#productName").attr('value', dishName);
+        $("#originalPrice").attr('value', dishPrice);
+
+    };
+
+
+    function sendForm(type) {
+        var name = document.getElementById("name").value.replace(/(^\s*)|(\s*$)/g, '');
+        var profile = document.getElementById("profile").value.replace(/(^\s*)|(\s*$)/g, '');
+        var beginTime = document.getElementById("beginTime").value.replace(/(^\s*)|(\s*$)/g, '');
+        var endTime = document.getElementById("endTime").value.replace(/(^\s*)|(\s*$)/g, '');
+        var productId = document.getElementById("productId").value.replace(/(^\s*)|(\s*$)/g, '');
+        var originalPrice = document.getElementById("originalPrice").value.replace(/(^\s*)|(\s*$)/g, '');
+        var collagePeopleCount = document.getElementById("collagePeopleCount").value.replace(/(^\s*)|(\s*$)/g, '');
+        var collagePrice = document.getElementById("collagePrice").value.replace(/(^\s*)|(\s*$)/g, '');
+        var maxOpenGroup = document.getElementById("maxOpenGroup").value.replace(/(^\s*)|(\s*$)/g, '');
+        var validityPeriod = document.getElementById("validityPeriod").value.replace(/(^\s*)|(\s*$)/g, '');
+        // var uploadInput = $(".img-show");
+
+        if(name == '' || name == undefined || name == null){
+            warningTips("操作异常提示","活动名称不能为空");
+        }else if(profile == '' || profile == undefined || profile == null){
+            warningTips("操作异常提示","活动简介不能为空");
+        }else if(beginTime == '' || beginTime == undefined || beginTime == null){
+            warningTips("操作异常提示","活动开始时间不能为空");
+        }else if(endTime == '' || endTime == undefined || endTime == null){
+            warningTips("操作异常提示","活动结束时间不能为空");
+        }else if(productId == '' || productId == undefined || productId == null){
+            warningTips("操作异常提示","请选择参与拼团的品项");
+        }else if(originalPrice == '' || originalPrice == undefined || originalPrice == null){
+            warningTips("操作异常提示","商品原价不能为空");
+        }else if(collagePeopleCount == '' || collagePeopleCount == undefined || collagePeopleCount == null){
+            warningTips("操作异常提示","成团人数不能为空");
+        }else if(collagePrice == '' || collagePrice == undefined || collagePrice == null){
+            warningTips("操作异常提示","成团价格不能为空");
+        }else if(maxOpenGroup == '' || maxOpenGroup == undefined || maxOpenGroup == null){
+            warningTips("操作异常提示","最多开团数不能为空");
+        }else if(validityPeriod == '' || validityPeriod == undefined || validityPeriod == null){
+            warningTips("操作异常提示","使用有效期不能为空");
+        }
+        // else if(uploadInput.length == 0){
+        //     warningTips("操作异常提示","活动图片不能为空");
+        // }
+        else{
+            document.getElementById("enabledFlag").value = type;
+            document.addform.submit();
+        }
+
+    }
+
+
+</script>
+
+<body>
+<section class="mark-details">
+
+    <div class="parent top_view_style">
+
+        <img th:src="@{/images/lable.jpg}" width="5" height="26" style="margin-left: 20px">
+
+        <label class="text_navigation" style="margin-left: 10px; width: 30%">营销 》拼团</label>
+
+        <div align="right" style="width: 100%;margin-right: 50px">
+            <button class="blue_button_style" onclick="sendForm(1)" style="margin-left: 10px">保存</button>
+            <button class="gray_button_style" value="" th:onclick="@{|location='${basePath}/brand/collageMarketing/queryListData'|}" style="margin-left: 10px">返回列表</button>
+        </div>
+    </div>
+
+    <div class="modle" style="margin-bottom: 50px">
+        <img th:src="@{/images/collage_pic.png}" class="weixin_pic_style">
+
+        <form method="post" name="addform" th:action="@{/brand/collageMarketing/modifyCollage}" th:object="${mCollageMarketingModel}">
+            <input type="hidden" name="id" th:value="${collageMarketing.id}">
+            <input type="hidden" name="brandIdentity" th:value="${collageMarketing.brandIdentity}">
+            <input type="hidden" name="shopIdentity" th:value="${collageMarketing.shopIdentity}">
+            <input type="hidden" name="enabledFlag" id="enabledFlag">
+            <input type="hidden" name="productId" id="productId" th:value="${collageMarketing.productId}">
+
+            <div class="details-bom">
+                <ul class="spell-content">
+                    <li><span>*活动名称</span><input type="text" placeholder="输入活动名称" maxlength="30" name="name" id="name" th:value="${collageMarketing.name}"/></li>
+                    <li><span>*活动简介</span><input type="text" placeholder="输入字符不超过200字" maxlength="200" name="profile" id="profile" th:value="${collageMarketing.profile}"></li>
+                    <li><span>*活动开始时间</span><input type="text" placeholder="输入活动开始时间" id="beginTime" name="beginTime" th:value="${#dates.format(collageMarketing.beginTime, 'yyyy-MM-dd HH:mm:ss')}"></li>
+                    <li><span>*活动结束时间</span><input type="text" placeholder="输入活动结束时间" id="endTime" name="endTime" th:value="${#dates.format(collageMarketing.endTime, 'yyyy-MM-dd HH:mm:ss')}"></li>
+
+                    <li><span>*选择品项</span>
+                        <input type="text" placeholder="请选择参与拼团的品项" name="productName" id="productName" th:value="${collageMarketing.productName}" readonly="true"/>
+                        <button id="dish_select" class="blue_button_style select-shop" value="" onclick="return false;" style="margin-left: 10px">选择品项</button>
+                        <h4>请选择参与拼团的品项</h4>
+                    </li>
+
+                    <li><span>*品项原价</span><label><input type="text" onkeyup="clearNoNum(this)" placeholder="请填写品项原售价" class="put" name="originalPrice" id="originalPrice" th:value="${collageMarketing.originalPrice}"> <h5>元</h5></label></li>
+                    <li><span>*成团人数</span><label><input type="text" onkeyup="onlyNumber(this)" placeholder="请填写成团人数" name="collagePeopleCount" id="collagePeopleCount" th:value="${collageMarketing.collagePeopleCount}"><h5>人</h5></label></li>
+                    <li><span>*成团价格</span><label><input type="text" onkeyup="clearNoNum(this)" placeholder="请填写大于0且小于拼团售价的数字" class="put" name="collagePrice" id="collagePrice" th:value="${collageMarketing.collagePrice}"> <h5>元</h5></label></li>
+                    <li><span>*最多开团数</span><label><input type="text" onkeyup="onlyNumber(this)" placeholder="请填写最多开团数量" name="maxOpenGroup" id="maxOpenGroup" th:value="${collageMarketing.maxOpenGroup}"><h5>团</h5></label></li>
+                    <li><span>*使用有效期</span><input type="text" placeholder="输入活动使用有效期" id="validityPeriod" name="validityPeriod" th:value="${#dates.format(collageMarketing.validityPeriod, 'yyyy-MM-dd HH:mm:ss')}"></li>
+
+                    <li>
+                        <span>*上传活动图片</span>
+                        <div class="upload-box" th:src="${collageMarketing.imgUrl}" name="imgUrl">
+                            <div class="upload-btn">
+                                <input type="file" name="file" id="upload-input"/>
+                            </div>
+                        </div>
+                        <h6>仅可上传1张图片</h6>
+                    </li>
+                    <li></li>
+
+                </ul>
+
+                <div style="margin-bottom: 50px;margin-left: 15px;margin-top: 40px;">
+
+                    <div class="detail_lable_style" style="margin-bottom: 20px">拼团详情描述</div>
+
+                    <textarea id="describe" name="describe" cols="100" rows="50" class="ckeditor"
+                              th:text="${collageMarketing.describe}"></textarea>
+                </div>
+
+            </div>
+
+        </form>
+    </div>
+
+</section>
+
+<div class='zm-dialog'/>
+
+<script type="text/javascript" th:src="@{/selectdate/test/marketing_date.js}"></script>
+
+</body>
+
+</html>

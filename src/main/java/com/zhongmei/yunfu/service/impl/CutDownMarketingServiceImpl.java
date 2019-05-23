@@ -41,7 +41,11 @@ public class CutDownMarketingServiceImpl extends ServiceImpl<CutDownMarketingMap
         EntityWrapper<CutDownMarketingEntity> eWrapper = new EntityWrapper<>(mCutDownMarketing);
         eWrapper.setSqlSelect("id,name,begin_time,end_time,start_price,end_price,validity_period,img_url,profile,sales_count,sold_count,enabled_flag");
         eWrapper.eq("brand_identity", mCutDownModel.getBrandIdentity());
-        eWrapper.eq("shop_identity", mCutDownModel.getShopIdentity());
+
+        if(mCutDownModel.getShopIdentity() != null){
+            eWrapper.eq("shop_identity", mCutDownModel.getShopIdentity());
+        }
+
         eWrapper.eq("status_flag", 1);
 
         if (mCutDownModel.getEnabledFlag() != null) {
@@ -49,6 +53,9 @@ public class CutDownMarketingServiceImpl extends ServiceImpl<CutDownMarketingMap
         }
         if (mCutDownModel.getName() != null) {
             eWrapper.like("name", mCutDownModel.getName());
+        }
+        if (mCutDownModel.getSourceType() != null) {
+            eWrapper.eq("source_type", mCutDownModel.getSourceType());
         }
 
         eWrapper.orderBy("server_create_time", false);

@@ -103,7 +103,18 @@ class CollageMarketingEntity : BaseEntity() {
      * 门店id
      */
     var shopIdentity: Long? = null
-
+    /**
+     * 下发活动接受状态 1：接受  2：未接受
+     */
+    var acceptanceaState: Int? = null
+    /**
+     * 活动来源类型 1：品牌下发  2：门店自建
+     */
+    var sourceType: Int? = null
+    /**
+     * 活动来源Id
+     */
+    var sourceId: Long? = null
 
     override fun toString(): String {
         return "CollageMarketingEntity{" +
@@ -128,6 +139,9 @@ class CollageMarketingEntity : BaseEntity() {
         ", finishGroupCount=" + finishGroupCount +
         ", brandIdentity=" + brandIdentity +
         ", shopIdentity=" + shopIdentity +
+                ", acceptanceaState=" + acceptanceaState +
+                ", sourceType=" + sourceType +
+                ", sourceId=" + sourceId +
         "}"
     }
 }

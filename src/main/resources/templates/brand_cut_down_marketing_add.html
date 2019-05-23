@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>砍价</title>
+    <link rel="stylesheet" th:href="@{/css/public.css}" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" type="text/css" />
+
+    <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/base.js}"></script>
+
+    <!--<link rel="stylesheet" th:href="@{/ckeditor/contents.css}" type="text/css" />-->
+    <!--<script type="text/javascript" th:src="@{/ckeditor/ckeditor.js}"></script>-->
+    <!--<script type="text/javascript" th:src="@{/ckeditor/contents.css}"></script>-->
+    <!--<script type="text/javascript" th:src="@{/ckeditor/ckeditor.js}"></script>-->
+    <!--<script type="text/javascript" th:src="@{/ckeditor/config.js}"></script>-->
+    <!--<script type="text/javascript" th:src="@{/ckeditor/styles.js}"></script>-->
+
+
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/test/jeDate-test.css}">
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/skin/jedate.css}">
+    <script type="text/javascript" th:src="@{/selectdate/src/jedate.js}"></script>
+
+    <link th:href="@{/upload/upload-one.css}" type="text/css" rel="stylesheet" />
+    <script th:src="@{/upload/upload-one.js}"></script>
+
+    <!-- tips 提示框引用-->
+    <link rel="stylesheet" th:href="@{/tips/jquery.toast.css}">
+    <script type="text/javascript" th:src="@{/tips/jquery.toast.js}"></script>
+    <script type="text/javascript" th:src="@{/tips/tips.js}"></script>
+
+</head>
+
+<script type="text/javascript" th:src="@{/ckeditor/ckeditor.js}"></script>
+<script type="text/javascript">
+    CKEDITOR.replace('describe');
+    //如果是在ASP.NET环境下用的服务器端控 件<TextBox>
+    CKEDITOR.replace('tbContent');
+    //如 果<TextBox>控件在母版页中，要这样写
+    CKEDITOR.replace('<%=tbContent.ClientID.Replace("_","$") %>');
+</script>
+
+<script type="text/javascript">
+
+    $(function () {
+        $("#dish_select").click(function () {
+            $('.zm-dialog').load('[[${basePath}]]/dish/selectShopPage'); //#container
+
+        })
+    });
+
+    function setDishInfo(dishId, dishName, dishPrice, dishDesc) {
+        $("#productId").attr('value',dishId);
+        $("#productName").attr('value',dishName);
+        $("#startPrice").attr('value',dishPrice);
+
+    };
+
+    function sendForm(type) {
+        var name = document.getElementById("name").value.replace(/(^\s*)|(\s*$)/g, '');
+        var profile = document.getElementById("profile").value.replace(/(^\s*)|(\s*$)/g, '');
+        var beginTime = document.getElementById("beginTime").value.replace(/(^\s*)|(\s*$)/g, '');
+        var endTime = document.getElementById("endTime").value.replace(/(^\s*)|(\s*$)/g, '');
+        var productName = document.getElementById("productName").value.replace(/(^\s*)|(\s*$)/g, '');
+        var startPrice = document.getElementById("startPrice").value.replace(/(^\s*)|(\s*$)/g, '');
+        var endPrice = document.getElementById("endPrice").value.replace(/(^\s*)|(\s*$)/g, '');
+        var randomPriceMini = document.getElementById("randomPriceMini").value.replace(/(^\s*)|(\s*$)/g, '');
+        var randomPriceMax = document.getElementById("randomPriceMax").value.replace(/(^\s*)|(\s*$)/g, '');
+        // var customerCutCount = document.getElementById("customerCutCount").value.replace(/(^\s*)|(\s*$)/g, '');
+        var salesCount = document.getElementById("salesCount").value.replace(/(^\s*)|(\s*$)/g, '');
+        var validityPeriod = document.getElementById("validityPeriod").value.replace(/(^\s*)|(\s*$)/g, '');
+        // var uploadInput = document.getElementById("upload-input").value.replace(/(^\s*)|(\s*$)/g, '');
+
+
+        if(name == '' || name == undefined || name == null){
+            warningTips("操作异常提示","活动名称不能为空");
+        }else if(profile == '' || profile == undefined || profile == null){
+            warningTips("操作异常提示","活动简介不能为空");
+        }else if(beginTime == '' || beginTime == undefined || beginTime == null){
+            warningTips("操作异常提示","活动开始时间不能为空");
+        }else if(endTime == '' || endTime == undefined || endTime == null){
+            warningTips("操作异常提示","活动结束时间不能为空");
+        }else if(productName == '' || productName == undefined || productName == null){
+            warningTips("操作异常提示","请选择要参加砍价的品项");
+        }else if(startPrice == '' || startPrice == undefined || startPrice == null){
+            warningTips("操作异常提示","砍价起始价不能为空");
+        }else if(endPrice == '' || endPrice == undefined || endPrice == null){
+            warningTips("操作异常提示","砍价结束价不能为空");
+        }else if(randomPriceMini == '' || randomPriceMini == undefined || randomPriceMini == null){
+            warningTips("操作异常提示","砍价随机最小金额不能为空");
+        }else if(randomPriceMax == '' || randomPriceMax == undefined || randomPriceMax == null){
+            warningTips("操作异常提示","砍价随机最大金额不能为空");
+        }
+        // else if(customerCutCount == '' || customerCutCount == undefined || validityPeriod == null){
+        //     warningTips("操作异常提示","每人限购次数不能为空");
+        // }
+        else if(salesCount == '' || salesCount == undefined || salesCount == null){
+            warningTips("操作异常提示","活动售卖数不能为空");
+        }else if(validityPeriod == '' || validityPeriod == undefined || validityPeriod == null){
+            warningTips("操作异常提示","活动使用有效期不能为空");
+        }
+        // else if(uploadInput == '' || uploadInput == undefined || uploadInput == null){
+        //     warningTips("操作异常提示","活动图片不能为空");
+        // }
+        else{
+            document.getElementById("enabledFlag").value = type;
+            document.addform.submit();
+        }
+
+    }
+
+    function backList() {
+        window.opener=null;
+        window.close();
+        self.location=document.referrer;
+    }
+
+</script>
+
+<body>
+<section class="mark-details">
+
+    <div class="parent top_view_style">
+
+        <img th:src="@{/images/lable.jpg}" width="5" height="26" style="margin-left: 20px">
+
+        <label class="text_navigation" style="margin-left: 10px; width: 30%">营销 》砍价 》 创建砍价活动</label>
+
+        <div align="right" style="width: 100%;margin-right: 50px">
+            <button class="blue_button_style" onclick="sendForm(1)" style="margin-left: 10px">保存</button>
+            <button class="gray_button_style" value="" th:onclick="@{|location='${basePath}/brand/cutDownMarketing/queryListData'|}" style="margin-left: 10px">返回列表</button>
+        </div>
+    </div>
+
+    <div class="modle" style="margin-bottom: 50px">
+
+        <img th:src="@{/images/cut_down_detail_pic.jpg}" class="weixin_pic_style">
+
+        <form method="post" name="addform" th:action="@{/brand/cutDownMarketing/modifyData}" th:object="${mCutDownModel}">
+
+            <input type="hidden" name="id" th:value="${mCutDownModel.id}">
+            <input type="hidden" name="brandIdentity" th:value="${mCutDownModel.brandIdentity}">
+            <input type="hidden" name="shopIdentity" th:value="${mCutDownModel.shopIdentity}">
+            <input type="hidden" name="enabledFlag" id="enabledFlag">
+            <input type="hidden" name="productId" id="productId" th:value="${mCutDownModel.productId}">
+
+            <div class="details-bom">
+                <ul class="spell-content">
+                    <li><span>*活动名称</span><label><input type="text" placeholder="输入项目名称" maxlength="30" name="name" id="name" th:value="${mCutDownModel.name}"/></label></li>
+                    <li><span>*活动简介</span><input type="text" placeholder="输入字符不超过200字" maxlength="200" name="profile" id="profile" th:value="${mCutDownModel.profile}"></li>
+                    <li><span>*活动开始时间</span><input type="text" placeholder="输入活动开始时间" id="beginTime" name="beginTime" th:value="${#dates.format(mCutDownModel.beginTime, 'yyyy-MM-dd HH:mm:ss')}"></li>
+                    <li><span>*活动结束时间</span><input type="text" placeholder="输入活动结束时间" id="endTime" name="endTime" th:value="${#dates.format(mCutDownModel.endTime, 'yyyy-MM-dd HH:mm:ss')}"></li>
+                    <li><span>*选择品项</span>
+                        <input type="text" class="put" placeholder="请选择要参加砍价的品项" maxlength="30" name="productName" id="productName" th:value="${mCutDownModel.productName}"  readonly="true" />
+                        <button id="dish_select" class="blue_button_style select-shop" value="" onclick="return false;" style="margin-left: 10px">选择品项</button>
+                        <h4>请选择要参加砍价的品项</h4>
+                    </li>
+                    <li><span>*砍价起始价</span><label><input type="text" onkeyup="clearNoNum(this)" placeholder="输入砍价起始金额" class="put" name="startPrice" id="startPrice" th:value="${mCutDownModel.startPrice}"><h5>元</h5></label></li>
+                    <li><span>*砍价结束价</span><label><input type="text" onkeyup="clearNoNum(this)" placeholder="输入砍价结束金额" class="put" name="endPrice" id="endPrice" th:value="${mCutDownModel.endPrice}"> <h5>元</h5></label></li>
+                    <li><span>*砍价随机金额</span><label><input type="text" onkeyup="clearNoNum(this)" placeholder="随机最小金额" class="put" name="randomPriceMini" id="randomPriceMini" th:value="${mCutDownModel.randomPriceMini}"> <h5>元</h5></label></li>
+                    <li><span></span><label><input type="text" onkeyup="clearNoNum(this)" placeholder="随机最大金额" class="put" name="randomPriceMax" id="randomPriceMax" th:value="${mCutDownModel.randomPriceMax}"> <h5>元</h5></label></li>
+                    <!--<li><span>*每人限砍数</span><label><input type="text" onkeyup="onlyNumber(this)" placeholder="输入每人限购次数" class="put" name="customerCutCount" id="customerCutCount" th:value="${mCutDownModel.customerCutCount}"> <h5>次</h5></label></li>-->
+                    <li><span>*活动售卖数</span><label><input type="text" onkeyup="onlyNumber(this)" placeholder="输入活动售卖总数" class="put" name="salesCount" id="salesCount" th:value="${mCutDownModel.salesCount}"> <h5>个</h5></label></li>
+                    <li><span>*使用有效期</span><label><input type="text" placeholder="输入活动使用有效期" id="validityPeriod" name="validityPeriod" th:value="${#dates.format(mCutDownModel.validityPeriod, 'yyyy-MM-dd HH:mm:ss')}"></label></li>
+
+                    <li>
+                        <span>上传砍价图片</span>
+                        <div class="upload-box" th:src="${mCutDownModel.imgUrl}" name="imgUrl">
+                            <div class="upload-btn">
+                                <input type="file" name="file" id="upload-input"/>
+                            </div>
+                        </div>
+                        <h6>仅可上传1张图片</h6>
+                    </li>
+                    <li></li>
+
+
+                </ul>
+                <div style="margin-bottom: 50px;margin-left: 15px;margin-top: 40px;">
+
+                    <div class="detail_lable_style" style="margin-bottom: 20px">砍价详情描述</div>
+
+                    <textarea id="describe" name="describe" cols="100" rows="50" class="ckeditor"
+                              th:text="${mCutDownModel.describe}"></textarea>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+
+</section>
+<div class="zm-dialog" />
+
+<script type="text/javascript" th:src="@{/selectdate/test/marketing_date.js}"></script>
+
+</body>
+</html>

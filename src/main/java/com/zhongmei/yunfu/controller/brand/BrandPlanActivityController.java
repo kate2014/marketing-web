@@ -41,7 +41,7 @@ public class BrandPlanActivityController extends BaseController {
         Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
 
         Page<PushPlanActivityEntity> listPage = pushPlanActivityService.findListPage(brandIdentity, null, searchModel.getPlanState(), searchModel.getName(), 1,searchModel.getPageNo(), searchModel.getPageSize());
-        setWebPage(model, "/pushPlanActivity/list", listPage, searchModel);
+        setWebPage(model, "/brand/pushPlanActivity/list", listPage, searchModel);
         model.addAttribute("searchModel", searchModel);
         model.addAttribute("list", listPage.getRecords());
         return "brand_activity_list";
@@ -65,7 +65,6 @@ public class BrandPlanActivityController extends BaseController {
     public String addPlanActivity(Model model, ActivityModifyModel activityaddModel) {
         try {
             Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
-            Long shopIdentity = LoginManager.get().getUser().getShopIdenty();
             Long creatorId = LoginManager.get().getUser().getCreatorId();
             String creatorname = LoginManager.get().getUser().getCreatorName();
 
@@ -86,7 +85,6 @@ public class BrandPlanActivityController extends BaseController {
                     mPushPlanActivity.setBeginTime(new Date());
                 }
                 mPushPlanActivity.setBrandIdentity(brandIdentity);
-                mPushPlanActivity.setShopIdentity(shopIdentity);
                 mPushPlanActivity.setSourceType(1);
                 mPushPlanActivity.setScanNumber(0);
                 mPushPlanActivity.setShareNumber(0);

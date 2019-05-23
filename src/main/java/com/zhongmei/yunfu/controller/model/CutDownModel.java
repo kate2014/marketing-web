@@ -113,6 +113,8 @@ public class CutDownModel extends WebBaseModel {
      */
     private Date serverUpdateTime;
 
+    private Integer sourceType;
+
     public Long getId() {
         return id;
     }
@@ -327,5 +329,13 @@ public class CutDownModel extends WebBaseModel {
 
     public void setServerUpdateTime(Date serverUpdateTime) {
         this.serverUpdateTime = serverUpdateTime;
+    }
+
+    public Integer getSourceType() {
+        return sourceType;
+    }
+
+    public void setSourceType(Integer sourceType) {
+        this.sourceType = sourceType;
     }
 }

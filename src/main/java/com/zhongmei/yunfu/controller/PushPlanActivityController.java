@@ -42,7 +42,7 @@ public class PushPlanActivityController extends BaseController {
         Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
         Long shopIdentity = LoginManager.get().getUser().getShopIdenty();
 
-        Page<PushPlanActivityEntity> listPage = pushPlanActivityService.findListPage(brandIdentity, shopIdentity, searchModel.getPlanState(), searchModel.getName(),2, searchModel.getPageNo(), searchModel.getPageSize());
+        Page<PushPlanActivityEntity> listPage = pushPlanActivityService.findListPage(brandIdentity, shopIdentity, searchModel.getPlanState(), searchModel.getName(),null, searchModel.getPageNo(), searchModel.getPageSize());
         setWebPage(model, "/pushPlanActivity/list", listPage, searchModel);
         model.addAttribute("searchModel", searchModel);
         model.addAttribute("list", listPage.getRecords());
