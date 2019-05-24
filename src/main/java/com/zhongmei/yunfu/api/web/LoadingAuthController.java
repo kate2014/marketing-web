@@ -24,7 +24,7 @@ public class LoadingAuthController {
     public String reportAddCustomer(Model model, LoadingModel mLoadingModel) {
 
         if(mLoadingModel.getRequestUrlType() == 1){
-            String url = "/internal/purchaseSale/saleReport?brandIdenty="+mLoadingModel.getBrandIdenty()+"&shopIdenty="+mLoadingModel.getShopIdenty()+"&rquestSource="+mLoadingModel.getRquestSource();
+            String url = "/internal/sales/saleReport?brandIdenty="+mLoadingModel.getBrandIdenty()+"&shopIdenty="+mLoadingModel.getShopIdenty()+"&rquestSource="+mLoadingModel.getRquestSource();
             mLoadingModel.setRequestUrl(url);
 
         }else if(mLoadingModel.getRequestUrlType() == 2){

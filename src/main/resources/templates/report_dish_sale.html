@@ -41,7 +41,7 @@
             "&customerName=" + customerName +
             "&startDate=" + startDate +
             "&endDate=" + endDate;
-        location.href = "[[${basePath}]]/internal/purchaseSale/export/dishSale?" + params;
+        location.href = "[[${basePath}]]/internal/sales/export/dishSale?" + params;
     }
 
     function searchAction(type) {
@@ -155,7 +155,7 @@
         </div>
 
         <div class="parent" style="margin-top: 5px;padding-top: 10px;margin-left: 10px; margin-right: 10px; border-top: #e1e1e1 dashed 1px">
-            <form method="post" name="queryData" id="queryData" action="" th:action="@{/internal/purchaseSale/saleReport}" th:object="${mPurchSaleModel}">
+            <form method="post" name="queryData" id="queryData" action="" th:action="@{/internal/sales/saleReport}" th:object="${mPurchSaleModel}">
 
                 <input type="hidden" name="brandIdenty" th:value="${mPurchSaleModel.brandIdenty}">
                 <input type="hidden" name="shopIdenty" th:value="${mPurchSaleModel.shopIdenty}">
