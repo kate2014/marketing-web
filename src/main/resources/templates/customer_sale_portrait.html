@@ -6,6 +6,7 @@
 
 <script type="text/javascript" src="../static/js/echarts.min.js" th:src="@{/js/echarts.min.js}"></script>
 <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
+<link rel="stylesheet" th:href="@{/css/widget.css}" href="../css/widget.css" type="text/css" />
 
 <body style="height: 100%; margin: 0">
 
@@ -74,16 +75,32 @@
 
 <div id="container" style="height: 500px;width: 98%"></div>
 
-<div class="parent_h container" style="background-color: #f3f3f3;border: #e1e1e1 1px;width: 98%;margin-left: 1%">
-    <div style="width: 13%;height: 40px; border-right: #e4e4e4 solid 1px" class="report_lable_style container parent_h">20岁以下：<label th:text="${age20sale}"></label>元</div>
-    <div style="width: 12%;height: 40px; border-right: #e4e4e4 solid 1px" class="report_lable_style container parent_h">20-25岁：<label th:text="${age25sale}"></label>元</div>
-    <div style="width: 12%;height: 40px; border-right: #e4e4e4 solid 1px" class="report_lable_style container parent_h">26-30岁：<label th:text="${age30sale}"></label>元</div>
-    <div style="width: 12%;height: 40px; border-right: #e4e4e4 solid 1px" class="report_lable_style container parent_h">31-35岁：<label th:text="${age35sale}"></label>元</div>
-    <div style="width: 12%;height: 40px; border-right: #e4e4e4 solid 1px" class="report_lable_style container parent_h">36-40岁：<label th:text="${age40sale}"></label>元</div>
-    <div style="width: 12%;height: 40px; border-right: #e4e4e4 solid 1px" class="report_lable_style container parent_h">41-45岁：<label th:text="${age45sale}"></label>元</div>
-    <div style="width: 12%;height: 40px; border-right: #e4e4e4 solid 1px" class="report_lable_style container parent_h">46岁以上：<label th:text="${age45msale}"></label>元</div>
-    <div style="width: 14%;height: 40px; " class="report_lable_style container parent_h">未知年龄段：<label th:text="${unknowAgesale}"></label>元</div>
+<div align="center" style="margin-top: 10px">
+    <table class="gridtablestyle" style="width: 95%; vertical-align: middle">
+        <tr style="width: 100%">
+            <th>20岁以下</th>
+            <th>20-25岁</th>
+            <th>26-30岁</th>
+            <th>31-35岁</th>
+            <th>36-40岁</th>
+            <th>41-45岁</th>
+            <th>46岁以上</th>
+            <th>未知年龄段</th>
+        </tr>
+        <tr>
+            <td><label th:text="${age20sale}"></label>元</td>
+            <td><label th:text="${age25sale}"></label>元</td>
+            <td><label th:text="${age30sale}"></label>元</td>
+            <td><label th:text="${age35sale}"></label>元</td>
+            <td><label th:text="${age40sale}"></label>元</td>
+            <td><label th:text="${age45sale}"></label>元</td>
+            <td><label th:text="${age45msale}"></label>元</td>
+            <td><label th:text="${unknowAgesale}"></label>元</td>
+        </tr>
+
+    </table>
 </div>
+
 <div class="container parent" style="margin-left: 20px;margin-top: 20px">
     <img th:src="@{/images/lable.jpg}" src="../static/images/lable.jpg" width="5" height="26">
     <p style="font-weight: bold; margin-left: 6px">不同性别消息分布</p>
