@@ -4,6 +4,8 @@ import com.zhongmei.yunfu.domain.entity.CustomerEntityCardEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * <p>
  *  Mapper 接口
@@ -14,7 +16,7 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface CustomerEntityCardMapper extends BaseMapper<CustomerEntityCardEntity> {
 
-    CustomerEntityCardEntity selectByCustomerId(Long customerId);
+    List<CustomerEntityCardEntity> selectByCustomerId(Long customerId);
 
     CustomerEntityCardEntity getByCardNo(@Param("shopId") Long shopId, @Param("cardNo") String cardNo);
 }

@@ -26,7 +26,7 @@ public interface CustomerMapper extends BaseMapper<CustomerEntity> {
 
     CustomerEntity loginCardNoEntity(@Param("cardNo") String cardNo, @Param("shopId") Long shopId);
 
-    CustomerInfo selectByKey(Serializable key);
+    //CustomerInfo selectByKey(Serializable key);
 
     //List<CustomerExtra> selectUserList(Pagination page, String state);
 

@@ -3,6 +3,8 @@ package com.zhongmei.yunfu.service;
 import com.zhongmei.yunfu.domain.entity.CustomerEntityCardEntity;
 import com.baomidou.mybatisplus.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.service.IService;
  */
 public interface CustomerEntityCardService extends IService<CustomerEntityCardEntity> {
 
+    List<CustomerEntityCardEntity> getByCustomerId(Long customerId);
 }

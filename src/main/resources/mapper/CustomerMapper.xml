@@ -37,7 +37,7 @@
            AND ce.status_flag = 1
     </select>
 
-    <select id="selectByKey"
+    <!--<select id="selectByKey"
             resultType="com.zhongmei.yunfu.domain.bean.CustomerInfo">
         SELECT
           c.*,
@@ -49,7 +49,7 @@
             ON c.id = ce.customer_id
         WHERE c.id = #{id}
           AND c.status_flag = 1
-    </select>
+    </select>-->
 
 
 </mapper>

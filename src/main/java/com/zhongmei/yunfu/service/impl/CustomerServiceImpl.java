@@ -58,10 +58,10 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
     @Autowired
     CustomerEntityCardMapper customerEntityCardMapper;
 
-    @Override
+    /*@Override
     public CustomerInfo selectByKey(Serializable key) {
         return baseMapper.selectByKey(key);
-    }
+    }*/
 
     @Override
     public void save(CustomerEntity customerEntity) {

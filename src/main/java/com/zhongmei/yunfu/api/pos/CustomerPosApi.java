@@ -34,6 +34,8 @@ public class CustomerPosApi extends PosApiController {
     CustomerCardTimeService customerCardTimeService;
     @Autowired
     CustomerLevelRuleService customerLevelRuleService;
+    @Autowired
+    CustomerEntityCardService customerEntityCardService;
 
     @RequestMapping
     public ApiResult list(@RequestBody CustomerSearchReq search) throws ApiResponseStatusException {
@@ -58,7 +60,7 @@ public class CustomerPosApi extends PosApiController {
 
     @RequestMapping("/info")
     public ApiResult info(@RequestBody CustomerInfoReq req) throws ApiResponseStatusException {
-        CustomerInfo customer = customerService.selectByKey(req.getCustomerId());
+        CustomerEntity customer = customerService.selectById(req.getCustomerId());
         CustomerInfoResp customerResp = new CustomerInfoResp();
         customerResp.customerId = customer.getId();
         customerResp.customerName = customer.getName();
@@ -79,7 +81,16 @@ public class CustomerPosApi extends PosApiController {
         int cardTimeCount = customerCardTimeService.selectCount(customer.getId(), customer.getShopIdenty());
         customerResp.coupCount = couponCount;
         customerResp.cardCount = cardTimeCount;
-        customerResp.cardNo = customer.getCardNo();
+
+        List<CustomerEntityCardEntity> entityCardServiceByCustomerId = customerEntityCardService.getByCustomerId(customer.getId());
+        customerResp.entityCards = new ArrayList<>();
+        entityCardServiceByCustomerId.forEach(it -> {
+            CustomerInfoResp.EntityCard entityCard = new CustomerInfoResp.EntityCard();
+            entityCard.cardId = it.getId();
+            entityCard.cardNo = it.getCardNo();
+            customerResp.entityCards.add(entityCard);
+        });
+
 
         return ApiResult.newSuccess(customerResp);
     }

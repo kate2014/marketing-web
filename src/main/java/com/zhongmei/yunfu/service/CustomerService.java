@@ -29,7 +29,7 @@ import java.util.Map;
  */
 public interface CustomerService extends IService<CustomerEntity> {
 
-    CustomerInfo selectByKey(Serializable key);
+    //CustomerInfo selectByKey(Serializable key);
 
     void save(CustomerEntity customerEntity);
 

@@ -28,6 +28,10 @@ public class CustomerInfoResp {
     public Long commercialId;
     public String commercialName;
     public Integer source = 1;
-    public String cardNo;
+    public List<EntityCard> entityCards;
 
+    static public class EntityCard {
+        public Long cardId;
+        public String cardNo;
+    }
 }
