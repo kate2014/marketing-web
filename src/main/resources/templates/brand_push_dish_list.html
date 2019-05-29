@@ -46,7 +46,7 @@
 <script type="text/javascript">
 
     function checkDelete(deleteId,name){
-        var message = "请确认是否要删除: "+name+"?";
+        var message = "投放的所有门店下该条数据都将删除，请确认是否要删除: "+name+"?";
         dialogBox(message,
             function () {
                 deleteRequest(deleteId);
@@ -76,20 +76,43 @@
     }
 
     $(function() {
-        $(".icon_size_style").click(function(){
+        $("div[name='send']").click(function(){
             var relatedId = $(this).attr("id");
             var brandIdenty = $("input[name='brandIdenty']").val();
             $('.zm-dialog').load('[[${basePath}]]/internal/brand/gotToSelectShop?relatedId='+relatedId+'&brandIdenty='+brandIdenty); //#container
         });
+
+        $("div[name='refresh']").click(function(){
+            var relatedId = $(this).attr("id");
+            var brandIdenty = $("input[name='brandIdenty']").val();
+            $.ajax({
+                url: '[[${basePath}]]/internal/brand/marketing/pushDish/refreshData',
+                data: {
+                    brandIdenty: brandIdenty,
+                    sourceId:relatedId
+                },
+                type: "post",
+                dataType: 'json',
+                error:function(xml){
+                    alert('刷新下发数据失败，请稍后重试！');
+                },
+                success: function (status) {
+                    alert('刷新下发数据成功！');
+
+                }
+
+            });
+
+        });
     });
 
-    function selectShopList(ids,relatedId) {
+    function selectShopList(ids,sourceId) {
 
         $.ajax({
             url: '[[${basePath}]]/internal/brand/marketing/pushDish/sendToShop',
             data: {
                 selectShopList: ids.join(','),
-                relatedId:relatedId
+                sourceId:sourceId
             },
             type: "post",
             dataType: 'json',
@@ -98,6 +121,7 @@
             },
             success: function (status) {
                 alert('投放成功！');
+
             }
 
         });
@@ -148,10 +172,10 @@
                 <th>新品名称</th>
                 <th>状态</th>
                 <th>方案投放时间</th>
-                <th>浏览次数</th>
-                <th>分享次数</th>
-                <th>操作</th>
-                <th style="width: 100px">下发投放</th>
+                <th>投放门店数</th>
+                <th>门店已接受</th>
+                <th>数据操作</th>
+                <th>投放操作</th>
             </tr>
             <tr  th:each="item:${list}">
                 <td th:text="${item.name}" />
@@ -160,13 +184,34 @@
                 <td th:text="${item.scanNumber}" />
                 <td th:text="${item.shareNumber}" />
                 <td align="center">
-                    <a href="/" th:href="@{/internal/brand/marketing/pushDish/gotoEditPage(id=${item.id})}">编辑</a>
-                    <a href="/" th:href="@{/internal/brand/marketing/pushDish/updateStatus(id=${item.id},planState=1)}">启用</a>
-                    <a href="/" th:href="@{/internal/brand/marketing/pushDish/updateStatus(id=${item.id},planState=2)}">停用</a>
-                    <a th:onclick="'javascript:checkDelete(\''+${item.id}+'\',\''+${item.name}+'\')'" style="cursor: pointer">删除</a>
+                    <div class="parent_h container">
+                        <a href="/" th:href="@{/internal/brand/marketing/pushDish/gotoEditPage(id=${item.id})}">编辑</a>
+                        <div th:switch="${item.planState}">
+                            <p th:case="'1'">
+                                <a href="/" th:href="@{/internal/brand/marketing/pushDish/updateStatus(id=${item.id},planState=2)}">&nbsp;&nbsp;停用</a>
+                            </p>
+                            <p th:case="'2'">
+                                <a href="/" th:href="@{/internal/brand/marketing/pushDish/updateStatus(id=${item.id},planState=1)}">&nbsp;&nbsp;启用</a>
+                            </p>
+                        </div>
+                        <a th:onclick="'javascript:checkDelete(\''+${item.id}+'\',\''+${item.name}+'\')'" style="cursor: pointer">&nbsp;&nbsp;删除</a>
+                    </div>
                 </td>
                 <td>
-                    <img class="icon_size_style" style="cursor: pointer;margin-left: 36px" th:id="${item.id}" th:src="@{/images/send_to.png}" />
+                    <div class="parent_h container">
+
+                        <div name="send" th:id="${item.id}" style="cursor: pointer">
+                            <img class="icon_size_style" style="display: inline"  th:src="@{/images/send_to.png}" align="absmiddle"/>
+                            <span>投放</span>
+                        </div>
+
+                        <div name="refresh" th:id="${item.id}" style="cursor: pointer">
+                            <img class="icon_size_style" style="margin-left: 10px; display: inline" th:src="@{/images/refresh_icon.png}" align="absmiddle"/>
+                            <span>刷新下发数据</span>
+                        </div>
+
+                    </div>
+
                 </td>
 
             </tr>

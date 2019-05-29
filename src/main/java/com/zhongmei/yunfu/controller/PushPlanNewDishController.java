@@ -114,8 +114,16 @@ public class PushPlanNewDishController extends BaseController {
     }
 
     @RequestMapping("/accept")
-    public String acceptPlan(Model model, Long id) {
+    public String acceptPlan(Model model, Long id,Long sourceId) {
         boolean result = mPushNewDishService.enableNewDishPushPlan(id, 4);
+
+        //更新门店接受数量
+        PushPlanNewDishEntity dishPushPlan = mPushNewDishService.queryByid(sourceId);
+        PushPlanNewDishEntity entity = new PushPlanNewDishEntity();
+        entity.setId(dishPushPlan.getId());
+        entity.setShareNumber(dishPushPlan.getShareNumber()+1);
+        mPushNewDishService.updateNewDishPushPlan(entity);
+
         return redirect("/pushPlanNewDish");
     }
 

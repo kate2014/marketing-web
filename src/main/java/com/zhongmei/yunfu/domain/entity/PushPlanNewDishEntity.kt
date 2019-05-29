@@ -58,7 +58,7 @@ class PushPlanNewDishEntity : BaseEntity() {
      */
     var dishRemark: String? = null
     /**
-     * 1, 进行中;2, 停止; 3：品牌下发未接受 4：品牌下发已接受
+     * 1, 进行中;2, 停止; 3：品牌下发未接受 4：品牌下发已接受  5：数据刷新未接受
      */
     var planState: Int? = null
     /**
@@ -78,7 +78,7 @@ class PushPlanNewDishEntity : BaseEntity() {
      */
     var imgUrl: String? = null
     /**
-     * 浏览次数
+     * 如为门店自建时表示浏览次数；如为品牌创建时表示下发投放门店数
      */
     var scanNumber: Int? = null
     /**

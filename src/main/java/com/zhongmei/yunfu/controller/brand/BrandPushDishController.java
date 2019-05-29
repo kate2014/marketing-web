@@ -99,13 +99,35 @@ public class BrandPushDishController extends BaseController {
 
     @RequestMapping({"/updateStatus"})
     public String updateStatus(Model model, NewDishPushModel newDishPlanModel) {
-        mPushNewDishService.enableNewDishPushPlan(newDishPlanModel.getId(),newDishPlanModel.getPlanState());
+        try {
+            Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
+            mPushNewDishService.enableNewDishPushPlan(newDishPlanModel.getId(),newDishPlanModel.getPlanState());
+
+            if(newDishPlanModel.getPlanState() == 1){
+                mPushNewDishService.batchUpdatePlanState(brandIdentity,newDishPlanModel.getId(),3);
+            }else if(newDishPlanModel.getPlanState() == 2){
+                mPushNewDishService.batchUpdatePlanState(brandIdentity,newDishPlanModel.getId(),2);
+            }
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
         return redirect("/internal/brand/marketing/pushDish/list");
     }
 
     @RequestMapping({"/deleteData"})
     public String deleteData(Model model, NewDishPushModel newDishPlanModel) {
-        mPushNewDishService.deleteNewDishPushPlan(newDishPlanModel.getId());
+        try {
+            mPushNewDishService.deleteNewDishPushPlan(newDishPlanModel.getId());
+
+            Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
+            mPushNewDishService.batchDelateBySourceId(brandIdentity,newDishPlanModel.getId());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return redirect("/internal/brand/marketing/pushDish/list");
     }
 
@@ -116,9 +138,9 @@ public class BrandPushDishController extends BaseController {
         try {
             Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
 
-            List<PushPlanNewDishEntity> listData = mPushNewDishService.queryBySourceId(brandIdentity,newDishPlanModel.getRelatedId());
+            List<PushPlanNewDishEntity> listData = mPushNewDishService.queryBySourceId(brandIdentity,newDishPlanModel.getSourceId());
 
-            PushPlanNewDishEntity mPushPlanNewDishEntity = mPushNewDishService.queryByid(newDishPlanModel.getRelatedId());
+            PushPlanNewDishEntity mPushPlanNewDishEntity = mPushNewDishService.queryByid(newDishPlanModel.getSourceId());
             mPushPlanNewDishEntity.setPlanState(3);
 
             String shopList = newDishPlanModel.getSelectShopList();
@@ -175,6 +197,11 @@ public class BrandPushDishController extends BaseController {
                 mPushNewDishService.batchDeleteDishPushPlan(deleteListData);
             }
 
+            PushPlanNewDishEntity newDishPushPlan = new PushPlanNewDishEntity();
+            newDishPushPlan.setId(mPushPlanNewDishEntity.getId());
+            newDishPushPlan.setScanNumber(tempList.length);
+
+            mPushNewDishService.updateNewDishPushPlan(newDishPushPlan);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -182,4 +209,38 @@ public class BrandPushDishController extends BaseController {
         return "success";
     }
 
+    @RequestMapping({"/refreshData"})
+    @ResponseBody
+    public String refreshData(Model model, NewDishPushModel newDishPlanModel){
+        try {
+            //刷新下发数据，如果门店未接受则直接覆盖，如果门店已接受则将状态修改为已更新为接受
+            Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
+            //查询出所有下发门店数据
+            List<PushPlanNewDishEntity> listData = mPushNewDishService.queryBySourceId(brandIdentity,newDishPlanModel.getSourceId());
+            //查询品牌创建的新品活动
+            PushPlanNewDishEntity mPushPlanNewDishEntity = mPushNewDishService.queryByid(newDishPlanModel.getSourceId());
+
+            for(PushPlanNewDishEntity entity : listData){
+                int planState = entity.getPlanState();
+                //1, 进行中;2, 停止; 3：品牌下发未接受 4：品牌下发已接受  5：数据刷新未接受
+                if(planState == 1 || planState == 2 || planState == 4){ //更新数据并将状态修改为数据刷新未接受
+                    PushPlanNewDishEntity newEntity = new PushPlanNewDishEntity().cloneEntity(mPushPlanNewDishEntity,entity.getShopIdentity(),mPushPlanNewDishEntity.getId());
+                    newEntity.setId(entity.getId());
+                    newEntity.setPlanState(5);
+                    mPushNewDishService.updateNewDishPushPlan(newEntity);
+                }else if(planState == 3 || planState == 5){ //直接更新数据不变更当时状态
+                    PushPlanNewDishEntity newEntity = new PushPlanNewDishEntity().cloneEntity(mPushPlanNewDishEntity,entity.getShopIdentity(),mPushPlanNewDishEntity.getId());
+                    newEntity.setId(entity.getId());
+                    newEntity.setPlanState(planState);
+                    mPushNewDishService.updateNewDishPushPlan(newEntity);
+                }
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return "fail";
+        }
+
+        return "success";
+    }
 }

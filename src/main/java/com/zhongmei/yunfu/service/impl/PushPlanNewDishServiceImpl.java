@@ -115,9 +115,31 @@ public class PushPlanNewDishServiceImpl extends ServiceImpl<PushPlanNewDishMappe
         eWrapper.eq("brand_identity",brandIdentity);
         eWrapper.eq("source_id",sourceId);
         eWrapper.eq("source_type",3);
-        eWrapper.setSqlSelect("id,name,shop_identity");
+        eWrapper.setSqlSelect("id,name,shop_identity,plan_state");
         List<PushPlanNewDishEntity> listData = selectList(eWrapper);
         return listData;
+    }
+
+    @Override
+    public boolean batchDelateBySourceId(Long brandIdentity, Long sourceId) throws Exception {
+        EntityWrapper<PushPlanNewDishEntity> eWrapper = new EntityWrapper<>(new PushPlanNewDishEntity());
+        eWrapper.eq("brand_identity",brandIdentity);
+        eWrapper.eq("source_id",sourceId);
+        eWrapper.eq("source_type",3);
+        Boolean isSuccess = delete(eWrapper);
+        return isSuccess;
+    }
+
+    @Override
+    public boolean batchUpdatePlanState(Long brandIdentity, Long sourceId,Integer planState) throws Exception {
+        EntityWrapper<PushPlanNewDishEntity> eWrapper = new EntityWrapper<>(new PushPlanNewDishEntity());
+        eWrapper.eq("brand_identity",brandIdentity);
+        eWrapper.eq("source_id",sourceId);
+        eWrapper.eq("source_type",3);
+        PushPlanNewDishEntity mPushPlanNewDishEntity = new PushPlanNewDishEntity();
+        mPushPlanNewDishEntity.setPlanState(planState);
+        Boolean isSuccess = update(mPushPlanNewDishEntity,eWrapper);
+        return isSuccess;
     }
 
     @Override

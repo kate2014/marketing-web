@@ -116,4 +116,22 @@ public interface PushPlanNewDishService extends IService<PushPlanNewDishEntity> 
      */
     public List<PushPlanNewDishEntity> queryBySourceId(Long brandIdentity,Long sourceId) throws Exception;
 
+    /**
+     * 删除所有门店对应的下发数据
+     * @param brandIdentity
+     * @param sourceId
+     * @return
+     * @throws Exception
+     */
+    public boolean batchDelateBySourceId(Long brandIdentity,Long sourceId) throws Exception;
+
+    /**
+     * 批量修改所有门店对应的下发数据状态
+     * @param brandIdentity
+     * @param sourceId
+     * @return
+     * @throws Exception
+     */
+    public boolean batchUpdatePlanState(Long brandIdentity,Long sourceId,Integer planState) throws Exception;
+
 }

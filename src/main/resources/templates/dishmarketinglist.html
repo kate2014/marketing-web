@@ -148,11 +148,14 @@
                             <a href="dishmarketiingadd.html" th:href="@{/pushPlanNewDish/enable(id=${item.id})}">&nbsp;&nbsp;投放</a>
                         </p>
                         <p th:case="'3'">
-                            <a href="dishmarketiingadd.html" th:href="@{/pushPlanNewDish/accept(id=${item.id})}">&nbsp;&nbsp;接受</a>
+                            <a href="dishmarketiingadd.html" th:href="@{/pushPlanNewDish/accept(id=${item.id},sourceId=${item.sourceId})}">&nbsp;&nbsp;接受</a>
                         </p>
                         <p th:case="'4'">
                             <a href="dishmarketiingadd.html" th:href="@{/pushPlanNewDish/enable(id=${item.id})}">&nbsp;&nbsp;投放</a>
                             <a href="dishmarketiingadd.html" th:href="@{/pushPlanNewDish/disable(id=${item.id})}">&nbsp;&nbsp;停用</a>
+                        </p>
+                        <p th:case="'5'">
+                            <a href="dishmarketiingadd.html" th:href="@{/pushPlanNewDish/accept(id=${item.id},sourceId=${item.sourceId})}">&nbsp;&nbsp;接受</a>
                         </p>
                     </div>
                     <a th:onclick="'javascript:checkDelete(\''+${item.id}+'\',\''+${item.name}+'\')'" style="cursor: pointer">&nbsp;&nbsp;删除</a>
