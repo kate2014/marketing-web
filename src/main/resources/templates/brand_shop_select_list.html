@@ -88,7 +88,7 @@
         </tr>
         <tr th:each="item:${listShop}">
             <td>
-                <input type="checkbox" th:value="${item.commercialId}" th:id="${item.commercialId}" th:dishName="${item.commercialName}" name="selectShop">
+                <input type="checkbox" th:value="${item.commercialId}" th:id="${item.commercialId}" th:shopName="${item.commercialName}" name="selectShop">
             </td>
             <td th:text="${item.commercialName}"></td>
             <td><span th:text="${item.province}"></span>-<span th:text="${item.city}"></span>-<span th:text="${item.area}"></span></td>

@@ -113,6 +113,12 @@ public class PushPlanNewDishController extends BaseController {
         return redirect("/pushPlanNewDish");
     }
 
+    @RequestMapping("/accept")
+    public String acceptPlan(Model model, Long id) {
+        boolean result = mPushNewDishService.enableNewDishPushPlan(id, 4);
+        return redirect("/pushPlanNewDish");
+    }
+
 
     @RequestMapping("/delete")
     public String deleteNewDishPushPlan(Model model, Long id) {

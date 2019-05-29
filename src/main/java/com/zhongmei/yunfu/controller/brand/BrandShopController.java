@@ -49,10 +49,8 @@ public class BrandShopController extends BaseController {
     public String shopListDialog(Model model, ShopSearchModel mShopSearchModel) {
 
         try {
-
-            Long brandIdenty = LoginManager.get().getUser().getBrandIdenty();
-
-            List<CommercialEntity> listCommercail = mCommercialService.queryCommercialByBrandId(brandIdenty);
+            Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
+            List<CommercialEntity> listCommercail = mCommercialService.queryCommercialByBrandId(brandIdentity);
 
             model.addAttribute("listShop",listCommercail);
 

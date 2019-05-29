@@ -73,6 +73,12 @@ public class NewDishPushModel {
      */
     private Date serverUpdateTime;
 
+    private String selectShopList;
+
+    private Long relatedId;
+
+    private Integer sourceType;
+
     public NewDishPushModel() {
     }
 
@@ -90,6 +96,7 @@ public class NewDishPushModel {
         this.scanNumber = newDishPlan.getScanNumber();
         this.shareNumber = newDishPlan.getShareNumber();
         this.serverUpdateTime = newDishPlan.getServerUpdateTime();
+        this.sourceType = newDishPlan.getSourceType();
         if (newDishPlan.getBeginTime() != null) {
             this.beginTime = DateFormatUtil.format(newDishPlan.getBeginTime(), DateFormatUtil.FORMAT_FULL_DATE);
         }
@@ -256,7 +263,35 @@ public class NewDishPushModel {
             return "进行中";
         } else if (getPlanState() == 2) {
             return "停止";
+        } else if (getPlanState() == 3) {
+            return "品牌下发未接受";
+        } else if (getPlanState() == 4) {
+            return "品牌下发已接受";
         }
         return "未知状态";
+    }
+
+    public String getSelectShopList() {
+        return selectShopList;
+    }
+
+    public void setSelectShopList(String selectShopList) {
+        this.selectShopList = selectShopList;
+    }
+
+    public Long getRelatedId() {
+        return relatedId;
+    }
+
+    public void setRelatedId(Long relatedId) {
+        this.relatedId = relatedId;
+    }
+
+    public Integer getSourceType() {
+        return sourceType;
+    }
+
+    public void setSourceType(Integer sourceType) {
+        this.sourceType = sourceType;
     }
 }

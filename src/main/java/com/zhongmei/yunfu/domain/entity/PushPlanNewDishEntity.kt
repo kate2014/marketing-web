@@ -6,6 +6,8 @@ import java.util.Date;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName
 import com.zhongmei.yunfu.domain.entity.base.BaseEntity;
+import com.zhongmei.yunfu.domain.enums.StatusFlag
+import com.zhongmei.yunfu.service.LoginManager
 
 /**
  * <p>
@@ -56,7 +58,7 @@ class PushPlanNewDishEntity : BaseEntity() {
      */
     var dishRemark: String? = null
     /**
-     * 1, 进行中;2, 停止; 
+     * 1, 进行中;2, 停止; 3：品牌下发未接受 4：品牌下发已接受
      */
     var planState: Int? = null
     /**
@@ -84,11 +86,7 @@ class PushPlanNewDishEntity : BaseEntity() {
      */
     var shareNumber: Int? = null
     /**
-     * 下发活动接受状态 1：接受  2：未接受
-     */
-    var acceptanceaState: Int? = null
-    /**
-     * 活动来源类型 1：品牌下发  2：门店自建
+     * 活动来源类型 1：品牌创建  2：门店自建
      */
     var sourceType: Int? = null
     /**
@@ -115,9 +113,41 @@ class PushPlanNewDishEntity : BaseEntity() {
         ", imgUrl=" + imgUrl +
         ", scanNumber=" + scanNumber +
         ", shareNumber=" + shareNumber +
-        ", acceptanceaState=" + acceptanceaState +
         ", sourceType=" + sourceType +
         ", sourceId=" + sourceId +
         "}"
+    }
+
+    fun cloneEntity(oldEntity: PushPlanNewDishEntity, shopIdentity: Long?, sourceId: Long?): PushPlanNewDishEntity {
+        val newEntity = PushPlanNewDishEntity()
+
+        newEntity.brandIdentity = oldEntity.brandIdentity
+        newEntity.shopIdentity = shopIdentity
+        newEntity.name = oldEntity.dishName
+        newEntity.statusFlag = StatusFlag.VALiD.value()
+        newEntity.planDesc = oldEntity.planDesc
+        newEntity.dishId = oldEntity.dishId
+        newEntity.dishName = oldEntity.dishName
+        newEntity.dishPrice = oldEntity.dishPrice
+        newEntity.dishRemark = oldEntity.dishRemark
+        newEntity.planState = oldEntity.planState
+        newEntity.beginTime = oldEntity.beginTime
+        newEntity.endTime = oldEntity.endTime
+        newEntity.describe = oldEntity.describe
+        newEntity.imgUrl = oldEntity.imgUrl
+        newEntity.scanNumber = 0
+        newEntity.shareNumber = 0
+
+        newEntity.creatorId = LoginManager.get().user!!.creatorId
+        newEntity.creatorName = LoginManager.get().user!!.creatorName
+
+        newEntity.updatorId = LoginManager.get().user!!.creatorId
+        newEntity.updatorName = LoginManager.get().user!!.creatorName
+        newEntity.serverCreateTime = Date()
+        newEntity.serverUpdateTime = Date()
+        newEntity.sourceType = 2
+        newEntity.sourceId = sourceId
+
+        return newEntity
     }
 }

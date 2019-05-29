@@ -13,7 +13,7 @@ public class BrandMarketingController extends BaseController {
 
     @RequestMapping({"/main"})
     public String shopList(Model model, ShopSearchModel mShopSearchModel) {
-
+        model.addAttribute("mShopSearchModel", mShopSearchModel);
         return "brand_marketing_main";
     }
 }

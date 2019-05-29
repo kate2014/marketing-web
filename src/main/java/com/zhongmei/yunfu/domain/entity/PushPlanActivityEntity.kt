@@ -67,10 +67,6 @@ class PushPlanActivityEntity : BaseEntity() {
      */
     var shareNumber: Int? = null
     /**
-     * 下发活动接受状态 1：接受  2：未接受
-     */
-    var acceptanceaState: Int? = null
-    /**
      * 活动来源类型 1：品牌下发  2：门店自建
      */
     var sourceType: Int? = null
@@ -94,7 +90,6 @@ class PushPlanActivityEntity : BaseEntity() {
                 ", imgUrl=" + imgUrl +
                 ", scanNumber=" + scanNumber +
                 ", shareNumber=" + shareNumber +
-                ", acceptanceaState=" + acceptanceaState +
                 ", sourceType=" + sourceType +
                 ", sourceId=" + sourceId +
                 "}"

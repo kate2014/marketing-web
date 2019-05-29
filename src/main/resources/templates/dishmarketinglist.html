@@ -113,6 +113,7 @@
     <table class="gridtablestyle" style="width: 90%; vertical-align: middle">
 
         <tr style="width: 100%">
+            <th>来源</th>
             <th>新品名称</th>
             <th>状态</th>
             <th>方案投放时间</th>
@@ -121,16 +122,43 @@
             <th>操作</th>
         </tr>
         <tr  th:each="item:${list}">
+            <td>
+                <div th:switch="${item.sourceType}" class="parent_h container">
+                    <p th:case="'1'">
+                        <img class="icon_mini_size_style" th:src="@{/images/send_to.png}" align="absmiddle" style="display: inline;"/><span>&nbsp;品牌下发</span>
+                    </p>
+                    <p th:case="'2'">
+                        <img class="icon_mini_size_style" th:src="@{/images/shop_create_icon.png}" align="absmiddle" style="display: inline;"/><span>&nbsp;门店自建</span>
+                    </p>
+                </div>
+            </td>
             <td th:text="${item.name}" />
             <td th:text="${item.obtainStateStr()}" />
             <td th:text="${item.beginTime}" />
             <td th:text="${item.scanNumber}" />
             <td th:text="${item.shareNumber}" />
             <td align="center">
-                <a href="dishmarketiingadd.html" th:href="@{/pushPlanNewDish/editPage(id=${item.id})}">编辑</a>
-                <a href="dishmarketiingadd.html" th:href="@{/pushPlanNewDish/enable(id=${item.id})}">投放</a>
-                <a href="dishmarketiingadd.html" th:href="@{/pushPlanNewDish/disable(id=${item.id})}">停用</a>
-                <a th:onclick="'javascript:checkDelete(\''+${item.id}+'\',\''+${item.name}+'\')'" style="cursor: pointer">删除</a>
+                <div class="parent_h container">
+                    <a href="dishmarketiingadd.html" th:href="@{/pushPlanNewDish/editPage(id=${item.id})}">编辑</a>
+                    <div th:switch="${item.planState}">
+                        <p th:case="'1'">
+                            <a href="dishmarketiingadd.html" th:href="@{/pushPlanNewDish/disable(id=${item.id})}">&nbsp;&nbsp;停用</a>
+                        </p>
+                        <p th:case="'2'">
+                            <a href="dishmarketiingadd.html" th:href="@{/pushPlanNewDish/enable(id=${item.id})}">&nbsp;&nbsp;投放</a>
+                        </p>
+                        <p th:case="'3'">
+                            <a href="dishmarketiingadd.html" th:href="@{/pushPlanNewDish/accept(id=${item.id})}">&nbsp;&nbsp;接受</a>
+                        </p>
+                        <p th:case="'4'">
+                            <a href="dishmarketiingadd.html" th:href="@{/pushPlanNewDish/enable(id=${item.id})}">&nbsp;&nbsp;投放</a>
+                            <a href="dishmarketiingadd.html" th:href="@{/pushPlanNewDish/disable(id=${item.id})}">&nbsp;&nbsp;停用</a>
+                        </p>
+                    </div>
+                    <a th:onclick="'javascript:checkDelete(\''+${item.id}+'\',\''+${item.name}+'\')'" style="cursor: pointer">&nbsp;&nbsp;删除</a>
+                </div>
+
+
             </td>
         </tr>
     </table>

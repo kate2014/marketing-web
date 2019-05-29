@@ -31,15 +31,16 @@
 
     $(function() {
         $(".dialog_submit").click(function(){
-
+            var relatedId = $("input[name='relatedId']").val();
             var ids=[];
             $("#shop_iframe").contents()
                 .find("input[name='selectShop']:checked")
                 .each(function () {
-                    var dishId=$(this).attr("id");
-                    var dishName=$(this).attr("dishName")
-                });
+                    var id=$(this).attr("id");
+                    ids.push(id);
 
+                });
+            selectShopList(ids,relatedId);
             $(".select-com").hide();
         });
     });
@@ -59,11 +60,11 @@
 
             <div align="center" style="width: 100%;">
 
-                <input type="hidden" th:value="${mShopSearchModel.relatedId}">
+                <input type="hidden" th:value="${mShopSearchModel.relatedId}" name="relatedId">
 
                 <div style="width:100%;height:100%;overflow:hidden;display:block">
 
-                    <iframe id="shop_iframe" style="width:100%;height:100%;" frameborder="0" th:src="@{/internal/brand/selectShopList}" src="/"></iframe>
+                    <iframe id="shop_iframe" style="width:100%;height:100%;" frameborder="0" th:src="@{/internal/brand/selectShopList(brandIdenty=${mShopSearchModel.brandIdenty})}" src="/"></iframe>
 
                 </div>
 

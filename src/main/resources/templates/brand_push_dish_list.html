@@ -78,9 +78,31 @@
     $(function() {
         $(".icon_size_style").click(function(){
             var relatedId = $(this).attr("id");
-            $('.zm-dialog').load('[[${basePath}]]/internal/brand/gotToSelectShop?relatedId='+relatedId); //#container
+            var brandIdenty = $("input[name='brandIdenty']").val();
+            $('.zm-dialog').load('[[${basePath}]]/internal/brand/gotToSelectShop?relatedId='+relatedId+'&brandIdenty='+brandIdenty); //#container
         });
     });
+
+    function selectShopList(ids,relatedId) {
+
+        $.ajax({
+            url: '[[${basePath}]]/internal/brand/marketing/pushDish/sendToShop',
+            data: {
+                selectShopList: ids.join(','),
+                relatedId:relatedId
+            },
+            type: "post",
+            dataType: 'json',
+            error:function(xml){
+                alert('投放失败，请稍后重试！');
+            },
+            success: function (status) {
+                alert('投放成功！');
+            }
+
+        });
+
+    };
 
 </script>
 
@@ -88,68 +110,71 @@
 <div id="showDialog"></div>
 
 <section class="mark-details" style="margin-bottom: 50px">
-<div class="parent top_view_style">
+    <div class="parent top_view_style">
 
-    <img th:src="@{/images/lable.jpg}" width="5" height="26" style="margin-left: 20px">
+        <img th:src="@{/images/lable.jpg}" width="5" height="26" style="margin-left: 20px">
 
-    <label class="text_navigation" style="margin-left: 10px;width: 30%">营销 》新品推送</label>
+        <label class="text_navigation" style="margin-left: 10px;width: 30%">营销 》新品推送</label>
 
-    <div align="right" style="width: 100%;margin-right: 50px">
-        <button class="blue_button_style" value="" th:onclick="@{|location='${basePath}/internal/brand/marketing/pushDish/gotoEditPage'|}">+添加新品</button>
+        <div align="right" style="width: 100%;margin-right: 50px">
+            <button class="blue_button_style" value="" th:onclick="@{|location='${basePath}/internal/brand/marketing/pushDish/gotoEditPage'|}">+添加新品</button>
 
-        <button class="gray_button_style" value="" th:onclick="@{|location='${basePath}/internal/brand/marketing/main'|}" style="margin-left: 10px">返回</button>
+            <button class="gray_button_style" value="" th:onclick="@{|location='${basePath}/internal/brand/marketing/main'|}" style="margin-left: 10px">返回</button>
+        </div>
+
     </div>
 
-</div>
+    <div style="margin-top: 10px">
+        <form method="post" th:action="@{/internal/brand/marketing/pushDish/list}" th:object="${newDishPushModel}">
 
-<div style="margin-top: 10px">
-    <form method="post" th:action="@{/internal/brand/marketing/pushDish/list}" th:object="${newDishPushModel}">
-    <label class="text_navigation" style="margin-left: 100px">状态</label>
-    <select  name="planState" class="select_style" style="margin-left: 5px" onchange="getTitleData()">
-        <option th:selected="${newDishPushModel.planState==0}" value="0">全部</option>
-        <option th:selected="${newDishPushModel.planState==1}" value="1">进行中</option>
-        <option th:selected="${newDishPushModel.planState==2}" value="2">已停止</option>
-    </select>
+            <input type="hidden" th:value="${newDishPushModel.brandIdenty}" name="brandIdenty">
 
-    <label class="text_navigation" style="margin-left: 10px">新品名称</label>
-    <input class="input_style" style="margin-left: 5px" type="text" name="keyWord" th:value="${newDishPushModel.keyWord}" />
-    <button class="orange_mine_button_style" name="curPage" value="1" onclick="this" style="margin-left: 10px">查询</button>
-    </form>
-</div>
-<div align="center" style="margin-top: 10px">
-    <table class="gridtablestyle" style="width: 90%; vertical-align: middle">
+            <label class="text_navigation" style="margin-left: 100px">状态</label>
+            <select  name="planState" class="select_style" style="margin-left: 5px" onchange="getTitleData()">
+                <option th:selected="${newDishPushModel.planState==0}" value="0">全部</option>
+                <option th:selected="${newDishPushModel.planState==1}" value="1">进行中</option>
+                <option th:selected="${newDishPushModel.planState==2}" value="2">已停止</option>
+            </select>
 
-        <tr style="width: 100%">
-            <th>新品名称</th>
-            <th>状态</th>
-            <th>方案投放时间</th>
-            <th>浏览次数</th>
-            <th>分享次数</th>
-            <th>操作</th>
-            <th style="width: 100px">下发投放</th>
-        </tr>
-        <tr  th:each="item:${list}">
-            <td th:text="${item.name}" />
-            <td th:text="${item.obtainStateStr()}" />
-            <td th:text="${item.beginTime}" />
-            <td th:text="${item.scanNumber}" />
-            <td th:text="${item.shareNumber}" />
-            <td align="center">
-                <a href="/" th:href="@{/internal/brand/marketing/pushDish/gotoEditPage(id=${item.id})}">编辑</a>
-                <a href="/" th:href="@{/internal/brand/marketing/pushDish/updateStatus(id=${item.id},planState=1)}">启用</a>
-                <a href="/" th:href="@{/internal/brand/marketing/pushDish/updateStatus(id=${item.id},planState=2)}">停用</a>
-                <a th:onclick="'javascript:checkDelete(\''+${item.id}+'\',\''+${item.name}+'\')'" style="cursor: pointer">删除</a>
-            </td>
-            <td>
-                <img class="icon_size_style" style="cursor: pointer;margin-left: 36px" th:id="${item.id}" th:src="@{/images/send_to.png}" />
-            </td>
+            <label class="text_navigation" style="margin-left: 10px">新品名称</label>
+            <input class="input_style" style="margin-left: 5px" type="text" name="keyWord" th:value="${newDishPushModel.keyWord}" />
+            <button class="orange_mine_button_style" name="curPage" value="1" onclick="this" style="margin-left: 10px">查询</button>
+        </form>
+    </div>
+    <div align="center" style="margin-top: 10px">
+        <table class="gridtablestyle" style="width: 90%; vertical-align: middle">
 
-        </tr>
-    </table>
-</div>
+            <tr style="width: 100%">
+                <th>新品名称</th>
+                <th>状态</th>
+                <th>方案投放时间</th>
+                <th>浏览次数</th>
+                <th>分享次数</th>
+                <th>操作</th>
+                <th style="width: 100px">下发投放</th>
+            </tr>
+            <tr  th:each="item:${list}">
+                <td th:text="${item.name}" />
+                <td th:text="${item.obtainStateStr()}" />
+                <td th:text="${item.beginTime}" />
+                <td th:text="${item.scanNumber}" />
+                <td th:text="${item.shareNumber}" />
+                <td align="center">
+                    <a href="/" th:href="@{/internal/brand/marketing/pushDish/gotoEditPage(id=${item.id})}">编辑</a>
+                    <a href="/" th:href="@{/internal/brand/marketing/pushDish/updateStatus(id=${item.id},planState=1)}">启用</a>
+                    <a href="/" th:href="@{/internal/brand/marketing/pushDish/updateStatus(id=${item.id},planState=2)}">停用</a>
+                    <a th:onclick="'javascript:checkDelete(\''+${item.id}+'\',\''+${item.name}+'\')'" style="cursor: pointer">删除</a>
+                </td>
+                <td>
+                    <img class="icon_size_style" style="cursor: pointer;margin-left: 36px" th:id="${item.id}" th:src="@{/images/send_to.png}" />
+                </td>
+
+            </tr>
+        </table>
+    </div>
 
     <div th:replace="page_info::pagination"/>
-</div>
+    </div>
 
 </section>
 

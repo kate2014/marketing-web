@@ -29,7 +29,7 @@
 
     <div class="parent_h" style="background-color: #f0f0f0">
 
-        <img th:src="@{/images/m_push_dish_img.png}" src="../static/images/m_push_dish_img.png" style="margin:35px; cursor:pointer" width="190px" height="280px" th:onclick="@{|location='${basePath}/internal/brand/marketing/pushDish/list'|}">
+        <img th:src="@{/images/m_push_dish_img.png}" src="../static/images/m_push_dish_img.png" style="margin:35px; cursor:pointer" width="190px" height="280px" th:onclick="@{|location='${basePath}/internal/brand/marketing/pushDish/list?brandIdenty=${mShopSearchModel.brandIdenty}'|}">
         <img th:src="@{/images/m_coupon_img.png}" style="margin:35px; cursor:pointer" width="190px" height="280px" th:onclick="@{|location='${basePath}/internal/brand/marketing/coupon/list'|}">
         <img th:src="@{/images/m_push_action_img.png}" style="margin:35px; cursor:pointer" width="190px" height="280px" th:onclick="@{|location='${basePath}/brand/pushPlanActivity/list'|}">
 

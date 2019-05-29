@@ -10,6 +10,8 @@ import com.zhongmei.yunfu.service.PushPlanNewDishService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  * 新品推送方案 服务实现类
@@ -35,7 +37,7 @@ public class PushPlanNewDishServiceImpl extends ServiceImpl<PushPlanNewDishMappe
         newDishPlan.setSourceType(searchModel.getSourceType());
 
         EntityWrapper<PushPlanNewDishEntity> eWrapper = new EntityWrapper<>(newDishPlan);
-        eWrapper.setSqlSelect("id", "name", "shop_identity", "brand_identity", "plan_state", "begin_time", "scan_number", "share_number", "img_url","plan_desc","dish_id","dish_name","acceptancea_state","source_type","source_id");
+        eWrapper.setSqlSelect("id", "name", "shop_identity", "brand_identity", "plan_state", "begin_time", "scan_number", "share_number", "img_url","plan_desc","dish_id","dish_name","source_type","source_id");
         eWrapper.and().like("name", searchModel.getKeyWord());
         eWrapper.orderBy("server_create_time",false);
         Page<PushPlanNewDishEntity> page = new Page<>(searchModel.getPageNo(), searchModel.getPageSize());
@@ -46,6 +48,26 @@ public class PushPlanNewDishServiceImpl extends ServiceImpl<PushPlanNewDishMappe
     @Override
     public boolean addNewDishPushPlan(PushPlanNewDishEntity newDishPushPlan) {
         return insert(newDishPushPlan);
+    }
+
+    @Override
+    public boolean batchAddNewDishPushPlan(List<PushPlanNewDishEntity> listNewDishPushPlan) throws Exception {
+        boolean isSuccess = insertBatch(listNewDishPushPlan);
+        return isSuccess;
+    }
+
+    @Override
+    public boolean batchDeleteDishPushPlan(List<Long> ids) throws Exception {
+        boolean isSuccess = deleteBatchIds(ids);
+        return isSuccess;
+    }
+
+    @Override
+    public boolean batchUpdateDishPushPlan(List<PushPlanNewDishEntity> listNewDishPushPlan) throws Exception {
+        for(PushPlanNewDishEntity entity : listNewDishPushPlan){
+            updateById(entity);
+        }
+        return true;
     }
 
     @Override
@@ -85,6 +107,17 @@ public class PushPlanNewDishServiceImpl extends ServiceImpl<PushPlanNewDishMappe
         newDishPlan.setId(id);
         Boolean isSuccess = updateById(newDishPlan);
         return isSuccess;
+    }
+
+    @Override
+    public List<PushPlanNewDishEntity> queryBySourceId(Long brandIdentity,Long sourceId) throws Exception {
+        EntityWrapper<PushPlanNewDishEntity> eWrapper = new EntityWrapper<>(new PushPlanNewDishEntity());
+        eWrapper.eq("brand_identity",brandIdentity);
+        eWrapper.eq("source_id",sourceId);
+        eWrapper.eq("source_type",3);
+        eWrapper.setSqlSelect("id,name,shop_identity");
+        List<PushPlanNewDishEntity> listData = selectList(eWrapper);
+        return listData;
     }
 
     @Override
