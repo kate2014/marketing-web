@@ -86,7 +86,7 @@ class PushPlanNewDishEntity : BaseEntity() {
      */
     var shareNumber: Int? = null
     /**
-     * 活动来源类型 1：品牌创建  2：门店自建
+     * 活动来源类型 1：品牌创建  2：门店自建 3:品牌下发
      */
     var sourceType: Int? = null
     /**
@@ -145,7 +145,7 @@ class PushPlanNewDishEntity : BaseEntity() {
         newEntity.updatorName = LoginManager.get().user!!.creatorName
         newEntity.serverCreateTime = Date()
         newEntity.serverUpdateTime = Date()
-        newEntity.sourceType = 2
+        newEntity.sourceType = 3
         newEntity.sourceId = sourceId
 
         return newEntity
