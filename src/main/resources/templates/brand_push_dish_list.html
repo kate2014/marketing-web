@@ -79,7 +79,7 @@
         $("div[name='send']").click(function(){
             var relatedId = $(this).attr("id");
             var brandIdenty = $("input[name='brandIdenty']").val();
-            $('.zm-dialog').load('[[${basePath}]]/internal/brand/gotToSelectShop?relatedId='+relatedId+'&brandIdenty='+brandIdenty); //#container
+            $('.zm-dialog').load('[[${basePath}]]/internal/brand/gotToSelectShop?relatedId='+relatedId+'&type=1'); //#container
         });
 
         $("div[name='refresh']").click(function(){

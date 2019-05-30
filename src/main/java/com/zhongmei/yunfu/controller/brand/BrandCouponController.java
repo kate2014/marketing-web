@@ -5,17 +5,15 @@ import com.zhongmei.yunfu.controller.BaseController;
 import com.zhongmei.yunfu.controller.model.CouponModel;
 import com.zhongmei.yunfu.controller.model.CouponSearchModel;
 import com.zhongmei.yunfu.controller.model.NewDishPushModel;
-import com.zhongmei.yunfu.controller.model.NewDishPushSearchModel;
 import com.zhongmei.yunfu.domain.entity.CouponEntity;
-import com.zhongmei.yunfu.domain.entity.PushPlanNewDishEntity;
 import com.zhongmei.yunfu.domain.enums.StatusFlag;
 import com.zhongmei.yunfu.service.CouponService;
 import com.zhongmei.yunfu.service.LoginManager;
-import com.zhongmei.yunfu.service.PushPlanNewDishService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -109,5 +107,21 @@ public class BrandCouponController extends BaseController {
         return redirect("/internal/brand/marketing/coupon/list");
     }
 
+    @RequestMapping({"/sendToShop"})
+    @ResponseBody
+    public String sendToShop(Model model, CouponModel couponModel){
+        System.out.println("=====couponModel====="+couponModel.getSelectShopList()+"===="+couponModel.getSourceId());
+        //查出该优惠券已下发过的门店优惠券信息
+
+        return "success";
+    }
+
+    @RequestMapping({"/refreshData"})
+    @ResponseBody
+    public String refreshData(Model model, CouponModel couponModel){
+        System.out.println("=====refreshData=====");
+
+        return "success";
+    }
 
 }

@@ -84,7 +84,7 @@ class CouponEntity : BaseEntity() {
      */
     var sharingPrivilegeType: Int? = null
     /**
-     * 优惠卷状态（1:使用中，2:停用中）
+     * 优惠卷状态（1, 进行中;2, 停止; 3：品牌下发未接受 4：品牌下发已接受  5：数据刷新未接受）
      */
     var couponState: Int? = null
     /**

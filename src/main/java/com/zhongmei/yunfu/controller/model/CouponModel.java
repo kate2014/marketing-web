@@ -85,6 +85,12 @@ public class CouponModel {
      */
     private String serverCreateTime;
 
+    private String selectShopList;
+
+    private Integer sourceType;
+
+    private Long sourceId;
+
 
     public CouponModel() {
     }
@@ -106,6 +112,9 @@ public class CouponModel {
         this.couponState = coupon.getCouponState();
         this.restrictUseCommercial = coupon.getRestrictUseCommercial();
         this.sharingPrivilegeType = coupon.getSharingPrivilegeType();
+        this.sourceType = coupon.getSourceType();
+        this.sourceId = coupon.getSourceId();
+
         if (coupon.getEndTime() != null) {
             this.endTime = DateFormatUtil.format(coupon.getEndTime(), DateFormatUtil.FORMAT_FULL_DATE);
         }
@@ -293,6 +302,30 @@ public class CouponModel {
 
     public void setServerCreateTime(String serverCreateTime) {
         this.serverCreateTime = serverCreateTime;
+    }
+
+    public String getSelectShopList() {
+        return selectShopList;
+    }
+
+    public void setSelectShopList(String selectShopList) {
+        this.selectShopList = selectShopList;
+    }
+
+    public Integer getSourceType() {
+        return sourceType;
+    }
+
+    public void setSourceType(Integer sourceType) {
+        this.sourceType = sourceType;
+    }
+
+    public Long getSourceId() {
+        return sourceId;
+    }
+
+    public void setSourceId(Long sourceId) {
+        this.sourceId = sourceId;
     }
 
     public String obtainCouponTypeStr() {
