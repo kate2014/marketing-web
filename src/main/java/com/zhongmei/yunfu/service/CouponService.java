@@ -83,5 +83,56 @@ public interface CouponService extends IService<CouponEntity> {
      * @param id
      * @return
      */
-    public boolean enableCoupon(Long id, int planState);
+    public boolean modfityCouponState(Long id, int planState);
+
+    /**
+     * 获取下发门店的优惠券信息
+     * @param brandIdenty
+     * @param sourceId
+     * @return
+     * @throws Exception
+     */
+    public List<CouponEntity> queryDataBySourceId(Long brandIdenty,Long sourceId)throws Exception;
+
+    /**
+     * 批量添加
+     * @param listData
+     * @return
+     * @throws Exception
+     */
+    public boolean batchAdd(List<CouponEntity> listData)throws Exception;
+
+    /**
+     * 批量删除
+     * @param ids
+     * @return
+     * @throws Exception
+     */
+    public boolean batchDelete(List<Long> ids)throws Exception;
+
+    /**
+     * 批量更新
+     * @param entity
+     * @param ids
+     * @return
+     * @throws Exception
+     */
+    public boolean batchUpdate(CouponEntity entity, String ids)throws Exception;
+
+    /**
+     * 根据sourceId修改对应的优惠券状态
+     * @param state
+     * @param sourceId
+     * @return
+     * @throws Exception
+     */
+    public boolean batchUpdateState(Long brandIdenty,Integer state,Long sourceId)throws Exception;
+
+    /**
+     * 根据sourceId删除对应的优惠券
+     * @param sourceId
+     * @return
+     * @throws Exception
+     */
+    public boolean batchDeleteBySouceId(Long brandIdenty,Long sourceId)throws Exception;
 }

@@ -59,7 +59,7 @@ public class CouponServiceImpl extends ServiceImpl<CouponMapper, CouponEntity> i
         //coupon
         Page<CouponEntity> page = new Page<>(curPage, pageSize);
         EntityWrapper<CouponEntity> eWrapper = new EntityWrapper<>(coupon);
-        eWrapper.setSqlSelect("id", "name", "brand_identy", "shop_identy", "coupon_type", "push_number", "use_number", "coupon_state", "end_time", "server_create_time");
+        eWrapper.setSqlSelect("id", "name", "brand_identy", "shop_identy", "coupon_type", "push_number", "use_number", "coupon_state", "end_time", "server_create_time","source_type","source_id");
         eWrapper.and().like("name", keyWord);
         eWrapper.and().eq("status_flag", StatusFlag.VALiD.value());
         eWrapper.orderBy("server_create_time",false);
@@ -118,6 +118,7 @@ public class CouponServiceImpl extends ServiceImpl<CouponMapper, CouponEntity> i
         eWrapper.and().eq("brand_identy", brandIdenty);
         eWrapper.and().eq("shop_identy", shopIdenty);
         eWrapper.and().eq("status_flag", StatusFlag.VALiD.value());
+        eWrapper.and().eq("coupon_state", 1);
         eWrapper.and().eq("coupon_type", type);
         eWrapper.orderBy("server_create_time",false);
         Page<CouponEntity> page = new Page<>(curPage, pageSize);
@@ -138,7 +139,8 @@ public class CouponServiceImpl extends ServiceImpl<CouponMapper, CouponEntity> i
 
     @Override
     public boolean deleteCoupon(Long id) {
-        CouponEntity coupon = selectById(id);
+        CouponEntity coupon = new CouponEntity();
+        coupon.setId(id);
         coupon.setStatusFlag(2);
         return updateById(coupon);
     }
@@ -149,10 +151,67 @@ public class CouponServiceImpl extends ServiceImpl<CouponMapper, CouponEntity> i
     }
 
     @Override
-    public boolean enableCoupon(Long id, int planState) {
-        CouponEntity coupon = selectById(id);
+    public boolean modfityCouponState(Long id, int planState) {
+        CouponEntity coupon = new CouponEntity();
+        coupon.setId(id);
         coupon.setCouponState(planState);
         return updateById(coupon);
+    }
+
+    @Override
+    public List<CouponEntity> queryDataBySourceId(Long brandIdenty, Long sourceId) throws Exception {
+        CouponEntity coupon = new CouponEntity();
+        EntityWrapper<CouponEntity> eWrapper = new EntityWrapper<>(coupon);
+        eWrapper.setSqlSelect("id", "name", "brand_identy", "shop_identy", "coupon_type", "push_number", "use_number", "coupon_state", "end_time", "server_create_time","source_type","source_id");
+        eWrapper.and().eq("brand_identy", brandIdenty);
+        eWrapper.and().eq("status_flag", StatusFlag.VALiD.value());
+        eWrapper.and().eq("source_id", sourceId);
+        eWrapper.and().eq("source_type", 3);
+        List<CouponEntity> listData = selectList(eWrapper);
+        return listData;
+    }
+
+    @Override
+    public boolean batchAdd(List<CouponEntity> listData) throws Exception {
+
+        boolean isSuccess = insertBatch(listData);
+        return isSuccess;
+    }
+
+    @Override
+    public boolean batchDelete(List<Long> ids) throws Exception {
+        boolean isSuccess = deleteBatchIds(ids);
+        return isSuccess;
+    }
+
+    @Override
+    public boolean batchUpdate(CouponEntity entity, String ids) throws Exception {
+        CouponEntity coupon = new CouponEntity();
+        EntityWrapper<CouponEntity> eWrapper = new EntityWrapper<>(coupon);
+        eWrapper.in("id",ids);
+        boolean isSuccess = update(entity,eWrapper);
+        return isSuccess;
+    }
+
+    @Override
+    public boolean batchUpdateState(Long brandIdenty,Integer state, Long sourceId) throws Exception {
+        CouponEntity coupon = new CouponEntity();
+        coupon.setCouponState(state);
+        EntityWrapper<CouponEntity> eWrapper = new EntityWrapper<>(new CouponEntity());
+        eWrapper.eq("source_id", sourceId);
+        eWrapper.eq("source_type",3);
+        boolean isSuccess = update(coupon,eWrapper);
+        return false;
+    }
+
+    @Override
+    public boolean batchDeleteBySouceId(Long brandIdenty,Long sourceId) throws Exception {
+        EntityWrapper<CouponEntity> eWrapper = new EntityWrapper<>(new CouponEntity());
+        eWrapper.eq("brand_identy",brandIdenty);
+        eWrapper.eq("source_id", sourceId);
+        eWrapper.eq("source_type",3);
+        boolean isSuccess = delete(eWrapper);
+        return isSuccess;
     }
 
 

@@ -92,6 +92,8 @@ class CommercialEntity : BaseEntity() {
      */
     var area: String? = null
 
+    var checked: Int? = null
+
     override fun toString(): String {
         return "CommercialEntity{" +
                 ", commercialId=" + commercialId +
@@ -114,6 +116,7 @@ class CommercialEntity : BaseEntity() {
                 ", province=" + province +
                 ", city=" + city +
                 ", area=" + area +
+                ", checked=" + checked +
                 "}"
     }
 }

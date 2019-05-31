@@ -63,7 +63,7 @@ public class CouponModel {
     private Integer applyDish;
 
     /**
-     * 优惠卷状态（1，使用中，2，停用）
+     * 优惠卷状态（1, 进行中;2, 停止; 3：品牌下发未接受 4：品牌下发已接受  5：数据刷新未接受）
      */
     private Integer couponState;
 
@@ -84,6 +84,12 @@ public class CouponModel {
      * 服务器创建时间
      */
     private String serverCreateTime;
+
+    private String selectShopList;
+
+    private Integer sourceType;
+
+    private Long sourceId;
 
 
     public CouponModel() {
@@ -106,6 +112,9 @@ public class CouponModel {
         this.couponState = coupon.getCouponState();
         this.restrictUseCommercial = coupon.getRestrictUseCommercial();
         this.sharingPrivilegeType = coupon.getSharingPrivilegeType();
+        this.sourceType = coupon.getSourceType();
+        this.sourceId = coupon.getSourceId();
+
         if (coupon.getEndTime() != null) {
             this.endTime = DateFormatUtil.format(coupon.getEndTime(), DateFormatUtil.FORMAT_FULL_DATE);
         }
@@ -295,6 +304,30 @@ public class CouponModel {
         this.serverCreateTime = serverCreateTime;
     }
 
+    public String getSelectShopList() {
+        return selectShopList;
+    }
+
+    public void setSelectShopList(String selectShopList) {
+        this.selectShopList = selectShopList;
+    }
+
+    public Integer getSourceType() {
+        return sourceType;
+    }
+
+    public void setSourceType(Integer sourceType) {
+        this.sourceType = sourceType;
+    }
+
+    public Long getSourceId() {
+        return sourceId;
+    }
+
+    public void setSourceId(Long sourceId) {
+        this.sourceId = sourceId;
+    }
+
     public String obtainCouponTypeStr() {
         if (getCouponType() == 1) {
             return "折扣券";
@@ -312,6 +345,12 @@ public class CouponModel {
             return "进行中";
         } else if (getCouponState() == 2) {
             return "停止";
+        } else if (getCouponState() == 3) {
+            return "品牌下发未接受";
+        } else if (getCouponState() == 4) {
+            return "品牌下发已接受";
+        } else if (getCouponState() == 5) {
+            return "数据刷新未接受";
         }
         return "未知状态";
     }

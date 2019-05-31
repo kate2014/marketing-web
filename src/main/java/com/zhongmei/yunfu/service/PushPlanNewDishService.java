@@ -5,6 +5,8 @@ import com.zhongmei.yunfu.controller.model.NewDishPushSearchModel;
 import com.zhongmei.yunfu.domain.entity.PushPlanNewDishEntity;
 import com.baomidou.mybatisplus.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  * 新品推送方案 服务类
@@ -30,6 +32,30 @@ public interface PushPlanNewDishService extends IService<PushPlanNewDishEntity> 
      * @return
      */
     public boolean addNewDishPushPlan(PushPlanNewDishEntity newDishPushPlan);
+
+    /**
+     * 批量添加新品推送
+     * @param listNewDishPushPlan
+     * @return
+     * @throws Exception
+     */
+    public boolean batchAddNewDishPushPlan(List<PushPlanNewDishEntity> listNewDishPushPlan)throws Exception;
+
+    /**
+     * 批量删除
+     * @param ids
+     * @return
+     * @throws Exception
+     */
+    public boolean batchDeleteDishPushPlan(List<Long> ids)throws Exception;
+
+    /**
+     * 批量更新
+     * @param listNewDishPushPlan
+     * @return
+     * @throws Exception
+     */
+    public boolean batchUpdateDishPushPlan(List<PushPlanNewDishEntity> listNewDishPushPlan)throws Exception;
 
     /**
      * 更新商品推送计划
@@ -81,5 +107,31 @@ public interface PushPlanNewDishService extends IService<PushPlanNewDishEntity> 
      * @return
      */
     public boolean refreshShareNumber(Long id);
+
+    /**
+     * 获取该活动下发的所以门店活动
+     * @param sourceId
+     * @return
+     * @throws Exception
+     */
+    public List<PushPlanNewDishEntity> queryBySourceId(Long brandIdentity,Long sourceId) throws Exception;
+
+    /**
+     * 删除所有门店对应的下发数据
+     * @param brandIdentity
+     * @param sourceId
+     * @return
+     * @throws Exception
+     */
+    public boolean batchDelateBySourceId(Long brandIdentity,Long sourceId) throws Exception;
+
+    /**
+     * 批量修改所有门店对应的下发数据状态
+     * @param brandIdentity
+     * @param sourceId
+     * @return
+     * @throws Exception
+     */
+    public boolean batchUpdatePlanState(Long brandIdentity,Long sourceId,Integer planState) throws Exception;
 
 }

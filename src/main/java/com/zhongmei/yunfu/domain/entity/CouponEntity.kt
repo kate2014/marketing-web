@@ -6,6 +6,8 @@ import java.util.Date;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName
 import com.zhongmei.yunfu.domain.entity.base.BaseEntity;
+import com.zhongmei.yunfu.domain.enums.StatusFlag
+import com.zhongmei.yunfu.service.LoginManager
 
 /**
  * <p>
@@ -84,7 +86,7 @@ class CouponEntity : BaseEntity() {
      */
     var sharingPrivilegeType: Int? = null
     /**
-     * 优惠卷状态（1:使用中，2:停用中）
+     * 优惠卷状态（1, 进行中;2, 停止; 3：品牌下发未接受 4：品牌下发已接受  5：数据刷新未接受）
      */
     var couponState: Int? = null
     /**
@@ -92,11 +94,7 @@ class CouponEntity : BaseEntity() {
      */
     var endTime: Date? = null
     /**
-     * 下发活动接受状态 1：接受  2：未接受
-     */
-    var acceptanceaState: Int? = null
-    /**
-     * 活动来源类型 1：品牌下发  2：门店自建
+     * 活动来源类型 1：品牌创建  2：门店自建 3:品牌下发
      */
     var sourceType: Int? = null
     /**
@@ -124,9 +122,43 @@ class CouponEntity : BaseEntity() {
                 ", sharingPrivilegeType=" + sharingPrivilegeType +
                 ", couponState=" + couponState +
                 ", endTime=" + endTime +
-                ", acceptanceaState=" + acceptanceaState +
                 ", sourceType=" + sourceType +
                 ", sourceId=" + sourceId +
                 "}"
+    }
+
+    fun cloneCoupon(oldCouponEntity: CouponEntity, shopIdenty: Long?,sourceId: Long?): CouponEntity {
+        val newCouponEntity = CouponEntity()
+
+        newCouponEntity.brandIdenty = oldCouponEntity.brandIdenty
+        newCouponEntity.shopIdenty = shopIdenty
+        newCouponEntity.name = oldCouponEntity.name
+        newCouponEntity.couponType = oldCouponEntity.couponType
+        newCouponEntity.pushNumber = oldCouponEntity.pushNumber
+        newCouponEntity.fullValue = oldCouponEntity.fullValue
+        newCouponEntity.useNumber = oldCouponEntity.useNumber
+        newCouponEntity.discountValue = oldCouponEntity.discountValue
+        newCouponEntity.dishId = oldCouponEntity.dishId
+        newCouponEntity.dishName = oldCouponEntity.dishName
+        newCouponEntity.remark = oldCouponEntity.remark
+        newCouponEntity.content = oldCouponEntity.content
+        newCouponEntity.applyDish = oldCouponEntity.applyDish
+        newCouponEntity.couponState = 3
+        newCouponEntity.restrictUseCommercial = oldCouponEntity.restrictUseCommercial
+        newCouponEntity.sharingPrivilegeType = oldCouponEntity.sharingPrivilegeType
+        newCouponEntity.endTime = oldCouponEntity.endTime
+
+        newCouponEntity.statusFlag = StatusFlag.VALiD.value()
+        newCouponEntity.updatorId = LoginManager.get().user!!.creatorId
+        newCouponEntity.updatorName = LoginManager.get().user!!.creatorName
+        newCouponEntity.serverUpdateTime = oldCouponEntity.serverUpdateTime
+        newCouponEntity.useNumber = 0
+        newCouponEntity.creatorId = LoginManager.get().user!!.creatorId
+        newCouponEntity.creatorName = LoginManager.get().user!!.creatorName
+        newCouponEntity.serverCreateTime = oldCouponEntity.serverCreateTime
+        newCouponEntity.sourceType = 3
+        newCouponEntity.sourceId = sourceId;
+
+        return newCouponEntity
     }
 }

@@ -32,10 +32,10 @@
 <head>
     <meta charset="UTF-8">
     <title>优惠券列表</title>
-    <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
-    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
-    <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" />
-    <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/common.css" />
+    <link rel="stylesheet" th:href="@{/css/public.css}" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" type="text/css" />
 
     <!-- diglog -->
     <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
@@ -117,6 +117,7 @@
 <div align="center" style="margin-top: 10px">
     <table class="gridtablestyle" style="width: 90%; vertical-align: middle">
         <tr style="width: 100%">
+            <th>来源</th>
             <th>优惠券名称</th>
             <th>类型</th>
             <th>状态</th>
@@ -127,6 +128,16 @@
             <th>操作</th>
         </tr>
         <tr th:each="item:${list}">
+            <td>
+                <div th:switch="${item.sourceType}" class="parent_h container">
+                    <p th:case="'3'">
+                        <img class="icon_mini_size_style" th:src="@{/images/brand_send_icon.png}" align="absmiddle" style="display: inline;"/><span>&nbsp;品牌下发</span>
+                    </p>
+                    <p th:case="'2'">
+                        <img class="icon_mini_size_style" th:src="@{/images/shop_create_icon.png}" align="absmiddle" style="display: inline;"/><span>&nbsp;门店自建</span>
+                    </p>
+                </div>
+            </td>
             <td th:text="${item.name}" />
             <td th:text="${item.obtainCouponTypeStr()}" />
             <td th:text="${item.obtainStateStr()}" />
@@ -135,10 +146,30 @@
             <td th:text="${item.pushNumber}" ／>
             <td th:text="${item.useNumber}" ／>
             <td align="center">
-                <a href="couponadd.html" th:href="@{/coupon/editPage(id=${item.id})}">编辑</a>
-                <a href="couponadd.html" th:href="@{/coupon/enable(id=${item.id})}">投放</a>
-                <a href="couponadd.html" th:href="@{/coupon/disable(id=${item.id})}">停用</a>
-            <a th:onclick="'javascript:checkDelete(\''+${item.id}+'\',\''+${item.name}+'\')'" style="cursor: pointer">删除</a>
+
+                <div class="parent_h container">
+                    <a href="/" th:href="@{/coupon/editPage(id=${item.id})}" style="text-decoration: none">编辑</a>
+                    <div th:switch="${item.couponState}">
+                        <p th:case="'1'">
+                            <a href="/" th:href="@{/coupon/disable(id=${item.id})}" style="text-decoration: none">&nbsp;&nbsp;停用</a>
+                        </p>
+                        <p th:case="'2'">
+                            <a href="/" th:href="@{/coupon/enable(id=${item.id})}" style="text-decoration: none">&nbsp;&nbsp;投放</a>
+                        </p>
+                        <p th:case="'3'">
+                            <a href="/" th:href="@{/coupon/accept(id=${item.id},sourceId=${item.sourceId})}" style="text-decoration: none">&nbsp;&nbsp;接受</a>
+                        </p>
+                        <p th:case="'4'">
+                            <a href="/" th:href="@{/coupon/enable(id=${item.id})}" style="text-decoration: none">&nbsp;&nbsp;投放</a>
+                            <a href="/" th:href="@{/coupon/disable(id=${item.id})}" style="text-decoration: none">&nbsp;&nbsp;停用</a>
+                        </p>
+                        <p th:case="'5'">
+                            <a href="/" th:href="@{/coupon/accept(id=${item.id},sourceId=${item.sourceId})}" style="text-decoration: none">&nbsp;&nbsp;接受</a>
+                        </p>
+                    </div>
+                    <a th:onclick="'javascript:checkDelete(\''+${item.id}+'\',\''+${item.name}+'\')'" style="cursor: pointer">&nbsp;&nbsp;删除</a>
+                </div>
+
             </td>
         </tr>
     </table>

@@ -32,6 +32,9 @@ public class ShopSearchModel extends WebBaseModel {
 
     private List<Long> selectShop;
 
+    //请求来源类型，1：新品推送  2：优惠券  3：门店活动  4：拼团 5：秒杀 6：砍价
+    private Integer type;
+
     public Long getRelatedId() {
         return relatedId;
     }
@@ -118,5 +121,13 @@ public class ShopSearchModel extends WebBaseModel {
 
     public void setSelectShop(List<Long> selectShop) {
         this.selectShop = selectShop;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 }
