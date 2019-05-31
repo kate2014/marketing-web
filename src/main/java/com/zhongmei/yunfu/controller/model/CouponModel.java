@@ -63,7 +63,7 @@ public class CouponModel {
     private Integer applyDish;
 
     /**
-     * 优惠卷状态（1，使用中，2，停用）
+     * 优惠卷状态（1, 进行中;2, 停止; 3：品牌下发未接受 4：品牌下发已接受  5：数据刷新未接受）
      */
     private Integer couponState;
 
@@ -345,6 +345,12 @@ public class CouponModel {
             return "进行中";
         } else if (getCouponState() == 2) {
             return "停止";
+        } else if (getCouponState() == 3) {
+            return "品牌下发未接受";
+        } else if (getCouponState() == 4) {
+            return "品牌下发已接受";
+        } else if (getCouponState() == 5) {
+            return "数据刷新未接受";
         }
         return "未知状态";
     }

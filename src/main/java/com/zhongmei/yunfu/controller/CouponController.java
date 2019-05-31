@@ -113,24 +113,33 @@ public class CouponController extends BaseController {
 
     @RequestMapping("/disable")
     public String disable(Model model, Long id) {
-        boolean result = couponService.enableCoupon(id, 2);
+        boolean result = couponService.modfityCouponState(id, 2);
         return redirect("/coupon");
     }
 
     @RequestMapping("/enable")
     public String enablePlan(Model model, Long id) {
-        boolean result = couponService.enableCoupon(id, 1);
+        boolean result = couponService.modfityCouponState(id, 1);
         return redirect("/coupon");
     }
 
 
     @RequestMapping("/delete")
-    public String deleteNewDishPushPlan(Model model, Long id) {
+    public String deleteCoupon(Model model, Long id) {
         if(id == null){
             return "fail";
         }
         boolean result = couponService.deleteCoupon(id);
         return "success";
+    }
+
+    @RequestMapping("/accept")
+    public String accept(Model model, Long id) {
+        if(id == null){
+            return "fail";
+        }
+        boolean result = couponService.modfityCouponState(id,4);
+        return redirect("/coupon");
     }
 
 

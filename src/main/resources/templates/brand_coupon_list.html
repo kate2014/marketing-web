@@ -78,7 +78,7 @@
     $(function() {
         $("div[name='send']").click(function(){
             var relatedId = $(this).attr("id");
-            $('.zm-dialog').load('[[${basePath}]]/internal/brand/gotToSelectShop?relatedId='+relatedId); //#container
+            $('.zm-dialog').load('[[${basePath}]]/internal/brand/gotToSelectShop?relatedId='+relatedId+'&type=2'); //#container
         });
 
         $("div[name='refresh']").click(function(){
@@ -190,10 +190,10 @@
                     <a href="/" th:href="@{/internal/brand/marketing/coupon/goToAddOrEdit(id=${item.id})}" style="text-decoration: none">编辑</a>
                     <div th:switch="${item.couponState}">
                         <p th:case="'1'">
-                            <a href="/" th:href="@{/internal/brand/marketing/coupon/updateStatus(id=${item.id},couponState=2)}" style="text-decoration: none">&nbsp;&nbsp;停用</a>
+                            <a href="/" th:href="@{/internal/brand/marketing/coupon/disable(id=${item.id},couponState=2)}" style="text-decoration: none">&nbsp;&nbsp;停用</a>
                         </p>
                         <p th:case="'2'">
-                            <a href="/" th:href="@{/internal/brand/marketing/coupon/updateStatus(id=${item.id}, couponState=1)}" style="text-decoration: none">&nbsp;&nbsp;投放</a>
+                            <a href="/" th:href="@{/internal/brand/marketing/coupon/enable(id=${item.id}, couponState=1)}" style="text-decoration: none">&nbsp;&nbsp;投放</a>
                         </p>
                     </div>
                     <a th:onclick="'javascript:checkDelete(\''+${item.id}+'\',\''+${item.name}+'\')'" style="cursor: pointer">&nbsp;&nbsp;删除</a>

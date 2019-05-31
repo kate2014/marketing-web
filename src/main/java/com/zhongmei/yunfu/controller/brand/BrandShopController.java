@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.zhongmei.yunfu.controller.BaseController;
 import com.zhongmei.yunfu.controller.model.ShopSearchModel;
 import com.zhongmei.yunfu.domain.entity.CommercialEntity;
+import com.zhongmei.yunfu.domain.entity.CouponEntity;
 import com.zhongmei.yunfu.domain.entity.PushPlanNewDishEntity;
 import com.zhongmei.yunfu.service.CommercialService;
+import com.zhongmei.yunfu.service.CouponService;
 import com.zhongmei.yunfu.service.LoginManager;
 import com.zhongmei.yunfu.service.PushPlanNewDishService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,8 @@ public class BrandShopController extends BaseController {
 
     @Autowired
     PushPlanNewDishService mPushNewDishService;
+    @Autowired
+    CouponService couponService;
 
     @RequestMapping({"/shopList"})
     public String shopList(Model model, ShopSearchModel mShopSearchModel) {
@@ -68,7 +72,10 @@ public class BrandShopController extends BaseController {
                     tempMap.put(entity.getShopIdentity(),entity.getShopIdentity());
                 }
             }else if(type == 2){
-
+                List<CouponEntity> listData = couponService.queryDataBySourceId(brandIdentity,sourceId);
+                for(CouponEntity mCouponEntity : listData){
+                    tempMap.put(mCouponEntity.getShopIdenty(),mCouponEntity.getShopIdenty());
+                }
             }
 
             List<CommercialEntity> listCommercail = mCommercialService.queryCommercialByBrandId(brandIdentity);
