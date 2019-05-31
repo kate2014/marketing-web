@@ -37,5 +37,21 @@ window.alert = function (txt) {
         document.body.removeChild(shield);
     }
     //alertFram.focus();
-    document.body.onselectstart = function(){return false;};
+    document.body.onselectstart = function () {
+        return false;
+    };
+}
+
+window.showLoading = function (txt) {
+    if (!txt) txt = "正在加载，请稍后...";
+    var loading = document.createElement("DIV");
+    loading.id = "__win_loading_";
+    loading.style.cssText = "display:flex;align-items:center;justify-content:center;position:fixed;background:rgba(0,0,0,0.5);height:100%;width:100%;";
+    var loading_html = "<div style=\"border:1px solid #000;background:#fff;padding:10px;\">" + txt + "</div>\n";
+    loading.innerHTML = loading_html;
+    document.body.appendChild(loading);
+}
+
+window.hidLoading = function () {
+    document.body.removeChild(document.getElementById("__win_loading_"));
 }
