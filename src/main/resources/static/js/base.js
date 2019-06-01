@@ -2,7 +2,7 @@ window.WEB_BASEPATH = "/marketing/";
 $(function(){
     var windowsExtScript = document.createElement("script");
     windowsExtScript.type = "text/javascript";
-    windowsExtScript.src = WEB_BASEPATH + "/js/windows.ext.js";
+    windowsExtScript.src = WEB_BASEPATH + "/js/window/window.ext.js";
     document.getElementsByTagName("head")[0].appendChild(windowsExtScript);
 
 	$(".project").keyup(function(){

@@ -6,11 +6,14 @@ import com.zhongmei.yunfu.controller.weixinPay.WeiXinPayRsqEntity;
 import com.zhongmei.yunfu.domain.entity.CustomerCardTimeEntity;
 import com.zhongmei.yunfu.util.DateFormatUtil;
 import com.zhongmei.yunfu.util.HttpMessageConverterUtils;
+import io.reactivex.Flowable;
+import io.reactivex.schedulers.Schedulers;
 import org.junit.Test;
 
 import java.io.*;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.CountDownLatch;
 
 public class DomoTest {
 
@@ -74,5 +77,65 @@ public class DomoTest {
                 System.out.println("00000");
                 break;
         }
+    }
+
+    @Test
+    public void rxJava() throws Exception {
+        Integer[] list = {1, 2, 3, 4, 5, 6, 7};
+        /*int pageCount = list.length / 3 + Math.min(list.length % 3, 1);
+        CountDownLatch countDownLatch = new CountDownLatch(pageCount);
+        Flowable.fromArray(list)
+                .buffer(3)
+                .parallel()
+                .runOn(Schedulers.io(), 1)
+                .map(ints ->
+                {
+                    Thread.sleep(300);
+                    System.out.println(Thread.currentThread().getName() + " " + ints);
+                    return ints;
+                })
+                .sequential()
+                //.observeOn(Schedulers.single())
+                .subscribe(ints ->
+                {
+                    countDownLatch.countDown();
+                    System.out.println(Thread.currentThread() + " subscribe: -> " + ints);
+                });
+
+        //Thread.sleep(5000);
+        countDownLatch.await();
+        System.out.println("-----------");
+
+        Integer[] list1 = {11, 12, 13, 14, 15, 16, 17};
+        Flowable.fromArray(list1)
+                .buffer(3)
+                .parallel()
+                .runOn(Schedulers.io())
+                .map(ints ->
+                {
+                    System.out.println(Thread.currentThread().getName() + " " + ints);
+                    return ints;
+                })
+                .sequential()
+                //.observeOn(Schedulers.single())
+                .subscribe(ints ->
+                {
+                    System.out.println(Thread.currentThread() + " subscribe: -> " + ints);
+                });
+        Thread.sleep(5000);*/
+
+
+        Flowable.fromArray(list)
+                .map(integer -> integer + " ->")
+                .buffer(Integer.MAX_VALUE)
+                .map(ints ->
+                {
+                    System.out.println(Thread.currentThread().getName() + " " + ints);
+                    return ints;
+                })
+                .subscribe(ints ->
+                {
+                    System.out.println(Thread.currentThread() + " subscribe: -> " + ints);
+                });
     }
 }

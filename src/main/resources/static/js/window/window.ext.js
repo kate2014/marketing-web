@@ -1,3 +1,17 @@
+var a = /(^|.*[\\\/])window\.ext\.js(?:\?.*|;.*)?$/i;
+window.getBaseExtPath = function () {
+    var b = "";
+    if (!b) for (var c = document.getElementsByTagName("script"), d = 0; d < c.length; d++) {
+        var h = c[d].src.match(a);
+        if (h) {
+            b = h[1];
+            break;
+        }
+    }
+
+    return b;
+}
+
 //改写alert
 window.alert = function (txt) {
     var shield = document.createElement("DIV");
@@ -43,15 +57,15 @@ window.alert = function (txt) {
 }
 
 window.showLoading = function (txt) {
-    if (!txt) txt = "正在加载，请稍后...";
+    if (!txt) txt = "正在加载数据，请稍后...";
     var loading = document.createElement("DIV");
     loading.id = "__win_loading_";
-    loading.style.cssText = "display:flex;align-items:center;justify-content:center;position:fixed;background:rgba(0,0,0,0.5);height:100%;width:100%;";
-    var loading_html = "<div style=\"border:1px solid #000;background:#fff;padding:10px;\">" + txt + "</div>\n";
+    loading.style.cssText = "display:flex;top:0;left:0;right:0;align-items:center;justify-content:center;position:fixed;background:rgba(0,0,0,0);height:100%;width:100%;";
+    var loading_html = "<div style=\"border:0px solid #000;background:#fff;padding:10px;\"><image style=\"display:block;margin:auto;margin-bottom:8px;\" src=\""+ getBaseExtPath() + "/loading.gif\"/>" + txt + "</div>\n";
     loading.innerHTML = loading_html;
     document.body.appendChild(loading);
 }
 
-window.hidLoading = function () {
+window.hideLoading = function () {
     document.body.removeChild(document.getElementById("__win_loading_"));
 }
