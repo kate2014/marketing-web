@@ -32,6 +32,7 @@ public class CustomerScoreRuleController {
             isSuccess = mCustomerScoreRuleService.modifyScoreRule(mCustomerScoreRuleModel);
 
         } catch (Exception e) {
+            e.printStackTrace();
             isSuccess = false;
         }
 
@@ -41,7 +42,7 @@ public class CustomerScoreRuleController {
         } else {
             actionSuccess = "fail";
         }
-        return String.format("redirect:/internal/customerLevelRule/gotoPage?brandIdenty=%d&shopIdenty=%d&creatorId=%d&creatorName=%s&successOrfail=%s",
+        return String.format("redirect:/internal/customerSetting/customerScore?brandIdenty=%d&shopIdenty=%d&creatorId=%d&creatorName=%s&successOrfail=%s",
                 mCustomerScoreRuleModel.getBrandIdenty(), mCustomerScoreRuleModel.getShopIdenty(), mCustomerScoreRuleModel.getCreatorId(), mCustomerScoreRuleModel.getCreatorName(),actionSuccess);
     }
 

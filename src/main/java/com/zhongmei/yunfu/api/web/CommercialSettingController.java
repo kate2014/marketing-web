@@ -66,7 +66,7 @@ public class CommercialSettingController {
         } else {
             actionSuccess = "fail";
         }
-        return String.format("redirect:/internal/customerLevelRule/gotoPage?brandIdenty=%d&shopIdenty=%d&creatorId=%d&creatorName=%s&successOrfail=%s",
+        return String.format("redirect:/internal/customerSetting/customerPaySetting?brandIdenty=%d&shopIdenty=%d&creatorId=%d&creatorName=%s&successOrfail=%s",
                 mCommercailSettingModel.getBrandIdenty(), mCommercailSettingModel.getShopIdenty(), mCommercailSettingModel.getCreatorId(), mCommercailSettingModel.getCreatorName(),actionSuccess);
     }
 }

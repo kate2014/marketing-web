@@ -46,7 +46,6 @@ public class CustomerLevelRuleController  extends BaseController{
 
         Long creatorId = mCustomerLevelRuleModel.getCreatorId();
         Long shopIdenty = mCustomerLevelRuleModel.getShopIdenty();
-
         Map<String, String> permissionData = authUserService.getAuthPermissionMap(creatorId,shopIdenty);
 
         if(permissionData.get("CUSTOMER_SETTING") == null || permissionData.get("CUSTOMER_SETTING").equals("")){
@@ -54,6 +53,12 @@ public class CustomerLevelRuleController  extends BaseController{
         }else{
             model.addAttribute("customer_setting", 1);
         }
+        model.addAttribute("customerSetting", mCustomerLevelRuleModel);
+        return "customer_setting_main";
+    }
+
+    @RequestMapping("/customerSetting/customerLevelSetting")
+    public String customerLevelSetting(Model model, CustomerLevelRuleModel mCustomerLevelRuleModel){
 
         try {
             List<CustomerLevelRuleEntity> listData = mCustomerLevelRuleService.queryRuleData(mCustomerLevelRuleModel);
@@ -91,35 +96,59 @@ public class CustomerLevelRuleController  extends BaseController{
 
             }
             model.addAttribute("levelRule", mCustomerLevelRuleModel);
+            model.addAttribute("successOrfail", mCustomerLevelRuleModel.getSuccessOrfail());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
-            Map<String, Object> map = new HashMap<>();
-            map.put("brandIdenty", mCustomerLevelRuleModel.getBrandIdenty());
-            map.put("shopIdenty", mCustomerLevelRuleModel.getShopIdenty());
-            List<CustomerScoreRuleEntity> listSR = mCustomerScoreRuleService.findScoreRule(map);
-            CustomerScoreRuleModel cusRM = new CustomerScoreRuleModel();
-            for (CustomerScoreRuleEntity cs : listSR) {
-                if (cs.getType() == 1) {
-                    cusRM.setIdS(cs.getId());
-                    cusRM.setConvertValueS(cs.getConvertValue());
-                } else if (cs.getType() == 2) {
-                    cusRM.setIdD(cs.getId());
-                    cusRM.setConvertValueD(cs.getConvertValue());
-                } else if (cs.getType() == 3) {
-                    cusRM.setIdM(cs.getId());
-                    cusRM.setConvertValueM(cs.getConvertValue());
-                }
+        return "customer_level_setting";
+    }
+
+    @RequestMapping("/customerSetting/customerScore")
+    public String customerScoreSetting(Model model, CustomerLevelRuleModel mCustomerLevelRuleModel){
+
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("brandIdenty", mCustomerLevelRuleModel.getBrandIdenty());
+        map.put("shopIdenty", mCustomerLevelRuleModel.getShopIdenty());
+        List<CustomerScoreRuleEntity> listSR = mCustomerScoreRuleService.findScoreRule(map);
+        CustomerScoreRuleModel cusRM = new CustomerScoreRuleModel();
+        for (CustomerScoreRuleEntity cs : listSR) {
+            if (cs.getType() == 1) {
+                cusRM.setIdS(cs.getId());
+                cusRM.setConvertValueS(cs.getConvertValue());
+            } else if (cs.getType() == 2) {
+                cusRM.setIdD(cs.getId());
+                cusRM.setConvertValueD(cs.getConvertValue());
+            } else if (cs.getType() == 3) {
+                cusRM.setIdM(cs.getId());
+                cusRM.setConvertValueM(cs.getConvertValue());
             }
+        }
 
-            model.addAttribute("cusRM", cusRM);
+        model.addAttribute("cusRM", cusRM);
+        model.addAttribute("customerScore", mCustomerLevelRuleModel);
+        return "customer_score_setting";
+    }
 
-            //查询会员查询规则
-            CustomerSearchRuleEntity customerSearchRuleEntity = customerSearchRuleService.selectByShopId(
-                    mCustomerLevelRuleModel.getBrandIdenty(),
-                    mCustomerLevelRuleModel.getShopIdenty());
-            if(customerSearchRuleEntity == null){
-                customerSearchRuleEntity = new CustomerSearchRuleEntity();
-            }
-            model.addAttribute("searchRuleEntity", customerSearchRuleEntity);
+    @RequestMapping("/customerSetting/searchGroup")
+    public String customerGroupSetting(Model model, CustomerLevelRuleModel mCustomerLevelRuleModel){
+        //查询会员查询规则
+        CustomerSearchRuleEntity customerSearchRuleEntity = customerSearchRuleService.selectByShopId(
+                mCustomerLevelRuleModel.getBrandIdenty(),
+                mCustomerLevelRuleModel.getShopIdenty());
+        if(customerSearchRuleEntity == null){
+            customerSearchRuleEntity = new CustomerSearchRuleEntity();
+        }
+        model.addAttribute("searchRuleEntity", customerSearchRuleEntity);
+        model.addAttribute("searchRuleModel", mCustomerLevelRuleModel);
+
+        return "customer_search_group_setting";
+    }
+
+    @RequestMapping("/customerSetting/customerPaySetting")
+    public String customerPaySetting(Model model, CustomerLevelRuleModel mCustomerLevelRuleModel){
+        try {
 
             CommercailSettingModel mCommercailSettingModel = new CommercailSettingModel();
             mCommercailSettingModel.setBrandIdenty(mCustomerLevelRuleModel.getBrandIdenty());
@@ -129,12 +158,12 @@ public class CustomerLevelRuleController  extends BaseController{
             model.addAttribute("mCommercialCustomSettingsEntity", mCommercialCustomSettingsEntity);
 
             model.addAttribute("successOrfail", mCustomerLevelRuleModel.getSuccessOrfail());
-            return "customer_setting";
-        } catch (Exception e) {
+            model.addAttribute("paySettingModel", mCustomerLevelRuleModel);
+        }catch (Exception e){
             e.printStackTrace();
-            return "fail";
         }
 
+        return "customer_pay_setting";
     }
 
     @RequestMapping("/customerLevelRule/modify")
@@ -161,7 +190,7 @@ public class CustomerLevelRuleController  extends BaseController{
             mCustomerLevelRuleModel.setSuccessOrfail("fail");
         }
 
-        return String.format("redirect:/internal/customerLevelRule/gotoPage?brandIdenty=%d&shopIdenty=%d&creatorId=%d&creatorName=%s&successOrfail=%s",
+        return String.format("redirect:/internal/customerSetting/customerLevelSetting?brandIdenty=%d&shopIdenty=%d&creatorId=%d&creatorName=%s&successOrfail=%s",
                 mCustomerLevelRuleModel.getBrandIdenty(), mCustomerLevelRuleModel.getShopIdenty(), mCustomerLevelRuleModel.getCreatorId(), mCustomerLevelRuleModel.getCreatorName(),mCustomerLevelRuleModel.getSuccessOrfail());
 
     }
@@ -172,9 +201,13 @@ public class CustomerLevelRuleController  extends BaseController{
     @RequestMapping("/customer/search/rule/save")
     public String saveSearchSetting(CustomerSearchSettingVo settingVo) {
         //LoginManager.setUser(settingVo);
-        customerSettingSearchRuleService.insertEntity(settingVo);
-        return String.format("redirect:/internal/customerLevelRule/gotoPage?brandIdenty=%d&shopIdenty=%d&creatorId=%d&creatorName=%s",
-                settingVo.getBrandIdenty(), settingVo.getShopIdenty(), settingVo.getCreatorId(), settingVo.getCreatorName());
+        boolean isSuccess = customerSettingSearchRuleService.insertEntity(settingVo);
+        String successOrfail = "success";
+        if(! isSuccess){
+            successOrfail = "fail";
+        }
+        return String.format("redirect:/internal/customerSetting/searchGroup?brandIdenty=%d&shopIdenty=%d&creatorId=%d&creatorName=%s&successOrfail=%s",
+                settingVo.getBrandIdenty(), settingVo.getShopIdenty(), settingVo.getCreatorId(), settingVo.getCreatorName(),successOrfail);
     }
 
 }

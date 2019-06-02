@@ -28,7 +28,7 @@ public class CustomerSearchRuleServiceImpl extends ServiceImpl<CustomerSearchRul
     }
 
     @Override
-    public void insertEntity(CustomerSearchSettingVo settingVo) {
+    public boolean insertEntity(CustomerSearchSettingVo settingVo) {
         CustomerSearchRuleEntity customerSearchRuleEntity = selectByShopId(settingVo.getBrandIdenty(), settingVo.getShopIdenty());
         if (customerSearchRuleEntity == null) {
             customerSearchRuleEntity = new CustomerSearchRuleEntity();
@@ -58,7 +58,7 @@ public class CustomerSearchRuleServiceImpl extends ServiceImpl<CustomerSearchRul
         customerSearchRuleEntity.setMembersNewIntervalDay(settingVo.getMembersNewIntervalDay());
         customerSearchRuleEntity.setMembersBirthdayBeforeDay(settingVo.getMembersBirthdayBeforeDay());
         customerSearchRuleEntity.setMembersAnniversaryBeforeDay(settingVo.getMembersAnniversaryBeforeDay());
-        insertOrUpdate(customerSearchRuleEntity);
+        return insertOrUpdate(customerSearchRuleEntity);
     }
 
 

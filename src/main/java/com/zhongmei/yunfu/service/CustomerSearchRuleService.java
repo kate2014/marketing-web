@@ -21,6 +21,6 @@ public interface CustomerSearchRuleService extends IService<CustomerSearchRuleEn
      */
     CustomerSearchRuleEntity selectByShopId(Long brandId, Long shopId);
 
-    void insertEntity(CustomerSearchSettingVo settingVo);
+    boolean insertEntity(CustomerSearchSettingVo settingVo);
 
 }

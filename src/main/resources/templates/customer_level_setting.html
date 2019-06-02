@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>会员等级设置</title>
+
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" type="text/css" />
+    <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <script type="text/javascript" src="../static/js/zm-validate.js" th:src="@{/js/zm-validate.js}"></script>
+
+    <!-- tips 提示框引用-->
+    <link rel="stylesheet" th:href="@{/tips/jquery.toast.css}">
+    <script type="text/javascript" th:src="@{/tips/jquery.toast.js}"></script>
+    <script type="text/javascript" th:src="@{/tips/tips.js}"></script>
+
+</head>
+
+<style type="text/css">
+
+    html,body{
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        background-color: #F0F0F0;
+    }
+</style>
+
+<script type="text/javascript">
+    function submitLevelRuleForm() {
+        document.levelRule.submit();
+    }
+
+    function showAction() {
+        var successOrfail = document.getElementById("successOrfail").value;
+        if(successOrfail != '' && successOrfail != undefined && successOrfail != null){
+            if(successOrfail == "success"){
+                successTips('操作成功','设置成功，可进行相关操作使用');
+            }else if(successOrfail == "fail"){
+                errorTips('操作失败','设置失败，请优先排查输入信息');
+            }
+        }
+    }
+
+
+</script>
+
+
+<body  onload="showAction()">
+
+<form method="post" name="levelRule" action="" th:action="@{/internal/customerLevelRule/modify}" th:object="${mCustomerLevelRuleModel}">
+
+    <input type="hidden" name="shopIdenty" th:value="${levelRule.shopIdenty}">
+    <input type="hidden" name="brandIdenty" th:value="${levelRule.brandIdenty}">
+    <input type="hidden" id="creatorId" name="creatorId" th:value="${levelRule.creatorId}">
+    <input type="hidden" id="creatorName" name="creatorName" th:value="${levelRule.creatorName}">
+    <input type="hidden" id="successOrfail" th:value="${successOrfail}">
+
+    <div style="margin: 20px;padding: 20px" class="modle_background_style">
+
+        <div class="parent">
+            <img th:src="@{/images/lable.jpg}" style="height: 25px; width: 4px">
+            <label class="text_navigation" style="margin-left: 10px; font-weight: bold">会员等级设置</label>
+        </div>
+
+        <div style="margin-top: 15px">
+            <label class="text_navigation" style="margin-left: 10px; margin-top: 15px; min-width: 300px">普通会员: 注册即为普通会员</label>
+        </div>
+        <div style="margin-top: 15px">
+            <input type="hidden" name="idYK" th:value="${levelRule.idYK}">
+            <input type="hidden" name="levelCodeYK" th:value="${levelRule.levelCodeYK}">
+            <label class="text_navigation" style="margin-left: 10px; margin-top: 15px; min-width: 300px">银卡会员</label>
+            <input class="input_style" placeholder="输入对应积分成长值" style="margin-left: 5px" type="text" th:value="${levelRule.levelScoreYK}" name="levelScoreYK"/>
+        </div>
+
+        <div style="margin-top: 15px">
+            <input type="hidden" name="idJK" th:value="${levelRule.idJK}">
+            <input type="hidden" name="levelCodeJK" th:value="${levelRule.levelCodeJK}">
+            <label class="text_navigation" style="margin-left: 10px">金卡会员</label>
+            <input class="input_style" placeholder="输入对应积分成长值" style="margin-left: 5px" type="text" th:value="${levelRule.levelScoreJK}" name="levelScoreJK"/>
+        </div>
+
+        <div style="margin-top: 15px">
+            <input type="hidden" name="idBJ" th:value="${levelRule.idBJ}">
+            <input type="hidden" name="levelCodeBJ" th:value="${levelRule.levelCodeBJ}">
+            <label class="text_navigation" style="margin-left: 10px">白金会员</label>
+            <input class="input_style" placeholder="输入对应积分成长值" style="margin-left: 5px" type="text" th:value="${levelRule.levelScoreBJ}" name="levelScoreBJ"/>
+        </div>
+
+        <div style="margin-top: 15px">
+            <input type="hidden" name="idHJ" th:value="${levelRule.idHJ}">
+            <input type="hidden" name="levelCodeHJ" th:value="${levelRule.levelCodeHJ}">
+            <label class="text_navigation" style="margin-left: 10px">黑金会员</label>
+            <input class="input_style" placeholder="输入对应积分成长值" style="margin-left: 5px" type="text" th:value="${levelRule.levelScoreHJ}" name="levelScoreHJ"/>
+        </div>
+
+        <div style="margin-top: 15px">
+            <input type="hidden" name="idZS" th:value="${levelRule.idZS}">
+            <input type="hidden" name="levelCodeZS" th:value="${levelRule.levelCodeZS}">
+            <label class="text_navigation" style="margin-left: 10px">钻石会员</label>
+            <input class="input_style" placeholder="输入对应积分成长值" style="margin-left: 5px" type="text" th:value="${levelRule.levelScoreZS}" name="levelScoreZS"/>
+        </div>
+
+        <div style="margin-top: 15px">
+            <input type="hidden" name="idZZ" th:value="${levelRule.idZZ}">
+            <input type="hidden" name="levelCodeZZ" th:value="${levelRule.levelCodeZZ}">
+            <label class="text_navigation" style="margin-left: 10px">至尊会员</label>
+            <input class="input_style" placeholder="输入对应积分成长值" style="margin-left: 5px" type="text" th:value="${levelRule.levelScoreZZ}" name="levelScoreZZ"/>
+        </div>
+
+        <div style="margin-top: 15px">
+            <button class="blue_button_style" onclick="submitLevelRuleForm()" style="margin-left: 10px" >保存</button>
+            <!--<button class="gray_button_style" onclick="this" style="margin-left: 10px">取消</button>-->
+        </div>
+
+    </div>
+</form>
+
+</body>
+</html>

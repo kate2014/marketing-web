@@ -69,6 +69,12 @@ div.parent_h {
     border-radius: 5px;
 }
 
+.modle_gray_background_style{
+    background-color:#F0F0F0;
+    border: none;
+    border-radius: 5px;
+}
+
 .markerting_card_bg_style{
     /*background-color:#F5F6F8;*/
     width: 200px;

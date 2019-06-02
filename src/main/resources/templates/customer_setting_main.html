@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<style type="text/css">
+
+    html,body{
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        background-color: #FFFFFF;
+    }
+
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <title>会员设置</title>
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" />
+    <link rel="stylesheet" th:href="@{/css/customer.css}" href="../static/css/customer.css" />
+    <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}" src="../static/js/jquery-3.1.1.min.js" ></script>
+    <script type="text/javascript" th:src="@{/js/base.js}" src="../static/js/base.js" ></script>
+
+</head>
+
+
+
+<body>
+
+<div class="parent top_view_style">
+
+    <img th:src="@{/images/lable.jpg}" width="5" height="26" style="margin-left: 20px">
+
+    <label class="text_navigation" style="margin-left: 20px">会员设置</label>
+</div>
+
+<div class='customer-com' style="top: 51px;bottom: 0;position: absolute; height: auto">
+    <div class="customer-centent">
+        <div class="customer-main">
+            <div th:if="${customer_setting} eq '1'">
+                <ul class="tab" style="height: 100%">
+                    <li th:href="@{/internal/customerSetting/customerLevelSetting(brandIdenty=${customerSetting.brandIdenty},shopIdenty=${customerSetting.shopIdenty},creatorId=${customerSetting.creatorId},creatorName=${customerSetting.creatorName})}" class="current">
+                        <div class="parent">
+                            <img th:src="@{/images/customer_leve_setting_icon.png}" class="image_size_style">
+                            <span>会员等级设置</span>
+                        </div>
+                    </li>
+
+                    <li th:href="@{/internal/customerSetting/customerScore(brandIdenty=${customerSetting.brandIdenty},shopIdenty=${customerSetting.shopIdenty},creatorId=${customerSetting.creatorId},creatorName=${customerSetting.creatorName})}" class="parent">
+                        <div class="parent">
+                            <img th:src="@{/images/customer_scokt_setting_icon.png}" class="image_size_style">
+                            <span>会员积分成长设置</span>
+                        </div>
+                    </li>
+
+                    <li th:href="@{/internal/request/loading(brandIdenty=${customerSetting.brandIdenty},shopIdenty=${customerSetting.shopIdenty},creatorId=${customerSetting.creatorId},creatorName=${customerSetting.creatorName})}" class="parent">
+                        <div class="parent">
+                            <img th:src="@{/images/customer_privilage_setting_icon.png}" class="image_size_style">
+                            <span>会员权益设置</span>
+                        </div>
+                    </li>
+
+                    <li th:href="@{/internal/request/loading(brandIdenty=${customerSetting.brandIdenty},shopIdenty=${customerSetting.shopIdenty},creatorId=${customerSetting.creatorId},creatorName=${customerSetting.creatorName})}" class="parent">
+                        <div class="parent">
+                            <img th:src="@{/images/customer_save_setting_icon.png}" class="image_size_style">
+                            <span>储值赠送设置</span>
+                        </div>
+                    </li>
+
+                    <li th:href="@{/internal/customerSetting/customerPaySetting(brandIdenty=${customerSetting.brandIdenty},shopIdenty=${customerSetting.shopIdenty},creatorId=${customerSetting.creatorId},creatorName=${customerSetting.creatorName})}" class="parent">
+                        <div class="parent">
+                            <img th:src="@{/images/customer_password_setting_icon.png}" class="image_size_style">
+                            <span>储值支付密码验证</span>
+                        </div>
+                    </li>
+
+                    <li th:href="@{/internal/customerSetting/searchGroup(brandIdenty=${customerSetting.brandIdenty},shopIdenty=${customerSetting.shopIdenty},creatorId=${customerSetting.creatorId},creatorName=${customerSetting.creatorName})}" class="parent">
+                        <div class="parent">
+                            <img th:src="@{/images/customer_search_setting_icon.png}" class="image_size_style">
+                            <span>会员查询规则设置</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="select-tab" style="width: 100%; height: 100%">
+
+                <div th:if="${customer_setting} eq '0'">
+                    <div style="margin-left: 40%;margin-top: 50px"><h4>您没有会员设置权限，请联系管理员进行设置！</h4></div>
+                </div>
+
+                <div th:if="${customer_setting} eq '1'" style="display:block; width: 100%; height: 100%" class="tabs">
+                    <iframe id="dish_iframe" th:src="@{/internal/customerSetting/customerLevelSetting(brandIdenty=${customerSetting.brandIdenty},shopIdenty=${customerSetting.shopIdenty},creatorId=${customerSetting.creatorId},creatorName=${customerSetting.creatorName})}" src="../templates/customerlist.html" width="100%" height="100%" style="border: 0px"></iframe>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+
+
+</body>
+</html>
