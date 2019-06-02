@@ -5,6 +5,7 @@ import java.util.Date;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName
 import com.zhongmei.yunfu.domain.entity.base.BaseEntity;
+import com.zhongmei.yunfu.service.LoginManager
 
 /**
  * <p>
@@ -39,7 +40,7 @@ class PushPlanActivityEntity : BaseEntity() {
      */
     var planDesc: String? = null
     /**
-     * 1, 进行中;2, 停止;
+     * 1, 进行中;2, 停止; 3：品牌下发未接受 4：品牌下发已接受  5：数据刷新未接受
      */
     var planState: Int? = null
     /**
@@ -67,7 +68,7 @@ class PushPlanActivityEntity : BaseEntity() {
      */
     var shareNumber: Int? = null
     /**
-     * 活动来源类型 1：品牌下发  2：门店自建
+     * 活动来源类型 1：品牌下发  2：门店自建  3:品牌下发
      */
     var sourceType: Int? = null
     /**
@@ -93,5 +94,30 @@ class PushPlanActivityEntity : BaseEntity() {
                 ", sourceType=" + sourceType +
                 ", sourceId=" + sourceId +
                 "}"
+    }
+
+    fun cloneEntity(mainEntity: PushPlanActivityEntity, shopIdenty: Long?, sourceId: Long?): PushPlanActivityEntity {
+        val mPushPlanActivity = PushPlanActivityEntity()
+
+        mPushPlanActivity.name = mainEntity.name
+        mPushPlanActivity.endTime = mainEntity.beginTime
+        mPushPlanActivity.planDesc = mainEntity.planDesc
+        mPushPlanActivity.imgUrl = mainEntity.imgUrl
+        mPushPlanActivity.describe = mainEntity.describe
+        mPushPlanActivity.planState = 3
+        mPushPlanActivity.beginTime = mainEntity.beginTime
+        mPushPlanActivity.brandIdentity = mainEntity.brandIdentity
+        mPushPlanActivity.shopIdentity = shopIdenty
+        mPushPlanActivity.scanNumber = 0
+        mPushPlanActivity.shareNumber = 0
+        mPushPlanActivity.serverCreateTime = mainEntity.serverCreateTime
+        mPushPlanActivity.serverUpdateTime = mainEntity.serverUpdateTime
+        mPushPlanActivity.statusFlag = 1
+        mPushPlanActivity.creatorId = LoginManager.get().user!!.creatorId
+        mPushPlanActivity.creatorName = LoginManager.get().user!!.creatorName
+        mPushPlanActivity.sourceType = 3
+        mPushPlanActivity.sourceId = sourceId
+
+        return mPushPlanActivity
     }
 }

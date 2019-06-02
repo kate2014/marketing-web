@@ -45,6 +45,10 @@ public class ActivityModifyModel {
      */
     private String imgUrl;
 
+    private Long sourceId;
+
+    private String selectShopList;
+
     public Long getId() {
         return id;
     }
@@ -123,5 +127,21 @@ public class ActivityModifyModel {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    public Long getSourceId() {
+        return sourceId;
+    }
+
+    public void setSourceId(Long sourceId) {
+        this.sourceId = sourceId;
+    }
+
+    public String getSelectShopList() {
+        return selectShopList;
+    }
+
+    public void setSelectShopList(String selectShopList) {
+        this.selectShopList = selectShopList;
     }
 }

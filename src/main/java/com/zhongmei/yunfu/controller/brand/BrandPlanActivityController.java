@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.zhongmei.yunfu.controller.BaseController;
 import com.zhongmei.yunfu.controller.model.ActivityModifyModel;
 import com.zhongmei.yunfu.controller.model.ActivitySearchModel;
+import com.zhongmei.yunfu.controller.model.CouponModel;
 import com.zhongmei.yunfu.domain.entity.PushPlanActivityEntity;
 import com.zhongmei.yunfu.service.LoginManager;
 import com.zhongmei.yunfu.service.PushPlanActivityService;
@@ -13,8 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.Date;
+import java.util.*;
 
 /**
  * <p>
@@ -30,7 +32,6 @@ public class BrandPlanActivityController extends BaseController {
 
     @Autowired
     PushPlanActivityService pushPlanActivityService;
-
 
     @RequestMapping("/list")
     public String list(Model model, ActivitySearchModel searchModel) {
@@ -132,12 +133,26 @@ public class BrandPlanActivityController extends BaseController {
      */
     @RequestMapping("/updateState")
     public String updatePlanState(Model model, ActivityModifyModel activityModifyModel) {
-        Long creatorId = LoginManager.get().getUser().getCreatorId();
-        String creatorname = LoginManager.get().getUser().getCreatorName();
-        Boolean isSuccess = pushPlanActivityService.updateActivityState(activityModifyModel.getId(), activityModifyModel.getPlanState(), creatorId,creatorname);
-        if (!isSuccess) {
-            return "fail";
+        try {
+            Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
+            Long creatorId = LoginManager.get().getUser().getCreatorId();
+            String creatorname = LoginManager.get().getUser().getCreatorName();
+            Boolean isSuccess = pushPlanActivityService.updateActivityState(activityModifyModel.getId(), activityModifyModel.getPlanState(), creatorId,creatorname);
+            if (!isSuccess) {
+                return "fail";
+            }
+
+            if(activityModifyModel.getPlanState() == 1){
+                pushPlanActivityService.modiftyStateBySource(brandIdentity,activityModifyModel.getId(),3);
+            }else if(activityModifyModel.getPlanState() == 2){
+                pushPlanActivityService.modiftyStateBySource(brandIdentity,activityModifyModel.getId(),2);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
         }
+
+
         return redirect("/brand/pushPlanActivity/list");
     }
 
@@ -150,12 +165,88 @@ public class BrandPlanActivityController extends BaseController {
      */
     @RequestMapping("/delelte")
     public String deleteActivity(Model model, ActivityModifyModel activityModifyModel) {
-        Boolean isSuccess = pushPlanActivityService.deleteActivity(activityModifyModel.getId());
-        if (!isSuccess) {
-            return "fail";
+        try {
+            Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
+            Long sourceId = activityModifyModel.getId();
+            Boolean isSuccess = pushPlanActivityService.deleteActivity(activityModifyModel.getId());
+            if (!isSuccess) {
+                return "fail";
+            }
+            pushPlanActivityService.batchBySourceId(brandIdentity,sourceId);
+        }catch (Exception e){
+            e.printStackTrace();
         }
+
         return "success";
     }
+
+    @RequestMapping({"/sendToShop"})
+    @ResponseBody
+    public String sendToShop(Model model, ActivityModifyModel activityModifyModel){
+        try {
+            Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
+            Long sourceId = activityModifyModel.getSourceId();
+            String[] shopList = activityModifyModel.getSelectShopList().split(",");
+
+            PushPlanActivityEntity mainEntity = pushPlanActivityService.findActivityById(sourceId);
+            List<PushPlanActivityEntity> listData = pushPlanActivityService.queryListBySourceId(brandIdentity,sourceId);
+
+            Map<Long,PushPlanActivityEntity> tempMap = new HashMap<>();
+            for(PushPlanActivityEntity entity : listData){
+                tempMap.put(entity.getShopIdentity(),entity);
+            }
+
+            List<PushPlanActivityEntity> listAdd = new ArrayList<>();
+            List<Long> listDelete = new ArrayList<>();
+            String updateData = "";
+
+            for(String shopId : shopList){
+                Long shopIdenty = Long.valueOf(shopId);
+                PushPlanActivityEntity mEntity = tempMap.get(shopIdenty);
+                if(mEntity == null){
+                    PushPlanActivityEntity tempEntity = new PushPlanActivityEntity().cloneEntity(mainEntity,shopIdenty,sourceId);
+                    listAdd.add(tempEntity);
+                }else{
+                    if(updateData.equals("")){
+                        updateData = mEntity.getId().toString();
+                    }else{
+                        updateData = updateData +","+ mEntity.getId();
+                    }
+                    tempMap.remove(shopIdenty);
+                }
+            }
+            for(PushPlanActivityEntity value : tempMap.values()){
+                listDelete.add(value.getId());
+            }
+
+            if(listAdd.size() != 0){
+                pushPlanActivityService.batchAdd(listAdd);
+            }
+            if(listDelete.size() != 0){
+                pushPlanActivityService.deleteBatchIds(listDelete);
+            }
+            if(!updateData.equals("")){
+                mainEntity.setSourceType(3);
+                pushPlanActivityService.batchModiftyBySource(mainEntity,updateData);
+            }
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "success";
+    }
+
+
+    @RequestMapping({"/refreshData"})
+    @ResponseBody
+    public String refreshData(Model model, ActivityModifyModel activityModifyModel){
+
+
+        return "success";
+    }
+
 
 }
 

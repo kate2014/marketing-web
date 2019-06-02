@@ -5,6 +5,8 @@ import com.zhongmei.yunfu.controller.model.ActivitySearchModel;
 import com.zhongmei.yunfu.domain.entity.PushPlanActivityEntity;
 import com.baomidou.mybatisplus.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  * 活动推送活动方案 服务类
@@ -84,4 +86,56 @@ public interface PushPlanActivityService extends IService<PushPlanActivityEntity
      * @return
      */
     Boolean deleteActivity(Long activityId);
+
+    /**
+     * 根据sourceId获取投放门店的活动
+     * @param brandIdenty
+     * @param sourceId
+     * @return
+     * @throws Exception
+     */
+    List<PushPlanActivityEntity> queryListBySourceId(Long brandIdenty,Long sourceId)throws Exception;
+
+    /**
+     * 根据SourceId更新状态
+     * @param brandIdenty
+     * @param sourceId
+     * @return
+     * @throws Exception
+     */
+    boolean modiftyStateBySource(Long brandIdenty,Long sourceId,Integer state)throws Exception;
+
+    /**
+     * 根据sourceId批量更新
+     * @param entity
+     * @param ids
+     * @return
+     * @throws Exception
+     */
+    boolean batchModiftyBySource(PushPlanActivityEntity entity,String ids) throws Exception;
+
+    /**
+     * 批量插入
+     * @param listData
+     * @return
+     * @throws Exception
+     */
+    boolean batchAdd(List<PushPlanActivityEntity> listData) throws Exception;
+
+    /**
+     * 批量删除
+     * @param ids
+     * @return
+     * @throws Exception
+     */
+    boolean batchDelete(List<Long> ids)throws Exception;
+
+    /**
+     * 根据sourceId删除数据
+     * @param brandIdenty
+     * @param sourceId
+     * @return
+     * @throws Exception
+     */
+    boolean batchBySourceId(Long brandIdenty,Long sourceId)throws Exception;
 }

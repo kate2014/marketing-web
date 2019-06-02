@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -129,6 +130,59 @@ public class PushPlanActivityServiceImpl extends ServiceImpl<PushPlanActivityMap
     @Override
     public Boolean deleteActivity(Long activityId) {
         Boolean isSuccess = deleteById(activityId);
+        return isSuccess;
+    }
+
+    @Override
+    public List<PushPlanActivityEntity> queryListBySourceId(Long brandIdenty, Long sourceId) throws Exception {
+        EntityWrapper<PushPlanActivityEntity> eWrapper = new EntityWrapper<>(new PushPlanActivityEntity());
+        eWrapper.setSqlSelect("id, brand_identity,shop_identity,source_type,source_id");
+        eWrapper.eq("brand_identity", brandIdenty);
+        eWrapper.eq("source_id", sourceId);
+        eWrapper.eq("source_type", 3);
+        List<PushPlanActivityEntity> listData = selectList(eWrapper);
+        return listData;
+    }
+
+    @Override
+    public boolean modiftyStateBySource(Long brandIdenty, Long sourceId, Integer state) throws Exception {
+        PushPlanActivityEntity entity = new PushPlanActivityEntity();
+        entity.setPlanState(state);
+        EntityWrapper<PushPlanActivityEntity> eWrapper = new EntityWrapper<>(new PushPlanActivityEntity());
+        eWrapper.eq("brand_identity", brandIdenty);
+        eWrapper.eq("source_id", sourceId);
+        eWrapper.eq("source_type", 3);
+        Boolean isSuccess = update(entity,eWrapper);
+        return isSuccess;
+    }
+
+    @Override
+    public boolean batchModiftyBySource(PushPlanActivityEntity entity, String ids) throws Exception {
+        EntityWrapper<PushPlanActivityEntity> eWrapper = new EntityWrapper<>(new PushPlanActivityEntity());
+        eWrapper.in("id", ids);
+        Boolean isSuccess = update(entity,eWrapper);
+        return isSuccess;
+    }
+
+    @Override
+    public boolean batchAdd(List<PushPlanActivityEntity> listData) throws Exception {
+
+        boolean isSuccess = insertBatch(listData);
+        return isSuccess;
+    }
+
+    @Override
+    public boolean batchDelete(List<Long> ids) throws Exception {
+        Boolean isSuccess = deleteBatchIds(ids);
+        return isSuccess;
+    }
+
+    @Override
+    public boolean batchBySourceId(Long brandIdenty, Long sourceId) throws Exception {
+        EntityWrapper<PushPlanActivityEntity> eWrapper = new EntityWrapper<>(new PushPlanActivityEntity());
+        eWrapper.eq("source_id", sourceId);
+        eWrapper.eq("brand_identy", brandIdenty);
+        Boolean isSuccess = delete(eWrapper);
         return isSuccess;
     }
 

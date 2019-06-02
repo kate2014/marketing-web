@@ -119,6 +119,15 @@
                     <p th:case="'2'">
                         停止
                     </p>
+                    <p th:case="'3'">
+                        品牌下发未接受
+                    </p>
+                    <p th:case="'4'">
+                        品牌下发已接受
+                    </p>
+                    <p th:case="'5'">
+                        数据刷新未接受
+                    </p>
                 </div>
             </td>
             <td th:text="${#dates.format(item.beginTime, 'yyyy-MM-dd HH:mm:ss')}"></td>

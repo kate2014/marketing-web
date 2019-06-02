@@ -64,6 +64,63 @@
 
     }
 
+
+    $(function() {
+        $("div[name='send']").click(function(){
+            var relatedId = $(this).attr("id");
+            $('.zm-dialog').load('[[${basePath}]]/internal/brand/gotToSelectShop?relatedId='+relatedId+'&type=3'); //#container
+        });
+
+        $("div[name='refresh']").click(function(){
+            var relatedId = $(this).attr("id");
+            showLoading('正在刷新投放数据，请稍后...');
+            $.ajax({
+                url: '[[${basePath}]]/internal/brand/pushPlanActivity/refreshData',
+                data: {
+                    sourceId:relatedId
+                },
+                type: "post",
+                dataType: 'json',
+                error:function(xml){
+                    hideLoading();
+                    alert('刷新下发数据失败，请稍后重试！');
+                },
+                success: function (status) {
+                    hideLoading();
+                    alert('刷新下发数据成功！');
+
+                }
+
+            });
+
+        });
+    });
+
+    function selectShopList(ids,sourceId) {
+        showLoading("活动正在投放中，请稍后...");
+        $.ajax({
+            url: '[[${basePath}]]/brand/pushPlanActivity/sendToShop',
+            data: {
+                selectShopList: ids.join(','),
+                sourceId:sourceId
+            },
+            type: "post",
+            dataType: 'json',
+            error:function(xml){
+                hideLoading();
+                alert('投放失败，请稍后重试！');
+
+            },
+            success: function (status) {
+                hideLoading();
+                alert('投放成功！');
+
+            }
+
+        });
+
+    };
+
 </script>
 
 <body>
@@ -107,8 +164,8 @@
             <th>活动结束时间</th>
             <th>浏览次数</th>
             <th>分享次数</th>
-            <th>操作</th>
-            <th style="width: 100px">下发投放</th>
+            <th>数据操作</th>
+            <th>投放操作</th>
         </tr>
         <tr th:each="item:${list}">
             <td th:text="${item.name}"></td>
@@ -126,15 +183,37 @@
             <td th:text="${#dates.format(item.endTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
             <td th:text="${item.scanNumber}"></td>
             <td th:text="${item.shareNumber}"></td>
+
             <td align="center">
-                <a href="activityadd.html" th:href="@{/brand/pushPlanActivity/gotoActivityPage(id=${item.id})}">编辑</a>
-                <a href="activityadd.html" th:href="@{/brand/pushPlanActivity/updateState(id=${item.id}, planState=1)}">投放</a>
-                <a href="activityadd.html" th:href="@{/brand/pushPlanActivity/updateState(id=${item.id}, planState=2)}">停用</a>
-                <a th:onclick="'javascript:checkDelete(\''+${item.id}+'\',\''+${item.name}+'\')'" style="cursor: pointer">删除</a>
+                <div class="parent_h container">
+                    <a href="/" th:href="@{/brand/pushPlanActivity/gotoActivityPage(id=${item.id})}" style="text-decoration: none">编辑</a>
+                    <div th:switch="${item.planState}">
+                        <p th:case="'1'">
+                            <a href="/" th:href="@{/brand/pushPlanActivity/updateState(id=${item.id}, planState=2)}" style="text-decoration: none">&nbsp;&nbsp;停用</a>
+                        </p>
+                        <p th:case="'2'">
+                            <a href="/" th:href="@{/brand/pushPlanActivity/updateState(id=${item.id}, planState=1)}" style="text-decoration: none">&nbsp;&nbsp;投放</a>
+                        </p>
+                    </div>
+                    <a th:onclick="'javascript:checkDelete(\''+${item.id}+'\',\''+${item.name}+'\')'" style="cursor: pointer">&nbsp;&nbsp;删除</a>
+                </div>
+
             </td>
             <td>
-                <img class="icon_size_style" style="cursor: pointer;margin-left: 36px" th:id="${item.id}" th:src="@{/images/send_to.png}" />
-            </td>
+                <div class="parent_h container">
+
+                    <div name="send" th:id="${item.id}" style="cursor: pointer">
+                        <img class="icon_size_style" style="display: inline"  th:src="@{/images/send_to.png}" align="absmiddle"/>
+                        <span>投放</span>
+                    </div>
+
+                    <div name="refresh" th:id="${item.id}" style="cursor: pointer">
+                        <img class="icon_size_style" style="margin-left: 10px; display: inline" th:src="@{/images/refresh_icon.png}" align="absmiddle"/>
+                        <span>刷新投放数据</span>
+                    </div>
+
+                </div>
+
         </tr>
 
     </table>
@@ -146,7 +225,7 @@
 
 </div>
 
-
+<div class='zm-dialog' />
 
 
 </body>
