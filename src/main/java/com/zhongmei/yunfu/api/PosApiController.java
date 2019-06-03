@@ -9,7 +9,7 @@ public abstract class PosApiController {
     @Autowired
     HttpServletRequest request;
 
-    protected void checkHeader(IPosHeader header) throws ApiResponseStatusException {
+    protected void checkHeader(IPosHeader header) throws ApiRespStatusException {
         PosHeader posHeader = new PosHeader();
         posHeader.setMsgId(request.getHeader("yf-api-msgid"));
         posHeader.setDeviceId(request.getHeader("yf-api-device-id"));
@@ -18,7 +18,7 @@ public abstract class PosApiController {
         header.setHeader(posHeader);
 
         if (posHeader.getBrandId() == null || posHeader.getShopId() == null) {
-            throw new ApiResponseStatusException(ApiResponseStatus.FOUND, "yf-api-brand-id or yf-api-shop-id is null");
+            throw new ApiRespStatusException(ApiRespStatus.FOUND, "yf-api-brand-id or yf-api-shop-id is null");
         }
     }
 }

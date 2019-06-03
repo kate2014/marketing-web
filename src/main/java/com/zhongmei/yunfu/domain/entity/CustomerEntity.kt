@@ -124,6 +124,10 @@ open class CustomerEntity : BaseEntity() {
      */
     var storedBalanceUsed: BigDecimal? = null
     /**
+     * 储值赠送总金额
+     */
+    var storedBalanceGive: BigDecimal? = null
+    /**
      * 剩余服务次数
      */
     var cardResidueCount: Int? = null

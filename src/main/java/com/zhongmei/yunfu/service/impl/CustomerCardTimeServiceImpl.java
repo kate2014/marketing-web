@@ -4,8 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
-import com.zhongmei.yunfu.api.ApiResponseStatus;
-import com.zhongmei.yunfu.api.ApiResponseStatusException;
+import com.zhongmei.yunfu.api.ApiRespStatus;
+import com.zhongmei.yunfu.api.ApiRespStatusException;
 import com.zhongmei.yunfu.api.internal.vo.CustomerCardTimeBuyReq;
 import com.zhongmei.yunfu.api.internal.vo.CustomerCardTimeExpenseReq;
 import com.zhongmei.yunfu.api.internal.vo.CustomerCardTimeRefundReq;
@@ -16,7 +16,6 @@ import com.zhongmei.yunfu.domain.enums.StatusFlag;
 import com.zhongmei.yunfu.domain.mapper.CustomerCardTimeMapper;
 import com.zhongmei.yunfu.service.*;
 import com.zhongmei.yunfu.thirdlib.wxapp.WxTemplateMessageHandler;
-import com.zhongmei.yunfu.thirdlib.wxapp.msg.MemberChargeMessage;
 import com.zhongmei.yunfu.thirdlib.wxapp.msg.OrderPayMessage;
 import com.zhongmei.yunfu.util.DateFormatUtil;
 import com.zhongmei.yunfu.util.ToolsUtil;
@@ -56,11 +55,11 @@ public class CustomerCardTimeServiceImpl extends ServiceImpl<CustomerCardTimeMap
         CustomerCardTimeEntity customerCardTimeEntity = selectById(id);
         if (isCheckState) {
             if (customerCardTimeEntity == null) {
-                throw new ApiResponseStatusException(ApiResponseStatus.FOUND);
+                throw new ApiRespStatusException(ApiRespStatus.FOUND);
             }
 
             if (customerCardTimeEntity.getStatusFlag() == StatusFlag.INVALID.value()) {
-                throw new ApiResponseStatusException(ApiResponseStatus.CUSTOMER_CARD_TIME_INVALID);
+                throw new ApiRespStatusException(ApiRespStatus.CUSTOMER_CARD_TIME_INVALID);
             }
         }
 
@@ -182,7 +181,7 @@ public class CustomerCardTimeServiceImpl extends ServiceImpl<CustomerCardTimeMap
                 //判断剩余次数
                 if (cardTimeEntity.getTradeCount() != UNLIMITED_TIMES
                         && dish.getTradeCount() > cardTimeEntity.getTradeCount() - cardTimeEntity.getUsedCount()) {
-                    throw new ApiResponseStatusException(ApiResponseStatus.CUSTOMER_CARD_TIME_INSUFFICIENT);
+                    throw new ApiRespStatusException(ApiRespStatus.CUSTOMER_CARD_TIME_INSUFFICIENT);
                 }
 
                 //判断是否过期
@@ -197,7 +196,7 @@ public class CustomerCardTimeServiceImpl extends ServiceImpl<CustomerCardTimeMap
                     current.set(Calendar.SECOND, 0);
                     current.set(Calendar.MILLISECOND, 0);
                     if (current.after(expireDate)) {
-                        throw new ApiResponseStatusException(ApiResponseStatus.CUSTOMER_CARD_TIME_EXPIRED);
+                        throw new ApiRespStatusException(ApiRespStatus.CUSTOMER_CARD_TIME_EXPIRED);
                     }
                 }
 

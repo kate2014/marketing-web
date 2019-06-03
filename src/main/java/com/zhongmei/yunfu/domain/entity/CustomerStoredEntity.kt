@@ -35,6 +35,10 @@ class CustomerStoredEntity : BaseEntity() {
      */
     var tradeAmount: BigDecimal? = null
     /**
+     * 赠送金额(充值/消费)
+     */
+    var giveAmount: BigDecimal? = null
+    /**
      * 当前剩余余额
      */
     var residueBalance: BigDecimal? = null

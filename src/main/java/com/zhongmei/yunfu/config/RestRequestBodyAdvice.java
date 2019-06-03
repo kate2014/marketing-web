@@ -1,7 +1,7 @@
 package com.zhongmei.yunfu.config;
 
 import com.alibaba.fastjson.JSON;
-import com.zhongmei.yunfu.api.ApiResponseStatusException;
+import com.zhongmei.yunfu.api.ApiRespStatusException;
 import com.zhongmei.yunfu.api.ApiResult;
 import com.zhongmei.yunfu.api.PosHeader;
 import com.zhongmei.yunfu.api.PosReq;
@@ -37,8 +37,8 @@ public class RestRequestBodyAdvice implements RequestBodyAdvice/*, ResponseBodyA
 
         int status = response.getStatus();
         String message = e.getMessage();
-        if (e instanceof ApiResponseStatusException) {
-            ApiResponseStatusException statusException = (ApiResponseStatusException) e;
+        if (e instanceof ApiRespStatusException) {
+            ApiRespStatusException statusException = (ApiRespStatusException) e;
             status = statusException.getStatus().getValue();
             message = statusException.getStatus().getReason();
         }

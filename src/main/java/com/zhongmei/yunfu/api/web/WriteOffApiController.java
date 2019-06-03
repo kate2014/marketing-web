@@ -1,8 +1,8 @@
 package com.zhongmei.yunfu.api.web;
 
 
-import com.zhongmei.yunfu.api.ApiResponseStatus;
-import com.zhongmei.yunfu.api.ApiResponseStatusException;
+import com.zhongmei.yunfu.api.ApiRespStatus;
+import com.zhongmei.yunfu.api.ApiRespStatusException;
 import com.zhongmei.yunfu.api.PosApiController;
 import com.zhongmei.yunfu.api.internal.vo.CustomerCardTimeExpenseReq;
 import com.zhongmei.yunfu.api.internal.vo.CustomerCardTimeRefundReq;
@@ -400,7 +400,7 @@ public class WriteOffApiController extends PosApiController {
         try {
             mCustomerIntegralService.checkIntegral(mTradeCustomerEntity.getCustomerId(),mTradePrivilege.getPrivilegeValue().longValue());
 
-        }catch (ApiResponseStatusException e){
+        }catch (ApiRespStatusException e){
             e.printStackTrace();
             return 1002;
 
@@ -419,11 +419,11 @@ public class WriteOffApiController extends PosApiController {
             if(mCustomerCardTimeEntity.getResidueCount() < 1 && mCustomerCardTimeEntity.getResidueCount() != -1){
                 return 1004;
             }
-        }catch (ApiResponseStatusException e){
+        }catch (ApiRespStatusException e){
             e.printStackTrace();
-            if(e.getStatus() == ApiResponseStatus.FOUND){
+            if(e.getStatus() == ApiRespStatus.FOUND){
                 return 1002;
-            }else if(e.getStatus() == ApiResponseStatus.CUSTOMER_CARD_TIME_INVALID){
+            }else if(e.getStatus() == ApiRespStatus.CUSTOMER_CARD_TIME_INVALID){
                 return 1003;
             }
         } catch (Exception e) {
@@ -502,7 +502,7 @@ public class WriteOffApiController extends PosApiController {
             mCustomerIntegralService.expend(req);
 
             return 1000;
-        }catch (ApiResponseStatusException e){
+        }catch (ApiRespStatusException e){
             e.printStackTrace();
             return 1002;
         }catch (Exception e){
@@ -539,7 +539,7 @@ public class WriteOffApiController extends PosApiController {
             mCustomerCardTimeService.expense(req);
             return 1000;
 
-        }catch (ApiResponseStatusException e){
+        }catch (ApiRespStatusException e){
             e.getStatus().getReason();
             return 1001;
         }catch (Exception e){

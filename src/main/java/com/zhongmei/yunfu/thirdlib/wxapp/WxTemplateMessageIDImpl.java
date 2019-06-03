@@ -1,7 +1,7 @@
 package com.zhongmei.yunfu.thirdlib.wxapp;
 
-import com.zhongmei.yunfu.api.ApiResponseStatus;
-import com.zhongmei.yunfu.api.ApiResponseStatusException;
+import com.zhongmei.yunfu.api.ApiRespStatus;
+import com.zhongmei.yunfu.api.ApiRespStatusException;
 import com.zhongmei.yunfu.controller.api.model.WxAccessToken;
 import com.zhongmei.yunfu.controller.api.model.WxTemplateAddResp;
 import com.zhongmei.yunfu.controller.api.model.WxTemplateListResp;
@@ -26,7 +26,7 @@ public class WxTemplateMessageIDImpl extends WxTemplateMessageID {
         if (templateId == null) {
             WxAccessToken wxAccessToken = getWxAccessToken(APPID, APPSECRET);
             if (!wxAccessToken.isOk()) {
-                throw new ApiResponseStatusException(ApiResponseStatus.FOUND, wxAccessToken.errmsg);
+                throw new ApiRespStatusException(ApiRespStatus.FOUND, wxAccessToken.errmsg);
             }
 
             WxTemplateObjectResp wxTemplateObjectResp = getTemplateLibraryById(wxAccessToken.access_token, templateCode);
@@ -36,13 +36,13 @@ public class WxTemplateMessageIDImpl extends WxTemplateMessageID {
         return templateId;
     }
 
-    private WxAccessToken getWxAccessToken(String appID, String appSecret) throws ApiResponseStatusException {
+    private WxAccessToken getWxAccessToken(String appID, String appSecret) throws ApiRespStatusException {
         String accessTokenUrl = String.format("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s", appID, appSecret);
         WxAccessToken wxAccessToken = restTemplate.getForObject(accessTokenUrl, WxAccessToken.class);
         return wxAccessToken;
     }
 
-    private String checkWxTemplateMsgExist(String accessToken, String templateTitle) throws ApiResponseStatusException {
+    private String checkWxTemplateMsgExist(String accessToken, String templateTitle) throws ApiRespStatusException {
         String wxSendMessageUrl = "https://api.weixin.qq.com/cgi-bin/wxopen/template/list?access_token=" + accessToken;
         Map<String, Integer> params = new HashMap<>();
         params.put("offset", 0);
@@ -57,10 +57,10 @@ public class WxTemplateMessageIDImpl extends WxTemplateMessageID {
             return null;
         }
 
-        throw new ApiResponseStatusException(ApiResponseStatus.FOUND, wxTemplateListResp.errmsg);
+        throw new ApiRespStatusException(ApiRespStatus.FOUND, wxTemplateListResp.errmsg);
     }
 
-    private WxTemplateObjectResp getTemplateLibraryById(String accessToken, String templateCode) throws ApiResponseStatusException {
+    private WxTemplateObjectResp getTemplateLibraryById(String accessToken, String templateCode) throws ApiRespStatusException {
         String wxSendMessageUrl = "https://api.weixin.qq.com/cgi-bin/wxopen/template/library/get?access_token=" + accessToken;
         Map<String, String> params = new HashMap<>();
         params.put("id", templateCode); //"AT0002"
@@ -69,10 +69,10 @@ public class WxTemplateMessageIDImpl extends WxTemplateMessageID {
             return wxTemplateListResp;
         }
 
-        throw new ApiResponseStatusException(ApiResponseStatus.FOUND, wxTemplateListResp.errmsg);
+        throw new ApiRespStatusException(ApiRespStatus.FOUND, wxTemplateListResp.errmsg);
     }
 
-    private String addTemplate(String accessToken, String templateCode, List<Integer> keywordIds) throws ApiResponseStatusException {
+    private String addTemplate(String accessToken, String templateCode, List<Integer> keywordIds) throws ApiRespStatusException {
         String wxSendMessageUrl = "https://api.weixin.qq.com/cgi-bin/wxopen/template/add?access_token=" + accessToken;
         Map<String, Object> params = new HashMap<>();
         params.put("id", templateCode); //"AT0002"
@@ -82,6 +82,6 @@ public class WxTemplateMessageIDImpl extends WxTemplateMessageID {
             return wxTemplateAddResp.template_id;
         }
 
-        throw new ApiResponseStatusException(ApiResponseStatus.FOUND, wxTemplateAddResp.errmsg);
+        throw new ApiRespStatusException(ApiRespStatus.FOUND, wxTemplateAddResp.errmsg);
     }
 }

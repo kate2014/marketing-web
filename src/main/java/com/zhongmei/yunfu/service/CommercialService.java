@@ -2,7 +2,7 @@ package com.zhongmei.yunfu.service;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.IService;
-import com.zhongmei.yunfu.api.ApiResponseStatusException;
+import com.zhongmei.yunfu.api.ApiRespStatusException;
 import com.zhongmei.yunfu.controller.model.ShopSearchModel;
 import com.zhongmei.yunfu.erp.model.ERPCommercialModel;
 import com.zhongmei.yunfu.domain.entity.CommercialEntity;
@@ -24,7 +24,7 @@ public interface CommercialService extends IService<CommercialEntity> {
      *
      * @param device
      */
-    CommercialEntity selectByDevice(String device, boolean isCheckState) throws ApiResponseStatusException;
+    CommercialEntity selectByDevice(String device, boolean isCheckState) throws ApiRespStatusException;
 
     /**
      * 根据品牌id获取所以门店信息

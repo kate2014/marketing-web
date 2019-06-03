@@ -2,8 +2,8 @@ package com.zhongmei.yunfu.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
-import com.zhongmei.yunfu.api.ApiResponseStatus;
-import com.zhongmei.yunfu.api.ApiResponseStatusException;
+import com.zhongmei.yunfu.api.ApiRespStatus;
+import com.zhongmei.yunfu.api.ApiRespStatusException;
 import com.zhongmei.yunfu.api.pos.vo.CustomerIntegralTradeReq;
 import com.zhongmei.yunfu.domain.entity.CustomerEntity;
 import com.zhongmei.yunfu.domain.entity.CustomerIntegralEntity;
@@ -45,7 +45,7 @@ public class CustomerIntegralServiceImpl extends ServiceImpl<CustomerIntegralMap
     public void checkIntegral(Long customerId, Long integral) throws Exception {
         CustomerEntity customerEntity = customerService.getCustomerEntity(customerId, true);
         if (integral > customerEntity.getIntegralTotal() - customerEntity.getIntegralUsed()) {
-            throw new ApiResponseStatusException(ApiResponseStatus.CUSTOMER_INTEGRAL_INSUFFICIENT);
+            throw new ApiRespStatusException(ApiRespStatus.CUSTOMER_INTEGRAL_INSUFFICIENT);
         }
     }
 
@@ -85,7 +85,7 @@ public class CustomerIntegralServiceImpl extends ServiceImpl<CustomerIntegralMap
     public void expend(CustomerIntegralTradeReq req) throws Exception {
         CustomerEntity customerEntity = customerService.getCustomerEntity(req.getCustomerId(), true);
         if (req.getTradeIntegral() > customerEntity.getIntegralTotal() - customerEntity.getIntegralUsed()) {
-            throw new ApiResponseStatusException(ApiResponseStatus.CUSTOMER_INTEGRAL_INSUFFICIENT);
+            throw new ApiRespStatusException(ApiRespStatus.CUSTOMER_INTEGRAL_INSUFFICIENT);
         }
 
         int currentIntegral = customerEntity.getIntegralTotal();
