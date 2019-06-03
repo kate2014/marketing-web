@@ -38,7 +38,7 @@ class ApiResult(status: Int, message: String? = null) {
         }
 
         @JvmStatic
-        fun newResult(status: ApiResponseStatus): ApiResult {
+        fun newResult(status: ApiRespStatus): ApiResult {
             return ApiResult(status.value, status.reason)
         }
 

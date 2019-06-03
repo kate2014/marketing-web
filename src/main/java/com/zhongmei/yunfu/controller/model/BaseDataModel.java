@@ -1,6 +1,6 @@
 package com.zhongmei.yunfu.controller.model;
 
-import com.zhongmei.yunfu.api.ApiResponseStatus;
+import com.zhongmei.yunfu.api.ApiRespStatus;
 
 public class BaseDataModel {
 
@@ -36,8 +36,8 @@ public class BaseDataModel {
 
     public static BaseDataModel newSuccess(Object content) {
         BaseDataModel baseDataModel = new BaseDataModel();
-        baseDataModel.setState(ApiResponseStatus.SUCCESS.getValue() + "");
-        baseDataModel.setMsg(ApiResponseStatus.SUCCESS.getReason());
+        baseDataModel.setState(ApiRespStatus.SUCCESS.getValue() + "");
+        baseDataModel.setMsg(ApiRespStatus.SUCCESS.getReason());
         baseDataModel.setData(content);
         return baseDataModel;
     }

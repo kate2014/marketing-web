@@ -1,6 +1,6 @@
 package com.zhongmei.yunfu.api;
 
-public enum ApiResponseStatus {
+public enum ApiRespStatus {
 
     SUCCESS(1000, "执行成功"),
     FOUND(302, "Found"),
@@ -18,6 +18,8 @@ public enum ApiResponseStatus {
     CUSTOMER_CARD_TIME_EXPIRED(2017, "次卡已过期"),
     CUSTOMER_ENTITY_CARD_BINDED(2017, "此卡号已经绑定过"),
 
+    CUSTOMER_STORED_BALANCE_RECHARGE_GIVE_ERR(2017, "充值赠送的金额不匹配"),
+
     SHOP_FOUND(2106, "门店不存在"),
     SHOP_INVALID(2017, "门店无效"),
     SHOP_DISABLED(2017, "门店不可用"),
@@ -27,7 +29,7 @@ public enum ApiResponseStatus {
     private final int value;
     private final String reason;
 
-    ApiResponseStatus(int value, String reason) {
+    ApiRespStatus(int value, String reason) {
         this.value = value;
         this.reason = reason;
     }

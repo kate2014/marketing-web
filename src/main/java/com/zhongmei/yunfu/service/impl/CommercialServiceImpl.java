@@ -3,8 +3,8 @@ package com.zhongmei.yunfu.service.impl;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
-import com.zhongmei.yunfu.api.ApiResponseStatus;
-import com.zhongmei.yunfu.api.ApiResponseStatusException;
+import com.zhongmei.yunfu.api.ApiRespStatus;
+import com.zhongmei.yunfu.api.ApiRespStatusException;
 import com.zhongmei.yunfu.controller.model.ShopSearchModel;
 import com.zhongmei.yunfu.erp.model.ERPCommercialModel;
 import com.zhongmei.yunfu.domain.entity.CommercialEntity;
@@ -27,19 +27,19 @@ import java.util.List;
 public class CommercialServiceImpl extends ServiceImpl<CommercialMapper, CommercialEntity> implements CommercialService {
 
     @Override
-    public CommercialEntity selectByDevice(String device, boolean isCheckState) throws ApiResponseStatusException {
+    public CommercialEntity selectByDevice(String device, boolean isCheckState) throws ApiRespStatusException {
         CommercialEntity commercialEntity = baseMapper.selectByDevice(device);
         if (isCheckState) {
             if (commercialEntity == null) {
-                throw new ApiResponseStatusException(ApiResponseStatus.SHOP_FOUND);
+                throw new ApiRespStatusException(ApiRespStatus.SHOP_FOUND);
             }
 
             if (commercialEntity.getStatusFlag() == StatusFlag.INVALID.value()) {
-                throw new ApiResponseStatusException(ApiResponseStatus.SHOP_INVALID);
+                throw new ApiRespStatusException(ApiRespStatus.SHOP_INVALID);
             }
 
             if (commercialEntity.getStatus() == -1) {
-                throw new ApiResponseStatusException(ApiResponseStatus.SHOP_DISABLED);
+                throw new ApiRespStatusException(ApiRespStatus.SHOP_DISABLED);
             }
         }
         return commercialEntity;

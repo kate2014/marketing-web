@@ -12,15 +12,12 @@ import com.zhongmei.yunfu.service.CustomerStoredService;
 import com.zhongmei.yunfu.service.TradeService;
 import com.zhongmei.yunfu.thirdlib.wxapp.WxTemplateMessageHandler;
 import com.zhongmei.yunfu.thirdlib.wxapp.msg.MemberChargeMessage;
-import com.zhongmei.yunfu.thirdlib.wxapp.msg.OrderPayMessage;
-import com.zhongmei.yunfu.thirdlib.wxapp.msg.WxTempMsg;
 import com.zhongmei.yunfu.util.DateFormatUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 /**
  * <p>
@@ -99,7 +96,7 @@ public class CustomerStoredServiceImpl extends ServiceImpl<CustomerStoredMapper,
     private void tradeStored(CustomerStoredEntity.RecordType recordType, CustomerStoredEntity customerStored) {
         BigDecimal residueBalance = getResidueBalanceByLastId(customerStored);
         customerStored.setRecordType(recordType.getValue());
-        BigDecimal countResidueBalance = countResidueBalance(recordType, residueBalance, customerStored.getTradeAmount());
+        BigDecimal countResidueBalance = countResidueBalance(recordType, residueBalance, customerStored.getTradeAmount(), customerStored.getGiveAmount());
         customerStored.setResidueBalance(countResidueBalance);
         insert(customerStored);
     }
@@ -115,15 +112,20 @@ public class CustomerStoredServiceImpl extends ServiceImpl<CustomerStoredMapper,
      * @param recordType
      * @param residueBalance
      * @param tradeAmount
+     * @param giveAmount
      * @return
      */
-    private BigDecimal countResidueBalance(CustomerStoredEntity.RecordType recordType, BigDecimal residueBalance, BigDecimal tradeAmount) {
+    private BigDecimal countResidueBalance(CustomerStoredEntity.RecordType recordType,
+                                           BigDecimal residueBalance,
+                                           BigDecimal tradeAmount,
+                                           BigDecimal giveAmount) {
+        giveAmount = giveAmount != null ? giveAmount : BigDecimal.ZERO;
         switch (recordType) {
             case RECHARGE:
             case REFUND:
-                return residueBalance.add(tradeAmount);
+                return residueBalance.add(tradeAmount).add(giveAmount);
             case EXPENSE:
-                return residueBalance.subtract(tradeAmount);
+                return residueBalance.subtract(tradeAmount).subtract(giveAmount);
             default:
                 return null;
         }

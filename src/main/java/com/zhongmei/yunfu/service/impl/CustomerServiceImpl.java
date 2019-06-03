@@ -6,8 +6,8 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.SqlHelper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
-import com.zhongmei.yunfu.api.ApiResponseStatus;
-import com.zhongmei.yunfu.api.ApiResponseStatusException;
+import com.zhongmei.yunfu.api.ApiRespStatus;
+import com.zhongmei.yunfu.api.ApiRespStatusException;
 import com.zhongmei.yunfu.api.pos.vo.CustomerECardSaveReq;
 import com.zhongmei.yunfu.api.pos.vo.CustomerLoginReq;
 import com.zhongmei.yunfu.api.pos.vo.CustomerSearchReq;
@@ -16,7 +16,6 @@ import com.zhongmei.yunfu.controller.model.CustomerModel;
 import com.zhongmei.yunfu.controller.model.CustomerSearchModel;
 import com.zhongmei.yunfu.core.mybatis.mapper.ConditionFilter;
 import com.zhongmei.yunfu.core.mybatis.mapper.EntityWrapperFilter;
-import com.zhongmei.yunfu.domain.bean.CustomerInfo;
 import com.zhongmei.yunfu.domain.entity.CustomerEntity;
 import com.zhongmei.yunfu.domain.entity.CustomerEntityCardEntity;
 import com.zhongmei.yunfu.domain.entity.CustomerReport;
@@ -32,7 +31,6 @@ import com.zhongmei.yunfu.util.DateFormatUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -73,7 +71,7 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
     public CustomerEntityCardEntity saveEntityCard(CustomerECardSaveReq req) throws Exception {
         CustomerEntityCardEntity byCardNo = customerEntityCardMapper.getByCardNo(req.getHeader().getShopId(), req.getCardNo());
         if (byCardNo != null) {
-            throw new ApiResponseStatusException(ApiResponseStatus.CUSTOMER_ENTITY_CARD_BINDED);
+            throw new ApiRespStatusException(ApiRespStatus.CUSTOMER_ENTITY_CARD_BINDED);
         }
 
         CustomerEntityCardEntity customerEntityCardEntity = new CustomerEntityCardEntity();
@@ -107,13 +105,13 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
     @Override
     public void checkState(CustomerEntity customerEntity) throws Exception {
         if (customerEntity == null) {
-            throw new ApiResponseStatusException(ApiResponseStatus.CUSTOMER_FOUND);
+            throw new ApiRespStatusException(ApiRespStatus.CUSTOMER_FOUND);
         }
         if (customerEntity.getStatusFlag() == StatusFlag.INVALID.value()) {
-            throw new ApiResponseStatusException(ApiResponseStatus.CUSTOMER_INVALID);
+            throw new ApiRespStatusException(ApiRespStatus.CUSTOMER_INVALID);
         }
         if (customerEntity.getEnabledFlag() == EnabledFlag.DISABLED.value()) {
-            throw new ApiResponseStatusException(ApiResponseStatus.CUSTOMER_DISABLED);
+            throw new ApiRespStatusException(ApiRespStatus.CUSTOMER_DISABLED);
         }
     }
 
@@ -365,7 +363,7 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
         }
 
         if (isNeedPwd && !password.equals(customerEntity.getPassword())) {
-            throw new ApiResponseStatusException(ApiResponseStatus.CUSTOMER_ERROR_PASSWORD);
+            throw new ApiRespStatusException(ApiRespStatus.CUSTOMER_ERROR_PASSWORD);
         }
 
         return customerEntity;

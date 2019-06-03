@@ -2,8 +2,7 @@ package com.zhongmei.yunfu.controller;
 
 
 import com.baomidou.mybatisplus.plugins.Page;
-import com.zhongmei.yunfu.api.ApiResponseStatus;
-import com.zhongmei.yunfu.api.ApiResponseStatusException;
+import com.zhongmei.yunfu.api.ApiRespStatus;
 import com.zhongmei.yunfu.controller.model.CustomerEditModel;
 import com.zhongmei.yunfu.controller.model.CustomerSearchModel;
 import com.zhongmei.yunfu.controller.model.excel.ExcelData;
@@ -217,7 +216,7 @@ public class CustomerController extends BaseController {
             if (StringUtils.isNotBlank(editModel.getMobile())) {
                 //判断在数据库里是否存在
                 if (customerService.existsMobile(loginUser.getShopIdenty(), editModel.getMobile(), editModel.getId())) {
-                    model.addAttribute("errorMsg", ApiResponseStatus.CUSTOMER_MOBILE_INVALID.getReason());
+                    model.addAttribute("errorMsg", ApiRespStatus.CUSTOMER_MOBILE_INVALID.getReason());
                     return edit(model, editModel.getId(), editModel);
                 }
             }
@@ -225,7 +224,7 @@ public class CustomerController extends BaseController {
             if (StringUtils.isNotBlank(editModel.getMobile())) {
                 //判断在数据库里是否存在
                 if (customerService.existsMobile(loginUser.getShopIdenty(), editModel.getMobile(), editModel.getId())) {
-                    model.addAttribute("errorMsg", ApiResponseStatus.CUSTOMER_MOBILE_INVALID.getReason());
+                    model.addAttribute("errorMsg", ApiRespStatus.CUSTOMER_MOBILE_INVALID.getReason());
                     return edit(model, editModel.getId(), editModel);
                 }
             }

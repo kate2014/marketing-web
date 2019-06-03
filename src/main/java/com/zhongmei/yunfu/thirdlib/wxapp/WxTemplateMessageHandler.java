@@ -1,8 +1,8 @@
 package com.zhongmei.yunfu.thirdlib.wxapp;
 
 import com.alibaba.fastjson.JSON;
-import com.zhongmei.yunfu.api.ApiResponseStatus;
-import com.zhongmei.yunfu.api.ApiResponseStatusException;
+import com.zhongmei.yunfu.api.ApiRespStatus;
+import com.zhongmei.yunfu.api.ApiRespStatusException;
 import com.zhongmei.yunfu.controller.api.model.WxAccessToken;
 import com.zhongmei.yunfu.controller.api.model.WxTemplateSendMsgReq;
 import com.zhongmei.yunfu.controller.api.model.WxTemplateSendMsgResp;
@@ -95,7 +95,7 @@ public abstract class WxTemplateMessageHandler<T extends WxTempMsg> {
 
     protected abstract List<String> getTemplateCode();
 
-    private WxAccessToken getWxAccessToken(String appID, String appSecret) throws ApiResponseStatusException {
+    private WxAccessToken getWxAccessToken(String appID, String appSecret) throws ApiRespStatusException {
         String accessTokenUrl = String.format("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s", appID, appSecret);
         WxAccessToken wxAccessToken = restTemplate.getForObject(accessTokenUrl, WxAccessToken.class);
         return wxAccessToken;
@@ -113,7 +113,7 @@ public abstract class WxTemplateMessageHandler<T extends WxTempMsg> {
             checkWxTempMsg(wxTempMsg);
             WxFormEntity wxFormEntity = mWxFormService.queryFormUnusedByOpenId(wxTempMsg.getShopIdenty(), wxTempMsg.getBrandIdenty(), wxTempMsg.getCustomerId());
             if (wxFormEntity == null) {
-                throw new ApiResponseStatusException(ApiResponseStatus.FOUND, "wxFormEntity is null");
+                throw new ApiRespStatusException(ApiRespStatus.FOUND, "wxFormEntity is null");
             }
 
             CommercialPaySettingEntity paySettingEntity = new CommercialPaySettingEntity();
@@ -124,7 +124,7 @@ public abstract class WxTemplateMessageHandler<T extends WxTempMsg> {
             CommercialPaySettingEntity commercialPaySettingEntity = commercialPaySettingService.queryData(paySettingEntity);
             WxAccessToken wxAccessToken = getWxAccessToken(commercialPaySettingEntity.getAppid(), commercialPaySettingEntity.getAppsecret());
             if (!wxAccessToken.isOk()) {
-                throw new ApiResponseStatusException(ApiResponseStatus.FOUND, wxAccessToken.errmsg);
+                throw new ApiRespStatusException(ApiRespStatus.FOUND, wxAccessToken.errmsg);
             }
 
             sendInternal(wxFormEntity, wxAccessToken, wxTempMsg);
@@ -139,16 +139,16 @@ public abstract class WxTemplateMessageHandler<T extends WxTempMsg> {
 
     private void checkWxTempMsg(T wxTempMsg) throws Exception {
         if (wxTempMsg.getMsgType() == null) {
-            throw new ApiResponseStatusException(ApiResponseStatus.FOUND, "wxTempMsg msgType is null");
+            throw new ApiRespStatusException(ApiRespStatus.FOUND, "wxTempMsg msgType is null");
         }
         if (wxTempMsg.getCustomerId() == null) {
-            throw new ApiResponseStatusException(ApiResponseStatus.FOUND, "wxTempMsg customerId is null");
+            throw new ApiRespStatusException(ApiRespStatus.FOUND, "wxTempMsg customerId is null");
         }
         if (wxTempMsg.getBrandIdenty() == null) {
-            throw new ApiResponseStatusException(ApiResponseStatus.FOUND, "wxTempMsg brandIdenty is null");
+            throw new ApiRespStatusException(ApiRespStatus.FOUND, "wxTempMsg brandIdenty is null");
         }
         if (wxTempMsg.getShopIdenty() == null) {
-            throw new ApiResponseStatusException(ApiResponseStatus.FOUND, "wxTempMsg shopIdent is null");
+            throw new ApiRespStatusException(ApiRespStatus.FOUND, "wxTempMsg shopIdent is null");
         }
     }
 
@@ -162,7 +162,7 @@ public abstract class WxTemplateMessageHandler<T extends WxTempMsg> {
         if (!wxTemplateSendMsgResp.isOk()) {
             wxFormEntity.setStatus(3); //更新为已使用
             mWxFormService.updateById(wxFormEntity);
-            throw new ApiResponseStatusException(ApiResponseStatus.FOUND, wxTemplateSendMsgResp.errmsg);
+            throw new ApiRespStatusException(ApiRespStatus.FOUND, wxTemplateSendMsgResp.errmsg);
         }
     }
 

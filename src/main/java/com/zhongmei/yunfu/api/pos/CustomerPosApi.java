@@ -2,13 +2,12 @@ package com.zhongmei.yunfu.api.pos;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
-import com.zhongmei.yunfu.api.ApiResponseStatus;
-import com.zhongmei.yunfu.api.ApiResponseStatusException;
+import com.zhongmei.yunfu.api.ApiRespStatus;
+import com.zhongmei.yunfu.api.ApiRespStatusException;
 import com.zhongmei.yunfu.api.ApiResult;
 import com.zhongmei.yunfu.api.PosApiController;
 import com.zhongmei.yunfu.api.pos.vo.*;
 import com.zhongmei.yunfu.core.security.Password;
-import com.zhongmei.yunfu.domain.bean.CustomerInfo;
 import com.zhongmei.yunfu.domain.entity.*;
 import com.zhongmei.yunfu.domain.enums.*;
 import com.zhongmei.yunfu.service.*;
@@ -38,7 +37,7 @@ public class CustomerPosApi extends PosApiController {
     CustomerEntityCardService customerEntityCardService;
 
     @RequestMapping
-    public ApiResult list(@RequestBody CustomerSearchReq search) throws ApiResponseStatusException {
+    public ApiResult list(@RequestBody CustomerSearchReq search) throws ApiRespStatusException {
         Page<CustomerEntity> listPage = customerService.findListPage(search);
         List<CustomerListResp> result = new ArrayList<>();
         for (CustomerEntity customerEntity : listPage.getRecords()) {
@@ -59,7 +58,7 @@ public class CustomerPosApi extends PosApiController {
     }
 
     @RequestMapping("/info")
-    public ApiResult info(@RequestBody CustomerInfoReq req) throws ApiResponseStatusException {
+    public ApiResult info(@RequestBody CustomerInfoReq req) throws ApiRespStatusException {
         CustomerEntity customer = customerService.selectById(req.getCustomerId());
         CustomerInfoResp customerResp = new CustomerInfoResp();
         customerResp.customerId = customer.getId();
@@ -111,7 +110,7 @@ public class CustomerPosApi extends PosApiController {
             if (StringUtils.isNotBlank(req.getMobile())) {
                 //判断在数据库里是否存在
                 if (customerService.existsMobile(req.getHeader().getShopId(), req.getMobile(), req.getCustomerId())) {
-                    throw new ApiResponseStatusException(ApiResponseStatus.CUSTOMER_MOBILE_INVALID);
+                    throw new ApiRespStatusException(ApiRespStatus.CUSTOMER_MOBILE_INVALID);
                 }
             }
 
@@ -137,7 +136,7 @@ public class CustomerPosApi extends PosApiController {
                 if (StringUtils.isNotBlank(req.getMobile())) {
                     //判断在数据库里是否存在
                     if (customerService.existsMobile(req.getHeader().getShopId(), req.getMobile(), req.getCustomerId())) {
-                        throw new ApiResponseStatusException(ApiResponseStatus.CUSTOMER_MOBILE_INVALID);
+                        throw new ApiRespStatusException(ApiRespStatus.CUSTOMER_MOBILE_INVALID);
                     }
                 }
             }
