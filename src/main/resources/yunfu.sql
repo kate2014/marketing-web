@@ -1997,4 +1997,21 @@ CREATE TABLE `wx_trade_customer` (
   KEY `idx_shop_identy_status_flag_account` (`shop_identy`,`status_flag`)
 ) ENGINE=InnoDB AUTO_INCREMENT=370 DEFAULT CHARSET=utf8 COMMENT='微信小程序购买使用记录';
 
+DROP TABLE IF EXISTS  `customer_save_rule`;
+CREATE TABLE `customer_save_rule` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `stored_value` decimal(10,2) NOT NULL COMMENT '储值金额',
+  `give_value` decimal(10,2) NOT NULL COMMENT '赠送金额',
+  `server_create_time` timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '服务器创建时间',
+  `server_update_time` timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '服务器更新时间',
+  `shop_identy` bigint(20) NOT NULL COMMENT '商户id',
+  `brand_identy` bigint(20) NOT NULL COMMENT '品牌id',
+  `status_flag` tinyint(2) DEFAULT '1' COMMENT '1 有效，2 无效',
+  `creator_id` bigint(20) DEFAULT NULL,
+  `creator_name` varchar(255) DEFAULT NULL,
+  `updator_id` bigint(20) DEFAULT NULL,
+  `updator_name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=293 DEFAULT CHARSET=utf8 COMMENT='会员储值规则表';
+
 
