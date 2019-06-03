@@ -104,33 +104,6 @@ public class CustomerLevelRuleController  extends BaseController{
         return "customer_level_setting";
     }
 
-    @RequestMapping("/customerSetting/customerScore")
-    public String customerScoreSetting(Model model, CustomerLevelRuleModel mCustomerLevelRuleModel){
-
-
-        Map<String, Object> map = new HashMap<>();
-        map.put("brandIdenty", mCustomerLevelRuleModel.getBrandIdenty());
-        map.put("shopIdenty", mCustomerLevelRuleModel.getShopIdenty());
-        List<CustomerScoreRuleEntity> listSR = mCustomerScoreRuleService.findScoreRule(map);
-        CustomerScoreRuleModel cusRM = new CustomerScoreRuleModel();
-        for (CustomerScoreRuleEntity cs : listSR) {
-            if (cs.getType() == 1) {
-                cusRM.setIdS(cs.getId());
-                cusRM.setConvertValueS(cs.getConvertValue());
-            } else if (cs.getType() == 2) {
-                cusRM.setIdD(cs.getId());
-                cusRM.setConvertValueD(cs.getConvertValue());
-            } else if (cs.getType() == 3) {
-                cusRM.setIdM(cs.getId());
-                cusRM.setConvertValueM(cs.getConvertValue());
-            }
-        }
-
-        model.addAttribute("cusRM", cusRM);
-        model.addAttribute("customerScore", mCustomerLevelRuleModel);
-        return "customer_score_setting";
-    }
-
     @RequestMapping("/customerSetting/searchGroup")
     public String customerGroupSetting(Model model, CustomerLevelRuleModel mCustomerLevelRuleModel){
         //查询会员查询规则
