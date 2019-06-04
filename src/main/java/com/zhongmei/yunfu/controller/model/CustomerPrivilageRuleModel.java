@@ -1,28 +1,9 @@
-package com.zhongmei.yunfu.domain.entity;
+package com.zhongmei.yunfu.controller.model;
 
-import com.baomidou.mybatisplus.enums.IdType;
 import java.math.BigDecimal;
-import com.baomidou.mybatisplus.annotations.TableId;
-import com.baomidou.mybatisplus.annotations.TableName;
-import com.zhongmei.yunfu.domain.entity.base.BaseEntity;
 
-/**
- * <p>
- * 会员权益设置表
- * </p>
- *
- * @author pigeon88
- * @since 2019-06-04
- */
-@TableName("customer_privilage_rule")
-public class CustomerPrivilageRuleEntity extends BaseEntity {
+public class CustomerPrivilageRuleModel {
 
-    private static final long serialVersionUID = 1L;
-
-    /**
-     * 自增id
-     */
-    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
     /**
      * 会员等级
@@ -32,10 +13,6 @@ public class CustomerPrivilageRuleEntity extends BaseEntity {
      * 权益类型： 1：会员等级折扣，2：会员等级让价，3：储值支付折扣，4：储值支付让价
      */
     private Integer privilageType;
-    /**
-     * 储值金额，用于记录储值满多少给予对应的优惠
-     */
-    private BigDecimal saveAmount;
     /**
      * 权益额度值
      */
@@ -56,7 +33,18 @@ public class CustomerPrivilageRuleEntity extends BaseEntity {
      * 品牌id
      */
     private Long brandIdenty;
-
+    /**
+     * 创建者id
+     */
+    private Long creatorId;
+    /**
+     * 创建者名称
+     */
+    private String creatorName;
+    /**
+     * 更新者id
+     */
+    private Long updatorId;
 
     public Long getId() {
         return id;
@@ -122,26 +110,40 @@ public class CustomerPrivilageRuleEntity extends BaseEntity {
         this.brandIdenty = brandIdenty;
     }
 
-    public BigDecimal getSaveAmount() {
-        return saveAmount;
+    public Long getCreatorId() {
+        return creatorId;
     }
 
-    public void setSaveAmount(BigDecimal saveAmount) {
-        this.saveAmount = saveAmount;
+    public void setCreatorId(Long creatorId) {
+        this.creatorId = creatorId;
     }
 
-    @Override
-    public String toString() {
-        return "CustomerPrivilageRuleEntity{" +
-        ", id=" + id +
-        ", customerLevel=" + customerLevel +
-        ", privilageType=" + privilageType +
-        ", saveAmount=" + saveAmount +
-        ", privilageValue=" + privilageValue +
-        ", fullAmount=" + fullAmount +
-        ", isNeedSavePayment=" + isNeedSavePayment +
-        ", shopIdenty=" + shopIdenty +
-        ", brandIdenty=" + brandIdenty +
-        "}";
+    public String getCreatorName() {
+        return creatorName;
     }
+
+    public void setCreatorName(String creatorName) {
+        this.creatorName = creatorName;
+    }
+
+    public Long getUpdatorId() {
+        return updatorId;
+    }
+
+    public void setUpdatorId(Long updatorId) {
+        this.updatorId = updatorId;
+    }
+
+    public String getUpdatorName() {
+        return updatorName;
+    }
+
+    public void setUpdatorName(String updatorName) {
+        this.updatorName = updatorName;
+    }
+
+    /**
+     * 最后修改者姓名
+     */
+    private String updatorName;
 }
