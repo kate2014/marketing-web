@@ -1,10 +1,14 @@
 package com.zhongmei.yunfu.service.impl;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.zhongmei.yunfu.domain.entity.CustomerSaveRuleEntity;
+import com.zhongmei.yunfu.domain.entity.CutDownHistoryEntity;
 import com.zhongmei.yunfu.domain.mapper.CustomerSaveRuleMapper;
 import com.zhongmei.yunfu.service.CustomerSaveRuleService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -17,4 +21,29 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomerSaveRuleServiceImpl extends ServiceImpl<CustomerSaveRuleMapper, CustomerSaveRuleEntity> implements CustomerSaveRuleService {
 
+    @Override
+    public List<CustomerSaveRuleEntity> queryAllRule(CustomerSaveRuleEntity mCustomerSaveRuleEntity) throws Exception {
+
+        EntityWrapper<CustomerSaveRuleEntity> eWrapper = new EntityWrapper<>();
+        eWrapper.eq("brand_identy", mCustomerSaveRuleEntity.getBrandIdenty());
+        eWrapper.eq("shop_identy", mCustomerSaveRuleEntity.getShopIdenty());
+        eWrapper.eq("status_flag", 1);
+        eWrapper.orderBy("stored_value", true);
+
+        List<CustomerSaveRuleEntity> listData = selectList(eWrapper);
+        return listData;
+    }
+
+    @Override
+    public boolean addSaveRule(CustomerSaveRuleEntity mCustomerSaveRuleEntity) throws Exception {
+
+        return insert(mCustomerSaveRuleEntity);
+    }
+
+    @Override
+    public boolean deleteRuleById( Long id) throws Exception {
+        EntityWrapper<CustomerSaveRuleEntity> eWrapper = new EntityWrapper<>();
+        eWrapper.eq("id", id);
+        return delete(eWrapper);
+    }
 }

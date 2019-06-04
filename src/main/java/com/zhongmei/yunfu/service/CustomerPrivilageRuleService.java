@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.service.IService;
  */
 public interface CustomerPrivilageRuleService extends IService<CustomerPrivilageRuleEntity> {
 
+
 }

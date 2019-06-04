@@ -19,17 +19,15 @@
     <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" type="text/css" />
     <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" type="text/css" />
 
-    <script type="text/javascript" src="../static/js/base.js" th:src="@{/js/base.js}"></script>
     <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
-    <!-- diglog -->
     <script type="text/javascript" th:src="@{/js/diy_dialog.js}"></script>
     <link rel="stylesheet" th:href="@{/css/diy_dialog.css}" type="text/css" />
 </head>
 
 <script type="text/javascript">
 
-    function checkDelete(deleteId, name){
-        var message = "请确认是否要删除: 满"+name+"赠送"+name+"储增规则？";
+    function checkDelete(deleteId){
+        var message = "请确认是否要删除该条储赠规则？";
         dialogBox(message,
             function () {
                 deleteRequest(deleteId);
@@ -42,7 +40,7 @@
 
     function deleteRequest (deleteId) {
 
-        const Url = "[[${basePath}]]/pushPlanActivity/delelte?id="+deleteId;
+        const Url = "[[${basePath}]]/internal/customerSaveRule/deleteSaveRule?id="+deleteId;
 
         const Http = new XMLHttpRequest();
 
@@ -62,29 +60,40 @@
 </script>
 
 <body>
+
+
+<div id="showDialog"></div>
+
+
 <div style="margin: 20px;margin-bottom:20px;padding: 20px;height: 100%" class="modle_background_style">
     <div class="parent">
         <img th:src="@{/images/lable.jpg}" style="height: 25px; width: 4px">
-        <label class="text_navigation" style="margin-left: 10px; font-weight: bold">储值赠送规则</label>
+        <label class="text_navigation" style="margin-left: 10px; font-weight: bold">储值赠送规则设置</label>
     </div>
 
     <div align="center" style="margin-top: 10px">
         <table class="gridtablestyle" style="width: 90%; vertical-align: middle">
             <tr style="width: 100%">
-                <th width="34%">储值金额</th>
-                <th width="33%">赠送金额</th>
+                <th width="34%">储值金额(元)</th>
+                <th width="33%">赠送金额(元)</th>
                 <th width="33%">操作</th>
             </tr>
-            <tr th:each="item:${list}">
+            <tr th:each="item:${listData}">
                 <td th:text="${item.storedValue}"></td>
                 <td th:text="${item.giveValue}"></td>
                 <td align="center">
-                    <a th:onclick="'javascript:checkDelete(\''+${item.id}+'\',\''+${item.name}+'\')'" style="cursor: pointer">删除</a>
+                    <a th:onclick="'javascript:checkDelete(\''+${item.id}+'\')'" style="cursor: pointer">删除</a>
                 </td>
             </tr>
         </table>
     </div>
-    <form method="post" name="addform" action="" th:action="@{/pushPlanActivity/addPlanActivity}">
+    <form method="post" name="addform" action="" th:action="@{/internal/customerSaveRule/addSaveRule}">
+
+        <input type="hidden" id="shopIdenty" name="shopIdenty" th:value="${mCustomerSaveRuleModel.shopIdenty}">
+        <input type="hidden" id="brandIdenty" name="brandIdenty" th:value="${mCustomerSaveRuleModel.brandIdenty}">
+        <input type="hidden" id="creatorId" name="creatorId" th:value="${mCustomerSaveRuleModel.creatorId}">
+        <input type="hidden" id="creatorName" name="creatorName" th:value="${mCustomerSaveRuleModel.creatorName}">
+
         <div class="container parent_h" style="margin-top: 20px">
             <label class="text_navigation" style="margin-left: 10px">储值金额：</label>
             <input class="add_input_style" placeholder="请输入储值金额" style="margin-left: 5px" type="text"  name="storedValue"/>

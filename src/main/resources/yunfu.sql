@@ -1488,7 +1488,7 @@ DROP TABLE IF EXISTS  `customer_privilage_rule`;
 CREATE TABLE `customer_privilage_rule` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增id',
   `customer_level` int(4) DEFAULT NULL COMMENT '会员等级',
-  `save_amount` decimal(10,2)  NULL COMMENT '储值金额，用于记录满多少给予对应的优惠',
+  `save_amount` decimal(10,2)  NULL COMMENT '储值金额，用于记录储值满多少给予对应的优惠',
   `privilage_type` int(2) DEFAULT NULL COMMENT '权益类型： 1：会员等级折扣，2：会员等级让价，3：储值支付折扣，4：储值支付让价',
   `privilage_value` decimal(10,2) DEFAULT NULL COMMENT '权益额度值',
   `full_amount` decimal(10,2)  NULL COMMENT '满额限制',
