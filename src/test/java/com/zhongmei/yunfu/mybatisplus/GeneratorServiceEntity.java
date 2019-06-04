@@ -100,7 +100,9 @@ public class GeneratorServiceEntity {
                 "wx_form",
                 "commercial_group",
                 "system_version",
-                "customer_entity_card"
+                "customer_entity_card",
+                "customer_privilage_rule",
+                "customer_save_rule"
         );
     }
 
