@@ -1,4 +1,4 @@
-package com.zhongmei.yunfu.api.web;
+package com.zhongmei.yunfu.controller;
 
 import com.zhongmei.yunfu.controller.model.CommercailSettingModel;
 import com.zhongmei.yunfu.domain.entity.CommercialCustomSettingsEntity;

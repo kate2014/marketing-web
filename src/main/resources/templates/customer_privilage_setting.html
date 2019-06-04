@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>会员等级设置</title>
+    <title>会员权益设置</title>
 
     <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
     <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
@@ -29,59 +29,121 @@
 </style>
 
 <script type="text/javascript">
-    function submitLevelRuleForm() {
-        document.levelRule.submit();
-    }
-
-    function showAction() {
-        var successOrfail = document.getElementById("successOrfail").value;
-        if(successOrfail != '' && successOrfail != undefined && successOrfail != null){
-            if(successOrfail == "success"){
-                successTips('操作成功','设置成功，可进行相关操作使用');
-            }else if(successOrfail == "fail"){
-                errorTips('操作失败','设置失败，请优先排查输入信息');
-            }
-        }
-
-        //设置会员支付密码验证默认选中项
-        var settingValue =  document.getElementById("settingValue").value;
-        $(":radio[name='settingValue'][value='" + settingValue + "']").prop("checked", "checked");
-    }
 
 
 </script>
 
 
-<body  onload="showAction()">
 
-<input type="hidden" id="successOrfail" th:value="${paySettingModel.successOrfail}">
+<body>
 
-<!--储值支付是否需要密码-->
-<form method="post" name="scoreS" action="" th:action="@{/internal/commercailSetting/customer/pay/checkpassword}" th:object="${CommercailSettingModel}">
-    <input type="hidden" name="shopIdenty" th:value="${paySettingModel.shopIdenty}">
-    <input type="hidden" name="brandIdenty" th:value="${paySettingModel.brandIdenty}">
-    <input type="hidden" name="creatorId" th:value="${paySettingModel.creatorId}">
-    <input type="hidden" name="creatorName" th:value="${paySettingModel.creatorName}">
 
-    <input type="hidden" name="id" th:value="${mCommercialCustomSettingsEntity.id}">
-    <input type="hidden" id="settingValue" th:value="${mCommercialCustomSettingsEntity.settingValue}">
+<div style="margin: 20px;padding: 20px" class="modle_background_style">
 
-    <div style="margin: 20px;padding: 20px" class="modle_background_style">
-        <div class="parent">
-            <img th:src="@{/images/lable.jpg}" style="height: 25px; width: 4px">
-            <label class="text_navigation" style="margin-left: 10px; font-weight: bold">储值支付密码验证设置</label>
-        </div>
-        <div style="margin-top: 15px">
-            <label class="text_navigation" style="margin-left: 10px">会员储值支付时是否需要密码验证：</label>
-            <input type="radio" value="0" name="settingValue"/><span class="text_navigation" style="margin-right: 20px; margin-left: 10px">不验证</span>
-            <input type="radio" value="1" name="settingValue"/><span class="text_navigation" style="margin-left: 10px">验证</span>
-        </div>
-        <div style="margin-top: 15px">
-            <button class="blue_button_style" onclick="submitRuleSForm()" style="margin-left: 10px">保存</button>
-            <!--<button class="gray_button_style" th:onclick="this" style="margin-left: 10px">取消</button>-->
-        </div>
+    <div class="parent">
+        <img th:src="@{/images/lable.jpg}" style="height: 25px; width: 4px">
+        <label class="text_navigation" style="margin-left: 10px; font-weight: bold">会员等级权益</label>
     </div>
-</form>
+
+    <div class="parent" style="margin-top: 15px">
+        <label class="text_navigation" style="margin-left: 10px">权益类型：</label>
+        <input type="radio" value="0" name="settingValue"/><span class="text_navigation" style="margin-right: 20px; margin-left: 10px">折扣</span>
+        <input type="radio" value="1" name="settingValue"/><span class="text_navigation" style="margin-left: 10px">让价</span>
+    </div>
+
+    <div style="margin-top: 15px">
+        <label class="text_navigation" style="margin-left: 10px; margin-top: 15px; min-width: 300px">满额条件</label>
+        <input class="input_style" placeholder="消费满多少金额可享有会员折扣" style="margin-left: 5px" type="text"/>
+        <label style="margin-left: 10px; font-size: 10px; color: #FF6600">备注：消费满多少金额可享有会员折扣，如不限制则输入0</label>
+    </div>
+
+    <div style="margin-top: 15px">
+        <label class="text_navigation" style="margin-left: 10px; margin-top: 15px; min-width: 300px">普通会员</label>
+        <input class="input_style" placeholder="对应的会员折扣" style="margin-left: 5px" type="text"/>
+    </div>
+    <div style="margin-top: 15px">
+        <label class="text_navigation" style="margin-left: 10px; margin-top: 15px; min-width: 300px">银卡会员</label>
+        <input class="input_style" placeholder="对应的会员折扣" style="margin-left: 5px" type="text"/>
+    </div>
+
+    <div style="margin-top: 15px">
+        <label class="text_navigation" style="margin-left: 10px">金卡会员</label>
+        <input class="input_style" placeholder="对应的会员折扣" style="margin-left: 5px" type="text"/>
+    </div>
+
+    <div style="margin-top: 15px">
+        <label class="text_navigation" style="margin-left: 10px">白金会员</label>
+        <input class="input_style" placeholder="对应的会员折扣" style="margin-left: 5px" type="text"/>
+    </div>
+
+    <div style="margin-top: 15px">
+        <label class="text_navigation" style="margin-left: 10px">黑金会员</label>
+        <input class="input_style" placeholder="对应的会员折扣" style="margin-left: 5px" type="text"/>
+    </div>
+
+    <div style="margin-top: 15px">
+        <label class="text_navigation" style="margin-left: 10px">钻石会员</label>
+        <input class="input_style" placeholder="对应的会员折扣" style="margin-left: 5px" type="text"/>
+    </div>
+
+    <div style="margin-top: 15px">
+        <label class="text_navigation" style="margin-left: 10px">至尊会员</label>
+        <input class="input_style" placeholder="对应的会员折扣" style="margin-left: 5px" type="text"/>
+    </div>
+
+    <div style="margin-top: 15px">
+        <button class="blue_button_style" onclick="submitLevelRuleForm()" style="margin-left: 10px" >保存</button>
+        <!--<button class="gray_button_style" onclick="this" style="margin-left: 10px">取消</button>-->
+    </div>
+
+</div>
+
+
+<div style="margin: 20px;padding: 20px" class="modle_background_style">
+
+    <div class="parent">
+        <img th:src="@{/images/lable.jpg}" style="height: 25px; width: 4px">
+        <label class="text_navigation" style="margin-left: 10px; font-weight: bold">会员储值权益</label>
+    </div>
+
+
+    <div align="center" style="margin-top: 10px">
+        <table class="gridtablestyle" style="width: 90%; vertical-align: middle">
+            <tr style="width: 100%">
+                <th width="34%">储值金额</th>
+                <th width="33%">享受权益类型</th>
+                <th width="33%">享受权益值</th>
+                <th width="33%">操作</th>
+            </tr>
+            <tr th:each="item:${list}">
+                <td th:text="${item.scanNumber}"></td>
+                <td th:text="${item.shareNumber}"></td>
+                <td th:text="${item.shareNumber}"></td>
+                <td align="center">
+                    <a th:onclick="'javascript:checkDelete(\''+${item.id}+'\',\''+${item.name}+'\')'" style="cursor: pointer">编辑</a>
+                    <a th:onclick="'javascript:checkDelete(\''+${item.id}+'\',\''+${item.name}+'\')'" style="cursor: pointer">删除</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="container parent_h" style="margin-top: 20px">
+        <label class="text_navigation" style="margin-left: 10px;">储值金额：</label>
+        <input class="input_style" placeholder="请输入储值金额" style="margin-left: 5px" type="text"  name="storedalue"/>
+
+        <label class="text_navigation" style="margin-left: 10px">权益类型：</label>
+        <input type="radio" value="0" name="settingValue"/><span class="text_navigation" style="margin-right: 20px; margin-left: 10px">折扣</span>
+        <input type="radio" value="1" name="settingValue"/><span class="text_navigation" style="margin-left: 10px">让价</span>
+
+        <label class="text_navigation" style="margin-left: 10px">权益值：</label>
+        <input class="input_style" placeholder="请输入储值金额" style="margin-left: 5px" type="text"  name="storedalue"/>
+
+        <button class="blue_button_style" onclick="submitRuleDForm()" style="margin-left: 10px">保存</button>
+    </div>
+
+
+</div>
+
 
 </body>
 </html>
