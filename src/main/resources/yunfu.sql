@@ -1490,7 +1490,6 @@ CREATE TABLE `customer_privilage_rule` (
   `customer_level` int(4) DEFAULT NULL COMMENT '会员等级',
   `privilage_type` int(2) DEFAULT NULL COMMENT '权益类型： 1：会员等级折扣，2：会员等级让价，3：储值支付折扣，4：储值支付让价',
   `privilage_value` decimal(10,2) DEFAULT NULL COMMENT '权益额度值',
-  `privilage_rule` decimal(10,2) DEFAULT NULL COMMENT '权益规则值',
   `full_amount` decimal(10,2)  NULL COMMENT '满额限制',
   `is_need_save_payment` int(2) DEFAULT NULL COMMENT '是否需要储值支付 0：不需要  1：需要',
   `server_create_time` timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '服务器创建时间',
