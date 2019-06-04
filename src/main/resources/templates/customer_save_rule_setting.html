@@ -19,14 +19,44 @@
     <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" type="text/css" />
     <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" type="text/css" />
 
-    <!-- diglog -->
+    <script type="text/javascript" src="../static/js/base.js" th:src="@{/js/base.js}"></script>
     <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <!-- diglog -->
     <script type="text/javascript" th:src="@{/js/diy_dialog.js}"></script>
     <link rel="stylesheet" th:href="@{/css/diy_dialog.css}" type="text/css" />
 </head>
 
 <script type="text/javascript">
 
+    function checkDelete(deleteId, name){
+        var message = "请确认是否要删除: 满"+name+"赠送"+name+"储增规则？";
+        dialogBox(message,
+            function () {
+                deleteRequest(deleteId);
+            },
+            function(){
+
+            }
+        );
+    }
+
+    function deleteRequest (deleteId) {
+
+        const Url = "[[${basePath}]]/pushPlanActivity/delelte?id="+deleteId;
+
+        const Http = new XMLHttpRequest();
+
+        Http.open("GET",Url);
+
+        Http.send();
+
+        Http.onreadystatechange=function () {
+            if(this.readyState == 4 && this.status == 200){
+                location.reload();
+            }
+        }
+
+    }
 
 
 </script>
@@ -46,26 +76,25 @@
                 <th width="33%">操作</th>
             </tr>
             <tr th:each="item:${list}">
-                <td th:text="${item.scanNumber}"></td>
-                <td th:text="${item.shareNumber}"></td>
+                <td th:text="${item.storedValue}"></td>
+                <td th:text="${item.giveValue}"></td>
                 <td align="center">
-                    <a th:onclick="'javascript:checkDelete(\''+${item.id}+'\',\''+${item.name}+'\')'" style="cursor: pointer">编辑</a>
                     <a th:onclick="'javascript:checkDelete(\''+${item.id}+'\',\''+${item.name}+'\')'" style="cursor: pointer">删除</a>
                 </td>
             </tr>
         </table>
     </div>
+    <form method="post" name="addform" action="" th:action="@{/pushPlanActivity/addPlanActivity}">
+        <div class="container parent_h" style="margin-top: 20px">
+            <label class="text_navigation" style="margin-left: 10px">储值金额：</label>
+            <input class="add_input_style" placeholder="请输入储值金额" style="margin-left: 5px" type="text"  name="storedValue"/>
 
-    <div class="container parent_h" style="margin-top: 20px">
-        <label class="text_navigation" style="margin-left: 10px">储值金额：</label>
-        <input class="input_style" placeholder="请输入储值金额" style="margin-left: 5px" type="text"  name="storedalue"/>
+            <label class="text_navigation" style="margin-left: 10px">赠送金额：</label>
+            <input class="add_input_style" placeholder="请输入储值金额" style="margin-left: 5px" type="text"  name="giveValue"/>
 
-        <label class="text_navigation" style="margin-left: 10px">赠送金额：</label>
-        <input class="input_style" placeholder="请输入储值金额" style="margin-left: 5px" type="text"  name="storedalue"/>
-
-        <button class="blue_button_style" onclick="submitRuleDForm()" style="margin-left: 10px">保存</button>
-    </div>
-
+            <button class="blue_button_style" onclick="submitForm()" style="margin-left: 10px">保存</button>
+        </div>
+    </form>
 </div>
 
 
