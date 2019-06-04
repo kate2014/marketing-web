@@ -30,6 +30,35 @@
 
 <script type="text/javascript">
 
+    function checkDelete(deleteId, name){
+        var message = "请确认是否要删除: 满"+name+"赠送"+name+"储增规则？";
+        dialogBox(message,
+            function () {
+                deleteRequest(deleteId);
+            },
+            function(){
+
+            }
+        );
+    }
+
+    function deleteRequest (deleteId) {
+
+        const Url = "[[${basePath}]]/pushPlanActivity/delelte?id="+deleteId;
+
+        const Http = new XMLHttpRequest();
+
+        Http.open("GET",Url);
+
+        Http.send();
+
+        Http.onreadystatechange=function () {
+            if(this.readyState == 4 && this.status == 200){
+                location.reload();
+            }
+        }
+
+    }
 
 </script>
 
@@ -53,42 +82,51 @@
 
     <div style="margin-top: 15px">
         <label class="text_navigation" style="margin-left: 10px; margin-top: 15px; min-width: 300px">满额条件</label>
-        <input class="input_style" placeholder="消费满多少金额可享有会员折扣" style="margin-left: 5px" type="text"/>
-        <label style="margin-left: 10px; font-size: 10px; color: #FF6600">备注：消费满多少金额可享有会员折扣，如不限制则输入0</label>
+        <input class="add_input_style" placeholder="消费满多少金额可享有会员折扣" style="margin-left: 5px" type="text"/>
+        <label class="text_navigation" style="margin-left: 5px; margin-top: 15px">元</label>
+        <label style="margin-left: 10px; font-size: 10px; color: #FF6600">备注：消费满多少金额可享有会员折扣，如不限制则输入0。</label>
     </div>
 
     <div style="margin-top: 15px">
         <label class="text_navigation" style="margin-left: 10px; margin-top: 15px; min-width: 300px">普通会员</label>
-        <input class="input_style" placeholder="对应的会员折扣" style="margin-left: 5px" type="text"/>
+        <input class="add_input_style" placeholder="对应的会员折扣" style="margin-left: 5px" type="text"/>
+        <label class="text_navigation" style="margin-left: 5px; margin-top: 15px">折</label>
+        <label style="margin-left: 10px; font-size: 10px; color: #FF6600">备注：例如普通会员享受95折，则对应的输入框输入9.5折。</label>
     </div>
     <div style="margin-top: 15px">
         <label class="text_navigation" style="margin-left: 10px; margin-top: 15px; min-width: 300px">银卡会员</label>
-        <input class="input_style" placeholder="对应的会员折扣" style="margin-left: 5px" type="text"/>
+        <input class="add_input_style" placeholder="对应的会员折扣" style="margin-left: 5px" type="text"/>
+        <label class="text_navigation" style="margin-left: 5px; margin-top: 15px">折</label>
     </div>
 
     <div style="margin-top: 15px">
         <label class="text_navigation" style="margin-left: 10px">金卡会员</label>
-        <input class="input_style" placeholder="对应的会员折扣" style="margin-left: 5px" type="text"/>
+        <input class="add_input_style" placeholder="对应的会员折扣" style="margin-left: 5px" type="text"/>
+        <label class="text_navigation" style="margin-left: 5px; margin-top: 15px">折</label>
     </div>
 
     <div style="margin-top: 15px">
         <label class="text_navigation" style="margin-left: 10px">白金会员</label>
-        <input class="input_style" placeholder="对应的会员折扣" style="margin-left: 5px" type="text"/>
+        <input class="add_input_style" placeholder="对应的会员折扣" style="margin-left: 5px" type="text"/>
+        <label class="text_navigation" style="margin-left: 5px; margin-top: 15px">折</label>
     </div>
 
     <div style="margin-top: 15px">
         <label class="text_navigation" style="margin-left: 10px">黑金会员</label>
-        <input class="input_style" placeholder="对应的会员折扣" style="margin-left: 5px" type="text"/>
+        <input class="add_input_style" placeholder="对应的会员折扣" style="margin-left: 5px" type="text"/>
+        <label class="text_navigation" style="margin-left: 5px; margin-top: 15px">折</label>
     </div>
 
     <div style="margin-top: 15px">
         <label class="text_navigation" style="margin-left: 10px">钻石会员</label>
-        <input class="input_style" placeholder="对应的会员折扣" style="margin-left: 5px" type="text"/>
+        <input class="add_input_style" placeholder="对应的会员折扣" style="margin-left: 5px" type="text"/>
+        <label class="text_navigation" style="margin-left: 5px; margin-top: 15px">折</label>
     </div>
 
     <div style="margin-top: 15px">
         <label class="text_navigation" style="margin-left: 10px">至尊会员</label>
-        <input class="input_style" placeholder="对应的会员折扣" style="margin-left: 5px" type="text"/>
+        <input class="add_input_style" placeholder="对应的会员折扣" style="margin-left: 5px" type="text"/>
+        <label class="text_navigation" style="margin-left: 5px; margin-top: 15px">折</label>
     </div>
 
     <div style="margin-top: 15px">
@@ -107,20 +145,28 @@
     </div>
 
 
+    <div class="parent_h container">
+        <label class="text_navigation" style="margin-left: 10px">是否做储值支付验证：</label>
+        <input type="radio" value="0" name="settingValue"/><span class="text_navigation" style="margin-right: 20px; margin-left: 10px">是</span>
+        <input type="radio" value="1" name="settingValue"/><span class="text_navigation" style="margin-left: 10px">否</span>
+        <label style="margin-left: 10px; font-size: 10px; color: #FF6600">备注：如选择"是"，这会员只有通过储值支付订单时才能享受该折扣，如选择"否"，则会员在购物车中登录后即可享受改折扣，不做支付类型的控制。</label>
+    </div>
     <div align="center" style="margin-top: 10px">
+
         <table class="gridtablestyle" style="width: 90%; vertical-align: middle">
             <tr style="width: 100%">
-                <th width="34%">储值金额</th>
-                <th width="33%">享受权益类型</th>
-                <th width="33%">享受权益值</th>
-                <th width="33%">操作</th>
+                <th width="20%">储值金额</th>
+                <th width="20%">满额条件</th>
+                <th width="20%">享受权益类型</th>
+                <th width="20%">享受权益值</th>
+                <th width="20%">操作</th>
             </tr>
             <tr th:each="item:${list}">
                 <td th:text="${item.scanNumber}"></td>
                 <td th:text="${item.shareNumber}"></td>
                 <td th:text="${item.shareNumber}"></td>
+                <td th:text="${item.shareNumber}"></td>
                 <td align="center">
-                    <a th:onclick="'javascript:checkDelete(\''+${item.id}+'\',\''+${item.name}+'\')'" style="cursor: pointer">编辑</a>
                     <a th:onclick="'javascript:checkDelete(\''+${item.id}+'\',\''+${item.name}+'\')'" style="cursor: pointer">删除</a>
                 </td>
             </tr>
@@ -128,8 +174,17 @@
     </div>
 
     <div class="container parent_h" style="margin-top: 20px">
+        <label style="margin-left: 10px; font-size: 10px; color: #FF6600">备注：会员储值不同金额，享受的会员折扣不同，同时可设置会员消费时满多少金额才能享受该会员折扣，如不限制这在满额条件中输入0。</label>
+    </div>
+
+    <div class="container parent_h" style="margin-top: 20px">
+
         <label class="text_navigation" style="margin-left: 10px;">储值金额：</label>
         <input class="input_style" placeholder="请输入储值金额" style="margin-left: 5px" type="text"  name="storedalue"/>
+
+        <label class="text_navigation" style="margin-left: 10px;">满额条件</label>
+        <input class="input_style" placeholder="消费满多少金额可享有会员折扣" style="margin-left: 5px" type="text"/>
+        <label class="text_navigation" style="margin-left: 5px;">元</label>
 
         <label class="text_navigation" style="margin-left: 10px">权益类型：</label>
         <input type="radio" value="0" name="settingValue"/><span class="text_navigation" style="margin-right: 20px; margin-left: 10px">折扣</span>
@@ -140,6 +195,7 @@
 
         <button class="blue_button_style" onclick="submitRuleDForm()" style="margin-left: 10px">保存</button>
     </div>
+
 
 
 </div>
