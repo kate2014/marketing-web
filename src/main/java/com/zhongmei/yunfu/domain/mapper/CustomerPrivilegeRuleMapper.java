@@ -1,7 +1,7 @@
 package com.zhongmei.yunfu.domain.mapper;
 
-import com.zhongmei.yunfu.domain.entity.CustomerPrivilageRuleEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import com.zhongmei.yunfu.domain.entity.CustomerPrivilegeRuleEntity;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  * @author pigeon88
  * @since 2019-06-04
  */
-public interface CustomerPrivilageRuleMapper extends BaseMapper<CustomerPrivilageRuleEntity> {
+public interface CustomerPrivilegeRuleMapper extends BaseMapper<CustomerPrivilegeRuleEntity> {
 
 }

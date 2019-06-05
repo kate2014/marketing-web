@@ -43,17 +43,13 @@
                 errorTips('操作失败','设置失败，请优先排查输入信息');
             }
         }
-
-        //设置会员支付密码验证默认选中项
-        var settingValue =  document.getElementById("settingValue").value;
-        $(":radio[name='settingValue'][value='" + settingValue + "']").prop("checked", "checked");
     }
 
 
 </script>
 
 
-<body  onload="showAction()">
+<body onload="showAction()">
 
 <input type="hidden" id="successOrfail" th:value="${customerScore.successOrfail}">
 

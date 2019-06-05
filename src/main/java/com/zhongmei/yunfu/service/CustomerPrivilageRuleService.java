@@ -1,7 +1,7 @@
 package com.zhongmei.yunfu.service;
 
-import com.zhongmei.yunfu.controller.model.CustomerPrivilageRuleModel;
-import com.zhongmei.yunfu.domain.entity.CustomerPrivilageRuleEntity;
+import com.zhongmei.yunfu.controller.model.CustomerPrivilegeRuleModel;
+import com.zhongmei.yunfu.domain.entity.CustomerPrivilegeRuleEntity;
 import com.baomidou.mybatisplus.service.IService;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
  * @author pigeon88
  * @since 2019-06-04
  */
-public interface CustomerPrivilageRuleService extends IService<CustomerPrivilageRuleEntity> {
+public interface CustomerPrivilageRuleService extends IService<CustomerPrivilegeRuleEntity> {
 
     /**
      * 查询所有的会员权益数据
@@ -22,7 +22,7 @@ public interface CustomerPrivilageRuleService extends IService<CustomerPrivilage
      * @return
      * @throws Exception
      */
-    List<CustomerPrivilageRuleEntity> queryAllRule(CustomerPrivilageRuleModel mCustomerPrivilageRuleModel)throws Exception;
+    List<CustomerPrivilegeRuleEntity> queryAllRule(CustomerPrivilegeRuleModel mCustomerPrivilageRuleModel)throws Exception;
 
     /**
      * 添加会员权益
@@ -30,7 +30,15 @@ public interface CustomerPrivilageRuleService extends IService<CustomerPrivilage
      * @return
      * @throws Exception
      */
-    boolean addRule(CustomerPrivilageRuleEntity entity)throws Exception;
+    boolean addRule(CustomerPrivilegeRuleEntity entity)throws Exception;
+
+    /**
+     * 批量添加
+     * @param entity
+     * @return
+     * @throws Exception
+     */
+    boolean batchAddRule(List<CustomerPrivilegeRuleEntity> entity)throws Exception;
 
     /**
      * 根据Id删除数据
@@ -42,9 +50,35 @@ public interface CustomerPrivilageRuleService extends IService<CustomerPrivilage
 
     /**
      * 更改规则设置
-     * @param CustomerPrivilageRuleEntity
+     * @param entity
      * @return
      * @throws Exception
      */
-    boolean updateRule(CustomerPrivilageRuleEntity CustomerPrivilageRuleEntity)throws Exception;
+    boolean updateRule(CustomerPrivilegeRuleEntity entity)throws Exception;
+
+    /**
+     * 批量修改
+     * @param listData
+     * @return
+     * @throws Exception
+     */
+    boolean batchUpdateRule(List<CustomerPrivilegeRuleEntity> listData)throws Exception;
+
+    /**
+     * 批量添加或修改
+     * @param listData
+     * @return
+     * @throws Exception
+     */
+    boolean installOrUpdate(List<CustomerPrivilegeRuleEntity> listData)throws Exception;
+
+    /**
+     * 批量删除
+     * @param brandIdenty
+     * @param shopIdenty
+     * @param ids
+     * @return
+     * @throws Exception
+     */
+    boolean batchDelete(Long brandIdenty,Long shopIdenty,String ids)throws Exception;
 }

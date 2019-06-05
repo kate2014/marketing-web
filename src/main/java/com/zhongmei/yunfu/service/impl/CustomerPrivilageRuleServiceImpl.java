@@ -1,10 +1,9 @@
 package com.zhongmei.yunfu.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.zhongmei.yunfu.controller.model.CustomerPrivilageRuleModel;
-import com.zhongmei.yunfu.domain.entity.CustomerPrivilageRuleEntity;
-import com.zhongmei.yunfu.domain.entity.CustomerSaveRuleEntity;
-import com.zhongmei.yunfu.domain.mapper.CustomerPrivilageRuleMapper;
+import com.zhongmei.yunfu.controller.model.CustomerPrivilegeRuleModel;
+import com.zhongmei.yunfu.domain.entity.CustomerPrivilegeRuleEntity;
+import com.zhongmei.yunfu.domain.mapper.CustomerPrivilegeRuleMapper;
 import com.zhongmei.yunfu.service.CustomerPrivilageRuleService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -20,24 +19,33 @@ import java.util.List;
  * @since 2019-06-04
  */
 @Service
-public class CustomerPrivilageRuleServiceImpl extends ServiceImpl<CustomerPrivilageRuleMapper, CustomerPrivilageRuleEntity> implements CustomerPrivilageRuleService {
+public class CustomerPrivilageRuleServiceImpl extends ServiceImpl<CustomerPrivilegeRuleMapper, CustomerPrivilegeRuleEntity> implements CustomerPrivilageRuleService {
 
     @Override
-    public List<CustomerPrivilageRuleEntity> queryAllRule(CustomerPrivilageRuleModel ruleModel) throws Exception {
-        EntityWrapper<CustomerPrivilageRuleEntity> eWrapper = new EntityWrapper<>();
+    public List<CustomerPrivilegeRuleEntity> queryAllRule(CustomerPrivilegeRuleModel ruleModel) throws Exception {
+        EntityWrapper<CustomerPrivilegeRuleEntity> eWrapper = new EntityWrapper<>();
         eWrapper.eq("brand_identy", ruleModel.getBrandIdenty());
         eWrapper.eq("shop_identy", ruleModel.getShopIdenty());
+        if(ruleModel.getPrivilageType() != null){
+            eWrapper.eq("privilage_type", ruleModel.getPrivilageType());
+        }
         eWrapper.eq("status_flag", 1);
         eWrapper.orderBy("server_update_time", true);
 
-        List<CustomerPrivilageRuleEntity> listData = selectList(eWrapper);
+        List<CustomerPrivilegeRuleEntity> listData = selectList(eWrapper);
         return listData;
     }
 
     @Override
-    public boolean addRule(CustomerPrivilageRuleEntity entity) throws Exception {
+    public boolean addRule(CustomerPrivilegeRuleEntity entity) throws Exception {
 
         return insert(entity);
+    }
+
+    @Override
+    public boolean batchAddRule(List<CustomerPrivilegeRuleEntity> entity) throws Exception {
+
+        return insertBatch(entity);
     }
 
     @Override
@@ -47,9 +55,30 @@ public class CustomerPrivilageRuleServiceImpl extends ServiceImpl<CustomerPrivil
     }
 
     @Override
-    public boolean updateRule(CustomerPrivilageRuleEntity entity) throws Exception {
+    public boolean updateRule(CustomerPrivilegeRuleEntity entity) throws Exception {
 
         boolean isSuccess = updateById(entity);
         return isSuccess;
+    }
+
+    @Override
+    public boolean batchUpdateRule(List<CustomerPrivilegeRuleEntity> listData) throws Exception {
+
+        return updateBatchById(listData);
+    }
+
+    @Override
+    public boolean installOrUpdate(List<CustomerPrivilegeRuleEntity> listData) throws Exception {
+
+        return insertOrUpdateBatch(listData);
+    }
+
+    @Override
+    public boolean batchDelete(Long brandIdenty,Long shopIdenty,String ids) throws Exception {
+        EntityWrapper<CustomerPrivilegeRuleEntity> eWrapper = new EntityWrapper<>();
+        eWrapper.eq("brand_identy", brandIdenty);
+        eWrapper.eq("shop_identy", shopIdenty);
+        eWrapper.in("id",ids);
+        return delete(eWrapper);
     }
 }
