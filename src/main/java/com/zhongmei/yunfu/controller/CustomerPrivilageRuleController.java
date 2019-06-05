@@ -400,5 +400,19 @@ public class CustomerPrivilageRuleController {
                 ruleModel.getBrandIdenty(), ruleModel.getShopIdenty(), ruleModel.getCreatorId(), ruleModel.getCreatorName(),actionSuccess);
     }
 
+    @RequestMapping("/deletePrivilegeRule")
+    public String deletePrivilegeRule(Model model, CustomerPrivilegeRuleModel ruleModel) {
+        try {
+            boolean isSuccess = mCustomerPrivilageRuleService.deleteRuleById(ruleModel.getId());
+            if (isSuccess) {
+                return "success";
+            } else {
+                return "fail";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
+    }
 }
 
