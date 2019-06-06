@@ -14,7 +14,7 @@ public class TradeDataModel {
 
     private List<PaymentItemEntity> mPaymentItemEntity;
 
-    private List<TradePrivilegeEntity> listPrivilage;
+    private List<TradePrivilegeEntity> listPrivilege;
 
     public TradeEntity getTrade() {
         return trade;
@@ -40,11 +40,11 @@ public class TradeDataModel {
         this.mPaymentItemEntity = mPaymentItemEntity;
     }
 
-    public List<TradePrivilegeEntity> getListPrivilage() {
-        return listPrivilage;
+    public List<TradePrivilegeEntity> getListPrivilege() {
+        return listPrivilege;
     }
 
-    public void setListPrivilage(List<TradePrivilegeEntity> listPrivilage) {
-        this.listPrivilage = listPrivilage;
+    public void setListPrivilege(List<TradePrivilegeEntity> listPrivilege) {
+        this.listPrivilege = listPrivilege;
     }
 }

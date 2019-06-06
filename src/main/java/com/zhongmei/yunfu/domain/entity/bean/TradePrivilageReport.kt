@@ -13,7 +13,7 @@ import java.util.*
  * @author zhaos
  * @since 2018-09-21
  */
-class TradePrivilageReport : CustomerEntity(), Serializable {
+class TradePrivilegeReport : CustomerEntity(), Serializable {
 
     /**
      * 储值单数
@@ -26,7 +26,7 @@ class TradePrivilageReport : CustomerEntity(), Serializable {
     /**
      * 创建时间
      */
-    var privilageName: String? = null
+    var privilegeName: String? = null
     /**
      * 优惠券Id
      */
@@ -36,7 +36,7 @@ class TradePrivilageReport : CustomerEntity(), Serializable {
         return "CustomerReport{" +
                 ", tradeCount=" + tradeCount +
                 ", tradeAmount=" + tradeAmount +
-                ", privilageName=" + privilageName +
+                ", privilegeName=" + privilegeName +
                 ", promoId=" + promoId +
                 "}"
     }

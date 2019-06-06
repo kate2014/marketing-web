@@ -1,23 +1,21 @@
 package com.zhongmei.yunfu.service.impl;
 
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
-import com.zhongmei.yunfu.domain.entity.CommercialEntity;
-import com.zhongmei.yunfu.domain.entity.CustomerEntity;
-import com.zhongmei.yunfu.domain.entity.CustomerStoredEntity;
-import com.zhongmei.yunfu.domain.entity.TradeEntity;
+import com.zhongmei.yunfu.api.ApiRespStatus;
+import com.zhongmei.yunfu.api.ApiRespStatusException;
+import com.zhongmei.yunfu.domain.entity.*;
+import com.zhongmei.yunfu.domain.mapper.CustomerExtraMapper;
 import com.zhongmei.yunfu.domain.mapper.CustomerStoredMapper;
-import com.zhongmei.yunfu.service.CommercialService;
-import com.zhongmei.yunfu.service.CustomerService;
-import com.zhongmei.yunfu.service.CustomerStoredService;
-import com.zhongmei.yunfu.service.TradeService;
+import com.zhongmei.yunfu.service.*;
 import com.zhongmei.yunfu.thirdlib.wxapp.WxTemplateMessageHandler;
 import com.zhongmei.yunfu.thirdlib.wxapp.msg.MemberChargeMessage;
 import com.zhongmei.yunfu.util.DateFormatUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * <p>
@@ -39,16 +37,53 @@ public class CustomerStoredServiceImpl extends ServiceImpl<CustomerStoredMapper,
     @Autowired
     CommercialService commercialService;
 
+    @Autowired
+    CustomerPrivilegeRuleService customerPrivilegeRuleService;
+
+    @Autowired
+    CustomerExtraMapper customerExtraMapper;
+
+    @Override
+    public CustomerStoredEntity getByPaymentItemId(Long shopId, Long tradeId, Long paymentItemId) {
+        return null;
+    }
+
     @Override
     public void recharge(CustomerStoredEntity customerStored) throws Exception {
-        CustomerEntity customerEntity = customerService.getCustomerEntity(customerStored.getCustomerId(), true);
         tradeStored(CustomerStoredEntity.RecordType.RECHARGE, customerStored);
-        BigDecimal storedBalance = customerEntity.getStoredBalance();
-        storedBalance = storedBalance.add(customerStored.getTradeAmount());
-        customerEntity.setStoredBalance(storedBalance);
-        customerService.updateById(customerEntity);
 
-        CommercialEntity commercialEntity = commercialService.selectById(customerEntity.getShopIdenty());
+        CustomerExtraEntity customerExtraEntity = customerExtraMapper.selectById(customerStored.getCustomerId());
+        if (customerExtraEntity == null) {
+            customerExtraEntity = new CustomerExtraEntity();
+            customerExtraEntity.setCustomerId(customerStored.getCustomerId());
+            customerExtraEntity.baseCreate(customerStored.getUpdatorId(), customerStored.getUpdatorName());
+        }
+        customerExtraEntity.baseUpdate(customerStored.getUpdatorId(), customerStored.getUpdatorName());
+        BigDecimal storedAmount = customerExtraEntity.getStoredAmount()
+                .add(customerStored.getTradeAmount())
+                .add(customerStored.getGiveAmount());
+        customerExtraEntity.setStoredAmount(storedAmount);
+        customerExtraEntity.setStoredGive(customerExtraEntity.getStoredGive().add(customerStored.getGiveAmount()));
+
+        //设置储值优惠值
+        List<CustomerPrivilegeRuleEntity> byPrivilegeType = customerPrivilegeRuleService.getByPrivilegeType(customerStored.getShopIdenty(), 3, 4);
+        if (byPrivilegeType != null) {
+            //从大到小排序
+            Collections.sort(byPrivilegeType, (o1, o2) -> o2.getFullAmount().compareTo(o1.getFullAmount()));
+            for (CustomerPrivilegeRuleEntity privilegeRuleEntity : byPrivilegeType) {
+                if (customerStored.getTradeAmount().compareTo(privilegeRuleEntity.getFullAmount()) >= 0) {
+                    customerExtraEntity.setStoredPaymentCheck(privilegeRuleEntity.getIsNeedSavePayment());
+                    customerExtraEntity.setStoredPrivilegeType(privilegeRuleEntity.getPrivilegeType());
+                    customerExtraEntity.setStoredPrivilegeValue(privilegeRuleEntity.getPrivilegeValue());
+                    break;
+                }
+            }
+        }
+
+        customerExtraMapper.updateById(customerExtraEntity);
+
+        CustomerEntity customerEntity = customerService.selectById(customerStored.getCustomerId());
+        CommercialEntity commercialEntity = commercialService.selectById(customerStored.getShopIdenty());
         TradeEntity tradeEntity = tradeService.selectById(customerStored.getTradeId());
         MemberChargeMessage wxTempMsg = new MemberChargeMessage();
         wxTempMsg.setChargeType("余额储值");
@@ -56,8 +91,8 @@ public class CustomerStoredServiceImpl extends ServiceImpl<CustomerStoredMapper,
         wxTempMsg.setChargeTime(DateFormatUtil.format(tradeEntity.getServerCreateTime(), DateFormatUtil.FORMAT_FULL_DATE));
         wxTempMsg.setChargeAmount(customerStored.getTradeAmount() + "元");
         wxTempMsg.setTradeNo(tradeEntity.getTradeNo());
-        wxTempMsg.setGivenAmount("0.00元");
-        wxTempMsg.setAccountBalance(storedBalance + "元");
+        wxTempMsg.setGivenAmount(customerStored.getGiveAmount() + "元");
+        wxTempMsg.setAccountBalance(storedAmount + "元");
         wxTempMsg.setMemo("对此次充值信息如有异议，烦请即时联系商家");
         wxTempMsg.setShopName(commercialEntity.getBranchName());
         wxTempMsg.setBrandIdenty(customerStored.getBrandIdenty());
@@ -68,23 +103,35 @@ public class CustomerStoredServiceImpl extends ServiceImpl<CustomerStoredMapper,
 
     @Override
     public void expense(CustomerStoredEntity customerStored) throws Exception {
-        CustomerEntity customerEntity = customerService.getCustomerEntity(customerStored.getCustomerId(), true);
+        CustomerExtraEntity customerExtraEntity = customerExtraMapper.selectById(customerStored.getCustomerId());
+        //储值余额是否够用
+        if (customerExtraEntity.getStoredAmount().subtract(customerExtraEntity.getStoredUsed())
+                .compareTo(customerStored.getTradeAmount()) < 0) {
+            throw new ApiRespStatusException(ApiRespStatus.CUSTOMER_STORED_EXPENSE_INSUFFICIENT);
+        }
+
+        BigDecimal storedUsed = customerExtraEntity.getStoredUsed().add(customerStored.getTradeAmount());
+        customerExtraEntity.setStoredUsed(storedUsed);
+        customerExtraMapper.updateById(customerExtraEntity);
+
         tradeStored(CustomerStoredEntity.RecordType.EXPENSE, customerStored);
-        BigDecimal storedBalance = customerEntity.getStoredBalance();
-        storedBalance = storedBalance.subtract(customerStored.getTradeAmount());
-        customerEntity.setStoredBalance(storedBalance);
-        customerService.updateById(customerEntity);
     }
 
     @Override
-    @Transactional(rollbackFor = {Exception.class})
     public void refund(CustomerStoredEntity customerStored) throws Exception {
-        CustomerEntity customerEntity = customerService.getCustomerEntity(customerStored.getCustomerId(), true);
         tradeStored(CustomerStoredEntity.RecordType.REFUND, customerStored);
-        BigDecimal storedBalance = customerEntity.getStoredBalance();
-        storedBalance = storedBalance.add(customerStored.getTradeAmount());
-        customerEntity.setStoredBalance(storedBalance);
-        customerService.updateById(customerEntity);
+        CustomerExtraEntity customerExtraEntity = customerExtraMapper.selectById(customerStored.getCustomerId());
+        BigDecimal storedAmount = customerExtraEntity.getStoredAmount()
+                .subtract(customerStored.getTradeAmount())
+                .subtract(customerStored.getGiveAmount());
+        customerExtraEntity.setStoredAmount(storedAmount);
+        customerExtraEntity.setStoredGive(customerExtraEntity.getStoredGive().subtract(customerStored.getGiveAmount()));
+        //恢复上次的储值折扣
+        //customerExtraEntity.setStoredPaymentCheck(privilegeRuleEntity.getIsNeedSavePayment());
+        //customerExtraEntity.setStoredPrivilegeType(privilegeRuleEntity.getPrivilegeType());
+        //customerExtraEntity.setStoredPrivilegeValue(privilegeRuleEntity.getPrivilegeValue());
+
+        customerExtraMapper.updateById(customerExtraEntity);
     }
 
     /**
@@ -96,11 +143,18 @@ public class CustomerStoredServiceImpl extends ServiceImpl<CustomerStoredMapper,
     private void tradeStored(CustomerStoredEntity.RecordType recordType, CustomerStoredEntity customerStored) {
         BigDecimal residueBalance = getResidueBalanceByLastId(customerStored);
         customerStored.setRecordType(recordType.getValue());
+        customerStored.setLastUsableAmout(residueBalance);
         BigDecimal countResidueBalance = countResidueBalance(recordType, residueBalance, customerStored.getTradeAmount(), customerStored.getGiveAmount());
         customerStored.setResidueBalance(countResidueBalance);
         insert(customerStored);
     }
 
+    /**
+     * 获取最近一次可用余额
+     *
+     * @param customerStored
+     * @return
+     */
     private BigDecimal getResidueBalanceByLastId(CustomerStoredEntity customerStored) {
         CustomerStoredEntity byLastServerUpdateTime = baseMapper.getByLastServerUpdateTime(customerStored.getCustomerId());
         return byLastServerUpdateTime != null ? byLastServerUpdateTime.getResidueBalance() : BigDecimal.ZERO;
@@ -122,9 +176,9 @@ public class CustomerStoredServiceImpl extends ServiceImpl<CustomerStoredMapper,
         giveAmount = giveAmount != null ? giveAmount : BigDecimal.ZERO;
         switch (recordType) {
             case RECHARGE:
-            case REFUND:
                 return residueBalance.add(tradeAmount).add(giveAmount);
             case EXPENSE:
+            case REFUND:
                 return residueBalance.subtract(tradeAmount).subtract(giveAmount);
             default:
                 return null;

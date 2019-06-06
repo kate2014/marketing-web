@@ -101,7 +101,7 @@ public class GeneratorServiceEntity {
                 "commercial_group",
                 "system_version",
                 "customer_entity_card",
-                "customer_privilage_rule",
+                "customer_privilege_rule",
                 "customer_save_rule"
         );
     }

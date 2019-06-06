@@ -14,15 +14,18 @@ import java.util.List;
  * @author pigeon88
  * @since 2019-06-04
  */
-public interface CustomerPrivilageRuleService extends IService<CustomerPrivilegeRuleEntity> {
+public interface CustomerPrivilegeRuleService extends IService<CustomerPrivilegeRuleEntity> {
+
+
+    List<CustomerPrivilegeRuleEntity> getByPrivilegeType(Long shopId, int... privilegeType);
 
     /**
      * 查询所有的会员权益数据
-     * @param mCustomerPrivilageRuleModel
+     * @param mCustomerPrivilegeRuleModel
      * @return
      * @throws Exception
      */
-    List<CustomerPrivilegeRuleEntity> queryAllRule(CustomerPrivilegeRuleModel mCustomerPrivilageRuleModel)throws Exception;
+    List<CustomerPrivilegeRuleEntity> queryAllRule(CustomerPrivilegeRuleModel mCustomerPrivilegeRuleModel)throws Exception;
 
     /**
      * 添加会员权益

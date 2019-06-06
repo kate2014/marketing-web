@@ -1,10 +1,10 @@
 package com.zhongmei.yunfu.domain.entity;
 
-import com.baomidou.mybatisplus.enums.IdType;
-import java.math.BigDecimal;
-import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.annotations.TableId
 import com.baomidou.mybatisplus.annotations.TableName
-import com.zhongmei.yunfu.domain.entity.base.BaseEntity;
+import com.baomidou.mybatisplus.enums.IdType
+import com.zhongmei.yunfu.domain.entity.base.BaseEntity
+import java.math.BigDecimal
 
 /**
  * <p>
@@ -31,7 +31,11 @@ class CustomerStoredEntity : BaseEntity() {
      */
     var recordType: Int? = null
     /**
-     * 交易金额(充值/消费) 
+     * 上次可用余额
+     */
+    var lastUsableAmout: BigDecimal? = null
+    /**
+     * 交易金额不包含赠送(充值/消费)
      */
     var tradeAmount: BigDecimal? = null
     /**
@@ -66,17 +70,17 @@ class CustomerStoredEntity : BaseEntity() {
 
     override fun toString(): String {
         return "CustomerStoredEntity{" +
-        ", id=" + id +
-        ", customerId=" + customerId +
-        ", recordType=" + recordType +
-        ", tradeAmount=" + tradeAmount +
-        ", residueBalance=" + residueBalance +
-        ", tradeId=" + tradeId +
-        ", paymentItemId=" + paymentItemId +
-        ", shopIdenty=" + shopIdenty +
-        ", brandIdenty=" + brandIdenty +
-        ", enabledFlag=" + enabledFlag +
-        "}"
+                ", id=" + id +
+                ", customerId=" + customerId +
+                ", recordType=" + recordType +
+                ", tradeAmount=" + tradeAmount +
+                ", residueBalance=" + residueBalance +
+                ", tradeId=" + tradeId +
+                ", paymentItemId=" + paymentItemId +
+                ", shopIdenty=" + shopIdenty +
+                ", brandIdenty=" + brandIdenty +
+                ", enabledFlag=" + enabledFlag +
+                "}"
     }
 
     enum class RecordType(val value: Int) {

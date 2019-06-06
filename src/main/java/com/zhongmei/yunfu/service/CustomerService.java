@@ -8,12 +8,11 @@ import com.zhongmei.yunfu.api.pos.vo.CustomerSearchReq;
 import com.zhongmei.yunfu.controller.model.CustomerDrainSearchModel;
 import com.zhongmei.yunfu.controller.model.CustomerModel;
 import com.zhongmei.yunfu.controller.model.CustomerSearchModel;
-import com.zhongmei.yunfu.domain.bean.CustomerInfo;
 import com.zhongmei.yunfu.domain.entity.CustomerEntity;
 import com.zhongmei.yunfu.domain.entity.CustomerEntityCardEntity;
+import com.zhongmei.yunfu.domain.entity.CustomerExtraEntity;
 import com.zhongmei.yunfu.domain.entity.CustomerReport;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -289,4 +288,12 @@ public interface CustomerService extends IService<CustomerEntity> {
      * @throws Exception
      */
     List<CustomerReport> customerShopDetailReport(CustomerModel mCustomerModel) throws Exception;
+
+    /**
+     * 根据会员ID查询扩展表信息
+     *
+     * @param customerId
+     * @return
+     */
+    CustomerExtraEntity getCustomerExtra(Long customerId);
 }

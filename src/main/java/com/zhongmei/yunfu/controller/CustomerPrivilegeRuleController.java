@@ -3,7 +3,7 @@ package com.zhongmei.yunfu.controller;
 
 import com.zhongmei.yunfu.controller.model.CustomerPrivilegeRuleModel;
 import com.zhongmei.yunfu.domain.entity.CustomerPrivilegeRuleEntity;
-import com.zhongmei.yunfu.service.CustomerPrivilageRuleService;
+import com.zhongmei.yunfu.service.CustomerPrivilegeRuleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,26 +23,26 @@ import java.util.List;
  * @since 2019-06-04
  */
 @Controller
-@RequestMapping("/internal/customerPrivilageRule")
-public class CustomerPrivilageRuleController {
+@RequestMapping("/internal/customerPrivilegeRule")
+public class CustomerPrivilegeRuleController {
 
     @Autowired
-    CustomerPrivilageRuleService mCustomerPrivilageRuleService;
+    CustomerPrivilegeRuleService mCustomerPrivilegeRuleService;
 
     @RequestMapping("/gotoSettingPage")
     public String gotoSettingPage(Model model, CustomerPrivilegeRuleModel ruleModel){
         try {
 
-            List<CustomerPrivilegeRuleEntity> listData = mCustomerPrivilageRuleService.queryAllRule(ruleModel);
+            List<CustomerPrivilegeRuleEntity> listData = mCustomerPrivilegeRuleService.queryAllRule(ruleModel);
 
             List<CustomerPrivilegeRuleEntity> listSavePrivilege = new ArrayList<>();
 
             if(listData != null && listData.size() != 0){
 
                 for(CustomerPrivilegeRuleEntity entity : listData){
-                    if(entity.getPrivilageType() == 1 || entity.getPrivilageType() == 2){
-                        if(ruleModel.getPrivilageType() != null){
-                            ruleModel.setPrivilageType(entity.getPrivilageType());
+                    if(entity.getPrivilegeType() == 1 || entity.getPrivilegeType() == 2){
+                        if(ruleModel.getPrivilegeType() != null){
+                            ruleModel.setPrivilegeType(entity.getPrivilegeType());
                         }
 
                         if(entity.getFullAmount()!= null){
@@ -51,35 +51,35 @@ public class CustomerPrivilageRuleController {
 
                         if(entity.getCustomerLevel() == 0){
                             ruleModel.setPtRuleId(entity.getId());
-                            ruleModel.setPtPrivilageValue(entity.getPrivilageValue());
+                            ruleModel.setPtPrivilegeValue(entity.getPrivilegeValue());
                         }
                         if(entity.getCustomerLevel() == 1) {
                             ruleModel.setYkRuleId(entity.getId());
-                            ruleModel.setYkPrivilageValue(entity.getPrivilageValue());
+                            ruleModel.setYkPrivilegeValue(entity.getPrivilegeValue());
                         }
                         if(entity.getCustomerLevel() == 2) {
                             ruleModel.setJkRuleId(entity.getId());
-                            ruleModel.setJkPrivilageValue(entity.getPrivilageValue());
+                            ruleModel.setJkPrivilegeValue(entity.getPrivilegeValue());
                         }
                         if(entity.getCustomerLevel() == 3) {
                             ruleModel.setBjRuleId(entity.getId());
-                            ruleModel.setBjPrivilageValue(entity.getPrivilageValue());
+                            ruleModel.setBjPrivilegeValue(entity.getPrivilegeValue());
                         }
                         if(entity.getCustomerLevel() == 4) {
                             ruleModel.setHjRuleId(entity.getId());
-                            ruleModel.setHjPrivilageValue(entity.getPrivilageValue());
+                            ruleModel.setHjPrivilegeValue(entity.getPrivilegeValue());
                         }
                         if(entity.getCustomerLevel() == 5) {
                             ruleModel.setZsRuleId(entity.getId());
-                            ruleModel.setZsPrivilageValue(entity.getPrivilageValue());
+                            ruleModel.setZsPrivilegeValue(entity.getPrivilegeValue());
                         }
                         if(entity.getCustomerLevel() == 6) {
                             ruleModel.setZzRuleId(entity.getId());
-                            ruleModel.setZzPrivilageValue(entity.getPrivilageValue());
+                            ruleModel.setZzPrivilegeValue(entity.getPrivilegeValue());
                         }
                     }
 
-                    if(entity.getPrivilageType() == 3 || entity.getPrivilageType() == 4){
+                    if(entity.getPrivilegeType() == 3 || entity.getPrivilegeType() == 4){
                         listSavePrivilege.add(entity);
                     }
 
@@ -90,7 +90,7 @@ public class CustomerPrivilageRuleController {
 
             model.addAttribute("ruleModel", ruleModel);
 
-            return "customer_privilage_setting";
+            return "customer_privilege_setting";
         }catch (Exception e){
             e.printStackTrace();
             return "fail";
@@ -98,8 +98,8 @@ public class CustomerPrivilageRuleController {
 
     }
 
-    @RequestMapping("/customerLevelPrivilage")
-    public String addCustomerLevelPrivilage(Model model, CustomerPrivilegeRuleModel ruleModel){
+    @RequestMapping("/customerLevelPrivilege")
+    public String addCustomerLevelPrivilege(Model model, CustomerPrivilegeRuleModel ruleModel){
         String actionSuccess = "success";
 
         try {
@@ -109,18 +109,18 @@ public class CustomerPrivilageRuleController {
             //普通会员权益
             //判断是否是删除
             if(ruleModel.getPtRuleId() != null && !ruleModel.getPtRuleId().equals("")){
-                if(ruleModel.getPtPrivilageValue() == null || ruleModel.getPtPrivilageValue().equals("")){
+                if(ruleModel.getPtPrivilegeValue() == null || ruleModel.getPtPrivilegeValue().equals("")){
                     deleteIds = ruleModel.getPtRuleId()+"";
                 }
             }
             //执行添加或删除
-            if(ruleModel.getPtPrivilageValue() != null && !ruleModel.getPtPrivilageValue().equals("")){
+            if(ruleModel.getPtPrivilegeValue() != null && !ruleModel.getPtPrivilegeValue().equals("")){
                 CustomerPrivilegeRuleEntity ptEntity = new CustomerPrivilegeRuleEntity();
                 ptEntity.setId(ruleModel.getPtRuleId());
-                ptEntity.setPrivilageType(ruleModel.getPrivilageType());
+                ptEntity.setPrivilegeType(ruleModel.getPrivilegeType());
                 ptEntity.setCustomerLevel(0);
                 ptEntity.setFullAmount(ruleModel.getFullAmount());
-                ptEntity.setPrivilageValue(ruleModel.getPtPrivilageValue());
+                ptEntity.setPrivilegeValue(ruleModel.getPtPrivilegeValue());
                 ptEntity.setIsNeedSavePayment(0);
                 ptEntity.setBrandIdenty(ruleModel.getBrandIdenty());
                 ptEntity.setShopIdenty(ruleModel.getShopIdenty());
@@ -140,7 +140,7 @@ public class CustomerPrivilageRuleController {
 
             //银卡会员权益
             if(ruleModel.getYkRuleId() != null && !ruleModel.getYkRuleId().equals("")){
-                if(ruleModel.getYkPrivilageValue() == null || ruleModel.getYkPrivilageValue().equals("")){
+                if(ruleModel.getYkPrivilegeValue() == null || ruleModel.getYkPrivilegeValue().equals("")){
                     if(deleteIds.equals("")){
                         deleteIds = ruleModel.getYkRuleId()+"";
                     }else {
@@ -149,13 +149,13 @@ public class CustomerPrivilageRuleController {
 
                 }
             }
-            if(ruleModel.getYkPrivilageValue() != null && !ruleModel.getYkPrivilageValue().equals("")){
+            if(ruleModel.getYkPrivilegeValue() != null && !ruleModel.getYkPrivilegeValue().equals("")){
                 CustomerPrivilegeRuleEntity ykEntity = new CustomerPrivilegeRuleEntity();
                 ykEntity.setId(ruleModel.getYkRuleId());
-                ykEntity.setPrivilageType(ruleModel.getPrivilageType());
+                ykEntity.setPrivilegeType(ruleModel.getPrivilegeType());
                 ykEntity.setCustomerLevel(1);
                 ykEntity.setFullAmount(ruleModel.getFullAmount());
-                ykEntity.setPrivilageValue(ruleModel.getYkPrivilageValue());
+                ykEntity.setPrivilegeValue(ruleModel.getYkPrivilegeValue());
                 ykEntity.setIsNeedSavePayment(0);
                 ykEntity.setBrandIdenty(ruleModel.getBrandIdenty());
                 ykEntity.setShopIdenty(ruleModel.getShopIdenty());
@@ -177,7 +177,7 @@ public class CustomerPrivilageRuleController {
 
             //金卡会员权益
             if(ruleModel.getJkRuleId() != null && !ruleModel.getJkRuleId().equals("")){
-                if(ruleModel.getJkPrivilageValue() == null || ruleModel.getJkPrivilageValue().equals("")){
+                if(ruleModel.getJkPrivilegeValue() == null || ruleModel.getJkPrivilegeValue().equals("")){
                     if(deleteIds.equals("")){
                         deleteIds = ruleModel.getJkRuleId()+"";
                     }else {
@@ -186,13 +186,13 @@ public class CustomerPrivilageRuleController {
 
                 }
             }
-            if(ruleModel.getJkPrivilageValue() != null && !ruleModel.getJkPrivilageValue().equals("")){
+            if(ruleModel.getJkPrivilegeValue() != null && !ruleModel.getJkPrivilegeValue().equals("")){
                 CustomerPrivilegeRuleEntity jkEntity = new CustomerPrivilegeRuleEntity();
                 jkEntity.setId(ruleModel.getJkRuleId());
-                jkEntity.setPrivilageType(ruleModel.getPrivilageType());
+                jkEntity.setPrivilegeType(ruleModel.getPrivilegeType());
                 jkEntity.setCustomerLevel(2);
                 jkEntity.setFullAmount(ruleModel.getFullAmount());
-                jkEntity.setPrivilageValue(ruleModel.getJkPrivilageValue());
+                jkEntity.setPrivilegeValue(ruleModel.getJkPrivilegeValue());
                 jkEntity.setIsNeedSavePayment(0);
                 jkEntity.setBrandIdenty(ruleModel.getBrandIdenty());
                 jkEntity.setShopIdenty(ruleModel.getShopIdenty());
@@ -212,7 +212,7 @@ public class CustomerPrivilageRuleController {
 
             //白金会员权益
             if(ruleModel.getBjRuleId() != null && !ruleModel.getBjRuleId().equals("")){
-                if(ruleModel.getBjPrivilageValue() == null || ruleModel.getBjPrivilageValue().equals("")){
+                if(ruleModel.getBjPrivilegeValue() == null || ruleModel.getBjPrivilegeValue().equals("")){
                     if(deleteIds.equals("")){
                         deleteIds = ruleModel.getBjRuleId()+"";
                     }else {
@@ -221,13 +221,13 @@ public class CustomerPrivilageRuleController {
 
                 }
             }
-            if(ruleModel.getBjPrivilageValue() != null && !ruleModel.getBjPrivilageValue().equals("")){
+            if(ruleModel.getBjPrivilegeValue() != null && !ruleModel.getBjPrivilegeValue().equals("")){
                 CustomerPrivilegeRuleEntity bjEntity = new CustomerPrivilegeRuleEntity();
                 bjEntity.setId(ruleModel.getBjRuleId());
-                bjEntity.setPrivilageType(ruleModel.getPrivilageType());
+                bjEntity.setPrivilegeType(ruleModel.getPrivilegeType());
                 bjEntity.setCustomerLevel(3);
                 bjEntity.setFullAmount(ruleModel.getFullAmount());
-                bjEntity.setPrivilageValue(ruleModel.getBjPrivilageValue());
+                bjEntity.setPrivilegeValue(ruleModel.getBjPrivilegeValue());
                 bjEntity.setIsNeedSavePayment(0);
                 bjEntity.setBrandIdenty(ruleModel.getBrandIdenty());
                 bjEntity.setShopIdenty(ruleModel.getShopIdenty());
@@ -247,7 +247,7 @@ public class CustomerPrivilageRuleController {
 
             //黑金会员权益
             if(ruleModel.getHjRuleId() != null && !ruleModel.getHjRuleId().equals("")){
-                if(ruleModel.getHjPrivilageValue() == null || ruleModel.getHjPrivilageValue().equals("")){
+                if(ruleModel.getHjPrivilegeValue() == null || ruleModel.getHjPrivilegeValue().equals("")){
                     if(deleteIds.equals("")){
                         deleteIds = ruleModel.getHjRuleId()+"";
                     }else {
@@ -256,13 +256,13 @@ public class CustomerPrivilageRuleController {
 
                 }
             }
-            if(ruleModel.getHjPrivilageValue() != null && !ruleModel.getHjPrivilageValue().equals("")){
+            if(ruleModel.getHjPrivilegeValue() != null && !ruleModel.getHjPrivilegeValue().equals("")){
                 CustomerPrivilegeRuleEntity hjEntity = new CustomerPrivilegeRuleEntity();
                 hjEntity.setId(ruleModel.getHjRuleId());
-                hjEntity.setPrivilageType(ruleModel.getPrivilageType());
+                hjEntity.setPrivilegeType(ruleModel.getPrivilegeType());
                 hjEntity.setCustomerLevel(4);
                 hjEntity.setFullAmount(ruleModel.getFullAmount());
-                hjEntity.setPrivilageValue(ruleModel.getHjPrivilageValue());
+                hjEntity.setPrivilegeValue(ruleModel.getHjPrivilegeValue());
                 hjEntity.setIsNeedSavePayment(0);
                 hjEntity.setBrandIdenty(ruleModel.getBrandIdenty());
                 hjEntity.setShopIdenty(ruleModel.getShopIdenty());
@@ -282,7 +282,7 @@ public class CustomerPrivilageRuleController {
 
             //钻石会员权益
             if(ruleModel.getZsRuleId() != null && !ruleModel.getZsRuleId().equals("")){
-                if(ruleModel.getZsPrivilageValue() == null || ruleModel.getZsPrivilageValue().equals("")){
+                if(ruleModel.getZsPrivilegeValue() == null || ruleModel.getZsPrivilegeValue().equals("")){
                     if(deleteIds.equals("")){
                         deleteIds = ruleModel.getZsRuleId()+"";
                     }else {
@@ -291,13 +291,13 @@ public class CustomerPrivilageRuleController {
 
                 }
             }
-            if(ruleModel.getZsPrivilageValue() != null && !ruleModel.getZsPrivilageValue().equals("")){
+            if(ruleModel.getZsPrivilegeValue() != null && !ruleModel.getZsPrivilegeValue().equals("")){
                 CustomerPrivilegeRuleEntity zsEntity = new CustomerPrivilegeRuleEntity();
                 zsEntity.setId(ruleModel.getZsRuleId());
-                zsEntity.setPrivilageType(ruleModel.getPrivilageType());
+                zsEntity.setPrivilegeType(ruleModel.getPrivilegeType());
                 zsEntity.setCustomerLevel(5);
                 zsEntity.setFullAmount(ruleModel.getFullAmount());
-                zsEntity.setPrivilageValue(ruleModel.getZsPrivilageValue());
+                zsEntity.setPrivilegeValue(ruleModel.getZsPrivilegeValue());
                 zsEntity.setIsNeedSavePayment(0);
                 zsEntity.setBrandIdenty(ruleModel.getBrandIdenty());
                 zsEntity.setShopIdenty(ruleModel.getShopIdenty());
@@ -317,7 +317,7 @@ public class CustomerPrivilageRuleController {
 
             //至尊会员权益
             if(ruleModel.getZzRuleId() != null && !ruleModel.getZzRuleId().equals("")){
-                if(ruleModel.getZzPrivilageValue() == null || ruleModel.getZzPrivilageValue().equals("")){
+                if(ruleModel.getZzPrivilegeValue() == null || ruleModel.getZzPrivilegeValue().equals("")){
                     if(deleteIds.equals("")){
                         deleteIds = ruleModel.getZzRuleId()+"";
                     }else {
@@ -326,13 +326,13 @@ public class CustomerPrivilageRuleController {
 
                 }
             }
-            if(ruleModel.getZzPrivilageValue() != null && !ruleModel.getZzPrivilageValue().equals("")){
+            if(ruleModel.getZzPrivilegeValue() != null && !ruleModel.getZzPrivilegeValue().equals("")){
                 CustomerPrivilegeRuleEntity zzEntity = new CustomerPrivilegeRuleEntity();
                 zzEntity.setId(ruleModel.getZzRuleId());
-                zzEntity.setPrivilageType(ruleModel.getPrivilageType());
+                zzEntity.setPrivilegeType(ruleModel.getPrivilegeType());
                 zzEntity.setCustomerLevel(6);
                 zzEntity.setFullAmount(ruleModel.getFullAmount());
-                zzEntity.setPrivilageValue(ruleModel.getZzPrivilageValue());
+                zzEntity.setPrivilegeValue(ruleModel.getZzPrivilegeValue());
                 zzEntity.setIsNeedSavePayment(0);
                 zzEntity.setBrandIdenty(ruleModel.getBrandIdenty());
                 zzEntity.setShopIdenty(ruleModel.getShopIdenty());
@@ -350,9 +350,9 @@ public class CustomerPrivilageRuleController {
             }
 
 
-            boolean isSuccess = mCustomerPrivilageRuleService.installOrUpdate(listAdd);
+            boolean isSuccess = mCustomerPrivilegeRuleService.installOrUpdate(listAdd);
             if(!deleteIds.equals("")){
-                mCustomerPrivilageRuleService.batchDelete(ruleModel.getBrandIdenty(),ruleModel.getShopIdenty(),deleteIds);
+                mCustomerPrivilegeRuleService.batchDelete(ruleModel.getBrandIdenty(),ruleModel.getShopIdenty(),deleteIds);
             }
             if(isSuccess){
                 actionSuccess = "success";
@@ -364,7 +364,7 @@ public class CustomerPrivilageRuleController {
             return "fail";
         }
 
-        return String.format("redirect:/internal/customerPrivilageRule/gotoSettingPage?brandIdenty=%d&shopIdenty=%d&creatorId=%d&creatorName=%s&successOrfail=%s",
+        return String.format("redirect:/internal/customerPrivilegeRule/gotoSettingPage?brandIdenty=%d&shopIdenty=%d&creatorId=%d&creatorName=%s&successOrfail=%s",
                 ruleModel.getBrandIdenty(), ruleModel.getShopIdenty(), ruleModel.getCreatorId(), ruleModel.getCreatorName(),actionSuccess);
     }
 
@@ -373,10 +373,10 @@ public class CustomerPrivilageRuleController {
         String actionSuccess = "success";
         try {
             CustomerPrivilegeRuleEntity entity = new CustomerPrivilegeRuleEntity();
-            entity.setPrivilageType(ruleModel.getPrivilageType());
+            entity.setPrivilegeType(ruleModel.getPrivilegeType());
             entity.setFullAmount(ruleModel.getFullAmount());
             entity.setSaveAmount(ruleModel.getSaveAmount());
-            entity.setPrivilageValue(ruleModel.getPrivilageValue());
+            entity.setPrivilegeValue(ruleModel.getPrivilegeValue());
             entity.setIsNeedSavePayment(ruleModel.getIsNeedSavePayment());
             entity.setBrandIdenty(ruleModel.getBrandIdenty());
             entity.setShopIdenty(ruleModel.getShopIdenty());
@@ -385,7 +385,7 @@ public class CustomerPrivilageRuleController {
             entity.setUpdatorId(ruleModel.getCreatorId());
             entity.setUpdatorName(ruleModel.getCreatorName());
 
-            boolean isSuccess = mCustomerPrivilageRuleService.addRule(entity);
+            boolean isSuccess = mCustomerPrivilegeRuleService.addRule(entity);
             if(isSuccess){
                 actionSuccess = "success";
             }else {
@@ -396,14 +396,14 @@ public class CustomerPrivilageRuleController {
             e.printStackTrace();
         }
 
-        return String.format("redirect:/internal/customerPrivilageRule/gotoSettingPage?brandIdenty=%d&shopIdenty=%d&creatorId=%d&creatorName=%s&successOrfail=%s",
+        return String.format("redirect:/internal/customerPrivilegeRule/gotoSettingPage?brandIdenty=%d&shopIdenty=%d&creatorId=%d&creatorName=%s&successOrfail=%s",
                 ruleModel.getBrandIdenty(), ruleModel.getShopIdenty(), ruleModel.getCreatorId(), ruleModel.getCreatorName(),actionSuccess);
     }
 
     @RequestMapping("/deletePrivilegeRule")
     public String deletePrivilegeRule(Model model, CustomerPrivilegeRuleModel ruleModel) {
         try {
-            boolean isSuccess = mCustomerPrivilageRuleService.deleteRuleById(ruleModel.getId());
+            boolean isSuccess = mCustomerPrivilegeRuleService.deleteRuleById(ruleModel.getId());
             if (isSuccess) {
                 return "success";
             } else {

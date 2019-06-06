@@ -60,6 +60,7 @@ public class CustomerPosApi extends PosApiController {
     @RequestMapping("/info")
     public ApiResult info(@RequestBody CustomerInfoReq req) throws ApiRespStatusException {
         CustomerEntity customer = customerService.selectById(req.getCustomerId());
+        CustomerExtraEntity customerExtra = customerService.getCustomerExtra(req.getCustomerId());
         CustomerInfoResp customerResp = new CustomerInfoResp();
         customerResp.customerId = customer.getId();
         customerResp.customerName = customer.getName();
@@ -73,7 +74,7 @@ public class CustomerPosApi extends PosApiController {
         customerResp.levelId = customer.getGroupLevelId();
         customerResp.level = 0L;
         customerResp.levelName = customer.getGroupLevel();
-        customerResp.remainValue = customer.getStoredBalance();
+        customerResp.remainValue = customerExtra.getStoredAmount();
         customerResp.integral = customer.getIntegralTotal() - customer.getIntegralUsed();
         customerResp.memo = customer.getProfile();
         int couponCount = customerCouponService.selectCouponEntityCount(customer.getId(), customer.getShopIdenty());
@@ -125,7 +126,7 @@ public class CustomerPosApi extends PosApiController {
             mCustomer.setGroupLevelId(levelRuleEntity.getId());
             mCustomer.setGroupLevel(levelRuleEntity.getLevelName());
             mCustomer.setSourceId(CustomerSourceId.POS.value());
-            mCustomer.setStoredBalance(BigDecimal.ZERO);
+            //mCustomer.setStoredBalance(BigDecimal.ZERO);
             mCustomer.setShopIdenty(req.getHeader().getShopId());
             mCustomer.setBrandIdenty(req.getHeader().getBrandId());
             mCustomer.setEnabledFlag(EnabledFlag.ENABLED.value());

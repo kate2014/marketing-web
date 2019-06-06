@@ -31,7 +31,7 @@ public class CustomerPrivilegeRuleEntity extends BaseEntity {
     /**
      * 权益类型： 1：会员等级折扣，2：会员等级让价，3：储值支付折扣，4：储值支付让价
      */
-    private Integer privilageType;
+    private Integer privilegeType;
     /**
      * 储值金额，用于记录储值满多少给予对应的优惠
      */
@@ -39,7 +39,7 @@ public class CustomerPrivilegeRuleEntity extends BaseEntity {
     /**
      * 权益额度值
      */
-    private BigDecimal privilageValue;
+    private BigDecimal privilegeValue;
     /**
      * 满额限制
      */
@@ -74,20 +74,20 @@ public class CustomerPrivilegeRuleEntity extends BaseEntity {
         this.customerLevel = customerLevel;
     }
 
-    public Integer getPrivilageType() {
-        return privilageType;
+    public Integer getPrivilegeType() {
+        return privilegeType;
     }
 
-    public void setPrivilageType(Integer privilageType) {
-        this.privilageType = privilageType;
+    public void setPrivilegeType(Integer privilegeType) {
+        this.privilegeType = privilegeType;
     }
 
-    public BigDecimal getPrivilageValue() {
-        return privilageValue;
+    public BigDecimal getPrivilegeValue() {
+        return privilegeValue;
     }
 
-    public void setPrivilageValue(BigDecimal privilageValue) {
-        this.privilageValue = privilageValue;
+    public void setPrivilegeValue(BigDecimal privilegeValue) {
+        this.privilegeValue = privilegeValue;
     }
 
     public BigDecimal getFullAmount() {
@@ -135,9 +135,9 @@ public class CustomerPrivilegeRuleEntity extends BaseEntity {
         return "CustomerPrivilegeRuleEntity{" +
         ", id=" + id +
         ", customerLevel=" + customerLevel +
-        ", privilageType=" + privilageType +
+        ", privilegeType=" + privilegeType +
         ", saveAmount=" + saveAmount +
-        ", privilageValue=" + privilageValue +
+        ", privilegeValue=" + privilegeValue +
         ", fullAmount=" + fullAmount +
         ", isNeedSavePayment=" + isNeedSavePayment +
         ", shopIdenty=" + shopIdenty +

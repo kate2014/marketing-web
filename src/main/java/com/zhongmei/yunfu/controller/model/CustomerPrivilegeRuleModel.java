@@ -12,11 +12,11 @@ public class CustomerPrivilegeRuleModel {
     /**
      * 权益类型： 1：会员等级折扣，2：会员等级让价，3：储值支付折扣，4：储值支付让价
      */
-    private Integer privilageType;
+    private Integer privilegeType;
     /**
      * 权益额度值
      */
-    private BigDecimal privilageValue;
+    private BigDecimal privilegeValue;
     /**
      * 储值金额，用于记录储值满多少给予对应的优惠
      */
@@ -67,13 +67,13 @@ public class CustomerPrivilegeRuleModel {
     /**
      * 会员等级对应的权益值
      */
-    private BigDecimal ptPrivilageValue;
-    private BigDecimal ykPrivilageValue;
-    private BigDecimal jkPrivilageValue;
-    private BigDecimal bjPrivilageValue;
-    private BigDecimal hjPrivilageValue;
-    private BigDecimal zsPrivilageValue;
-    private BigDecimal zzPrivilageValue;
+    private BigDecimal ptPrivilegeValue;
+    private BigDecimal ykPrivilegeValue;
+    private BigDecimal jkPrivilegeValue;
+    private BigDecimal bjPrivilegeValue;
+    private BigDecimal hjPrivilegeValue;
+    private BigDecimal zsPrivilegeValue;
+    private BigDecimal zzPrivilegeValue;
 
     private String successOrfail;
 
@@ -93,20 +93,20 @@ public class CustomerPrivilegeRuleModel {
         this.customerLevel = customerLevel;
     }
 
-    public Integer getPrivilageType() {
-        return privilageType;
+    public Integer getPrivilegeType() {
+        return privilegeType;
     }
 
-    public void setPrivilageType(Integer privilageType) {
-        this.privilageType = privilageType;
+    public void setPrivilegeType(Integer privilegeType) {
+        this.privilegeType = privilegeType;
     }
 
-    public BigDecimal getPrivilageValue() {
-        return privilageValue;
+    public BigDecimal getPrivilegeValue() {
+        return privilegeValue;
     }
 
-    public void setPrivilageValue(BigDecimal privilageValue) {
-        this.privilageValue = privilageValue;
+    public void setPrivilegeValue(BigDecimal privilegeValue) {
+        this.privilegeValue = privilegeValue;
     }
 
     public BigDecimal getFullAmount() {
@@ -173,60 +173,60 @@ public class CustomerPrivilegeRuleModel {
         this.updatorName = updatorName;
     }
 
-    public BigDecimal getPtPrivilageValue() {
-        return ptPrivilageValue;
+    public BigDecimal getPtPrivilegeValue() {
+        return ptPrivilegeValue;
     }
 
-    public void setPtPrivilageValue(BigDecimal ptPrivilageValue) {
-        this.ptPrivilageValue = ptPrivilageValue;
+    public void setPtPrivilegeValue(BigDecimal ptPrivilegeValue) {
+        this.ptPrivilegeValue = ptPrivilegeValue;
     }
 
-    public BigDecimal getYkPrivilageValue() {
-        return ykPrivilageValue;
+    public BigDecimal getYkPrivilegeValue() {
+        return ykPrivilegeValue;
     }
 
-    public void setYkPrivilageValue(BigDecimal ykPrivilageValue) {
-        this.ykPrivilageValue = ykPrivilageValue;
+    public void setYkPrivilegeValue(BigDecimal ykPrivilegeValue) {
+        this.ykPrivilegeValue = ykPrivilegeValue;
     }
 
-    public BigDecimal getJkPrivilageValue() {
-        return jkPrivilageValue;
+    public BigDecimal getJkPrivilegeValue() {
+        return jkPrivilegeValue;
     }
 
-    public void setJkPrivilageValue(BigDecimal jkPrivilageValue) {
-        this.jkPrivilageValue = jkPrivilageValue;
+    public void setJkPrivilegeValue(BigDecimal jkPrivilegeValue) {
+        this.jkPrivilegeValue = jkPrivilegeValue;
     }
 
-    public BigDecimal getBjPrivilageValue() {
-        return bjPrivilageValue;
+    public BigDecimal getBjPrivilegeValue() {
+        return bjPrivilegeValue;
     }
 
-    public void setBjPrivilageValue(BigDecimal bjPrivilageValue) {
-        this.bjPrivilageValue = bjPrivilageValue;
+    public void setBjPrivilegeValue(BigDecimal bjPrivilegeValue) {
+        this.bjPrivilegeValue = bjPrivilegeValue;
     }
 
-    public BigDecimal getHjPrivilageValue() {
-        return hjPrivilageValue;
+    public BigDecimal getHjPrivilegeValue() {
+        return hjPrivilegeValue;
     }
 
-    public void setHjPrivilageValue(BigDecimal hjPrivilageValue) {
-        this.hjPrivilageValue = hjPrivilageValue;
+    public void setHjPrivilegeValue(BigDecimal hjPrivilegeValue) {
+        this.hjPrivilegeValue = hjPrivilegeValue;
     }
 
-    public BigDecimal getZsPrivilageValue() {
-        return zsPrivilageValue;
+    public BigDecimal getZsPrivilegeValue() {
+        return zsPrivilegeValue;
     }
 
-    public void setZsPrivilageValue(BigDecimal zsPrivilageValue) {
-        this.zsPrivilageValue = zsPrivilageValue;
+    public void setZsPrivilegeValue(BigDecimal zsPrivilegeValue) {
+        this.zsPrivilegeValue = zsPrivilegeValue;
     }
 
-    public BigDecimal getZzPrivilageValue() {
-        return zzPrivilageValue;
+    public BigDecimal getZzPrivilegeValue() {
+        return zzPrivilegeValue;
     }
 
-    public void setZzPrivilageValue(BigDecimal zzPrivilageValue) {
-        this.zzPrivilageValue = zzPrivilageValue;
+    public void setZzPrivilegeValue(BigDecimal zzPrivilegeValue) {
+        this.zzPrivilegeValue = zzPrivilegeValue;
     }
 
     public Long getPtRuleId() {

@@ -27,6 +27,9 @@ public class CustomerLoginResp {
     private Long brandId;//品牌id
     private Long commercialId;//顾客所属门店id
     private String commercialName;//顾客所属门店名称
+    private Boolean isStoredPaymentCheck; //是否做储值支付验证
+    private Integer storedPrivilegeType; //储值支付优惠类型
+    private BigDecimal storedPrivilegeValue; //储值支付优惠值
 
     public Long getCustomerId() {
         return customerId;
@@ -170,5 +173,29 @@ public class CustomerLoginResp {
 
     public void setCommercialName(String commercialName) {
         this.commercialName = commercialName;
+    }
+
+    public Boolean isStoredPaymentCheck() {
+        return isStoredPaymentCheck;
+    }
+
+    public void setStoredPaymentCheck(Boolean storedPaymentCheck) {
+        isStoredPaymentCheck = storedPaymentCheck;
+    }
+
+    public Integer getStoredPrivilegeType() {
+        return storedPrivilegeType;
+    }
+
+    public void setStoredPrivilegeType(Integer storedPrivilegeType) {
+        this.storedPrivilegeType = storedPrivilegeType;
+    }
+
+    public BigDecimal getStoredPrivilegeValue() {
+        return storedPrivilegeValue;
+    }
+
+    public void setStoredPrivilegeValue(BigDecimal storedPrivilegeValue) {
+        this.storedPrivilegeValue = storedPrivilegeValue;
     }
 }

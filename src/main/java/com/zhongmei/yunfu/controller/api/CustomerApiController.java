@@ -148,8 +148,11 @@ public class CustomerApiController {
                 mLoginCustomerModel.setGroupLevelId(mobileCustomer.getGroupLevelId());
                 mLoginCustomerModel.setMobile(mobileCustomer.getMobile());
                 mLoginCustomerModel.setName(mobileCustomer.getName());
-                mLoginCustomerModel.setStoredBalance(mobileCustomer.getStoredBalance());
+                //mLoginCustomerModel.setStoredBalance(mobileCustomer.getStoredBalance());
                 mLoginCustomerModel.setConsumptionLastTime(mobileCustomer.getConsumptionLastTime());
+
+                CustomerExtraEntity customerExtra = mCustomerService.getCustomerExtra(mobileCustomer.getId());
+                mLoginCustomerModel.setStoredBalance(customerExtra.getStoredAmount());
 
 
                 int cardTimeCount = mCustomerCardTimeService.selectCount(mobileCustomer.getId(),mCustomerModel.getShopIdenty());

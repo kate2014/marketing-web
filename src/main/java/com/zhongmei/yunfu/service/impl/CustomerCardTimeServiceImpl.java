@@ -166,7 +166,6 @@ public class CustomerCardTimeServiceImpl extends ServiceImpl<CustomerCardTimeMap
         WxTemplateMessageHandler.sendWxTemplateMessage(wxTempMsg);
     }
 
-    @Transactional(rollbackFor = Exception.class)
     @Override
     public void expense(CustomerCardTimeExpenseReq req) throws Exception {
         CustomerEntity customerEntity = customerService.getCustomerEntity(req.getCustomerId(), true);
@@ -240,7 +239,6 @@ public class CustomerCardTimeServiceImpl extends ServiceImpl<CustomerCardTimeMap
         customerService.updateById(customerEntity);
     }
 
-    @Transactional(rollbackFor = Exception.class)
     @Override
     public void refund(CustomerCardTimeRefundReq req) throws Exception {
         CustomerEntity customerEntity = customerService.getCustomerEntity(req.getCustomerId(), true);

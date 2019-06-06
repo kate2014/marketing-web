@@ -1,7 +1,10 @@
 package com.zhongmei.yunfu.domain.mapper;
 
-import com.zhongmei.yunfu.domain.entity.CustomerSaveRuleEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import com.zhongmei.yunfu.domain.entity.CustomerSaveRuleEntity;
+import org.apache.ibatis.annotations.Param;
+
+import java.math.BigDecimal;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  */
 public interface CustomerSaveRuleMapper extends BaseMapper<CustomerSaveRuleEntity> {
 
+    BigDecimal getShopGiveValue(@Param("shopId") Long shopId, @Param("tradeAmount") BigDecimal tradeAmount);
 }

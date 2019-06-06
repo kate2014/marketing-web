@@ -100,7 +100,7 @@
 </div>
 
 <div class="parent_h">
-    <div class="parent_h container tradeprivilageBg">
+    <div class="parent_h container tradeprivilegeBg">
         带动消费总金额:   <span th:text="${totalAmount}" style="margin-right: 50px"></span>
         带动消费总单数:   <span th:text="${totalCount}"></span>
     </div>
@@ -108,7 +108,7 @@
 
 
 <div style="width: 98%;height:500px; align-content: center; text-align: center;margin-top: 20px;margin-bottom: 30px">
-    <div id="privilageContainer" style="width: 100%;height:100%;"></div>
+    <div id="privilegeContainer" style="width: 100%;height:100%;"></div>
 </div>
 
 
@@ -230,7 +230,7 @@
 
 
     //=============带动储值消费================
-    var dom = document.getElementById("privilageContainer");
+    var dom = document.getElementById("privilegeContainer");
     var myChart = echarts.init(dom);
     var app = {};
     option = null;
@@ -260,7 +260,7 @@
         xAxis: [
             {
                 type: 'category',
-                data: [[${privilageNameList}]],
+                data: [[${privilegeNameList}]],
                 axisPointer: {
                     type: 'shadow'
                 },

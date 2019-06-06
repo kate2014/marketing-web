@@ -13,6 +13,8 @@ import com.zhongmei.yunfu.domain.entity.CustomerStoredEntity;
  */
 public interface CustomerStoredService extends IService<CustomerStoredEntity> {
 
+    CustomerStoredEntity getByPaymentItemId(Long shopId, Long tradeId, Long paymentItemId);
+
     void recharge(CustomerStoredEntity customerStored) throws Exception;
 
     void expense(CustomerStoredEntity customerStored) throws Exception;

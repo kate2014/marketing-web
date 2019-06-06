@@ -1,6 +1,6 @@
 package com.zhongmei.yunfu.api.web;
 
-import com.zhongmei.yunfu.domain.entity.TradePrivilageReport;
+import com.zhongmei.yunfu.domain.entity.TradePrivilegeReport;
 import com.zhongmei.yunfu.service.TradeService;
 import com.zhongmei.yunfu.util.DateFormatUtil;
 import com.zhongmei.yunfu.controller.model.ReportMarketingModel;
@@ -130,7 +130,7 @@ public class ReportCouponController {
 
             model.addAttribute("mReportMarketingModel", mReportMarketingModel);
 
-            queryTradePrivilageReport(model, mReportMarketingModel);
+            queryTradePrivilegeReport(model, mReportMarketingModel);
         } catch (Exception e) {
             e.printStackTrace();
 
@@ -142,12 +142,12 @@ public class ReportCouponController {
     /**
      * 查询优惠券拉动消费额
      */
-    public void queryTradePrivilageReport(Model model, ReportMarketingModel mReportMarketingModel){
+    public void queryTradePrivilegeReport(Model model, ReportMarketingModel mReportMarketingModel){
         try{
             //4为优惠券
-            mReportMarketingModel.setPrivilageType(4);
-            List<TradePrivilageReport> listData = mTradeService.queryTradePrivilage(mReportMarketingModel);
-            List<String> privilageNameList = new LinkedList<>();
+            mReportMarketingModel.setPrivilegeType(4);
+            List<TradePrivilegeReport> listData = mTradeService.queryTradePrivilege(mReportMarketingModel);
+            List<String> privilegeNameList = new LinkedList<>();
             List<BigDecimal> countList = new LinkedList<>();
             List<BigDecimal> amountList = new LinkedList<>();
 
@@ -157,8 +157,8 @@ public class ReportCouponController {
             Long maxCount = 0l;
             Long maxAmount = 0l;
 
-            for(TradePrivilageReport tp : listData){
-                privilageNameList.add(tp.getPrivilageName());
+            for(TradePrivilegeReport tp : listData){
+                privilegeNameList.add(tp.getPrivilegeName());
                 countList.add(tp.getTradeCount());
                 amountList.add(tp.getTradeAmount());
 
@@ -182,7 +182,7 @@ public class ReportCouponController {
             model.addAttribute("maxAmount", maxAmount);
             model.addAttribute("intervalAmount", maxAmount / 10);
 
-            model.addAttribute("privilageNameList", privilageNameList);
+            model.addAttribute("privilegeNameList", privilegeNameList);
             model.addAttribute("countList", countList);
             model.addAttribute("amountList", amountList);
             model.addAttribute("totalCount", totalCount);

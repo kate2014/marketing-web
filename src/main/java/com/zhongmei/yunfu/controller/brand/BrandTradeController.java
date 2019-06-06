@@ -85,24 +85,24 @@ public class BrandTradeController extends BaseController{
 
             List<TradeItemEntity> listItem = mTradeItemService.querTradeItemByTradeId(mTradeEntity.getId());
 
-            List<TradePrivilegeEntity> listPrivilage = mTradePrivilegeService.queryPrivilegeByTradeId(mTradeModel.getBrandIdenty(),mTradeModel.getShopIdenty(),mTradeModel.getTradeId());
+            List<TradePrivilegeEntity> listPrivilege = mTradePrivilegeService.queryPrivilegeByTradeId(mTradeModel.getBrandIdenty(),mTradeModel.getShopIdenty(),mTradeModel.getTradeId());
 
             List<TradeUserEntity> listTradeUser = mTradeUserService.queryDataByTradeId(mTradeModel.getTradeId());
 
             List<TradeItemModel> listTradeItem = new ArrayList<>();
 
-            List<TradePrivilegeEntity> tradePrivilageForTrade = new ArrayList<>();
+            List<TradePrivilegeEntity> tradePrivilegeForTrade = new ArrayList<>();
 
             TradeUserEntity tradeUserForTrade = new TradeUserEntity();
 
             Map<Long,TradePrivilegeEntity> privilegeMap = new HashMap<>();
             Map<Long,TradeUserEntity> tradeUserMap = new HashMap<>();
 
-            for(TradePrivilegeEntity privilage : listPrivilage){
-                if(privilage.getTradeItemId() == null || privilage.getTradeItemId().equals("")){
-                    tradePrivilageForTrade.add(privilage);
+            for(TradePrivilegeEntity privilege : listPrivilege){
+                if(privilege.getTradeItemId() == null || privilege.getTradeItemId().equals("")){
+                    tradePrivilegeForTrade.add(privilege);
                 }else{
-                    privilegeMap.put(privilage.getTradeItemId(),privilage);
+                    privilegeMap.put(privilege.getTradeItemId(),privilege);
                 }
 
             }
@@ -151,7 +151,7 @@ public class BrandTradeController extends BaseController{
 
             model.addAttribute("listItem", listTradeItem);
 
-            model.addAttribute("privilageForTrade", tradePrivilageForTrade);
+            model.addAttribute("privilegeForTrade", tradePrivilegeForTrade);
             model.addAttribute("userForTrade", tradeUserForTrade);
 
             model.addAttribute("mTradeModel", mTradeModel);

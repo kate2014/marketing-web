@@ -1,11 +1,11 @@
 package com.zhongmei.yunfu.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.zhongmei.yunfu.controller.model.CustomerPrivilegeRuleModel;
 import com.zhongmei.yunfu.domain.entity.CustomerPrivilegeRuleEntity;
 import com.zhongmei.yunfu.domain.mapper.CustomerPrivilegeRuleMapper;
-import com.zhongmei.yunfu.service.CustomerPrivilageRuleService;
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.zhongmei.yunfu.service.CustomerPrivilegeRuleService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,15 +19,15 @@ import java.util.List;
  * @since 2019-06-04
  */
 @Service
-public class CustomerPrivilageRuleServiceImpl extends ServiceImpl<CustomerPrivilegeRuleMapper, CustomerPrivilegeRuleEntity> implements CustomerPrivilageRuleService {
+public class CustomerPrivilegeRuleServiceImpl extends ServiceImpl<CustomerPrivilegeRuleMapper, CustomerPrivilegeRuleEntity> implements CustomerPrivilegeRuleService {
 
     @Override
     public List<CustomerPrivilegeRuleEntity> queryAllRule(CustomerPrivilegeRuleModel ruleModel) throws Exception {
         EntityWrapper<CustomerPrivilegeRuleEntity> eWrapper = new EntityWrapper<>();
         eWrapper.eq("brand_identy", ruleModel.getBrandIdenty());
         eWrapper.eq("shop_identy", ruleModel.getShopIdenty());
-        if(ruleModel.getPrivilageType() != null){
-            eWrapper.eq("privilage_type", ruleModel.getPrivilageType());
+        if (ruleModel.getPrivilegeType() != null) {
+            eWrapper.eq("privilege_type", ruleModel.getPrivilegeType());
         }
         eWrapper.eq("status_flag", 1);
         eWrapper.orderBy("server_update_time", true);
@@ -74,11 +74,16 @@ public class CustomerPrivilageRuleServiceImpl extends ServiceImpl<CustomerPrivil
     }
 
     @Override
-    public boolean batchDelete(Long brandIdenty,Long shopIdenty,String ids) throws Exception {
+    public boolean batchDelete(Long brandIdenty, Long shopIdenty, String ids) throws Exception {
         EntityWrapper<CustomerPrivilegeRuleEntity> eWrapper = new EntityWrapper<>();
         eWrapper.eq("brand_identy", brandIdenty);
         eWrapper.eq("shop_identy", shopIdenty);
-        eWrapper.in("id",ids);
+        eWrapper.in("id", ids);
         return delete(eWrapper);
+    }
+
+    @Override
+    public List<CustomerPrivilegeRuleEntity> getByPrivilegeType(Long shopId, int... privilegeType) {
+        return baseMapper.getByPrivilegeType(shopId, privilegeType);
     }
 }

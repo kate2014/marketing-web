@@ -110,11 +110,11 @@ public interface TradeMapper extends BaseMapper<TradeEntity> {
             "WHERE tc.`trade_id` = t.`id`and t.`shop_identy` = 1 and tc.`customer_id` = c.id and t.`id` = ti.`trade_id` ${ew.sqlSegment}")
     List<CustomerSaleModel> queryCustomerSaleDetail(@Param("ew") Condition wrapper);
 
-    @Select("SELECT sum(t.`trade_amount`) as tradeAmount,count(t.id) as tradeCount,p.`privilege_name` as privilageName ,p.`promo_id` as promoId  FROM `trade_privilege`  p, trade t\n" +
+    @Select("SELECT sum(t.`trade_amount`) as tradeAmount,count(t.id) as tradeCount,p.`privilege_name` as privilegeName ,p.`promo_id` as promoId  FROM `trade_privilege`  p, trade t\n" +
             "WHERE p.`trade_id`  = t.`id` ${ew.sqlSegment} \n" +
             "GROUP BY p.`coupon_id` \n" +
             "ORDER BY sum(t.`trade_amount`) desc;")
-    List<TradePrivilageReport> queryTradePrivilage(@Param("ew") Condition wrapper);
+    List<TradePrivilegeReport> queryTradePrivilege(@Param("ew") Condition wrapper);
 
     @Select("SELECT c.`commercial_name` as shopName, c.`commercial_id` as shopIdenty,SUM(t.`trade_amount`) as salesAmount,count(t.id) as salesCount \n" +
             "FROM `commercial` c LEFT JOIN `trade` t on c.`commercial_id` = t.`shop_identy` \n" +

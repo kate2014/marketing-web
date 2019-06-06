@@ -1,13 +1,13 @@
 package com.zhongmei.yunfu.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.zhongmei.yunfu.domain.entity.CustomerSaveRuleEntity;
-import com.zhongmei.yunfu.domain.entity.CutDownHistoryEntity;
 import com.zhongmei.yunfu.domain.mapper.CustomerSaveRuleMapper;
 import com.zhongmei.yunfu.service.CustomerSaveRuleService;
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -41,9 +41,18 @@ public class CustomerSaveRuleServiceImpl extends ServiceImpl<CustomerSaveRuleMap
     }
 
     @Override
-    public boolean deleteRuleById( Long id) throws Exception {
+    public boolean deleteRuleById(Long id) throws Exception {
         EntityWrapper<CustomerSaveRuleEntity> eWrapper = new EntityWrapper<>();
         eWrapper.eq("id", id);
         return delete(eWrapper);
+    }
+
+    @Override
+    public BigDecimal getShopGiveValue(Long shopId, BigDecimal tradeAmount) {
+        BigDecimal shopGiveValue = baseMapper.getShopGiveValue(shopId, tradeAmount);
+        if (shopGiveValue != null) {
+            return shopGiveValue;
+        }
+        return BigDecimal.ZERO;
     }
 }
