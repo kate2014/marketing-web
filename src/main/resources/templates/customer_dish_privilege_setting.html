@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<style type="text/css">
+    html,body{
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        background-color: #FFFFFF;
+    }
+    <!-- 选项卡 -->
+    ol, ul, li{	list-style: none}
+    /*html,body { margin:0; padding:0; height:100%}*/
+    .table_card { /*width:96%;*/ margin: 5px 20px 0 20px;}
+    .table_card .tab { height:37px; font-size:14px;}
+    .table_card .tab li {font-size: 10px; float:left; height:37px; line-height:37px; padding:0 25px; margin-right:4px; border-radius: 5px 5px 0 0;}
+    .table_card .tab li:hover { height:37px; cursor:pointer;}
+    .table_card .activ { height:37px !important; !important; border-top:1px solid #e1e1e1;border-left:1px solid #e1e1e1;border-right:1px solid #e1e1e1;background-color: #FFFFFF;color: #3b3b1f}
+    .table_card .inverse { height:37px; background-color: #e1e1e1;color: #a6a6a6}
+    .table_card .hint {color: white; display:block; text-align: center;}
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <title>会员品项优惠</title>
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" />
+    <script type="text/javascript" th:src="@{/js/jquery-3.1.1.js}" src="../static/js/jquery-3.1.1.js" ></script>
+    <script type="text/javascript" th:src="@{/js/base.js}" src="../static/js/base.js" ></script>
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/test/jeDate-test.css}">
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/skin/jedate.css}">
+    <link rel="stylesheet" th:href="@{/css/customer.css}" href="../static/css/customer.css" />
+    <script type="text/javascript" th:src="@{/selectdate/src/jedate.js}"></script>
+    <script type="text/javascript" th:src="@{/selectdate/test/je_notime_date.js}"></script>
+</head>
+
+<script type="text/javascript">
+
+    $(function () {
+        var opType = $("input[name='opType']").val();
+        opType = opType ? opType : 0;
+        $(".tab li").eq(opType).addClass("activ").siblings().removeClass("activ");
+        var tabIndex = $(".tab li.activ").index();
+        $(".tab li").click(function(){
+            var clickIndex = $(this).index();
+
+            if(clickIndex != 0){
+                $("#0").addClass("inverse");
+            }
+            if(clickIndex != 1){
+                $("#1").addClass("inverse");
+            }
+            if(clickIndex != 2){
+                $("#2").addClass("inverse");
+            }
+            if(clickIndex != 3){
+                $("#3").addClass("inverse");
+            }
+            if(clickIndex != 4){
+                $("#4").addClass("inverse");
+            }
+            if(clickIndex != 5){
+                $("#5").addClass("inverse");
+            }
+            if(clickIndex != 6){
+                $("#6").addClass("inverse");
+            }
+
+            $(".tab li").eq(clickIndex).addClass("activ").siblings().removeClass("activ");
+
+            $("input[name='opType']").val(clickIndex);
+
+        })
+    });
+
+</script>
+
+<body>
+<div class="table_card">
+
+    <ul class="tab" style="margin-left: 30px">
+        <li id="0" class="activ" style="margin-bottom: -1px" target="dish_iframe" th:href="@{/internal/customerDishPrivilege/queryAllDishData(brandIdenty=${model.brandIdenty},shopIdenty=${model.shopIdenty},levelId=0)}">普通会员</li>
+        <li id="1" class="inverse" style="margin-bottom: -1px" target="dish_iframe" th:href="@{/internal/customerDishPrivilege/queryAllDishData(brandIdenty=${model.brandIdenty},shopIdenty=${model.shopIdenty},levelId=1)}">银卡会员</li>
+        <li id="2" class="inverse" style="margin-bottom: -1px" target="dish_iframe" th:href="@{/internal/customerDishPrivilege/queryAllDishData(brandIdenty=${model.brandIdenty},shopIdenty=${model.shopIdenty},levelId=2)}">金卡会员</li>
+        <li id="3" class="inverse" style="margin-bottom: -1px" target="dish_iframe" th:href="@{/internal/customerDishPrivilege/queryAllDishData(brandIdenty=${model.brandIdenty},shopIdenty=${model.shopIdenty},levelId=3)}">白金会员</li>
+        <li id="4" class="inverse" style="margin-bottom: -1px" target="dish_iframe" th:href="@{/internal/customerDishPrivilege/queryAllDishData(brandIdenty=${model.brandIdenty},shopIdenty=${model.shopIdenty},levelId=4)}">黑金会员</li>
+        <li id="5" class="inverse" style="margin-bottom: -1px" target="dish_iframe" th:href="@{/internal/customerDishPrivilege/queryAllDishData(brandIdenty=${model.brandIdenty},shopIdenty=${model.shopIdenty},levelId=5)}">钻石会员</li>
+        <li id="6" class="inverse" style="margin-bottom: -1px" target="dish_iframe" th:href="@{/internal/customerDishPrivilege/queryAllDishData(brandIdenty=${model.brandIdenty},shopIdenty=${model.shopIdenty},levelId=6)}">至尊会员</li>
+    </ul>
+    <div style="height: 1px;width: 100%;background-color: #e1e1e1;margin-top: -1px"></div>
+</div>
+<div align="center" style="margin-top: 10px;width: 100%;height: 100%">
+
+    <input type="hidden" name="opType" value="0">
+
+    <iframe id="dish_iframe" th:src="@{/internal/customerDishPrivilege/queryAllDishData(brandIdenty=${model.brandIdenty},shopIdenty=${model.shopIdenty},levelId=0)}" width="100%" height="100%" style="border: 0px"></iframe>
+
+</div>
+
+</body>
+</html>
