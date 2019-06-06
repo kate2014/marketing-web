@@ -52,11 +52,13 @@ public class CustomerStoredServiceImpl extends ServiceImpl<CustomerStoredMapper,
     public void recharge(CustomerStoredEntity customerStored) throws Exception {
         tradeStored(CustomerStoredEntity.RecordType.RECHARGE, customerStored);
 
+        boolean isInsert = false;
         CustomerExtraEntity customerExtraEntity = customerExtraMapper.selectById(customerStored.getCustomerId());
         if (customerExtraEntity == null) {
+            isInsert = true;
             customerExtraEntity = new CustomerExtraEntity();
-            customerExtraEntity.setCustomerId(customerStored.getCustomerId());
             customerExtraEntity.baseCreate(customerStored.getUpdatorId(), customerStored.getUpdatorName());
+            customerExtraEntity.setCustomerId(customerStored.getCustomerId());
         }
         customerExtraEntity.baseUpdate(customerStored.getUpdatorId(), customerStored.getUpdatorName());
         BigDecimal storedAmount = customerExtraEntity.getStoredAmount()
@@ -79,8 +81,11 @@ public class CustomerStoredServiceImpl extends ServiceImpl<CustomerStoredMapper,
                 }
             }
         }
-
-        customerExtraMapper.updateById(customerExtraEntity);
+        if (isInsert) {
+            customerExtraMapper.insert(customerExtraEntity);
+        } else {
+            customerExtraMapper.updateById(customerExtraEntity);
+        }
 
         CustomerEntity customerEntity = customerService.selectById(customerStored.getCustomerId());
         CommercialEntity commercialEntity = commercialService.selectById(customerStored.getShopIdenty());
