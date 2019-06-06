@@ -40,9 +40,9 @@ public class CustomerPrivilageRuleController {
             if(listData != null && listData.size() != 0){
 
                 for(CustomerPrivilegeRuleEntity entity : listData){
-                    if(entity.getPrivilageType() == 1 || entity.getPrivilageType() == 2){
-                        if(ruleModel.getPrivilageType() != null){
-                            ruleModel.setPrivilageType(entity.getPrivilageType());
+                    if(entity.getPrivilegeType() == 1 || entity.getPrivilegeType() == 2){
+                        if(ruleModel.getPrivilegeType() != null){
+                            ruleModel.setPrivilegeType(entity.getPrivilegeType());
                         }
 
                         if(entity.getFullAmount()!= null){
@@ -79,7 +79,7 @@ public class CustomerPrivilageRuleController {
                         }
                     }
 
-                    if(entity.getPrivilageType() == 3 || entity.getPrivilageType() == 4){
+                    if(entity.getPrivilegeType() == 3 || entity.getPrivilegeType() == 4){
                         listSavePrivilege.add(entity);
                     }
 
@@ -117,7 +117,7 @@ public class CustomerPrivilageRuleController {
             if(ruleModel.getPtPrivilageValue() != null && !ruleModel.getPtPrivilageValue().equals("")){
                 CustomerPrivilegeRuleEntity ptEntity = new CustomerPrivilegeRuleEntity();
                 ptEntity.setId(ruleModel.getPtRuleId());
-                ptEntity.setPrivilageType(ruleModel.getPrivilageType());
+                ptEntity.setPrivilegeType(ruleModel.getPrivilegeType());
                 ptEntity.setCustomerLevel(0);
                 ptEntity.setFullAmount(ruleModel.getFullAmount());
                 ptEntity.setPrivilageValue(ruleModel.getPtPrivilageValue());
@@ -152,7 +152,7 @@ public class CustomerPrivilageRuleController {
             if(ruleModel.getYkPrivilageValue() != null && !ruleModel.getYkPrivilageValue().equals("")){
                 CustomerPrivilegeRuleEntity ykEntity = new CustomerPrivilegeRuleEntity();
                 ykEntity.setId(ruleModel.getYkRuleId());
-                ykEntity.setPrivilageType(ruleModel.getPrivilageType());
+                ykEntity.setPrivilegeType(ruleModel.getPrivilegeType());
                 ykEntity.setCustomerLevel(1);
                 ykEntity.setFullAmount(ruleModel.getFullAmount());
                 ykEntity.setPrivilageValue(ruleModel.getYkPrivilageValue());
@@ -189,7 +189,7 @@ public class CustomerPrivilageRuleController {
             if(ruleModel.getJkPrivilageValue() != null && !ruleModel.getJkPrivilageValue().equals("")){
                 CustomerPrivilegeRuleEntity jkEntity = new CustomerPrivilegeRuleEntity();
                 jkEntity.setId(ruleModel.getJkRuleId());
-                jkEntity.setPrivilageType(ruleModel.getPrivilageType());
+                jkEntity.setPrivilegeType(ruleModel.getPrivilegeType());
                 jkEntity.setCustomerLevel(2);
                 jkEntity.setFullAmount(ruleModel.getFullAmount());
                 jkEntity.setPrivilageValue(ruleModel.getJkPrivilageValue());
@@ -224,7 +224,7 @@ public class CustomerPrivilageRuleController {
             if(ruleModel.getBjPrivilageValue() != null && !ruleModel.getBjPrivilageValue().equals("")){
                 CustomerPrivilegeRuleEntity bjEntity = new CustomerPrivilegeRuleEntity();
                 bjEntity.setId(ruleModel.getBjRuleId());
-                bjEntity.setPrivilageType(ruleModel.getPrivilageType());
+                bjEntity.setPrivilegeType(ruleModel.getPrivilegeType());
                 bjEntity.setCustomerLevel(3);
                 bjEntity.setFullAmount(ruleModel.getFullAmount());
                 bjEntity.setPrivilageValue(ruleModel.getBjPrivilageValue());
@@ -259,7 +259,7 @@ public class CustomerPrivilageRuleController {
             if(ruleModel.getHjPrivilageValue() != null && !ruleModel.getHjPrivilageValue().equals("")){
                 CustomerPrivilegeRuleEntity hjEntity = new CustomerPrivilegeRuleEntity();
                 hjEntity.setId(ruleModel.getHjRuleId());
-                hjEntity.setPrivilageType(ruleModel.getPrivilageType());
+                hjEntity.setPrivilegeType(ruleModel.getPrivilegeType());
                 hjEntity.setCustomerLevel(4);
                 hjEntity.setFullAmount(ruleModel.getFullAmount());
                 hjEntity.setPrivilageValue(ruleModel.getHjPrivilageValue());
@@ -294,7 +294,7 @@ public class CustomerPrivilageRuleController {
             if(ruleModel.getZsPrivilageValue() != null && !ruleModel.getZsPrivilageValue().equals("")){
                 CustomerPrivilegeRuleEntity zsEntity = new CustomerPrivilegeRuleEntity();
                 zsEntity.setId(ruleModel.getZsRuleId());
-                zsEntity.setPrivilageType(ruleModel.getPrivilageType());
+                zsEntity.setPrivilegeType(ruleModel.getPrivilegeType());
                 zsEntity.setCustomerLevel(5);
                 zsEntity.setFullAmount(ruleModel.getFullAmount());
                 zsEntity.setPrivilageValue(ruleModel.getZsPrivilageValue());
@@ -329,7 +329,7 @@ public class CustomerPrivilageRuleController {
             if(ruleModel.getZzPrivilageValue() != null && !ruleModel.getZzPrivilageValue().equals("")){
                 CustomerPrivilegeRuleEntity zzEntity = new CustomerPrivilegeRuleEntity();
                 zzEntity.setId(ruleModel.getZzRuleId());
-                zzEntity.setPrivilageType(ruleModel.getPrivilageType());
+                zzEntity.setPrivilegeType(ruleModel.getPrivilegeType());
                 zzEntity.setCustomerLevel(6);
                 zzEntity.setFullAmount(ruleModel.getFullAmount());
                 zzEntity.setPrivilageValue(ruleModel.getZzPrivilageValue());
@@ -373,7 +373,7 @@ public class CustomerPrivilageRuleController {
         String actionSuccess = "success";
         try {
             CustomerPrivilegeRuleEntity entity = new CustomerPrivilegeRuleEntity();
-            entity.setPrivilageType(ruleModel.getPrivilageType());
+            entity.setPrivilegeType(ruleModel.getPrivilegeType());
             entity.setFullAmount(ruleModel.getFullAmount());
             entity.setSaveAmount(ruleModel.getSaveAmount());
             entity.setPrivilageValue(ruleModel.getPrivilageValue());

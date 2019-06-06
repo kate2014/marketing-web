@@ -1,5 +1,6 @@
 package com.zhongmei.yunfu.service.impl;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.zhongmei.yunfu.domain.entity.DishPropertyTypeEntity;
 import com.zhongmei.yunfu.domain.mapper.DishPropertyTypeMapper;
 import com.zhongmei.yunfu.service.DishPropertyTypeService;
@@ -16,5 +17,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class DishPropertyTypeServiceImpl extends ServiceImpl<DishPropertyTypeMapper, DishPropertyTypeEntity> implements DishPropertyTypeService {
+
+
+
 
 }

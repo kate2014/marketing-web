@@ -60,7 +60,7 @@
                             <span>会员储值权益</span>
                         </div>
                     </li>
-                    <li th:href="@{/internal/request/loading(brandIdenty=${customerSetting.brandIdenty},shopIdenty=${customerSetting.shopIdenty},creatorId=${customerSetting.creatorId},creatorName=${customerSetting.creatorName})}" class="parent">
+                    <li th:href="@{/internal/customerDishPrivilege/gotoDishPrivilegePage(brandIdenty=${customerSetting.brandIdenty},shopIdenty=${customerSetting.shopIdenty},creatorId=${customerSetting.creatorId},creatorName=${customerSetting.creatorName})}" class="parent">
                         <div class="parent">
                             <img th:src="@{/images/privilege_dish_icon.png}" class="image_size_style">
                             <span>会员品项优惠</span>

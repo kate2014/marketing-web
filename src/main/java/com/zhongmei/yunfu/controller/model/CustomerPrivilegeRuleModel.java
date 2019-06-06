@@ -12,7 +12,7 @@ public class CustomerPrivilegeRuleModel {
     /**
      * 权益类型： 1：会员等级折扣，2：会员等级让价，3：储值支付折扣，4：储值支付让价
      */
-    private Integer privilageType;
+    private Integer privilegeType;
     /**
      * 权益额度值
      */
@@ -93,12 +93,12 @@ public class CustomerPrivilegeRuleModel {
         this.customerLevel = customerLevel;
     }
 
-    public Integer getPrivilageType() {
-        return privilageType;
+    public Integer getPrivilegeType() {
+        return privilegeType;
     }
 
-    public void setPrivilageType(Integer privilageType) {
-        this.privilageType = privilageType;
+    public void setPrivilegeType(Integer privilegeType) {
+        this.privilegeType = privilegeType;
     }
 
     public BigDecimal getPrivilageValue() {
