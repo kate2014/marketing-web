@@ -116,18 +116,6 @@ open class CustomerEntity : BaseEntity() {
      */
     var consumptionNumber: Int? = null
     /**
-     * 储值余额
-     */
-    var storedBalance: BigDecimal? = null
-    /**
-     * 已使用储值余额
-     */
-    var storedBalanceUsed: BigDecimal? = null
-    /**
-     * 储值赠送总金额
-     */
-    var storedBalanceGive: BigDecimal? = null
-    /**
      * 剩余服务次数
      */
     var cardResidueCount: Int? = null
@@ -171,8 +159,6 @@ open class CustomerEntity : BaseEntity() {
                 ", consumptionLastTime=" + consumptionLastTime +
                 ", consumptionNumber=" + consumptionNumber +
                 ", consumptionAmount=" + consumptionAmount +
-                ", storedBalance=" + storedBalance +
-                ", storedBalanceUsed=" + storedBalanceUsed +
                 ", shopIdenty=" + shopIdenty +
                 ", brandIdenty=" + brandIdenty +
                 ", enabledFlag=" + enabledFlag +

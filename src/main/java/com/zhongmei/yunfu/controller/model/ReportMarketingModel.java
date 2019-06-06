@@ -17,7 +17,7 @@ public class ReportMarketingModel {
 
     private Integer rquestSource;
 
-    private Integer privilageType;
+    private Integer privilegeType;
 
     public Long getShopIdenty() {
         return shopIdenty;
@@ -59,11 +59,11 @@ public class ReportMarketingModel {
         this.rquestSource = rquestSource;
     }
 
-    public Integer getPrivilageType() {
-        return privilageType;
+    public Integer getPrivilegeType() {
+        return privilegeType;
     }
 
-    public void setPrivilageType(Integer privilageType) {
-        this.privilageType = privilageType;
+    public void setPrivilegeType(Integer privilegeType) {
+        this.privilegeType = privilegeType;
     }
 }

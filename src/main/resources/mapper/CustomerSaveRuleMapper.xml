@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongmei.yunfu.domain.mapper.CustomerSaveRuleMapper">
+
+    <select id="getShopGiveValue"
+            resultType="java.math.BigDecimal">
+        SELECT
+          give_value
+        FROM
+          customer_save_rule
+        WHERE shop_identy = #{shopId}
+           <![CDATA[
+           AND stored_value <= #{tradeAmount}
+           ]]>
+           AND status_flag = 1
+    </select>
+
+</mapper>

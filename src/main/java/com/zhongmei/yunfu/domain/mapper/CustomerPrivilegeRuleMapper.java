@@ -3,6 +3,8 @@ package com.zhongmei.yunfu.domain.mapper;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.zhongmei.yunfu.domain.entity.CustomerPrivilegeRuleEntity;
 
+import java.util.List;
+
 /**
  * <p>
  * 会员权益设置表 Mapper 接口
@@ -13,4 +15,5 @@ import com.zhongmei.yunfu.domain.entity.CustomerPrivilegeRuleEntity;
  */
 public interface CustomerPrivilegeRuleMapper extends BaseMapper<CustomerPrivilegeRuleEntity> {
 
+    List<CustomerPrivilegeRuleEntity> getByPrivilegeType(Long shopId, int... privilegeType);
 }

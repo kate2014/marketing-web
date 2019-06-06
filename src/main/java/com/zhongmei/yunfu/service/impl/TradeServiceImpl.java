@@ -233,7 +233,7 @@ public class TradeServiceImpl extends ServiceImpl<TradeMapper, TradeEntity> impl
         List<TradePrivilegeEntity> listTempTP = mTradePrivilegeService.queryPrivilegeByTradeId(mTradeModel.getBrandIdenty(),mTradeModel.getShopIdenty(),mTradeModel.getTradeId());
 
         List<Map<String,Object>> listTradeItem = new ArrayList<>();
-        List<TradePrivilegeEntity> listPrivilage = new ArrayList<>();
+        List<TradePrivilegeEntity> listPrivilege = new ArrayList<>();
         for(TradeItemEntity ti : tradeItems){
             Map<String,Object> itemMap = new HashMap<>();
             itemMap.put("dishName",ti.getDishName());
@@ -260,11 +260,11 @@ public class TradeServiceImpl extends ServiceImpl<TradeMapper, TradeEntity> impl
 
         for(TradePrivilegeEntity tp : listTempTP) {
             if (tp.getTradeItemId() == null || tp.getTradeItemId() == 0) {
-                listPrivilage.add(tp);
+                listPrivilege.add(tp);
             }
         }
 
-        mTradeDataModel.setListPrivilage(listPrivilage);
+        mTradeDataModel.setListPrivilege(listPrivilege);
 
         mTradeDataModel.setListTradeItem(listTradeItem);
 
@@ -376,16 +376,16 @@ public class TradeServiceImpl extends ServiceImpl<TradeMapper, TradeEntity> impl
     }
 
     @Override
-    public List<TradePrivilageReport> queryTradePrivilage(ReportMarketingModel mReportMarketingModel) throws Exception {
+    public List<TradePrivilegeReport> queryTradePrivilege(ReportMarketingModel mReportMarketingModel) throws Exception {
         Condition eWrapper = ConditionFilter.create();
         eWrapper.eq("t.brand_identy", mReportMarketingModel.getBrandIdenty());
         eWrapper.eq("t.shop_identy", mReportMarketingModel.getShopIdenty());
         eWrapper.eq("t.status_flag", 1);
         eWrapper.eq("t.trade_status", 4);
-        eWrapper.eq("p.privilege_type", mReportMarketingModel.getPrivilageType());
+        eWrapper.eq("p.privilege_type", mReportMarketingModel.getPrivilegeType());
         eWrapper.between("t.server_create_time", mReportMarketingModel.getStartDate(), mReportMarketingModel.getEndDate());
 
-        List<TradePrivilageReport> listData = baseMapper.queryTradePrivilage(eWrapper);
+        List<TradePrivilegeReport> listData = baseMapper.queryTradePrivilege(eWrapper);
         return listData;
     }
 

@@ -193,7 +193,7 @@ public interface TradeService extends IService<TradeEntity> {
      * @return
      * @throws Exception
      */
-    List<TradePrivilageReport> queryTradePrivilage(ReportMarketingModel mReportMarketingModel)throws Exception;
+    List<TradePrivilegeReport> queryTradePrivilege(ReportMarketingModel mReportMarketingModel)throws Exception;
 
     /**
      * 获取门店业绩排行榜

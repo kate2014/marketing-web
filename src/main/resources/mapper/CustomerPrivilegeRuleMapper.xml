@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongmei.yunfu.domain.mapper.CustomerPrivilegeRuleMapper">
+
+    <select id="getByPrivilegeType"
+            resultType="com.zhongmei.yunfu.domain.entity.CustomerPrivilegeRuleEntity">
+        SELECT
+          *
+        FROM
+          customer_privilege_rule
+        WHERE status_flag = 1
+          AND shop_identy = #{shopId}
+          AND privilege_type IN
+          <foreach  item="item" collection="privilegeType" index="index"  open="(" separator="," close=")">
+            #{item}
+          </foreach>
+    </select>
+
+</mapper>

@@ -46,7 +46,7 @@
 
     function deleteRequest (deleteId) {
 
-        const Url = "[[${basePath}]]/internal/customerPrivilageRule/deletePrivilegeRule?id="+deleteId;
+        const Url = "[[${basePath}]]/internal/customerPrivilegeRule/deletePrivilegeRule?id="+deleteId;
 
         const Http = new XMLHttpRequest();
 
@@ -73,8 +73,8 @@
         }
 
         //设置会员支付密码验证默认选中项
-        // var privilageType =  document.getElementById("privilageType").value;
-        // $(":radio[id='privilageType'][value='" + privilageType + "']").prop("checked", "checked");
+        // var privilegeType =  document.getElementById("privilegeType").value;
+        // $(":radio[id='privilegeType'][value='" + privilegeType + "']").prop("checked", "checked");
     }
 
 </script>
@@ -86,7 +86,7 @@
 
 <input type="hidden" id="successOrfail" th:value="${ruleModel.successOrfail}">
 
-<input type="hidden" id="privilageType" th:value="${ruleModel.privilageType}">
+<input type="hidden" id="privilegeType" th:value="${ruleModel.privilegeType}">
 
 
 <div style="margin: 20px;padding: 20px" class="modle_background_style">
@@ -112,7 +112,7 @@
                 <td th:text="${item.saveAmount}"></td>
                 <td th:text="${item.fullAmount}"></td>
                 <td>
-                    <div th:switch="${item.privilageType}">
+                    <div th:switch="${item.privilegeType}">
                         <p th:case="'3'">
                             折扣
                         </p>
@@ -131,7 +131,7 @@
                         </p>
                     </div>
                 </td>
-                <td th:text="${item.privilageValue}"></td>
+                <td th:text="${item.privilegeValue}"></td>
                 <td align="center">
                     <a th:onclick="'javascript:checkDelete(\''+${item.id}+'\')'" style="cursor: pointer">删除</a>
                 </td>
@@ -140,7 +140,7 @@
     </div>
 
 
-    <form method="post" name="addform" action="" th:action="@{/internal/customerPrivilageRule/addSavePriviegeRule}">
+    <form method="post" name="addform" action="" th:action="@{/internal/customerPrivilegeRule/addSavePriviegeRule}">
 
         <input type="hidden" name="shopIdenty" th:value="${ruleModel.shopIdenty}">
         <input type="hidden" name="brandIdenty" th:value="${ruleModel.brandIdenty}">
@@ -164,11 +164,11 @@
             <label class="text_navigation" style="margin-left: 5px;">元</label>
 
             <label class="text_navigation" style="margin-left: 10px">权益类型：</label>
-            <input type="radio" value="3" name="privilageType"/><span class="text_navigation" style="margin-right: 20px; margin-left: 10px">折扣</span>
-            <input type="radio" value="4" name="privilageType"/><span class="text_navigation" style="margin-left: 10px">让价</span>
+            <input type="radio" value="3" name="privilegeType"/><span class="text_navigation" style="margin-right: 20px; margin-left: 10px">折扣</span>
+            <input type="radio" value="4" name="privilegeType"/><span class="text_navigation" style="margin-left: 10px">让价</span>
 
             <label class="text_navigation" style="margin-left: 10px">权益值：</label>
-            <input class="input_style" placeholder="请输入储值金额" style="margin-left: 5px" type="text"  name="privilageValue"/>
+            <input class="input_style" placeholder="请输入储值金额" style="margin-left: 5px" type="text"  name="privilegeValue"/>
 
             <button class="blue_button_style" onclick="submitForm()" style="margin-left: 10px">保存</button>
         </div>

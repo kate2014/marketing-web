@@ -1,7 +1,8 @@
 package com.zhongmei.yunfu.domain.entity.base
 
 import java.util.*
-abstract class SupperEntity {
+
+abstract class SupperEntity : Cloneable {
 
     companion object {
         /**
@@ -41,6 +42,10 @@ abstract class SupperEntity {
 
     fun isValid(): Boolean {
         return statusFlag == 1
+    }
+
+    override fun clone(): Any {
+        return super.clone()
     }
 }
 

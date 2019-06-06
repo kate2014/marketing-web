@@ -18,10 +18,12 @@ import com.zhongmei.yunfu.core.mybatis.mapper.ConditionFilter;
 import com.zhongmei.yunfu.core.mybatis.mapper.EntityWrapperFilter;
 import com.zhongmei.yunfu.domain.entity.CustomerEntity;
 import com.zhongmei.yunfu.domain.entity.CustomerEntityCardEntity;
+import com.zhongmei.yunfu.domain.entity.CustomerExtraEntity;
 import com.zhongmei.yunfu.domain.entity.CustomerReport;
 import com.zhongmei.yunfu.domain.enums.EnabledFlag;
 import com.zhongmei.yunfu.domain.enums.StatusFlag;
 import com.zhongmei.yunfu.domain.mapper.CustomerEntityCardMapper;
+import com.zhongmei.yunfu.domain.mapper.CustomerExtraMapper;
 import com.zhongmei.yunfu.domain.mapper.CustomerMapper;
 import com.zhongmei.yunfu.service.CouponService;
 import com.zhongmei.yunfu.service.CustomerCardTimeService;
@@ -43,6 +45,9 @@ import java.util.*;
  */
 @Service
 public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, CustomerEntity> implements CustomerService {
+
+    @Autowired
+    CustomerExtraMapper customerExtraMapper;
 
     @Autowired
     CustomerCardTimeService customerCardTimeService;
@@ -581,5 +586,10 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
         eWrapper.between("t.server_create_time", mCustomerModel.getStartDate(), mCustomerModel.getEndDate());
         List<CustomerReport> listData = baseMapper.customerShopDetailReport(eWrapper);
         return listData;
+    }
+
+    @Override
+    public CustomerExtraEntity getCustomerExtra(Long customerId) {
+        return customerExtraMapper.selectById(customerId);
     }
 }

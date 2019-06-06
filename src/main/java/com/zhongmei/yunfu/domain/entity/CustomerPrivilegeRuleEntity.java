@@ -39,7 +39,7 @@ public class CustomerPrivilegeRuleEntity extends BaseEntity {
     /**
      * 权益额度值
      */
-    private BigDecimal privilageValue;
+    private BigDecimal privilegeValue;
     /**
      * 满额限制
      */
@@ -82,12 +82,12 @@ public class CustomerPrivilegeRuleEntity extends BaseEntity {
         this.privilegeType = privilegeType;
     }
 
-    public BigDecimal getPrivilageValue() {
-        return privilageValue;
+    public BigDecimal getPrivilegeValue() {
+        return privilegeValue;
     }
 
-    public void setPrivilageValue(BigDecimal privilageValue) {
-        this.privilageValue = privilageValue;
+    public void setPrivilegeValue(BigDecimal privilegeValue) {
+        this.privilegeValue = privilegeValue;
     }
 
     public BigDecimal getFullAmount() {
@@ -137,7 +137,7 @@ public class CustomerPrivilegeRuleEntity extends BaseEntity {
         ", customerLevel=" + customerLevel +
         ", privilegeType=" + privilegeType +
         ", saveAmount=" + saveAmount +
-        ", privilageValue=" + privilageValue +
+        ", privilegeValue=" + privilegeValue +
         ", fullAmount=" + fullAmount +
         ", isNeedSavePayment=" + isNeedSavePayment +
         ", shopIdenty=" + shopIdenty +
