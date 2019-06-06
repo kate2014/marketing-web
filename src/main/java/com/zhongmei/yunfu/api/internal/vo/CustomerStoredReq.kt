@@ -2,7 +2,7 @@ package com.zhongmei.yunfu.api.internal.vo
 
 import java.math.BigDecimal
 
-open class CustomerBalanceReq {
+open class CustomerStoredReq {
     var customerId: Long? = null
     var tradeId: Long? = null
     var paymentItemId: Long? = null

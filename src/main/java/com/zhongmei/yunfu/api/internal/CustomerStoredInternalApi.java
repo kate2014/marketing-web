@@ -2,7 +2,7 @@ package com.zhongmei.yunfu.api.internal;
 
 import com.zhongmei.yunfu.api.ApiRespStatus;
 import com.zhongmei.yunfu.api.ApiRespStatusException;
-import com.zhongmei.yunfu.api.internal.vo.CustomerBalanceReq;
+import com.zhongmei.yunfu.api.internal.vo.CustomerStoredReq;
 import com.zhongmei.yunfu.api.internal.vo.CustomerStoredRechargeReq;
 import com.zhongmei.yunfu.controller.model.BaseDataModel;
 import com.zhongmei.yunfu.domain.entity.CustomerStoredEntity;
@@ -50,7 +50,7 @@ public class CustomerStoredInternalApi extends InternalApi {
      * @return
      */
     @RequestMapping("/expense")
-    public BaseDataModel expense(@RequestBody CustomerBalanceReq req) throws Exception {
+    public BaseDataModel expense(@RequestBody CustomerStoredReq req) throws Exception {
         CustomerStoredEntity customerStored = toCustomerStoredEntity(req);
         customerStoredService.expense(customerStored);
         return BaseDataModel.newSuccess(customerStored);
@@ -63,7 +63,7 @@ public class CustomerStoredInternalApi extends InternalApi {
      * @return
      */
     @RequestMapping("/refund")
-    public BaseDataModel refund(@RequestBody CustomerBalanceReq req) throws Exception {
+    public BaseDataModel refund(@RequestBody CustomerStoredReq req) throws Exception {
         CustomerStoredEntity byPaymentItemId = customerStoredService.getByPaymentItemId(req.getShopId(), req.getTradeId(), req.getPaymentItemId());
         if (byPaymentItemId == null) {
             throw new ApiRespStatusException(ApiRespStatus.FOUND);
@@ -76,7 +76,7 @@ public class CustomerStoredInternalApi extends InternalApi {
         return BaseDataModel.newSuccess(customerStored);
     }
 
-    private CustomerStoredEntity toCustomerStoredEntity(CustomerBalanceReq req) {
+    private CustomerStoredEntity toCustomerStoredEntity(CustomerStoredReq req) {
         CustomerStoredEntity customerStored = new CustomerStoredEntity();
         customerStored.setCustomerId(req.getCustomerId());
         customerStored.setTradeAmount(req.getUsefulAmount());
