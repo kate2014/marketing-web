@@ -39,6 +39,16 @@
         });
     });
 
+    function submitRuleSForm() {
+        var id = document.getElementsByName('selectDish');
+        var value = new Array();
+        for(var i = 0; i < id.length; i++){
+            if(id[i].checked)
+                value.push(id[i].value);
+        }
+        alert(value);
+    }
+
 </script>
 
 <body>
@@ -55,7 +65,7 @@
         </tr>
         <tr th:each="item:${listDish}">
             <td>
-                <input type="checkbox" th:value="${item.id}">
+                <input type="checkbox" th:value="${item.id}" name="selectDish">
             </td>
             <td th:text="${item.name}"></td>
             <td th:text="${item.marketPrice}"></td>
@@ -65,7 +75,7 @@
                 <input type="radio" value="3" th:name="${item.id}" style="margin-left: 15px"/><span class="text_navigation" style="margin-left: 6px">特价</span>
             </td>
             <td>
-                <input type="text" class="input_min_style" name="privilegeValue">
+                <input type="text" class="input_min_style" name="privilege_value">
             </td>
 
         </tr>
