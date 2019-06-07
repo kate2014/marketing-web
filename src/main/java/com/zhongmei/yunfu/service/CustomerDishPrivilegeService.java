@@ -15,4 +15,38 @@ public interface CustomerDishPrivilegeService extends IService<CustomerDishPrivi
      * @throws Exception
      */
     List<CustomerDishPrivilegeEntity> queryDishPrivilege(CustomerDishPrivilegeEntity mCustomerDishPrivilegeEntity)throws Exception;
+
+    /**
+     * 批量插入或修改
+     * @param listData
+     * @return
+     * @throws Exception
+     */
+    boolean batchInstallOrUpdate(List<CustomerDishPrivilegeEntity> listData)throws Exception;
+
+    /**
+     * 批量删除
+     * @param brandIdenty
+     * @param shopIdenty
+     * @param ids
+     * @return
+     * @throws Exception
+     */
+    boolean batchDeleteById(Long brandIdenty,Long shopIdenty,String ids)throws Exception;
+
+    /**
+     * 删除门店下所有该类数据
+     * @param brandIdenty
+     * @param shopIdenty
+     * @return
+     * @throws Exception
+     */
+    boolean deleteAllForShop(Long brandIdenty,Long shopIdenty)throws Exception;
+    /**
+     * 批量添加
+     * @param listData
+     * @return
+     * @throws Exception
+     */
+    boolean batchInstall(List<CustomerDishPrivilegeEntity> listData)throws Exception;
 }

@@ -59,6 +59,8 @@ public class CustomerDishPrivilegeModel {
      */
     private Date serverUpdateTime;
 
+    private String selectDishList;
+
     public Long getId() {
         return id;
     }
@@ -169,5 +171,13 @@ public class CustomerDishPrivilegeModel {
 
     public void setServerUpdateTime(Date serverUpdateTime) {
         this.serverUpdateTime = serverUpdateTime;
+    }
+
+    public String getSelectDishList() {
+        return selectDishList;
+    }
+
+    public void setSelectDishList(String selectDishList) {
+        this.selectDishList = selectDishList;
     }
 }

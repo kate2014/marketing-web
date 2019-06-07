@@ -19,6 +19,7 @@
     <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" />
     <link rel="stylesheet" th:href="@{/css/customer.css}" href="../static/css/customer.css" />
     <script type="text/javascript" th:src="@{/js/base.js}" src="../static/js/base.js" ></script>
+    <script type="text/javascript" th:src="@{/js/window/window.ext.js}" src="../static/js/window/window.ext.js" ></script>
     <!-- diglog -->
     <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/diy_dialog.js}"></script>
@@ -40,18 +41,73 @@
     });
 
     function submitRuleSForm() {
+        showLoading("活动正在投放中，请稍后...");
         var id = document.getElementsByName('selectDish');
         var value = new Array();
         for(var i = 0; i < id.length; i++){
-            if(id[i].checked)
-                value.push(id[i].value);
+            if(id[i].checked){
+
+                var dishId = id[i].value.toString();
+                var typeList = document.getElementsByName(dishId);
+                for(var j = 0; j < typeList.length; j++){
+                    var privilegeType;
+                    if(typeList[j].checked){
+                        privilegeType = typeList[i].value;
+                    }
+                }
+                var privilegeValue = document.getElementById(dishId).value;
+                if(privilegeType != null && privilegeValue != null){
+                    value.push(dishId+"&"+privilegeType+"&"+privilegeValue);
+                }
+
+            }
         }
-        alert(value);
+
+        sumbmitData(value);
     }
+
+    function sumbmitData(value) {
+        var levelId = document.getElementById("levelId").value;
+        var brandIdenty = document.getElementById("brandIdenty").value;
+        var shopIdenty = document.getElementById("shopIdenty").value;
+        var creatorId = document.getElementById("creatorId").value;
+        var creatorName = document.getElementById("creatorName").value;
+        $.ajax({
+            url: '[[${basePath}]]/internal/customerDishPrivilege/modfityData',
+            data: {
+                selectDishList: value.join('#'),
+                levelId:levelId,
+                shopIdenty:shopIdenty,
+                brandIdenty:brandIdenty,
+                creatorId:creatorId,
+                creatorName:creatorName,
+            },
+            type: "post",
+            dataType: 'json',
+            error:function(xml){
+                hideLoading();
+                alert('投放失败，请稍后重试！');
+
+            },
+            success: function (status) {
+                hideLoading();
+                alert('投放成功！');
+
+            }
+
+        });
+
+    };
 
 </script>
 
 <body>
+
+<input type="hidden" id="levelId" th:value="${mCustomerDishPrivilegeModel.levelId}">
+<input type="hidden" id="brandIdenty" th:value="${mCustomerDishPrivilegeModel.brandIdenty}">
+<input type="hidden" id="shopIdenty" th:value="${mCustomerDishPrivilegeModel.shopIdenty}">
+<input type="hidden" id="creatorId" th:value="${mCustomerDishPrivilegeModel.creatorId}">
+<input type="hidden" id="creatorName" th:value="${mCustomerDishPrivilegeModel.creatorName}">
 
 <div align="center" style="margin-top: 10px">
     <table class="gridtablestyle" style="width: 95%; vertical-align: middle">
@@ -75,7 +131,7 @@
                 <input type="radio" value="3" th:name="${item.id}" style="margin-left: 15px"/><span class="text_navigation" style="margin-left: 6px">特价</span>
             </td>
             <td>
-                <input type="text" class="input_min_style" name="privilege_value">
+                <input type="text" class="input_min_style" th:id="${item.id}" name="privilege_value">
             </td>
 
         </tr>
@@ -83,7 +139,6 @@
     </table>
 
     <button class="blue_button_style" onclick="submitRuleSForm()" style="margin-top: 15px;margin-bottom: 15px">保存设置</button>
-
 </div>
 
 

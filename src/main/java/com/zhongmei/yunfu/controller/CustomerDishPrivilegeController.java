@@ -12,7 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -64,12 +67,49 @@ public class CustomerDishPrivilegeController {
 
             model.addAttribute("listDish", listDish);
 
-            model.addAttribute("mCustomerDishPrivilegeModel", model);
+            model.addAttribute("mCustomerDishPrivilegeModel", mCustomerDishPrivilegeModel);
         }catch (Exception e){
             e.printStackTrace();
         }
 
         return "dish_privilege_setting";
+    }
+
+    @RequestMapping("/modfityData")
+    @ResponseBody
+    public String modfityData(Model model, CustomerDishPrivilegeModel mCustomerDishPrivilegeModel){
+
+        try {
+            List<CustomerDishPrivilegeEntity> listPrivilege = new ArrayList<>();
+            String selectDishList = mCustomerDishPrivilegeModel.getSelectDishList();
+            String[] settingValue = selectDishList.split("#");
+            for(String value : settingValue){
+                CustomerDishPrivilegeEntity entity = new CustomerDishPrivilegeEntity();
+                String[] select = value.split("&");
+                entity.setLevelId(mCustomerDishPrivilegeModel.getLevelId());
+                entity.setDishId(Long.parseLong(select[0]));
+                entity.setPrivilegeType(Integer.parseInt(select[1]));
+                entity.setPrivilegeValue(new BigDecimal(select[2]));
+                entity.setBrandIdenty(mCustomerDishPrivilegeModel.getBrandIdenty());
+                entity.setShopIdenty(mCustomerDishPrivilegeModel.getShopIdenty());
+                entity.setCreatorId(mCustomerDishPrivilegeModel.getCreatorId());
+                entity.setCreatorName(mCustomerDishPrivilegeModel.getCreatorName());
+                entity.setUpdatorId(mCustomerDishPrivilegeModel.getCreatorId());
+                entity.setUpdatorName(mCustomerDishPrivilegeModel.getCreatorName());
+                entity.setStatusFlag(1);
+                listPrivilege.add(entity);
+            }
+            System.out.println("====selectDishList==="+selectDishList);
+            System.out.println("====shop==="+mCustomerDishPrivilegeModel.getBrandIdenty()+"=="+mCustomerDishPrivilegeModel.getShopIdenty());
+            mCustomerDishPrivilegeService.deleteAllForShop(mCustomerDishPrivilegeModel.getBrandIdenty(),mCustomerDishPrivilegeModel.getShopIdenty());
+            mCustomerDishPrivilegeService.insertBatch(listPrivilege);
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "success";
     }
 
 }
