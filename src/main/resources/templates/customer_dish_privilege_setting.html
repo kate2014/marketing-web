@@ -25,14 +25,13 @@
     <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
     <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
     <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" />
+
+    <script type="text/javascript" th:src="@{/js/window/window.ext.js}" src="../static/js/window/window.ext.js" ></script>
     <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" />
     <script type="text/javascript" th:src="@{/js/jquery-3.1.1.js}" src="../static/js/jquery-3.1.1.js" ></script>
     <script type="text/javascript" th:src="@{/js/base.js}" src="../static/js/base.js" ></script>
-    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/test/jeDate-test.css}">
-    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/skin/jedate.css}">
     <link rel="stylesheet" th:href="@{/css/customer.css}" href="../static/css/customer.css" />
-    <script type="text/javascript" th:src="@{/selectdate/src/jedate.js}"></script>
-    <script type="text/javascript" th:src="@{/selectdate/test/je_notime_date.js}"></script>
+
 </head>
 
 <script type="text/javascript">
@@ -72,7 +71,29 @@
             $("input[name='opType']").val(clickIndex);
 
         })
+
+
+
+
+        var iframe = document.getElementById("dish_iframe");
+        if (iframe.attachEvent){
+            iframe.attachEvent("onload", function(){
+                // iframe加载完成后要进行的操作
+                hideLoading();
+            })
+        } else {
+            iframe.onload = function(){
+                // iframe加载完成后要进行的操作
+                hideLoading();
+            }
+        }
+
+
     });
+
+    function loadingIframe() {
+        showLoading("数据加载中，请稍后...")
+    }
 
 </script>
 
@@ -81,13 +102,13 @@
 <div class="table_card">
 
     <ul class="tab" style="margin-left: 30px">
-        <li id="0" class="activ" style="margin-bottom: -1px" target="dish_iframe" th:href="@{/internal/customerDishPrivilege/queryAllDishData(brandIdenty=${model.brandIdenty},shopIdenty=${model.shopIdenty},creatorId=${model.creatorId},creatorName=${model.creatorName},levelId=0)}">普通会员</li>
-        <li id="1" class="inverse" style="margin-bottom: -1px" target="dish_iframe" th:href="@{/internal/customerDishPrivilege/queryAllDishData(brandIdenty=${model.brandIdenty},shopIdenty=${model.shopIdenty},creatorId=${model.creatorId},creatorName=${model.creatorName},levelId=1)}">银卡会员</li>
-        <li id="2" class="inverse" style="margin-bottom: -1px" target="dish_iframe" th:href="@{/internal/customerDishPrivilege/queryAllDishData(brandIdenty=${model.brandIdenty},shopIdenty=${model.shopIdenty},creatorId=${model.creatorId},creatorName=${model.creatorName},levelId=2)}">金卡会员</li>
-        <li id="3" class="inverse" style="margin-bottom: -1px" target="dish_iframe" th:href="@{/internal/customerDishPrivilege/queryAllDishData(brandIdenty=${model.brandIdenty},shopIdenty=${model.shopIdenty},creatorId=${model.creatorId},creatorName=${model.creatorName},levelId=3)}">白金会员</li>
-        <li id="4" class="inverse" style="margin-bottom: -1px" target="dish_iframe" th:href="@{/internal/customerDishPrivilege/queryAllDishData(brandIdenty=${model.brandIdenty},shopIdenty=${model.shopIdenty},creatorId=${model.creatorId},creatorName=${model.creatorName},levelId=4)}">黑金会员</li>
-        <li id="5" class="inverse" style="margin-bottom: -1px" target="dish_iframe" th:href="@{/internal/customerDishPrivilege/queryAllDishData(brandIdenty=${model.brandIdenty},shopIdenty=${model.shopIdenty},creatorId=${model.creatorId},creatorName=${model.creatorName},levelId=5)}">钻石会员</li>
-        <li id="6" class="inverse" style="margin-bottom: -1px" target="dish_iframe" th:href="@{/internal/customerDishPrivilege/queryAllDishData(brandIdenty=${model.brandIdenty},shopIdenty=${model.shopIdenty},creatorId=${model.creatorId},creatorName=${model.creatorName},levelId=6)}">至尊会员</li>
+        <li id="0" onclick="loadingIframe()" class="activ" style="margin-bottom: -1px" target="dish_iframe" th:href="@{/internal/customerDishPrivilege/queryAllDishData(brandIdenty=${model.brandIdenty},shopIdenty=${model.shopIdenty},creatorId=${model.creatorId},creatorName=${model.creatorName},levelId=0)}">普通会员</li>
+        <li id="1" onclick="loadingIframe()" class="inverse" style="margin-bottom: -1px" target="dish_iframe" th:href="@{/internal/customerDishPrivilege/queryAllDishData(brandIdenty=${model.brandIdenty},shopIdenty=${model.shopIdenty},creatorId=${model.creatorId},creatorName=${model.creatorName},levelId=1)}">银卡会员</li>
+        <li id="2" onclick="loadingIframe()" class="inverse" style="margin-bottom: -1px" target="dish_iframe" th:href="@{/internal/customerDishPrivilege/queryAllDishData(brandIdenty=${model.brandIdenty},shopIdenty=${model.shopIdenty},creatorId=${model.creatorId},creatorName=${model.creatorName},levelId=2)}">金卡会员</li>
+        <li id="3" onclick="loadingIframe()" class="inverse" style="margin-bottom: -1px" target="dish_iframe" th:href="@{/internal/customerDishPrivilege/queryAllDishData(brandIdenty=${model.brandIdenty},shopIdenty=${model.shopIdenty},creatorId=${model.creatorId},creatorName=${model.creatorName},levelId=3)}">白金会员</li>
+        <li id="4" onclick="loadingIframe()" class="inverse" style="margin-bottom: -1px" target="dish_iframe" th:href="@{/internal/customerDishPrivilege/queryAllDishData(brandIdenty=${model.brandIdenty},shopIdenty=${model.shopIdenty},creatorId=${model.creatorId},creatorName=${model.creatorName},levelId=4)}">黑金会员</li>
+        <li id="5" onclick="loadingIframe()" class="inverse" style="margin-bottom: -1px" target="dish_iframe" th:href="@{/internal/customerDishPrivilege/queryAllDishData(brandIdenty=${model.brandIdenty},shopIdenty=${model.shopIdenty},creatorId=${model.creatorId},creatorName=${model.creatorName},levelId=5)}">钻石会员</li>
+        <li id="6" onclick="loadingIframe()" class="inverse" style="margin-bottom: -1px" target="dish_iframe" th:href="@{/internal/customerDishPrivilege/queryAllDishData(brandIdenty=${model.brandIdenty},shopIdenty=${model.shopIdenty},creatorId=${model.creatorId},creatorName=${model.creatorName},levelId=6)}">至尊会员</li>
     </ul>
     <div style="height: 1px;width: 100%;background-color: #e1e1e1;margin-top: -1px"></div>
 </div>
@@ -95,7 +116,7 @@
 
     <input type="hidden" name="opType" value="0">
 
-    <iframe id="dish_iframe" th:src="@{/internal/customerDishPrivilege/queryAllDishData(brandIdenty=${model.brandIdenty},shopIdenty=${model.shopIdenty},creatorId=${model.creatorId},creatorName=${model.creatorName},levelId=0)}" width="100%" height="100%" style="border: 0px"></iframe>
+    <iframe id="dish_iframe" onload="loadingIframe()" th:src="@{/internal/customerDishPrivilege/queryAllDishData(brandIdenty=${model.brandIdenty},shopIdenty=${model.shopIdenty},creatorId=${model.creatorId},creatorName=${model.creatorName},levelId=0)}" width="100%" height="100%" style="border: 0px"></iframe>
 
 </div>
 

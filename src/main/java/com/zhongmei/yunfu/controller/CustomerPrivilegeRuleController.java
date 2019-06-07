@@ -1,14 +1,19 @@
 package com.zhongmei.yunfu.controller;
 
 
+import com.zhongmei.yunfu.controller.model.CommercailSettingModel;
 import com.zhongmei.yunfu.controller.model.CustomerPrivilegeRuleModel;
+import com.zhongmei.yunfu.domain.entity.CommercialCustomSettingsEntity;
 import com.zhongmei.yunfu.domain.entity.CustomerPrivilegeRuleEntity;
+import com.zhongmei.yunfu.service.CommercialCustomSettingsService;
+import com.zhongmei.yunfu.service.CommercialPaySettingService;
 import com.zhongmei.yunfu.service.CustomerPrivilegeRuleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,6 +33,8 @@ public class CustomerPrivilegeRuleController {
 
     @Autowired
     CustomerPrivilegeRuleService mCustomerPrivilegeRuleService;
+    @Autowired
+    CommercialCustomSettingsService mCommercialCustomSettingsService;
 
     @RequestMapping("/gotoSettingPage")
     public String gotoSettingPage(Model model, CustomerPrivilegeRuleModel ruleModel){
@@ -88,6 +95,14 @@ public class CustomerPrivilegeRuleController {
 
             model.addAttribute("listData", listSavePrivilege);
 
+            CommercailSettingModel mCommercailSettingModel = new CommercailSettingModel();
+            mCommercailSettingModel.setBrandIdenty(ruleModel.getBrandIdenty());
+            mCommercailSettingModel.setShopIdenty(ruleModel.getShopIdenty());
+            mCommercailSettingModel.setSettingKey("IS_NEED_SAVE_PAYMENT");
+            CommercialCustomSettingsEntity mCommercialCustomSettingsEntity = mCommercialCustomSettingsService.queryByKey(mCommercailSettingModel);
+
+            model.addAttribute("shopSetting", mCommercialCustomSettingsEntity);
+
             model.addAttribute("ruleModel", ruleModel);
 
             return "customer_privilege_setting";
@@ -96,6 +111,19 @@ public class CustomerPrivilegeRuleController {
             return "fail";
         }
 
+    }
+
+    @RequestMapping("/modfityShopSetting")
+    @ResponseBody
+    public String modfityShopSetting(Model model, CustomerPrivilegeRuleModel ruleModel){
+        try {
+            CommercialCustomSettingsEntity mCommercialCustomSettingsEntity = new CommercialCustomSettingsEntity();
+            mCommercialCustomSettingsService.installSetting(mCommercialCustomSettingsEntity);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "success";
     }
 
     @RequestMapping("/customerLevelPrivilege")

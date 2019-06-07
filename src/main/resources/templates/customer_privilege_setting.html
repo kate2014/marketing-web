@@ -77,6 +77,37 @@
         // $(":radio[id='privilegeType'][value='" + privilegeType + "']").prop("checked", "checked");
     }
 
+    function submitNeedSavePayment() {
+        var brandIdenty = document.getElementById("brandIdenty").value;
+        var shopIdenty = document.getElementById("shopIdenty").value;
+        var creatorId = document.getElementById("creatorId").value;
+        var creatorName = document.getElementById("creatorName").value;
+        var isNeedSavePayment = $('input:radio[name="isNeedSavePayment"]:checked').val();
+        $.ajax({
+            url: '[[${basePath}]]/internal/customerPrivilegeRule/modfityShopSetting',
+            data: {
+                selectDishList: value.join('#'),
+                levelId:levelId,
+                shopIdenty:shopIdenty,
+                brandIdenty:brandIdenty,
+                creatorId:creatorId,
+                creatorName:creatorName,
+            },
+            type: "post",
+            dataType: 'json',
+            error:function(xml){
+                hideLoading();
+                alert('会员品项优惠设置失败，请稍后重试！');
+
+            },
+            success: function (status) {
+                hideLoading();
+                alert('会员品项优惠设置成功！');
+                location.reload();
+            }
+
+        });
+    }
 </script>
 
 
@@ -88,6 +119,23 @@
 
 <input type="hidden" id="privilegeType" th:value="${ruleModel.privilegeType}">
 
+<div style="margin: 20px;padding: 20px" class="modle_background_style">
+
+    <div class="parent">
+        <img th:src="@{/images/lable.jpg}" style="height: 25px; width: 4px">
+        <label class="text_navigation" style="margin-left: 10px; font-weight: bold">储值权益支付方式验证</label>
+    </div>
+
+    <div class="parent container">shopSetting
+        <label class="text_navigation" style="margin-left: 15px">是否做储值支付验证：</label>
+        <input type="radio" value="1" name="isNeedSavePayment" th:attr="checked=${shopSetting.settingValue == 1?true:false}"/><span class="text_navigation" style="margin-right: 20px; margin-left: 10px">是</span>
+        <input type="radio" value="0" name="isNeedSavePayment" th:attr="checked=${shopSetting.settingValue == 1?true:false}"/><span class="text_navigation" style="margin-left: 10px">否</span>
+        <button class="blue_button_style" onclick="submitNeedSavePayment()" style="margin-left: 10px">保存</button>
+    </div>
+    <br/>
+    <label style="margin-left: 15px;margin-top: 20px; font-size: 10px; color: #FF6600">备注：如选择"是"，则会员只有通过储值支付订单时才能享受该折扣，如选择"否"，则会员在购物车中登录后即可享受该折扣，不做支付方式的控制。</label>
+
+</div>
 
 <div style="margin: 20px;padding: 20px" class="modle_background_style">
 
@@ -96,7 +144,6 @@
         <label class="text_navigation" style="margin-left: 10px; font-weight: bold">会员储值权益</label>
     </div>
 
-
     <div align="center" style="margin-top: 10px">
 
         <table class="gridtablestyle" style="width: 90%; vertical-align: middle">
@@ -104,7 +151,7 @@
                 <th>储值金额</th>
                 <th>消费满额条件</th>
                 <th>享受权益类型</th>
-                <th>是否做储值支付验证</th>
+                <!--<th>是否做储值支付验证</th>-->
                 <th>享受权益值</th>
                 <th>操作</th>
             </tr>
@@ -121,16 +168,16 @@
                         </p>
                     </div>
                 </td>
-                <td>
-                    <div th:switch="${item.isNeedSavePayment}">
-                        <p th:case="'0'">
-                            否
-                        </p>
-                        <p th:case="'1'">
-                            是
-                        </p>
-                    </div>
-                </td>
+                <!--<td>-->
+                    <!--<div th:switch="${item.isNeedSavePayment}">-->
+                        <!--<p th:case="'0'">-->
+                            <!--否-->
+                        <!--</p>-->
+                        <!--<p th:case="'1'">-->
+                            <!--是-->
+                        <!--</p>-->
+                    <!--</div>-->
+                <!--</td>-->
                 <td th:text="${item.privilegeValue}"></td>
                 <td align="center">
                     <a th:onclick="'javascript:checkDelete(\''+${item.id}+'\')'" style="cursor: pointer">删除</a>
@@ -147,12 +194,7 @@
         <input type="hidden" name="creatorId" th:value="${ruleModel.creatorId}">
         <input type="hidden" name="creatorName" th:value="${ruleModel.creatorName}">
 
-        <div class="parent_h container">
-            <label class="text_navigation" style="margin-left: 10px">是否做储值支付验证：</label>
-            <input type="radio" value="1" name="isNeedSavePayment"/><span class="text_navigation" style="margin-right: 20px; margin-left: 10px">是</span>
-            <input type="radio" value="0" name="isNeedSavePayment"/><span class="text_navigation" style="margin-left: 10px">否</span>
-            <label style="margin-left: 10px; font-size: 10px; color: #FF6600">备注：如选择"是"，则会员只有通过储值支付订单时才能享受该折扣，如选择"否"，则会员在购物车中登录后即可享受该折扣，不做支付方式的控制。</label>
-        </div>
+
 
         <div class="container parent_h" style="margin-top: 20px">
 

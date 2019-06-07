@@ -28,7 +28,13 @@
 
 <script type="text/javascript">
 
+    function searchData(){
+        document.searchDataForm.submit();
+    }
+
     $(function() {
+
+
         $("#selectAll").change(function(){
             var isChecked = document.getElementById("selectAll").checked;
             if(isChecked == true){
@@ -41,7 +47,7 @@
     });
 
     function submitRuleSForm() {
-        showLoading("活动正在投放中，请稍后...");
+        showLoading("数据正在保存，请稍后...");
         var id = document.getElementsByName('selectDish');
         var value = new Array();
         for(var i = 0; i < id.length; i++){
@@ -99,15 +105,106 @@
 
     };
 
+    function displayTypeLable(type) {
+        if(type == 1){
+            document.getElementById('batchTypeLable').firstChild.nodeValue='折';
+        }else{
+            document.getElementById('batchTypeLable').firstChild.nodeValue='元';
+        }
+    }
+
+    function closeOrShowBatchDialog(type) {
+
+        if(type == 1){
+            document.getElementById('batchDialog').style.display='block';
+        }
+        else{
+            document.getElementById('batchDialog').style.display='none';
+        }
+    }
+
+    function submitBrachData() {
+        var privilegeType = $('input:radio[name="batchType"]:checked').val();
+        var privilegeValue = $("#batchPrivilegeValue").val();
+
+        //将批量设置的数据赋值给选中的品项
+        var id = document.getElementsByName('selectDish');
+        for(var i = 0; i < id.length; i++) {
+            if (id[i].checked) {
+                var dishId = id[i].value.toString();
+                $('#'+dishId).val(privilegeValue);
+
+                $("input[name="+dishId+"]:eq("+privilegeType+")").attr("checked",'checked');
+
+                // changeTypeLable(privilegeType,dishId);
+            }
+        }
+
+        closeOrShowBatchDialog(0);
+
+    }
+
 </script>
 
 <body>
+<div id="batchDialog" style="display: none">
 
-<input type="hidden" id="levelId" th:value="${mCustomerDishPrivilegeModel.levelId}">
-<input type="hidden" id="brandIdenty" th:value="${mCustomerDishPrivilegeModel.brandIdenty}">
-<input type="hidden" id="shopIdenty" th:value="${mCustomerDishPrivilegeModel.shopIdenty}">
-<input type="hidden" id="creatorId" th:value="${mCustomerDishPrivilegeModel.creatorId}">
-<input type="hidden" id="creatorName" th:value="${mCustomerDishPrivilegeModel.creatorName}">
+    <div style="background-color: rgba(204,204,204,0.5); width: 100%; position: absolute; height: 100%; z-index: 1;">
+
+        <div style="margin-top: 10px; background-color: #FFFFFF;width: 380px;height: 200px;opacity:1;margin-top: 10%;margin-left: 35%;border-style:solid;border-width:5px;border-color:#f8f8f8">
+            <div style="margin-left: 46px;padding-top: 30px;">
+                <label class="text_navigation" style="margin-right: 10px">批量设置优惠类型</label>
+                <input type="radio" value="1" name="batchType" onchange="displayTypeLable(1)"/><span class="text_navigation" style="margin-left: 10px;margin-right: 10px">折扣</span>
+                <input type="radio" value="2" name="batchType" onchange="displayTypeLable(2)"/><span class="text_navigation" style="margin-left: 6px;margin-right: 10px">让价</span>
+                <input type="radio" value="3" name="batchType" onchange="displayTypeLable(3)"/><span class="text_navigation" style="margin-left: 6px">特价</span>
+            </div>
+            <div style="margin-left: 46px;margin-top: 15px" class="parent">
+                <label class="text_navigation" style="margin-right: 10px;">批量设置优惠额度</label>
+                <input type="text" id="batchPrivilegeValue" class="input_min_style">
+                <label class="text_navigation" id="batchTypeLable" style="margin-left: 5px;"></label>
+
+            </div>
+            <div style="margin-left: 75px;margin-top: 20px">
+                <button class="gray_button_style" onclick="closeOrShowBatchDialog(0)">取消</button>
+                <button class="blue_button_style" onclick="submitBrachData()" style="margin-left: 15px">确定</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<div style="padding-top: 10px" class="parent">
+
+    <form method="post" name="searchDataForm" th:action="@{/internal/customerDishPrivilege/queryAllDishData}" th:object="${searchModel}">
+        <input type="hidden" id="levelId" name="levelId" th:value="${mCustomerDishPrivilegeModel.levelId}">
+        <input type="hidden" id="brandIdenty" name="brandIdenty" th:value="${mCustomerDishPrivilegeModel.brandIdenty}">
+        <input type="hidden" id="shopIdenty" name="shopIdenty" th:value="${mCustomerDishPrivilegeModel.shopIdenty}">
+        <input type="hidden" id="creatorId" name="creatorId" th:value="${mCustomerDishPrivilegeModel.creatorId}">
+        <input type="hidden" id="creatorName" name="creatorName" th:value="${mCustomerDishPrivilegeModel.creatorName}">
+
+        <label class="text_navigation" style="margin-left: 30px">品项类别</label>
+        <select class="select_style" name="dishType" style="margin-left: 5px">
+            <option value="">全部</option>
+            <option th:each="listType: ${listType}" th:value="${listType.id}" th:text="${listType.name}"></option>
+        </select>
+
+        <label class="text_navigation" style="margin-left: 10px">品项名称</label>
+        <input class="input_style" style="margin-left: 5px" type="text" name="dishName"/>
+    </form>
+
+    <button class="orange_mine_button_style" value="" onclick="searchData()" style="margin-left: 10px">查询</button>
+
+    <button class="blue_button_style" style="margin-left: 35px" onclick="closeOrShowBatchDialog(1)"><div class="parent_h container"><img th:src="@{/images/batch_icon.png}" src="../static/images/batch_icon.png" style="width: 20px;height: 20px">&nbsp;批量设置</div> </button>
+
+    <button class="blue_button_style" onclick="submitRuleSForm()" style="margin-left: 15px">保存设置</button>
+
+</div>
+
+
+
+
 
 <div align="center" style="margin-top: 10px">
     <table class="gridtablestyle" style="width: 95%; vertical-align: middle">
@@ -131,7 +228,21 @@
                 <input type="radio" value="3" th:name="${item.dishId}" th:attr="checked=${item.privilegeType == 3?true:false}" style="margin-left: 15px"/><span class="text_navigation" style="margin-left: 6px">特价</span>
             </td>
             <td>
-                <input type="text" class="input_min_style" th:id="${item.dishId}" th:value="${item.privilegeValue}" name="privilege_value">
+                <div class="parent_h container">
+                    <input type="text" class="input_min_style" th:id="${item.dishId}" th:value="${item.privilegeValue}" name="privilege_value">
+
+                    <div th:switch="${item.privilegeType}" style="width: 20px">
+                        <p th:case="'1'">
+                            <label class="text_navigation" style="margin-left: 5px;">折</label>
+                        </p>
+                        <p th:case="'2'">
+                            <label class="text_navigation" style="margin-left: 5px;">元</label>
+                        </p>
+                        <p th:case="'3'">
+                            <label class="text_navigation" style="margin-left: 5px;">元</label>
+                        </p>
+                    </div>
+                </div>
             </td>
 
         </tr>

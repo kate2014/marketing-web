@@ -52,7 +52,7 @@ public class CustomerDishPrivilegeController {
             mDishBrandTypeEntity.setBrandIdenty(mCustomerDishPrivilegeModel.getBrandIdenty());
             mDishBrandTypeEntity.setShopIdenty(mCustomerDishPrivilegeModel.getShopIdenty());
             List<DishBrandTypeEntity> listType = mDishBrandTypeService.queryDishType(mDishBrandTypeEntity);
-//            model.addAttribute("listType", listType);
+            model.addAttribute("listType", listType);
 
             CustomerDishPrivilegeEntity mCustomerDishPrivilegeEntity = new CustomerDishPrivilegeEntity();
             mCustomerDishPrivilegeEntity.setBrandIdenty(mCustomerDishPrivilegeModel.getBrandIdenty());
@@ -69,6 +69,8 @@ public class CustomerDishPrivilegeController {
             DishShopEntity mDishShopEntity = new DishShopEntity();
             mDishShopEntity.setBrandIdenty(mCustomerDishPrivilegeModel.getBrandIdenty());
             mDishShopEntity.setShopIdenty(mCustomerDishPrivilegeModel.getShopIdenty());
+            mDishShopEntity.setName(mCustomerDishPrivilegeModel.getDishName());
+            mDishShopEntity.setDishTypeId(mCustomerDishPrivilegeModel.getDishType());
             List<DishShopEntity> listDish = mDishShopService.queryAllDishShop(mDishShopEntity);
 
             List<CustomerDishPrivilegeModel> listData = new ArrayList<>();

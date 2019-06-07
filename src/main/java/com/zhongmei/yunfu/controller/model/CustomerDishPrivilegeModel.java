@@ -23,6 +23,10 @@ public class CustomerDishPrivilegeModel {
      */
     private BigDecimal marketPrice;
     /**
+     * 菜品类型
+     */
+    private Long dishType;
+    /**
      * 优惠类型：1：折扣 2：让价  3：特价
      */
     private Integer privilegeType;
@@ -213,5 +217,13 @@ public class CustomerDishPrivilegeModel {
 
     public void setChecked(boolean checked) {
         this.checked = checked;
+    }
+
+    public Long getDishType() {
+        return dishType;
+    }
+
+    public void setDishType(Long dishType) {
+        this.dishType = dishType;
     }
 }
