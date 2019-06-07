@@ -52,7 +52,7 @@
                 for(var j = 0; j < typeList.length; j++){
                     var privilegeType;
                     if(typeList[j].checked){
-                        privilegeType = typeList[i].value;
+                        privilegeType = typeList[j].value;
                     }
                 }
                 var privilegeValue = document.getElementById(dishId).value;
@@ -86,13 +86,13 @@
             dataType: 'json',
             error:function(xml){
                 hideLoading();
-                alert('投放失败，请稍后重试！');
+                alert('会员品项优惠设置失败，请稍后重试！');
 
             },
             success: function (status) {
                 hideLoading();
-                alert('投放成功！');
-
+                alert('会员品项优惠设置成功！');
+                location.reload();
             }
 
         });
@@ -119,19 +119,19 @@
             <th>优惠额度</th>
 
         </tr>
-        <tr th:each="item:${listDish}">
+        <tr th:each="item:${listData}">
             <td>
-                <input type="checkbox" th:value="${item.id}" name="selectDish">
+                <input type="checkbox" th:value="${item.dishId}" name="selectDish" th:attr="checked=${item.checked == true? true:false}">
             </td>
-            <td th:text="${item.name}"></td>
+            <td th:text="${item.dishName}"></td>
             <td th:text="${item.marketPrice}"></td>
             <td>
-                <input type="radio" value="1" th:name="${item.id}"/><span class="text_navigation" style="margin-left: 10px">折扣</span>
-                <input type="radio" value="2" th:name="${item.id}" style="margin-left: 15px"/><span class="text_navigation" style="margin-left: 6px">让价</span>
-                <input type="radio" value="3" th:name="${item.id}" style="margin-left: 15px"/><span class="text_navigation" style="margin-left: 6px">特价</span>
+                <input type="radio" value="1" th:name="${item.dishId}" th:attr="checked=${item.privilegeType == 1?true:false}"/><span class="text_navigation" style="margin-left: 10px">折扣</span>
+                <input type="radio" value="2" th:name="${item.dishId}" th:attr="checked=${item.privilegeType == 2?true:false}" style="margin-left: 15px"/><span class="text_navigation" style="margin-left: 6px">让价</span>
+                <input type="radio" value="3" th:name="${item.dishId}" th:attr="checked=${item.privilegeType == 3?true:false}" style="margin-left: 15px"/><span class="text_navigation" style="margin-left: 6px">特价</span>
             </td>
             <td>
-                <input type="text" class="input_min_style" th:id="${item.id}" name="privilege_value">
+                <input type="text" class="input_min_style" th:id="${item.dishId}" th:value="${item.privilegeValue}" name="privilege_value">
             </td>
 
         </tr>

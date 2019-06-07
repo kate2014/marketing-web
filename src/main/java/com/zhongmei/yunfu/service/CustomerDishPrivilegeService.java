@@ -38,10 +38,11 @@ public interface CustomerDishPrivilegeService extends IService<CustomerDishPrivi
      * 删除门店下所有该类数据
      * @param brandIdenty
      * @param shopIdenty
+     * @param levelId
      * @return
      * @throws Exception
      */
-    boolean deleteAllForShop(Long brandIdenty,Long shopIdenty)throws Exception;
+    boolean deleteAllForShop(Long brandIdenty,Long shopIdenty,Integer levelId)throws Exception;
     /**
      * 批量添加
      * @param listData

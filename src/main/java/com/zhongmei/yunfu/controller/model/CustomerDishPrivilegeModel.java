@@ -15,6 +15,14 @@ public class CustomerDishPrivilegeModel {
      */
     private Long dishId;
     /**
+     * 商品名称
+     */
+    private String dishName;
+    /**
+     * 商品销售价格
+     */
+    private BigDecimal marketPrice;
+    /**
      * 优惠类型：1：折扣 2：让价  3：特价
      */
     private Integer privilegeType;
@@ -60,6 +68,8 @@ public class CustomerDishPrivilegeModel {
     private Date serverUpdateTime;
 
     private String selectDishList;
+
+    private boolean checked;
 
     public Long getId() {
         return id;
@@ -179,5 +189,29 @@ public class CustomerDishPrivilegeModel {
 
     public void setSelectDishList(String selectDishList) {
         this.selectDishList = selectDishList;
+    }
+
+    public String getDishName() {
+        return dishName;
+    }
+
+    public void setDishName(String dishName) {
+        this.dishName = dishName;
+    }
+
+    public BigDecimal getMarketPrice() {
+        return marketPrice;
+    }
+
+    public void setMarketPrice(BigDecimal marketPrice) {
+        this.marketPrice = marketPrice;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 }

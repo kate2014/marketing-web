@@ -42,11 +42,12 @@ public class CustomerDishPrivilegeServiceImpl extends ServiceImpl<CustomerDishPr
     }
 
     @Override
-    public boolean deleteAllForShop(Long brandIdenty, Long shopIdenty) throws Exception {
+    public boolean deleteAllForShop(Long brandIdenty, Long shopIdenty,Integer levelId) throws Exception {
 
         EntityWrapper<CustomerDishPrivilegeEntity> eWrapper = new EntityWrapper<>();
         eWrapper.eq("brand_identy",brandIdenty);
         eWrapper.eq("shop_identy",shopIdenty);
+        eWrapper.eq("level_id",levelId);
         return delete(eWrapper);
     }
 

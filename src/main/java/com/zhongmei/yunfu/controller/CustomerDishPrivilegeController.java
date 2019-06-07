@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 会员特价商品
@@ -53,7 +55,15 @@ public class CustomerDishPrivilegeController {
 //            model.addAttribute("listType", listType);
 
             CustomerDishPrivilegeEntity mCustomerDishPrivilegeEntity = new CustomerDishPrivilegeEntity();
+            mCustomerDishPrivilegeEntity.setBrandIdenty(mCustomerDishPrivilegeModel.getBrandIdenty());
+            mCustomerDishPrivilegeEntity.setShopIdenty(mCustomerDishPrivilegeModel.getShopIdenty());
+            mCustomerDishPrivilegeEntity.setLevelId(mCustomerDishPrivilegeModel.getLevelId());
             List<CustomerDishPrivilegeEntity> listCDP = mCustomerDishPrivilegeService.queryDishPrivilege(mCustomerDishPrivilegeEntity);
+
+            Map<Long,CustomerDishPrivilegeEntity> tempMap = new HashMap<>();
+            for(CustomerDishPrivilegeEntity entity : listCDP){
+                tempMap.put(entity.getDishId(),entity);
+            }
 
             //获取门店下所以品项
             DishShopEntity mDishShopEntity = new DishShopEntity();
@@ -61,11 +71,26 @@ public class CustomerDishPrivilegeController {
             mDishShopEntity.setShopIdenty(mCustomerDishPrivilegeModel.getShopIdenty());
             List<DishShopEntity> listDish = mDishShopService.queryAllDishShop(mDishShopEntity);
 
+            List<CustomerDishPrivilegeModel> listData = new ArrayList<>();
             for(DishShopEntity dishShop : listDish){
+                CustomerDishPrivilegeModel entity = new CustomerDishPrivilegeModel();
+                entity.setDishId(dishShop.getId());
+                entity.setDishName(dishShop.getName());
+                entity.setMarketPrice(dishShop.getMarketPrice());
 
+                CustomerDishPrivilegeEntity cdp = tempMap.get(dishShop.getId());
+                if(cdp != null){
+                    entity.setPrivilegeType(cdp.getPrivilegeType());
+                    entity.setPrivilegeValue(cdp.getPrivilegeValue());
+                    entity.setChecked(true);
+                }else {
+                    entity.setChecked(false);
+                }
+
+                listData.add(entity);
             }
 
-            model.addAttribute("listDish", listDish);
+            model.addAttribute("listData", listData);
 
             model.addAttribute("mCustomerDishPrivilegeModel", mCustomerDishPrivilegeModel);
         }catch (Exception e){
@@ -99,9 +124,7 @@ public class CustomerDishPrivilegeController {
                 entity.setStatusFlag(1);
                 listPrivilege.add(entity);
             }
-            System.out.println("====selectDishList==="+selectDishList);
-            System.out.println("====shop==="+mCustomerDishPrivilegeModel.getBrandIdenty()+"=="+mCustomerDishPrivilegeModel.getShopIdenty());
-            mCustomerDishPrivilegeService.deleteAllForShop(mCustomerDishPrivilegeModel.getBrandIdenty(),mCustomerDishPrivilegeModel.getShopIdenty());
+            mCustomerDishPrivilegeService.deleteAllForShop(mCustomerDishPrivilegeModel.getBrandIdenty(),mCustomerDishPrivilegeModel.getShopIdenty(),mCustomerDishPrivilegeModel.getLevelId());
             mCustomerDishPrivilegeService.insertBatch(listPrivilege);
 
 
