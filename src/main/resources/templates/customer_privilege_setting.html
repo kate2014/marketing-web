@@ -4,20 +4,23 @@
     <meta charset="UTF-8">
     <title>会员权益设置</title>
 
+    <!-- tips 提示框引用-->
     <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
     <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
-    <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" type="text/css" />
-    <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" />
+    <link rel="stylesheet" th:href="@{/css/customer.css}" href="../static/css/customer.css" />
+    <script type="text/javascript" th:src="@{/js/base.js}" src="../static/js/base.js" ></script>
+    <script type="text/javascript" th:src="@{/js/window/window.ext.js}" src="../static/js/window/window.ext.js" ></script>
+    <!-- diglog -->
+    <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/diy_dialog.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/diy_dialog.css}" type="text/css" />
 
     <!-- tips 提示框引用-->
     <link rel="stylesheet" th:href="@{/tips/jquery.toast.css}">
     <script type="text/javascript" th:src="@{/tips/jquery.toast.js}"></script>
     <script type="text/javascript" th:src="@{/tips/tips.js}"></script>
-
-    <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
-    <script type="text/javascript" th:src="@{/js/diy_dialog.js}"></script>
-    <link rel="stylesheet" th:href="@{/css/diy_dialog.css}" type="text/css" />
-
 </head>
 
 <style type="text/css">
@@ -73,8 +76,8 @@
         }
 
         //设置会员支付密码验证默认选中项
-        // var privilegeType =  document.getElementById("privilegeType").value;
-        // $(":radio[id='privilegeType'][value='" + privilegeType + "']").prop("checked", "checked");
+        var settingValue =  document.getElementById("settingValue").value;
+        $(":radio[name='isNeedSavePayment'][value='" + settingValue + "']").prop("checked", "checked");
     }
 
     function submitNeedSavePayment() {
@@ -82,28 +85,33 @@
         var shopIdenty = document.getElementById("shopIdenty").value;
         var creatorId = document.getElementById("creatorId").value;
         var creatorName = document.getElementById("creatorName").value;
+        var systemSettingId = document.getElementById("systemSettingId").value;
         var isNeedSavePayment = $('input:radio[name="isNeedSavePayment"]:checked').val();
+
+
         $.ajax({
             url: '[[${basePath}]]/internal/customerPrivilegeRule/modfityShopSetting',
             data: {
-                selectDishList: value.join('#'),
-                levelId:levelId,
+                systemSettingId:systemSettingId,
                 shopIdenty:shopIdenty,
                 brandIdenty:brandIdenty,
                 creatorId:creatorId,
                 creatorName:creatorName,
+                isNeedSavePayment:isNeedSavePayment,
             },
             type: "post",
             dataType: 'json',
             error:function(xml){
-                hideLoading();
-                alert('会员品项优惠设置失败，请稍后重试！');
+                errorTips('操作失败','设置失败，请优先排查输入信息');
 
             },
             success: function (status) {
-                hideLoading();
-                alert('会员品项优惠设置成功！');
-                location.reload();
+                if(status == "success"){
+                    successTips('操作成功','设置成功，可进行相关操作使用');
+                }else {
+                    errorTips('操作失败','设置失败，请优先排查输入信息');
+                }
+
             }
 
         });
@@ -111,13 +119,13 @@
 </script>
 
 
-<body>
+<body onload="showAction()">
 
 <div id="showDialog"></div>
 
 <input type="hidden" id="successOrfail" th:value="${ruleModel.successOrfail}">
 
-<input type="hidden" id="privilegeType" th:value="${ruleModel.privilegeType}">
+<input type="hidden" id="settingValue" th:value="${shopSetting.settingValue}">
 
 <div style="margin: 20px;padding: 20px" class="modle_background_style">
 
@@ -126,10 +134,13 @@
         <label class="text_navigation" style="margin-left: 10px; font-weight: bold">储值权益支付方式验证</label>
     </div>
 
-    <div class="parent container">shopSetting
+    <div class="parent container">
+        <input type="hidden" id="systemSettingId" th:value="${shopSetting.id}">
         <label class="text_navigation" style="margin-left: 15px">是否做储值支付验证：</label>
-        <input type="radio" value="1" name="isNeedSavePayment" th:attr="checked=${shopSetting.settingValue == 1?true:false}"/><span class="text_navigation" style="margin-right: 20px; margin-left: 10px">是</span>
-        <input type="radio" value="0" name="isNeedSavePayment" th:attr="checked=${shopSetting.settingValue == 1?true:false}"/><span class="text_navigation" style="margin-left: 10px">否</span>
+
+        <input type="radio" value="1" name="isNeedSavePayment"/><span class="text_navigation" style="margin-left: 6px">是</span>
+        <input type="radio" value="0" name="isNeedSavePayment" style="margin-left: 15px"/><span class="text_navigation" style="margin-left: 6px">否</span>
+
         <button class="blue_button_style" onclick="submitNeedSavePayment()" style="margin-left: 10px">保存</button>
     </div>
     <br/>
@@ -168,16 +179,6 @@
                         </p>
                     </div>
                 </td>
-                <!--<td>-->
-                    <!--<div th:switch="${item.isNeedSavePayment}">-->
-                        <!--<p th:case="'0'">-->
-                            <!--否-->
-                        <!--</p>-->
-                        <!--<p th:case="'1'">-->
-                            <!--是-->
-                        <!--</p>-->
-                    <!--</div>-->
-                <!--</td>-->
                 <td th:text="${item.privilegeValue}"></td>
                 <td align="center">
                     <a th:onclick="'javascript:checkDelete(\''+${item.id}+'\')'" style="cursor: pointer">删除</a>
@@ -189,10 +190,10 @@
 
     <form method="post" name="addform" action="" th:action="@{/internal/customerPrivilegeRule/addSavePriviegeRule}">
 
-        <input type="hidden" name="shopIdenty" th:value="${ruleModel.shopIdenty}">
-        <input type="hidden" name="brandIdenty" th:value="${ruleModel.brandIdenty}">
-        <input type="hidden" name="creatorId" th:value="${ruleModel.creatorId}">
-        <input type="hidden" name="creatorName" th:value="${ruleModel.creatorName}">
+        <input type="hidden" id="shopIdenty" name="shopIdenty" th:value="${ruleModel.shopIdenty}">
+        <input type="hidden" id="brandIdenty" name="brandIdenty" th:value="${ruleModel.brandIdenty}">
+        <input type="hidden" id="creatorId" name="creatorId" th:value="${ruleModel.creatorId}">
+        <input type="hidden" id="creatorName" name="creatorName" th:value="${ruleModel.creatorName}">
 
 
 

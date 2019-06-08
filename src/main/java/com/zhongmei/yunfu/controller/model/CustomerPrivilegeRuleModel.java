@@ -10,6 +10,10 @@ public class CustomerPrivilegeRuleModel {
      */
     private Integer customerLevel;
     /**
+     * 权益类型集
+     */
+    private String privilegeTypes;
+    /**
      * 权益类型： 1：会员等级折扣，2：会员等级让价，3：储值支付折扣，4：储值支付让价
      */
     private Integer privilegeType;
@@ -29,6 +33,10 @@ public class CustomerPrivilegeRuleModel {
      * 是否需要储值支付 0：不需要  1：需要
      */
     private Integer isNeedSavePayment;
+    /**
+     * 系统全局设置Id
+     */
+    private Long systemSettingId;
     /**
      * 商户id
      */
@@ -54,27 +62,6 @@ public class CustomerPrivilegeRuleModel {
      */
     private String updatorName;
 
-    /**
-     * 会员等级对应的权益Id
-     */
-    private Long ptRuleId;
-    private Long ykRuleId;
-    private Long jkRuleId;
-    private Long bjRuleId;
-    private Long hjRuleId;
-    private Long zsRuleId;
-    private Long zzRuleId;
-    /**
-     * 会员等级对应的权益值
-     */
-    private BigDecimal ptPrivilegeValue;
-    private BigDecimal ykPrivilegeValue;
-    private BigDecimal jkPrivilegeValue;
-    private BigDecimal bjPrivilegeValue;
-    private BigDecimal hjPrivilegeValue;
-    private BigDecimal zsPrivilegeValue;
-    private BigDecimal zzPrivilegeValue;
-
     private String successOrfail;
 
     public Long getId() {
@@ -93,12 +80,12 @@ public class CustomerPrivilegeRuleModel {
         this.customerLevel = customerLevel;
     }
 
-    public Integer getPrivilegeType() {
-        return privilegeType;
+    public String getPrivilegeTypes() {
+        return privilegeTypes;
     }
 
-    public void setPrivilegeType(Integer privilegeType) {
-        this.privilegeType = privilegeType;
+    public void setPrivilegeTypes(String privilegeTypes) {
+        this.privilegeTypes = privilegeTypes;
     }
 
     public BigDecimal getPrivilegeValue() {
@@ -173,118 +160,6 @@ public class CustomerPrivilegeRuleModel {
         this.updatorName = updatorName;
     }
 
-    public BigDecimal getPtPrivilegeValue() {
-        return ptPrivilegeValue;
-    }
-
-    public void setPtPrivilegeValue(BigDecimal ptPrivilegeValue) {
-        this.ptPrivilegeValue = ptPrivilegeValue;
-    }
-
-    public BigDecimal getYkPrivilegeValue() {
-        return ykPrivilegeValue;
-    }
-
-    public void setYkPrivilegeValue(BigDecimal ykPrivilegeValue) {
-        this.ykPrivilegeValue = ykPrivilegeValue;
-    }
-
-    public BigDecimal getJkPrivilegeValue() {
-        return jkPrivilegeValue;
-    }
-
-    public void setJkPrivilegeValue(BigDecimal jkPrivilegeValue) {
-        this.jkPrivilegeValue = jkPrivilegeValue;
-    }
-
-    public BigDecimal getBjPrivilegeValue() {
-        return bjPrivilegeValue;
-    }
-
-    public void setBjPrivilegeValue(BigDecimal bjPrivilegeValue) {
-        this.bjPrivilegeValue = bjPrivilegeValue;
-    }
-
-    public BigDecimal getHjPrivilegeValue() {
-        return hjPrivilegeValue;
-    }
-
-    public void setHjPrivilegeValue(BigDecimal hjPrivilegeValue) {
-        this.hjPrivilegeValue = hjPrivilegeValue;
-    }
-
-    public BigDecimal getZsPrivilegeValue() {
-        return zsPrivilegeValue;
-    }
-
-    public void setZsPrivilegeValue(BigDecimal zsPrivilegeValue) {
-        this.zsPrivilegeValue = zsPrivilegeValue;
-    }
-
-    public BigDecimal getZzPrivilegeValue() {
-        return zzPrivilegeValue;
-    }
-
-    public void setZzPrivilegeValue(BigDecimal zzPrivilegeValue) {
-        this.zzPrivilegeValue = zzPrivilegeValue;
-    }
-
-    public Long getPtRuleId() {
-        return ptRuleId;
-    }
-
-    public void setPtRuleId(Long ptRuleId) {
-        this.ptRuleId = ptRuleId;
-    }
-
-    public Long getYkRuleId() {
-        return ykRuleId;
-    }
-
-    public void setYkRuleId(Long ykRuleId) {
-        this.ykRuleId = ykRuleId;
-    }
-
-    public Long getJkRuleId() {
-        return jkRuleId;
-    }
-
-    public void setJkRuleId(Long jkRuleId) {
-        this.jkRuleId = jkRuleId;
-    }
-
-    public Long getBjRuleId() {
-        return bjRuleId;
-    }
-
-    public void setBjRuleId(Long bjRuleId) {
-        this.bjRuleId = bjRuleId;
-    }
-
-    public Long getHjRuleId() {
-        return hjRuleId;
-    }
-
-    public void setHjRuleId(Long hjRuleId) {
-        this.hjRuleId = hjRuleId;
-    }
-
-    public Long getZsRuleId() {
-        return zsRuleId;
-    }
-
-    public void setZsRuleId(Long zsRuleId) {
-        this.zsRuleId = zsRuleId;
-    }
-
-    public Long getZzRuleId() {
-        return zzRuleId;
-    }
-
-    public void setZzRuleId(Long zzRuleId) {
-        this.zzRuleId = zzRuleId;
-    }
-
     public String getSuccessOrfail() {
         return successOrfail;
     }
@@ -299,5 +174,21 @@ public class CustomerPrivilegeRuleModel {
 
     public void setSaveAmount(BigDecimal saveAmount) {
         this.saveAmount = saveAmount;
+    }
+
+    public Long getSystemSettingId() {
+        return systemSettingId;
+    }
+
+    public void setSystemSettingId(Long systemSettingId) {
+        this.systemSettingId = systemSettingId;
+    }
+
+    public Integer getPrivilegeType() {
+        return privilegeType;
+    }
+
+    public void setPrivilegeType(Integer privilegeType) {
+        this.privilegeType = privilegeType;
     }
 }

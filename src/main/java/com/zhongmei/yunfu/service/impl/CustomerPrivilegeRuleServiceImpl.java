@@ -26,11 +26,11 @@ public class CustomerPrivilegeRuleServiceImpl extends ServiceImpl<CustomerPrivil
         EntityWrapper<CustomerPrivilegeRuleEntity> eWrapper = new EntityWrapper<>();
         eWrapper.eq("brand_identy", ruleModel.getBrandIdenty());
         eWrapper.eq("shop_identy", ruleModel.getShopIdenty());
-        if (ruleModel.getPrivilegeType() != null) {
-            eWrapper.eq("privilege_type", ruleModel.getPrivilegeType());
+        if (ruleModel.getPrivilegeTypes() != null) {
+            eWrapper.in("privilege_type", ruleModel.getPrivilegeTypes());
         }
         eWrapper.eq("status_flag", 1);
-        eWrapper.orderBy("server_update_time", true);
+        eWrapper.orderBy("save_amount", true);
 
         List<CustomerPrivilegeRuleEntity> listData = selectList(eWrapper);
         return listData;

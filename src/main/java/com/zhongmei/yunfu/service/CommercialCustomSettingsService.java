@@ -41,4 +41,12 @@ public interface CommercialCustomSettingsService extends IService<CommercialCust
      * @return
      */
     CommercialCustomSettingsEntity queryByKey(CommercailSettingModel mCommercailSettingModel) throws Exception;
+
+    /**
+     * 添加或修改
+     * @param mCommercialCustomSettingsEntity
+     * @return
+     * @throws Exception
+     */
+    boolean installOrUpdate(CommercialCustomSettingsEntity mCommercialCustomSettingsEntity) throws Exception;
 }
