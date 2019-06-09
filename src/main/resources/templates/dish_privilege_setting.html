@@ -160,7 +160,7 @@
             </div>
             <div style="margin-left: 46px;margin-top: 15px" class="parent">
                 <label class="text_navigation" style="margin-right: 10px;">批量设置优惠额度</label>
-                <input type="text" id="batchPrivilegeValue" class="input_min_style">
+                <input type="text" id="batchPrivilegeValue" onkeyup="clearNoNum(this)" class="input_min_style">
                 <label class="text_navigation" id="batchTypeLable" style="margin-left: 5px;"></label>
 
             </div>
@@ -229,7 +229,7 @@
             </td>
             <td>
                 <div class="parent_h container">
-                    <input type="text" class="input_min_style" th:id="${item.dishId}" th:value="${item.privilegeValue}" name="privilege_value">
+                    <input type="text" class="input_min_style" onkeyup="clearNoNum(this)" th:id="${item.dishId}" th:value="${item.privilegeValue}" name="privilege_value">
 
                     <div th:switch="${item.privilegeType}" style="width: 20px">
                         <p th:case="'1'">

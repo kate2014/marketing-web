@@ -10,7 +10,7 @@
     <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" />
     <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" />
     <link rel="stylesheet" th:href="@{/css/customer.css}" href="../static/css/customer.css" />
-    <!--<script type="text/javascript" th:src="@{/js/base.js}" src="../static/js/base.js" ></script>-->
+    <script type="text/javascript" th:src="@{/js/base.js}" src="../static/js/base.js" ></script>
     <!--<script type="text/javascript" th:src="@{/js/window/window.ext.js}" src="../static/js/window/window.ext.js" ></script>-->
     <!-- diglog -->
     <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
@@ -107,7 +107,6 @@
         var fullAmount = document.getElementById("fullAmount").value.replace(/(^\s*)|(\s*$)/g, '');
         var privilegeValue = document.getElementById("privilegeValue").value.replace(/(^\s*)|(\s*$)/g, '');
         var privilegeType = $('input:radio[name="privilegeType"]:checked').val();
-
         if(saveAmount == '' || saveAmount == undefined || saveAmount == null){
             warningTips("操作异常提示","储值金额不能为空");
         }else if(fullAmount == '' || fullAmount == undefined || fullAmount == null){
@@ -117,7 +116,23 @@
         }else if(privilegeValue == '' || privilegeValue == undefined || privilegeValue == null){
             warningTips("操作异常提示","权益值不能为空");
         }else{
-            document.addform.submit();
+            var isSame = false;
+            if(saveAmount != '' && saveAmount != undefined && saveAmount != null) {
+                var items = document.getElementsByName('savaAmountItem');
+                for (var i = 0; i < items.length; i++) {
+                    var itemValue = items[i].textContent;
+                    if (parseFloat(itemValue) == parseFloat(saveAmount)) {
+                        isSame = true;
+                        break;
+                    }
+                }
+            }
+            if(isSame != true){
+                document.addform.submit();
+            }else{
+                warningTips("操作异常提示", "储值金额规则已存在，请重新设置");
+            }
+
         }
 
     }
@@ -186,7 +201,7 @@
                 <th>操作</th>
             </tr>
             <tr th:each="item:${listData}">
-                <td th:text="${item.saveAmount}"></td>
+                <td><span name="savaAmountItem" th:value="${item.saveAmount}" th:text="${item.saveAmount}"></span></td>
                 <td th:text="${item.fullAmount}"></td>
                 <td>
                     <div th:switch="${item.privilegeType}">
@@ -214,10 +229,10 @@
             <input type="hidden" id="creatorName" name="creatorName" th:value="${ruleModel.creatorName}">
 
             <label class="text_navigation" style="margin-left: 10px;">储值金额：</label>
-            <input class="input_style" placeholder="请输入储值金额" style="margin-left: 5px" type="text" id="saveAmount" name="saveAmount"/>
+            <input class="input_style" placeholder="请输入储值金额" onkeyup="clearNoNum(this)" style="margin-left: 5px" type="text" id="saveAmount" name="saveAmount"/>
 
             <label class="text_navigation" style="margin-left: 10px;">消费满额条件</label>
-            <input class="input_style" id="fullAmount" name="fullAmount" placeholder="消费满多少金额可享有会员折扣" style="margin-left: 5px" type="text"/>
+            <input class="input_style" id="fullAmount" name="fullAmount" onkeyup="clearNoNum(this)" placeholder="消费满多少金额可享有会员折扣" style="margin-left: 5px" type="text"/>
             <label class="text_navigation" style="margin-left: 5px;">元</label>
 
             <label class="text_navigation" style="margin-left: 10px">权益类型：</label>
@@ -225,7 +240,7 @@
             <input type="radio" value="4" name="privilegeType"/><span class="text_navigation" style="margin-left: 10px">让价</span>
 
             <label class="text_navigation" style="margin-left: 10px">权益值：</label>
-            <input class="input_style" placeholder="请输入储值金额" style="margin-left: 5px" type="text" id="privilegeValue" name="privilegeValue"/>
+            <input class="input_style" placeholder="请输入储值金额" onkeyup="clearNoNum(this)" style="margin-left: 5px" type="text" id="privilegeValue" name="privilegeValue"/>
 
         </form>
         <button class="blue_button_style" onclick="sendForm()" style="margin-left: 10px">保存</button>
