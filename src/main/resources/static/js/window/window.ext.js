@@ -1,4 +1,4 @@
-var window_ext_reg = /(^|.*[\\\/])window\.ext\.js(?:\?.*|;.*)?$/i;
+var window_ext_reg = /(^|.*[\\\/])window\.ext(-\w+)?\.js(?:\?.*|;.*)?$/i;
 window.getBaseExtPath = function () {
     var b = "";
     if (!b) for (var c = document.getElementsByTagName("script"), d = 0; d < c.length; d++) {

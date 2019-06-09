@@ -20,7 +20,7 @@ public class CustomerExtraEntity extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.INPUT)
+    @TableId(value = "customer_id", type = IdType.INPUT)
     private Long customerId;
     /**
      * 储值总余额(包括赠送)
