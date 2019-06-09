@@ -102,6 +102,25 @@
         });
     }
 
+    function sendForm() {
+        var saveAmount = document.getElementById("saveAmount").value.replace(/(^\s*)|(\s*$)/g, '');
+        var fullAmount = document.getElementById("fullAmount").value.replace(/(^\s*)|(\s*$)/g, '');
+        var privilegeValue = document.getElementById("privilegeValue").value.replace(/(^\s*)|(\s*$)/g, '');
+        var privilegeType = $('input:radio[name="privilegeType"]:checked').val();
+
+        if(saveAmount == '' || saveAmount == undefined || saveAmount == null){
+            warningTips("操作异常提示","储值金额不能为空");
+        }else if(fullAmount == '' || fullAmount == undefined || fullAmount == null){
+            warningTips("操作异常提示","消费满额条件不能为空");
+        }else if(privilegeType == '' || privilegeType == undefined || privilegeType == null){
+            warningTips("操作异常提示","权益类型不能为空");
+        }else if(privilegeValue == '' || privilegeValue == undefined || privilegeValue == null){
+            warningTips("操作异常提示","权益值不能为空");
+        }else{
+            document.addform.submit();
+        }
+
+    }
     $(function() {
         var successOrfail = document.getElementById("successOrfail").value;
         if(successOrfail != '' && successOrfail != undefined && successOrfail != null){
@@ -187,23 +206,18 @@
         </table>
     </div>
 
-
-    <form method="post" name="addform" action="" th:action="@{/internal/customerPrivilegeRule/addSavePriviegeRule}">
-
-        <input type="hidden" id="shopIdenty" name="shopIdenty" th:value="${ruleModel.shopIdenty}">
-        <input type="hidden" id="brandIdenty" name="brandIdenty" th:value="${ruleModel.brandIdenty}">
-        <input type="hidden" id="creatorId" name="creatorId" th:value="${ruleModel.creatorId}">
-        <input type="hidden" id="creatorName" name="creatorName" th:value="${ruleModel.creatorName}">
-
-
-
-        <div class="container parent_h" style="margin-top: 20px">
+    <div class="container parent_h" style="margin-top: 20px">
+        <form method="post" name="addform" action="" th:action="@{/internal/customerPrivilegeRule/addSavePriviegeRule}">
+            <input type="hidden" id="shopIdenty" name="shopIdenty" th:value="${ruleModel.shopIdenty}">
+            <input type="hidden" id="brandIdenty" name="brandIdenty" th:value="${ruleModel.brandIdenty}">
+            <input type="hidden" id="creatorId" name="creatorId" th:value="${ruleModel.creatorId}">
+            <input type="hidden" id="creatorName" name="creatorName" th:value="${ruleModel.creatorName}">
 
             <label class="text_navigation" style="margin-left: 10px;">储值金额：</label>
-            <input class="input_style" placeholder="请输入储值金额" style="margin-left: 5px" type="text"  name="saveAmount"/>
+            <input class="input_style" placeholder="请输入储值金额" style="margin-left: 5px" type="text" id="saveAmount" name="saveAmount"/>
 
             <label class="text_navigation" style="margin-left: 10px;">消费满额条件</label>
-            <input class="input_style" name="fullAmount" placeholder="消费满多少金额可享有会员折扣" style="margin-left: 5px" type="text"/>
+            <input class="input_style" id="fullAmount" name="fullAmount" placeholder="消费满多少金额可享有会员折扣" style="margin-left: 5px" type="text"/>
             <label class="text_navigation" style="margin-left: 5px;">元</label>
 
             <label class="text_navigation" style="margin-left: 10px">权益类型：</label>
@@ -211,14 +225,15 @@
             <input type="radio" value="4" name="privilegeType"/><span class="text_navigation" style="margin-left: 10px">让价</span>
 
             <label class="text_navigation" style="margin-left: 10px">权益值：</label>
-            <input class="input_style" placeholder="请输入储值金额" style="margin-left: 5px" type="text"  name="privilegeValue"/>
+            <input class="input_style" placeholder="请输入储值金额" style="margin-left: 5px" type="text" id="privilegeValue" name="privilegeValue"/>
 
-            <button class="blue_button_style" onclick="submitForm()" style="margin-left: 10px">保存</button>
-        </div>
-        <div class="container parent_h" style="margin-top: 20px">
-            <label style="margin-left: 10px; font-size: 10px; color: #FF6600">备注：会员储值不同金额，享受的会员折扣不同，同时可设置会员消费时满多少金额才能享受该会员折扣，如不限制则在满额条件中输入0。</label>
-        </div>
-    </form>
+        </form>
+        <button class="blue_button_style" onclick="sendForm()" style="margin-left: 10px">保存</button>
+    </div>
+    <div class="container parent_h" style="margin-top: 20px">
+        <label style="margin-left: 10px; font-size: 10px; color: #FF6600">备注：会员储值不同金额，享受的会员折扣不同，同时可设置会员消费时满多少金额才能享受该会员折扣，如不限制则在满额条件中输入0。</label>
+    </div>
+
 </div>
 
 
