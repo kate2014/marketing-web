@@ -24,6 +24,10 @@ class CustomerSaveReport : CustomerEntity(), Serializable {
      */
     val salesAmount: BigDecimal? = null
     /**
+     * 储值赠送金额
+     */
+    var giveAmount: BigDecimal? = null
+    /**
      * 创建时间
      */
     var createDate: String? = null
@@ -34,6 +38,7 @@ class CustomerSaveReport : CustomerEntity(), Serializable {
         return "CustomerReport{" +
                 ", tradeCount=" + tradeCount +
                 ", salesAmount=" + salesAmount +
+                ", giveAmount=" + giveAmount +
                 ", createDate=" + createDate +
                 ", customerName=" + customerName +
                 "}"

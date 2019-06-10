@@ -8,10 +8,7 @@ import com.zhongmei.yunfu.domain.entity.BrandEntity;
 import com.zhongmei.yunfu.domain.entity.CommercialEntity;
 import com.zhongmei.yunfu.domain.entity.CustomerSaveReport;
 import com.zhongmei.yunfu.domain.entity.DishReport;
-import com.zhongmei.yunfu.service.BrandService;
-import com.zhongmei.yunfu.service.CommercialService;
-import com.zhongmei.yunfu.service.TradeItemService;
-import com.zhongmei.yunfu.service.TradeService;
+import com.zhongmei.yunfu.service.*;
 import com.zhongmei.yunfu.util.DateFormatUtil;
 import com.zhongmei.yunfu.util.ToolsUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +33,8 @@ public class ReportCustomerSaveController {
     BrandService mBrandService;
     @Autowired
     CommercialService mCommercialService;
+    @Autowired
+    CustomerStoredService mCustomerStoredService;
 
     @RequestMapping("/customerSave")
     public String cardTimeReport(Model model, TradeModel mTradeModel) {
@@ -82,6 +81,7 @@ public class ReportCustomerSaveController {
                     maxAmount = dp.getSalesAmount().longValue();
                 }
                 totalAmount = totalAmount.add(dp.getSalesAmount());
+
             }
 
 
@@ -101,9 +101,16 @@ public class ReportCustomerSaveController {
 
             //储值详情
             List<CustomerSaveReport> listDetailData = mTradeService.customerSaveDetailReport(mTradeModel);
+            BigDecimal totalGiveAmount = BigDecimal.ZERO;
+            for(CustomerSaveReport entity : listDetailData){
+                if(entity.getGiveAmount() != null){
+                    totalGiveAmount = totalGiveAmount.add(entity.getGiveAmount());
+                }
+            }
             model.addAttribute("listDetailData", listDetailData);
             model.addAttribute("totalCount", listDetailData.size());
             model.addAttribute("totalAmount", totalAmount);
+            model.addAttribute("totalGiveAmount", totalGiveAmount);
 
         }catch (Exception e){
             e.printStackTrace();
@@ -137,6 +144,7 @@ public class ReportCustomerSaveController {
         titles.add("序");
         titles.add("会员名称");
         titles.add("储值金额");
+        titles.add("储值赠送金额");
         titles.add("储值时间");
 
         data.setTitles(titles);
@@ -152,6 +160,7 @@ public class ReportCustomerSaveController {
                 row.add(i++);
                 row.add(entity.getCustomerName());
                 row.add(entity.getSalesAmount());
+                row.add(entity.getGiveAmount());
                 row.add(entity.getCreateDate());
             }
         }

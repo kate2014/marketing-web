@@ -104,6 +104,7 @@
         <tr style="width: 100%">
             <th>会员名称</th>
             <th>储值金额</th>
+            <th>储值赠送金额</th>
             <th>充值时间</th>
 
         </tr>
@@ -111,11 +112,16 @@
 
             <td th:text="${item.customerName}"></td>
             <td th:text="${item.salesAmount}"></td>
+            <td th:text="${item.giveAmount}"></td>
             <td th:text="${item.createDate}"></td>
 
         </tr>
         <tr style="width: 100%">
-            <th width="100%" colspan="3">合计：储值总单数：<span style="margin-right: 88px" th:text="${totalCount}"></span>储值总金额：<span th:text="${totalAmount}"></span></th>
+            <th width="100%" colspan="4">
+                合计：储值总单数：<span style="margin-right: 36px" th:text="${totalCount}"></span>
+                储值总金额：<span style="margin-right: 36px" th:text="${totalAmount}"></span>
+                储值赠送总额：<span th:text="${totalGiveAmount}"></span>
+            </th>
         </tr>
     </table>
 </div>
