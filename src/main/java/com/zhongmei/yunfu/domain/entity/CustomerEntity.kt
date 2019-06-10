@@ -116,6 +116,10 @@ open class CustomerEntity : BaseEntity() {
      */
     var consumptionNumber: Int? = null
     /**
+     * 储值余额
+     */
+    var storedBalance: BigDecimal? = null
+    /**
      * 剩余服务次数
      */
     var cardResidueCount: Int? = null

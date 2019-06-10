@@ -84,7 +84,7 @@ public class BrandShopController extends BaseController {
                 for(CommercialEntity entity : listCommercail){
                     Long value = tempMap.get(entity.getCommercialId());
                     if(value != null){
-                        entity.setChecked(1);
+//                        entity.setChecked(1);
                     }
                 }
             }

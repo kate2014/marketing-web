@@ -231,6 +231,9 @@ public class DishShopServiceImpl extends ServiceImpl<DishShopMapper, DishShopEnt
         if(mDishShopEntity.getName() != null){
             eWrapper.like("name",mDishShopEntity.getName());
         }
+        if(mDishShopEntity.getDishTypeId() != null){
+            eWrapper.eq("dish_type_id",mDishShopEntity.getDishTypeId());
+        }
         eWrapper.in("type","0,1");
         eWrapper.orderBy("dish_qty");
 

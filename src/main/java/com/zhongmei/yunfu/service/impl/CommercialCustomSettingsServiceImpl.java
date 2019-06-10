@@ -58,4 +58,11 @@ public class CommercialCustomSettingsServiceImpl extends ServiceImpl<CommercialC
         CommercialCustomSettingsEntity mCommercialCustomSettingsEntity = selectOne(eWrapper);
         return mCommercialCustomSettingsEntity;
     }
+
+    @Override
+    public boolean installOrUpdate(CommercialCustomSettingsEntity mCommercialCustomSettingsEntity) throws Exception {
+
+        boolean isSuccess = insertOrUpdate(mCommercialCustomSettingsEntity);
+        return isSuccess;
+    }
 }

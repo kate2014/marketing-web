@@ -4,20 +4,23 @@
     <meta charset="UTF-8">
     <title>会员权益设置</title>
 
+    <!-- tips 提示框引用-->
     <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
     <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
-    <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" type="text/css" />
-    <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" />
+    <link rel="stylesheet" th:href="@{/css/customer.css}" href="../static/css/customer.css" />
+    <script type="text/javascript" th:src="@{/js/base.js}" src="../static/js/base.js" ></script>
+    <!--<script type="text/javascript" th:src="@{/js/window/window.ext.js}" src="../static/js/window/window.ext.js" ></script>-->
+    <!-- diglog -->
+    <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/diy_dialog.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/diy_dialog.css}" type="text/css" />
 
     <!-- tips 提示框引用-->
     <link rel="stylesheet" th:href="@{/tips/jquery.toast.css}">
     <script type="text/javascript" th:src="@{/tips/jquery.toast.js}"></script>
     <script type="text/javascript" th:src="@{/tips/tips.js}"></script>
-
-    <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
-    <script type="text/javascript" th:src="@{/js/diy_dialog.js}"></script>
-    <link rel="stylesheet" th:href="@{/css/diy_dialog.css}" type="text/css" />
-
 </head>
 
 <style type="text/css">
@@ -62,7 +65,78 @@
 
     }
 
-    function showAction() {
+    function submitNeedSavePayment() {
+        var brandIdenty = document.getElementById("brandIdenty").value;
+        var shopIdenty = document.getElementById("shopIdenty").value;
+        var creatorId = document.getElementById("creatorId").value;
+        var creatorName = document.getElementById("creatorName").value;
+        var systemSettingId = document.getElementById("systemSettingId").value;
+        var isNeedSavePayment = $('input:radio[name="isNeedSavePayment"]:checked').val();
+
+
+        $.ajax({
+            url: '[[${basePath}]]/internal/customerPrivilegeRule/modfityShopSetting',
+            data: {
+                systemSettingId:systemSettingId,
+                shopIdenty:shopIdenty,
+                brandIdenty:brandIdenty,
+                creatorId:creatorId,
+                creatorName:creatorName,
+                isNeedSavePayment:isNeedSavePayment,
+            },
+            type: "post",
+            dataType: 'json',
+            error:function(xml){
+                errorTips('操作失败','设置失败，请优先排查输入信息');
+
+            },
+            success: function (status) {
+                if(status == "success"){
+                    successTips('操作成功','设置成功，可进行相关操作使用');
+                }else {
+                    errorTips('操作失败','设置失败，请优先排查输入信息');
+                }
+
+            }
+
+        });
+    }
+
+    function sendForm() {
+        var saveAmount = document.getElementById("saveAmount").value.replace(/(^\s*)|(\s*$)/g, '');
+        var fullAmount = document.getElementById("fullAmount").value.replace(/(^\s*)|(\s*$)/g, '');
+        var privilegeValue = document.getElementById("privilegeValue").value.replace(/(^\s*)|(\s*$)/g, '');
+        var privilegeType = $('input:radio[name="privilegeType"]:checked').val();
+        if(saveAmount == '' || saveAmount == undefined || saveAmount == null){
+            warningTips("操作异常提示","储值金额不能为空");
+        }else if(fullAmount == '' || fullAmount == undefined || fullAmount == null){
+            warningTips("操作异常提示","消费满额条件不能为空");
+        }else if(privilegeType == '' || privilegeType == undefined || privilegeType == null){
+            warningTips("操作异常提示","权益类型不能为空");
+        }else if(privilegeValue == '' || privilegeValue == undefined || privilegeValue == null){
+            warningTips("操作异常提示","权益值不能为空");
+        }else{
+            var isSame = false;
+            if(saveAmount != '' && saveAmount != undefined && saveAmount != null) {
+                var items = document.getElementsByName('savaAmountItem');
+                for (var i = 0; i < items.length; i++) {
+                    var itemValue = items[i].textContent;
+                    if (parseFloat(itemValue) == parseFloat(saveAmount)) {
+                        isSame = true;
+                        break;
+                    }
+                }
+            }
+            if(isSame != true){
+                document.addform.submit();
+            }else{
+                warningTips("操作异常提示", "储值金额规则已存在，请重新设置");
+            }
+
+        }
+
+    }
+    $(function() {
         var successOrfail = document.getElementById("successOrfail").value;
         if(successOrfail != '' && successOrfail != undefined && successOrfail != null){
             if(successOrfail == "success"){
@@ -73,10 +147,9 @@
         }
 
         //设置会员支付密码验证默认选中项
-        // var privilegeType =  document.getElementById("privilegeType").value;
-        // $(":radio[id='privilegeType'][value='" + privilegeType + "']").prop("checked", "checked");
-    }
-
+        var settingValue =  document.getElementById("settingValue").value;
+        $(":radio[name='isNeedSavePayment'][value='" + settingValue + "']").prop("checked", "checked");
+    });
 </script>
 
 
@@ -86,8 +159,28 @@
 
 <input type="hidden" id="successOrfail" th:value="${ruleModel.successOrfail}">
 
-<input type="hidden" id="privilegeType" th:value="${ruleModel.privilegeType}">
+<input type="hidden" id="settingValue" th:value="${shopSetting.settingValue}">
 
+<div style="margin: 20px;padding: 20px" class="modle_background_style">
+
+    <div class="parent">
+        <img th:src="@{/images/lable.jpg}" style="height: 25px; width: 4px">
+        <label class="text_navigation" style="margin-left: 10px; font-weight: bold">储值权益支付方式验证</label>
+    </div>
+
+    <div class="parent container">
+        <input type="hidden" id="systemSettingId" th:value="${shopSetting.id}">
+        <label class="text_navigation" style="margin-left: 15px">是否做储值支付验证：</label>
+
+        <input type="radio" value="1" name="isNeedSavePayment"/><span class="text_navigation" style="margin-left: 6px">是</span>
+        <input type="radio" value="0" name="isNeedSavePayment" style="margin-left: 15px"/><span class="text_navigation" style="margin-left: 6px">否</span>
+
+        <button class="blue_button_style" onclick="submitNeedSavePayment()" style="margin-left: 10px">保存</button>
+    </div>
+    <br/>
+    <label style="margin-left: 15px;margin-top: 20px; font-size: 10px; color: #FF6600">备注：如选择"是"，则会员只有通过储值支付订单时才能享受该折扣，如选择"否"，则会员在购物车中登录后即可享受该折扣，不做支付方式的控制。</label>
+
+</div>
 
 <div style="margin: 20px;padding: 20px" class="modle_background_style">
 
@@ -96,7 +189,6 @@
         <label class="text_navigation" style="margin-left: 10px; font-weight: bold">会员储值权益</label>
     </div>
 
-
     <div align="center" style="margin-top: 10px">
 
         <table class="gridtablestyle" style="width: 90%; vertical-align: middle">
@@ -104,12 +196,12 @@
                 <th>储值金额</th>
                 <th>消费满额条件</th>
                 <th>享受权益类型</th>
-                <th>是否做储值支付验证</th>
+                <!--<th>是否做储值支付验证</th>-->
                 <th>享受权益值</th>
                 <th>操作</th>
             </tr>
             <tr th:each="item:${listData}">
-                <td th:text="${item.saveAmount}"></td>
+                <td><span name="savaAmountItem" th:value="${item.saveAmount}" th:text="${item.saveAmount}"></span></td>
                 <td th:text="${item.fullAmount}"></td>
                 <td>
                     <div th:switch="${item.privilegeType}">
@@ -121,16 +213,6 @@
                         </p>
                     </div>
                 </td>
-                <td>
-                    <div th:switch="${item.isNeedSavePayment}">
-                        <p th:case="'0'">
-                            否
-                        </p>
-                        <p th:case="'1'">
-                            是
-                        </p>
-                    </div>
-                </td>
                 <td th:text="${item.privilegeValue}"></td>
                 <td align="center">
                     <a th:onclick="'javascript:checkDelete(\''+${item.id}+'\')'" style="cursor: pointer">删除</a>
@@ -139,28 +221,18 @@
         </table>
     </div>
 
-
-    <form method="post" name="addform" action="" th:action="@{/internal/customerPrivilegeRule/addSavePriviegeRule}">
-
-        <input type="hidden" name="shopIdenty" th:value="${ruleModel.shopIdenty}">
-        <input type="hidden" name="brandIdenty" th:value="${ruleModel.brandIdenty}">
-        <input type="hidden" name="creatorId" th:value="${ruleModel.creatorId}">
-        <input type="hidden" name="creatorName" th:value="${ruleModel.creatorName}">
-
-        <div class="parent_h container">
-            <label class="text_navigation" style="margin-left: 10px">是否做储值支付验证：</label>
-            <input type="radio" value="1" name="isNeedSavePayment"/><span class="text_navigation" style="margin-right: 20px; margin-left: 10px">是</span>
-            <input type="radio" value="0" name="isNeedSavePayment"/><span class="text_navigation" style="margin-left: 10px">否</span>
-            <label style="margin-left: 10px; font-size: 10px; color: #FF6600">备注：如选择"是"，则会员只有通过储值支付订单时才能享受该折扣，如选择"否"，则会员在购物车中登录后即可享受该折扣，不做支付方式的控制。</label>
-        </div>
-
-        <div class="container parent_h" style="margin-top: 20px">
+    <div class="container parent_h" style="margin-top: 20px">
+        <form method="post" name="addform" action="" th:action="@{/internal/customerPrivilegeRule/addSavePriviegeRule}">
+            <input type="hidden" id="shopIdenty" name="shopIdenty" th:value="${ruleModel.shopIdenty}">
+            <input type="hidden" id="brandIdenty" name="brandIdenty" th:value="${ruleModel.brandIdenty}">
+            <input type="hidden" id="creatorId" name="creatorId" th:value="${ruleModel.creatorId}">
+            <input type="hidden" id="creatorName" name="creatorName" th:value="${ruleModel.creatorName}">
 
             <label class="text_navigation" style="margin-left: 10px;">储值金额：</label>
-            <input class="input_style" placeholder="请输入储值金额" style="margin-left: 5px" type="text"  name="saveAmount"/>
+            <input class="input_style" placeholder="请输入储值金额" onkeyup="clearNoNum(this)" style="margin-left: 5px" type="text" id="saveAmount" name="saveAmount"/>
 
             <label class="text_navigation" style="margin-left: 10px;">消费满额条件</label>
-            <input class="input_style" name="fullAmount" placeholder="消费满多少金额可享有会员折扣" style="margin-left: 5px" type="text"/>
+            <input class="input_style" id="fullAmount" name="fullAmount" onkeyup="clearNoNum(this)" placeholder="消费满多少金额可享有会员折扣" style="margin-left: 5px" type="text"/>
             <label class="text_navigation" style="margin-left: 5px;">元</label>
 
             <label class="text_navigation" style="margin-left: 10px">权益类型：</label>
@@ -168,14 +240,15 @@
             <input type="radio" value="4" name="privilegeType"/><span class="text_navigation" style="margin-left: 10px">让价</span>
 
             <label class="text_navigation" style="margin-left: 10px">权益值：</label>
-            <input class="input_style" placeholder="请输入储值金额" style="margin-left: 5px" type="text"  name="privilegeValue"/>
+            <input class="input_style" placeholder="请输入储值金额" onkeyup="clearNoNum(this)" style="margin-left: 5px" type="text" id="privilegeValue" name="privilegeValue"/>
 
-            <button class="blue_button_style" onclick="submitForm()" style="margin-left: 10px">保存</button>
-        </div>
-        <div class="container parent_h" style="margin-top: 20px">
-            <label style="margin-left: 10px; font-size: 10px; color: #FF6600">备注：会员储值不同金额，享受的会员折扣不同，同时可设置会员消费时满多少金额才能享受该会员折扣，如不限制则在满额条件中输入0。</label>
-        </div>
-    </form>
+        </form>
+        <button class="blue_button_style" onclick="sendForm()" style="margin-left: 10px">保存</button>
+    </div>
+    <div class="container parent_h" style="margin-top: 20px">
+        <label style="margin-left: 10px; font-size: 10px; color: #FF6600">备注：会员储值不同金额，享受的会员折扣不同，同时可设置会员消费时满多少金额才能享受该会员折扣，如不限制则在满额条件中输入0。</label>
+    </div>
+
 </div>
 
 

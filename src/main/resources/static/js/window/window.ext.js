@@ -1,4 +1,4 @@
-var window_ext_reg = /(^|.*[\\\/])window\.ext\.js(?:\?.*|;.*)?$/i;
+var window_ext_reg = /(^|.*[\\\/])window\.ext(-\w+)?\.js(?:\?.*|;.*)?$/i;
 window.getBaseExtPath = function () {
     var b = "";
     if (!b) for (var c = document.getElementsByTagName("script"), d = 0; d < c.length; d++) {
@@ -60,8 +60,8 @@ window.showLoading = function (txt) {
     if (!txt) txt = "正在加载数据，请稍后...";
     var loading = document.createElement("DIV");
     loading.id = "__win_loading_";
-    loading.style.cssText = "display:flex;top:0;left:0;right:0;align-items:center;justify-content:center;position:fixed;background:rgba(0,0,0,0);height:100%;width:100%;";
-    var loading_html = "<div style=\"border:0px solid #000;background:#fff;padding:10px;\"><image style=\"display:block;margin:auto;margin-bottom:8px;\" src=\""+ getBaseExtPath() + "/loading.gif\"/>" + txt + "</div>\n";
+    loading.style.cssText = "display:flex;top:0;left:0;right:0;align-items:center;justify-content:center;position:fixed;background:rgba(0,0,0,0);height:100%;width:100%;color: #707070;font-size:18px;margin-top:36px";
+    var loading_html = "<div style=\"background:#fff;padding:30px;border-style:solid;border-width:8px;border-color:#f8f8f8\"><image style=\"display:block;margin:auto;margin-bottom:8px;\" src=\""+ getBaseExtPath() + "/loading.gif\"/>" + txt + "</div>\n";
     loading.innerHTML = loading_html;
     document.body.appendChild(loading);
 }
