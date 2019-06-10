@@ -60,6 +60,13 @@ public class CustomerStoredServiceImpl extends ServiceImpl<CustomerStoredMapper,
             customerExtraEntity.baseCreate(customerStored.getUpdatorId(), customerStored.getUpdatorName());
             customerExtraEntity.setCustomerId(customerStored.getCustomerId());
         }
+        if (customerStored.getTradeAmount() == null) {
+            customerStored.setTradeAmount(BigDecimal.ZERO);
+        }
+        if (customerExtraEntity.getStoredGive() == null) {
+            customerExtraEntity.setStoredGive(BigDecimal.ZERO);
+        }
+
         customerExtraEntity.baseUpdate(customerStored.getUpdatorId(), customerStored.getUpdatorName());
         BigDecimal storedAmount = customerExtraEntity.getStoredAmount()
                 .add(customerStored.getTradeAmount())

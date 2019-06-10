@@ -20,7 +20,7 @@ public class CustomerInfoResp {
     public String address;
     public String birthday;
     public Integer isDisable;
-    public BigDecimal remainValue;
+    public BigDecimal remainValue = BigDecimal.ZERO;
     public Integer integral;
     public Integer cardCount;
     public Integer coupCount;

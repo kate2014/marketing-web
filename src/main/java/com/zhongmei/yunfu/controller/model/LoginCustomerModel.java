@@ -28,7 +28,7 @@ public class LoginCustomerModel {
 
     private Integer statusFlag;
 
-    private BigDecimal storedBalance;
+    private BigDecimal storedBalance = BigDecimal.ZERO;
 
     private String thirdId;
 

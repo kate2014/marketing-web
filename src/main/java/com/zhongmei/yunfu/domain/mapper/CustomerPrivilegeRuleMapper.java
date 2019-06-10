@@ -2,6 +2,7 @@ package com.zhongmei.yunfu.domain.mapper;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.zhongmei.yunfu.domain.entity.CustomerPrivilegeRuleEntity;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,5 +16,5 @@ import java.util.List;
  */
 public interface CustomerPrivilegeRuleMapper extends BaseMapper<CustomerPrivilegeRuleEntity> {
 
-    List<CustomerPrivilegeRuleEntity> getByPrivilegeType(Long shopId, int... privilegeType);
+    List<CustomerPrivilegeRuleEntity> getByPrivilegeType(@Param("shopId") Long shopId, @Param("privilegeType")int... privilegeType);
 }

@@ -35,7 +35,6 @@ public class CustomerLoginPosApi extends PosApiController {
     public ApiResult login(@RequestBody CustomerLoginReq req) throws Exception {
         CustomerEntity customerEntity = customerService.login(req.getHeader().getShopId(), req.getLoginType(), req.getLoginId(), req.getIsNeedPwd(), req.getPassword());
         customerService.checkState(customerEntity);
-        CustomerExtraEntity customerExtra = customerService.getCustomerExtra(customerEntity.getId());
 
         int couponCount = customerCouponService.selectCouponEntityCount(customerEntity.getId(), customerEntity.getShopIdenty());
         //int cardTimeCount = customerCardTimeService.selectCount(customerEntity.getId(), customerEntity.getShopIdenty());
@@ -55,6 +54,8 @@ public class CustomerLoginPosApi extends PosApiController {
         customerLoginResp.setIsDisable(customerEntity.getEnabledFlag() == EnabledFlag.DISABLED.value() ? 1 : 2);//是否停用 1.是停用; 2.否
         customerLoginResp.setBrandId(customerEntity.getBrandIdenty());//品牌id
         customerLoginResp.setCommercialId(customerEntity.getShopIdenty());//顾客所属门店id
+
+        CustomerExtraEntity customerExtra = customerService.getCustomerExtra(customerEntity.getId());
         if (customerExtra != null) {
             customerLoginResp.setValueCardBalance(customerExtra.getStoredAmount()); //储值余额
             customerLoginResp.setRemainValue(customerExtra.getStoredAmount());
