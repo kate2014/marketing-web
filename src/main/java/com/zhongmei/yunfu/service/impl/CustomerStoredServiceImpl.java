@@ -1,5 +1,6 @@
 package com.zhongmei.yunfu.service.impl;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.zhongmei.yunfu.api.ApiRespStatus;
 import com.zhongmei.yunfu.api.ApiRespStatusException;
@@ -145,6 +146,17 @@ public class CustomerStoredServiceImpl extends ServiceImpl<CustomerStoredMapper,
         //customerExtraEntity.setStoredPrivilegeValue(privilegeRuleEntity.getPrivilegeValue());
 
         customerExtraMapper.updateById(customerExtraEntity);
+    }
+
+    @Override
+    public CustomerStoredEntity queryByTradeId(Long tradeId) throws Exception {
+
+        EntityWrapper<CustomerStoredEntity> eWrapper = new EntityWrapper<>(new CustomerStoredEntity());
+        eWrapper.eq("trade_id", tradeId);
+        eWrapper.eq("status_flag", 1);
+        eWrapper.setSqlSelect("id,customer_id,record_type,last_usable_amout,trade_amount,give_amount,residue_balance,trade_id,payment_item_id");
+        CustomerStoredEntity mCustomerStoredEntity = selectOne(eWrapper);
+        return mCustomerStoredEntity;
     }
 
     /**

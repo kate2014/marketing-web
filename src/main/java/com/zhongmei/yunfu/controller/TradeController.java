@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.stereotype.Controller;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -43,6 +44,8 @@ public class TradeController extends BaseController{
     TradeUserService mTradeUserService;
     @Autowired
     TradeCustomerService mTradeCustomerService;
+    @Autowired
+    CustomerStoredService mCustomerStoredService;
 
     @RequestMapping("/listData")
     public String tradeListPage(Model model, TradeModel mTradeModel) {
@@ -86,6 +89,19 @@ public class TradeController extends BaseController{
             TradeEntity mTradeEntity = mTradeService.queryTradeById(mTradeModel.getTradeId());
             model.addAttribute("mTradeEntity", mTradeEntity);
 
+            //判断是否是余额储值，如是这查询出此次的储赠金额
+            if(mTradeEntity.getBusinessType() == 2){
+                CustomerStoredEntity mCustomerStoredEntity = mCustomerStoredService.queryByTradeId(mTradeEntity.getId());
+                if(mCustomerStoredEntity == null){
+                    mCustomerStoredEntity = new CustomerStoredEntity();
+                    mCustomerStoredEntity.setTradeAmount(mTradeEntity.getTradeAmount());
+                    mCustomerStoredEntity.setGiveAmount(BigDecimal.ZERO);
+                }
+
+                model.addAttribute("sumSaveAmount", mCustomerStoredEntity.getTradeAmount().add(mCustomerStoredEntity.getGiveAmount()));
+                model.addAttribute("mCustomerStoredEntity", mCustomerStoredEntity);
+            }
+
             List<TradeItemEntity> listItem = mTradeItemService.querTradeItemByTradeId(mTradeEntity.getId());
 
             List<TradePrivilegeEntity> listPrivilege = mTradePrivilegeService.queryPrivilegeByTradeId(mTradeModel.getBrandIdenty(),mTradeModel.getShopIdenty(),mTradeModel.getTradeId());
@@ -112,7 +128,6 @@ public class TradeController extends BaseController{
             for(TradeUserEntity user : listTradeUser){
                 if(user.getTradeItemId() == null || user.getTradeItemId().equals("")){
                     tradeUserForTrade = user;
-                    System.out.println("=====tradeUserForTrade===="+tradeUserForTrade.getUserName()+"===="+user.getUserName());
                 }else{
                     tradeUserMap.put(user.getTradeItemId(),user);
                 }
@@ -130,9 +145,12 @@ public class TradeController extends BaseController{
                 TradePrivilegeEntity mTradePrivilegeEntity = privilegeMap.get(item.getId());
                 if(mTradePrivilegeEntity != null){
                     mTradeItemModel.setPrivilege(mTradePrivilegeEntity.getPrivilegeName()+"："+mTradePrivilegeEntity.getPrivilegeAmount());
+                    mTradeItemModel.setActualAmount(item.getActualAmount().add(mTradePrivilegeEntity.getPrivilegeAmount()));
+                }else{
+                    mTradeItemModel.setActualAmount(item.getActualAmount());
                 }
 
-                mTradeItemModel.setActualAmount(item.getActualAmount());
+
                 mTradeItemModel.setTradeUser("/");
 
                 TradeUserEntity mTradeUserEntity = tradeUserMap.get(item.getId());

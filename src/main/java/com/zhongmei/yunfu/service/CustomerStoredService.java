@@ -20,4 +20,7 @@ public interface CustomerStoredService extends IService<CustomerStoredEntity> {
     void expense(CustomerStoredEntity customerStored) throws Exception;
 
     void refund(CustomerStoredEntity customerStored) throws Exception;
+
+    CustomerStoredEntity queryByTradeId(Long tradeId) throws Exception;
+
 }
