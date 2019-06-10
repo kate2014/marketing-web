@@ -60,7 +60,6 @@ public class CustomerPosApi extends PosApiController {
     @RequestMapping("/info")
     public ApiResult info(@RequestBody CustomerInfoReq req) throws ApiRespStatusException {
         CustomerEntity customer = customerService.selectById(req.getCustomerId());
-        CustomerExtraEntity customerExtra = customerService.getCustomerExtra(req.getCustomerId());
         CustomerInfoResp customerResp = new CustomerInfoResp();
         customerResp.customerId = customer.getId();
         customerResp.customerName = customer.getName();
@@ -74,9 +73,14 @@ public class CustomerPosApi extends PosApiController {
         customerResp.levelId = customer.getGroupLevelId();
         customerResp.level = 0L;
         customerResp.levelName = customer.getGroupLevel();
-        customerResp.remainValue = customerExtra.getStoredAmount();
         customerResp.integral = customer.getIntegralTotal() - customer.getIntegralUsed();
         customerResp.memo = customer.getProfile();
+
+        CustomerExtraEntity customerExtra = customerService.getCustomerExtra(req.getCustomerId());
+        if (customerExtra != null) {
+            customerResp.remainValue = customerExtra.getStoredAmount();
+        }
+
         int couponCount = customerCouponService.selectCouponEntityCount(customer.getId(), customer.getShopIdenty());
         int cardTimeCount = customerCardTimeService.selectCount(customer.getId(), customer.getShopIdenty());
         customerResp.coupCount = couponCount;

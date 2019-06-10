@@ -1,7 +1,7 @@
 var window_ext_reg = /(^|.*[\\\/])window\.ext(-\w+)?\.js(?:\?.*|;.*)?$/i;
 window.getBaseExtPath = function () {
     var b = "";
-    if (!b) for (var c = document.getElementsByTagName("script"), d = 0; d < c.length; d++) {
+    for (var c = document.getElementsByTagName("script"), d = 0; d < c.length; d++) {
         var h = c[d].src.match(window_ext_reg);
         if (h) {
             b = h[1];

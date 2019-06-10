@@ -1,63 +1,128 @@
 window.WEB_BASEPATH = "/marketing/";
-$(function(){
-    var windowsExtScript = document.createElement("script");
-    windowsExtScript.type = "text/javascript";
-    windowsExtScript.src = WEB_BASEPATH + "/js/window/window.ext.js";
-    document.getElementsByTagName("head")[0].appendChild(windowsExtScript);
 
-	$(".project").keyup(function(){
-         var content_len = $(".project").val().length;
-         $(".sub").text(content_len);
-         if(content_len = 10){
-         	alert("输入名称不允许超过10个字")
-         }
+var base_ext_reg = /(^|.*[\\\/])base(-(\w)+)?\.js(?:\?.*|;.*)?$/i;
+Window.prototype.getBasePath = function (ext_reg) {
+    var b = "";
+    for (var c = document.getElementsByTagName("script"), d = 0; d < c.length; d++) {
+        var h = c[d].src.match(ext_reg);
+        if (h) {
+            b = h[1];
+            break;
+        }
+    }
+
+    return b;
+}
+
+Window.prototype.getScriptNode = function (ext_reg) {
+    var b;
+    for (var c = document.getElementsByTagName("script"), d = 0; d < c.length; d++) {
+        var h = c[d].src.match(ext_reg);
+        if (h) {
+            b = c[d];
+            break;
+        }
+    }
+
+    return b;
+}
+
+Window.prototype.httpGet = function (url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", url, false);
+    xhr.send();
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            if (callback) {
+                callback(xhr.responseText);
+            }
+        }
+    }
+    if (xhr.readyState == 4 && xhr.status == 200) {
+        if (callback) {
+            callback(xhr.responseText);
+        }
+    }
+};
+
+Window.prototype.addJavaScript = function () {
+    for (var i in arguments) {
+        var urlScript = getBasePath(base_ext_reg) + arguments[i];
+        httpGet(urlScript, function (response) {
+            var newScript = document.createElement("script");
+            newScript.type = "text/javascript";
+            newScript.textContent = response;
+            document.head.appendChild(newScript).parentNode.removeChild(newScript);
+            //document.head.appendChild(newScript);
+        });
+    }
+}
+
+addJavaScript(
+    //"/window/window.ext.js",
+    "/jquery-3.1.1.min.js"
+);
+
+var windowsExtScript = document.createElement("script");
+windowsExtScript.type = "text/javascript";
+windowsExtScript.src = getBasePath(base_ext_reg) + "/window/window.ext.js?" + new Date().getTime();
+document.head.appendChild(windowsExtScript);
+
+console.log('base.js');
+$(function () {
+    $(".project").keyup(function () {
+        var content_len = $(".project").val().length;
+        $(".sub").text(content_len);
+        if (content_len = 10) {
+            alert("输入名称不允许超过10个字")
+        }
     })
-	
-	/*选择商品*/
-	var $li = $('.tab li');
+
+    /*选择商品*/
+    var $li = $('.tab li');
     var $tabs = $('.select-tab .tabs');
 
-    $li.click(function(){
+    $li.click(function () {
         var $this = $(this);
         var $t = $this.index();
         $li.removeClass();
         $this.addClass('current');
-        $tabs.css('display','none');
-        $tabs.eq($t).css('display','block');
+        $tabs.css('display', 'none');
+        $tabs.eq($t).css('display', 'block');
 
         var $dishIframe = $("#dish_iframe");
         if ($dishIframe[0]) {
-            $tabs.css('display','block');
+            $tabs.css('display', 'block');
             var itemId = $this.attr("href");
             $dishIframe.attr("src", itemId);
         }
     })
-    
-    $('.select-shop').click(function(){
-    	$('.select-com').show();
+
+    $('.select-shop').click(function () {
+        $('.select-com').show();
     })
-    $('.close').click(function(){
-    	$('.select-com').hide();
+    $('.close').click(function () {
+        $('.select-com').hide();
     })
 
     /*参团人数*/
-   $(".detail-main table tr td:last-child").each(function(){  
-        var currentEle = $(this);  
-        currentEle.click(function(){  
-           $('.list-text').show();
-           $('.list-text').find('li').html($(this).html());
-        });  
-	}); 
-	
-	$('.detail-main .details').click(function(){
-		$('.select-com').show();
-	})
+    $(".detail-main table tr td:last-child").each(function () {
+        var currentEle = $(this);
+        currentEle.click(function () {
+            $('.list-text').show();
+            $('.list-text').find('li').html($(this).html());
+        });
+    });
+
+    $('.detail-main .details').click(function () {
+        $('.select-com').show();
+    })
 
     /**
      * 富文本
      */
-    $("body").css({visibility:"visible"});
-    $("#back").click(function(){
+    $("body").css({visibility: "visible"});
+    $("#back").click(function () {
         location.href = "promotion.html";
     });
 
@@ -80,20 +145,20 @@ $(function(){
     });*/
 
     // 为保存按钮，添加click事件
-    $("#save").click(function(){
-        if($("#promotionForm").form('validate')){
+    $("#save").click(function () {
+        if ($("#promotionForm").form('validate')) {
             // 通过kindEditor数据到textarea
             window.editor.sync();
             // 提交表单
             $("#promotionForm").submit();
-        }else{
+        } else {
             // 校验失败
-            $.messager.alert("警告信息","表单中存在数据非法项！","warning");
+            $.messager.alert("警告信息", "表单中存在数据非法项！", "warning");
         }
     });
 
     //全选与反选
-    $("#checkAll").click(function() {
+    $("#checkAll").click(function () {
         /*if (this.checked){
             $("input[name='checkItem']:checkbox").each(function(){
                 $(this).attr("checked", true);
@@ -119,7 +184,7 @@ $(function(){
 
 })
 
-Date.prototype.format = function(fmt) {
+Date.prototype.format = function (fmt) {
     var o = {
         "M+": this.getMonth() + 1,
         "d+": this.getDate(),
@@ -148,25 +213,25 @@ Date.prototype.format = function(fmt) {
     return fmt;
 }
 
-function clearNoNum(obj){
+function clearNoNum(obj) {
 
-    obj.value = obj.value.replace(/[^\d.]/g,""); //清除"数字"和"."以外的字符
+    obj.value = obj.value.replace(/[^\d.]/g, ""); //清除"数字"和"."以外的字符
 
-    obj.value = obj.value.replace(/^\./g,""); //验证第一个字符是数字而不是.
+    obj.value = obj.value.replace(/^\./g, ""); //验证第一个字符是数字而不是.
 
-    obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的.
+    obj.value = obj.value.replace(/\.{2,}/g, "."); //只保留第一个. 清除多余的.
 
-    obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");//只允许输入一个小数点
+    obj.value = obj.value.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");//只允许输入一个小数点
 
-    obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3'); //只能输入两个小数
+    obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3'); //只能输入两个小数
 
 }
 
 //强制限制只能输入数字
-function onlyNumber(obj){
+function onlyNumber(obj) {
 
-    obj.value = obj.value.replace(/[^\d.]/g,""); //清除"数字"和"."以外的字符
+    obj.value = obj.value.replace(/[^\d.]/g, ""); //清除"数字"和"."以外的字符
 
-    obj.value = obj.value.replace(/^\./g,""); //验证第一个字符是数字而不是.
+    obj.value = obj.value.replace(/^\./g, ""); //验证第一个字符是数字而不是.
 
 }
