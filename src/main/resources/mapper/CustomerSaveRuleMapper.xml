@@ -13,6 +13,8 @@
            AND stored_value <= #{tradeAmount}
            ]]>
            AND status_flag = 1
+        ORDER BY stored_value DESC
+        LIMIT 1
     </select>
 
 </mapper>
