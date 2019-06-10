@@ -103,7 +103,6 @@
             </label>
         </div>
 
-
     </div>
     <div style="margin-top: 15px" class="parent" align="left">
         <div style="width: 300px">
@@ -125,6 +124,36 @@
 
     </div>
 
+    <div style="margin-top: 15px" class="parent" th:if="${not #strings.isEmpty(userForTrade.userName)}">
+        <label class="detail_lable_style">整单归属服务员工：</label>
+        <lable class="detail_value_style" th:text="${userForTrade.userName}"/>
+    </div>
+
+</div>
+<div th:if="${mTradeEntity.businessType} eq 2">
+    <div style="margin: 20px;padding: 20px" class="modle_background_style">
+        <div class="parent">
+            <img th:src="@{/images/lable.jpg}" style="height: 25px; width: 4px; font-weight: bold;">
+            <label class="text_navigation" style="margin-left: 10px; font-weight: bold">储值信息</label>
+        </div>
+        <table class="gridtablestyle" style="width: 95%; vertical-align: middle">
+            <tr style="width: 100%">
+                <th width="25%">储值金额</th>
+                <th width="25%">赠送金额</th>
+                <th width="25%">储值合计</th>
+                <th width="25%">业务员</th>
+            </tr>
+
+            <tr>
+                <td th:text="${mCustomerStoredEntity.tradeAmount}"></td>
+                <td th:text="${mCustomerStoredEntity.giveAmount}"></td>
+                <td th:text="${sumSaveAmount}"></td>
+                <td th:text="${userForTrade.userName}"></td>
+            </tr>
+
+        </table>
+
+    </div>
 </div>
 
 <div style="margin: 20px;padding: 20px" class="modle_background_style">
@@ -247,66 +276,64 @@
     </table>
 
 </div>
+<div th:if="${mTradeEntity.businessType} ne 2">
+    <div style="margin: 20px;padding: 20px" class="modle_background_style">
+        <div class="parent">
+            <img th:src="@{/images/lable.jpg}" style="height: 25px; width: 4px; font-weight: bold;">
+            <label class="text_navigation" style="margin-left: 10px; font-weight: bold">整单优惠</label>
+        </div>
+        <table class="gridtablestyle" style="width: 95%; vertical-align: middle">
+            <tr style="width: 100%">
+                <th>优惠名称</th>
+                <th>优惠金额</th>
+                <th>优惠操作员</th>
+            </tr>
 
-<div style="margin: 20px;padding: 20px" class="modle_background_style">
-    <div class="parent">
-        <img th:src="@{/images/lable.jpg}" style="height: 25px; width: 4px; font-weight: bold;">
-        <label class="text_navigation" style="margin-left: 10px; font-weight: bold">整单优惠</label>
+            <tr th:each="item:${privilegeForTrade}">
+                <td style="padding-right: 10px;padding-left: 10px;width: 40%" th:text="${item.privilegeName}"></td>
+                <td style="padding-right: 10px;padding-left: 10px" th:text="${item.privilegeAmount}"></td>
+                <td style="padding-right: 10px;padding-left: 10px" th:text="${item.creatorName}"></td>
+            </tr>
+
+        </table>
+
     </div>
-    <table class="gridtablestyle" style="width: 95%; vertical-align: middle">
-        <tr style="width: 100%">
-            <th>优惠名称</th>
-            <th>优惠金额</th>
-            <th>优惠操作员</th>
-        </tr>
-
-        <tr th:each="item:${privilegeForTrade}">
-            <td style="padding-right: 10px;padding-left: 10px;width: 40%" th:text="${item.privilegeName}"></td>
-            <td style="padding-right: 10px;padding-left: 10px" th:text="${item.privilegeAmount}"></td>
-            <td style="padding-right: 10px;padding-left: 10px" th:text="${item.creatorName}"></td>
-        </tr>
-
-    </table>
-
 </div>
 
+<div th:if="${mTradeEntity.businessType} ne 2">
+
+    <div style="margin: 20px;padding: 20px" class="modle_background_style">
+        <div class="parent">
+            <img th:src="@{/images/lable.jpg}" style="height: 25px; width: 4px; font-weight: bold;">
+            <label class="text_navigation" style="margin-left: 10px; font-weight: bold">订单详情</label>
+        </div>
+        <table class="gridtablestyle" style="width: 95%; vertical-align: middle">
+            <tr style="width: 100%">
+                <th>品项名称</th>
+                <th>品项单价</th>
+                <th>购买数量</th>
+                <th>应售金额</th>
+                <th>优惠金额</th>
+                <th>实售金额</th>
+                <th>服务员</th>
+                <th>订单操作员</th>
+            </tr>
+
+            <tr th:each="item:${listItem}">
+                <td style="padding-right: 10px;padding-left: 10px" th:text="${item.dishName}"></td>
+                <td style="padding-right: 10px;padding-left: 10px" th:text="${item.price}"></td>
+                <td style="padding-right: 10px;padding-left: 10px" th:text="${item.quantity}"></td>
+                <td style="padding-right: 10px;padding-left: 10px" th:text="${item.amount}"></td>
+                <td style="padding-right: 10px;padding-left: 10px" th:text="${item.privilege}"></td>
+                <td style="padding-right: 10px;padding-left: 10px" th:text="${item.actualAmount}"></td>
+                <td style="padding-right: 10px;padding-left: 10px" th:text="${item.tradeUser}"></td>
+                <td style="padding-right: 10px;padding-left: 10px" th:text="${item.creatorName}"></td>
+            </tr>
+
+        </table>
 
 
-<div style="margin: 20px;padding: 20px" class="modle_background_style">
-    <div class="parent">
-        <img th:src="@{/images/lable.jpg}" style="height: 25px; width: 4px; font-weight: bold;">
-        <label class="text_navigation" style="margin-left: 10px; font-weight: bold">订单详情</label>
     </div>
-    <table class="gridtablestyle" style="width: 95%; vertical-align: middle">
-        <tr style="width: 100%">
-            <th>品项名称</th>
-            <th>品项单价</th>
-            <th>购买数量</th>
-            <th>应售金额</th>
-            <th>优惠金额</th>
-            <th>实售金额</th>
-            <th>服务员</th>
-            <th>订单操作员</th>
-        </tr>
-
-        <tr th:each="item:${listItem}">
-            <td style="padding-right: 10px;padding-left: 10px" th:text="${item.dishName}"></td>
-            <td style="padding-right: 10px;padding-left: 10px" th:text="${item.price}"></td>
-            <td style="padding-right: 10px;padding-left: 10px" th:text="${item.quantity}"></td>
-            <td style="padding-right: 10px;padding-left: 10px" th:text="${item.amount}"></td>
-            <td style="padding-right: 10px;padding-left: 10px" th:text="${item.privilege}"></td>
-            <td style="padding-right: 10px;padding-left: 10px" th:text="${item.actualAmount}"></td>
-            <td style="padding-right: 10px;padding-left: 10px" th:text="${item.tradeUser}"></td>
-            <td style="padding-right: 10px;padding-left: 10px" th:text="${item.creatorName}"></td>
-        </tr>
-
-    </table>
-
-    <div style="margin-top: 15px" class="parent" th:if="${not #strings.isEmpty(userForTrade.userName)}">
-        <label class="detail_value_style">整单归属服务员工：</label>
-        <lable class="detail_value_style" th:text="${userForTrade.userName}"/>
-    </div>
-
 </div>
 
 </body>
