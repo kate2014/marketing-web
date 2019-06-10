@@ -78,7 +78,7 @@ public class CustomerPosApi extends PosApiController {
 
         CustomerExtraEntity customerExtra = customerService.getCustomerExtra(req.getCustomerId());
         if (customerExtra != null) {
-            customerResp.remainValue = customerExtra.getStoredAmount();
+            customerResp.remainValue = customerExtra.getStoredBalance();
         }
 
         int couponCount = customerCouponService.selectCouponEntityCount(customer.getId(), customer.getShopIdenty());

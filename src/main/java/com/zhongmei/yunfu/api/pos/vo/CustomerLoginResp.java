@@ -30,6 +30,7 @@ public class CustomerLoginResp {
     private Boolean isStoredPaymentCheck; //是否做储值支付验证
     private Integer storedPrivilegeType; //储值支付优惠类型
     private BigDecimal storedPrivilegeValue; //储值支付优惠值
+    private BigDecimal storedFullAmount; //储值消费满额限制
 
     public Long getCustomerId() {
         return customerId;
@@ -197,5 +198,13 @@ public class CustomerLoginResp {
 
     public void setStoredPrivilegeValue(BigDecimal storedPrivilegeValue) {
         this.storedPrivilegeValue = storedPrivilegeValue;
+    }
+
+    public BigDecimal getStoredFullAmount() {
+        return storedFullAmount;
+    }
+
+    public void setStoredFullAmount(BigDecimal storedFullAmount) {
+        this.storedFullAmount = storedFullAmount;
     }
 }

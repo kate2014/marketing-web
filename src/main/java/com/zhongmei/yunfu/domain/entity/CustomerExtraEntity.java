@@ -46,7 +46,14 @@ public class CustomerExtraEntity extends BaseEntity {
      * 储值支付优惠值
      */
     private BigDecimal storedPrivilegeValue;
+    /**
+     * 储值消费满额限制
+     */
+    private BigDecimal storedFullAmount;
 
+    public BigDecimal getStoredBalance() {
+        return storedAmount != null ? storedAmount.subtract(storedUsed) : BigDecimal.ZERO;
+    }
 
     public Long getCustomerId() {
         return customerId;
@@ -104,6 +111,14 @@ public class CustomerExtraEntity extends BaseEntity {
         this.storedPrivilegeValue = storedPrivilegeValue;
     }
 
+    public BigDecimal getStoredFullAmount() {
+        return storedFullAmount;
+    }
+
+    public void setStoredFullAmount(BigDecimal storedFullAmount) {
+        this.storedFullAmount = storedFullAmount;
+    }
+
     @Override
     public String toString() {
         return "CustomerExtraEntity{" +
@@ -113,6 +128,7 @@ public class CustomerExtraEntity extends BaseEntity {
         ", storedUsed=" + storedUsed +
         ", storedPrivilegeType=" + storedPrivilegeType +
         ", storedPrivilegeValue=" + storedPrivilegeValue +
+                ", storedFullAmount=" + storedFullAmount +
         "}";
     }
 }

@@ -153,7 +153,7 @@ public class CustomerApiController {
 
                 CustomerExtraEntity customerExtra = mCustomerService.getCustomerExtra(mobileCustomer.getId());
                 if (customerExtra != null) {
-                    mLoginCustomerModel.setStoredBalance(customerExtra.getStoredAmount());
+                    mLoginCustomerModel.setStoredBalance(customerExtra.getStoredBalance());
                 }
 
 

@@ -78,12 +78,13 @@ public class CustomerStoredServiceImpl extends ServiceImpl<CustomerStoredMapper,
         List<CustomerPrivilegeRuleEntity> byPrivilegeType = customerPrivilegeRuleService.getByPrivilegeType(customerStored.getShopIdenty(), 3, 4);
         if (byPrivilegeType != null) {
             //从大到小排序
-            Collections.sort(byPrivilegeType, (o1, o2) -> o2.getFullAmount().compareTo(o1.getFullAmount()));
+            Collections.sort(byPrivilegeType, (o1, o2) -> o2.getSaveAmount().compareTo(o1.getSaveAmount()));
             for (CustomerPrivilegeRuleEntity privilegeRuleEntity : byPrivilegeType) {
-                if (customerStored.getTradeAmount().compareTo(privilegeRuleEntity.getFullAmount()) >= 0) {
+                if (customerStored.getTradeAmount().compareTo(privilegeRuleEntity.getSaveAmount()) >= 0) {
                     customerExtraEntity.setStoredPaymentCheck(privilegeRuleEntity.getIsNeedSavePayment());
                     customerExtraEntity.setStoredPrivilegeType(privilegeRuleEntity.getPrivilegeType());
                     customerExtraEntity.setStoredPrivilegeValue(privilegeRuleEntity.getPrivilegeValue());
+                    customerExtraEntity.setStoredFullAmount(privilegeRuleEntity.getFullAmount());
                     break;
                 }
             }
@@ -117,7 +118,7 @@ public class CustomerStoredServiceImpl extends ServiceImpl<CustomerStoredMapper,
     public void expense(CustomerStoredEntity customerStored) throws Exception {
         CustomerExtraEntity customerExtraEntity = customerExtraMapper.selectById(customerStored.getCustomerId());
         //储值余额是否够用
-        if (customerExtraEntity.getStoredAmount().subtract(customerExtraEntity.getStoredUsed())
+        if (customerExtraEntity.getStoredBalance()
                 .compareTo(customerStored.getTradeAmount()) < 0) {
             throw new ApiRespStatusException(ApiRespStatus.CUSTOMER_STORED_EXPENSE_INSUFFICIENT);
         }

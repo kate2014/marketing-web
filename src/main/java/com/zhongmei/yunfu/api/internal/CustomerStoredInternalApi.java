@@ -78,14 +78,13 @@ public class CustomerStoredInternalApi extends InternalApi {
 
     private CustomerStoredEntity toCustomerStoredEntity(CustomerStoredReq req) {
         CustomerStoredEntity customerStored = new CustomerStoredEntity();
+        customerStored.baseCreate(req.getCreatorId(), req.getCreatorName());
         customerStored.setCustomerId(req.getCustomerId());
         customerStored.setTradeAmount(req.getUsefulAmount());
         customerStored.setTradeId(req.getTradeId());
         customerStored.setPaymentItemId(req.getPaymentItemId());
         customerStored.setShopIdenty(req.getShopId());
         customerStored.setBrandIdenty(req.getBrandId());
-        customerStored.setCreatorId(req.getCreatorId());
-        customerStored.setCreatorName(req.getCreatorName());
         if (req instanceof CustomerStoredRechargeReq) {
             CustomerStoredRechargeReq storedRechargeReq = (CustomerStoredRechargeReq) req;
             customerStored.setGiveAmount(storedRechargeReq.getGiveAmout());

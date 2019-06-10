@@ -57,11 +57,12 @@ public class CustomerLoginPosApi extends PosApiController {
 
         CustomerExtraEntity customerExtra = customerService.getCustomerExtra(customerEntity.getId());
         if (customerExtra != null) {
-            customerLoginResp.setValueCardBalance(customerExtra.getStoredAmount()); //储值余额
-            customerLoginResp.setRemainValue(customerExtra.getStoredAmount());
+            customerLoginResp.setValueCardBalance(customerExtra.getStoredBalance()); //储值余额
+            customerLoginResp.setRemainValue(customerExtra.getStoredBalance());
             customerLoginResp.setStoredPaymentCheck(customerExtra.getStoredPaymentCheck() != null && customerExtra.getStoredPaymentCheck() > 0);
             customerLoginResp.setStoredPrivilegeType(customerExtra.getStoredPrivilegeType());
             customerLoginResp.setStoredPrivilegeValue(customerExtra.getStoredPrivilegeValue());
+            customerLoginResp.setStoredFullAmount(customerExtra.getStoredFullAmount());
         }
         return ApiResult.newSuccess(customerLoginResp);
     }
