@@ -51,8 +51,6 @@ public class CustomerStoredServiceImpl extends ServiceImpl<CustomerStoredMapper,
 
     @Override
     public void recharge(CustomerStoredEntity customerStored) throws Exception {
-        tradeStored(CustomerStoredEntity.RecordType.RECHARGE, customerStored);
-
         boolean isInsert = false;
         CustomerExtraEntity customerExtraEntity = customerExtraMapper.selectById(customerStored.getCustomerId());
         if (customerExtraEntity == null) {
@@ -97,6 +95,8 @@ public class CustomerStoredServiceImpl extends ServiceImpl<CustomerStoredMapper,
             customerExtraMapper.updateById(customerExtraEntity);
         }
 
+        tradeStored(CustomerStoredEntity.RecordType.RECHARGE, customerStored, customerExtraEntity.getStoredBalance());
+
         CustomerEntity customerEntity = customerService.selectById(customerStored.getCustomerId());
         CommercialEntity commercialEntity = commercialService.selectById(customerStored.getShopIdenty());
         TradeEntity tradeEntity = tradeService.selectById(customerStored.getTradeId());
@@ -129,13 +129,11 @@ public class CustomerStoredServiceImpl extends ServiceImpl<CustomerStoredMapper,
         customerExtraEntity.setStoredUsed(storedUsed);
         customerExtraEntity.setStoredBalance(customerExtraEntity.getStoredAmount().subtract(customerExtraEntity.getStoredUsed()));
         customerExtraMapper.updateById(customerExtraEntity);
-
-        tradeStored(CustomerStoredEntity.RecordType.EXPENSE, customerStored);
+        tradeStored(CustomerStoredEntity.RecordType.EXPENSE, customerStored, customerExtraEntity.getStoredBalance());
     }
 
     @Override
     public void refund(CustomerStoredEntity customerStored) throws Exception {
-        tradeStored(CustomerStoredEntity.RecordType.REFUND, customerStored);
         CustomerExtraEntity customerExtraEntity = customerExtraMapper.selectById(customerStored.getCustomerId());
         BigDecimal storedAmount = customerExtraEntity.getStoredAmount()
                 .subtract(customerStored.getTradeAmount())
@@ -149,6 +147,7 @@ public class CustomerStoredServiceImpl extends ServiceImpl<CustomerStoredMapper,
         //customerExtraEntity.setStoredPrivilegeValue(customerStored.getPrivilegeValue());
 
         customerExtraMapper.updateById(customerExtraEntity);
+        tradeStored(CustomerStoredEntity.RecordType.REFUND, customerStored, customerExtraEntity.getStoredBalance());
     }
 
     @Override
@@ -164,16 +163,16 @@ public class CustomerStoredServiceImpl extends ServiceImpl<CustomerStoredMapper,
 
     /**
      * 储值交易
-     *
-     * @param recordType
+     *  @param recordType
      * @param customerStored
+     * @param storedBalance
      */
-    private void tradeStored(CustomerStoredEntity.RecordType recordType, CustomerStoredEntity customerStored) {
-        BigDecimal residueBalance = getResidueBalanceByLastId(customerStored);
+    private void tradeStored(CustomerStoredEntity.RecordType recordType, CustomerStoredEntity customerStored, BigDecimal storedBalance) {
+        //BigDecimal residueBalance = getResidueBalanceByLastId(customerStored);
         customerStored.setRecordType(recordType.getValue());
         //customerStored.setLastUsableAmout(residueBalance);
-        BigDecimal countResidueBalance = countResidueBalance(recordType, residueBalance, customerStored.getTradeAmount(), customerStored.getGiveAmount());
-        customerStored.setResidueBalance(countResidueBalance);
+        //BigDecimal countResidueBalance = countResidueBalance(recordType, residueBalance, customerStored.getTradeAmount(), customerStored.getGiveAmount());
+        customerStored.setResidueBalance(storedBalance);
         insert(customerStored);
     }
 
