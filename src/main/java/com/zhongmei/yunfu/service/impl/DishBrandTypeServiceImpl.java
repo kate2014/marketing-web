@@ -21,6 +21,18 @@ import java.util.List;
 public class DishBrandTypeServiceImpl extends ServiceImpl<DishBrandTypeMapper, DishBrandTypeEntity> implements DishBrandTypeService {
 
     @Override
+    public List<DishBrandTypeEntity> queryAllDishType(DishBrandTypeEntity mDishBrandTypeEntity) throws Exception {
+        EntityWrapper<DishBrandTypeEntity> eWrapper = new EntityWrapper<>(new DishBrandTypeEntity());
+        eWrapper.eq("brand_identy",mDishBrandTypeEntity.getBrandIdenty());
+        eWrapper.eq("shop_identy",mDishBrandTypeEntity.getShopIdenty());
+        eWrapper.eq("status_flag",1);
+        eWrapper.orderBy("server_create_time",false);
+
+        List<DishBrandTypeEntity> listData = selectList(eWrapper);
+        return listData;
+    }
+
+    @Override
     public List<DishBrandTypeEntity> queryDishType(DishBrandTypeEntity mDishBrandTypeEntity)throws Exception {
 
         EntityWrapper<DishBrandTypeEntity> eWrapper = new EntityWrapper<>(new DishBrandTypeEntity());
@@ -28,6 +40,7 @@ public class DishBrandTypeServiceImpl extends ServiceImpl<DishBrandTypeMapper, D
         eWrapper.eq("shop_identy",mDishBrandTypeEntity.getShopIdenty());
         eWrapper.eq("status_flag",1);
         eWrapper.isNotNull("parent_id");
+        eWrapper.orderBy("server_create_time",false);
 
         List<DishBrandTypeEntity> listData = selectList(eWrapper);
         return listData;

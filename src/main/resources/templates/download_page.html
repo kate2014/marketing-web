@@ -12,8 +12,13 @@
 </head>
 <script type="text/javascript">
 
-    function downloadAPK(){
-        window.location.href="http://media.zhongmeiyunfu.com/apkyf_v1.0.0_190424_release.apk";
+    function downloadAPK(index){
+        if(index == 1){
+            window.location.href="http://media.zhongmeiyunfu.com/apkyf_v1.0.0_190424_release.apk";
+        }else if(index == 2){
+            window.location.href="http://media.zhongmeiyunfu.com/apkyf_v1.0.0_190424_release.apk";
+        }
+
     }
 
 </script>
@@ -51,36 +56,72 @@
             <img style="margin-left:10px; width: 20%; height: 1px; background-color: #e4e4e4;">
         </div>
 
-        <div style="width: 260px; height: 460px; border: 1px solid #FF6600;margin: 33px;position:relative ">
-            <div style="width: 100%;height: 40px;line-height: 40px; background-color: #FF6600;text-align: center;"><span class="version_lable_style">版本号：V1.0.1</span></div>
+        <div class="parent">
+            <div style="width: 260px; height: 460px; border: 1px solid #FF6600;margin: 33px;position:relative ">
+                <div style="width: 100%;height: 40px;line-height: 40px; background-color: #FF6600;text-align: center;"><span class="version_lable_style">版本号：V1.0.1</span></div>
 
-            <div style="margin: 10px">
-                <ul>
-                    <li><span style="font-size:14px">1、优惠服务次卡功能</span></li>
-                    <li>&nbsp;</li>
-                    <li><span style="font-size:14px">2、添加会员储值报表</span></li>
-                    <li>&nbsp;</li>
-                    <li><span style="font-size:14px">3、添加会员吃饭服务销售报表</span></li>
-                    <li>&nbsp;</li>
-                    <li><span style="font-size:14px">4、添加系统操作帮助文档入口</span></li>
-                    <li>&nbsp;</li>
-                    <li><span style="font-size:14px">5、修改订单详情展示界面</span></li>
-                    <li>&nbsp;</li>
-                    <li><span style="font-size:14px">6、添加活动停止二次确认</span></li>
-                </ul>
+                <div style="margin: 10px">
+                    <ul>
+                        <li><span style="font-size:14px">1、优惠服务次卡功能</span></li>
+                        <br/>
+                        <li><span style="font-size:14px">2、添加会员储值报表</span></li>
+                        <br/>
+                        <li><span style="font-size:14px">3、添加会员吃饭服务销售报表</span></li>
+                        <br/>
+                        <li><span style="font-size:14px">4、添加系统操作帮助文档入口</span></li>
+                        <br/>
+                        <li><span style="font-size:14px">5、修改订单详情展示界面</span></li>
+                        <br/>
+                        <li><span style="font-size:14px">6、添加活动停止二次确认</span></li>
+                    </ul>
 
+
+                </div>
+
+                <div class="parent" style="width: 100%;height: 55px;line-height: 55px; background-color: #FF6600;text-align: center;position: absolute; bottom:0px; cursor: pointer"
+                     onclick="downloadAPK(1)">
+
+                    <img th:src="@{/images/download_icon.png}" style="margin-left:30%; margin-right: 10px" width="30px" height="30px">
+                    <span class="version_lable_style">点击下载</span>
+
+                </div>
 
             </div>
 
-            <div class="parent" style="width: 100%;height: 55px;line-height: 55px; background-color: #FF6600;text-align: center;position: absolute; bottom:0px; cursor: pointer"
-                 onclick="downloadAPK()">
 
-                <img th:src="@{/images/download_icon.png}" style="margin-left:30%; margin-right: 10px" width="30px" height="30px">
-                <span class="version_lable_style">点击下载</span>
+            <div style="width: 260px; height: 460px; border: 1px solid #FF6600;margin: 33px;position:relative ">
+                <div style="width: 100%;height: 40px;line-height: 40px; background-color: #FF6600;text-align: center;"><span class="version_lable_style">版本号：V1.1.0</span></div>
+
+                <div style="margin: 10px">
+                    <ul>
+                        <li><span style="font-size:14px">1、优化会员设置界面</span></li>
+                        <br/>
+                        <li><span style="font-size:14px">2、添加会员储赠</span></li>
+                        <br/>
+                        <li><span style="font-size:14px">3、添加会员储值享优惠</span></li>
+                        <br/>
+                        <li><span style="font-size:14px">4、添加会员服务项目特价</span></li>
+                        <br/>
+                        <li><span style="font-size:14px">5、添加一个项目多人服务</span></li>
+                        <br/>
+                        <li><span style="font-size:14px">6、支持多人服务人效分成</span></li>
+                    </ul>
+
+
+                </div>
+
+                <div class="parent" style="width: 100%;height: 55px;line-height: 55px; background-color: #FF6600;text-align: center;position: absolute; bottom:0px; cursor: pointer"
+                     onclick="downloadAPK(2)">
+
+                    <img th:src="@{/images/download_icon.png}" style="margin-left:30%; margin-right: 10px" width="30px" height="30px">
+                    <span class="version_lable_style">点击下载</span>
+
+                </div>
 
             </div>
-
         </div>
+
+
     </div>
 
     　　　　

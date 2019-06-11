@@ -1,5 +1,5 @@
 .text_navigation{
-    font-size:10px;
+    font-size:12px;
     color: #666666;
     /*height: 30px;*/
     vertical-align: center;
@@ -126,6 +126,15 @@ div.parent_h {
     border: 0px;
     margin-right: 10px;
 }
+
+.image_mini_size_style{
+    width: 13px;
+    height: 13px;
+    margin-left: 20px;
+    border: 0px;
+    margin-right: 10px;
+}
+
 
 .icon_style{
     width: 21px;
@@ -262,4 +271,9 @@ div.modle {
     border-radius: 5px;
     font-size: 15px;
     color: #ff5500;
+}
+.dialog_title_style{
+    font-size:16px;
+    font-weight:bold;
+    color: #000000;
 }

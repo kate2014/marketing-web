@@ -15,5 +15,19 @@ import java.util.List;
  */
 public interface DishBrandTypeService extends IService<DishBrandTypeEntity> {
 
+    /**
+     * 查询门店下所有品项类别
+     * @param mDishBrandTypeEntity
+     * @return
+     * @throws Exception
+     */
+    List<DishBrandTypeEntity> queryAllDishType(DishBrandTypeEntity mDishBrandTypeEntity) throws Exception;
+
+    /**
+     * 查询门店下所以二级分类
+     * @param mDishBrandTypeEntity
+     * @return
+     * @throws Exception
+     */
     List<DishBrandTypeEntity> queryDishType(DishBrandTypeEntity mDishBrandTypeEntity) throws Exception;
 }
