@@ -14,7 +14,7 @@ public class CustomerDrain extends CustomerEntity {
      * 已使用余额
      */
     private BigDecimal storedUsed;
-    //private BigDecimal storedBalance;
+    private BigDecimal storedBalance;
 
     public BigDecimal getStoredAmount() {
         return storedAmount;
@@ -32,11 +32,11 @@ public class CustomerDrain extends CustomerEntity {
         this.storedUsed = storedUsed;
     }
 
-    /*public BigDecimal getStoredBalance() {
+    public BigDecimal getStoredBalance() {
         return storedBalance;
     }
 
     public void setStoredBalance(BigDecimal storedBalance) {
         this.storedBalance = storedBalance;
-    }*/
+    }
 }

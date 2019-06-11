@@ -74,6 +74,7 @@ public class CustomerStoredServiceImpl extends ServiceImpl<CustomerStoredMapper,
                 .add(customerStored.getGiveAmount());
         customerExtraEntity.setStoredAmount(storedAmount);
         customerExtraEntity.setStoredGive(customerExtraEntity.getStoredGive().add(customerStored.getGiveAmount()));
+        customerExtraEntity.setStoredBalance(customerExtraEntity.getStoredAmount().subtract(customerExtraEntity.getStoredUsed()));
 
         //设置储值优惠值
         List<CustomerPrivilegeRuleEntity> byPrivilegeType = customerPrivilegeRuleService.getByPrivilegeType(customerStored.getShopIdenty(), 3, 4);
@@ -126,6 +127,7 @@ public class CustomerStoredServiceImpl extends ServiceImpl<CustomerStoredMapper,
 
         BigDecimal storedUsed = customerExtraEntity.getStoredUsed().add(customerStored.getTradeAmount());
         customerExtraEntity.setStoredUsed(storedUsed);
+        customerExtraEntity.setStoredBalance(customerExtraEntity.getStoredAmount().subtract(customerExtraEntity.getStoredUsed()));
         customerExtraMapper.updateById(customerExtraEntity);
 
         tradeStored(CustomerStoredEntity.RecordType.EXPENSE, customerStored);
@@ -140,6 +142,7 @@ public class CustomerStoredServiceImpl extends ServiceImpl<CustomerStoredMapper,
                 .subtract(customerStored.getGiveAmount());
         customerExtraEntity.setStoredAmount(storedAmount);
         customerExtraEntity.setStoredGive(customerExtraEntity.getStoredGive().subtract(customerStored.getGiveAmount()));
+        customerExtraEntity.setStoredBalance(customerExtraEntity.getStoredAmount().subtract(customerExtraEntity.getStoredUsed()));
         //恢复上次的储值折扣
         //customerExtraEntity.setStoredPaymentCheck(customerStored.getIsNeedSavePayment());
         //customerExtraEntity.setStoredPrivilegeType(customerStored.getPrivilegeType());

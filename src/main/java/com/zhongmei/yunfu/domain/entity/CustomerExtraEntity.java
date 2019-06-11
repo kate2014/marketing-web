@@ -35,6 +35,10 @@ public class CustomerExtraEntity extends BaseEntity {
      */
     private BigDecimal storedUsed;
     /**
+     * 储值余额
+     */
+    private BigDecimal storedBalance;
+    /**
      * 是否做储值支付验证
      */
     private Integer storedPaymentCheck;
@@ -51,9 +55,6 @@ public class CustomerExtraEntity extends BaseEntity {
      */
     private BigDecimal storedFullAmount;
 
-    public BigDecimal getStoredBalance() {
-        return storedAmount != null ? storedAmount.subtract(storedUsed) : BigDecimal.ZERO;
-    }
 
     public Long getCustomerId() {
         return customerId;
@@ -85,6 +86,14 @@ public class CustomerExtraEntity extends BaseEntity {
 
     public void setStoredUsed(BigDecimal storedUsed) {
         this.storedUsed = storedUsed;
+    }
+
+    public BigDecimal getStoredBalance() {
+        return storedBalance;
+    }
+
+    public void setStoredBalance(BigDecimal storedBalance) {
+        this.storedBalance = storedBalance;
     }
 
     public Integer getStoredPaymentCheck() {
