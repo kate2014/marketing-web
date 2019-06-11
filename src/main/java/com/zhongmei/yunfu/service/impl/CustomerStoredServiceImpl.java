@@ -46,7 +46,7 @@ public class CustomerStoredServiceImpl extends ServiceImpl<CustomerStoredMapper,
 
     @Override
     public CustomerStoredEntity getByPaymentItemId(Long shopId, Long tradeId, Long paymentItemId) {
-        return baseMapper.getByPaymentItemId(shopId, tradeId, paymentItemId);
+        return baseMapper.getRefundByPaymentItemId(shopId, tradeId, paymentItemId);
     }
 
     @Override
@@ -141,9 +141,9 @@ public class CustomerStoredServiceImpl extends ServiceImpl<CustomerStoredMapper,
         customerExtraEntity.setStoredAmount(storedAmount);
         customerExtraEntity.setStoredGive(customerExtraEntity.getStoredGive().subtract(customerStored.getGiveAmount()));
         //恢复上次的储值折扣
-        //customerExtraEntity.setStoredPaymentCheck(privilegeRuleEntity.getIsNeedSavePayment());
-        //customerExtraEntity.setStoredPrivilegeType(privilegeRuleEntity.getPrivilegeType());
-        //customerExtraEntity.setStoredPrivilegeValue(privilegeRuleEntity.getPrivilegeValue());
+        //customerExtraEntity.setStoredPaymentCheck(customerStored.getIsNeedSavePayment());
+        //customerExtraEntity.setStoredPrivilegeType(customerStored.getPrivilegeType());
+        //customerExtraEntity.setStoredPrivilegeValue(customerStored.getPrivilegeValue());
 
         customerExtraMapper.updateById(customerExtraEntity);
     }
@@ -168,7 +168,7 @@ public class CustomerStoredServiceImpl extends ServiceImpl<CustomerStoredMapper,
     private void tradeStored(CustomerStoredEntity.RecordType recordType, CustomerStoredEntity customerStored) {
         BigDecimal residueBalance = getResidueBalanceByLastId(customerStored);
         customerStored.setRecordType(recordType.getValue());
-        customerStored.setLastUsableAmout(residueBalance);
+        //customerStored.setLastUsableAmout(residueBalance);
         BigDecimal countResidueBalance = countResidueBalance(recordType, residueBalance, customerStored.getTradeAmount(), customerStored.getGiveAmount());
         customerStored.setResidueBalance(countResidueBalance);
         insert(customerStored);

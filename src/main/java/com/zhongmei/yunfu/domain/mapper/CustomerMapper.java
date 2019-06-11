@@ -3,7 +3,7 @@ package com.zhongmei.yunfu.domain.mapper;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.baomidou.mybatisplus.mapper.Condition;
 import com.baomidou.mybatisplus.mapper.Wrapper;
-import com.zhongmei.yunfu.domain.bean.CustomerInfo;
+import com.zhongmei.yunfu.domain.bean.CustomerDrain;
 import com.zhongmei.yunfu.domain.entity.CustomerEntity;
 import com.zhongmei.yunfu.domain.entity.CustomerExtraEntity;
 import com.zhongmei.yunfu.domain.entity.CustomerReport;
@@ -11,7 +11,6 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.session.RowBounds;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -197,4 +196,10 @@ public interface CustomerMapper extends BaseMapper<CustomerEntity> {
             "UNION \n" +
             "(SELECT * from `customer` WHERE `source_id` = 1 ${ew.sqlSegment})) a")
     List<CustomerEntity> selectAllCustomer(@Param("ew") Condition wrapper);
+
+    @Select("SELECT c.*, ce.stored_amount, ce.stored_used FROM customer c" +
+            " LEFT JOIN customer_extra ce ON ce.customer_id = c.id" +
+            " WHERE c.relate_id = 0 AND c.status_flag = 1 ${ew.sqlSegment}")
+    List<CustomerDrain> findCustomerByDrain(RowBounds rowBounds, @Param("ew") Wrapper wrapper);
+
 }

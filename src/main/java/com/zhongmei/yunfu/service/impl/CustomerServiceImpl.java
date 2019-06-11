@@ -16,6 +16,7 @@ import com.zhongmei.yunfu.controller.model.CustomerModel;
 import com.zhongmei.yunfu.controller.model.CustomerSearchModel;
 import com.zhongmei.yunfu.core.mybatis.mapper.ConditionFilter;
 import com.zhongmei.yunfu.core.mybatis.mapper.EntityWrapperFilter;
+import com.zhongmei.yunfu.domain.bean.CustomerDrain;
 import com.zhongmei.yunfu.domain.entity.CustomerEntity;
 import com.zhongmei.yunfu.domain.entity.CustomerEntityCardEntity;
 import com.zhongmei.yunfu.domain.entity.CustomerExtraEntity;
@@ -186,33 +187,45 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
     }
 
     @Override
-    public Page<CustomerEntity> findListPage(CustomerDrainSearchModel searchModel) {
-        CustomerEntity customerEntity = new CustomerEntity();
+    public Page<CustomerDrain> findCustomerByDrain(CustomerDrainSearchModel searchModel) {
+        /*CustomerEntity customerEntity = new CustomerEntity();
         customerEntity.setStatusFlag(StatusFlag.VALiD.value());
         customerEntity.setRelateId(0L);
-        customerEntity.setShopIdenty(searchModel.getUser().getShopIdenty());
-        EntityWrapperFilter eWrapper = new EntityWrapperFilter<>(customerEntity);
-        //eWrapper.eq("relate_id", 0L);
+        customerEntity.setShopIdenty(searchModel.getUser().getShopIdenty());*/
+        EntityWrapperFilter eWrapper = new EntityWrapperFilter<>();
+
+        //eWrapper.eq("c.status_flag", StatusFlag.VALiD.value());
+        //eWrapper.eq("c.relate_id", 0L);
+        eWrapper.eq("c.shop_identy", searchModel.getUser().getShopIdenty());
         if (searchModel.getOpType() == null || searchModel.getOpType() == 0) {
-            eWrapper.ge("stored_balance", searchModel.getStoredBalance());
-            eWrapper.ge("card_residue_count", searchModel.getCardResidueCount());
+            eWrapper.ge("ce.stored_balance", searchModel.getStoredBalance());
+            eWrapper.ge("c.card_residue_count", searchModel.getCardResidueCount());
         } else {
-            eWrapper.le("stored_balance", searchModel.getStoredBalance());
-            eWrapper.le("card_residue_count", searchModel.getCardResidueCount());
+            eWrapper.le("ce.stored_balance", searchModel.getStoredBalance());
+            eWrapper.le("c.card_residue_count", searchModel.getCardResidueCount());
         }
+
+        String cardExpireDateLe = null, cardExpireDateGe = null;
         if (searchModel.getWillExpireDay() != null && searchModel.getWillExpireDay() > 0) {
             Calendar calendarOfDay = Calendar.getInstance();
             calendarOfDay.add(Calendar.DAY_OF_MONTH, searchModel.getWillExpireDay());
-            eWrapper.le("card_expire_date", DateFormatUtil.formatDate(calendarOfDay.getTime()));
-            eWrapper.ge("card_expire_date", DateFormatUtil.formatDate(new Date()));
+            cardExpireDateLe = DateFormatUtil.formatDate(calendarOfDay.getTime());
+            cardExpireDateGe = DateFormatUtil.formatDate(new Date());
         }
-        eWrapper.gt("consumption_last_time", searchModel.getConsumptionLastTime());
-        eWrapper.orderBy("IFNULL(card_expire_date, '9999-99-99')");
-        Page<CustomerEntity> page = new Page<>(searchModel.getPageNo(), searchModel.getPageSize());
-        return selectPage(page, eWrapper);
+        eWrapper.le("c.card_expire_date", cardExpireDateLe);
+        eWrapper.ge("c.card_expire_date", cardExpireDateGe);
+        eWrapper.gt("c.consumption_last_time", searchModel.getConsumptionLastTime());
+        eWrapper.orderBy("IFNULL(c.card_expire_date, '9999-99-99')");
+        //Page<CustomerEntity> page = new Page<>(searchModel.getPageNo(), searchModel.getPageSize());*/
+        //return selectPage(page, eWrapper);
+
+        Page<CustomerDrain> newPage = new Page<>(searchModel.getPageNo(), searchModel.getPageSize());
+        List<CustomerDrain> customerByDrain = baseMapper.findCustomerByDrain(newPage, eWrapper);
+        newPage.setRecords(customerByDrain);
+        return newPage;
     }
 
-    @Override
+    /*@Override
     public Page<CustomerEntity> findListPage(CustomerDrainSearchModel searchModel, Page<CustomerEntity> page) {
         CustomerEntity customerEntity = new CustomerEntity();
         customerEntity.setStatusFlag(StatusFlag.VALiD.value());
@@ -224,7 +237,7 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
         eWrapper.gt("card_residue_count", searchModel.getCardResidueCount());
         eWrapper.gt("consumption_last_time", searchModel.getConsumptionLastTime());
         return selectPage(page, eWrapper);
-    }
+    }*/
 
     @Override
     public Boolean addCustomer(CustomerEntity mCustomer) throws Exception {
@@ -277,7 +290,7 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
         eWrapper.eq("brand_identy", brandIdenty);
         eWrapper.eq("shop_identy", shopIdenty);
         eWrapper.eq("third_id", thirdId);
-        eWrapper.setSqlSelect("id,relate_id,name,gender,mobile,group_level,consumption_last_time,stored_balance,password,relate_id,third_id,brand_identy,shop_identy,status_flag");
+        eWrapper.setSqlSelect("id,relate_id,name,gender,mobile,group_level,consumption_last_time,password,relate_id,third_id,brand_identy,shop_identy,status_flag");
         CustomerEntity mCustomer = selectOne(eWrapper);
         return mCustomer;
     }
@@ -288,7 +301,7 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
         eWrapper.eq("brand_identy", brandIdenty);
         eWrapper.eq("shop_identy", shopIdenty);
         eWrapper.eq("mobile", mobile);
-        eWrapper.setSqlSelect("id,relate_id,name,gender,mobile,group_level,consumption_last_time,stored_balance,password,relate_id,third_id,brand_identy,shop_identy,status_flag");
+        eWrapper.setSqlSelect("id,relate_id,name,gender,mobile,group_level,consumption_last_time,password,relate_id,third_id,brand_identy,shop_identy,status_flag");
         CustomerEntity mCustomer = selectOne(eWrapper);
         return mCustomer;
     }
@@ -299,7 +312,7 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
         eWrapper.eq("brand_identy", brandIdenty);
         eWrapper.eq("shop_identy", shopIdenty);
         eWrapper.eq("relate_id", customerId);
-        eWrapper.setSqlSelect("id,relate_id,name,gender,mobile,group_level,consumption_last_time,stored_balance,password,relate_id,third_id,brand_identy,shop_identy,status_flag");
+        eWrapper.setSqlSelect("id,relate_id,name,gender,mobile,group_level,consumption_last_time,password,relate_id,third_id,brand_identy,shop_identy,status_flag");
         CustomerEntity mCustomer = selectOne(eWrapper);
         return mCustomer;
     }
@@ -310,7 +323,7 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
         eWrapper.eq("brand_identy", brandIdenty);
         eWrapper.eq("shop_identy", shopIdenty);
         eWrapper.eq("id", id);
-        eWrapper.setSqlSelect("id,relate_id,name,gender,mobile,group_level,group_level_id,consumption_last_time,stored_balance,password,relate_id,third_id,brand_identy,shop_identy,status_flag");
+        eWrapper.setSqlSelect("id,relate_id,name,gender,mobile,group_level,group_level_id,consumption_last_time,password,relate_id,third_id,brand_identy,shop_identy,status_flag");
         CustomerEntity mCustomer = selectOne(eWrapper);
         return mCustomer;
     }

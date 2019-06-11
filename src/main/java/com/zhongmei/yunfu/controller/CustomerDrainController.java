@@ -4,25 +4,16 @@ package com.zhongmei.yunfu.controller;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.zhongmei.yunfu.controller.model.CustomerDrainSearchModel;
-import com.zhongmei.yunfu.controller.model.CustomerSearchModel;
-import com.zhongmei.yunfu.controller.model.excel.ExcelData;
-import com.zhongmei.yunfu.controller.model.excel.ExcelUtils;
+import com.zhongmei.yunfu.domain.bean.CustomerDrain;
 import com.zhongmei.yunfu.domain.entity.CustomerEntity;
-import com.zhongmei.yunfu.domain.entity.CustomerSearchRuleEntity;
 import com.zhongmei.yunfu.service.CustomerService;
 import com.zhongmei.yunfu.service.LoginManager;
-import com.zhongmei.yunfu.util.DateFormatUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.http.HttpServletResponse;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -43,7 +34,7 @@ public class CustomerDrainController extends BaseController {
     @RequestMapping
     public String drain(Model model, CustomerDrainSearchModel searchModel) {
         LoginManager.setUser(searchModel);
-        Page<CustomerEntity> listPage = customerService.findListPage(searchModel);
+        Page<CustomerDrain> listPage = customerService.findCustomerByDrain(searchModel);
         setWebPage(model, "/customer/drain", listPage, searchModel);
         model.addAttribute("searchModel", searchModel);
         model.addAttribute("list", listPage.getRecords());
@@ -58,7 +49,7 @@ public class CustomerDrainController extends BaseController {
         return "customer_report_expense";
     }
 
-    @RequestMapping("/export/excel")
+    /*@RequestMapping("/export/excel")
     public void exportExcel(HttpServletResponse response, CustomerDrainSearchModel searchModel) throws Exception {
         LoginManager.setUser(searchModel);
         Page<CustomerEntity> listPage = customerService.findListPage(searchModel, null);
@@ -100,6 +91,6 @@ public class CustomerDrainController extends BaseController {
         SimpleDateFormat fdate = new SimpleDateFormat("yyyyMMdd");
         String fileName = String.format("customer-%s.xls", fdate.format(new Date()));
         ExcelUtils.exportExcel(response, fileName, data);
-    }
+    }*/
 }
 

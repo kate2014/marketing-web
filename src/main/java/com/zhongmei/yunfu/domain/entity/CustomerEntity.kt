@@ -118,7 +118,7 @@ open class CustomerEntity : BaseEntity() {
     /**
      * 储值余额
      */
-    var storedBalance: BigDecimal? = null
+    //var storedBalance: BigDecimal? = null
     /**
      * 剩余服务次数
      */

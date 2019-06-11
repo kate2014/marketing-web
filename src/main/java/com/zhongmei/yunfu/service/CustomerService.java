@@ -8,6 +8,7 @@ import com.zhongmei.yunfu.api.pos.vo.CustomerSearchReq;
 import com.zhongmei.yunfu.controller.model.CustomerDrainSearchModel;
 import com.zhongmei.yunfu.controller.model.CustomerModel;
 import com.zhongmei.yunfu.controller.model.CustomerSearchModel;
+import com.zhongmei.yunfu.domain.bean.CustomerDrain;
 import com.zhongmei.yunfu.domain.entity.CustomerEntity;
 import com.zhongmei.yunfu.domain.entity.CustomerEntityCardEntity;
 import com.zhongmei.yunfu.domain.entity.CustomerExtraEntity;
@@ -93,9 +94,9 @@ public interface CustomerService extends IService<CustomerEntity> {
 
     //Page<CustomerEntity> findListPage(Page<CustomerEntity> page, CustomerSearchModel search);
 
-    Page<CustomerEntity> findListPage(CustomerDrainSearchModel searchModel);
+    Page<CustomerDrain> findCustomerByDrain(CustomerDrainSearchModel searchModel);
 
-    Page<CustomerEntity> findListPage(CustomerDrainSearchModel searchModel, Page<CustomerEntity> page);
+    //Page<CustomerEntity> findListPage(CustomerDrainSearchModel searchModel, Page<CustomerEntity> page);
 
     /**
      * 添加会员

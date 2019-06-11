@@ -3,24 +3,24 @@
 <mapper namespace="com.zhongmei.yunfu.domain.mapper.CustomerMapper">
 
     <resultMap id="customerMap" type="com.zhongmei.yunfu.domain.entity.CustomerEntity">
-        <result property="groupLevelId"         column="group_level_id"/>
-        <result property="groupLevel"           column="group_level"/>
-        <result property="relateId"             column="relate_id"/>
-        <result property="thirdId"              column="third_id"/>
-        <result property="integralTotal"        column="integral_total"/>
-        <result property="integralUsed"         column="integral_used"/>
-        <result property="sourceId"             column="source_id"/>
-        <result property="expandedId"           column="expanded_id"/>
-        <result property="consumptionLastTime"  column="consumption_last_time"/>
-        <result property="consumptionAmount"    column="consumption_amount"/>
-        <result property="consumptionNumber"    column="consumption_number"/>
-        <result property="storedBalance"        column="stored_balance"/>
-        <result property="storedBalanceUsed"    column="stored_balance_used"/>
-        <result property="cardResidueCount"     column="card_residue_count"/>
-        <result property="cardExpireDate"       column="card_expire_date"/>
-        <result property="shopIdenty"           column="shop_identy"/>
-        <result property="brandIdenty"          column="brand_identy"/>
-        <result property="enabledFlag"          column="enabled_flag"/>
+        <result property="groupLevelId" column="group_level_id"/>
+        <result property="groupLevel" column="group_level"/>
+        <result property="relateId" column="relate_id"/>
+        <result property="thirdId" column="third_id"/>
+        <result property="integralTotal" column="integral_total"/>
+        <result property="integralUsed" column="integral_used"/>
+        <result property="sourceId" column="source_id"/>
+        <result property="expandedId" column="expanded_id"/>
+        <result property="consumptionLastTime" column="consumption_last_time"/>
+        <result property="consumptionAmount" column="consumption_amount"/>
+        <result property="consumptionNumber" column="consumption_number"/>
+        <result property="storedBalance" column="stored_balance"/>
+        <result property="storedBalanceUsed" column="stored_balance_used"/>
+        <result property="cardResidueCount" column="card_residue_count"/>
+        <result property="cardExpireDate" column="card_expire_date"/>
+        <result property="shopIdenty" column="shop_identy"/>
+        <result property="brandIdenty" column="brand_identy"/>
+        <result property="enabledFlag" column="enabled_flag"/>
     </resultMap>
 
     <select id="loginCardNoEntity"
@@ -37,19 +37,44 @@
            AND ce.status_flag = 1
     </select>
 
-    <!--<select id="selectByKey"
-            resultType="com.zhongmei.yunfu.domain.bean.CustomerInfo">
+    <select id="findCustomerByDrain111"
+            resultType="com.zhongmei.yunfu.domain.bean.CustomerDrain">
         SELECT
-          c.*,
-          ce.id card_id,
-          ce.card_no
+        c.*,
+        ce.stored_amount,
+        ce.stored_used
         FROM
-          customer c
-          LEFT JOIN customer_entity_card ce
-            ON c.id = ce.customer_id
-        WHERE c.id = #{id}
-          AND c.status_flag = 1
-    </select>-->
+        customer c
+        LEFT JOIN customer_extra ce
+        ON ce.customer_id = c.id
+        WHERE c.relate_id = 0
+        AND c.status_flag = 1
+        AND c.shop_identy = #{shopId}
+        <if test="cardExpireDateLe != null and cardExpireDateGe != null">
+            AND c.card_expire_date <![CDATA[<=]]> #{cardExpireDateLe}
+            AND c.card_expire_date <![CDATA[>=]]> #{cardExpireDateGe}
+        </if>
+        <if test="consumptionLastTime != null">
+            AND c.consumption_last_time <![CDATA[>=]]> #{consumptionLastTime}
+        </if>
+        <if test="opType == null or opType == 0">
+            <if test="storedBalance != null">
+                AND ce.stored_amount - ce.stored_used <![CDATA[>=]]> #{storedBalance}
+            </if>
+            <if test="cardResidueCount != null">
+                AND c.card_residue_count <![CDATA[>=]]> #{cardResidueCount}
+            </if>
+        </if>
+                       
+        <if test="opType != null and opType != 0">
+            <if test="storedBalance != null">
+                AND ce.stored_amount - ce.stored_used <![CDATA[<=]]> #{storedBalance}
+            </if>
+            <if test="cardResidueCount != null">
+                AND c.card_residue_count <![CDATA[<=]]> #{cardResidueCount}
+            </if>
+        </if><!--<![CDATA[ORDER BY IFNULL(c.card_expire_date, '9999-99-99')]]>-->
+    </select>
 
 
 </mapper>

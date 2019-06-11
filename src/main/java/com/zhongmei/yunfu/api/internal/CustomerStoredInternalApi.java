@@ -2,8 +2,8 @@ package com.zhongmei.yunfu.api.internal;
 
 import com.zhongmei.yunfu.api.ApiRespStatus;
 import com.zhongmei.yunfu.api.ApiRespStatusException;
-import com.zhongmei.yunfu.api.internal.vo.CustomerStoredReq;
 import com.zhongmei.yunfu.api.internal.vo.CustomerStoredRechargeReq;
+import com.zhongmei.yunfu.api.internal.vo.CustomerStoredReq;
 import com.zhongmei.yunfu.controller.model.BaseDataModel;
 import com.zhongmei.yunfu.domain.entity.CustomerStoredEntity;
 import com.zhongmei.yunfu.service.CustomerSaveRuleService;
@@ -71,6 +71,8 @@ public class CustomerStoredInternalApi extends InternalApi {
         //CustomerStoredEntity customerStored = toCustomerStoredEntity(req);
         CustomerStoredEntity customerStored = (CustomerStoredEntity) byPaymentItemId.clone();
         customerStored.setId(null);
+        customerStored.setRelateId(byPaymentItemId.getId());
+        customerStored.setRecordType(CustomerStoredEntity.RecordType.REFUND.getValue());
         customerStored.baseCreate(req.getCreatorId(), req.getCreatorName());
         customerStoredService.refund(customerStored);
         return BaseDataModel.newSuccess(customerStored);

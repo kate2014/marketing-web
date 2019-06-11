@@ -24,6 +24,6 @@ public interface CustomerStoredMapper extends BaseMapper<CustomerStoredEntity> {
             "(SELECT MAX(server_update_time) FROM customer_stored WHERE customer_id = #{customerId})")
     CustomerStoredEntity getByLastServerUpdateTime(Long customerId);
 
-    @Select("SELECT * FROM customer_stored WHERE shop_identy = #{shopId} AND trade_id = #{tradeId} AND payment_item_id = #{paymentItemId}")
-    CustomerStoredEntity getByPaymentItemId(@Param("shopId") Long shopId, @Param("tradeId") Long tradeId, @Param("paymentItemId") Long paymentItemId);
+    @Select("SELECT * FROM customer_stored WHERE record_type = 3 shop_identy = #{shopId} AND trade_id = #{tradeId} AND payment_item_id = #{paymentItemId}")
+    CustomerStoredEntity getRefundByPaymentItemId(@Param("shopId") Long shopId, @Param("tradeId") Long tradeId, @Param("paymentItemId") Long paymentItemId);
 }

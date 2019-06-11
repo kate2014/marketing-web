@@ -35,6 +35,10 @@ class CustomerStoredEntity : BaseEntity() {
      */
     var lastUsableAmout: BigDecimal? = null
     /**
+     * 关联原单id
+     */
+    var relateId: Long? = null
+    /**
      * 交易金额不包含赠送(充值/消费)
      */
     var tradeAmount: BigDecimal? = null
