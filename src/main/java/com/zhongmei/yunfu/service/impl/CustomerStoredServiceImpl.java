@@ -46,7 +46,7 @@ public class CustomerStoredServiceImpl extends ServiceImpl<CustomerStoredMapper,
 
     @Override
     public CustomerStoredEntity getByPaymentItemId(Long shopId, Long tradeId, Long paymentItemId) {
-        return null;
+        return baseMapper.getByPaymentItemId(shopId, tradeId, paymentItemId);
     }
 
     @Override
