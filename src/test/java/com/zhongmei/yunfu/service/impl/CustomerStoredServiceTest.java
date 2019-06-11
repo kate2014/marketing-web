@@ -21,15 +21,16 @@ public class CustomerStoredServiceTest {
 
     @Test
     public void refund() throws Exception {
-        CustomerStoredEntity byPaymentItemId = customerStoredService.getByPaymentItemId(1L, 2099L, 1715L);
+        CustomerStoredEntity byPaymentItemId = customerStoredService.getByPaymentItemId(1L, 2123L, 1736L);
         if (byPaymentItemId == null) {
             throw new ApiRespStatusException(ApiRespStatus.FOUND);
         }
         //CustomerStoredEntity customerStored = toCustomerStoredEntity(req);
         CustomerStoredEntity customerStored = (CustomerStoredEntity) byPaymentItemId.clone();
         customerStored.setId(null);
+        customerStored.setRelateId(byPaymentItemId.getId());
+        customerStored.setRecordType(CustomerStoredEntity.RecordType.REFUND.getValue());
         //customerStored.baseCreate(req.getCreatorId(), req.getCreatorName());
-
         customerStoredService.refund(customerStored);
     }
 }
