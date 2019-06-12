@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.session.RowBounds;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -23,6 +24,9 @@ import java.util.List;
  */
 public interface CustomerMapper extends BaseMapper<CustomerEntity> {
 
+    @Select("SELECT c.* FROM customer c" +
+            "  LEFT JOIN customer_entity_card ce ON c.id = ce.customer_id AND ce.status_flag = 1" +
+            "  WHERE c.status_flag = 1 AND c.shop_identy = #{shopId} AND ce.card_no = #{cardNo}")
     CustomerEntity loginCardNoEntity(@Param("cardNo") String cardNo, @Param("shopId") Long shopId);
 
     //CustomerInfo selectByKey(Serializable key);
@@ -197,9 +201,56 @@ public interface CustomerMapper extends BaseMapper<CustomerEntity> {
             "(SELECT * from `customer` WHERE `source_id` = 1 ${ew.sqlSegment})) a")
     List<CustomerEntity> selectAllCustomer(@Param("ew") Condition wrapper);
 
-    @Select("SELECT c.*, ce.stored_amount, ce.stored_used FROM customer c" +
+    @Select("SELECT c.*, ce.stored_amount, ce.stored_used, ce.stored_balance FROM customer c" +
             " LEFT JOIN customer_extra ce ON ce.customer_id = c.id" +
             " WHERE c.relate_id = 0 AND c.status_flag = 1 ${ew.sqlSegment}")
     List<CustomerDrain> findCustomerByDrain(RowBounds rowBounds, @Param("ew") Wrapper wrapper);
+
+    @Select("<script>" +
+            "SELECT\n" +
+            "  c.*,\n" +
+            "  ce.stored_amount,\n" +
+            "  ce.stored_used,\n" +
+            "  ce.stored_balance\n" +
+            "FROM\n" +
+            "  customer c\n" +
+            "  LEFT JOIN customer_extra ce\n" +
+            "    ON ce.customer_id = c.id\n" +
+            "WHERE c.relate_id = 0\n" +
+            "  AND c.status_flag = 1\n" +
+            "  AND c.shop_identy = #{shopId}\n" +
+            "<if test='cardExpireDateLe != null and cardExpireDateGe != null'>\n" +
+            "  AND c.card_expire_date &lt;= #{cardExpireDateLe}\n" +
+            "  AND c.card_expire_date &gt;= #{cardExpireDateGe}\n" +
+            "</if>\n" +
+            "<if test='consumptionLastTime != null'>\n" +
+            "  AND c.consumption_last_time &gt;= #{consumptionLastTime}\n" +
+            "</if>\n" +
+            "<if test='opType == null or opType == \"0\"'>\n" +
+            "  <if test='storedBalance != null'>\n" +
+            "    AND ce.stored_balance &gt;= #{storedBalance}\n" +
+            "  </if>\n" +
+            "  <if test='cardResidueCount != null'>\n" +
+            "    AND c.card_residue_count &gt;= #{cardResidueCount}\n" +
+            "  </if>\n" +
+            "</if>\n" +
+            "<if test='opType != null and opType != \"0\"'>\n" +
+            "  <if test='storedBalance != null'>\n" +
+            "    AND ce.stored_balance &lt;= #{storedBalance}\n" +
+            "  </if>\n" +
+            "  <if test='cardResidueCount != null'>\n" +
+            "    AND c.card_residue_count &lt;= #{cardResidueCount}\n" +
+            "  </if>\n" +
+            "</if>" +
+            "  ORDER BY IFNULL(c.card_expire_date, &apos;9999-99-99&apos;)" +
+            "</script>")
+    List<CustomerDrain> findCustomerByDrainExample(RowBounds rowBounds,
+                                                   @Param("shopId") Long shopId,
+                                                   @Param("consumptionLastTime") String consumptionLastTime,
+                                                   @Param("cardExpireDateLe") String cardExpireDateLe,
+                                                   @Param("cardExpireDateGe") String cardExpireDateGe,
+                                                   @Param("opType") Integer opType,
+                                                   @Param("storedBalance") BigDecimal storedBalance,
+                                                   @Param("cardResidueCount") Integer cardResidueCount);
 
 }
