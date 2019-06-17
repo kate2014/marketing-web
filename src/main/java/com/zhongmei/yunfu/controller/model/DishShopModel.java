@@ -9,9 +9,13 @@ public class DishShopModel extends WebBaseModel {
 
     private String keyWord;//查询关键字
 
-    private Long shopIdentity;
-
     private Long dishTypeId;
+
+    private String typeCode;
+
+    private String typeName;
+
+    private Long parentId;
 
     private Long creatorId;
 
@@ -25,20 +29,14 @@ public class DishShopModel extends WebBaseModel {
 
     private List<DishBrandTypeEntity> listType;
 
+    private String successOrfail;
+
     public String getKeyWord() {
         return keyWord;
     }
 
     public void setKeyWord(String keyWord) {
         this.keyWord = keyWord;
-    }
-
-    public Long getShopIdentity() {
-        return shopIdentity;
-    }
-
-    public void setShopIdentity(Long shopIdentity) {
-        this.shopIdentity = shopIdentity;
     }
 
     public Long getDishTypeId() {
@@ -95,5 +93,37 @@ public class DishShopModel extends WebBaseModel {
 
     public void setListType(List<DishBrandTypeEntity> listType) {
         this.listType = listType;
+    }
+
+    public String getSuccessOrfail() {
+        return successOrfail;
+    }
+
+    public void setSuccessOrfail(String successOrfail) {
+        this.successOrfail = successOrfail;
+    }
+
+    public String getTypeCode() {
+        return typeCode;
+    }
+
+    public void setTypeCode(String typeCode) {
+        this.typeCode = typeCode;
+    }
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
+
+    public Long getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
     }
 }

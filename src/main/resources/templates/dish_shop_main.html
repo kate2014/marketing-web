@@ -39,14 +39,14 @@
         <div class="customer-main">
             <div th:if="${dish_shop_manager} eq '1'">
                 <ul class="tab" style="height: 100%">
-                    <li th:href="@{/internal/dishShop/dishGroup(brandIdenty=${mDishShopModel.brandIdenty},shopIdenty=${mDishShopModel.shopIdenty},creatorId=${mDishShopModel.creatorId},creatorName=${mDishShopModel.creatorName})}" class="current">
+                    <li th:href="@{/internal/dishShopType/dishGroup(brandIdenty=${mDishShopModel.brandIdenty},shopIdenty=${mDishShopModel.shopIdenty},creatorId=${mDishShopModel.creatorId},creatorName=${mDishShopModel.creatorName})}" class="current">
                         <div class="parent">
                             <img th:src="@{/images/dish_group_icon.png}" class="image_size_style">
                             <span>品项类别管理</span>
                         </div>
                     </li>
 
-                    <li th:href="@{/internal/customerScoreRule/customerScoreSetting(brandIdenty=${mDishShopModel.brandIdenty},shopIdenty=${mDishShopModel.shopIdenty},creatorId=${mDishShopModel.creatorId},creatorName=${mDishShopModel.creatorName})}" class="parent">
+                    <li th:href="@{/internal/dishShop/dishShopMain(brandIdenty=${mDishShopModel.brandIdenty},shopIdenty=${mDishShopModel.shopIdenty},creatorId=${mDishShopModel.creatorId},creatorName=${mDishShopModel.creatorName})}" class="parent">
                         <div class="parent">
                             <img th:src="@{/images/dish_shop_list_icon.png}" class="image_size_style">
                             <span>品项管理</span>
@@ -68,7 +68,7 @@
                 </div>
 
                 <div th:if="${dish_shop_manager} eq '1'" style="display:block; width: 100%; height: 100%" class="tabs">
-                    <iframe id="dish_iframe" th:src="@{/internal/dishShop/dishGroup(brandIdenty=${mDishShopModel.brandIdenty},shopIdenty=${mDishShopModel.shopIdenty},creatorId=${mDishShopModel.creatorId},creatorName=${mDishShopModel.creatorName})}" width="100%" height="100%" style="border: 0px"></iframe>
+                    <iframe id="dish_iframe" th:src="@{/internal/dishShopType/dishGroup(brandIdenty=${mDishShopModel.brandIdenty},shopIdenty=${mDishShopModel.shopIdenty},creatorId=${mDishShopModel.creatorId},creatorName=${mDishShopModel.creatorName})}" width="100%" height="100%" style="border: 0px"></iframe>
                 </div>
             </div>
 

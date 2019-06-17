@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<style type="text/css">
+
+    html,body{
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        background-color: #FFFFFF;
+    }
+
+    .select_item_bg{
+        background-color:#D0F0E3;
+        color: #FF6600;
+    }
+    .befor_item_bg{
+        background-color:#FFFFFF;
+        color: #000000;
+    }
+
+
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <title>品项类型界面</title>
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" />
+    <link rel="stylesheet" th:href="@{/css/customer.css}" href="../static/css/customer.css" />
+    <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}" src="../static/js/jquery-3.1.1.min.js" ></script>
+
+</head>
+
+<script type="text/javascript">
+
+    function queryDishByType(dishTypeId) {
+
+        document.getElementById("dishTypeId").value = dishTypeId;
+        window.location.reload();
+    }
+
+
+    $(function() {
+
+        var selected = document.getElementById("selectId").value;
+        $("#"+selected).addClass("select_item_bg");
+        $("#img"+selected).attr('src','/marketing/images/point_selected_icon.png');
+
+        $(".tab tr td a").click(function(){
+            //上一个选中组建Id
+            var beforSelectIndex = document.getElementById("selectId").value;
+            //当前选中组建Id
+            var selectId = $(this).attr('id');
+
+            $("#"+beforSelectIndex).removeClass("select_item_bg").addClass("befor_item_bg");
+            $(this).removeClass("befor_item_bg").addClass("select_item_bg");
+
+            $("#img"+beforSelectIndex).attr('src','/marketing/images/point_defort_icon.png');
+            $("#img"+selectId).attr('src','/marketing/images/point_selected_icon.png');
+
+            document.getElementById("selectId").value = selectId;
+        })
+
+    });
+</script>
+
+
+<body>
+<input type="hidden" id="selectId" name="selectId" th:value="${mDishShopModel.dishTypeId}">
+
+<div class='customer-com'>
+    <div class="customer-centent">
+
+        <div class="customer-main" style="height: 100%">
+            <ul class="tab" style="width: 220px;">
+                <div style="margin-left: 10px;margin-right: 10px">
+                    <div th:each="groupItem:${listData}" style="margin-bottom: 5px;width: 200px">
+                        <table class="gridtablestyle" style="width: 100%;">
+                            <tr style="width: 100%">
+                                <th th:text="${groupItem.dishBrandTypeEntity.name}"></th>
+                            </tr>
+                            <tr style="width: 100%" th:each="item:${groupItem.listType}">
+                                <td style="cursor: pointer">
+                                    <a th:id="${item.id}" th:href="@{/internal/dishShop/dishShopList(brandIdenty=${mDishShopModel.brandIdenty},shopIdenty=${mDishShopModel.shopIdenty},dishTypeId=${item.id})}" class="parent container" target="dish_iframe">
+                                        <img th:id="'img'+${item.id}" th:src="@{/images/point_defort_icon.png}" class="image_mini_size_style"><span th:text="${item.name}"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+
+            </ul>
+
+            <div class="select-tab" style="width: 100%; height: 100%">
+                <div style="display:block; width: 100%; height: 100%" class="tabs">
+
+                    <iframe id="dish_iframe" name="dish_iframe" th:src="@{/internal/dishShop/dishShopList(brandIdenty=${mDishShopModel.brandIdenty},shopIdenty=${mDishShopModel.shopIdenty},dishTypeId=${mDishShopModel.dishTypeId})}" width="100%" height="100%" style="border: 0px"></iframe>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+
+
+
+</body>
+</html>

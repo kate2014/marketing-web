@@ -45,4 +45,19 @@ public class DishBrandTypeServiceImpl extends ServiceImpl<DishBrandTypeMapper, D
         List<DishBrandTypeEntity> listData = selectList(eWrapper);
         return listData;
     }
+
+    @Override
+    public boolean addDishType(DishBrandTypeEntity mDishBrandTypeEntity) throws Exception {
+        return insert(mDishBrandTypeEntity);
+    }
+
+    @Override
+    public boolean modfityDishType(DishBrandTypeEntity mDishBrandTypeEntity) throws Exception {
+        return updateById(mDishBrandTypeEntity);
+    }
+
+    @Override
+    public boolean deleteDishType(Long typeId) throws Exception {
+        return deleteById(typeId);
+    }
 }

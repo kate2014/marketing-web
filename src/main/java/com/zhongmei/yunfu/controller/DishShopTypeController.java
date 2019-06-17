@@ -2,7 +2,6 @@ package com.zhongmei.yunfu.controller;
 
 import com.zhongmei.yunfu.controller.model.DishShopModel;
 import com.zhongmei.yunfu.domain.entity.DishBrandTypeEntity;
-import com.zhongmei.yunfu.domain.entity.DishShopEntity;
 import com.zhongmei.yunfu.service.*;
 import com.zhongmei.yunfu.util.ToolsUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +16,8 @@ import java.util.*;
  * 商品管理控制器
  */
 @Controller
-@RequestMapping("/internal/dishShop")
-public class DishShopController extends BaseController{
+@RequestMapping("/internal/dishShopType")
+public class DishShopTypeController extends BaseController{
 
     @Autowired
     DishShopService mDishShopService;
@@ -31,10 +30,19 @@ public class DishShopController extends BaseController{
     @Autowired
     DishSetmealGroupService mDishSetmealGroupService;
 
-    @RequestMapping("/dishShopMain")
-    public String dishShopList(Model model, DishShopModel mDishShopModel){
+    @RequestMapping("/dishShopMainPage")
+    public String dishShopMainPage(Model model, DishShopModel mDishShopModel) {
+
+        model.addAttribute("mDishShopModel", mDishShopModel);
+        model.addAttribute("dish_shop_manager", 1);//权限
+
+        return "dish_shop_main";
+
+    }
+
+    @RequestMapping("/dishGroup")
+    public String dishGroup(Model model, DishShopModel mDishShopModel){
         try {
-            //获取品项类别
             DishBrandTypeEntity mDishBrandTypeEntity = new DishBrandTypeEntity();
             mDishBrandTypeEntity.setBrandIdenty(mDishShopModel.getBrandIdenty());
             mDishBrandTypeEntity.setShopIdenty(mDishShopModel.getShopIdenty());
@@ -58,47 +66,25 @@ public class DishShopController extends BaseController{
                 }
             }
 
-            Long selectIndex = null;
-
             for(DishShopModel dishModel : listData){
                 DishBrandTypeEntity entity = dishModel.getDishBrandTypeEntity();
                 List<DishBrandTypeEntity> listChild = tempMap.get(entity.getId());
-                if(listChild != null && listChild.size()>0 && selectIndex == null){
-                    DishBrandTypeEntity childType = listChild.get(0);
-                    selectIndex = childType.getId();
-                }
                 dishModel.setListType(listChild);
             }
 
-            mDishShopModel.setDishTypeId(selectIndex);
+
             model.addAttribute("listData", listData);
             model.addAttribute("mDishShopModel", mDishShopModel);
-            return "dish_shop_manager";
+            return "dish_shop_group";
 
         }catch (Exception e){
             e.printStackTrace();
             return "fail";
         }
-    }
-
-    @RequestMapping("/dishShopList")
-    public String queryDishAction(Model model, DishShopModel mDishShopModel){
-        try {
-            DishShopEntity mDishShopEntity = new DishShopEntity();
-            mDishShopEntity.setShopIdenty(mDishShopModel.getShopIdenty());
-            mDishShopEntity.setBrandIdenty(mDishShopModel.getBrandIdenty());
-            mDishShopEntity.setDishTypeId(mDishShopModel.getDishTypeId());
-            List<DishShopEntity> listData = mDishShopService.queryAllDishShop(mDishShopEntity);
-            model.addAttribute("listDishData", listData);
-            return "dish_shop_list";
-        }catch (Exception e){
-            e.printStackTrace();
-            return "fail";
-        }
-
     }
 
     @RequestMapping("/modfityType")
+    @ResponseBody
     public String modfityType(Model model, DishShopModel mDishShopModel){
         String actionSuccess = "success";
         try {
@@ -112,21 +98,19 @@ public class DishShopController extends BaseController{
 
             boolean isSuccess = mDishBrandTypeService.modfityDishType(mDishBrandTypeEntity);
             if(isSuccess){
-                actionSuccess = "success";
+                return "success";
             }else {
-                actionSuccess = "fail";
+                return "fail";
             }
         }catch (Exception e){
             e.printStackTrace();
-            actionSuccess = "fail";
+            return "fail";
         }
-
-        return String.format("redirect:/internal/dishShop/dishGroup?brandIdenty=%d&shopIdenty=%d&creatorId=%d&creatorName=%s&successOrfail=%s",
-                mDishShopModel.getBrandIdenty(), mDishShopModel.getShopIdenty(), mDishShopModel.getCreatorId(), mDishShopModel.getCreatorName(),actionSuccess);
 
     }
 
     @RequestMapping("/addDishType")
+    @ResponseBody
     public String addDishType(Model model, DishShopModel mDishShopModel){
         String actionSuccess = "success";
         try {
@@ -149,21 +133,19 @@ public class DishShopController extends BaseController{
 
             boolean isSuccess = mDishBrandTypeService.addDishType(mDishBrandTypeEntity);
             if(isSuccess){
-                actionSuccess = "success";
+                return "success";
             }else {
-                actionSuccess = "fail";
+                return "fail";
             }
         }catch (Exception e){
             e.printStackTrace();
-            actionSuccess = "fail";
+            return "fail";
         }
-
-        return String.format("redirect:/internal/dishShop/dishGroup?brandIdenty=%d&shopIdenty=%d&creatorId=%d&creatorName=%s&successOrfail=%s",
-                mDishShopModel.getBrandIdenty(), mDishShopModel.getShopIdenty(), mDishShopModel.getCreatorId(), mDishShopModel.getCreatorName(),actionSuccess);
 
     }
 
     @RequestMapping("/deleteType")
+    @ResponseBody
     public String deleteType(Model model, DishShopModel mDishShopModel){
         try {
             boolean isSuccess = mDishBrandTypeService.deleteDishType(mDishShopModel.getDishTypeId());

@@ -30,4 +30,28 @@ public interface DishBrandTypeService extends IService<DishBrandTypeEntity> {
      * @throws Exception
      */
     List<DishBrandTypeEntity> queryDishType(DishBrandTypeEntity mDishBrandTypeEntity) throws Exception;
+
+    /**
+     * 添加类别
+     * @param mDishBrandTypeEntity
+     * @return
+     * @throws Exception
+     */
+    boolean addDishType(DishBrandTypeEntity mDishBrandTypeEntity) throws Exception;
+
+    /**
+     * 编辑类别
+     * @param mDishBrandTypeEntity
+     * @return
+     * @throws Exception
+     */
+    boolean modfityDishType(DishBrandTypeEntity mDishBrandTypeEntity) throws Exception;
+
+    /**
+     * 删除类别
+     * @param typeId
+     * @return
+     * @throws Exception
+     */
+    boolean deleteDishType(Long typeId) throws Exception;
 }

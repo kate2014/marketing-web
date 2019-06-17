@@ -22,25 +22,146 @@
     <link rel="stylesheet" th:href="@{/css/customer.css}" href="../static/css/customer.css" />
     <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}" src="../static/js/jquery-3.1.1.min.js" ></script>
     <script type="text/javascript" th:src="@{/js/base.js}" src="../static/js/base.js" ></script>
+    <script type="text/javascript" th:src="@{/js/window/window.ext.js}" src="../static/js/window/window.ext.js" ></script>
 
+    <!-- diglog -->
+    <script type="text/javascript" th:src="@{/js/diy_dialog.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/diy_dialog.css}" type="text/css" />
+
+    <link rel="stylesheet" th:href="@{/tips/jquery.toast.css}">
+    <script type="text/javascript" th:src="@{/tips/jquery.toast.js}"></script>
+    <script type="text/javascript" th:src="@{/tips/tips.js}"></script>
 </head>
 
 <script type="text/javascript">
-    function showOrCloseBatchDialog(type,source) {
 
-        if(type == 1){
+    //source:用于判断是一级还是二级分类  parentId:父一级Id  dishTypeId:当前编辑类别Id  typeCode:当前编辑类别编码  typeName:当前编辑类别名称
+    function showTypeDialog(source,parentId,dishTypeId,typeCode,typeName) {
+
             if(source == 1){
-                document.getElementById('dialogTitle').innerText = '新建一级类别';
+                document.getElementById('dialogTitle').innerText = '一级类别';
             }else if(source == 2){
-                document.getElementById('dialogTitle').innerText = '新建子类别';
+                document.getElementById('dialogTitle').innerText = '二级类别';
             }
 
+            document.getElementById('parentId').value = parentId;
+            document.getElementById('dishTypeId').value = dishTypeId;
+            document.getElementById('typeCode').value = typeCode;
+            document.getElementById('typeName').value = typeName;
 
             document.getElementById('batchDialog').style.display='block';
+    }
+
+    function addOrModfityDishType() {
+
+        var parentId = document.getElementById('parentId').value;
+        var dishTypeId = document.getElementById('dishTypeId').value;
+        var typeCode = document.getElementById('typeCode').value;
+        var typeName = document.getElementById('typeName').value;
+        var shopIdenty = document.getElementById('shopIdenty').value;
+        var brandIdenty = document.getElementById('brandIdenty').value;
+        var creatorId = document.getElementById('creatorId').value;
+        var creatorName = document.getElementById('creatorName').value;
+
+        if(typeName == '' || typeName == undefined || typeName == null){
+            warningTips("操作异常提示","分类名称不能为空！");
+        }else if(typeCode == '' || typeCode == undefined || typeCode == null){
+            warningTips("操作异常提示","分类编码不能为空！");
+        }else{
+
+            closeTypeDialog();
+            showLoading("正在保存数据，请稍后...");
+
+            var rquestUrl;
+            if(dishTypeId == null ||  dishTypeId == undefined || dishTypeId == ''){
+                rquestUrl = '[[${basePath}]]/internal/dishShopType/addDishType';
+            }else{
+                rquestUrl = '[[${basePath}]]/internal/dishShopType/modfityType';
+            }
+
+            $.ajax({
+                url: rquestUrl,
+                data: {
+                    parentId:parentId,
+                    dishTypeId:dishTypeId,
+                    typeCode:typeCode,
+                    typeName:typeName,
+                    shopIdenty:shopIdenty,
+                    brandIdenty:brandIdenty,
+                    creatorId:creatorId,
+                    creatorName:creatorName,
+                },
+                type: "post",
+                dataType: 'json',
+                error:function(xml){
+                    hideLoading();
+                    errorTips('操作失败','操作失败，请优先排查输入信息');
+
+
+                },
+                success: function (status) {
+                    hideLoading();
+                    if(status == "success"){
+                        successTips('操作成功','');
+                        location.reload();
+                    }else {
+                        errorTips('操作失败','操作失败，请优先排查输入信息');
+                    }
+
+                }
+
+            });
+
         }
-        else{
-            document.getElementById('batchDialog').style.display='none';
-        }
+
+
+    }
+
+    function closeTypeDialog() {
+        document.getElementById('batchDialog').style.display='none';
+    }
+
+    function checkDelete(deleteId, name){
+        var message = "请确认是否要删除: "+name+"?";
+        dialogBox(message,
+            function () {
+                showLoading("正在执行删除操作，请稍后...");
+                deleteRequest(deleteId);
+            },
+            function(){
+
+            }
+        );
+    }
+
+    function deleteRequest (deleteId) {
+
+        $.ajax({
+            url: '[[${basePath}]]/internal/dishShopType/deleteType',
+            data: {
+                dishTypeId:deleteId,
+            },
+            type: "post",
+            dataType: 'json',
+            error:function(xml){
+                hideLoading();
+                errorTips('操作失败','删除该条数据成功!');
+
+
+            },
+            success: function (status) {
+                hideLoading();
+                if(status == "success"){
+                    successTips('操作成功','删除该条数据成功!');
+                    location.reload();
+                }else {
+                    errorTips('操作失败','删除数据失败!');
+                }
+
+            }
+
+        });
+
     }
 </script>
 
@@ -49,38 +170,50 @@
 
 <div id="batchDialog" style="display: none">
 
-    <div style="background-color: rgba(204,204,204,0.5); width: 100%; position: absolute; height: 100%; z-index: 1;">
+        <input type="hidden" id="dishTypeId" name="dishTypeId">
+        <input type="hidden" id="parentId" name="parentId">
 
-        <div style="margin-top: 10px; background-color: #FFFFFF;width: 460px;height: 260px;opacity:1;margin-top: 10%;margin-left: 30%;border-style:solid;border-width:5px;border-color:#f8f8f8">
-            <div>
-                <div style="margin: 12px;width: 100%;" class="parent">
-                    <span id="dialogTitle" class="dialog_title_style" style="width: 100%"></span>
-                    <img th:src="@{/images/close.png}" src="../static/images/close.png" class="image_mini_size_style" style="margin-left: -43px;cursor: pointer" onclick="showOrCloseBatchDialog(0,'')">
+        <input type="hidden" id="shopIdenty" name="shopIdenty" th:value="${mDishShopModel.shopIdenty}">
+        <input type="hidden" id="brandIdenty" name="brandIdenty" th:value="${mDishShopModel.brandIdenty}">
+        <input type="hidden" id="creatorId" name="creatorId" th:value="${mDishShopModel.creatorId}">
+        <input type="hidden" id="creatorName" name="creatorName" th:value="${mDishShopModel.creatorName}">
+
+        <div style="background-color: rgba(204,204,204,0.5); width: 100%; position: absolute; height: 100%; z-index: 1;">
+
+            <div style="margin-top: 10px; background-color: #FFFFFF;width: 460px;height: 260px;opacity:1;margin-top: 10%;margin-left: 30%;border-style:solid;border-width:5px;border-color:#f8f8f8">
+                <div>
+                    <div style="margin: 12px;width: 100%;" class="parent">
+                        <span id="dialogTitle" class="dialog_title_style" style="width: 100%"></span>
+                        <img th:src="@{/images/close.png}" src="../static/images/close.png" class="image_mini_size_style" style="margin-left: -43px;cursor: pointer" onclick="closeTypeDialog()">
+                    </div>
+                    <div style="width: 100%;height: 1px;background-color: #e1e1e1"></div>
                 </div>
-                <div style="width: 100%;height: 1px;background-color: #e1e1e1"></div>
-            </div>
-            <div style="margin-top: 30px;width: 100%" class="parent_h container">
-                <label class="text_navigation" style="margin-right: 10px;">分类名称</label>
-                <input type="text" id="typeName" onkeyup="clearNoNum(this)" class="add_input_style">
+                <div style="margin-top: 30px;width: 100%" class="parent_h container">
+                    <span style="color: #FF6600;size: 12px">* &nbsp;</span>
+                    <label class="text_navigation" style="margin-right: 10px;">分类名称</label>
+                    <input type="text" id="typeName" name="typeName" maxlength="50" class="add_input_style">
 
-            </div>
-            <div style="margin-top: 15px;width: 100%" class="parent_h container">
-                <label class="text_navigation" style="margin-right: 10px;">分类编号</label>
-                <input type="text" id="typeCode" onkeyup="clearNoNum(this)" class="add_input_style">
+                </div>
+                <div style="margin-top: 15px;width: 100%" class="parent_h container">
+                    <span style="color: #FF6600;size: 12px">* &nbsp;</span>
+                    <label class="text_navigation" style="margin-right: 10px;">分类编号</label>
+                    <input type="text" id="typeCode" name="typeCode" maxlength="50" class="add_input_style">
 
-            </div>
-            <div style="margin-top: 30px" class="parent_h container">
-                <button class="gray_button_style" onclick="showOrCloseBatchDialog(0,'')">取消</button>
-                <button class="blue_button_style" onclick="submitBrachData()" style="margin-left: 15px">确定</button>
+                </div>
+                <div style="margin-top: 30px" class="parent_h container">
+                    <button class="gray_button_style" onclick="closeTypeDialog()">取消</button>
+                    <button class="blue_button_style" onclick="addOrModfityDishType()" style="margin-left: 15px">确定</button>
+                </div>
+
             </div>
 
         </div>
-
-    </div>
 </div>
 
+<div id="showDialog"></div>
+
 <div>
-    <button class="blue_button_style" style="margin-left: 3%;margin-top: 10px" onclick="showOrCloseBatchDialog(1,1)">+新建一级类别</button>
+    <button class="blue_button_style" style="margin-left: 3%;margin-top: 10px" onclick="showTypeDialog(1,'','','','','')">+新建一级类别</button>
 </div>
 
 
@@ -89,19 +222,31 @@
     <div th:each="groupItem:${listData}" style="margin-bottom: 20px;margin-top: 10px">
         <table class="gridtablestyle" style="width: 96%; vertical-align: middle;margin-top: 10px">
             <tr style="width: 100%">
-                <th width="25%" th:text="${groupItem.dishBrandTypeEntity.name}"></th>
+                <th width="30%" th:text="${groupItem.dishBrandTypeEntity.name}"></th>
                 <th>
-                    最近更新时间：<span th:text="${#dates.format(groupItem.dishBrandTypeEntity.serverUpdateTime, 'yyyy-MM-dd HH:mm:ss')}"></span>
+                    分类编码：<span th:text="${groupItem.dishBrandTypeEntity.typeCode}"></span>
                 </th>
-                <th><div class="parent container"><img th:src="@{/images/modfity_icon.png}" class="image_size_style">&nbsp;&nbsp;&nbsp;&nbsp;<img th:src="@{/images/delete_icon.png}" class="image_size_style"></div></th>
-                <th><button class="blue_button_style" th:id="${groupItem.dishBrandTypeEntity.id}" onclick="showOrCloseBatchDialog(1,2)">+新建子类别</button></th>
+                <th width="25%">
+                    <div class="parent container">
+                        <img th:src="@{/images/modfity_icon.png}" class="image_size_style" th:onclick="'javascript:showTypeDialog(1,\''+${groupItem.dishBrandTypeEntity.id}+'\',\''+${groupItem.dishBrandTypeEntity.id}+'\',\''+${groupItem.dishBrandTypeEntity.typeCode}+'\',\''+${groupItem.dishBrandTypeEntity.name}+'\')'" style="cursor: pointer">
+                        <img th:src="@{/images/delete_icon.png}" class="image_size_style" th:onclick="'javascript:checkDelete(\''+${groupItem.dishBrandTypeEntity.id}+'\',\''+${groupItem.dishBrandTypeEntity.name}+'\')'" style="cursor: pointer; margin-left: 15px">
+                    </div>
+                </th>
+                <th>
+                    <button class="blue_button_style" th:onclick="'javascript:showTypeDialog(2,\''+${groupItem.dishBrandTypeEntity.id}+'\',\'\',\'\',\'\')'">+新建二级类别</button>
+                </th>
             </tr>
             <tr th:each="item:${groupItem.listType}">
-                <td th:text="${item.name}"></td>
-                <td>
-                    最近更新时间：<span th:text="${#dates.format(item.serverUpdateTime, 'yyyy-MM-dd HH:mm:ss')}"></span>
+                <td width="30%"  th:text="${item.name}"></td>
+                <td width="25%">
+                    分类编码：<span th:text="${item.typeCode}"></span>
                 </td>
-                <td colspan="2"><div class="parent container"><img th:src="@{/images/modfity_icon.png}" class="image_size_style">&nbsp;&nbsp;&nbsp;&nbsp;<img th:src="@{/images/delete_icon.png}" class="image_size_style"></div></td>
+                <td colspan="2">
+                    <div class="parent container">
+                        <img th:src="@{/images/modfity_icon.png}" class="image_middle_size_style"  th:onclick="'javascript:showTypeDialog(1,\''+${item.parentId}+'\',\''+${item.id}+'\',\''+${item.typeCode}+'\',\''+${item.name}+'\')'"  style="cursor: pointer;">
+                        <img th:src="@{/images/delete_icon.png}" class="image_middle_size_style"  th:onclick="'javascript:checkDelete(\''+${item.id}+'\',\''+${item.name}+'\')'"  style="cursor: pointer; margin-left: 15px">
+                    </div>
+                </td>
             </tr>
         </table>
     </div>
