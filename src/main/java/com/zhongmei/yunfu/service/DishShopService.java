@@ -71,6 +71,13 @@ public interface DishShopService extends IService<DishShopEntity> {
     List<DishShopEntity> queryAllDishShop(DishShopEntity mDishShopEntity)throws Exception;
 
     /**
+     * 查收门店所有品项
+     * @param mDishShopEntity
+     * @return
+     * @throws Exception
+     */
+    Page<DishShopEntity> queryAllDishShop(DishShopEntity mDishShopEntity,int pageNo, int pageSize)throws Exception;
+    /**
      * 添加品项
      * @param mDishShopEntity
      * @return

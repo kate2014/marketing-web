@@ -1,5 +1,6 @@
 package com.zhongmei.yunfu.controller;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.zhongmei.yunfu.controller.model.DishShopModel;
 import com.zhongmei.yunfu.domain.entity.DishBrandTypeEntity;
 import com.zhongmei.yunfu.domain.entity.DishShopEntity;
@@ -88,8 +89,9 @@ public class DishShopController extends BaseController{
             mDishShopEntity.setShopIdenty(mDishShopModel.getShopIdenty());
             mDishShopEntity.setBrandIdenty(mDishShopModel.getBrandIdenty());
             mDishShopEntity.setDishTypeId(mDishShopModel.getDishTypeId());
-            List<DishShopEntity> listData = mDishShopService.queryAllDishShop(mDishShopEntity);
-            model.addAttribute("listDishData", listData);
+            Page<DishShopEntity> listData = mDishShopService.queryAllDishShop(mDishShopEntity,mDishShopModel.getPageNo(),mDishShopModel.getPageSize());
+            setWebPage(model, "/internal/dishShop/dishShopList", listData, mDishShopEntity);
+            model.addAttribute("listDishData", listData.getRecords());
             return "dish_shop_list";
         }catch (Exception e){
             e.printStackTrace();
@@ -98,24 +100,41 @@ public class DishShopController extends BaseController{
 
     }
 
-    @RequestMapping("/modfityType")
-    public String modfityType(Model model, DishShopModel mDishShopModel){
+    @RequestMapping("/intoAddDishMain")
+    public String intoAddDishMain(Model model, DishShopModel mDishShopModel){
+        model.addAttribute("mDishShopModel", mDishShopModel);
+        return "dish_shop_add_main";
+    }
+
+    /**
+     * 添加单品
+     * @param model
+     * @param mDishShopModel
+     * @return
+     */
+    @RequestMapping("/intoAddSingleDish")
+    public String intoAddSingleDish(Model model, DishShopModel mDishShopModel){
+        model.addAttribute("mDishShopModel", mDishShopModel);
+        return "dish_shop_add_single";
+    }
+
+    /**
+     * 添加套餐
+     * @param model
+     * @param mDishShopModel
+     * @return
+     */
+    @RequestMapping("/intoAddPackageDish")
+    public String intoAddPackageDish(Model model, DishShopModel mDishShopModel){
+        model.addAttribute("mDishShopModel", mDishShopModel);
+        return "dish_shop_add_package";
+    }
+
+    @RequestMapping("/addDishShop")
+    public String addDishShop(Model model, DishShopModel mDishShopModel){
         String actionSuccess = "success";
         try {
-            DishBrandTypeEntity mDishBrandTypeEntity = new DishBrandTypeEntity();
-            mDishBrandTypeEntity.setId(mDishShopModel.getDishTypeId());
-            mDishBrandTypeEntity.setTypeCode(mDishShopModel.getTypeCode());
-            mDishBrandTypeEntity.setName(mDishShopModel.getTypeName());
-            mDishBrandTypeEntity.setServerUpdateTime(new Date());
-            mDishBrandTypeEntity.setUpdatorId(mDishShopModel.getCreatorId());
-            mDishBrandTypeEntity.setUpdatorName(mDishShopModel.getCreatorName());
 
-            boolean isSuccess = mDishBrandTypeService.modfityDishType(mDishBrandTypeEntity);
-            if(isSuccess){
-                actionSuccess = "success";
-            }else {
-                actionSuccess = "fail";
-            }
         }catch (Exception e){
             e.printStackTrace();
             actionSuccess = "fail";
@@ -126,47 +145,10 @@ public class DishShopController extends BaseController{
 
     }
 
-    @RequestMapping("/addDishType")
-    public String addDishType(Model model, DishShopModel mDishShopModel){
-        String actionSuccess = "success";
-        try {
-            DishBrandTypeEntity mDishBrandTypeEntity = new DishBrandTypeEntity();
-            mDishBrandTypeEntity.setParentId(mDishShopModel.getParentId());
-            mDishBrandTypeEntity.setTypeCode(mDishShopModel.getTypeCode());
-            mDishBrandTypeEntity.setName(mDishShopModel.getTypeName());
-            mDishBrandTypeEntity.setAliasName("");
-            mDishBrandTypeEntity.setSort(1);//目前该字段未使用
-            mDishBrandTypeEntity.setOrder(1);
-            mDishBrandTypeEntity.setUuid(ToolsUtil.genOnlyIdentifier());
-            mDishBrandTypeEntity.setBrandIdenty(mDishShopModel.getBrandIdenty());
-            mDishBrandTypeEntity.setShopIdenty(mDishShopModel.getShopIdenty());
-            mDishBrandTypeEntity.setEnabledFlag(1);
-            mDishBrandTypeEntity.setStatusFlag(1);
-            mDishBrandTypeEntity.setCure(2);
-            mDishBrandTypeEntity.setServerUpdateTime(new Date());
-            mDishBrandTypeEntity.setUpdatorId(mDishShopModel.getCreatorId());
-            mDishBrandTypeEntity.setUpdatorName(mDishShopModel.getCreatorName());
-
-            boolean isSuccess = mDishBrandTypeService.addDishType(mDishBrandTypeEntity);
-            if(isSuccess){
-                actionSuccess = "success";
-            }else {
-                actionSuccess = "fail";
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-            actionSuccess = "fail";
-        }
-
-        return String.format("redirect:/internal/dishShop/dishGroup?brandIdenty=%d&shopIdenty=%d&creatorId=%d&creatorName=%s&successOrfail=%s",
-                mDishShopModel.getBrandIdenty(), mDishShopModel.getShopIdenty(), mDishShopModel.getCreatorId(), mDishShopModel.getCreatorName(),actionSuccess);
-
-    }
-
-    @RequestMapping("/deleteType")
+    @RequestMapping("/deleteDishShop")
     public String deleteType(Model model, DishShopModel mDishShopModel){
         try {
-            boolean isSuccess = mDishBrandTypeService.deleteDishType(mDishShopModel.getDishTypeId());
+            boolean isSuccess = mDishShopService.deleteDishShop(mDishShopModel.getDishShopId());
             if(isSuccess){
                 return "success";
             }else {

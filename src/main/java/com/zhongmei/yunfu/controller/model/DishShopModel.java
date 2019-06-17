@@ -9,6 +9,8 @@ public class DishShopModel extends WebBaseModel {
 
     private String keyWord;//查询关键字
 
+    private Long dishShopId;
+
     private Long dishTypeId;
 
     private String typeCode;
@@ -125,5 +127,13 @@ public class DishShopModel extends WebBaseModel {
 
     public void setParentId(Long parentId) {
         this.parentId = parentId;
+    }
+
+    public Long getDishShopId() {
+        return dishShopId;
+    }
+
+    public void setDishShopId(Long dishShopId) {
+        this.dishShopId = dishShopId;
     }
 }
