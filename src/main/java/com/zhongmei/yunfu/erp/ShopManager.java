@@ -313,6 +313,8 @@ public class ShopManager extends BaseController {
             checkPayModel.setCreatorName("系统初始化");
             checkPayModel.setUpdatorId(1l);
             checkPayModel.setUpdatorName("系统初始化");
+            checkPayModel.setServerCreateTime(new Date());
+            checkPayModel.setServerUpdateTime(new Date());
 
             isSuccess = mCommercialCustomSettingsService.installSetting(checkPayModel);
 
@@ -328,6 +330,8 @@ public class ShopManager extends BaseController {
             checkPassword.setCreatorName("系统初始化");
             checkPassword.setUpdatorId(1l);
             checkPassword.setUpdatorName("系统初始化");
+            checkPassword.setServerCreateTime(new Date());
+            checkPassword.setServerUpdateTime(new Date());
 
             isSuccess = mCommercialCustomSettingsService.installSetting(checkPassword);
 
