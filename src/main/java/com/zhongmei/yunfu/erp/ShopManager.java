@@ -36,6 +36,8 @@ public class ShopManager extends BaseController {
     AuthRoleService mAuthRoleService;
     @Autowired
     AuthPermissionService mAuthPermissionService;
+    @Autowired
+    CommercialCustomSettingsService mCommercialCustomSettingsService;
 
     @RequestMapping("/brandList")
     public String brandList(Model model, ERPBrandModel mERPBrandModel){
@@ -296,6 +298,38 @@ public class ShopManager extends BaseController {
             }
 
             isSuccess = mAuthRolePermissionService.insertBatchData(listARP);
+
+
+
+            //储值权益支付方式验证
+            CommercialCustomSettingsEntity checkPayModel = new CommercialCustomSettingsEntity();
+            checkPayModel.setBrandIdenty(mCommercialModel.getBrandId());
+            checkPayModel.setShopIdenty(mCommercialModel.getCommercialId());
+            checkPayModel.setType(1l);
+            checkPayModel.setStatusFlag(1);
+            checkPayModel.setSettingKey("IS_NEED_SAVE_PAYMENT");
+            checkPayModel.setSettingValue("1");
+            checkPayModel.setCreatorId(1l);
+            checkPayModel.setCreatorName("系统初始化");
+            checkPayModel.setUpdatorId(1l);
+            checkPayModel.setUpdatorName("系统初始化");
+
+            isSuccess = mCommercialCustomSettingsService.installSetting(checkPayModel);
+
+            //储值支付密码验证设置
+            CommercialCustomSettingsEntity checkPassword = new CommercialCustomSettingsEntity();
+            checkPassword.setBrandIdenty(mCommercialModel.getBrandId());
+            checkPassword.setShopIdenty(mCommercialModel.getCommercialId());
+            checkPassword.setType(1l);
+            checkPassword.setStatusFlag(1);
+            checkPassword.setSettingKey("IS_CKECK_PASSWORD_DOPAY");
+            checkPassword.setSettingValue("1");
+            checkPassword.setCreatorId(1l);
+            checkPassword.setCreatorName("系统初始化");
+            checkPassword.setUpdatorId(1l);
+            checkPassword.setUpdatorName("系统初始化");
+
+            isSuccess = mCommercialCustomSettingsService.installSetting(checkPassword);
 
             if(isSuccess){
                 mCommercialModel.setSuccessOrfail("success");
