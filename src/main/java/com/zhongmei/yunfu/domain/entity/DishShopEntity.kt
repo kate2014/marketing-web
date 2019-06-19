@@ -120,7 +120,7 @@ class DishShopEntity : BaseEntity() {
      */
     var isDiscountAll: Int? = null
     /**
-     * 来源：1  on_mind，2 on_mobile
+     * 来源：1  商家后台，2 on_mobile
      */
     var source: Int? = null
     /**

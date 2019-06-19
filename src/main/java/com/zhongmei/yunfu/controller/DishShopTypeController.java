@@ -16,7 +16,7 @@ import java.util.*;
  * 商品管理控制器
  */
 @Controller
-@RequestMapping("/internal/dishShopType")
+@RequestMapping("/dishShopType")
 public class DishShopTypeController extends BaseController{
 
     @Autowired

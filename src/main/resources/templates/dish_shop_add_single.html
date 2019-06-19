@@ -22,7 +22,7 @@
     <link rel="stylesheet" th:href="@{/css/customer.css}" href="../static/css/customer.css" />
     <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}" src="../static/js/jquery-3.1.1.min.js" ></script>
     <script type="text/javascript" th:src="@{/js/base.js}" src="../static/js/base.js" ></script>
-    <script type="text/javascript" th:src="@{/js/window/window.ext.js}" src="../static/js/window/window.ext.js" ></script>
+    <!--<script type="text/javascript" th:src="@{/js/window/window.ext.js}" src="../static/js/window/window.ext.js" ></script>-->
 
     <!-- diglog -->
     <script type="text/javascript" th:src="@{/js/diy_dialog.js}"></script>
@@ -35,123 +35,280 @@
 
 <script type="text/javascript">
 
-function addDishProduct() {
-    var addProductName = document.getElementById('addProductName').value.replace(/(^\s*)|(\s*$)/g, '');
-    var addProductPrice = document.getElementById('addProductPrice').value.replace(/(^\s*)|(\s*$)/g, '');
+    function addDishProduct() {
+        var addProductName = document.getElementById('addProductName').value.replace(/(^\s*)|(\s*$)/g, '');
+        var addProductPrice = document.getElementById('addProductPrice').value.replace(/(^\s*)|(\s*$)/g, '');
 
-    if(addProductName == '' || addProductName == undefined || addProductName == null){
-        warningTips("操作异常提示","加项名称不能为空");
-    }else if(addProductPrice == '' || addProductPrice == undefined || addProductPrice == null){
-        warningTips("操作异常提示","加项价格不能为空");
-    }else{
+        if(addProductName == '' || addProductName == undefined || addProductName == null){
+            warningTips("操作异常提示","加项名称不能为空");
+        }else if(addProductPrice == '' || addProductPrice == undefined || addProductPrice == null){
+            warningTips("操作异常提示","加项价格不能为空");
+        }else{
 
-        var tbody = document.getElementById('tbMain');
+            var tbody = document.getElementById('tbMain');
 
-        var row = document.createElement('tr'); //创建行  
+            var row = document.createElement('tr'); //创建行  
 
-        var nameCell = document.createElement('td'); //创建第一列id  
-        nameCell.innerHTML = addProductName;
-        nameCell.name='addProductName';
-        row.appendChild(nameCell); //加入行  ，下面类似  
+            var nameCell = document.createElement('td'); //创建第一列id  
 
-        var priceCell = document.createElement('td');//创建第二列name  
-        priceCell.innerHTML = addProductPrice;
-        priceCell.name='addProductPrice';
-        row.appendChild(priceCell);
+            //用于表单提交
+            var additionName = document.createElement('input')
+            additionName.type='hidden';
+            additionName.value = addProductName;
+            additionName.name = "additionName";
+            nameCell.appendChild(additionName);
+            //用于展示的lable
+            var showName = document.createElement('span')
+            showName.innerHTML = addProductName;
+            nameCell.appendChild(showName);
 
-        var delCell = document.createElement('td');
-        row.appendChild(delCell);
+            row.appendChild(nameCell); //加入行  ，下面类似  
 
-        var img=document.createElement("img");
-        img.src="../static/images/delete_icon.png";
-        img.className="image_middle_size_style";
-        img.style="cursor: pointer;margin-left: 43%";
+            var priceCell = document.createElement('td');//创建第二列name  
+            //用于表单提交
+            var additionPrice = document.createElement('input');
+            additionPrice.type='hidden';
+            additionPrice.value = addProductPrice;
+            additionPrice.name = "additionPrice";
+            priceCell.appendChild(additionPrice);
 
-        //删除操作  
-        img.onclick=function(){
-            this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);
+            //用于展示的lable
+            var showPrice = document.createElement('lable')
+            showPrice.innerHTML = addProductPrice;
+            priceCell.appendChild(showPrice);
+
+            row.appendChild(priceCell);
+
+            var delCell = document.createElement('td');
+            row.appendChild(delCell);
+
+            var img=document.createElement("img");
+            img.src="/marketing/images/delete_icon.png";
+            img.className="image_middle_size_style";
+            img.style="cursor: pointer;margin-left: 43%";
+
+            //删除操作  
+            img.onclick=function(){
+                this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);
+            }
+            delCell.appendChild(img);  //把删除按钮加入td
+
+            tbody.appendChild(row);
+
+            var addProductName = document.getElementById('addProductName').value = "";
+            var addProductPrice = document.getElementById('addProductPrice').value = "";
         }
-        delCell.appendChild(img);  //把删除按钮加入td
+    }
 
-        tbody.appendChild(row);
+    function saveSingleDish() {
+        var name = $('#name').val();
+        var dishCode = $('#dishCode').val();
+        var marketPrice = $('#marketPrice').val();
+        var unitName = $('#unitName').val();
+        var dishQty = $('#dishQty').val();
+
+        if(name == '' || name == undefined || name == null){
+            warningTips("操作异常提示","品项名称不能为空");
+        }else if(dishCode == '' || dishCode == undefined || dishCode == null){
+            warningTips("操作异常提示","品项编号不能为空");
+        }else if(marketPrice == '' || marketPrice == undefined || marketPrice == null){
+            warningTips("操作异常提示","品项销售价格不能为空");
+        }else if(unitName == '' || unitName == undefined || unitName == null){
+            warningTips("操作异常提示","品项单位不能为空");
+        }else if(dishQty == '' || dishQty == undefined || dishQty == null){
+            warningTips("操作异常提示","品项库存不能为空");
+        }else{
+            document.addform.submit();
+        }
+
+    }
+
+    function showPurchaseDialog() {
+        document.getElementById('batchDialog').style.display='block';
+    }
+
+    function closePurchaseDialog() {
+        document.getElementById('batchDialog').style.display='none';
     }
 
 
-}
+    function addPurchase() {
+
+        var supplierName = $('#selectSupplierId option:selected').text();
+        var supplierId = $('#selectSupplierId option:selected').val();
+        var supplierCount = $('#inputSupplierCount').val();
+        var supplierPrice = $('#intputSupplierPrice').val();
+
+        if(supplierId == '' || supplierId == undefined || supplierId == null){
+            warningTips("操作异常提示","请选择货源");
+        }else if(supplierCount == '' || supplierCount == undefined || supplierCount == null){
+            warningTips("操作异常提示","进货数量不能为空");
+        }else if(supplierPrice == '' || supplierPrice == undefined || supplierPrice == null){
+            warningTips("操作异常提示","进货价格不能为空");
+        }else{
+            $('#type').val(1);
+            $('#supplierId').val(supplierId);
+            $('#supplierName').val(supplierName);
+            $('#supplierCount').val(supplierCount);
+            $('#supplierPrice').val(supplierPrice);
+
+            var dishQty = Number($('#dishQty').val()) + Number(supplierCount);
+            $('#dishQty').val(dishQty);
+
+            closePurchaseDialog();
+        }
+
+    }
 
 </script>
 
 <body>
 
-<div style="margin: 10px;padding: 20px" class="modle_background_style">
-    <div class="parent">
-        <img th:src="@{/images/lable.jpg}" style="height: 25px; width: 4px">
-        <label class="text_navigation" style="margin-left: 10px; font-weight: bold">品项基本信息</label>
-    </div>
-    <div style="margin-top: 15px">
-        <label class="text_navigation" style="margin-left: 10px">品项名称</label>
-        <input class="add_input_style" placeholder="输入品项名称" style="margin-left: 5px" type="text"/>
-    </div>
-    <div style="margin-top: 15px">
-        <label class="text_navigation" style="margin-left: 10px">品项编码</label>
-        <input class="add_input_style" placeholder="输入品项编码" style="margin-left: 5px" type="text"/>
-    </div>
+<div id="batchDialog" style="display: none">
 
-    <div style="margin-top: 15px">
-        <label class="text_navigation" style="margin-left: 10px">售卖价格</label>
-        <input class="add_input_style" placeholder="输入售卖价格" style="margin-left: 5px" type="text"/>
-    </div>
+    <div style="background-color: rgba(204,204,204,0.5); width: 100%; position: absolute; height: 100%; z-index: 1;">
 
-    <div style="margin-top: 15px">
-        <label class="text_navigation" style="margin-left: 10px">品项单位</label>
-        <input class="add_input_style" placeholder="输入品项单位" style="margin-left: 5px" type="text"/>
-    </div>
+        <div style="margin-top: 10px; background-color: #FFFFFF;width: 40%;height: 300px;opacity:1;margin-top: 10%;margin-left: 30%;border-style:solid;border-width:5px;border-color:#f8f8f8">
+            <div>
+                <div style="margin: 12px;width: 100%;" class="parent">
+                    <span id="dialogTitle" class="dialog_title_style" style="width: 100%">进货信息</span>
+                    <img th:src="@{/images/close.png}" src="../static/images/close.png" class="image_mini_size_style" style="margin-left: -43px;cursor: pointer" onclick="closePurchaseDialog()">
+                </div>
+                <div style="width: 100%;height: 1px;background-color: #e1e1e1"></div>
+            </div>
+            <div style="margin-top: 30px;width: 100%" class="parent_h container">
+                <span style="color: #FF6600;size: 12px">* &nbsp;</span>
+                <label class="text_navigation" style="margin-right: 10px;">选择货源</label>
 
-    <div style="margin-top: 15px">
-        <label class="text_navigation" style="margin-left: 10px">库存数量</label>
-        <input class="add_input_style" placeholder="库存数量" style="margin-left: 5px" type="text"/>
-    </div>
+                <select class="add_input_style" id="selectSupplierId" name="supplierId" style="margin-left: 5px">
+                    <option value="">点击下拉选择对应货源</option>
+                    <option th:each="list:${listSupplier}" th:value="${list.id}" th:text="${list.name}"></option>
+                </select>
 
-    <div style="margin-top: 15px">
-        <label class="text_navigation" style="margin-left: 10px">库存数量</label>
-        <input class="add_input_style" placeholder="输入品项单位" style="margin-left: 5px" type="text"/>
-    </div>
+            </div>
+            <div style="margin-top: 15px;width: 100%" class="parent_h container">
+                <span style="color: #FF6600;size: 12px">* &nbsp;</span>
+                <label class="text_navigation" style="margin-right: 10px;">进货数量</label>
+                <input type="text" id="inputSupplierCount" onkeyup="clearNoNum(this)" name="inputSupplierCount" maxlength="50" class="add_input_style">
 
+            </div>
+            <div style="margin-top: 15px;width: 100%" class="parent_h container">
+                <span style="color: #FF6600;size: 12px">* &nbsp;</span>
+                <label class="text_navigation" style="margin-right: 10px;">进货价格</label>
+                <input type="text" id="intputSupplierPrice" onkeyup="clearNoNum(this)" name="intputSupplierPrice" maxlength="50" class="add_input_style">
+
+            </div>
+            <div style="margin-top: 30px" class="parent_h container">
+                <button class="gray_button_style" onclick="closePurchaseDialog()">取消</button>
+                <button class="blue_button_style" onclick="addPurchase()" style="margin-left: 15px">确定</button>
+            </div>
+
+        </div>
+
+    </div>
 </div>
 
-<div style="margin: 10px;padding: 20px" class="modle_background_style">
-    <div class="parent">
-        <img th:src="@{/images/lable.jpg}" style="height: 25px; width: 4px">
-        <label class="text_navigation" style="margin-left: 10px; font-weight: bold">品项加项</label>
+<div class="parent top_view_style" style="background-color: #FFFFFF">
+    <img th:src="@{/images/lable.jpg}" width="5" height="26" style="margin-left: 20px">
+    <label class="text_navigation" style="margin-left: 10px;width: 30%">单品添加</label>
+
+    <div align="right" style="width: 100%;margin-right: 50px">
+        <button class="gray_button_style" onclick="javascript :history.back(-1);" >返回</button>
+        <button class="blue_button_style" style="margin-left: 15px" onclick="saveSingleDish()">保存添加</button>
     </div>
-
-    <div align="center" style="margin-top: 10px;width: 700px">
-        <table class="gridtablestyle" style="width: 98%; vertical-align: middle">
-            <tr style="width: 100%">
-                <th width="50%">加项名称</th>
-                <th  width="30%">加项价格</th>
-                <th>操作</th>
-            </tr>
-            <tbody id="tbMain"></tbody>
-        </table>
-    </div>
-
-
-    <div style="margin-top: 15px">
-        <label class="text_navigation" style="margin-left: 10px">加项名称</label>
-        <input class="add_input_style" id="addProductName" placeholder="输入加项名称" style="margin-left: 5px" type="text"/>
-        <label class="text_navigation" style="margin-left: 10px">加项价格</label>
-        <input class="add_input_style" id="addProductPrice" placeholder="输入加项价格" style="margin-left: 5px" type="text"/>
-
-        <button class="blue_button_style" style="margin-left: 15px" onclick="addDishProduct()">保存加项</button>
-    </div>
-
 </div>
+
+
+<form method="post" name="addform" action="" th:action="@{/dishShop/addSingleDishShop}" th:object="${mDishShopModel}">
+
+    <input type="hidden" name="dishTypeId" th:value="${mDishShopModel.dishTypeId}">
+
+    <input type="hidden" id="type" name="type">
+    <input type="hidden" id="supplierId" name="supplierId">
+    <input type="hidden" id="supplierName" name="supplierName">
+    <input type="hidden" id="supplierCount" name="supplierCount">
+    <input type="hidden" id="supplierPrice" name="supplierPrice">
+
+
+    <div style="margin: 10px;padding: 20px" class="modle_background_style">
+        <div class="parent">
+            <img th:src="@{/images/lable.jpg}" style="height: 25px; width: 4px">
+            <label class="text_navigation" style="margin-left: 10px; font-weight: bold">品项基本信息</label>
+        </div>
+        <div style="margin-top: 15px">
+            <span style="color: #FF6600;size: 12px">* &nbsp;</span>
+            <label class="text_navigation" style="margin-left: 10px">品项名称</label>
+            <input class="add_input_style" id="name" name="name" placeholder="输入品项名称" style="margin-left: 5px" type="text"/>
+        </div>
+        <div style="margin-top: 15px">
+            <span style="color: #FF6600;size: 12px">* &nbsp;</span>
+            <label class="text_navigation" style="margin-left: 10px">品项编码</label>
+            <input class="add_input_style" id="dishCode" name="dishCode" placeholder="输入品项编码" style="margin-left: 5px" type="text"/>
+        </div>
+
+        <div style="margin-top: 15px">
+            <span style="color: #FF6600;size: 12px">* &nbsp;</span>
+            <label class="text_navigation" style="margin-left: 10px">售卖价格</label>
+            <input class="add_input_style" id="marketPrice" onkeyup="clearNoNum(this)" name="marketPrice" placeholder="输入售卖价格" style="margin-left: 5px" type="text"/>
+        </div>
+
+        <div style="margin-top: 15px">
+            <span style="color: #FF6600;size: 12px">* &nbsp;</span>
+            <label class="text_navigation" style="margin-left: 10px">品项单位</label>
+            <input class="add_input_style" id="unitName" name="unitName" placeholder="输入品项单位" style="margin-left: 5px" type="text"/>
+        </div>
+
+        <div style="margin-top: 15px" class="parent container">
+            <span style="color: #FF6600;size: 12px">* &nbsp;</span>
+            <label class="text_navigation" style="margin-left: 10px">进货信息</label>
+            <div onclick="showPurchaseDialog()" class="parent container" style="margin-left: 20px; cursor: pointer;background-color: #e8f2ff;padding-left: 10px;border-radius: 5px;">
+                <label class="text_navigation" style="color: #32b323">进货</label>
+                <img class="icon_style" src="../static/images/purchase_dish_icon.png" th:src="@{/images/purchase_dish_icon.png}">
+            </div>
+        </div>
+
+        <div style="margin-top: 15px">
+            <span style="color: #FF6600;size: 12px">* &nbsp;</span>
+            <label class="text_navigation" style="margin-left: 10px">库存数量</label>
+            <input class="add_input_style" readonly="readonly" id="dishQty" name="dishQty" placeholder="库存数量" style="margin-left: 5px" type="text"/>
+        </div>
+    </div>
+
+    <div style="margin: 10px;padding: 20px" class="modle_background_style">
+        <div class="parent">
+            <img th:src="@{/images/lable.jpg}" style="height: 25px; width: 4px">
+            <label class="text_navigation" style="margin-left: 10px; font-weight: bold">品项加项</label>
+        </div>
+
+        <div align="center" style="margin-top: 10px;width: 700px">
+            <table class="gridtablestyle" style="width: 98%; vertical-align: middle">
+                <tr style="width: 100%">
+                    <th width="50%">加项名称</th>
+                    <th  width="30%">加项价格</th>
+                    <th>操作</th>
+                </tr>
+                <tbody id="tbMain"></tbody>
+            </table>
+        </div>
+
+
+        <div style="margin-top: 15px" class="parent">
+            <label class="text_navigation" style="margin-left: 10px">加项名称</label>
+            <input class="add_input_style" id="addProductName" placeholder="输入加项名称" style="margin-left: 5px" type="text"/>
+            <label class="text_navigation" style="margin-left: 10px">加项价格</label>
+            <input class="add_input_style" id="addProductPrice" placeholder="输入加项价格" style="margin-left: 5px" type="text"/>
+
+            <div class="blue_button_style parent_h container" style="margin-left: 15px" onclick="addDishProduct()">新增加项</div>
+        </div>
+
+    </div>
+</form>
+
 
 <div align="center" style="margin: 20px;padding: 20px">
-    <button class="orange_button_style" th:onclick="@{|location='${basePath}/internal/dishShop/intoAddDishMain'|}">返回</button>
+    <button class="gray_button_style" onclick="javascript :history.back(-1);">返回</button>
 
-    <button class="blue_button_style" style="margin-left: 15px" th:onclick="@{|location='${basePath}/internal/dishShop/intoAddDishMain'|}">保存添加</button>
+    <button class="blue_button_style" style="margin-left: 15px" onclick="saveSingleDish()">保存添加</button>
 </div>
 
 </body>

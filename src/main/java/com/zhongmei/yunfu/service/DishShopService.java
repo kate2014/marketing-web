@@ -83,7 +83,7 @@ public interface DishShopService extends IService<DishShopEntity> {
      * @return
      * @throws Exception
      */
-    boolean addDishShop(DishShopEntity mDishShopEntity)throws Exception;
+    DishShopEntity addDishShop(DishShopEntity mDishShopEntity)throws Exception;
 
     /**
      * 修复品项
@@ -95,9 +95,17 @@ public interface DishShopService extends IService<DishShopEntity> {
 
     /**
      * 删除品项
-     * @param mDishShopEntity
+     * @param dishShopId
      * @return
      * @throws Exception
      */
-    boolean deleteDishShop(DishShopEntity mDishShopEntity)throws Exception;
+    boolean deleteDishShopData(Long dishShopId)throws Exception;
+
+    /**
+     * 根据品项id查询品项信息
+     * @param dishShopId
+     * @return
+     * @throws Exception
+     */
+    DishShopEntity queryDishShopById(Long dishShopId)throws Exception;
 }

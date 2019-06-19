@@ -152,6 +152,14 @@ div.parent_h {
     margin-right: 10px;
 }
 
+.icon_middle_style{
+    width: 16px;
+    height: 16px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border: 0px;
+}
+
 .tips_fail_text_style{
     font-size:23px;
     color: #a5a5a5;

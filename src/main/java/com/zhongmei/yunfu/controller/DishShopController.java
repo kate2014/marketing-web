@@ -2,8 +2,8 @@ package com.zhongmei.yunfu.controller;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.zhongmei.yunfu.controller.model.DishShopModel;
-import com.zhongmei.yunfu.domain.entity.DishBrandTypeEntity;
-import com.zhongmei.yunfu.domain.entity.DishShopEntity;
+import com.zhongmei.yunfu.domain.entity.*;
+import com.zhongmei.yunfu.domain.entity.base.SupperEntity;
 import com.zhongmei.yunfu.service.*;
 import com.zhongmei.yunfu.util.ToolsUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +12,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
  * 商品管理控制器
  */
 @Controller
-@RequestMapping("/internal/dishShop")
+@RequestMapping("/dishShop")
 public class DishShopController extends BaseController{
 
     @Autowired
@@ -31,6 +32,10 @@ public class DishShopController extends BaseController{
     DishSetmealService mDishSetmealService;
     @Autowired
     DishSetmealGroupService mDishSetmealGroupService;
+    @Autowired
+    SupplierService mSupplierService;
+    @Autowired
+    PurchaseAndSaleService mPurchaseAndSaleService;
 
     @RequestMapping("/dishShopMain")
     public String dishShopList(Model model, DishShopModel mDishShopModel){
@@ -85,13 +90,29 @@ public class DishShopController extends BaseController{
     @RequestMapping("/dishShopList")
     public String queryDishAction(Model model, DishShopModel mDishShopModel){
         try {
+            try {
+                Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
+                Long shopIdentity = LoginManager.get().getUser().getShopIdenty();
+
+                SupplierEntity mSupplierEntity = new SupplierEntity();
+                mSupplierEntity.setBrandIdenty(brandIdentity);
+                mSupplierEntity.setShopIdenty(shopIdentity);
+
+                List<SupplierEntity> listSupplier = mSupplierService.querySupplier(mSupplierEntity);
+                model.addAttribute("listSupplier", listSupplier);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+
             DishShopEntity mDishShopEntity = new DishShopEntity();
             mDishShopEntity.setShopIdenty(mDishShopModel.getShopIdenty());
             mDishShopEntity.setBrandIdenty(mDishShopModel.getBrandIdenty());
             mDishShopEntity.setDishTypeId(mDishShopModel.getDishTypeId());
             Page<DishShopEntity> listData = mDishShopService.queryAllDishShop(mDishShopEntity,mDishShopModel.getPageNo(),mDishShopModel.getPageSize());
-            setWebPage(model, "/internal/dishShop/dishShopList", listData, mDishShopEntity);
+            setWebPage(model, "/dishShop/dishShopList", listData, mDishShopEntity);
             model.addAttribute("listDishData", listData.getRecords());
+            model.addAttribute("mDishShopModel", mDishShopModel);
             return "dish_shop_list";
         }catch (Exception e){
             e.printStackTrace();
@@ -114,7 +135,22 @@ public class DishShopController extends BaseController{
      */
     @RequestMapping("/intoAddSingleDish")
     public String intoAddSingleDish(Model model, DishShopModel mDishShopModel){
+
         model.addAttribute("mDishShopModel", mDishShopModel);
+
+        try {
+            Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
+            Long shopIdentity = LoginManager.get().getUser().getShopIdenty();
+
+            SupplierEntity mSupplierEntity = new SupplierEntity();
+            mSupplierEntity.setBrandIdenty(brandIdentity);
+            mSupplierEntity.setShopIdenty(shopIdentity);
+
+            List<SupplierEntity> listSupplier = mSupplierService.querySupplier(mSupplierEntity);
+            model.addAttribute("listSupplier", listSupplier);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return "dish_shop_add_single";
     }
 
@@ -130,25 +166,133 @@ public class DishShopController extends BaseController{
         return "dish_shop_add_package";
     }
 
-    @RequestMapping("/addDishShop")
+    @RequestMapping("/addSingleDishShop")
     public String addDishShop(Model model, DishShopModel mDishShopModel){
         String actionSuccess = "success";
+        Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
+        Long shopIdentity = LoginManager.get().getUser().getShopIdenty();
+        Long creatorId = LoginManager.get().getUser().getCreatorId();
+        String creatorname = LoginManager.get().getUser().getCreatorName();
         try {
+
+            DishShopEntity mDishShopEntity = new DishShopEntity();
+            mDishShopEntity.setUuid(ToolsUtil.genOnlyIdentifier());
+            mDishShopEntity.setDishTypeId(mDishShopModel.getDishTypeId());
+            mDishShopEntity.setDishCode(mDishShopModel.getDishCode());
+            mDishShopEntity.setType(0);
+            mDishShopEntity.setName(mDishShopModel.getName());
+            mDishShopEntity.setUnitName(mDishShopModel.getUnitName());
+            mDishShopEntity.setMarketPrice(mDishShopModel.getMarketPrice());
+            mDishShopEntity.setDishIncreaseUnit(BigDecimal.ONE);
+            mDishShopEntity.setSingle(1);
+            mDishShopEntity.setDiscountAll(1);
+            mDishShopEntity.setSource(1);
+            mDishShopEntity.setSendOutside(1);
+            mDishShopEntity.setOrder(1);
+            mDishShopEntity.setDefProperty(1);
+            mDishShopEntity.setStepNum(BigDecimal.ONE);
+            mDishShopEntity.setDishQty(mDishShopModel.getDishQty());
+//            mDishShopEntity.setMinNum();
+//            mDishShopEntity.setMaxNum();
+            mDishShopEntity.setClearStatus(1);
+            Date currentDate = new Date();
+            mDishShopEntity.setValidTime(currentDate);
+            mDishShopEntity.setUnvalidTime(currentDate);
+            mDishShopEntity.setScene("100");
+            mDishShopEntity.setSort(1);
+            mDishShopEntity.setBrandIdenty(brandIdentity);
+            mDishShopEntity.setShopIdenty(shopIdentity);
+            mDishShopEntity.setCreatorId(creatorId);
+            mDishShopEntity.setCreatorName(creatorname);
+            mDishShopEntity.setServerCreateTime(currentDate);
+            mDishShopEntity.setUpdatorId(creatorId);
+            mDishShopEntity.setUpdatorName(creatorname);
+            mDishShopEntity.setServerUpdateTime(currentDate);
+            mDishShopEntity.setStatusFlag(1);
+            mDishShopEntity.setEnabledFlag(1);
+            mDishShopEntity.setBrandDishId(1l);
+            mDishShopEntity.setBrandDishUuid(ToolsUtil.genOnlyIdentifier());
+
+            mDishShopService.addDishShop(mDishShopEntity);
+
+            List<DishPropertyEntity> listData = new ArrayList<>();
+            LinkedList<String> listAdditionName = mDishShopModel.getAdditionName();
+            LinkedList<String> listAdditionPrice = mDishShopModel.getAdditionPrice();
+            if(listAdditionName != null){
+                for(int i =0; i<listAdditionName.size();i++){
+                    String additionName = listAdditionName.get(i);
+                    String additionPrice = listAdditionPrice.get(i);
+
+                    DishPropertyEntity mDishPropertyEntity = new DishPropertyEntity();
+                    mDishPropertyEntity.setUuid(ToolsUtil.genOnlyIdentifier());
+                    mDishPropertyEntity.setPropertyTypeId(0l);
+                    mDishPropertyEntity.setName(additionName);
+                    mDishPropertyEntity.setReprice(new BigDecimal(additionPrice));
+                    mDishPropertyEntity.setPropertyKind(1);
+                    mDishPropertyEntity.setSort(1);
+                    mDishPropertyEntity.setDishShopId(mDishShopEntity.getId());
+                    mDishPropertyEntity.setBrandIdenty(brandIdentity);
+                    mDishPropertyEntity.setShopIdenty(shopIdentity);
+                    mDishPropertyEntity.setCreatorId(creatorId);
+                    mDishPropertyEntity.setCreatorName(creatorname);
+                    mDishPropertyEntity.setServerCreateTime(currentDate);
+                    mDishPropertyEntity.setUpdatorId(creatorId);
+                    mDishPropertyEntity.setUpdatorName(creatorname);
+                    mDishPropertyEntity.setServerUpdateTime(currentDate);
+
+                    listData.add(mDishPropertyEntity);
+                }
+            }
+
+            if(listData != null && listData.size() > 0){
+                mDishPropertyService.batchAddDishProperty(listData);
+            }
+
+            PurchaseAndSaleEntity mPurchaseAndSaleEntity = new PurchaseAndSaleEntity();
+            mPurchaseAndSaleEntity.setBrandIdenty(brandIdentity);
+            mPurchaseAndSaleEntity.setShopIdenty(shopIdentity);
+            mPurchaseAndSaleEntity.setType(1);
+            mPurchaseAndSaleEntity.setSourceId(mDishShopModel.getSupplierId());
+            mPurchaseAndSaleEntity.setSourceName(mDishShopModel.getSupplierName());
+            mPurchaseAndSaleEntity.setDishShopId(mDishShopEntity.getId());
+            mPurchaseAndSaleEntity.setNumber(mDishShopModel.getSupplierCount());
+            mPurchaseAndSaleEntity.setPurchasePrice(mDishShopModel.getSupplierPrice());
+            mPurchaseAndSaleEntity.setTotalPurchasePrice(mDishShopModel.getSupplierCount().multiply(mDishShopModel.getSupplierPrice()));
+            mPurchaseAndSaleEntity.setServerCreateTime(new Date());
+            mPurchaseAndSaleEntity.setCreatorId(creatorId);
+            mPurchaseAndSaleEntity.setCreatorName(creatorname);
+            mPurchaseAndSaleEntity.setUpdatorId(creatorId);
+            mPurchaseAndSaleEntity.setUpdatorName(creatorname);
+            mPurchaseAndSaleEntity.setServerUpdateTime(new Date());
+
+            mPurchaseAndSaleService.addPurchaseAndSale(mPurchaseAndSaleEntity);
 
         }catch (Exception e){
             e.printStackTrace();
             actionSuccess = "fail";
         }
-
-        return String.format("redirect:/internal/dishShop/dishGroup?brandIdenty=%d&shopIdenty=%d&creatorId=%d&creatorName=%s&successOrfail=%s",
-                mDishShopModel.getBrandIdenty(), mDishShopModel.getShopIdenty(), mDishShopModel.getCreatorId(), mDishShopModel.getCreatorName(),actionSuccess);
+        return String.format("redirect:/dishShop/dishShopList?brandIdenty=%d&shopIdenty=%d&creatorId=%d&creatorName=%s&dishTypeId=%d&successOrfail=%s",
+                brandIdentity, shopIdentity, creatorId, creatorname,mDishShopModel.getDishTypeId(),actionSuccess);
 
     }
 
     @RequestMapping("/deleteDishShop")
     public String deleteType(Model model, DishShopModel mDishShopModel){
         try {
-            boolean isSuccess = mDishShopService.deleteDishShop(mDishShopModel.getDishShopId());
+
+            Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
+            Long shopIdentity = LoginManager.get().getUser().getShopIdenty();
+
+            boolean isSuccess = mDishShopService.deleteDishShopData(mDishShopModel.getDishShopId());
+
+            if(mDishShopModel.getType() == 0){
+                //删除单品加项
+                mDishPropertyService.deletePropertyByDishId(brandIdentity,shopIdentity,mDishShopModel.getDishShopId());
+            }else if(mDishShopModel.getType() == 1){
+                //删除套餐子项
+            }
+
+
             if(isSuccess){
                 return "success";
             }else {
@@ -159,6 +303,152 @@ public class DishShopController extends BaseController{
             return "fail";
         }
 
+    }
+
+    @RequestMapping("/modiftyPurchase")
+    public String modiftyPurchase(Model model, DishShopModel mDishShopModel){
+        Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
+        Long shopIdentity = LoginManager.get().getUser().getShopIdenty();
+        Long creatorId = LoginManager.get().getUser().getCreatorId();
+        String creatorname = LoginManager.get().getUser().getCreatorName();
+        String actionSuccess = "success";
+
+        try {
+
+            addPurchase(mDishShopModel);
+            //修改产品库存
+            DishShopEntity mDishShopEntity = new DishShopEntity();
+            mDishShopEntity.setId(mDishShopModel.getDishShopId());
+
+            DishShopEntity entity = mDishShopService.queryDishShopById(mDishShopModel.getDishShopId());
+            if(entity.getDishQty() == null){
+                entity.setDishQty(BigDecimal.ZERO);
+            }
+            if(mDishShopModel.getSupplierCount() != null){
+                mDishShopEntity.setDishQty(entity.getDishQty().add(mDishShopModel.getSupplierCount()));
+            }
+
+
+            mDishShopEntity.setUpdatorId(creatorId);
+            mDishShopEntity.setUpdatorName(creatorname);
+            mDishShopEntity.setServerUpdateTime(new Date());
+            mDishShopService.modfityDishShop(mDishShopEntity);
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+            actionSuccess = "fail";
+        }
+
+        return String.format("redirect:/dishShop/dishShopList?brandIdenty=%d&shopIdenty=%d&creatorId=%d&creatorName=%s&dishTypeId=%d&successOrfail=%s",
+                brandIdentity, shopIdentity, creatorId, creatorname,mDishShopModel.getDishTypeId(),actionSuccess);
+
+    }
+
+    @RequestMapping("/modfitySales")
+    public String modfitySales(Model model, DishShopModel mDishShopModel){
+        Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
+        Long shopIdentity = LoginManager.get().getUser().getShopIdenty();
+        Long creatorId = LoginManager.get().getUser().getCreatorId();
+        String creatorname = LoginManager.get().getUser().getCreatorName();
+        String actionSuccess = "success";
+
+        try {
+
+
+            addSales(mDishShopModel);
+            //修改产品库存
+            DishShopEntity mDishShopEntity = new DishShopEntity();
+            mDishShopEntity.setId(mDishShopModel.getSalesDishShopId());
+
+            DishShopEntity entity = mDishShopService.queryDishShopById(mDishShopModel.getSalesDishShopId());
+            if(entity.getDishQty() == null){
+                entity.setDishQty(BigDecimal.ZERO);
+            }
+            if(mDishShopModel.getSalesSupplierCount() != null){
+                mDishShopEntity.setDishQty(entity.getDishQty().subtract(mDishShopModel.getSalesSupplierCount()));
+            }
+
+            mDishShopEntity.setUpdatorId(creatorId);
+            mDishShopEntity.setUpdatorName(creatorname);
+            mDishShopEntity.setServerUpdateTime(new Date());
+            mDishShopService.modfityDishShop(mDishShopEntity);
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+            actionSuccess = "fail";
+        }
+
+        return String.format("redirect:/dishShop/dishShopList?brandIdenty=%d&shopIdenty=%d&creatorId=%d&creatorName=%s&dishTypeId=%d&successOrfail=%s",
+                brandIdentity, shopIdentity, creatorId, creatorname,mDishShopModel.getSalesDishTypeId(),actionSuccess);
+    }
+
+    /**
+     * 新增进货、销货数据信息
+     * @param mDishShopModel
+     * @return
+     * @throws Exception
+     */
+    public boolean addPurchase(DishShopModel mDishShopModel)throws Exception{
+        Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
+        Long shopIdentity = LoginManager.get().getUser().getShopIdenty();
+        Long creatorId = LoginManager.get().getUser().getCreatorId();
+        String creatorname = LoginManager.get().getUser().getCreatorName();
+        PurchaseAndSaleEntity mPurchaseAndSaleEntity = new PurchaseAndSaleEntity();
+        mPurchaseAndSaleEntity.setBrandIdenty(brandIdentity);
+        mPurchaseAndSaleEntity.setShopIdenty(shopIdentity);
+        mPurchaseAndSaleEntity.setType(1);
+        mPurchaseAndSaleEntity.setSourceId(mDishShopModel.getSupplierId());
+        mPurchaseAndSaleEntity.setSourceName(mDishShopModel.getSupplierName());
+        mPurchaseAndSaleEntity.setDishShopId(mDishShopModel.getDishShopId());
+        mPurchaseAndSaleEntity.setNumber(mDishShopModel.getSupplierCount());
+        mPurchaseAndSaleEntity.setPurchasePrice(mDishShopModel.getSupplierPrice());
+
+        if(mDishShopModel.getDishQty() == null){
+            mDishShopModel.setDishQty(BigDecimal.ZERO);
+        }
+
+        if(mDishShopModel.getSupplierCount() != null){
+            mPurchaseAndSaleEntity.setTotalPurchasePrice(mDishShopModel.getDishQty().multiply(mDishShopModel.getSupplierPrice()));
+        }
+
+        mPurchaseAndSaleEntity.setServerCreateTime(new Date());
+        mPurchaseAndSaleEntity.setCreatorId(creatorId);
+        mPurchaseAndSaleEntity.setCreatorName(creatorname);
+        mPurchaseAndSaleEntity.setUpdatorId(creatorId);
+        mPurchaseAndSaleEntity.setUpdatorName(creatorname);
+        mPurchaseAndSaleEntity.setServerUpdateTime(new Date());
+        return mPurchaseAndSaleService.addPurchaseAndSale(mPurchaseAndSaleEntity);
+    }
+
+    /**
+     * 新增进货、销货数据信息
+     * @param mDishShopModel
+     * @return
+     * @throws Exception
+     */
+    public boolean addSales(DishShopModel mDishShopModel)throws Exception{
+        Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
+        Long shopIdentity = LoginManager.get().getUser().getShopIdenty();
+        Long creatorId = LoginManager.get().getUser().getCreatorId();
+        String creatorname = LoginManager.get().getUser().getCreatorName();
+        PurchaseAndSaleEntity mPurchaseAndSaleEntity = new PurchaseAndSaleEntity();
+        mPurchaseAndSaleEntity.setBrandIdenty(brandIdentity);
+        mPurchaseAndSaleEntity.setShopIdenty(shopIdentity);
+        mPurchaseAndSaleEntity.setType(2);
+        mPurchaseAndSaleEntity.setSourceId(mDishShopModel.getSupplierId());
+        mPurchaseAndSaleEntity.setSourceName(mDishShopModel.getSupplierName());
+        mPurchaseAndSaleEntity.setDishShopId(mDishShopModel.getSalesDishShopId());
+        mPurchaseAndSaleEntity.setNumber(mDishShopModel.getSalesSupplierCount());
+
+        mPurchaseAndSaleEntity.setServerCreateTime(new Date());
+        mPurchaseAndSaleEntity.setCreatorId(creatorId);
+        mPurchaseAndSaleEntity.setCreatorName(creatorname);
+        mPurchaseAndSaleEntity.setUpdatorId(creatorId);
+        mPurchaseAndSaleEntity.setUpdatorName(creatorname);
+        mPurchaseAndSaleEntity.setServerUpdateTime(new Date());
+        return mPurchaseAndSaleService.addPurchaseAndSale(mPurchaseAndSaleEntity);
     }
 
 }

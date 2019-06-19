@@ -83,7 +83,7 @@
                             </tr>
                             <tr style="width: 100%" th:each="item:${groupItem.listType}">
                                 <td style="cursor: pointer">
-                                    <a th:id="${item.id}" th:href="@{/internal/dishShop/dishShopList(brandIdenty=${mDishShopModel.brandIdenty},shopIdenty=${mDishShopModel.shopIdenty},dishTypeId=${item.id})}" class="parent container" target="dish_iframe">
+                                    <a th:id="${item.id}" th:href="@{/dishShop/dishShopList(brandIdenty=${mDishShopModel.brandIdenty},shopIdenty=${mDishShopModel.shopIdenty},dishTypeId=${item.id})}" class="parent container" target="dish_iframe">
                                         <img th:id="'img'+${item.id}" th:src="@{/images/point_defort_icon.png}" class="image_mini_size_style"><span th:text="${item.name}"></span>
                                     </a>
                                 </td>
@@ -98,7 +98,7 @@
             <div class="select-tab" style="width: 100%; height: 100%">
                 <div style="display:block; width: 100%; height: 100%" class="tabs">
 
-                    <iframe id="dish_iframe" name="dish_iframe" th:src="@{/internal/dishShop/dishShopList(brandIdenty=${mDishShopModel.brandIdenty},shopIdenty=${mDishShopModel.shopIdenty},dishTypeId=${mDishShopModel.dishTypeId})}" width="100%" height="100%" style="border: 0px"></iframe>
+                    <iframe id="dish_iframe" name="dish_iframe" th:src="@{/dishShop/dishShopList(brandIdenty=${mDishShopModel.brandIdenty},shopIdenty=${mDishShopModel.shopIdenty},dishTypeId=${mDishShopModel.dishTypeId})}" width="100%" height="100%" style="border: 0px"></iframe>
                 </div>
             </div>
 

@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.annotations.TableName
 import com.zhongmei.yunfu.domain.entity.base.BaseEntity;
 
 @TableName("purchase_and_sale")
-class PurchaseAndSaleEntity{
+class PurchaseAndSaleEntity : BaseEntity(){
 
     /**
      * 服务端自增ID
@@ -51,9 +51,6 @@ class PurchaseAndSaleEntity{
      * 门店标识
      */
     var shopIdenty: Long? = null
-
-    var serverCreateTime: Date? = null
-
 
     override fun toString(): String {
         return "PurchaseAndSaleEntity{" +

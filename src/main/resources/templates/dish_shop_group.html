@@ -74,9 +74,9 @@
 
             var rquestUrl;
             if(dishTypeId == null ||  dishTypeId == undefined || dishTypeId == ''){
-                rquestUrl = '[[${basePath}]]/internal/dishShopType/addDishType';
+                rquestUrl = '[[${basePath}]]/dishShopType/addDishType';
             }else{
-                rquestUrl = '[[${basePath}]]/internal/dishShopType/modfityType';
+                rquestUrl = '[[${basePath}]]/dishShopType/modfityType';
             }
 
             $.ajax({
@@ -137,7 +137,7 @@
     function deleteRequest (deleteId) {
 
         $.ajax({
-            url: '[[${basePath}]]/internal/dishShopType/deleteType',
+            url: '[[${basePath}]]/dishShopType/deleteType',
             data: {
                 dishTypeId:deleteId,
             },
