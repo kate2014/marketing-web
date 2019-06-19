@@ -40,4 +40,15 @@ public class DishPropertyServiceImpl extends ServiceImpl<DishPropertyMapper, Dis
 
         return delete(eWrapper);
     }
+
+    @Override
+    public List<DishPropertyEntity> queryPropertyByDishId(Long brandIdenty,Long shopIdenty,Long dishId) throws Exception {
+        EntityWrapper<DishPropertyEntity> eWrapper = new EntityWrapper<>(new DishPropertyEntity());
+        eWrapper.eq("brand_identy",brandIdenty);
+        eWrapper.eq("shop_identy",shopIdenty);
+        eWrapper.eq("dish_shop_id",dishId);
+        eWrapper.eq("status_flag",1);
+        List<DishPropertyEntity> listData = selectList(eWrapper);
+        return listData;
+    }
 }

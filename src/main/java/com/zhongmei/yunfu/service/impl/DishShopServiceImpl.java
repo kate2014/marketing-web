@@ -275,6 +275,12 @@ public class DishShopServiceImpl extends ServiceImpl<DishShopMapper, DishShopEnt
     }
 
     @Override
+    public DishShopEntity addOrUpdateDishShop(DishShopEntity mDishShopEntity) throws Exception {
+        insertOrUpdate(mDishShopEntity);
+        return mDishShopEntity;
+    }
+
+    @Override
     public boolean modfityDishShop(DishShopEntity mDishShopEntity) throws Exception {
 
         return updateById(mDishShopEntity);

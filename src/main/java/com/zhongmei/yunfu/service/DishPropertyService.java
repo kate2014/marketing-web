@@ -38,4 +38,13 @@ public interface DishPropertyService extends IService<DishPropertyEntity> {
      * @throws Exception
      */
     boolean deletePropertyByDishId(Long brandIdenty,Long shopIdenty,Long dishId)throws Exception;
+
+    /**
+     * 获取商品的所有加项
+     * @param dishId
+     * @return
+     * @throws Exception
+     */
+    List<DishPropertyEntity> queryPropertyByDishId(Long brandIdenty,Long shopIdenty,Long dishId)throws Exception;
+
 }

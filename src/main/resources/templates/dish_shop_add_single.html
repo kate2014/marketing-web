@@ -160,6 +160,25 @@
 
     }
 
+
+    function delRow(obj, removeRow) {
+        var tr = this.getRowObj(obj);
+        if (tr != null) {
+            tr.parentNode.removeChild(tr);
+        } else {
+            throw new Error("the given object is not contained by the table");
+        }
+    }
+    function getRowObj(obj) {
+        var i = 0;
+        while (obj.tagName.toLowerCase() != "tr") {
+            obj = obj.parentNode;
+            if (obj.tagName.toLowerCase() == "table")
+                return null;
+        }
+        return obj;
+    }
+
 </script>
 
 <body>
@@ -219,9 +238,10 @@
 </div>
 
 
-<form method="post" name="addform" action="" th:action="@{/dishShop/addSingleDishShop}" th:object="${mDishShopModel}">
+<form method="post" name="addform" action="" th:action="@{/dishShop/addOrUpdateSingleDishShop}" th:object="${mDishShopModel}">
 
     <input type="hidden" name="dishTypeId" th:value="${mDishShopModel.dishTypeId}">
+    <input type="hidden" name="dishShopId" th:value="${mDishShopModel.dishShopId}">
 
     <input type="hidden" id="type" name="type">
     <input type="hidden" id="supplierId" name="supplierId">
@@ -238,24 +258,24 @@
         <div style="margin-top: 15px">
             <span style="color: #FF6600;size: 12px">* &nbsp;</span>
             <label class="text_navigation" style="margin-left: 10px">品项名称</label>
-            <input class="add_input_style" id="name" name="name" placeholder="输入品项名称" style="margin-left: 5px" type="text"/>
+            <input class="add_input_style" id="name" name="name" th:value="${mDishShopEntity.name}" placeholder="输入品项名称" style="margin-left: 5px" type="text"/>
         </div>
         <div style="margin-top: 15px">
             <span style="color: #FF6600;size: 12px">* &nbsp;</span>
             <label class="text_navigation" style="margin-left: 10px">品项编码</label>
-            <input class="add_input_style" id="dishCode" name="dishCode" placeholder="输入品项编码" style="margin-left: 5px" type="text"/>
+            <input class="add_input_style" id="dishCode" name="dishCode" th:value="${mDishShopEntity.dishCode}" placeholder="输入品项编码" style="margin-left: 5px" type="text"/>
         </div>
 
         <div style="margin-top: 15px">
             <span style="color: #FF6600;size: 12px">* &nbsp;</span>
             <label class="text_navigation" style="margin-left: 10px">售卖价格</label>
-            <input class="add_input_style" id="marketPrice" onkeyup="clearNoNum(this)" name="marketPrice" placeholder="输入售卖价格" style="margin-left: 5px" type="text"/>
+            <input class="add_input_style" id="marketPrice" th:value="${mDishShopEntity.marketPrice}" onkeyup="clearNoNum(this)" name="marketPrice" placeholder="输入售卖价格" style="margin-left: 5px" type="text"/>
         </div>
 
         <div style="margin-top: 15px">
             <span style="color: #FF6600;size: 12px">* &nbsp;</span>
             <label class="text_navigation" style="margin-left: 10px">品项单位</label>
-            <input class="add_input_style" id="unitName" name="unitName" placeholder="输入品项单位" style="margin-left: 5px" type="text"/>
+            <input class="add_input_style" id="unitName" name="unitName" th:value="${mDishShopEntity.unitName}" placeholder="输入品项单位" style="margin-left: 5px" type="text"/>
         </div>
 
         <div style="margin-top: 15px" class="parent container">
@@ -270,7 +290,7 @@
         <div style="margin-top: 15px">
             <span style="color: #FF6600;size: 12px">* &nbsp;</span>
             <label class="text_navigation" style="margin-left: 10px">库存数量</label>
-            <input class="add_input_style" readonly="readonly" id="dishQty" name="dishQty" placeholder="库存数量" style="margin-left: 5px" type="text"/>
+            <input class="add_input_style" readonly="readonly" id="dishQty" name="dishQty" th:value="${mDishShopEntity.dishQty}" placeholder="库存数量" style="margin-left: 5px" type="text"/>
         </div>
     </div>
 
@@ -286,6 +306,13 @@
                     <th width="50%">加项名称</th>
                     <th  width="30%">加项价格</th>
                     <th>操作</th>
+                </tr>
+                <tr th:each="item:${listProperty}">
+                    <td th:text="${item.name}"><input type="hidden" name="additionName" id="additionName" th:value="${item.name}"></td>
+                    <td th:text="${item.reprice}"><input type="hidden" name="additionPrice" id="additionPrice" th:value="${item.reprice}"></td>
+                    <td align="center">
+                        <img style="cursor: pointer;margin-left: 43%" class="image_middle_size_style" th:src="@{/images/delete_icon.png}" onclick="delRow(this)">
+                    </td>
                 </tr>
                 <tbody id="tbMain"></tbody>
             </table>

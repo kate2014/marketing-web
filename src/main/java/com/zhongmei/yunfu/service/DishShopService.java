@@ -86,6 +86,14 @@ public interface DishShopService extends IService<DishShopEntity> {
     DishShopEntity addDishShop(DishShopEntity mDishShopEntity)throws Exception;
 
     /**
+     * 新增和更新商品数据
+     * @param mDishShopEntity
+     * @return
+     * @throws Exception
+     */
+    DishShopEntity addOrUpdateDishShop(DishShopEntity mDishShopEntity)throws Exception;
+
+    /**
      * 修复品项
      * @param mDishShopEntity
      * @return

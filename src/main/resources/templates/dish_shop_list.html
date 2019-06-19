@@ -65,7 +65,7 @@
 
     }
 
-    $(function() {
+    function onloadTips() {
         var successOrfail = document.getElementById("successOrfail").value;
         if(successOrfail != '' && successOrfail != undefined && successOrfail != null){
             if(successOrfail == "success"){
@@ -74,7 +74,7 @@
                 errorTips('操作失败','品项新增失败，请优先排查输入信息');
             }
         }
-    });
+    }
 
 
     function checkDelete(deleteId, name,type){
@@ -170,10 +170,15 @@
         var supplierName = $('#selectSupplierId option:selected').text();
         $('#supplierName').val(supplierName);
     }
+
+    function modfityDishShop(dishShopId,dishTypeId) {
+
+    }
+
 </script>
 
 
-<body>
+<body onload="onloadTips()">
 
 <div id="PurchaseDialog" style="display: none">
 
@@ -235,7 +240,7 @@
 
     <div style="background-color: rgba(204,204,204,0.5); width: 100%; position: absolute; height: 100%; z-index: 1;">
 
-        <div style="margin-top: 10px; background-color: #FFFFFF;width: 40%;height: 300px;opacity:1;margin-top: 10%;margin-left: 30%;border-style:solid;border-width:5px;border-color:#f8f8f8">
+        <div style="margin-top: 10px; background-color: #FFFFFF;width: 40%;height: 200px;opacity:1;margin-top: 10%;margin-left: 30%;border-style:solid;border-width:5px;border-color:#f8f8f8">
             <div>
                 <div style="margin: 12px;width: 100%;" class="parent">
                     <span class="dialog_title_style" style="width: 100%">销货信息</span>
@@ -307,7 +312,7 @@
             <td th:text="${item.unitName}"></td>
             <td align="center">
                 <div class="parent_h container">
-                    <img onclick="" style="cursor: pointer" class="icon_middle_style" src="../static/images/modfity_icon.png" th:src="@{/images/modfity_icon.png}">
+                    <img th:onclick="@{|location='${basePath}/dishShop/modfitySingleDish?dishShopId=${item.id}&dishTypeId=${item.dishTypeId}'|}" style="cursor: pointer" class="icon_middle_style" src="../static/images/modfity_icon.png" th:src="@{/images/modfity_icon.png}">
 
                     <img th:onclick="'javascript:purchaseAction(\''+${item.id}+'\',\''+${item.dishTypeId}+'\')'" style="cursor: pointer" class="icon_middle_style" src="../static/images/purchase_dish_icon.png" th:src="@{/images/purchase_dish_icon.png}">
 
