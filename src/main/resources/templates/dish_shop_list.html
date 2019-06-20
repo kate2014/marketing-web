@@ -65,16 +65,16 @@
 
     }
 
-    function onloadTips() {
+    $(function() {
         var successOrfail = document.getElementById("successOrfail").value;
         if(successOrfail != '' && successOrfail != undefined && successOrfail != null){
             if(successOrfail == "success"){
-                successTips('操作成功','品项新增成功！');
+                successTips('操作成功','品项操作成功！');
             }else if(successOrfail == "fail"){
-                errorTips('操作失败','品项新增失败，请优先排查输入信息');
+                errorTips('操作失败','品项操作失败，请优先排查输入信息');
             }
         }
-    }
+    });
 
 
     function checkDelete(deleteId, name,type){
@@ -178,7 +178,7 @@
 </script>
 
 
-<body onload="onloadTips()">
+<body onload="">
 
 <div id="PurchaseDialog" style="display: none">
 

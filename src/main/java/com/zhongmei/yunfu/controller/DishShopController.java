@@ -266,27 +266,29 @@ public class DishShopController extends BaseController{
                 mDishPropertyService.batchAddDishProperty(listData);
             }
 
-            PurchaseAndSaleEntity mPurchaseAndSaleEntity = new PurchaseAndSaleEntity();
-            mPurchaseAndSaleEntity.setBrandIdenty(brandIdentity);
-            mPurchaseAndSaleEntity.setShopIdenty(shopIdentity);
-            mPurchaseAndSaleEntity.setType(1);
-            mPurchaseAndSaleEntity.setSourceId(mDishShopModel.getSupplierId());
-            mPurchaseAndSaleEntity.setSourceName(mDishShopModel.getSupplierName());
-            mPurchaseAndSaleEntity.setDishShopId(mDishShopEntity.getId());
-            mPurchaseAndSaleEntity.setNumber(mDishShopModel.getSupplierCount());
-            mPurchaseAndSaleEntity.setPurchasePrice(mDishShopModel.getSupplierPrice());
+
             if(mDishShopModel.getSupplierCount() != null && mDishShopModel.getSupplierPrice() != null){
+                PurchaseAndSaleEntity mPurchaseAndSaleEntity = new PurchaseAndSaleEntity();
+                mPurchaseAndSaleEntity.setBrandIdenty(brandIdentity);
+                mPurchaseAndSaleEntity.setShopIdenty(shopIdentity);
+                mPurchaseAndSaleEntity.setType(1);
+                mPurchaseAndSaleEntity.setSourceId(mDishShopModel.getSupplierId());
+                mPurchaseAndSaleEntity.setSourceName(mDishShopModel.getSupplierName());
+                mPurchaseAndSaleEntity.setDishShopId(mDishShopEntity.getId());
+                mPurchaseAndSaleEntity.setNumber(mDishShopModel.getSupplierCount());
+                mPurchaseAndSaleEntity.setPurchasePrice(mDishShopModel.getSupplierPrice());
                 mPurchaseAndSaleEntity.setTotalPurchasePrice(mDishShopModel.getSupplierCount().multiply(mDishShopModel.getSupplierPrice()));
+                mPurchaseAndSaleEntity.setServerCreateTime(new Date());
+                mPurchaseAndSaleEntity.setCreatorId(creatorId);
+                mPurchaseAndSaleEntity.setCreatorName(creatorname);
+                mPurchaseAndSaleEntity.setUpdatorId(creatorId);
+                mPurchaseAndSaleEntity.setUpdatorName(creatorname);
+                mPurchaseAndSaleEntity.setServerUpdateTime(new Date());
+
+                mPurchaseAndSaleService.addPurchaseAndSale(mPurchaseAndSaleEntity);
             }
 
-            mPurchaseAndSaleEntity.setServerCreateTime(new Date());
-            mPurchaseAndSaleEntity.setCreatorId(creatorId);
-            mPurchaseAndSaleEntity.setCreatorName(creatorname);
-            mPurchaseAndSaleEntity.setUpdatorId(creatorId);
-            mPurchaseAndSaleEntity.setUpdatorName(creatorname);
-            mPurchaseAndSaleEntity.setServerUpdateTime(new Date());
 
-            mPurchaseAndSaleService.addPurchaseAndSale(mPurchaseAndSaleEntity);
 
         }catch (Exception e){
             e.printStackTrace();

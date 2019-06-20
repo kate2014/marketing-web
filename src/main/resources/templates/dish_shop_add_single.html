@@ -304,12 +304,18 @@
             <table class="gridtablestyle" style="width: 98%; vertical-align: middle">
                 <tr style="width: 100%">
                     <th width="50%">加项名称</th>
-                    <th  width="30%">加项价格</th>
+                    <th width="30%">加项价格</th>
                     <th>操作</th>
                 </tr>
                 <tr th:each="item:${listProperty}">
-                    <td th:text="${item.name}"><input type="hidden" name="additionName" id="additionName" th:value="${item.name}"></td>
-                    <td th:text="${item.reprice}"><input type="hidden" name="additionPrice" id="additionPrice" th:value="${item.reprice}"></td>
+                    <td>
+                        <input type="hidden" name="additionName" id="additionName" th:value="${item.name}">
+                        <span th:text="${item.name}"></span>
+                    </td>
+                    <td>
+                        <input type="hidden" name="additionPrice" id="additionPrice" th:value="${item.reprice}">
+                        <span th:text="${item.reprice}"></span>
+                    </td>
                     <td align="center">
                         <img style="cursor: pointer;margin-left: 43%" class="image_middle_size_style" th:src="@{/images/delete_icon.png}" onclick="delRow(this)">
                     </td>
