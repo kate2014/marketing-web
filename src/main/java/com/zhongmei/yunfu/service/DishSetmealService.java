@@ -1,6 +1,7 @@
 package com.zhongmei.yunfu.service;
 
 import com.zhongmei.yunfu.controller.model.CardTimeModel;
+import com.zhongmei.yunfu.controller.model.DishSetmealModel;
 import com.zhongmei.yunfu.domain.entity.DishSetmealEntity;
 import com.baomidou.mybatisplus.service.IService;
 import com.zhongmei.yunfu.domain.entity.DishSetmealGroupEntity;
@@ -41,4 +42,12 @@ public interface DishSetmealService extends IService<DishSetmealEntity> {
      * @throws Exception
      */
     Boolean delectSetmealByDishId(Long dishId) throws Exception;
+
+    /**
+     *
+     * @param dishId
+     * @return
+     * @throws Exception
+     */
+    List<DishSetmealModel> querySetmealList(Long dishId) throws Exception;
 }

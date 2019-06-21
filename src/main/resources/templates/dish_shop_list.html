@@ -21,8 +21,8 @@
     <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" />
     <link rel="stylesheet" th:href="@{/css/customer.css}" href="../static/css/customer.css" />
     <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}" src="../static/js/jquery-3.1.1.min.js" ></script>
-    <script type="text/javascript" th:src="@{/js/base.js}" src="../static/js/base.js" ></script>
-    <script type="text/javascript" th:src="@{/js/window/window.ext.js}" src="../static/js/window/window.ext.js" ></script>
+    <!--<script type="text/javascript" th:src="@{/js/base.js}" src="../static/js/base.js" ></script>-->
+    <!--<script type="text/javascript" th:src="@{/js/window/window.ext.js}" src="../static/js/window/window.ext.js" ></script>-->
 
     <!-- diglog -->
     <script type="text/javascript" th:src="@{/js/diy_dialog.js}"></script>
@@ -34,36 +34,6 @@
 </head>
 
 <script type="text/javascript">
-
-    function checkDelete(deleteId, name){
-        var message = "请确认是否要删除: "+name+"?";
-        dialogBox(message,
-            function () {
-                deleteRequest(deleteId);
-            },
-            function(){
-
-            }
-        );
-    }
-
-    function deleteRequest (deleteId) {
-
-        const Url = "[[${basePath}]]/dishShop/deleteDishShop?id="+deleteId;
-
-        const Http = new XMLHttpRequest();
-
-        Http.open("GET",Url);
-
-        Http.send();
-
-        Http.onreadystatechange=function () {
-            if(this.readyState == 4 && this.status == 200){
-                location.reload();
-            }
-        }
-
-    }
 
     $(function() {
         var successOrfail = document.getElementById("successOrfail").value;
@@ -102,6 +72,7 @@
         Http.onreadystatechange=function () {
             if(this.readyState == 4 && this.status == 200){
                 location.reload();
+                successTips('操作成功','品项操作成功！');
             }
         }
 
@@ -171,14 +142,11 @@
         $('#supplierName').val(supplierName);
     }
 
-    function modfityDishShop(dishShopId,dishTypeId) {
-
-    }
-
 </script>
 
 
-<body onload="">
+<body>
+<div id="showDialog"></div>
 
 <div id="PurchaseDialog" style="display: none">
 
@@ -248,7 +216,7 @@
                 </div>
 
             </div>
-            <form method="post" name="addSales" id="addSales" action="" th:action="@{/dishShop/modfitySales}" th:object="${mDishShopModel}">
+            <form method="post" name="addSales" id="addSales" th:action="@{/dishShop/modfitySales}" th:object="${mDishShopModel}">
 
                 <input type="hidden" id="salesDishShopId" name="salesDishShopId">
                 <input type="hidden" id="salesDishTypeId" name="salesDishTypeId">
@@ -256,7 +224,7 @@
 
                 <div style="width: 100%;height: 1px;background-color: #e1e1e1;"></div>
 
-                <div style="margin-top: 20%;width: 100%" class="parent_h container">
+                <div style="margin-top: 36px;width: 100%" class="parent_h container">
                     <span style="color: #FF6600;size: 12px">* &nbsp;</span>
                     <label class="text_navigation" style="margin-right: 10px;">进货数量</label>
                     <input type="text" onkeyup="clearNoNum(this)" name="salesSupplierCount" id="salesSupplierCount" maxlength="50" class="add_input_style">
@@ -276,11 +244,11 @@
 
 <input type="hidden" id="successOrfail" th:value="${mDishShopModel.successOrfail}">
 
-<div id="showDialog"></div>
 
-<button class="blue_button_style" style="margin-top: 10px;margin-left: 15px" th:onclick="@{|location='${basePath}/dishShop/intoAddSingleDish?dishTypeId=${mDishShopModel.dishTypeId}'|}">+新建单品</button>
 
-<button class="blue_button_style" style="margin-top: 10px;margin-left: 15px" th:onclick="@{|location='${basePath}/dishShop/intoAddPackageDish?dishTypeId=${mDishShopModel.dishTypeId}'|}">+新建套餐</button>
+<button class="blue_button_style" style="margin-top: 10px;margin-left: 15px" th:onclick="@{|location='${basePath}/dishShop/intoAddOrUpdateSingleDish?dishTypeId=${mDishShopModel.dishTypeId}'|}">+新建单品</button>
+
+<button class="blue_button_style" style="margin-top: 10px;margin-left: 15px" th:onclick="@{|location='${basePath}/dishShop/intoAddOrUpdatePackageDish?dishTypeId=${mDishShopModel.dishTypeId}'|}">+新建套餐</button>
 
 <div align="center" style="margin-top: 10px;width: 100%">
     <table class="gridtablestyle" style="width: 98%; vertical-align: middle">
@@ -312,7 +280,17 @@
             <td th:text="${item.unitName}"></td>
             <td align="center">
                 <div class="parent_h container">
-                    <img th:onclick="@{|location='${basePath}/dishShop/modfitySingleDish?dishShopId=${item.id}&dishTypeId=${item.dishTypeId}'|}" style="cursor: pointer" class="icon_middle_style" src="../static/images/modfity_icon.png" th:src="@{/images/modfity_icon.png}">
+
+                    <div th:switch="${item.type}">
+                        <p th:case="'0'">
+                            <img th:onclick="@{|location='${basePath}/dishShop/intoAddOrUpdateSingleDish?dishShopId=${item.id}&dishTypeId=${item.dishTypeId}'|}" style="cursor: pointer" class="icon_middle_style" src="../static/images/modfity_icon.png" th:src="@{/images/modfity_icon.png}">
+                        </p>
+                        <p th:case="'1'">
+                            <img th:onclick="@{|location='${basePath}/dishShop/intoAddOrUpdatePackageDish?dishShopId=${item.id}&dishTypeId=${item.dishTypeId}'|}" style="cursor: pointer" class="icon_middle_style" src="../static/images/modfity_icon.png" th:src="@{/images/modfity_icon.png}">
+                        </p>
+                    </div>
+
+
 
                     <img th:onclick="'javascript:purchaseAction(\''+${item.id}+'\',\''+${item.dishTypeId}+'\')'" style="cursor: pointer" class="icon_middle_style" src="../static/images/purchase_dish_icon.png" th:src="@{/images/purchase_dish_icon.png}">
 

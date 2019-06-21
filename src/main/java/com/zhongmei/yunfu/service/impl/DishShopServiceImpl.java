@@ -259,6 +259,7 @@ public class DishShopServiceImpl extends ServiceImpl<DishShopMapper, DishShopEnt
             eWrapper.eq("dish_type_id",mDishShopEntity.getDishTypeId());
         }
         eWrapper.in("type","0,1");
+        eWrapper.eq("status_flag",1);
         eWrapper.orderBy("server_create_time",true);
 
         eWrapper.setSqlSelect("id,name,dish_code,type,dish_type_id,market_price,unit_name,sale_total,dish_qty,dish_increase_unit,valid_time,unvalid_time,min_num,max_num,server_create_time");

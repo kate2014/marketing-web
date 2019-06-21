@@ -3,6 +3,7 @@ package com.zhongmei.yunfu.service.impl;
 import com.baomidou.mybatisplus.mapper.Condition;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.zhongmei.yunfu.controller.model.CardTimeModel;
+import com.zhongmei.yunfu.controller.model.DishSetmealModel;
 import com.zhongmei.yunfu.core.mybatis.mapper.ConditionFilter;
 import com.zhongmei.yunfu.domain.entity.DishSetmealEntity;
 import com.zhongmei.yunfu.domain.entity.DishSetmealGroupEntity;
@@ -93,5 +94,17 @@ public class DishSetmealServiceImpl extends ServiceImpl<DishSetmealMapper, DishS
         Boolean isSuccess = delete(eWrapper);
 
         return isSuccess;
+    }
+
+    @Override
+    public List<DishSetmealModel> querySetmealList(Long dishId) throws Exception {
+
+        Condition eWrapper = ConditionFilter.create();
+        eWrapper.isWhere(true);
+        eWrapper.eq("se.dish_id",dishId);
+        eWrapper.eq("se.status_flag",1);
+        List<DishSetmealModel> listDishShop = baseMapper.querySetmealList(eWrapper);
+
+        return listDishShop;
     }
 }

@@ -12,6 +12,7 @@ import com.zhongmei.yunfu.service.LoginManager;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * <p>
@@ -86,4 +87,23 @@ public class DishSetmealGroupServiceImpl extends ServiceImpl<DishSetmealGroupMap
 
         return mDishSetmealGroupEntity;
     }
+
+    @Override
+    public List<DishSetmealGroupEntity> querySetmealTypeByDishId(Long brandIdentity,Long shopIdentity,Long dishId) throws Exception {
+
+        if(dishId == null || shopIdentity == null){
+            return null;
+        }
+
+        EntityWrapper<DishSetmealGroupEntity> eWrapper = new EntityWrapper<>(new DishSetmealGroupEntity());
+        eWrapper.eq("brand_identy",brandIdentity);
+        eWrapper.eq("shop_identy",shopIdentity);
+        eWrapper.eq("setmeal_dish_id",dishId);
+        eWrapper.eq("status_flag",1);
+        eWrapper.orderBy("server_create_time",true);
+        List<DishSetmealGroupEntity> listData = selectList(eWrapper);
+
+        return listData;
+    }
+
 }
