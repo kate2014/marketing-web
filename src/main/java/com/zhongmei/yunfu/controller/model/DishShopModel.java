@@ -69,6 +69,28 @@ public class DishShopModel extends WebBaseModel {
 
     private Integer type;
 
+    private List<Long> setmealTypeId;
+
+    private List<String> setmealTypeName;
+
+    private List<BigDecimal> typeOrderMin;
+
+    private List<BigDecimal> typeOrderMax;
+
+    private List<Long> setmealId;
+
+    private List<String> setmealName;
+
+    private List<Integer> isReplace;
+
+    private List<Integer> isDefault;
+
+    private List<Integer> isMulti;
+
+    private List<BigDecimal> leastCellNum;
+
+    private List<BigDecimal> setmealPrice;
+
     public String getKeyWord() {
         return keyWord;
     }
@@ -307,5 +329,93 @@ public class DishShopModel extends WebBaseModel {
 
     public void setSalesSupplierCount(BigDecimal salesSupplierCount) {
         this.salesSupplierCount = salesSupplierCount;
+    }
+
+    public List<Long> getSetmealTypeId() {
+        return setmealTypeId;
+    }
+
+    public void setSetmealTypeId(List<Long> setmealTypeId) {
+        this.setmealTypeId = setmealTypeId;
+    }
+
+    public List<String> getSetmealTypeName() {
+        return setmealTypeName;
+    }
+
+    public void setSetmealTypeName(List<String> setmealTypeName) {
+        this.setmealTypeName = setmealTypeName;
+    }
+
+    public List<BigDecimal> getTypeOrderMin() {
+        return typeOrderMin;
+    }
+
+    public void setTypeOrderMin(List<BigDecimal> typeOrderMin) {
+        this.typeOrderMin = typeOrderMin;
+    }
+
+    public List<BigDecimal> getTypeOrderMax() {
+        return typeOrderMax;
+    }
+
+    public void setTypeOrderMax(List<BigDecimal> typeOrderMax) {
+        this.typeOrderMax = typeOrderMax;
+    }
+
+    public List<Long> getSetmealId() {
+        return setmealId;
+    }
+
+    public void setSetmealId(List<Long> setmealId) {
+        this.setmealId = setmealId;
+    }
+
+    public List<String> getSetmealName() {
+        return setmealName;
+    }
+
+    public void setSetmealName(List<String> setmealName) {
+        this.setmealName = setmealName;
+    }
+
+    public List<Integer> getIsReplace() {
+        return isReplace;
+    }
+
+    public void setIsReplace(List<Integer> isReplace) {
+        this.isReplace = isReplace;
+    }
+
+    public List<Integer> getIsDefault() {
+        return isDefault;
+    }
+
+    public void setIsDefault(List<Integer> isDefault) {
+        this.isDefault = isDefault;
+    }
+
+    public List<Integer> getIsMulti() {
+        return isMulti;
+    }
+
+    public void setIsMulti(List<Integer> isMulti) {
+        this.isMulti = isMulti;
+    }
+
+    public List<BigDecimal> getLeastCellNum() {
+        return leastCellNum;
+    }
+
+    public void setLeastCellNum(List<BigDecimal> leastCellNum) {
+        this.leastCellNum = leastCellNum;
+    }
+
+    public List<BigDecimal> getSetmealPrice() {
+        return setmealPrice;
+    }
+
+    public void setSetmealPrice(List<BigDecimal> setmealPrice) {
+        this.setmealPrice = setmealPrice;
     }
 }

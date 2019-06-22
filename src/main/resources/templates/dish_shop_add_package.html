@@ -129,7 +129,7 @@
         var intputOrderMax = $('#intputOrderMax').val();
 
         var tableId = $('#addTableId').val() - 1;
-        $('#addTableId').val(tableId)
+        $('#addTableId').val(tableId);
 
         var tbodyId = $('#addTableId').val() - 1000;
 
@@ -137,14 +137,14 @@
         var code = '<TABLE class="gridtablestyle" style="width: 98%; vertical-align: middle;margin-top: 10px" id='+tableId+'>';
         code +=
             '<TR style="width: 100%">' +
-            '<th style="width: 30%">'+inputTypeName+'</th>'
-            +'<th style="width: 20%" colspan="2">至少必选：'+inputOrderMin+'</th>'
-            +'<th style="width: 20%" colspan="2">至多可选：'+intputOrderMax+'</th>'
+            '<th style="width: 30%">'+inputTypeName+' <input type="hidden" name="setmealTypeName" value='+inputTypeName+'></th>'
+            +'<th style="width: 20%" colspan="2">至少必选：'+inputOrderMin+'<input type="hidden" name="typeOrderMin" value='+inputOrderMin+'></th>'
+            +'<th style="width: 20%" colspan="2">至多可选：'+intputOrderMax+'<input type="hidden" name="typeOrderMax" value='+intputOrderMax+'></th>'
             +'<th style="width: 30%" colspan="3">'
             +'<div class="parent">'
             +'<img style="cursor: pointer;margin-right: 20px" onclick="showGroupDialog()" class="icon_middle_style" src="../static/images/modfity_icon.png" th:src="@{/images/modfity_icon.png}">'
             +'<img style="cursor: pointer" class="icon_middle_style" onclick="delAllRow('+tableId+')" src="../static/images/delete_icon.png" th:src="@{/images/delete_icon.png}">'
-            +'<div class="container parent_h blue_button_style" style="margin-left: 15px" onclick="selectDish()">+添加子项</div>'
+            +'<div class="container parent_h blue_button_style" style="margin-left: 15px" onclick="selectDish('+tableId+')">+添加子项</div>'
             +'</div>'
             +'</th>'
             +'</TR>' +
@@ -156,7 +156,8 @@
         closeGroupDialog();
     }
 
-    function selectDish() {
+    function selectDish(setmealTypeId) {
+        $('#currentTypeId').val(setmealTypeId);
         $('.zm-dialog').load('[[${basePath}]]/dish/selectShopPage'); //#container
     }
 
@@ -169,18 +170,26 @@
     //添加子项信息
     function addSetmealForRow(dishId, dishName, dishPrice) {
 
-        var tbody = document.getElementById('tbMain');
+        var tableId = $('#currentTypeId').val();
+
+        var tbody = document.getElementById(tableId);
 
         var row = document.createElement('tr'); //创建行  
 
         var nameCell = document.createElement('td'); //创建第一列id  
 
         //用于表单提交
-        // var additionName = document.createElement('input')
-        // additionName.type='hidden';
-        // additionName.value = "子项名称";
-        // additionName.name = "additionName";
-        // nameCell.appendChild(additionName);
+        var setmealId = document.createElement('input')
+        setmealId.type='hidden';
+        setmealId.value = dishId;
+        setmealId.name = "setmealId";
+        nameCell.appendChild(setmealId);
+
+        var setmealName = document.createElement('input')
+        setmealName.type='hidden';
+        setmealName.value = dishName;
+        setmealName.name = "setmealName";
+        nameCell.appendChild(setmealName);
 
         //用于展示的lable
         var showName = document.createElement('span')
@@ -197,8 +206,8 @@
 
         var checkBox1=document.createElement("input");
         checkBox1.setAttribute("type","checkbox");
-        checkBox1.setAttribute("id","111");
-        checkBox1.setAttribute("name", "必选");
+        checkBox1.setAttribute("name", "isReplace");
+        checkBox1.setAttribute("value", "1");
         isReplace.appendChild(checkBox1);
 
         row.appendChild(isReplace);
@@ -211,8 +220,8 @@
 
         var checkBox2=document.createElement("input");
         checkBox2.setAttribute("type","checkbox");
-        checkBox2.setAttribute("id","222");
-        checkBox2.setAttribute("name", "默认选中");
+        checkBox2.setAttribute("name", "isDefault");
+        checkBox2.setAttribute("value", "1");
         isDefault.appendChild(checkBox2);
 
         row.appendChild(isDefault);
@@ -225,8 +234,8 @@
 
         var checkBox3=document.createElement("input");
         checkBox3.setAttribute("type","checkbox");
-        checkBox3.setAttribute("id","333");
-        checkBox3.setAttribute("name", "可复选");
+        checkBox3.setAttribute("name", "isMulti");
+        checkBox3.setAttribute("value", "1");
         isMulti.appendChild(checkBox3);
 
         row.appendChild(isMulti);
@@ -238,9 +247,9 @@
         leastCellNum.appendChild(leastCellNumLable);
 
         var checkBox4=document.createElement("input");
-        checkBox4.setAttribute("type","checkbox");
-        checkBox4.setAttribute("id","444");
-        checkBox4.setAttribute("name", "起卖份数");
+        checkBox4.setAttribute("type","text");
+        checkBox4.setAttribute("name", "leastCellNum");
+        checkBox4.setAttribute("class","input_least_mini_style");
         leastCellNum.appendChild(checkBox4);
 
         row.appendChild(leastCellNum);
@@ -253,10 +262,9 @@
 
         var checkBox5=document.createElement("input");
         checkBox5.setAttribute("type","text");
-        checkBox5.setAttribute("id","444");
-        checkBox5.setAttribute("name", "售价");
+        checkBox5.setAttribute("name", "setmealPrice");
         checkBox5.setAttribute("value",dishPrice);
-        checkBox5.setAttribute("class", "input_min_style");
+        checkBox5.setAttribute("class", "input_least_mini_style");
         price.appendChild(checkBox5);
 
         row.appendChild(price);
@@ -284,6 +292,8 @@
 <body>
 
 <input type="hidden" id="addTableId" name="addTableId" value="-100001">
+
+<input type="hidden" id="currentTypeId" name="currentTypeId">
 
 <div id="batchDialog" style="display: none">
 
@@ -452,43 +462,53 @@
         <div align="center" style="margin-top: 10px">
 
             <div id="setmealType"></div>
-
             <div th:each="groupItem:${listSetmealModel}" style="margin-bottom: 20px;margin-top: 10px">
                 <table class="gridtablestyle" style="width: 98%; vertical-align: middle;margin-top: 10px" th:id="${groupItem.mDishSetmealGroup.id}">
                     <tr style="width: 100%">
-                        <th style="width: 30%" th:text="${groupItem.mDishSetmealGroup.name}"></th>
+                        <th style="width: 30%">
+                            <span th:text="${groupItem.mDishSetmealGroup.name}"></span>
+                            <input type="hidden" name="setmealTypeId" th:value="${groupItem.mDishSetmealGroup.id}">
+                            <input type="hidden" name="setmealTypeName" th:value="${groupItem.mDishSetmealGroup.name}">
+
+                        </th>
                         <th style="width: 20%" colspan="2">
                             至少必选：<span th:text="${groupItem.mDishSetmealGroup.orderMin}"></span>
+                            <input type="hidden" name="typeOrderMin" th:value="${groupItem.mDishSetmealGroup.orderMin}">
                         </th>
                         <th  style="width: 20%" colspan="2">
                             至多可选：<span th:text="${groupItem.mDishSetmealGroup.orderMax}"></span>
+                            <input type="hidden" name="typeOrderMax" th:value="${groupItem.mDishSetmealGroup.orderMax}">
                         </th>
                         <th  style="width: 30%" colspan="3">
                             <div class="parent">
                                 <img style="cursor: pointer;margin-right: 20px" onclick="showGroupDialog()" class="icon_middle_style" src="../static/images/modfity_icon.png" th:src="@{/images/modfity_icon.png}">
                                 <img style="cursor: pointer" class="icon_middle_style" th:onclick="'javascript:delAllRow(\''+${groupItem.mDishSetmealGroup.id}+'\')'" th:src="@{/images/delete_icon.png}">
-                                <div class="container parent_h blue_button_style" style="margin-left: 15px" onclick="selectDish()">+添加子项</div>
+                                <div class="container parent_h blue_button_style" style="margin-left: 15px" th:onclick="'javascript:selectDish(\''+${groupItem.mDishSetmealGroup.id}+'\')'">+添加子项</div>
                             </div>
                         </th>
 
                     </tr>
 
                     <tr th:each="item:${groupItem.listSetmeal}">
-                        <td th:text="${item.dishName}"></td>
                         <td>
-                            必选:<input type="checkbox" th:attr ="checked=${item.isReplace==1?true:false}">
+                            <span th:text="${item.dishName}"></span>
+                            <input type="hidden" name="setmealId" th:value="${item.id}">
+                            <input type="hidden" name="setmealName" th:value="${item.dishName}">
                         </td>
                         <td>
-                            默认选中:<input type="checkbox" th:attr ="checked=${item.isDefault==1?true:false}">
+                            必选:<input type="checkbox" name="isReplace" value="1" th:attr ="checked=${item.isReplace==1?true:false}">
                         </td>
                         <td>
-                            可复选:<input type="checkbox" th:attr ="checked=${item.isMulti==1?true:false}">
+                            默认选中:<input type="checkbox" name="isDefault" value="1" th:attr ="checked=${item.isDefault==1?true:false}">
                         </td>
                         <td>
-                            起卖数:<input type="checkbox" th:attr ="checked=${item.leastCellNum==1?true:false}">
+                            可复选:<input type="checkbox" name="isMulti" value="1" th:attr ="checked=${item.isMulti==1?true:false}">
                         </td>
                         <td>
-                            售价:<input type="text" th:value="${item.price}" class="input_min_style"></span>
+                            起卖数:<input type="text" name="leastCellNum" th:value="${item.leastCellNum}" class="input_least_mini_style">
+                        </td>
+                        <td>
+                            售价:<input type="text" name="setmealPrice" th:value="${item.price}" class="input_least_mini_style"></span>
                         </td>
                         <td align="center">
                             <img style="cursor: pointer;" class="icon_middle_style" th:src="@{/images/delete_icon.png}" onclick="delRow(this)">

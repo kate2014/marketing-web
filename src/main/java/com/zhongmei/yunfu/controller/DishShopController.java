@@ -447,10 +447,24 @@ public class DishShopController extends BaseController{
                 mPurchaseAndSaleService.addPurchaseAndSale(mPurchaseAndSaleEntity);
             }
 
+            System.out.println("====setmealTypeId==="+mDishShopModel.getSetmealTypeId());
+            System.out.println("====setmealTypeName==="+mDishShopModel.getSetmealTypeName());
+            System.out.println("====typeOrderMin==="+mDishShopModel.getTypeOrderMin());
+            System.out.println("====typeOrderMax==="+mDishShopModel.getTypeOrderMax());
+            System.out.println("====setmealId==="+mDishShopModel.getSetmealId());
+            System.out.println("====setmealName==="+mDishShopModel.getSetmealName());
+            System.out.println("====isReplace==="+mDishShopModel.getIsReplace());
+            System.out.println("====isDefault==="+mDishShopModel.getIsDefault());
+            System.out.println("====isMulti==="+mDishShopModel.getIsMulti());
+            System.out.println("====leastCellNum==="+mDishShopModel.getLeastCellNum());
+            System.out.println("====setmealPrice==="+mDishShopModel.getSetmealPrice());
+
         }catch (Exception e){
             e.printStackTrace();
         }
-        return "dish_shop_add_setmeal_type";
+        String actionSuccess = "success";
+        return String.format("redirect:/dishShop/dishShopList?brandIdenty=%d&shopIdenty=%d&creatorId=%d&creatorName=%s&dishTypeId=%d&successOrfail=%s",
+                brandIdentity, shopIdentity, creatorId, creatorname,mDishShopModel.getDishTypeId(),actionSuccess);
     }
 
     @RequestMapping("/deleteDishShop")
