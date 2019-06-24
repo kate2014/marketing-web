@@ -1574,6 +1574,7 @@ CREATE TABLE `app_config` (
 DROP TABLE IF EXISTS  `customer_archives`;
 CREATE TABLE `customer_archives` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `type` int(4) DEFAULT NULL COMMENT '档案类型：1 会员信息 2 疗效信息',
   `title` varchar(100) DEFAULT NULL COMMENT '主题',
   `content` text COMMENT '内容',
   `customer_id` bigint(32) NOT NULL COMMENT '会员Id',
