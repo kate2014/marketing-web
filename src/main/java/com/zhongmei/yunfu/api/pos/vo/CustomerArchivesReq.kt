@@ -12,5 +12,6 @@ class CustomerArchivesReq : PosReq() {
     var content: String? = null
     var creatorId: Long? = null
     var creatorName: String? = null
+    var archivesId: Long? = null
 
 }

@@ -6,8 +6,10 @@ import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.zhongmei.yunfu.domain.entity.TaskRemindEntity;
 import com.zhongmei.yunfu.domain.mapper.TaskRemindMapper;
 import com.zhongmei.yunfu.service.TaskRemindService;
+import com.zhongmei.yunfu.util.DateFormatUtil;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,7 +30,7 @@ public class TaskRemindServiceImpl extends ServiceImpl<TaskRemindMapper, TaskRem
     }
 
     @Override
-    public Page<TaskRemindEntity> queryArchivesPage(TaskRemindEntity mTaskRemindEntity, int pageNo, int pageSize) throws Exception {
+    public Page<TaskRemindEntity> queryTaskRemindPage(TaskRemindEntity mTaskRemindEntity, int pageNo, int pageSize) throws Exception {
         EntityWrapper<TaskRemindEntity> eWrapper = new EntityWrapper<>(new TaskRemindEntity());
 
         eWrapper.eq("brand_identy", mTaskRemindEntity.getBrandIdenty());
@@ -48,6 +50,17 @@ public class TaskRemindServiceImpl extends ServiceImpl<TaskRemindMapper, TaskRem
         if(mTaskRemindEntity.getTitle() != null && !mTaskRemindEntity.getTitle().equals("")){
             eWrapper.like("title", mTaskRemindEntity.getTitle());
         }
+        if(mTaskRemindEntity.getStatus() != null && !mTaskRemindEntity.getStatus().equals("")){
+            eWrapper.eq("status", mTaskRemindEntity.getStatus());
+        }
+        if(mTaskRemindEntity.getRemindTime() != null && !mTaskRemindEntity.getRemindTime().equals("")){
+
+            Date startData = DateFormatUtil.parseDate(DateFormatUtil.format(mTaskRemindEntity.getRemindTime(),DateFormatUtil.FORMAT_DATE),DateFormatUtil.FORMAT_FULL_DATE);
+            Date endData = DateFormatUtil.parseDate(DateFormatUtil.format(mTaskRemindEntity.getRemindTime(),DateFormatUtil.FORMAT_DATE)+" 23:59:59",DateFormatUtil.FORMAT_FULL_DATE);
+
+            eWrapper.between("remind_time",startData,endData);
+            eWrapper.eq("remind_time", mTaskRemindEntity.getRemindTime());
+        }
 
         eWrapper.eq("status_flag", 1);
 
@@ -60,7 +73,7 @@ public class TaskRemindServiceImpl extends ServiceImpl<TaskRemindMapper, TaskRem
     }
 
     @Override
-    public List<TaskRemindEntity> queryArchivesList(TaskRemindEntity mTaskRemindEntity) throws Exception {
+    public List<TaskRemindEntity> queryTaskRemindList(TaskRemindEntity mTaskRemindEntity) throws Exception {
         EntityWrapper<TaskRemindEntity> eWrapper = new EntityWrapper<>(new TaskRemindEntity());
 
         eWrapper.eq("brand_identy", mTaskRemindEntity.getBrandIdenty());
@@ -97,5 +110,14 @@ public class TaskRemindServiceImpl extends ServiceImpl<TaskRemindMapper, TaskRem
     @Override
     public boolean deleteTaskRemind(Long id) throws Exception {
         return deleteById(id);
+    }
+
+    @Override
+    public List<TaskRemindEntity> queryByDocId(Long id) throws Exception {
+        EntityWrapper<TaskRemindEntity> eWrapper = new EntityWrapper<>(new TaskRemindEntity());
+        eWrapper.eq("customer_doc_id", id);
+        eWrapper.eq("status_flag", 1);
+        eWrapper.orderBy("server_create_time",false);
+        return selectList(eWrapper);
     }
 }

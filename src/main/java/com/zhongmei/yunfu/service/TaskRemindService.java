@@ -33,7 +33,7 @@ public interface TaskRemindService extends IService<TaskRemindEntity> {
      * @return
      * @throws Exception
      */
-    Page<TaskRemindEntity> queryArchivesPage(TaskRemindEntity mTaskRemindEntity, int pageNo, int pageSize)throws Exception;
+    Page<TaskRemindEntity> queryTaskRemindPage(TaskRemindEntity mTaskRemindEntity, int pageNo, int pageSize)throws Exception;
 
     /**
      * 获取任务提醒列表
@@ -41,7 +41,7 @@ public interface TaskRemindService extends IService<TaskRemindEntity> {
      * @return
      * @throws Exception
      */
-    List<TaskRemindEntity> queryArchivesList(TaskRemindEntity mTaskRemindEntity)throws Exception;
+    List<TaskRemindEntity> queryTaskRemindList(TaskRemindEntity mTaskRemindEntity)throws Exception;
 
     /**
      * 更新会员档案
@@ -58,4 +58,12 @@ public interface TaskRemindService extends IService<TaskRemindEntity> {
      * @throws Exception
      */
     boolean deleteTaskRemind(Long id)throws Exception;
+
+    /**
+     * 获取门店会员档案对应的任务提醒
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    List<TaskRemindEntity> queryByDocId(Long id)throws Exception;
 }

@@ -59,4 +59,12 @@ public interface CustomerArchivesService extends IService<CustomerArchivesEntity
      * @throws Exception
      */
     boolean deleteArchives(Long id)throws Exception;
+
+    /**
+     * 根据Id获取会员档案
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    CustomerArchivesEntity queryById(Long id)throws Exception;
 }

@@ -90,4 +90,9 @@ public class CustomerArchivesServiceImpl extends ServiceImpl<CustomerArchivesMap
     public boolean deleteArchives(Long id) throws Exception {
         return deleteById(id);
     }
+
+    @Override
+    public CustomerArchivesEntity queryById(Long id) throws Exception {
+        return selectById(id);
+    }
 }
