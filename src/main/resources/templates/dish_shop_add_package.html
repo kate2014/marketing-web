@@ -131,13 +131,13 @@
         var tableId = $('#addTableId').val() - 1;
         $('#addTableId').val(tableId);
 
-        var tbodyId = $('#addTableId').val() - 1000;
 
         var div1 = document.getElementById('setmealType');
         var code = '<TABLE class="gridtablestyle" style="width: 98%; vertical-align: middle;margin-top: 10px" id='+tableId+'>';
         code +=
             '<TR style="width: 100%">' +
-            '<th style="width: 30%">'+inputTypeName+' <input type="hidden" name="setmealTypeName" value='+inputTypeName+'></th>'
+            '<th style="width: 30%">'+inputTypeName+' <input type="hidden" name="setmealTypeName" value='+inputTypeName+'>' +
+            '<input type="hidden" name="setmealTypeId" value='+tableId+'></th>'
             +'<th style="width: 20%" colspan="2">至少必选：'+inputOrderMin+'<input type="hidden" name="typeOrderMin" value='+inputOrderMin+'></th>'
             +'<th style="width: 20%" colspan="2">至多可选：'+intputOrderMax+'<input type="hidden" name="typeOrderMax" value='+intputOrderMax+'></th>'
             +'<th style="width: 30%" colspan="3">'
@@ -172,6 +172,9 @@
 
         var tableId = $('#currentTypeId').val();
 
+        var tempSetmealId = $('#tempSetmealId').val() - 1;
+        $('#tempSetmealId').val(tempSetmealId);
+
         var tbody = document.getElementById(tableId);
 
         var row = document.createElement('tr'); //创建行  
@@ -179,17 +182,26 @@
         var nameCell = document.createElement('td'); //创建第一列id  
 
         //用于表单提交
+        //子项组别Id
+        var comboDishTypeId = document.createElement('input')
+        comboDishTypeId.type='hidden';
+        comboDishTypeId.value = tableId;
+        comboDishTypeId.name = "comboDishTypeId";
+        nameCell.appendChild(comboDishTypeId);
+
+        //子项Id
         var setmealId = document.createElement('input')
         setmealId.type='hidden';
-        setmealId.value = dishId;
+        setmealId.value = tempSetmealId;
         setmealId.name = "setmealId";
         nameCell.appendChild(setmealId);
 
-        var setmealName = document.createElement('input')
-        setmealName.type='hidden';
-        setmealName.value = dishName;
-        setmealName.name = "setmealName";
-        nameCell.appendChild(setmealName);
+        //子项菜品Id
+        var childDishId = document.createElement('input')
+        childDishId.type='hidden';
+        childDishId.value = dishId;
+        childDishId.name = "childDishId";
+        nameCell.appendChild(childDishId);
 
         //用于展示的lable
         var showName = document.createElement('span')
@@ -207,7 +219,7 @@
         var checkBox1=document.createElement("input");
         checkBox1.setAttribute("type","checkbox");
         checkBox1.setAttribute("name", "isReplace");
-        checkBox1.setAttribute("value", "1");
+        checkBox1.setAttribute("value", tempSetmealId);
         isReplace.appendChild(checkBox1);
 
         row.appendChild(isReplace);
@@ -221,7 +233,7 @@
         var checkBox2=document.createElement("input");
         checkBox2.setAttribute("type","checkbox");
         checkBox2.setAttribute("name", "isDefault");
-        checkBox2.setAttribute("value", "1");
+        checkBox2.setAttribute("value", tempSetmealId);
         isDefault.appendChild(checkBox2);
 
         row.appendChild(isDefault);
@@ -235,7 +247,7 @@
         var checkBox3=document.createElement("input");
         checkBox3.setAttribute("type","checkbox");
         checkBox3.setAttribute("name", "isMulti");
-        checkBox3.setAttribute("value", "1");
+        checkBox3.setAttribute("value", tempSetmealId);
         isMulti.appendChild(checkBox3);
 
         row.appendChild(isMulti);
@@ -290,6 +302,8 @@
 </script>
 
 <body>
+
+<input type="hidden" id="tempSetmealId" name="tempSetmealId" value="-200001">
 
 <input type="hidden" id="addTableId" name="addTableId" value="-100001">
 
@@ -395,7 +409,7 @@
 </div>
 
 
-<form method="post" name="addform" action="" th:action="@{/dishShop/addOrUpdateBaseData}" th:object="${mDishShopModel}">
+<form method="post" name="addform" action="" th:action="@{/dishShop/addOrUpdatePackage}" th:object="${mDishShopModel}">
 
     <input type="hidden" name="dishTypeId" th:value="${mDishShopModel.dishTypeId}">
     <input type="hidden" name="dishShopId" th:value="${mDishShopModel.dishShopId}">
@@ -462,7 +476,9 @@
         <div align="center" style="margin-top: 10px">
 
             <div id="setmealType"></div>
+
             <div th:each="groupItem:${listSetmealModel}" style="margin-bottom: 20px;margin-top: 10px">
+
                 <table class="gridtablestyle" style="width: 98%; vertical-align: middle;margin-top: 10px" th:id="${groupItem.mDishSetmealGroup.id}">
                     <tr style="width: 100%">
                         <th style="width: 30%">
@@ -492,17 +508,20 @@
                     <tr th:each="item:${groupItem.listSetmeal}">
                         <td>
                             <span th:text="${item.dishName}"></span>
+
+                            <input type="hidden" name="comboDishTypeId" th:value="${groupItem.mDishSetmealGroup.id}">
                             <input type="hidden" name="setmealId" th:value="${item.id}">
                             <input type="hidden" name="setmealName" th:value="${item.dishName}">
+                            <input type="hidden" name="childDishId" th:value="${item.childDishId}">
                         </td>
                         <td>
-                            必选:<input type="checkbox" name="isReplace" value="1" th:attr ="checked=${item.isReplace==1?true:false}">
+                            必选:<input type="checkbox" name="isReplace" th:value="${item.id}" th:attr ="checked=${item.isReplace==1?true:false}">
                         </td>
                         <td>
-                            默认选中:<input type="checkbox" name="isDefault" value="1" th:attr ="checked=${item.isDefault==1?true:false}">
+                            默认选中:<input type="checkbox" name="isDefault" th:value="${item.id}" th:attr ="checked=${item.isDefault==1?true:false}">
                         </td>
                         <td>
-                            可复选:<input type="checkbox" name="isMulti" value="1" th:attr ="checked=${item.isMulti==1?true:false}">
+                            可复选:<input type="checkbox" name="isMulti" th:value="${item.id}" th:attr ="checked=${item.isMulti==1?true:false}">
                         </td>
                         <td>
                             起卖数:<input type="text" name="leastCellNum" th:value="${item.leastCellNum}" class="input_least_mini_style">

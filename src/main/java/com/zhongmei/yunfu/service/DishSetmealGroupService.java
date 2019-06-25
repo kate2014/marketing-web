@@ -48,4 +48,36 @@ public interface DishSetmealGroupService extends IService<DishSetmealGroupEntity
      * @throws Exception
      */
     List<DishSetmealGroupEntity> querySetmealTypeByDishId(Long brandIdentity,Long shopIdentity,Long dishId)throws Exception;
+
+    /**
+     * 添加子项类别
+     * @param mDishSetmealGroupEntity
+     * @return
+     * @throws Exception
+     */
+    DishSetmealGroupEntity addSetmealGroup(DishSetmealGroupEntity mDishSetmealGroupEntity)throws Exception;
+
+    /**
+     * 更新子项类别
+     * @param mDishSetmealGroupEntity
+     * @return
+     * @throws Exception
+     */
+    DishSetmealGroupEntity updateSetmealGroup(DishSetmealGroupEntity mDishSetmealGroupEntity)throws Exception;
+
+    /**
+     * 添加或修改子项类别
+     * @param mDishSetmealGroupEntity
+     * @return
+     * @throws Exception
+     */
+    DishSetmealGroupEntity addOrUpdate(DishSetmealGroupEntity mDishSetmealGroupEntity)throws Exception;
+
+    /**
+     * 根据id批量删除
+     * @param ids
+     * @return
+     * @throws Exception
+     */
+    boolean batchDelete(List<Long> ids)throws Exception;
 }

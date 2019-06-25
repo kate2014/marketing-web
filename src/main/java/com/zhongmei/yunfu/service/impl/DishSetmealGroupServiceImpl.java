@@ -100,10 +100,35 @@ public class DishSetmealGroupServiceImpl extends ServiceImpl<DishSetmealGroupMap
         eWrapper.eq("shop_identy",shopIdentity);
         eWrapper.eq("setmeal_dish_id",dishId);
         eWrapper.eq("status_flag",1);
-        eWrapper.orderBy("server_create_time",true);
+        eWrapper.orderBy("server_create_time",false);
         List<DishSetmealGroupEntity> listData = selectList(eWrapper);
 
         return listData;
+    }
+
+    @Override
+    public DishSetmealGroupEntity addSetmealGroup(DishSetmealGroupEntity mDishSetmealGroupEntity) throws Exception {
+
+        insert(mDishSetmealGroupEntity);
+        return mDishSetmealGroupEntity;
+    }
+
+    @Override
+    public DishSetmealGroupEntity updateSetmealGroup(DishSetmealGroupEntity mDishSetmealGroupEntity) throws Exception {
+        updateById(mDishSetmealGroupEntity);
+        return mDishSetmealGroupEntity;
+    }
+
+    @Override
+    public DishSetmealGroupEntity addOrUpdate(DishSetmealGroupEntity mDishSetmealGroupEntity) throws Exception {
+        insertOrUpdate(mDishSetmealGroupEntity);
+        return mDishSetmealGroupEntity;
+    }
+
+    @Override
+    public boolean batchDelete(List<Long> ids) throws Exception {
+
+        return deleteBatchIds(ids);
     }
 
 }

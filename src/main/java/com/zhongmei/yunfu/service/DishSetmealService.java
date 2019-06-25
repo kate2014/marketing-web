@@ -50,4 +50,27 @@ public interface DishSetmealService extends IService<DishSetmealEntity> {
      * @throws Exception
      */
     List<DishSetmealModel> querySetmealList(Long dishId) throws Exception;
+
+    /**
+     * 批量添加或更新子项
+     * @param listSetmeal
+     * @return
+     * @throws Exception
+     */
+    boolean batchAddOrUpdateSetmeal(List<DishSetmealEntity> listSetmeal)throws Exception;
+
+    /**
+     * 根据Id批量删除
+     * @param ids
+     * @return
+     */
+    boolean batchDelete(List<Long> ids)throws Exception;
+
+    /**
+     * 根据子品分组删除
+     * @param typeId
+     * @return
+     * @throws Exception
+     */
+    boolean deleteSetmealByTypeId(Long brandIdentity,Long shopIdentity,Long typeId)throws Exception;
 }

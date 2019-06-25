@@ -107,4 +107,24 @@ public class DishSetmealServiceImpl extends ServiceImpl<DishSetmealMapper, DishS
 
         return listDishShop;
     }
+
+    @Override
+    public boolean batchAddOrUpdateSetmeal(List<DishSetmealEntity> listSetmeal) throws Exception {
+
+        return insertOrUpdateBatch(listSetmeal);
+    }
+
+    @Override
+    public boolean batchDelete(List<Long> ids) throws Exception {
+        return deleteBatchIds(ids);
+    }
+
+    @Override
+    public boolean deleteSetmealByTypeId(Long brandIdentity,Long shopIdentity, Long typeId) throws Exception {
+        EntityWrapper<DishSetmealEntity> eWrapper = new EntityWrapper<>(new DishSetmealEntity());
+        eWrapper.eq("brand_identy",brandIdentity);
+        eWrapper.eq("shop_identy",shopIdentity);
+        eWrapper.eq("combo_dish_type_id",typeId);
+        return delete(eWrapper);
+    }
 }
