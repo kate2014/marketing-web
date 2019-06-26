@@ -28,91 +28,79 @@ public class TaskRemindApi extends PosApiController {
     TaskRemindService mTaskRemindService;
 
     @RequestMapping("/list")
-    public ApiResult list(@RequestBody TaskRemindReq req) throws ApiRespStatusException {
+    public ApiResult list(@RequestBody TaskRemindReq req) throws Exception {
+
         TaskRemindEntity mTaskRemindEntity = new TaskRemindEntity();
-        try {
-            mTaskRemindEntity.setBrandIdenty(req.getHeader().getBrandId());
-            mTaskRemindEntity.setShopIdenty(req.getHeader().getShopId());
-            mTaskRemindEntity.setCustomerId(req.getCustomerId());
-            mTaskRemindEntity.setUserId(req.getUserId());
-            mTaskRemindEntity.setTitle(req.getTitle());
-            mTaskRemindEntity.setStatus(req.getStatus());
-            mTaskRemindEntity.setRemindTime(req.getRemindTime());
+        mTaskRemindEntity.setBrandIdenty(req.getHeader().getBrandId());
+        mTaskRemindEntity.setShopIdenty(req.getHeader().getShopId());
+        mTaskRemindEntity.setCustomerId(req.getCustomerId());
+        mTaskRemindEntity.setUserId(req.getUserId());
+        mTaskRemindEntity.setTitle(req.getTitle());
+        mTaskRemindEntity.setStatus(req.getStatus());
+        mTaskRemindEntity.setRemindTime(req.getRemindTime());
 
-            Page<TaskRemindEntity> listPage = mTaskRemindService.queryTaskRemindPage(mTaskRemindEntity,req.getPageNo(),req.getPageSize());
-            List<TaskRemindResp> result = new ArrayList<>();
-            for (TaskRemindEntity entity : listPage.getRecords()) {
-                TaskRemindResp taskRemind = new TaskRemindResp();
-                taskRemind.setId(entity.getId());
-                taskRemind.setTitle(entity.getTitle());
-                taskRemind.setContent(entity.getContent());
-                taskRemind.setCustomerId(entity.getCustomerId());
-                taskRemind.setCustomerName(entity.getCustomerName());
-                taskRemind.setCustomerMobile(entity.getCustomerMobile());
-                taskRemind.setUserId(entity.getUserId());
-                taskRemind.setUserName(entity.getUserName());
-                taskRemind.setType(entity.getType());
+        Page<TaskRemindEntity> listPage = mTaskRemindService.queryTaskRemindPage(mTaskRemindEntity,req.getPageNo(),req.getPageSize());
+        List<TaskRemindResp> result = new ArrayList<>();
+        for (TaskRemindEntity entity : listPage.getRecords()) {
+            TaskRemindResp taskRemind = new TaskRemindResp();
+            taskRemind.setId(entity.getId());
+            taskRemind.setTitle(entity.getTitle());
+            taskRemind.setContent(entity.getContent());
+            taskRemind.setCustomerId(entity.getCustomerId());
+            taskRemind.setCustomerName(entity.getCustomerName());
+            taskRemind.setCustomerMobile(entity.getCustomerMobile());
+            taskRemind.setUserId(entity.getUserId());
+            taskRemind.setUserName(entity.getUserName());
+            taskRemind.setType(entity.getType());
+            taskRemind.setServerCreateTime(entity.getServerCreateTime());
+            taskRemind.setServerUpdateTime(entity.getServerUpdateTime());
 
-                result.add(taskRemind);
-            }
-            return ApiResult.newSuccess(result, listPage);
-        }catch (Exception e){
-            e.printStackTrace();
-            return ApiResult.newResult(1001,"接口异常");
+            result.add(taskRemind);
         }
+        return ApiResult.newSuccess(result, listPage);
 
     }
 
     @RequestMapping("/addTaskRemind")
     public ApiResult addTaskRemind(@RequestBody TaskRemindReq req) throws ApiRespStatusException {
-        try {
-            TaskRemindEntity mTaskRemindEntity = new TaskRemindEntity();
-            mTaskRemindEntity.setBrandIdenty(req.getHeader().getBrandId());
-            mTaskRemindEntity.setShopIdenty(req.getHeader().getShopId());
-            mTaskRemindEntity.setCustomerId(req.getCustomerId());
-            mTaskRemindEntity.setCustomerName(req.getCustomerName());
-            mTaskRemindEntity.setCustomerMobile(req.getCustomerMobile());
-            mTaskRemindEntity.setUserId(req.getUserId());
-            mTaskRemindEntity.setUserName(req.getUserName());
-            mTaskRemindEntity.setRemindTime(req.getRemindTime());
-            mTaskRemindEntity.setTitle(req.getTitle());
-            mTaskRemindEntity.setContent(req.getContent());
-            mTaskRemindEntity.setStatus(req.getStatus());
-            mTaskRemindEntity.setCustomerDocId(req.getCustomerDocId());
-            mTaskRemindEntity.setTaskResult(req.getTaskResult());
-            mTaskRemindEntity.setType(1);
-            mTaskRemindEntity.setStatusFlag(1);
-            mTaskRemindEntity.setCreatorId(req.getCreatorId());
-            mTaskRemindEntity.setCreatorName(req.getCreatorName());
-            mTaskRemindEntity.setServerCreateTime(new Date());
-            mTaskRemindEntity.setUpdatorId(req.getCreatorId());
-            mTaskRemindEntity.setUpdatorName(req.getCreatorName());
-            mTaskRemindEntity.setServerUpdateTime(new Date());
+        TaskRemindEntity mTaskRemindEntity = new TaskRemindEntity();
+        mTaskRemindEntity.setBrandIdenty(req.getHeader().getBrandId());
+        mTaskRemindEntity.setShopIdenty(req.getHeader().getShopId());
+        mTaskRemindEntity.setCustomerId(req.getCustomerId());
+        mTaskRemindEntity.setCustomerName(req.getCustomerName());
+        mTaskRemindEntity.setCustomerMobile(req.getCustomerMobile());
+        mTaskRemindEntity.setUserId(req.getUserId());
+        mTaskRemindEntity.setUserName(req.getUserName());
+        mTaskRemindEntity.setRemindTime(req.getRemindTime());
+        mTaskRemindEntity.setTitle(req.getTitle());
+        mTaskRemindEntity.setContent(req.getContent());
+        mTaskRemindEntity.setStatus(req.getStatus());
+        mTaskRemindEntity.setCustomerDocId(req.getCustomerDocId());
+        mTaskRemindEntity.setTaskResult(req.getTaskResult());
+        mTaskRemindEntity.setType(1);
+        mTaskRemindEntity.setStatusFlag(1);
+        mTaskRemindEntity.setCreatorId(req.getCreatorId());
+        mTaskRemindEntity.setCreatorName(req.getCreatorName());
+        mTaskRemindEntity.setServerCreateTime(new Date());
+        mTaskRemindEntity.setUpdatorId(req.getCreatorId());
+        mTaskRemindEntity.setUpdatorName(req.getCreatorName());
+        mTaskRemindEntity.setServerUpdateTime(new Date());
 
-            mTaskRemindService.addTaskRemind(mTaskRemindEntity);
-            return ApiResult.newSuccess(1000);
-        }catch (Exception e){
-            e.printStackTrace();
-            return ApiResult.newResult(1001,"接口异常");
-        }
+        mTaskRemindService.addTaskRemind(mTaskRemindEntity);
+        return ApiResult.newSuccess(mTaskRemindEntity);
     }
 
     @RequestMapping("/modfityTaskRemind")
     public ApiResult modfityTaskRemind(@RequestBody TaskRemindReq req) throws ApiRespStatusException {
 
-        try {
-            TaskRemindEntity mTaskRemindEntity = new TaskRemindEntity();
-            mTaskRemindEntity.setTaskResult(req.getTaskResult());
-            mTaskRemindEntity.setUpdatorId(req.getCreatorId());
-            mTaskRemindEntity.setUpdatorName(req.getCreatorName());
-            mTaskRemindEntity.setServerUpdateTime(new Date());
+        TaskRemindEntity mTaskRemindEntity = new TaskRemindEntity();
+        mTaskRemindEntity.setTaskResult(req.getTaskResult());
+        mTaskRemindEntity.setUpdatorId(req.getCreatorId());
+        mTaskRemindEntity.setUpdatorName(req.getCreatorName());
+        mTaskRemindEntity.setServerUpdateTime(new Date());
 
-            mTaskRemindService.modfityTaskRemind(mTaskRemindEntity);
-            return ApiResult.newSuccess(1000);
-        }catch (Exception e){
-            e.printStackTrace();
-            return ApiResult.newResult(1001,"接口异常");
-        }
+        mTaskRemindService.modfityTaskRemind(mTaskRemindEntity);
+        return ApiResult.newSuccess(mTaskRemindEntity);
     }
 
 

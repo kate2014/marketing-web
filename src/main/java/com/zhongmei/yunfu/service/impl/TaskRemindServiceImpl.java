@@ -3,6 +3,7 @@ package com.zhongmei.yunfu.service.impl;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.zhongmei.yunfu.api.ApiRespStatusException;
 import com.zhongmei.yunfu.domain.entity.TaskRemindEntity;
 import com.zhongmei.yunfu.domain.mapper.TaskRemindMapper;
 import com.zhongmei.yunfu.service.TaskRemindService;
@@ -25,7 +26,7 @@ public class TaskRemindServiceImpl extends ServiceImpl<TaskRemindMapper, TaskRem
 
 
     @Override
-    public boolean addTaskRemind(TaskRemindEntity mTaskRemindEntity) throws Exception {
+    public boolean addTaskRemind(TaskRemindEntity mTaskRemindEntity) {
         return insert(mTaskRemindEntity);
     }
 
@@ -55,7 +56,7 @@ public class TaskRemindServiceImpl extends ServiceImpl<TaskRemindMapper, TaskRem
         }
         if(mTaskRemindEntity.getRemindTime() != null && !mTaskRemindEntity.getRemindTime().equals("")){
 
-            Date startData = DateFormatUtil.parseDate(DateFormatUtil.format(mTaskRemindEntity.getRemindTime(),DateFormatUtil.FORMAT_DATE),DateFormatUtil.FORMAT_FULL_DATE);
+            Date startData = DateFormatUtil.parseDate(DateFormatUtil.format(mTaskRemindEntity.getRemindTime(),DateFormatUtil.FORMAT_DATE)+" 00:00:00",DateFormatUtil.FORMAT_FULL_DATE);
             Date endData = DateFormatUtil.parseDate(DateFormatUtil.format(mTaskRemindEntity.getRemindTime(),DateFormatUtil.FORMAT_DATE)+" 23:59:59",DateFormatUtil.FORMAT_FULL_DATE);
 
             eWrapper.between("remind_time",startData,endData);
@@ -103,7 +104,7 @@ public class TaskRemindServiceImpl extends ServiceImpl<TaskRemindMapper, TaskRem
     }
 
     @Override
-    public boolean modfityTaskRemind(TaskRemindEntity mTaskRemindEntity) throws Exception {
+    public boolean modfityTaskRemind(TaskRemindEntity mTaskRemindEntity){
         return updateById(mTaskRemindEntity);
     }
 
@@ -113,7 +114,7 @@ public class TaskRemindServiceImpl extends ServiceImpl<TaskRemindMapper, TaskRem
     }
 
     @Override
-    public List<TaskRemindEntity> queryByDocId(Long id) throws Exception {
+    public List<TaskRemindEntity> queryByDocId(Long id){
         EntityWrapper<TaskRemindEntity> eWrapper = new EntityWrapper<>(new TaskRemindEntity());
         eWrapper.eq("customer_doc_id", id);
         eWrapper.eq("status_flag", 1);

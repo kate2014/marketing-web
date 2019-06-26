@@ -3,6 +3,7 @@ package com.zhongmei.yunfu.service.impl;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.zhongmei.yunfu.api.ApiRespStatusException;
 import com.zhongmei.yunfu.domain.entity.BrandEntity;
 import com.zhongmei.yunfu.domain.entity.CustomerArchivesEntity;
 import com.zhongmei.yunfu.domain.mapper.BrandMapper;
@@ -28,12 +29,12 @@ public class CustomerArchivesServiceImpl extends ServiceImpl<CustomerArchivesMap
 
 
     @Override
-    public boolean addCustomerArchives(CustomerArchivesEntity mCustomerArchivesEntity) throws Exception {
+    public boolean addCustomerArchives(CustomerArchivesEntity mCustomerArchivesEntity) {
         return insert(mCustomerArchivesEntity);
     }
 
     @Override
-    public Page<CustomerArchivesEntity> queryArchivesPage(CustomerArchivesEntity mCustomerArchivesEntity,int pageNo,int pageSize) throws Exception {
+    public Page<CustomerArchivesEntity> queryArchivesPage(CustomerArchivesEntity mCustomerArchivesEntity,int pageNo,int pageSize) {
 
         EntityWrapper<CustomerArchivesEntity> eWrapper = new EntityWrapper<>(new CustomerArchivesEntity());
 
@@ -92,7 +93,7 @@ public class CustomerArchivesServiceImpl extends ServiceImpl<CustomerArchivesMap
     }
 
     @Override
-    public CustomerArchivesEntity queryById(Long id) throws Exception {
+    public CustomerArchivesEntity queryById(Long id){
         return selectById(id);
     }
 }

@@ -2,6 +2,7 @@ package com.zhongmei.yunfu.service;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.IService;
+import com.zhongmei.yunfu.api.ApiRespStatusException;
 import com.zhongmei.yunfu.domain.entity.BrandEntity;
 import com.zhongmei.yunfu.domain.entity.CustomerArchivesEntity;
 import com.zhongmei.yunfu.erp.model.ERPBrandModel;
@@ -24,7 +25,7 @@ public interface CustomerArchivesService extends IService<CustomerArchivesEntity
      * @return
      * @throws Exception
      */
-    boolean addCustomerArchives(CustomerArchivesEntity mCustomerArchivesEntity)throws Exception;
+    boolean addCustomerArchives(CustomerArchivesEntity mCustomerArchivesEntity);
 
     /**
      * 获取会员档案分页列表
@@ -34,7 +35,7 @@ public interface CustomerArchivesService extends IService<CustomerArchivesEntity
      * @return
      * @throws Exception
      */
-    Page<CustomerArchivesEntity> queryArchivesPage(CustomerArchivesEntity mCustomerArchivesEntity,int pageNo,int pageSize)throws Exception;
+    Page<CustomerArchivesEntity> queryArchivesPage(CustomerArchivesEntity mCustomerArchivesEntity,int pageNo,int pageSize);
 
     /**
      * 获取会员档案分页列表
@@ -66,5 +67,5 @@ public interface CustomerArchivesService extends IService<CustomerArchivesEntity
      * @return
      * @throws Exception
      */
-    CustomerArchivesEntity queryById(Long id)throws Exception;
+    CustomerArchivesEntity queryById(Long id);
 }

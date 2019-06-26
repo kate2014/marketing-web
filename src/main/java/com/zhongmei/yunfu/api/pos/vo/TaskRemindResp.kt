@@ -18,5 +18,7 @@ class TaskRemindResp() {
     var customerMobile: String? = null
     var userId: Long? = null
     var userName: String? = null
+    var serverCreateTime: Date? = null
+    var serverUpdateTime: Date? = null
 
 }

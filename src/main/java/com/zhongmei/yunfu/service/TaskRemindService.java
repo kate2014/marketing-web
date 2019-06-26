@@ -2,6 +2,7 @@ package com.zhongmei.yunfu.service;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.IService;
+import com.zhongmei.yunfu.api.ApiRespStatusException;
 import com.zhongmei.yunfu.domain.entity.CustomerArchivesEntity;
 import com.zhongmei.yunfu.domain.entity.TaskRemindEntity;
 
@@ -23,7 +24,7 @@ public interface TaskRemindService extends IService<TaskRemindEntity> {
      * @return
      * @throws Exception
      */
-    boolean addTaskRemind(TaskRemindEntity mTaskRemindEntity)throws Exception;
+    boolean addTaskRemind(TaskRemindEntity mTaskRemindEntity);
 
     /**
      * 获取任务提醒分页列表
@@ -49,7 +50,7 @@ public interface TaskRemindService extends IService<TaskRemindEntity> {
      * @return
      * @throws Exception
      */
-    boolean modfityTaskRemind(TaskRemindEntity mTaskRemindEntity)throws Exception;
+    boolean modfityTaskRemind(TaskRemindEntity mTaskRemindEntity);
 
     /**
      * 根据档案id删除档案内容
@@ -65,5 +66,5 @@ public interface TaskRemindService extends IService<TaskRemindEntity> {
      * @return
      * @throws Exception
      */
-    List<TaskRemindEntity> queryByDocId(Long id)throws Exception;
+    List<TaskRemindEntity> queryByDocId(Long id);
 }
