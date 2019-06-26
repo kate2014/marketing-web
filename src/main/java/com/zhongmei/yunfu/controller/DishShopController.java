@@ -414,6 +414,7 @@ public class DishShopController extends BaseController{
             mDishShopEntity.setUnvalidTime(currentDate);
             mDishShopEntity.setScene("100");
             mDishShopEntity.setSort(1);
+
             mDishShopEntity.setBrandIdenty(brandIdentity);
             mDishShopEntity.setShopIdenty(shopIdentity);
 

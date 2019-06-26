@@ -294,6 +294,8 @@
         var checkBox4=document.createElement("input");
         checkBox4.setAttribute("type","text");
         checkBox4.setAttribute("name", "leastCellNum");
+        checkBox4.setAttribute("value", "1");
+        checkBox4.setAttribute("onkeyup", "clearNoNum(this)");
         checkBox4.setAttribute("class","input_least_mini_style");
         leastCellNum.appendChild(checkBox4);
 
@@ -309,6 +311,7 @@
         checkBox5.setAttribute("type","text");
         checkBox5.setAttribute("name", "setmealPrice");
         checkBox5.setAttribute("value",dishPrice);
+        checkBox5.setAttribute("onkeyup", "clearNoNum(this)");
         checkBox5.setAttribute("class", "input_least_mini_style");
         price.appendChild(checkBox5);
 
@@ -558,10 +561,10 @@
                             可复选:<input type="checkbox" name="isMulti" th:value="${item.id}" th:attr ="checked=${item.isMulti==1?true:false}">
                         </td>
                         <td>
-                            起卖数:<input type="text" name="leastCellNum" th:value="${item.leastCellNum}" class="input_least_mini_style">
+                            起卖数:<input type="text" name="leastCellNum" th:value="${item.leastCellNum}" onkeyup="clearNoNum(this)" class="input_least_mini_style">
                         </td>
                         <td>
-                            售价:<input type="text" name="setmealPrice" th:value="${item.price}" class="input_least_mini_style"></span>
+                            售价:<input type="text" name="setmealPrice" th:value="${item.price}" onkeyup="clearNoNum(this)" class="input_least_mini_style"></span>
                         </td>
                         <td align="center">
                             <img style="cursor: pointer;" class="icon_middle_style" th:src="@{/images/delete_icon.png}" onclick="delRow(this)">
