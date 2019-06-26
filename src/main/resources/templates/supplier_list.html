@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<style type="text/css">
+
+    html,body{
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        background-color: #FFFFFF;
+    }
+
+
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <title>供货商列表</title>
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" />
+    <link rel="stylesheet" th:href="@{/css/customer.css}" href="../static/css/customer.css" />
+    <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}" src="../static/js/jquery-3.1.1.min.js" ></script>
+    <!--<script type="text/javascript" th:src="@{/js/base.js}" src="../static/js/base.js" ></script>-->
+    <!--<script type="text/javascript" th:src="@{/js/window/window.ext.js}" src="../static/js/window/window.ext.js" ></script>-->
+
+    <!-- diglog -->
+    <script type="text/javascript" th:src="@{/js/diy_dialog.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/diy_dialog.css}" type="text/css" />
+
+    <link rel="stylesheet" th:href="@{/tips/jquery.toast.css}">
+    <script type="text/javascript" th:src="@{/tips/jquery.toast.js}"></script>
+    <script type="text/javascript" th:src="@{/tips/tips.js}"></script>
+</head>
+
+<script type="text/javascript">
+
+    $(function() {
+        var successOrfail = document.getElementById("successOrfail").value;
+        if(successOrfail != '' && successOrfail != undefined && successOrfail != null){
+            if(successOrfail == "success"){
+                successTips('操作成功','品项操作成功！');
+            }else if(successOrfail == "fail"){
+                errorTips('操作失败','品项操作失败，请优先排查输入信息');
+            }
+        }
+    });
+
+
+    function checkDelete(deleteId, name){
+        var message = "请确认是否要删除: "+name+"?";
+        dialogBox(message,
+            function () {
+                deleteRequest(deleteId);
+            },
+            function(){
+
+            }
+        );
+    }
+
+    function deleteRequest (deleteId) {
+
+        const Url = "[[${basePath}]]/supplier/deleteSupplier?supplierId="+deleteId;
+
+        const Http = new XMLHttpRequest();
+
+        Http.open("GET",Url);
+
+        Http.send();
+
+        Http.onreadystatechange=function () {
+            if(this.readyState == 4 && this.status == 200){
+                location.reload();
+                successTips('操作成功','供货来源删除成功！');
+            }
+        }
+
+    }
+
+    function showSupplierDialog() {
+        document.getElementById('addSupplierDialog').style.display='block';
+    }
+
+    function closeSupplerDialog() {
+        document.getElementById('addSupplierDialog').style.display='none';
+    }
+
+</script>
+
+
+<body>
+<div id="showDialog"></div>
+
+<input type="hidden" id="successOrfail" th:value="${mSupplierModel.successOrfail}">
+
+<div id="addSupplierDialog" style="display: block">
+
+    <div style="background-color: rgba(204,204,204,0.5); width: 100%; position: absolute; height: 100%; z-index: 1;display:flex;justify-content:center;align-items:center;">
+
+        <div style="margin-top: 10px; background-color: #FFFFFF;width: 500px;height: 300px;opacity:1;margin-top: 10%;margin:0 auto;border-style:solid;border-width:5px;border-color:#f8f8f8">
+            <div>
+                <div style="margin: 12px;width: 100%;" class="parent">
+                    <span id="dialogTitle" class="dialog_title_style" style="width: 100%">添加供货商信息</span>
+                    <img th:src="@{/images/close.png}" src="../static/images/close.png" class="image_mini_size_style" style="margin-left: -43px;cursor: pointer" onclick="closeSupplerDialog()">
+                </div>
+                <div style="width: 100%;height: 1px;background-color: #e1e1e1"></div>
+            </div>
+
+            <form method="post" name="addPurchase" id="addPurchase" action="" th:action="@{/supplier/addOrUpdateSupplier}" th:object="${mSupplierModel}">
+
+                <div class="parent_h" style="margin-top: 20px">
+                    <label class="text_navigation" style="width: 60px">货源名称</label>
+                    <input class="add_input_style" style="margin-left: 5px" type="text" name="name"/>
+                </div>
+                <div class="parent_h" style="margin-top: 10px">
+                    <label class="text_navigation" style="width: 60px">货源地址</label>
+                    <input class="add_input_style" style="margin-left: 5px" type="text" name="address"/>
+                </div>
+                <div class="parent_h" style="margin-top: 10px">
+                    <label class="text_navigation" style="width: 60px">联 系 人</label>
+                    <input class="add_input_style" style="margin-left: 5px" type="text" name="contacts"/>
+                </div>
+                <div class="parent_h" style="margin-top: 10px">
+                    <label class="text_navigation" style="width: 60px">联系电话</label>
+                    <input class="add_input_style" style="margin-left: 5px" type="text" name="contactsPhone"/>
+                </div>
+
+            </form>
+
+            <div style="margin-top: 30px" class="parent_h container">
+                <button class="gray_button_style" onclick="closeSupplerDialog()">取消</button>
+                <button class="blue_button_style" onclick="addPurchaseAction()" style="margin-left: 15px">确定</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<form method="post" action="" th:action="@{/supplier/list}" th:object="${mSupplierModel}">
+    <div style="margin-top: 10px" class="parent_h">
+
+        <label class="text_navigation">货源名称</label>
+        <input class="input_style" style="margin-left: 5px" type="text" th:value="${mSupplierModel.name}" name="name"/>
+
+        <label class="text_navigation" style="margin-left: 10px">联系人</label>
+        <input class="input_style" style="margin-left: 5px" type="text" th:value="${mSupplierModel.contacts}" name="contacts"/>
+
+        <label class="text_navigation" style="margin-left: 10px">联系电话</label>
+        <input class="input_style" style="margin-left: 5px" type="text" th:value="${mSupplierModel.contactsPhone}" name="contactsPhone"/>
+
+        <button class="orange_mine_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
+        <div class="blue_button_style container parent_h" th:onclick="'javascript:showSupplierDialog()'" style="margin-left: 15px">+新建供货来源</div>
+    </div>
+</form>
+
+
+
+<div align="center" style="margin-top: 10px;width: 100%">
+    <table class="gridtablestyle" style="width: 98%; vertical-align: middle">
+        <tr style="width: 100%">
+            <th width="20%">货源名称</th>
+            <th>货源地址</th>
+            <th>联系人</th>
+            <th>联系电话</th>
+            <th>操作</th>
+        </tr>
+        <tr th:each="item:${listSupplier}">
+            <td th:text="${item.name}"></td>
+            <td th:text="${item.address}"></td>
+            <td th:text="${item.contacts}"></td>
+            <td th:text="${item.contactsPhone}"></td>
+            <td align="center">
+                <a th:onclick="'javascript:showSupplierDialog()'" style="cursor: pointer">编辑</a>&nbsp;&nbsp;
+                <a th:onclick="'javascript:checkDelete(\''+${item.id}+'\',\''+${item.name}+'\')'" style="cursor: pointer">删除</a>
+            </td>
+
+        </tr>
+    </table>
+</div>
+
+<div class="paging">
+    <div th:replace="page_info::pagination"/>
+</div>
+
+</body>
+</html>

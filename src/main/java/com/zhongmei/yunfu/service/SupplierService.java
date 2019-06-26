@@ -1,5 +1,6 @@
 package com.zhongmei.yunfu.service;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.IService;
 import com.zhongmei.yunfu.domain.entity.SupplierEntity;
 
@@ -23,4 +24,29 @@ public interface SupplierService extends IService<SupplierEntity> {
      */
     List<SupplierEntity> querySupplier(SupplierEntity mSupplierEntity)throws Exception;
 
+    /**
+     * 分页查询供货商列表
+     * @param mSupplierEntity
+     * @param pageNo
+     * @param pageSize
+     * @return
+     * @throws Exception
+     */
+    Page<SupplierEntity> querySupplierPage(SupplierEntity mSupplierEntity,int pageNo,int pageSize)throws Exception;
+
+    /**
+     * 根据Id删除供货来源
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    boolean deleteSupplierById(Long id)throws Exception;
+
+    /**
+     * 添加供货来源
+     * @param mSupplierEntity
+     * @return
+     * @throws Exception
+     */
+    boolean addOrUpdateSupplier(SupplierEntity mSupplierEntity)throws Exception;
 }
