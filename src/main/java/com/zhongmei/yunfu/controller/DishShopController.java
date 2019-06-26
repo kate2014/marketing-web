@@ -654,6 +654,8 @@ public class DishShopController extends BaseController{
                 mDishPropertyService.deletePropertyByDishId(brandIdentity,shopIdentity,mDishShopModel.getDishShopId());
             }else if(mDishShopModel.getType() == 1){
                 //删除套餐子项
+                mDishSetmealGroupService.delectSetmealGroup(mDishShopModel.getDishShopId());
+                mDishSetmealService.delectSetmealByDishId(mDishShopModel.getDishShopId());
             }
 
 

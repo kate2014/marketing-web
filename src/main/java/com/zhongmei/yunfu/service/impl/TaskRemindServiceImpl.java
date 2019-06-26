@@ -60,7 +60,6 @@ public class TaskRemindServiceImpl extends ServiceImpl<TaskRemindMapper, TaskRem
             Date endData = DateFormatUtil.parseDate(DateFormatUtil.format(mTaskRemindEntity.getRemindTime(),DateFormatUtil.FORMAT_DATE)+" 23:59:59",DateFormatUtil.FORMAT_FULL_DATE);
 
             eWrapper.between("remind_time",startData,endData);
-            eWrapper.eq("remind_time", mTaskRemindEntity.getRemindTime());
         }
 
         eWrapper.eq("status_flag", 1);

@@ -1,6 +1,7 @@
 package com.zhongmei.yunfu.api.pos.vo
 
 import com.zhongmei.yunfu.api.PosReq
+import com.zhongmei.yunfu.domain.entity.CustomerArchivesEntity
 import com.zhongmei.yunfu.domain.entity.TaskRemindEntity
 import java.util.*
 
@@ -14,4 +15,6 @@ class CustomerArchivesResp {
     var listTask: List<TaskRemindEntity>? = null
     var serverCreateTime: Date? = null
     var serverUpdateTime: Date? = null
+    var archives: CustomerArchivesEntity? = null
+    var taskRemind: TaskRemindEntity ? = null
 }

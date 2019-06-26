@@ -13,5 +13,6 @@ class CustomerArchivesReq : PosReq() {
     var creatorId: Long? = null
     var creatorName: String? = null
     var archivesId: Long? = null
+    var taskReq: TaskRemindReq? = null
 
 }

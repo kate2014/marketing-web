@@ -6,6 +6,7 @@ import com.zhongmei.yunfu.api.ApiResult;
 import com.zhongmei.yunfu.api.PosApiController;
 import com.zhongmei.yunfu.api.pos.vo.CustomerArchivesReq;
 import com.zhongmei.yunfu.api.pos.vo.CustomerArchivesResp;
+import com.zhongmei.yunfu.api.pos.vo.TaskRemindReq;
 import com.zhongmei.yunfu.domain.entity.CustomerArchivesEntity;
 import com.zhongmei.yunfu.domain.entity.TaskRemindEntity;
 import com.zhongmei.yunfu.service.CustomerArchivesService;
@@ -57,6 +58,13 @@ public class CustomerArchivesApi extends PosApiController {
 
     @RequestMapping("/addArchives")
     public ApiResult addArchives(@RequestBody CustomerArchivesReq req) throws ApiRespStatusException {
+
+        CustomerArchivesEntity mCustomerArchivesEntity = addCustomerArchives(req);
+
+        return ApiResult.newSuccess(mCustomerArchivesEntity);
+    }
+
+    public CustomerArchivesEntity addCustomerArchives(CustomerArchivesReq req){
         CustomerArchivesEntity mCustomerArchivesEntity = new CustomerArchivesEntity();
         mCustomerArchivesEntity.setBrandIdenty(req.getHeader().getBrandId());
         mCustomerArchivesEntity.setShopIdenty(req.getHeader().getShopId());
@@ -73,8 +81,7 @@ public class CustomerArchivesApi extends PosApiController {
         mCustomerArchivesEntity.setServerUpdateTime(new Date());
 
         mCustomerArchivesService.addCustomerArchives(mCustomerArchivesEntity);
-
-        return ApiResult.newSuccess(mCustomerArchivesEntity);
+        return mCustomerArchivesEntity;
     }
 
     @RequestMapping("/queryById")
@@ -89,6 +96,45 @@ public class CustomerArchivesApi extends PosApiController {
         List<TaskRemindEntity> listTask = mTaskRemindService.queryByDocId(req.getArchivesId());
         mCustomerArchivesResp.setListTask(listTask);
         return ApiResult.newSuccess(mCustomerArchivesResp);
+    }
+
+    @RequestMapping("/addArchivesAndTask")
+    public ApiResult addArchivesAndTask(@RequestBody CustomerArchivesReq req) throws ApiRespStatusException {
+        CustomerArchivesResp mCustomerArchivesResp = new CustomerArchivesResp();
+        CustomerArchivesEntity mCustomerArchivesEntity = addCustomerArchives(req);
+        TaskRemindEntity mTaskRemindEntity = addTaskRemind(req);
+        mCustomerArchivesResp.setArchives(mCustomerArchivesEntity);
+        mCustomerArchivesResp.setTaskRemind(mTaskRemindEntity);
+        return ApiResult.newSuccess(mCustomerArchivesResp);
+    }
+
+    public TaskRemindEntity addTaskRemind(CustomerArchivesReq req){
+        TaskRemindReq taskReq = req.getTaskReq();
+        TaskRemindEntity mTaskRemindEntity = new TaskRemindEntity();
+        mTaskRemindEntity.setBrandIdenty(req.getHeader().getBrandId());
+        mTaskRemindEntity.setShopIdenty(req.getHeader().getShopId());
+        mTaskRemindEntity.setCustomerId(req.getCustomerId());
+        mTaskRemindEntity.setCustomerName(taskReq.getCustomerName());
+        mTaskRemindEntity.setCustomerMobile(taskReq.getCustomerMobile());
+        mTaskRemindEntity.setUserId(taskReq.getUserId());
+        mTaskRemindEntity.setUserName(taskReq.getUserName());
+        mTaskRemindEntity.setRemindTime(taskReq.getRemindTime());
+        mTaskRemindEntity.setTitle(req.getTitle());
+        mTaskRemindEntity.setContent(req.getContent());
+        mTaskRemindEntity.setStatus(taskReq.getStatus());
+        mTaskRemindEntity.setCustomerDocId(taskReq.getCustomerDocId());
+        mTaskRemindEntity.setTaskResult(taskReq.getTaskResult());
+        mTaskRemindEntity.setType(1);
+        mTaskRemindEntity.setStatusFlag(1);
+        mTaskRemindEntity.setCreatorId(req.getCreatorId());
+        mTaskRemindEntity.setCreatorName(req.getCreatorName());
+        mTaskRemindEntity.setServerCreateTime(new Date());
+        mTaskRemindEntity.setUpdatorId(req.getCreatorId());
+        mTaskRemindEntity.setUpdatorName(req.getCreatorName());
+        mTaskRemindEntity.setServerUpdateTime(new Date());
+
+        mTaskRemindService.addTaskRemind(mTaskRemindEntity);
+        return mTaskRemindEntity;
     }
 
 }
