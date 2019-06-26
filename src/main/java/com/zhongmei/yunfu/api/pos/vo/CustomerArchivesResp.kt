@@ -15,6 +15,4 @@ class CustomerArchivesResp {
     var listTask: List<TaskRemindEntity>? = null
     var serverCreateTime: Date? = null
     var serverUpdateTime: Date? = null
-    var archives: CustomerArchivesEntity? = null
-    var taskRemind: TaskRemindEntity ? = null
 }
