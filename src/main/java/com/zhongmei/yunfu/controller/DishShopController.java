@@ -211,7 +211,7 @@ public class DishShopController extends BaseController{
                     }
                 }
 
-                List<DishSetmealModel> listSetmealModel = new ArrayList<>();
+                List<DishSetmealModel> listSetmealModel = new LinkedList<>();
 
                 for(DishSetmealGroupEntity group : listSetmealGroup){
                     DishSetmealModel mDishSetmealModel = new DishSetmealModel();
@@ -465,157 +465,171 @@ public class DishShopController extends BaseController{
             List<String> leastCellNums = mDishShopModel.getLeastCellNum();
             List<String> setmealPrices = mDishShopModel.getSetmealPrice();
 
-            System.out.println("=====isReplaces====="+isReplaces);
-            System.out.println("=====isDefaults====="+isDefaults);
-            System.out.println("=====isMultis====="+isMultis);
-
-            //获取更新或添加前的子项类别和子项
-            List<DishSetmealGroupEntity> listOldSetmealGroup = mDishSetmealGroupService.querySetmealTypeByDishId(brandIdentity,shopIdentity,mDishShopModel.getDishShopId());
-            List<DishSetmealModel> listOldSetmeal = mDishSetmealService.querySetmealList(mDishShopModel.getDishShopId());
+            //当修改套餐时才判断是否有删除，新增不需要执行该过程
+            if(mDishShopModel.getDishShopId() != null){
+                //获取更新或添加前的子项类别和子项
+                List<DishSetmealGroupEntity> listOldSetmealGroup = mDishSetmealGroupService.querySetmealTypeByDishId(brandIdentity,shopIdentity,mDishShopModel.getDishShopId());
+                List<DishSetmealModel> listOldSetmeal = mDishSetmealService.querySetmealList(mDishShopModel.getDishShopId());
 
 
-            //获取被删除的类别 进行删除操作
-            List<Long> listTypeIds = new ArrayList<>();
-            for(DishSetmealGroupEntity entity:listOldSetmealGroup){
-                boolean isHad = false;
-                for(String typeId : typeIds){
-                    Long tempId = Long.valueOf(typeId);
-                    if(tempId.longValue() == entity.getId().longValue()){
-                        isHad = true;
-                        break;
+                //获取被删除的类别 进行删除操作
+                if(listOldSetmealGroup != null && listOldSetmealGroup.size()>0){
+                    List<Long> listTypeIds = new ArrayList<>();
+                    for(DishSetmealGroupEntity entity:listOldSetmealGroup){
+                        boolean isHad = false;
+                        if(typeIds != null && typeIds.size() > 0){
+                            for(String typeId : typeIds){
+                                Long tempId = Long.valueOf(typeId);
+                                if(tempId.longValue() == entity.getId().longValue()){
+                                    isHad = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if(!isHad){
+                            listTypeIds.add(entity.getId());
+                        }
+
+                    }
+                    if(listTypeIds.size() > 0){
+                        mDishSetmealGroupService.batchDelete(listTypeIds);
                     }
                 }
-                if(!isHad){
-                    listTypeIds.add(entity.getId());
-                }
 
-            }
-            if(listTypeIds.size() > 0){
-                mDishSetmealGroupService.batchDelete(listTypeIds);
-            }
 
-            //获取被删除的子项 进行删除操作
-            List<Long> listSetmealIds = new ArrayList<>();
-            for(DishSetmealModel entity:listOldSetmeal){
-                boolean isHad = false;
-                for(String setmealId : listSetmealId){
-                    Long tempId = Long.valueOf(setmealId);
-                    if(tempId.longValue() == entity.getId().longValue()){
-                        isHad = true;
-                        break;
+                //获取被删除的子项 进行删除操作
+                if(listOldSetmeal != null && listOldSetmeal.size() > 0){
+                    List<Long> listSetmealIds = new ArrayList<>();
+                    for(DishSetmealModel entity:listOldSetmeal){
+                        boolean isHad = false;
+                        if(listSetmealId != null && listSetmealId.size() > 0){
+                            for(String setmealId : listSetmealId){
+                                Long tempId = Long.valueOf(setmealId);
+                                if(tempId.longValue() == entity.getId().longValue()){
+                                    isHad = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if(!isHad){
+                            listSetmealIds.add(entity.getId());
+                        }
+                    }
+                    if(listSetmealIds.size()>0){
+                        mDishSetmealService.batchDelete(listSetmealIds);
                     }
                 }
-                if(!isHad){
-                    listSetmealIds.add(entity.getId());
-                }
             }
-            if(listSetmealIds.size()>0){
-                mDishSetmealService.batchDelete(listSetmealIds);
-            }
+
 
             Map<String,Long> setmealTypeId = new HashMap<>();
 
-            for(int i=0;i<typeIds.size();i++){
-                String typeId = typeIds.get(i);
-                if(typeId != null){
-                    long id = Long.valueOf(typeId);
-                    //添加、编辑子项中类
-                    DishSetmealGroupEntity mDishSetmealGroupEntity = new DishSetmealGroupEntity();
-                    if(id >0){
-                        mDishSetmealGroupEntity.setId(id);
-                    }else{
-                        mDishSetmealGroupEntity.setCreatorId(creatorId);
-                        mDishSetmealGroupEntity.setCreatorName(creatorname);
+            if(typeIds != null && typeIds.size() > 0){
+                for(int i=typeIds.size()-1;i>=0;i--){
+                    String typeId = typeIds.get(i);
+                    if(typeId != null){
+                        long id = Long.valueOf(typeId);
+                        //添加、编辑子项中类
+                        DishSetmealGroupEntity mDishSetmealGroupEntity = new DishSetmealGroupEntity();
+                        if(id >0){
+                            mDishSetmealGroupEntity.setId(id);
+                        }else{
+                            mDishSetmealGroupEntity.setCreatorId(creatorId);
+                            mDishSetmealGroupEntity.setCreatorName(creatorname);
 
-                        mDishSetmealGroupEntity.setBrandIdenty(brandIdentity);
-                        mDishSetmealGroupEntity.setShopIdenty(shopIdentity);
-                        mDishSetmealGroupEntity.setServerCreateTime(new Date());
+                            mDishSetmealGroupEntity.setBrandIdenty(brandIdentity);
+                            mDishSetmealGroupEntity.setShopIdenty(shopIdentity);
+                            mDishSetmealGroupEntity.setServerCreateTime(new Date());
+                        }
+                        mDishSetmealGroupEntity.setSetmealDishId(mDishShopEntity.getId());
+                        mDishSetmealGroupEntity.setName(typeNames.get(i));
+                        mDishSetmealGroupEntity.setOrderMin(new BigDecimal(orderMins.get(i)));
+                        mDishSetmealGroupEntity.setOrderMax(new BigDecimal(orderMaxs.get(i)));
+                        mDishSetmealGroupEntity.setSort(0);
+                        mDishSetmealGroupEntity.setStatusFlag(1);
+                        mDishSetmealGroupEntity.setUpdatorId(creatorId);
+                        mDishSetmealGroupEntity.setUpdatorName(creatorname);
+                        mDishSetmealGroupEntity.setServerUpdateTime(new Date());
+                        mDishSetmealGroupEntity = mDishSetmealGroupService.addOrUpdate(mDishSetmealGroupEntity);
+                        setmealTypeId.put(typeId,mDishSetmealGroupEntity.getId());
                     }
-                    mDishSetmealGroupEntity.setSetmealDishId(mDishShopEntity.getId());
-                    mDishSetmealGroupEntity.setName(typeNames.get(i));
-                    mDishSetmealGroupEntity.setOrderMin(new BigDecimal(orderMins.get(i)));
-                    mDishSetmealGroupEntity.setOrderMax(new BigDecimal(orderMaxs.get(i)));
-                    mDishSetmealGroupEntity.setSort(0);
-                    mDishSetmealGroupEntity.setStatusFlag(1);
-                    mDishSetmealGroupEntity.setUpdatorId(creatorId);
-                    mDishSetmealGroupEntity.setUpdatorName(creatorname);
-                    mDishSetmealGroupEntity.setServerUpdateTime(new Date());
-                    mDishSetmealGroupEntity = mDishSetmealGroupService.addOrUpdate(mDishSetmealGroupEntity);
-                    System.out.println(mDishSetmealGroupEntity.getId());
-                    setmealTypeId.put(typeId,mDishSetmealGroupEntity.getId());
                 }
             }
 
-            List<DishSetmealEntity> listSetmeal = new ArrayList<>();
 
-            for(int i=0;i<listSetmealId.size();i++){
-                DishSetmealEntity msetmeal = new DishSetmealEntity();
-                Long setmealId = Long.valueOf(listSetmealId.get(i));
 
-                if(setmealId>0){
-                    msetmeal.setId(setmealId);
-                }else {
-                    msetmeal.setCreatorId(creatorId);
-                    msetmeal.setCreatorName(creatorname);
-                    msetmeal.setServerCreateTime(new Date());
-                    msetmeal.setShopIdenty(shopIdentity);
-                    msetmeal.setBrandIdenty(brandIdentity);
-                }
-                msetmeal.setDishId(mDishShopEntity.getId());
-                String comboDishTypeId = listComboDishTypeId.get(i);
-                msetmeal.setComboDishTypeId(setmealTypeId.get(comboDishTypeId));
 
-                msetmeal.setChildDishId(Long.valueOf(childDishId.get(i)));
-                msetmeal.setChildDishType(0);
+            if(listSetmealId != null && listSetmealId.size() > 0){
+                List<DishSetmealEntity> listSetmeal = new ArrayList<>();
 
-                msetmeal.setReplace(0);
-                if(isReplaces != null){
-                    for(String sIsReplace : isReplaces){
-                        int isReplace = Integer.parseInt(sIsReplace);
-                        if(isReplace == setmealId){
-                            msetmeal.setReplace(1);
-                        }
+                for(int i=0;i<listSetmealId.size();i++){
+                    DishSetmealEntity msetmeal = new DishSetmealEntity();
+                    Long setmealId = Long.valueOf(listSetmealId.get(i));
+
+                    if(setmealId>0){
+                        msetmeal.setId(setmealId);
+                    }else {
+                        msetmeal.setCreatorId(creatorId);
+                        msetmeal.setCreatorName(creatorname);
+                        msetmeal.setServerCreateTime(new Date());
+                        msetmeal.setShopIdenty(shopIdentity);
+                        msetmeal.setBrandIdenty(brandIdentity);
                     }
-                }
+                    msetmeal.setDishId(mDishShopEntity.getId());
+                    String comboDishTypeId = listComboDishTypeId.get(i);
+                    msetmeal.setComboDishTypeId(setmealTypeId.get(comboDishTypeId));
 
-                msetmeal.setDefault(0);
-                if(isDefaults != null){
-                    for(String sIsDefault : isDefaults){
-                        if(sIsDefault != null){
-                            int isDefault = Integer.parseInt(sIsDefault);
-                            if(isDefault == setmealId){
-                                msetmeal.setDefault(1);
+                    msetmeal.setChildDishId(Long.valueOf(childDishId.get(i)));
+                    msetmeal.setChildDishType(0);
+
+                    msetmeal.setReplace(0);
+                    if(isReplaces != null){
+                        for(String sIsReplace : isReplaces){
+                            int isReplace = Integer.parseInt(sIsReplace);
+                            if(isReplace == setmealId){
+                                msetmeal.setReplace(1);
                             }
                         }
                     }
-                }
 
-                msetmeal.setMulti(0);
-                if(isMultis != null){
-                    for(String sIsMulti : isMultis){
-                        int isMulti = Integer.parseInt(sIsMulti);
-                        if(isMulti == setmealId){
-                            msetmeal.setMulti(1);
+                    msetmeal.setDefault(0);
+                    if(isDefaults != null){
+                        for(String sIsDefault : isDefaults){
+                            if(sIsDefault != null){
+                                int isDefault = Integer.parseInt(sIsDefault);
+                                if(isDefault == setmealId){
+                                    msetmeal.setDefault(1);
+                                }
+                            }
                         }
                     }
+
+                    msetmeal.setMulti(0);
+                    if(isMultis != null){
+                        for(String sIsMulti : isMultis){
+                            int isMulti = Integer.parseInt(sIsMulti);
+                            if(isMulti == setmealId){
+                                msetmeal.setMulti(1);
+                            }
+                        }
+                    }
+
+                    msetmeal.setLeastCellNum(new BigDecimal(leastCellNums.get(i)));
+                    msetmeal.setPrice(new BigDecimal(setmealPrices.get(i)));
+
+                    msetmeal.setSort(0);
+                    msetmeal.setStatusFlag(1);
+                    msetmeal.setUpdatorId(creatorId);
+                    msetmeal.setUpdatorName(creatorname);
+                    msetmeal.setServerUpdateTime(new Date());
+
+                    listSetmeal.add(msetmeal);
                 }
 
-                msetmeal.setLeastCellNum(new BigDecimal(leastCellNums.get(i)));
-                msetmeal.setPrice(new BigDecimal(setmealPrices.get(i)));
-
-                msetmeal.setSort(0);
-                msetmeal.setStatusFlag(1);
-                msetmeal.setUpdatorId(creatorId);
-                msetmeal.setUpdatorName(creatorname);
-                msetmeal.setServerUpdateTime(new Date());
-
-                listSetmeal.add(msetmeal);
+                mDishSetmealService.batchAddOrUpdateSetmeal(listSetmeal);
             }
-
-            mDishSetmealService.batchAddOrUpdateSetmeal(listSetmeal);
-
-
-
 
         }catch (Exception e){
             e.printStackTrace();
