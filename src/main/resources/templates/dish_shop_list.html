@@ -245,10 +245,15 @@
 <input type="hidden" id="successOrfail" th:value="${mDishShopModel.successOrfail}">
 
 
+<div class="parent">
+    <div class="blue_button_style parent_h container" style="margin-top: 10px;margin-left: 15px;padding-right: 10px;width: 120px" th:onclick="@{|location='${basePath}/dishShop/intoAddOrUpdateSingleDish?dishTypeId=${mDishShopModel.dishTypeId}'|}">
+        <img style="cursor: pointer" class="icon_middle_style" src="../static/images/add_sing_icon.png" th:src="@{/images/add_sing_icon.png}">+新建单品
+    </div>
 
-<button class="blue_button_style" style="margin-top: 10px;margin-left: 15px" th:onclick="@{|location='${basePath}/dishShop/intoAddOrUpdateSingleDish?dishTypeId=${mDishShopModel.dishTypeId}'|}">+新建单品</button>
-
-<button class="blue_button_style" style="margin-top: 10px;margin-left: 15px" th:onclick="@{|location='${basePath}/dishShop/intoAddOrUpdatePackageDish?dishTypeId=${mDishShopModel.dishTypeId}'|}">+新建套餐</button>
+    <div class="blue_button_style parent_h container" style="margin-top: 10px;margin-left: 15px;padding-right: 10px;width: 120px" th:onclick="@{|location='${basePath}/dishShop/intoAddOrUpdatePackageDish?dishTypeId=${mDishShopModel.dishTypeId}'|}">
+        <img style="cursor: pointer" class="icon_middle_style" src="../static/images/add_package_icon.png" th:src="@{/images/add_package_icon.png}">+新建套餐
+    </div>
+</div>
 
 <div align="center" style="margin-top: 10px;width: 100%">
     <table class="gridtablestyle" style="width: 98%; vertical-align: middle">
