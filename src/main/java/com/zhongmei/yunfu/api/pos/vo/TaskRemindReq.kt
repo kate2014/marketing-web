@@ -5,8 +5,10 @@ import java.util.*
 
 class TaskRemindReq : PosReq() {
 
+
     var pageNo: Int = 0
     var pageSize: Int = 20
+    var taskId: Long? = null
     var creatorId: Long? = null
     var creatorName: String? = null
     var title: String? = null

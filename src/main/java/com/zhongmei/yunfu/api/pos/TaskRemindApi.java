@@ -99,6 +99,18 @@ public class TaskRemindApi extends PosApiController {
         mTaskRemindEntity.setUpdatorId(req.getCreatorId());
         mTaskRemindEntity.setUpdatorName(req.getCreatorName());
         mTaskRemindEntity.setServerUpdateTime(new Date());
+        mTaskRemindEntity.setId(req.getTaskId());
+        mTaskRemindEntity.setCustomerId(req.getCustomerId());
+        mTaskRemindEntity.setCustomerName(req.getCustomerName());
+        mTaskRemindEntity.setCustomerMobile(req.getCustomerMobile());
+        mTaskRemindEntity.setUserId(req.getUserId());
+        mTaskRemindEntity.setUserName(req.getUserName());
+        mTaskRemindEntity.setRemindTime(req.getRemindTime());
+        mTaskRemindEntity.setTitle(req.getTitle());
+        mTaskRemindEntity.setContent(req.getContent());
+        mTaskRemindEntity.setStatus(req.getStatus());
+        mTaskRemindEntity.setTaskResult(req.getTaskResult());
+        mTaskRemindEntity.setType(req.getType());
 
         mTaskRemindService.modfityTaskRemind(mTaskRemindEntity);
         return ApiResult.newSuccess(mTaskRemindEntity);
