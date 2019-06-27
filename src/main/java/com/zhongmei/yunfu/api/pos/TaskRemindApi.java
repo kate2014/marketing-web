@@ -46,6 +46,7 @@ public class TaskRemindApi extends PosApiController {
             taskRemind.setId(entity.getId());
             taskRemind.setTitle(entity.getTitle());
             taskRemind.setContent(entity.getContent());
+            taskRemind.setRemindTime(entity.getRemindTime());
             taskRemind.setCustomerId(entity.getCustomerId());
             taskRemind.setCustomerName(entity.getCustomerName());
             taskRemind.setCustomerMobile(entity.getCustomerMobile());

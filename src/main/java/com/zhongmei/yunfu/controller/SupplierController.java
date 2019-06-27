@@ -65,6 +65,7 @@ public class SupplierController extends BaseController {
 
         try {
             SupplierEntity mSupplierEntity = new SupplierEntity();
+
             mSupplierEntity.setBrandIdenty(brandIdenty);
             mSupplierEntity.setShopIdenty(shopIdenty);
             mSupplierEntity.setName(mSupplierModel.getName());
@@ -79,11 +80,14 @@ public class SupplierController extends BaseController {
                 mSupplierEntity.setCreatorId(creatorId);
                 mSupplierEntity.setCreatorName(creatorname);
                 mSupplierEntity.setServerCreateTime(new Date());
+            }else{
+                mSupplierEntity.setId(mSupplierModel.getSupplierId());
             }
 
             mSupplierService.addOrUpdateSupplier(mSupplierEntity);
         }catch (Exception e){
             e.printStackTrace();
+            actionSuccess = "fail";
         }
 
         return String.format("redirect:/supplier/list?brandIdenty=%d&shopIdenty=%d&creatorId=%d&creatorName=%s&successOrfail=%s",

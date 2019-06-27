@@ -78,14 +78,30 @@
 
     }
 
-    function showSupplierDialog() {
+    function showSupplierDialog(supplierId,name,address,contacts,contactsPhone) {
+        $('#supplierId').val(supplierId);
+        $('#name').val(name);
+        $('#address').val(address);
+        $('#contacts').val(contacts);
+        $('#contactsPhone').val(contactsPhone);
+
         document.getElementById('addSupplierDialog').style.display='block';
     }
 
-    function closeSupplerDialog() {
+    function closeSupplierDialog() {
         document.getElementById('addSupplierDialog').style.display='none';
     }
 
+    function addSupplierAction() {
+        var name = $('#name').val();
+        if(name == '' || name == undefined || name == null){
+            warningTips("操作异常提示","货源名称不能为空！");
+        }else{
+
+            document.addSupplier.submit();
+            closeSupplierDialog();
+        }
+    }
 </script>
 
 
@@ -94,7 +110,7 @@
 
 <input type="hidden" id="successOrfail" th:value="${mSupplierModel.successOrfail}">
 
-<div id="addSupplierDialog" style="display: block">
+<div id="addSupplierDialog" style="display: none">
 
     <div style="background-color: rgba(204,204,204,0.5); width: 100%; position: absolute; height: 100%; z-index: 1;display:flex;justify-content:center;align-items:center;">
 
@@ -102,35 +118,42 @@
             <div>
                 <div style="margin: 12px;width: 100%;" class="parent">
                     <span id="dialogTitle" class="dialog_title_style" style="width: 100%">添加供货商信息</span>
-                    <img th:src="@{/images/close.png}" src="../static/images/close.png" class="image_mini_size_style" style="margin-left: -43px;cursor: pointer" onclick="closeSupplerDialog()">
+                    <img th:src="@{/images/close.png}" src="../static/images/close.png" class="image_mini_size_style" style="margin-left: -43px;cursor: pointer" onclick="closeSupplierDialog()">
                 </div>
                 <div style="width: 100%;height: 1px;background-color: #e1e1e1"></div>
             </div>
 
-            <form method="post" name="addPurchase" id="addPurchase" action="" th:action="@{/supplier/addOrUpdateSupplier}" th:object="${mSupplierModel}">
+            <form method="post" name="addSupplier" id="addPurchase" action="" th:action="@{/supplier/addOrUpdateSupplier}" th:object="${mSupplierModel}">
 
-                <div class="parent_h" style="margin-top: 20px">
+                <input type="hidden" id="supplierId" name="supplierId"/>
+
+                <div class="parent_h container" style="margin-top: 20px">
+                    <span style="color: #FF6600;size: 12px">*</span>
                     <label class="text_navigation" style="width: 60px">货源名称</label>
-                    <input class="add_input_style" style="margin-left: 5px" type="text" name="name"/>
+                    <input class="add_input_style" style="margin-left: 5px" type="text" id="name" name="name"/>
+
                 </div>
-                <div class="parent_h" style="margin-top: 10px">
+                <div class="parent_h container" style="margin-top: 10px">
+                    <span style="color: #FF6600;size: 12px">&nbsp;</span>
                     <label class="text_navigation" style="width: 60px">货源地址</label>
-                    <input class="add_input_style" style="margin-left: 5px" type="text" name="address"/>
+                    <input class="add_input_style" style="margin-left: 5px" type="text" id="address" name="address"/>
                 </div>
-                <div class="parent_h" style="margin-top: 10px">
+                <div class="parent_h container" style="margin-top: 10px">
+                    <span style="color: #FF6600;size: 12px">&nbsp;</span>
                     <label class="text_navigation" style="width: 60px">联 系 人</label>
-                    <input class="add_input_style" style="margin-left: 5px" type="text" name="contacts"/>
+                    <input class="add_input_style" style="margin-left: 5px" type="text" id="contacts" name="contacts"/>
                 </div>
-                <div class="parent_h" style="margin-top: 10px">
+                <div class="parent_h container" style="margin-top: 10px">
+                    <span style="color: #FF6600;size: 12px">&nbsp;</span>
                     <label class="text_navigation" style="width: 60px">联系电话</label>
-                    <input class="add_input_style" style="margin-left: 5px" type="text" name="contactsPhone"/>
+                    <input class="add_input_style" style="margin-left: 5px" type="text" id="contactsPhone" name="contactsPhone"/>
                 </div>
 
             </form>
 
             <div style="margin-top: 30px" class="parent_h container">
-                <button class="gray_button_style" onclick="closeSupplerDialog()">取消</button>
-                <button class="blue_button_style" onclick="addPurchaseAction()" style="margin-left: 15px">确定</button>
+                <button class="gray_button_style" onclick="closeSupplierDialog()">取消</button>
+                <button class="blue_button_style" onclick="addSupplierAction()" style="margin-left: 15px">确定</button>
             </div>
 
         </div>
@@ -151,14 +174,14 @@
         <input class="input_style" style="margin-left: 5px" type="text" th:value="${mSupplierModel.contactsPhone}" name="contactsPhone"/>
 
         <button class="orange_mine_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
-        <div class="blue_button_style container parent_h" th:onclick="'javascript:showSupplierDialog()'" style="margin-left: 15px">+新建供货来源</div>
+        <div class="blue_button_style container parent_h" onclick="showSupplierDialog('','','','','')" style="margin-left: 15px">+新建供货来源</div>
     </div>
 </form>
 
 
 
 <div align="center" style="margin-top: 10px;width: 100%">
-    <table class="gridtablestyle" style="width: 98%; vertical-align: middle">
+    <table class="gridtablestyle" style="width: 96%; vertical-align: middle">
         <tr style="width: 100%">
             <th width="20%">货源名称</th>
             <th>货源地址</th>
@@ -172,7 +195,7 @@
             <td th:text="${item.contacts}"></td>
             <td th:text="${item.contactsPhone}"></td>
             <td align="center">
-                <a th:onclick="'javascript:showSupplierDialog()'" style="cursor: pointer">编辑</a>&nbsp;&nbsp;
+                <a th:onclick="'javascript:showSupplierDialog(\''+${item.id}+'\',\''+${item.name}+'\',\''+${item.address}+'\',\''+${item.contacts}+'\',\''+${item.contactsPhone}+'\')'" style="cursor: pointer">编辑</a>&nbsp;&nbsp;
                 <a th:onclick="'javascript:checkDelete(\''+${item.id}+'\',\''+${item.name}+'\')'" style="cursor: pointer">删除</a>
             </td>
 
