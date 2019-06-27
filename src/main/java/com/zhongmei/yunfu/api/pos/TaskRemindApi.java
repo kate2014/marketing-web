@@ -112,6 +112,7 @@ public class TaskRemindApi extends PosApiController {
         mTaskRemindEntity.setTaskResult(req.getTaskResult());
         mTaskRemindEntity.setType(req.getType());
 
+
         mTaskRemindService.modfityTaskRemind(mTaskRemindEntity);
         return ApiResult.newSuccess(mTaskRemindEntity);
     }
