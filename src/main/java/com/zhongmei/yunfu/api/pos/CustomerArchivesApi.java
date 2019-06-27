@@ -101,13 +101,14 @@ public class CustomerArchivesApi extends PosApiController {
     @RequestMapping("/addArchivesAndTask")
     public ApiResult addArchivesAndTask(@RequestBody CustomerArchivesReq req) throws ApiRespStatusException {
         CustomerArchivesEntity mCustomerArchivesEntity = addCustomerArchives(req);
-        TaskRemindEntity mTaskRemindEntity = addTaskRemind(req);
+        TaskRemindEntity mTaskRemindEntity = addTaskRemind(req,mCustomerArchivesEntity.getId());
         return ApiResult.newResult(1000,"添加成功");
     }
 
-    public TaskRemindEntity addTaskRemind(CustomerArchivesReq req){
+    public TaskRemindEntity addTaskRemind(CustomerArchivesReq req,Long archivesId){
         TaskRemindReq taskReq = req.getTaskReq();
         TaskRemindEntity mTaskRemindEntity = new TaskRemindEntity();
+        mTaskRemindEntity.setCustomerDocId(archivesId);
         mTaskRemindEntity.setBrandIdenty(req.getHeader().getBrandId());
         mTaskRemindEntity.setShopIdenty(req.getHeader().getShopId());
         mTaskRemindEntity.setCustomerId(req.getCustomerId());
