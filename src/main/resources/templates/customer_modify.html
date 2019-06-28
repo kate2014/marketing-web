@@ -55,8 +55,11 @@
         <label class="text_navigation" style="margin-left: 10px">会员信息</label>
 
         <span style="margin-left: 60%">
-        <button class="blue_button_style" value="" onclick="this">保存</button>
-        <button class="gray_button_style" value="" onclick="this" style="margin-left: 10px">取消</button>
+            <div class="parent">
+                <button class="blue_button_style" value="" onclick="this">保存</button>
+        <div class="gray_button_style container parent_h" onclick="javascript :history.back(-1);" style="margin-left: 10px">取消</div>
+            </div>
+
     </span>
     </div>
 
@@ -68,7 +71,7 @@
             <div class="details-bom">
                 <ul class="spell-content">
 
-                    <li><span>*姓名</span><label><input type="text" name="name" th:value="*{name}" placeholder="输入会员名称" maxlength="10" class="project"/><p><i class="sub">0</i>/<b>10</b></p></label></li>
+                    <li><span>*姓名</span><label><input type="text" name="name" th:value="*{name}" placeholder="输入会员名称" maxlength="10"/><p><i class="sub">0</i>/<b>10</b></p></label></li>
                     <li><span>*性别</span>
                         <select name="gender">
                             <option value="1" th:selected="*{gender==1}">男</option>

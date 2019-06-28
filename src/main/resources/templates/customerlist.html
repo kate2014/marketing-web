@@ -308,8 +308,9 @@
             <td th:text="${item.sourceId==2}?'小程序':'门店POS'">门店POS</td>
             <td>
                 <div class="parent_h">
+                    <a class="op-link" style="cursor: pointer" th:if="${#lists.contains(session.loginManager.permissionCodeList, 'CUSTOMER_MODIFY')}" th:href="@{/customerArchives/list(customerId=${item.id})}">档案记录</a>
                     <!--<a th:if="${#lists.contains(session.loginManager.permissionCodeList, 'CUSTOMER_MODIFY')}" th:href="@{/customer/{id}/edit(id=${item.id})}"><img class="see_modify" th:src="@{/images/modify.jpg}" src="../static/images/modify.jpg" style="margin-left: 10px"></a>-->
-                    <a class="op-link" th:if="${#lists.contains(session.loginManager.permissionCodeList, 'CUSTOMER_MODIFY')}" th:href="@{/customer/{id}/edit(id=${item.id})}">编辑</a>
+                    <a class="op-link" style="margin-left: 8px;cursor: pointer" th:if="${#lists.contains(session.loginManager.permissionCodeList, 'CUSTOMER_MODIFY')}" th:href="@{/customer/{id}/edit(id=${item.id})}">编辑</a>
                     <a class="op-link" style="margin-left: 8px;cursor: pointer" th:if="${#lists.contains(session.loginManager.permissionCodeList, 'CUSTOMER_DEL')}" th:onclick="'javascript:checkDelete(\''+${item.id}+'\',\''+${item.name}+'\')'">删除</a>
                 </div>
             </td>

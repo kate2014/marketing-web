@@ -61,6 +61,10 @@ public class CustomerArchivesApi extends PosApiController {
 
         CustomerArchivesEntity mCustomerArchivesEntity = addCustomerArchives(req);
 
+        if(req.getTaskReq() != null && req.getTaskReq().getTitle() != null){
+            TaskRemindEntity mTaskRemindEntity = addTaskRemind(req,mCustomerArchivesEntity.getId());
+        }
+
         return ApiResult.newSuccess(mCustomerArchivesEntity);
     }
 
@@ -98,6 +102,7 @@ public class CustomerArchivesApi extends PosApiController {
         return ApiResult.newSuccess(mCustomerArchivesResp);
     }
 
+
     @RequestMapping("/addArchivesAndTask")
     public ApiResult addArchivesAndTask(@RequestBody CustomerArchivesReq req) throws ApiRespStatusException {
         CustomerArchivesEntity mCustomerArchivesEntity = addCustomerArchives(req);
@@ -117,8 +122,8 @@ public class CustomerArchivesApi extends PosApiController {
         mTaskRemindEntity.setUserId(taskReq.getUserId());
         mTaskRemindEntity.setUserName(taskReq.getUserName());
         mTaskRemindEntity.setRemindTime(taskReq.getRemindTime());
-        mTaskRemindEntity.setTitle(req.getTitle());
-        mTaskRemindEntity.setContent(req.getContent());
+        mTaskRemindEntity.setTitle(taskReq.getTitle());
+        mTaskRemindEntity.setContent(taskReq.getContent());
         mTaskRemindEntity.setStatus(taskReq.getStatus());
         mTaskRemindEntity.setCustomerDocId(taskReq.getCustomerDocId());
         mTaskRemindEntity.setTaskResult(taskReq.getTaskResult());

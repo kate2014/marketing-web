@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<style type="text/css">
+
+    html,body{
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        background-color: #FFFFFF;
+    }
+
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <title>会员档案</title>
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../css/base.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../css/common.css" type="text/css" />
+
+    <!-- diglog -->
+    <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/diy_dialog.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/diy_dialog.css}" type="text/css" />
+</head>
+
+<script type="text/javascript">
+
+    function checkDelete(deleteId, name){
+        var message = "请确认是否要删除: "+name+"?";
+        dialogBox(message,
+            function () {
+                deleteRequest(deleteId);
+            },
+            function(){
+
+            }
+        );
+    }
+
+    function deleteRequest (deleteId) {
+
+        const Url = "[[${basePath}]]/pushPlanActivity/delelte?id="+deleteId;
+
+        const Http = new XMLHttpRequest();
+
+        Http.open("GET",Url);
+
+        Http.send();
+
+        Http.onreadystatechange=function () {
+            if(this.readyState == 4 && this.status == 200){
+                location.reload();
+            }
+        }
+
+    }
+
+</script>
+
+<body>
+
+<div id="showDialog"></div>
+
+<div class="parent top_view_style">
+    <img th:src="@{/images/lable.jpg}" width="5" height="26" style="margin-left: 20px">
+    <label class="text_navigation" style="margin-left: 10px;width: 30%">会员 》会员档案管理</label>
+
+    <div align="right" style="width: 100%;margin-right: 50px">
+        <button class="blue_button_style" th:onclick="@{|location='${basePath}/pushPlanActivity/addPlanActivityPage'|}">+新建档案</button>
+
+        <button class="gray_button_style" onclick="javascript :history.back(-1);" style="margin-left: 10px">返回</button>
+    </div>
+</div>
+
+<div class="parent_h" th:if="${havaData} eq '0'">
+
+    <div style="margin-top: 18%" >
+        <img src="../static/images/have_no_data_icon.png" th:src="@{/images/have_no_data_icon.png}"><br/>
+    </div>
+    <div>
+        <span style="size: 18px;color: #737357;margin-top: 15px">还未为该会员添加档案信息，赶紧完善他吧！</span>
+    </div>
+
+</div>
+
+
+<div align="center" style="margin-top: 10px">
+    <table class="gridtablestyle" style="width: 98%; vertical-align: middle">
+
+        <tr th:each="item:${listData}">
+
+            <td>
+                <div style="font-weight:bold;margin-left: 10px;margin-right: 10px" class="parent">
+                    主题：<span th:text="${item.title}"></span>
+                </div>
+                <div class="parent" style="margin-left: 10px;margin-right: 10px">
+                    内容：<span th:text="${item.content}"></span>
+                </div>
+                <div style="margin-left: 10px;margin-right: 10px" class="parent container">
+
+                    <div style="margin-right: 15px;width: 200px">
+                        创建人：<span th:text="${item.creatorName}"></span>
+                    </div>
+                    <div style="margin-right: 15px;width: 200px">
+                        创建时间：<span th:text="${#dates.format(item.serverCreateTime, 'yyyy-MM-dd HH:mm:ss')}"></span>
+                    </div>
+                    <div style="cursor: pointer" th:onclick="@{|location='${basePath}/pushPlanActivity/addPlanActivityPage'|}" class="parent container">
+                        编辑：<img th:src="@{/images/modfity_icon.png}" class="icon_middle_style" style="margin-right: 25px">
+                    </div>
+                    <div style="cursor: pointer" th:onclick="@{|location='${basePath}/pushPlanActivity/addPlanActivityPage'|}" class="parent container">
+                        跟进任务：<img th:src="@{/images/task_icon.png}" class="icon_middle_style" style="margin-right: 25px">
+                    </div>
+
+                </div>
+            </td>
+
+        </tr>
+
+    </table>
+</div>
+
+<div class="paging">
+
+    <div th:replace="page_info::pagination"/>
+
+</div>
+
+
+</body>
+</html>
