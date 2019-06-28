@@ -97,6 +97,7 @@ public class CustomerArchivesApi extends PosApiController {
         mCustomerArchivesResp.setTitle(mCustomerArchivesEntity.getTitle());
         mCustomerArchivesResp.setContent(mCustomerArchivesEntity.getContent());
         mCustomerArchivesResp.setCustomerId(mCustomerArchivesEntity.getCustomerId());
+        mCustomerArchivesResp.setServerCreateTime(mCustomerArchivesEntity.getServerCreateTime());
         List<TaskRemindEntity> listTask = mTaskRemindService.queryByDocId(req.getArchivesId());
         mCustomerArchivesResp.setListTask(listTask);
         return ApiResult.newSuccess(mCustomerArchivesResp);
@@ -125,7 +126,6 @@ public class CustomerArchivesApi extends PosApiController {
         mTaskRemindEntity.setTitle(taskReq.getTitle());
         mTaskRemindEntity.setContent(taskReq.getContent());
         mTaskRemindEntity.setStatus(taskReq.getStatus());
-        mTaskRemindEntity.setCustomerDocId(taskReq.getCustomerDocId());
         mTaskRemindEntity.setTaskResult(taskReq.getTaskResult());
         mTaskRemindEntity.setType(1);
         mTaskRemindEntity.setStatusFlag(1);

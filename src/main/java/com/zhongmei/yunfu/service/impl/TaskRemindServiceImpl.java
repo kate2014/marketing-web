@@ -113,6 +113,13 @@ public class TaskRemindServiceImpl extends ServiceImpl<TaskRemindMapper, TaskRem
     }
 
     @Override
+    public boolean deleteTaskByDocId(Long id) throws Exception {
+        EntityWrapper<TaskRemindEntity> eWrapper = new EntityWrapper<>(new TaskRemindEntity());
+        eWrapper.eq("customer_doc_id", id);
+        return delete(eWrapper);
+    }
+
+    @Override
     public List<TaskRemindEntity> queryByDocId(Long id){
         EntityWrapper<TaskRemindEntity> eWrapper = new EntityWrapper<>(new TaskRemindEntity());
         eWrapper.eq("customer_doc_id", id);

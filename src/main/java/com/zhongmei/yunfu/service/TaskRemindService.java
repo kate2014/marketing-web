@@ -61,6 +61,14 @@ public interface TaskRemindService extends IService<TaskRemindEntity> {
     boolean deleteTaskRemind(Long id)throws Exception;
 
     /**
+     * 根据档案删除任务
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    boolean deleteTaskByDocId(Long id)throws Exception;
+
+    /**
      * 获取门店会员档案对应的任务提醒
      * @param id
      * @return
