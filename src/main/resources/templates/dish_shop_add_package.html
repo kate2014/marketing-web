@@ -145,7 +145,7 @@
             warningTips("操作异常提示","至多可选不能为空");
         }else{
             //判断是编辑还是新增
-            if(inputTypeId != '' && inputTypeId != undefined && inputTypeId != null){ //编辑
+            if(inputTypeId != '' && inputTypeId != undefined && inputTypeId != null && inputTypeId != 0){ //编辑
 
                 document.getElementById(inputTypeId+'_nameText').innerText=inputTypeName;
                 $('#'+inputTypeId+'_name').val(inputTypeName);
@@ -163,12 +163,12 @@
                 var code = '<TABLE class="gridtablestyle" style="width: 98%; vertical-align: middle;margin-top: 10px" id='+tableId+'>';
                 code +=
                     '<TR style="width: 100%">' +
-                    '<th style="width: 30%"><span th:text="'+inputTypeName+'" th:id="'+tableId+'_nameText"></span>'+
+                    '<th style="width: 30%"><span id="'+tableId+'_nameText">'+inputTypeName+'</span>'+
                     '<input type="hidden" name="setmealTypeName" id="'+tableId+'_name" value='+inputTypeName+'>' +
                     '<input type="hidden" name="setmealTypeId" value='+tableId+'></th>'
-                    +'<th style="width: 20%" colspan="2">至少必选：<span th:text="'+inputOrderMin+'" th:id="'+tableId+'_orderMinText"></span>' +
+                    +'<th style="width: 20%" colspan="2">至少必选：<span id="'+tableId+'_orderMinText">'+inputOrderMin+'</span>' +
                     '<input type="hidden" name="typeOrderMin" id="'+tableId+'_orderMin" value='+inputOrderMin+'></th>'
-                    +'<th style="width: 20%" colspan="2">至多可选：<span th:text="'+intputOrderMax+'" th:id="'+tableId+'_orderMaxText"></span>' +
+                    +'<th style="width: 20%" colspan="2">至多可选：<span id="'+tableId+'_orderMaxText">'+intputOrderMax+'</span>' +
                     '<input type="hidden" name="typeOrderMax" id="'+tableId+'_orderMax" value='+intputOrderMax+'></th>'
                     +'<th style="width: 30%" colspan="3">'
                     +'<div class="parent">'
