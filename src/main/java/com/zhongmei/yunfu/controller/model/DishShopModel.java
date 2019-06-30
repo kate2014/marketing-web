@@ -12,6 +12,8 @@ public class DishShopModel extends WebBaseModel {
 
     private String keyWord;//查询关键字
 
+    private Integer priceModle;
+
     private Long dishShopId;
 
     private String dishCode;
@@ -430,4 +432,11 @@ public class DishShopModel extends WebBaseModel {
         this.setmealPrice = setmealPrice;
     }
 
+    public Integer getPriceModle() {
+        return priceModle;
+    }
+
+    public void setPriceModle(Integer priceModle) {
+        this.priceModle = priceModle;
+    }
 }

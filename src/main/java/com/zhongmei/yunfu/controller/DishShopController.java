@@ -139,7 +139,7 @@ public class DishShopController extends BaseController{
     @RequestMapping("/intoAddOrUpdateSingleDish")
     public String intoAddSingleDish(Model model, DishShopModel mDishShopModel){
 
-        model.addAttribute("mDishShopModel", mDishShopModel);
+
 
         try {
             Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
@@ -164,9 +164,12 @@ public class DishShopController extends BaseController{
                 model.addAttribute("listProperty", listProperty);
             }
 
+            mDishShopModel.setPriceModle(2);
         }catch (Exception e){
             e.printStackTrace();
         }
+
+        model.addAttribute("mDishShopModel", mDishShopModel);
         return "dish_shop_add_single";
     }
 
@@ -280,7 +283,13 @@ public class DishShopController extends BaseController{
             mDishShopEntity.setOrder(1);
             mDishShopEntity.setDefProperty(1);
             mDishShopEntity.setStepNum(BigDecimal.ONE);
-            mDishShopEntity.setDishQty(mDishShopModel.getDishQty());
+
+            if(mDishShopModel.getDishQty() == null){
+                mDishShopEntity.setDishQty(BigDecimal.ZERO);
+            }else{
+                mDishShopEntity.setDishQty(mDishShopModel.getDishQty());
+            }
+
 //            mDishShopEntity.setMinNum();
 //            mDishShopEntity.setMaxNum();
             mDishShopEntity.setClearStatus(1);
@@ -406,7 +415,13 @@ public class DishShopController extends BaseController{
             mDishShopEntity.setOrder(1);
             mDishShopEntity.setDefProperty(1);
             mDishShopEntity.setStepNum(BigDecimal.ONE);
-            mDishShopEntity.setDishQty(mDishShopModel.getDishQty());
+
+            if(mDishShopModel.getDishQty() == null){
+                mDishShopEntity.setDishQty(BigDecimal.ZERO);
+            }else{
+                mDishShopEntity.setDishQty(mDishShopModel.getDishQty());
+            }
+
 //            mDishShopEntity.setMinNum();
 //            mDishShopEntity.setMaxNum();
             mDishShopEntity.setClearStatus(1);
