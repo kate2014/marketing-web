@@ -43,7 +43,7 @@ CREATE TABLE `booking` (
   `updator_id` bigint(20) DEFAULT NULL COMMENT '修改者id',
   `updator_name` varchar(32) DEFAULT NULL COMMENT '修改者名字',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=330 DEFAULT CHARSET=utf8 COMMENT='预订表';
+) ENGINE=InnoDB AUTO_INCREMENT=331 DEFAULT CHARSET=utf8 COMMENT='预订表';
 
 DROP TABLE IF EXISTS  `commercial`;
 CREATE TABLE `commercial` (
@@ -112,7 +112,7 @@ CREATE TABLE `trade_table` (
   KEY `idx_shop_identy_server_update_time` (`shop_identy`,`server_update_time`) USING BTREE,
   KEY `idx_shop_identy_self_table_status` (`shop_identy`,`self_table_status`),
   KEY `idx_table_id_self_table_status` (`table_id`,`self_table_status`)
-) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8 COMMENT='仅为数据迁移暂定，后续按产品需求修改';
+) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8 COMMENT='仅为数据迁移暂定，后续按产品需求修改';
 
 DROP TABLE IF EXISTS  `dish_property`;
 CREATE TABLE `dish_property` (
@@ -257,7 +257,7 @@ CREATE TABLE `dish_shop` (
   `dish_desc` varchar(500) DEFAULT NULL COMMENT '菜品描述 : 菜品描述',
   `video_url` varchar(300) DEFAULT NULL COMMENT '视频地址 : 视频地址',
   `wm_type` tinyint(4) DEFAULT NULL COMMENT '库存类型 : 1、预制商品2、现制商品3、外购商品4、原物料5、半成品',
-  `sale_type` tinyint(4) DEFAULT '1' COMMENT '销售类型 : 1 称重销售',
+  `sale_type` tinyint(4) DEFAULT NULL COMMENT '销售类型 : 1 称重销售',
   `dish_increase_unit` decimal(6,2) NOT NULL DEFAULT '1.00' COMMENT '起卖份数 : 起卖份数',
   `is_single` tinyint(4) NOT NULL DEFAULT '1' COMMENT '是否允许单点 : 1 允许 2不允许',
   `is_discount_all` tinyint(4) NOT NULL DEFAULT '1' COMMENT '是否允许整单打折 : 1 允许 2不允许',
@@ -300,7 +300,7 @@ CREATE TABLE `dish_shop` (
   KEY `idx_shop_identy_brand_dish_id` (`shop_identy`,`brand_dish_id`),
   KEY `idx_brand_dish_id` (`brand_dish_id`),
   KEY `idx_brand_identy` (`brand_identy`)
-) ENGINE=InnoDB AUTO_INCREMENT=426 DEFAULT CHARSET=utf8 COMMENT='门店菜品';
+) ENGINE=InnoDB AUTO_INCREMENT=428 DEFAULT CHARSET=utf8 COMMENT='门店菜品';
 
 DROP TABLE IF EXISTS  `customer_marketing_together`;
 CREATE TABLE `customer_marketing_together` (
@@ -329,7 +329,7 @@ CREATE TABLE `customer_marketing_together` (
   `server_update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '服务器更新时间',
   PRIMARY KEY (`id`),
   KEY `idx_server_time` (`server_create_time`,`server_update_time`)
-) ENGINE=InnoDB AUTO_INCREMENT=219 DEFAULT CHARSET=utf8 COMMENT='会员关联同行特惠';
+) ENGINE=InnoDB AUTO_INCREMENT=224 DEFAULT CHARSET=utf8 COMMENT='会员关联同行特惠';
 
 DROP TABLE IF EXISTS  `tables`;
 CREATE TABLE `tables` (
@@ -629,7 +629,7 @@ CREATE TABLE `supplier` (
   `shop_identy` bigint(20) NOT NULL,
   `brand_identy` bigint(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS  `push_plan_activity`;
 CREATE TABLE `push_plan_activity` (
@@ -698,7 +698,7 @@ CREATE TABLE `payment` (
   KEY `idx_brand_identy_shop_identy_payment_time` (`brand_identy`,`shop_identy`,`payment_time`),
   KEY `idx_handover_uuid` (`handover_uuid`(8)),
   KEY `idx_shop_identy_handover_uuid_payment_time` (`shop_identy`,`handover_uuid`(1),`payment_time`)
-) ENGINE=InnoDB AUTO_INCREMENT=1728 DEFAULT CHARSET=utf8 COMMENT='付款主单\r\n主单及其子单的金额在退货时都取反';
+) ENGINE=InnoDB AUTO_INCREMENT=1731 DEFAULT CHARSET=utf8 COMMENT='付款主单\r\n主单及其子单的金额在退货时都取反';
 
 DROP TABLE IF EXISTS  `marketing_put_on`;
 CREATE TABLE `marketing_put_on` (
@@ -769,7 +769,7 @@ CREATE TABLE `customer_marketing_expanded` (
   `expanded_customer_pic` varchar(200) DEFAULT NULL COMMENT '记录类型1购买、2消费、3退货',
   PRIMARY KEY (`id`),
   KEY `idx_server_time` (`server_create_time`,`server_update_time`)
-) ENGINE=InnoDB AUTO_INCREMENT=2234 DEFAULT CHARSET=utf8 COMMENT='会员关联推广回馈';
+) ENGINE=InnoDB AUTO_INCREMENT=2235 DEFAULT CHARSET=utf8 COMMENT='会员关联推广回馈';
 
 DROP TABLE IF EXISTS  `marketing_share`;
 CREATE TABLE `marketing_share` (
@@ -1160,6 +1160,31 @@ CREATE TABLE `commercial_pay_setting` (
   KEY `idx_server_time` (`server_create_time`,`server_update_time`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2033 DEFAULT CHARSET=utf8 COMMENT='商户线上支付配置';
 
+DROP TABLE IF EXISTS  `dish_time_charging_rule`;
+CREATE TABLE `dish_time_charging_rule` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `start_charging_times` decimal(10,2) DEFAULT NULL COMMENT '起始计费时间',
+  `start_charging_price` decimal(10,2) DEFAULT NULL COMMENT '起始计费金额',
+  `charging_unit` decimal(10,2) DEFAULT NULL COMMENT '计费单位',
+  `charging_price` decimal(10,2) DEFAULT NULL COMMENT '计费单位价格',
+  `full_unit` decimal(10,2) DEFAULT NULL COMMENT '满计时设置',
+  `full_unit_charging` decimal(10,2) DEFAULT NULL COMMENT '满计时额度计时规则',
+  `no_full_unit` decimal(10,2) DEFAULT NULL COMMENT '不满计时设置',
+  `no_full_unit_charging` decimal(10,2) DEFAULT NULL COMMENT '不满额度计时规则',
+  `status_flag` tinyint(4) DEFAULT '1' COMMENT '记录状态 1：有效，2：无效',
+  `brand_identy` bigint(20) NOT NULL COMMENT '品牌标识',
+  `shop_identy` bigint(20) NOT NULL COMMENT '门店标识',
+  `server_create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `server_update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `client_create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '本地创建时间',
+  `client_update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '本地更新时间',
+  `creator_id` bigint(20) DEFAULT NULL COMMENT '创建者id',
+  `creator_name` varchar(32) DEFAULT NULL,
+  `updator_id` bigint(20) DEFAULT NULL COMMENT '修改者id',
+  `updator_name` varchar(32) DEFAULT NULL COMMENT '修改者名字',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=330 DEFAULT CHARSET=utf8 COMMENT='品项计时计费规则';
+
 DROP TABLE IF EXISTS  `collage_customer`;
 CREATE TABLE `collage_customer` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
@@ -1290,7 +1315,7 @@ CREATE TABLE `purchase_and_sale` (
   `updator_id` bigint(20) DEFAULT NULL,
   `updator_name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS  `customer_save_rule`;
 CREATE TABLE `customer_save_rule` (
@@ -1415,7 +1440,7 @@ CREATE TABLE `trade_item` (
   KEY `idx_shop_identy_server_create_time` (`shop_identy`,`server_create_time`),
   KEY `idx_relate_trade_item_id` (`relate_trade_item_id`),
   KEY `idx_shop_identy_status_flag_invalid_type` (`shop_identy`,`status_flag`,`invalid_type`)
-) ENGINE=InnoDB AUTO_INCREMENT=2823 DEFAULT CHARSET=utf8 COMMENT='交易明细';
+) ENGINE=InnoDB AUTO_INCREMENT=2826 DEFAULT CHARSET=utf8 COMMENT='交易明细';
 
 DROP TABLE IF EXISTS  `dish_brand_property`;
 CREATE TABLE `dish_brand_property` (
@@ -1581,7 +1606,6 @@ CREATE TABLE `customer_archives` (
   `status_flag` tinyint(4) DEFAULT '1' COMMENT '记录状态 1：有效，2：无效',
   `brand_identy` bigint(20) NOT NULL COMMENT '品牌标识',
   `shop_identy` bigint(20) NOT NULL COMMENT '门店标识',
-  `device_identy` varchar(36) NOT NULL COMMENT '设备标识',
   `server_create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `server_update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `client_create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '本地创建时间',
@@ -1591,7 +1615,7 @@ CREATE TABLE `customer_archives` (
   `updator_id` bigint(20) DEFAULT NULL COMMENT '修改者id',
   `updator_name` varchar(32) DEFAULT NULL COMMENT '修改者名字',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=324 DEFAULT CHARSET=utf8 COMMENT='会员档案';
+) ENGINE=InnoDB AUTO_INCREMENT=338 DEFAULT CHARSET=utf8 COMMENT='会员档案';
 
 DROP TABLE IF EXISTS  `system_version`;
 CREATE TABLE `system_version` (
@@ -1616,7 +1640,7 @@ CREATE TABLE `wx_form` (
   `brand_identy` bigint(32) DEFAULT NULL,
   `server_create_time` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=777 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=783 DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS  `flash_sales_marketing`;
 CREATE TABLE `flash_sales_marketing` (
@@ -1675,7 +1699,7 @@ CREATE TABLE `customer_coupon` (
   KEY `idx_customer_brand_shop` (`brand_identy`,`shop_identy`,`enabled_flag`,`status_flag`),
   KEY `idx_shop_identy_status_flag_account` (`shop_identy`,`status_flag`),
   KEY `idx_server_time` (`server_create_time`,`server_update_time`)
-) ENGINE=InnoDB AUTO_INCREMENT=2781 DEFAULT CHARSET=utf8 COMMENT='会员优惠券关联表';
+) ENGINE=InnoDB AUTO_INCREMENT=2783 DEFAULT CHARSET=utf8 COMMENT='会员优惠券关联表';
 
 DROP TABLE IF EXISTS  `payment_mode`;
 CREATE TABLE `payment_mode` (
@@ -1801,7 +1825,7 @@ CREATE TABLE `dish_setmeal` (
   KEY `dish_setmeal_brand_identy_update_time` (`brand_identy`,`server_update_time`),
   KEY `idx_combo_dish_type_id` (`combo_dish_type_id`),
   KEY `idx_child_dish_id` (`child_dish_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=234 DEFAULT CHARSET=utf8 COMMENT='套餐';
+) ENGINE=InnoDB AUTO_INCREMENT=279 DEFAULT CHARSET=utf8 COMMENT='套餐';
 
 DROP TABLE IF EXISTS  `dish_setmeal_group`;
 CREATE TABLE `dish_setmeal_group` (
@@ -1823,7 +1847,7 @@ CREATE TABLE `dish_setmeal_group` (
   `shop_identy` bigint(20) NOT NULL COMMENT '门店标识',
   PRIMARY KEY (`id`),
   KEY `dish_setmeal_group_brand_server_update_time` (`brand_identy`,`server_update_time`)
-) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8 COMMENT='套餐内菜品分组 : dish_type表只能存在两个级别的分类';
+) ENGINE=InnoDB AUTO_INCREMENT=117 DEFAULT CHARSET=utf8 COMMENT='套餐内菜品分组 : dish_type表只能存在两个级别的分类';
 
 DROP TABLE IF EXISTS  `wx_customer_shop`;
 CREATE TABLE `wx_customer_shop` (
@@ -1965,7 +1989,7 @@ CREATE TABLE `payment_item` (
   UNIQUE KEY `uuid` (`uuid`),
   KEY `idx_server_update_time` (`shop_identy`,`server_update_time`),
   KEY `payment_item_payment_id` (`payment_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1758 DEFAULT CHARSET=utf8 COMMENT='付款明细';
+) ENGINE=InnoDB AUTO_INCREMENT=1761 DEFAULT CHARSET=utf8 COMMENT='付款明细';
 
 DROP TABLE IF EXISTS  `trade`;
 CREATE TABLE `trade` (
@@ -2016,7 +2040,7 @@ CREATE TABLE `trade` (
   KEY `idx_shop_identy_trade_pay_status` (`shop_identy`,`trade_pay_status`),
   KEY `idx_shop_identy_server_create_time` (`shop_identy`,`server_create_time`),
   KEY `idx_shop_identy_trade_status` (`shop_identy`,`trade_status`)
-) ENGINE=InnoDB AUTO_INCREMENT=2143 DEFAULT CHARSET=utf8 COMMENT='交易记录主单（相当于ORDERS）。\n主单及其所有子单中的数量、金额在退货时都取反';
+) ENGINE=InnoDB AUTO_INCREMENT=2146 DEFAULT CHARSET=utf8 COMMENT='交易记录主单（相当于ORDERS）。\n主单及其所有子单中的数量、金额在退货时都取反';
 
 DROP TABLE IF EXISTS  `pos_sync_config`;
 CREATE TABLE `pos_sync_config` (
@@ -2034,7 +2058,7 @@ CREATE TABLE `pos_sync_config` (
   `server_update_time` timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '服务器更新时间',
   `server_create_time` timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '服务器创建时间 : 服务器创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS  `task_remind`;
 CREATE TABLE `task_remind` (
@@ -2054,7 +2078,6 @@ CREATE TABLE `task_remind` (
   `status_flag` tinyint(4) DEFAULT '1' COMMENT '记录状态 1：有效，2：无效',
   `brand_identy` bigint(20) NOT NULL COMMENT '品牌标识',
   `shop_identy` bigint(20) NOT NULL COMMENT '门店标识',
-  `device_identy` varchar(36) NOT NULL COMMENT '设备标识',
   `server_create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `server_update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `client_create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '本地创建时间',
@@ -2064,7 +2087,7 @@ CREATE TABLE `task_remind` (
   `updator_id` bigint(20) DEFAULT NULL COMMENT '修改者id',
   `updator_name` varchar(32) DEFAULT NULL COMMENT '修改者名字',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=324 DEFAULT CHARSET=utf8 COMMENT='任务提醒';
+) ENGINE=InnoDB AUTO_INCREMENT=342 DEFAULT CHARSET=utf8 COMMENT='任务提醒';
 
 DROP TABLE IF EXISTS  `customer_card_time`;
 CREATE TABLE `customer_card_time` (
@@ -2179,7 +2202,7 @@ CREATE TABLE `customer` (
   PRIMARY KEY (`id`),
   KEY `idx_shop_identy_status_flag_account` (`brand_identy`,`shop_identy`,`status_flag`),
   KEY `idx_server_time` (`server_create_time`,`server_update_time`)
-) ENGINE=InnoDB AUTO_INCREMENT=699 DEFAULT CHARSET=utf8 COMMENT='会员表';
+) ENGINE=InnoDB AUTO_INCREMENT=702 DEFAULT CHARSET=utf8 COMMENT='会员表';
 
 SET FOREIGN_KEY_CHECKS = 1;
 
