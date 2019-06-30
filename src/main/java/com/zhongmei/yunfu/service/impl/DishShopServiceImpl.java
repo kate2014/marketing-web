@@ -228,13 +228,21 @@ public class DishShopServiceImpl extends ServiceImpl<DishShopMapper, DishShopEnt
 
         eWrapper.eq("brand_identy",mDishShopEntity.getBrandIdenty());
         eWrapper.eq("shop_identy",mDishShopEntity.getShopIdenty());
+
+        if(mDishShopEntity.getType() != null){
+            eWrapper.eq("type",mDishShopEntity.getType());
+        }else{
+            eWrapper.in("type","0,1");
+        }
         if(mDishShopEntity.getName() != null){
             eWrapper.like("name",mDishShopEntity.getName());
+        }
+        if(mDishShopEntity.getDishCode() != null){
+            eWrapper.eq("dish_code",mDishShopEntity.getDishCode());
         }
         if(mDishShopEntity.getDishTypeId() != null){
             eWrapper.eq("dish_type_id",mDishShopEntity.getDishTypeId());
         }
-        eWrapper.in("type","0,1");
         eWrapper.orderBy("server_create_time",true);
 
         eWrapper.setSqlSelect("id,name,dish_code,type,dish_type_id,market_price,unit_name,sale_total,dish_qty,dish_increase_unit,valid_time,unvalid_time,min_num,max_num,server_create_time");
@@ -249,16 +257,24 @@ public class DishShopServiceImpl extends ServiceImpl<DishShopMapper, DishShopEnt
     public Page<DishShopEntity> queryAllDishShop(DishShopEntity mDishShopEntity,int pageNo, int pageSize) throws Exception {
 
         Page<DishShopEntity> listPage = new Page<>(pageNo, pageSize);
-        EntityWrapper<DishShopEntity> eWrapper = new EntityWrapper<>(mDishShopEntity);
+        EntityWrapper<DishShopEntity> eWrapper = new EntityWrapper<>(new DishShopEntity());
         eWrapper.eq("brand_identy",mDishShopEntity.getBrandIdenty());
         eWrapper.eq("shop_identy",mDishShopEntity.getShopIdenty());
-        if(mDishShopEntity.getName() != null){
+        if(mDishShopEntity.getType() != null){
+            eWrapper.eq("type",mDishShopEntity.getType());
+        }else{
+            eWrapper.in("type","0,1");
+        }
+        if(mDishShopEntity.getName() != null && !mDishShopEntity.getName().equals("")){
             eWrapper.like("name",mDishShopEntity.getName());
+        }
+        if(mDishShopEntity.getDishCode() != null && !mDishShopEntity.getDishCode().equals("")){
+            eWrapper.eq("dish_code",mDishShopEntity.getDishCode());
         }
         if(mDishShopEntity.getDishTypeId() != null){
             eWrapper.eq("dish_type_id",mDishShopEntity.getDishTypeId());
         }
-        eWrapper.in("type","0,1");
+
         eWrapper.eq("status_flag",1);
         eWrapper.orderBy("server_create_time",true);
 

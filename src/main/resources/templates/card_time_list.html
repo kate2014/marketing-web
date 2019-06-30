@@ -85,7 +85,7 @@
 <div align="center" style="margin-top: 10px">
     <table class="gridtablestyle" style="width: 96%; vertical-align: middle">
         <tr style="width: 100%">
-            <th>卡项名称</th>
+            <th width="30%">卡项名称</th>
             <th>售价</th>
             <th>使用次数</th>
             <th>使用时长</th>
@@ -93,7 +93,7 @@
             <th>操作</th>
         </tr>
         <tr th:each="item:${list}">
-            <td th:text="${item.name}"></td>
+            <td style="padding-right: 10px;padding-left: 10px" th:text="${item.name}"></td>
             <td th:text="${item.marketPrice}"></td>
             <td>
                 <span th:if="${item.saleTotal} eq '-1'">

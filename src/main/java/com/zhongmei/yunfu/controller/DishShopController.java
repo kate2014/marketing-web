@@ -67,18 +67,20 @@ public class DishShopController extends BaseController{
             }
 
             Long selectIndex = null;
-
+            String typeName = "";
             for(DishShopModel dishModel : listData){
                 DishBrandTypeEntity entity = dishModel.getDishBrandTypeEntity();
                 List<DishBrandTypeEntity> listChild = tempMap.get(entity.getId());
                 if(listChild != null && listChild.size()>0 && selectIndex == null){
                     DishBrandTypeEntity childType = listChild.get(0);
                     selectIndex = childType.getId();
+                    typeName = childType.getName();
                 }
                 dishModel.setListType(listChild);
             }
 
             mDishShopModel.setDishTypeId(selectIndex);
+            mDishShopModel.setTypeName(typeName);
             model.addAttribute("listData", listData);
             model.addAttribute("mDishShopModel", mDishShopModel);
             return "dish_shop_manager";
@@ -92,29 +94,28 @@ public class DishShopController extends BaseController{
     @RequestMapping("/dishShopList")
     public String queryDishAction(Model model, DishShopModel mDishShopModel){
         try {
-            try {
-                Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
-                Long shopIdentity = LoginManager.get().getUser().getShopIdenty();
+            Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
+            Long shopIdentity = LoginManager.get().getUser().getShopIdenty();
 
-                SupplierEntity mSupplierEntity = new SupplierEntity();
-                mSupplierEntity.setBrandIdenty(brandIdentity);
-                mSupplierEntity.setShopIdenty(shopIdentity);
+            SupplierEntity mSupplierEntity = new SupplierEntity();
+            mSupplierEntity.setBrandIdenty(brandIdentity);
+            mSupplierEntity.setShopIdenty(shopIdentity);
 
-                List<SupplierEntity> listSupplier = mSupplierService.querySupplier(mSupplierEntity);
-                model.addAttribute("listSupplier", listSupplier);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-
+            List<SupplierEntity> listSupplier = mSupplierService.querySupplier(mSupplierEntity);
+            model.addAttribute("listSupplier", listSupplier);
 
             DishShopEntity mDishShopEntity = new DishShopEntity();
-            mDishShopEntity.setShopIdenty(mDishShopModel.getShopIdenty());
-            mDishShopEntity.setBrandIdenty(mDishShopModel.getBrandIdenty());
+            mDishShopEntity.setShopIdenty(shopIdentity);
+            mDishShopEntity.setBrandIdenty(brandIdentity);
             mDishShopEntity.setDishTypeId(mDishShopModel.getDishTypeId());
+            mDishShopEntity.setType(mDishShopModel.getType());
+            mDishShopEntity.setName(mDishShopModel.getName());
+            mDishShopEntity.setDishCode(mDishShopModel.getDishCode());
             Page<DishShopEntity> listData = mDishShopService.queryAllDishShop(mDishShopEntity,mDishShopModel.getPageNo(),mDishShopModel.getPageSize());
             setWebPage(model, "/dishShop/dishShopList", listData, mDishShopEntity);
             model.addAttribute("listDishData", listData.getRecords());
             model.addAttribute("mDishShopModel", mDishShopModel);
+
             return "dish_shop_list";
         }catch (Exception e){
             e.printStackTrace();

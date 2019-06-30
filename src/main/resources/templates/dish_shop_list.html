@@ -244,16 +244,46 @@
 
 <input type="hidden" id="successOrfail" th:value="${mDishShopModel.successOrfail}">
 
+<div class="parent top_view_style">
 
-<div class="parent">
-    <div class="blue_button_style parent_h container" style="margin-top: 10px;margin-left: 15px;padding-right: 10px;width: 120px" th:onclick="@{|location='${basePath}/dishShop/intoAddOrUpdateSingleDish?dishTypeId=${mDishShopModel.dishTypeId}'|}">
-        <img style="cursor: pointer" class="icon_middle_style" src="../static/images/add_sing_icon.png" th:src="@{/images/add_sing_icon.png}">+新建单品
-    </div>
+    <img th:src="@{/images/lable.jpg}" width="5" height="26" style="margin-left: 20px">
+    <label class="text_navigation" style="margin-left: 10px;width: 60%">品项管理 》<span th:text="${mDishShopModel.typeName}"></span></label>
 
-    <div class="blue_button_style parent_h container" style="margin-top: 10px;margin-left: 15px;padding-right: 10px;width: 120px" th:onclick="@{|location='${basePath}/dishShop/intoAddOrUpdatePackageDish?dishTypeId=${mDishShopModel.dishTypeId}'|}">
-        <img style="cursor: pointer" class="icon_middle_style" src="../static/images/add_package_icon.png" th:src="@{/images/add_package_icon.png}">+新建套餐
+    <div style="margin-right: 50px;padding-bottom: 10px" class="parent">
+        <div class="blue_button_style parent_h container" style="margin-top: 10px;margin-left: 15px;padding-right: 10px;width: 120px" th:onclick="@{|location='${basePath}/dishShop/intoAddOrUpdateSingleDish?dishTypeId=${mDishShopModel.dishTypeId}'|}">
+            <img style="cursor: pointer" class="icon_middle_style" src="../static/images/add_sing_icon.png" th:src="@{/images/add_sing_icon.png}">+新建单品
+        </div>
+
+        <div class="blue_button_style parent_h container" style="margin-top: 10px;margin-left: 15px;padding-right: 10px;width: 120px" th:onclick="@{|location='${basePath}/dishShop/intoAddOrUpdatePackageDish?dishTypeId=${mDishShopModel.dishTypeId}'|}">
+            <img style="cursor: pointer" class="icon_middle_style" src="../static/images/add_package_icon.png" th:src="@{/images/add_package_icon.png}">+新建套餐
+        </div>
+
     </div>
 </div>
+
+<form method="post" action="" th:action="@{/dishShop/dishShopList}" th:object="${mDishShopModel}">
+    <div style="margin-top: 10px" class="parent_h">
+
+        <input type="hidden" name="dishTypeId" th:value="${mDishShopModel.dishTypeId}">
+        <input type="hidden" name="typeName" th:value="${mDishShopModel.typeName}">
+        <label class="text_navigation">品项类型</label>
+        <select class="select_style" name="type" style="margin-left: 5px">
+            <option value="">全部</option>
+            <option th:value="0">单品</option>
+            <option th:value="1">套餐</option>
+        </select>
+
+        <label class="text_navigation" style="margin-left: 10px">品项名称</label>
+        <input class="input_style" style="margin-left: 5px" type="text"  name="name"/>
+
+        <label class="text_navigation" style="margin-left: 10px">品项编码</label>
+        <input class="input_style" style="margin-left: 5px" type="text"  name="dishCode"/>
+
+        <button class="orange_mine_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
+
+    </div>
+</form>
+
 
 <div align="center" style="margin-top: 10px;width: 100%">
     <table class="gridtablestyle" style="width: 98%; vertical-align: middle">
