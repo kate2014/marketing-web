@@ -9,6 +9,7 @@ import java.util.List;
 public class CustomerArchivesModel extends WebBaseModel {
 
     private Long id;
+    private Long archivesId;
     private Integer type;
     private String title;
     private String content;
@@ -22,6 +23,14 @@ public class CustomerArchivesModel extends WebBaseModel {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getArchivesId() {
+        return archivesId;
+    }
+
+    public void setArchivesId(Long archivesId) {
+        this.archivesId = archivesId;
     }
 
     public Integer getType() {

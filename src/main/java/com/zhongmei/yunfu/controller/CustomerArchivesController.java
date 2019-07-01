@@ -58,22 +58,33 @@ public class CustomerArchivesController extends BaseController{
         Long creatorId = LoginManager.get().getUser().getCreatorId();
         String creatorname = LoginManager.get().getUser().getCreatorName();
 
-        CustomerArchivesEntity mCustomerArchivesEntity = new CustomerArchivesEntity();
-        mCustomerArchivesEntity.setBrandIdenty(brandIdentity);
-        mCustomerArchivesEntity.setShopIdenty(shopIdentity);
-        mCustomerArchivesEntity.setCustomerId(mCustomerArchivesModel.getCustomerId());
-        mCustomerArchivesEntity.setTitle(mCustomerArchivesModel.getTitle());
-        mCustomerArchivesEntity.setContent(mCustomerArchivesModel.getContent());
-        mCustomerArchivesEntity.setType(1);
-        mCustomerArchivesEntity.setStatusFlag(1);
-        mCustomerArchivesEntity.setCreatorId(creatorId);
-        mCustomerArchivesEntity.setCreatorName(creatorname);
-        mCustomerArchivesEntity.setServerCreateTime(new Date());
-        mCustomerArchivesEntity.setUpdatorId(creatorId);
-        mCustomerArchivesEntity.setUpdatorName(creatorname);
-        mCustomerArchivesEntity.setServerUpdateTime(new Date());
+        try {
 
-        mCustomerArchivesService.addCustomerArchives(mCustomerArchivesEntity);
+            if(mCustomerArchivesModel.getArchivesId() != null){
+                updateArchives(mCustomerArchivesModel);
+            }else{
+                CustomerArchivesEntity mCustomerArchivesEntity = new CustomerArchivesEntity();
+                mCustomerArchivesEntity.setBrandIdenty(brandIdentity);
+                mCustomerArchivesEntity.setShopIdenty(shopIdentity);
+                mCustomerArchivesEntity.setCustomerId(mCustomerArchivesModel.getCustomerId());
+                mCustomerArchivesEntity.setTitle(mCustomerArchivesModel.getTitle());
+                mCustomerArchivesEntity.setContent(mCustomerArchivesModel.getContent());
+                mCustomerArchivesEntity.setType(1);
+                mCustomerArchivesEntity.setStatusFlag(1);
+                mCustomerArchivesEntity.setCreatorId(creatorId);
+                mCustomerArchivesEntity.setCreatorName(creatorname);
+                mCustomerArchivesEntity.setServerCreateTime(new Date());
+                mCustomerArchivesEntity.setUpdatorId(creatorId);
+                mCustomerArchivesEntity.setUpdatorName(creatorname);
+                mCustomerArchivesEntity.setServerUpdateTime(new Date());
+
+                mCustomerArchivesService.addCustomerArchives(mCustomerArchivesEntity);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return "fail";
+        }
 
         return String.format("redirect:/customerArchives/list?brandIdenty=%d&shopIdenty=%d&customerId=%d&successOrfail=%s",
                 brandIdentity, shopIdentity,mCustomerArchivesModel.getCustomerId(),actionSuccess);
@@ -92,6 +103,22 @@ public class CustomerArchivesController extends BaseController{
 
         }
         return "success";
+
+    }
+
+    public boolean updateArchives(CustomerArchivesModel mCustomerArchivesModel)throws Exception{
+
+        Long creatorId = LoginManager.get().getUser().getCreatorId();
+        String creatorname = LoginManager.get().getUser().getCreatorName();
+
+        CustomerArchivesEntity mCustomerArchivesEntity = new CustomerArchivesEntity();
+        mCustomerArchivesEntity.setId(mCustomerArchivesModel.getArchivesId());
+        mCustomerArchivesEntity.setTitle(mCustomerArchivesModel.getTitle());
+        mCustomerArchivesEntity.setContent(mCustomerArchivesModel.getContent());
+        mCustomerArchivesEntity.setUpdatorId(creatorId);
+        mCustomerArchivesEntity.setUpdatorName(creatorname);
+        mCustomerArchivesEntity.setServerUpdateTime(new Date());
+        return mCustomerArchivesService.modfityArchives(mCustomerArchivesEntity);
 
     }
 }
