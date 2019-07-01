@@ -12,6 +12,7 @@ class CustomerArchivesResp {
     var title: String? = null
     var content: String? = null
     var customerId: Long? = null
+    var creatorName: String? = null
     var listTask: List<TaskRemindEntity>? = null
     var serverCreateTime: Date? = null
     var serverUpdateTime: Date? = null

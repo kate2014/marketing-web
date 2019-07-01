@@ -274,12 +274,12 @@
         </div>
         <div style="margin-top: 15px">
             <span style="color: #FF6600;size: 12px">*</span>
-            <label class="text_navigation" style="margin-left: 10px">品项名称</label>
+            <label class="text_navigation" style="margin-left: 5px">品项名称</label>
             <input class="add_input_style" id="name" name="name" th:value="${mDishShopEntity.name}" placeholder="输入品项名称" style="margin-left: 5px" type="text"/>
         </div>
         <div style="margin-top: 15px">
             <span style="color: #FF6600;size: 12px">*</span>
-            <label class="text_navigation" style="margin-left: 10px">品项编码</label>
+            <label class="text_navigation" style="margin-left: 5px">品项编码</label>
             <input class="add_input_style" id="dishCode" name="dishCode" th:value="${mDishShopEntity.dishCode}" placeholder="输入品项编码" style="margin-left: 5px" type="text"/>
         </div>
 
@@ -290,28 +290,30 @@
 
         <div id="timing_charge" style="display: none">
             <div style="margin-top: 15px">
-                <label class="text_navigation" style="margin-left: 19px">起始计价</label>
+                <span style="color: #FF6600;size: 12px;">*</span>
+                <label class="text_navigation" style="margin-left: 5px">起始计价</label>
 
                 <label class="text_navigation" style="margin-left: 10px">前</label>
-                <input class="input_least_mini_style" onkeyup="clearNoNum(this)" placeholder="输入时间" style="margin-left: 5px" type="text"/>
+                <input class="input_least_mini_style" id="start_charging_times" name="start_charging_times" onkeyup="clearNoNum(this)" placeholder="输入时间" style="margin-left: 5px" type="text"/>
 
                 <label class="text_navigation" style="margin-left: 5px">小时</label>
                 <label class="text_navigation" style="margin-left: 10px">计费</label>
-                <input class="input_least_mini_style" onkeyup="clearNoNum(this)" placeholder="输入金额" style="margin-left: 5px" type="text"/>
+                <input class="input_least_mini_style" id="start_charging_price" name="start_charging_price" onkeyup="clearNoNum(this)" placeholder="输入金额" style="margin-left: 5px" type="text"/>
                 <label class="text_navigation" style="margin-left: 10px">元</label>
 
                 <span style="font-size: 12px; color: #aeb3b9;margin-left: 15px">例如：前2小时计费100元，则时间输入2，金额输入100；</span>
             </div>
 
             <div style="margin-top: 15px">
-                <label class="text_navigation" style="margin-left: 19px">计费单价</label>
+                <span style="color: #FF6600;size: 12px;">*</span>
+                <label class="text_navigation"  style="margin-left: 5px">计费单价</label>
 
                 <label class="text_navigation" style="margin-left: 10px">每</label>
-                <input class="input_least_mini_style" onkeyup="clearNoNum(this)" placeholder="输入时间" style="margin-left: 5px" type="text"/>
+                <input class="input_least_mini_style" id="charging_unit" name="charging_unit" onkeyup="clearNoNum(this)" placeholder="输入时间" style="margin-left: 5px" type="text"/>
 
                 <label class="text_navigation" style="margin-left: 5px">小时</label>
                 <label class="text_navigation" style="margin-left: 10px">计费</label>
-                <input class="input_least_mini_style" onkeyup="clearNoNum(this)" placeholder="输入金额" style="margin-left: 5px" type="text"/>
+                <input class="input_least_mini_style" id="charging_price" name="charging_price" onkeyup="clearNoNum(this)" placeholder="输入金额" style="margin-left: 5px" type="text"/>
                 <label class="text_navigation" style="margin-left: 10px">元</label>
 
                 <span style="font-size: 12px; color: #aeb3b9;margin-left: 15px">例如：每1小时收费60元，则时间输入1，金额输入60；</span>
@@ -319,11 +321,11 @@
 
             <div style="margin-top: 15px">
 
-                <label class="text_navigation" style="margin-left: 80px">满</label>
-                <input class="input_least_mini_style" onkeyup="clearNoNum(this)" placeholder="输入时间" style="margin-left: 5px" type="text"/>
+                <label class="text_navigation" style="margin-left: 75px">满</label>
+                <input class="input_least_mini_style" id="full_unit" name="full_unit" onkeyup="clearNoNum(this)" placeholder="输入时间" style="margin-left: 5px" type="text"/>
                 <label class="text_navigation" style="margin-left: 5px">分钟</label>
                 <label class="text_navigation" style="margin-left: 10px">计为</label>
-                <input class="input_least_mini_style" onkeyup="clearNoNum(this)" placeholder="输入金额" style="margin-left: 5px" type="text"/>
+                <input class="input_least_mini_style" id="full_unit_charging" name="full_unit_charging" onkeyup="clearNoNum(this)" placeholder="输入金额" style="margin-left: 5px" type="text"/>
                 <label class="text_navigation" style="margin-left: 10px">小时</label>
 
                 <span style="font-size: 12px; color: #aeb3b9;margin-left: 15px">例如：满30分钟计为1小时，则时间输入30，计为输入1；</span>
@@ -331,11 +333,11 @@
 
             <div style="margin-top: 15px">
 
-                <label class="text_navigation" style="margin-left: 68px">不满</label>
-                <input class="input_least_mini_style" onkeyup="clearNoNum(this)" placeholder="输入时间" style="margin-left: 5px" type="text"/>
+                <label class="text_navigation" style="margin-left: 63px">不满</label>
+                <input class="input_least_mini_style" id="no_full_unit" name="no_full_unit" onkeyup="clearNoNum(this)" placeholder="输入时间" style="margin-left: 5px" type="text"/>
                 <label class="text_navigation" style="margin-left: 5px">分钟</label>
                 <label class="text_navigation" style="margin-left: 10px">计为</label>
-                <input class="input_least_mini_style" onkeyup="clearNoNum(this)" placeholder="输入金额" style="margin-left: 5px" type="text"/>
+                <input class="input_least_mini_style" id="no_full_unit_charging" name="no_full_unit_charging" onkeyup="clearNoNum(this)" placeholder="输入金额" style="margin-left: 5px" type="text"/>
                 <label class="text_navigation" style="margin-left: 10px">小时</label>
 
                 <span style="font-size: 12px; color: #aeb3b9;margin-left: 15px">例如：不满30分钟计为0.5小时，则时间输入30，计为输入0.5；</span>
@@ -344,18 +346,18 @@
 
         <div id="unit_price_view" style="margin-top: 15px;display: none;">
             <span style="color: #FF6600;size: 12px">*</span>
-            <label class="text_navigation" style="margin-left: 10px">售卖价格</label>
+            <label class="text_navigation" style="margin-left: 5px">售卖价格</label>
             <input class="add_input_style" id="marketPrice" th:value="${mDishShopEntity.marketPrice}" onkeyup="clearNoNum(this)" name="marketPrice" placeholder="输入售卖价格" style="margin-left: 5px" type="text"/>
         </div>
 
         <div style="margin-top: 15px">
             <span style="color: #FF6600;size: 12px">*</span>
-            <label class="text_navigation" style="margin-left: 10px">品项单位</label>
+            <label class="text_navigation" style="margin-left: 5px">品项单位</label>
             <input class="add_input_style" id="unitName" name="unitName" th:value="${mDishShopEntity.unitName}" placeholder="输入品项单位" style="margin-left: 5px" type="text"/>
         </div>
 
         <div style="margin-top: 15px" class="parent container">
-            <label class="text_navigation" style="margin-left: 20px">进货信息</label>
+            <label class="text_navigation" style="margin-left: 15px">进货信息</label>
             <div onclick="showPurchaseDialog()" class="parent container" style="margin-left: 8px; cursor: pointer;background-color: #e8f2ff;padding-left: 10px;border-radius: 5px;">
                 <label class="text_navigation" style="color: #32b323">进货</label>
                 <img class="icon_style" src="../static/images/purchase_dish_icon.png" th:src="@{/images/purchase_dish_icon.png}">
@@ -363,7 +365,7 @@
         </div>
 
         <div style="margin-top: 15px">
-            <label class="text_navigation" style="margin-left: 20px">库存数量</label>
+            <label class="text_navigation" style="margin-left: 15px">库存数量</label>
             <input class="add_input_style" readonly="readonly" id="dishQty" name="dishQty" th:value="${mDishShopEntity.dishQty}" placeholder="库存数量" style="margin-left: 5px" type="text"/>
         </div>
     </div>

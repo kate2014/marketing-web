@@ -42,6 +42,14 @@
         }
     }
 
+    function updateArchives(archivesId, title, content) {
+
+        $('#archivesId').val(archivesId);
+        $('#title').val(title);
+        $('#content').val(content)
+        showArchives();
+    }
+
     function showArchives() {
         document.getElementById('addArchivesDialog').style.display='block';
     }
@@ -103,6 +111,7 @@
             <form method="post" name="addArchives" id="addArchives" action="" th:action="@{/customerArchives/addArchives}">
 
                 <input type="hidden" id="customerId" name="customerId" th:value="${mCustomerArchivesModel.customerId}"/>
+                <input type="hidden" id="archivesId" name="archivesId"/>
 
                 <div class="parent_h container" style="margin-top: 30px">
                     <span style="color: #FF6600;size: 12px">*</span>
@@ -169,14 +178,14 @@
                     <div style="margin-right: 20px;width: 200px" class="parent">
                         创建时间：<span th:text="${#dates.format(item.serverCreateTime, 'yyyy-MM-dd HH:mm:ss')}"></span>
                     </div>
-                    <div style="cursor: pointer; margin-right: 20px" th:onclick="@{|location='${basePath}/pushPlanActivity/addPlanActivityPage'|}" class="parent container">
-                        编辑：<img th:src="@{/images/modfity_icon.png}" class="icon_middle_style" style="margin-right: 25px">
+                    <div style="cursor: pointer; margin-right: 20px" th:onclick="'javascript:updateArchives(\''+${item.id}+'\',\''+${item.title}+'\',,\''+${item.content}+'\')'"  class="parent container">
+                        编辑:<img th:src="@{/images/modfity_icon.png}" class="icon_middle_style" style="margin-right: 25px">
                     </div>
-                    <div style="cursor: pointer; margin-right: 20px" class="parent container" th:onclick="'javascript:checkDelete(\''+${item.id}+'\',\''+${mCustomerArchivesModel.customerId}+'\')'">
-                        跟进任务：<img th:src="@{/images/task_icon.png}" class="icon_middle_style" style="margin-right: 25px">
-                    </div>
+                    <!--<div style="cursor: pointer; margin-right: 20px" class="parent container">-->
+                        <!--跟进任务:<img th:src="@{/images/task_icon.png}" class="icon_middle_style" style="margin-right: 25px">-->
+                    <!--</div>-->
                     <div style="cursor: pointer" th:onclick="'javascript:checkDelete(\''+${item.id}+'\',\''+${mCustomerArchivesModel.customerId}+'\')'" class="parent container">
-                        删除：<img th:src="@{/images/delete_icon.png}" class="icon_middle_style" style="margin-right: 25px">
+                        删除:<img th:src="@{/images/delete_icon.png}" class="icon_middle_style" style="margin-right: 25px">
                     </div>
                 </div>
             </td>

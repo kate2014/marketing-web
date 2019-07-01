@@ -97,6 +97,7 @@ public class CustomerArchivesApi extends PosApiController {
         mCustomerArchivesResp.setTitle(mCustomerArchivesEntity.getTitle());
         mCustomerArchivesResp.setContent(mCustomerArchivesEntity.getContent());
         mCustomerArchivesResp.setCustomerId(mCustomerArchivesEntity.getCustomerId());
+        mCustomerArchivesResp.setCreatorName(mCustomerArchivesEntity.getCreatorName());
         mCustomerArchivesResp.setServerCreateTime(mCustomerArchivesEntity.getServerCreateTime());
         List<TaskRemindEntity> listTask = mTaskRemindService.queryByDocId(req.getArchivesId());
         mCustomerArchivesResp.setListTask(listTask);

@@ -153,18 +153,20 @@ public class DishShopController extends BaseController{
             model.addAttribute("listSupplier", listSupplier);
 
             if(mDishShopModel.getDishShopId() != null){
+                mDishShopModel.setPriceModle(2);
                 DishShopEntity mDishShopEntity = mDishShopService.queryDishShopById(mDishShopModel.getDishShopId());
                 model.addAttribute("mDishShopEntity", mDishShopEntity);
                 List<DishPropertyEntity> listProperty = mDishPropertyService.queryPropertyByDishId(brandIdentity,shopIdentity,mDishShopModel.getDishShopId());
                 model.addAttribute("listProperty", listProperty);
             }else{
+                mDishShopModel.setPriceModle(1);
                 DishShopEntity mDishShopEntity = new DishShopEntity();
                 model.addAttribute("mDishShopEntity", mDishShopEntity);
                 List<DishPropertyEntity> listProperty = new ArrayList<>();
                 model.addAttribute("listProperty", listProperty);
             }
 
-            mDishShopModel.setPriceModle(2);
+
         }catch (Exception e){
             e.printStackTrace();
         }
