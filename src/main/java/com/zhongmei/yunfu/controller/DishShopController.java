@@ -300,7 +300,7 @@ public class DishShopController extends BaseController{
             mDishShopEntity.setUnitName(mDishShopModel.getUnitName());
             if(mDishShopModel.getSaleType() == 3){
                 mDishShopEntity.setSaleType(3);
-                mDishShopEntity.setMarketPrice(mDishShopModel.getStartChargingTimes().multiply(mDishShopModel.getStartChargingPrice()));
+                mDishShopEntity.setMarketPrice(mDishShopModel.getStartChargingPrice());
             }else{
                 mDishShopEntity.setSaleType(0);
                 mDishShopEntity.setMarketPrice(mDishShopModel.getMarketPrice());
@@ -507,7 +507,7 @@ public class DishShopController extends BaseController{
             mDishShopEntity.setUnitName(mDishShopModel.getUnitName());
             if(mDishShopModel.getSaleType() == 3){
                 mDishShopEntity.setSaleType(3);
-                mDishShopEntity.setMarketPrice(mDishShopModel.getStartChargingTimes().multiply(mDishShopModel.getStartChargingPrice()));
+                mDishShopEntity.setMarketPrice(mDishShopModel.getStartChargingPrice());
             }else{
                 mDishShopEntity.setSaleType(0);
                 mDishShopEntity.setMarketPrice(mDishShopModel.getMarketPrice());
