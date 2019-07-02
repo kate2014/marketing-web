@@ -94,6 +94,7 @@ public class DishShopModel extends WebBaseModel {
      * 计费单位价格
      */
     private BigDecimal chargingPrice;
+
     /**
      * 满计时设置
      */
@@ -102,6 +103,8 @@ public class DishShopModel extends WebBaseModel {
      * 满计时额度计时规则
      */
     private BigDecimal fullUnitCharging;
+
+    private BigDecimal NoFullUnit;
     /**
      * 不满额度计时规则
      */
@@ -553,5 +556,13 @@ public class DishShopModel extends WebBaseModel {
 
     public void setNoFullUnitCharging(BigDecimal noFullUnitCharging) {
         this.noFullUnitCharging = noFullUnitCharging;
+    }
+
+    public BigDecimal getNoFullUnit() {
+        return NoFullUnit;
+    }
+
+    public void setNoFullUnit(BigDecimal noFullUnit) {
+        NoFullUnit = noFullUnit;
     }
 }

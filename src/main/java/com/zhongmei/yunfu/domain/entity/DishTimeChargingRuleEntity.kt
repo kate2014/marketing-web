@@ -51,6 +51,10 @@ class DishTimeChargingRuleEntity : BaseEntity() {
      */
     var fullUnitCharging: BigDecimal? = null
     /**
+     * 不满计时额度设置
+     */
+    var noFullUnit: BigDecimal? = null
+    /**
      * 不满额度计时规则
      */
     var noFullUnitCharging: BigDecimal? = null
@@ -72,6 +76,7 @@ class DishTimeChargingRuleEntity : BaseEntity() {
                 ", chargingPrice=" + chargingPrice +
                 ", fullUnit=" + fullUnit +
                 ", fullUnitCharging=" + fullUnitCharging +
+                ", noFullUnit=" + noFullUnit +
                 ", noFullUnitCharging=" + noFullUnitCharging +
                 ", brandIdenty=" + brandIdenty +
                 ", shopIdenty=" + shopIdenty +

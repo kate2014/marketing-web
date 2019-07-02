@@ -105,16 +105,30 @@
         var dishCode = $('#dishCode').val();
         var marketPrice = $('#marketPrice').val();
         var unitName = $('#unitName').val();
+        var saleType = $("input[name='saleType']:checked").val();
+        var startChargingTimes = $('#startChargingTimes').val();
+        var startChargingPrice = $('#startChargingPrice').val();
+        var chargingUnit = $('#chargingUnit').val();
+        var chargingPrice = $('#chargingPrice').val();
 
         if(name == '' || name == undefined || name == null){
             warningTips("操作异常提示","品项名称不能为空");
         }else if(dishCode == '' || dishCode == undefined || dishCode == null){
             warningTips("操作异常提示","品项编号不能为空");
-        }else if(marketPrice == '' || marketPrice == undefined || marketPrice == null){
+        }else if(saleType == 0 && (marketPrice == '' || marketPrice == undefined || marketPrice == null)){
             warningTips("操作异常提示","品项销售价格不能为空");
+        }else if(saleType == 3 && (startChargingTimes == '' || startChargingTimes == undefined || startChargingTimes == null)){
+            warningTips("操作异常提示","起始计价时间不能为空");
+        }else if(saleType == 3 && (startChargingPrice == '' || startChargingPrice == undefined || startChargingPrice == null)){
+            warningTips("操作异常提示","起始计价计费不能为空");
+        }else if(saleType == 3 && (chargingUnit == '' || chargingUnit == undefined || chargingUnit == null)){
+            warningTips("操作异常提示","计费单价刻度不能为空");
+        }else if(saleType == 3 && (chargingPrice == '' || chargingPrice == undefined || chargingPrice == null)){
+            warningTips("操作异常提示","计费单价计费不能为空");
         }else if(unitName == '' || unitName == undefined || unitName == null){
             warningTips("操作异常提示","品项单位不能为空");
         }else{
+
             document.addform.submit();
         }
 
@@ -177,10 +191,10 @@
     }
 
     function settingPriceView(type) {
-        if(type == 1){
+        if(type == 0){
             document.getElementById("timing_charge").style.display='none';
             document.getElementById("unit_price_view").style.display='block';
-        }else if(type == 2){
+        }else if(type == 3){
             document.getElementById("timing_charge").style.display='block';
             document.getElementById("unit_price_view").style.display='none';
         }
@@ -189,7 +203,7 @@
     $(function () {
         var priceModle =  document.getElementById("priceModle").value;
 
-        $(":radio[name='settingPriceModle'][value='" + priceModle + "']").prop("checked", "checked");
+        $(":radio[name='saleType'][value='" + priceModle + "']").prop("checked", "checked");
 
         settingPriceView(priceModle);
     });
@@ -284,13 +298,14 @@
         </div>
 
         <div style="margin-top: 15px;margin-left: 20px">
-            <input type="hidden" name="timeChargingId" th:value="${mDishTimeChargingRuleEntity.id}">
-            <input type="hidden" name="oldSaleType" th:value="${mDishShopEntity.SaleType}">
-            <input type="radio" value="0" th:checked="${mDishShopEntity.SaleType}==0" name="SaleType" onchange="settingPriceView(1)"/><span class="text_navigation" style="margin-right: 20px; margin-left: 10px">单价收费</span>
-            <input type="radio" value="3" th:checked="${mDishShopEntity.SaleType}==3" name="SaleType" onchange="settingPriceView(2)"/><span class="text_navigation" style="margin-left: 10px">计时收费</span>
+
+            <input type="hidden" name="oldSaleType" th:value="${mDishShopEntity.saleType}">
+            <input type="radio" value="0" th:checked="${mDishShopEntity.saleType}==0" name="saleType" onchange="settingPriceView(0)"/><span class="text_navigation" style="margin-right: 20px; margin-left: 10px">单价收费</span>
+            <input type="radio" value="3" th:checked="${mDishShopEntity.saleType}==3" name="saleType" onchange="settingPriceView(3)"/><span class="text_navigation" style="margin-left: 10px">计时收费</span>
         </div>
 
         <div id="timing_charge" style="display: none">
+            <input type="hidden" name="timeChargingId" th:value="${mDishTimeChargingRuleEntity.id}">
             <div style="margin-top: 15px">
                 <span style="color: #FF6600;size: 12px;">*</span>
                 <label class="text_navigation" style="margin-left: 5px">起始计价</label>
