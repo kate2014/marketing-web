@@ -186,7 +186,7 @@
 
                 <div class="parent_h" style="width: 100%;text-align: center; background-color: #FFFFFF;margin-top: 20px;margin-right:10px;">
 
-                    <div style="width: 60%;height:450px; align-content: center;margin-top: 20px">
+                    <div style="width: 70%;height:450px; align-content: center;margin-top: 20px">
                         <div id="paymentReport" style="width: 100%;height:400px;"></div>
                         <p style="font-weight: bold; margin-bottom: 20px">各支付方式支付情况</p>
                     </div>
@@ -598,7 +598,7 @@
         legend: {
             orient: 'vertical',
             x: 'left',
-            data:['会员余额','现金','银联','微信支付','支付宝']
+            data:['会员余额','现金','银联','微信支付','支付宝','(自)微信','(自)支付宝']
         },
         series: [
             {
@@ -631,6 +631,8 @@
                     {value:[[${yhAmount}]], name:"银联"},
                     {value:[[${wxAmount}]], name:'微信支付'},
                     {value:[[${zfAmount}]], name:'支付宝'},
+                    {value:[[${diyWXAmount}]], name:'(自)微信'},
+                    {value:[[${diyZFBAmount}]], name:'(自)支付宝'},
 
                 ]
             }

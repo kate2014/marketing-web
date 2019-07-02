@@ -1163,6 +1163,7 @@ CREATE TABLE `commercial_pay_setting` (
 DROP TABLE IF EXISTS  `dish_time_charging_rule`;
 CREATE TABLE `dish_time_charging_rule` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `dish_id` bigint(32) NOT NULL COMMENT '品项Id' ,
   `start_charging_times` decimal(10,2) DEFAULT NULL COMMENT '起始计费时间',
   `start_charging_price` decimal(10,2) DEFAULT NULL COMMENT '起始计费金额',
   `charging_unit` decimal(10,2) DEFAULT NULL COMMENT '计费单位',

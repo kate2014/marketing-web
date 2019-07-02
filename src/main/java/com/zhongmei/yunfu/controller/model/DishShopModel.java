@@ -72,6 +72,41 @@ public class DishShopModel extends WebBaseModel {
 
     private Integer type;
 
+    private Integer oldSaleType;
+
+    private Integer saleType;
+
+    private Long timeChargingId;
+
+    /**
+     * 起始计费时间
+     */
+    private BigDecimal startChargingTimes;
+    /**
+     * 起始计费金额
+     */
+    private BigDecimal startChargingPrice;
+    /**
+     * 计费单位
+     */
+    private BigDecimal chargingUnit;
+    /**
+     * 计费单位价格
+     */
+    private BigDecimal chargingPrice;
+    /**
+     * 满计时设置
+     */
+    private BigDecimal fullUnit;
+    /**
+     * 满计时额度计时规则
+     */
+    private BigDecimal fullUnitCharging;
+    /**
+     * 不满额度计时规则
+     */
+    private BigDecimal noFullUnitCharging;
+
     private List<String> setmealTypeId;
 
     private List<String> setmealTypeName;
@@ -438,5 +473,85 @@ public class DishShopModel extends WebBaseModel {
 
     public void setPriceModle(Integer priceModle) {
         this.priceModle = priceModle;
+    }
+
+    public Integer getSaleType() {
+        return saleType;
+    }
+
+    public void setSaleType(Integer saleType) {
+        this.saleType = saleType;
+    }
+
+    public Integer getOldSaleType() {
+        return oldSaleType;
+    }
+
+    public void setOldSaleType(Integer oldSaleType) {
+        this.oldSaleType = oldSaleType;
+    }
+
+    public Long getTimeChargingId() {
+        return timeChargingId;
+    }
+
+    public void setTimeChargingId(Long timeChargingId) {
+        this.timeChargingId = timeChargingId;
+    }
+
+    public BigDecimal getStartChargingTimes() {
+        return startChargingTimes;
+    }
+
+    public void setStartChargingTimes(BigDecimal startChargingTimes) {
+        this.startChargingTimes = startChargingTimes;
+    }
+
+    public BigDecimal getStartChargingPrice() {
+        return startChargingPrice;
+    }
+
+    public void setStartChargingPrice(BigDecimal startChargingPrice) {
+        this.startChargingPrice = startChargingPrice;
+    }
+
+    public BigDecimal getChargingUnit() {
+        return chargingUnit;
+    }
+
+    public void setChargingUnit(BigDecimal chargingUnit) {
+        this.chargingUnit = chargingUnit;
+    }
+
+    public BigDecimal getChargingPrice() {
+        return chargingPrice;
+    }
+
+    public void setChargingPrice(BigDecimal chargingPrice) {
+        this.chargingPrice = chargingPrice;
+    }
+
+    public BigDecimal getFullUnit() {
+        return fullUnit;
+    }
+
+    public void setFullUnit(BigDecimal fullUnit) {
+        this.fullUnit = fullUnit;
+    }
+
+    public BigDecimal getFullUnitCharging() {
+        return fullUnitCharging;
+    }
+
+    public void setFullUnitCharging(BigDecimal fullUnitCharging) {
+        this.fullUnitCharging = fullUnitCharging;
+    }
+
+    public BigDecimal getNoFullUnitCharging() {
+        return noFullUnitCharging;
+    }
+
+    public void setNoFullUnitCharging(BigDecimal noFullUnitCharging) {
+        this.noFullUnitCharging = noFullUnitCharging;
     }
 }

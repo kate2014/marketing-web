@@ -104,7 +104,7 @@ class DishShopEntity : BaseEntity() {
      */
     var wmType: Int? = null
     /**
-     * 销售类型 : 1 称重销售
+     * 销售类型 :0 默认单次销售  1 称重销售  2 次卡销售  3 计时销售
      */
     var saleType: Int? = null
     /**

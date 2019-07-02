@@ -374,7 +374,7 @@
         legend: {
             orient: 'vertical',
             x: 'left',
-            data:['会员余额','现金','银联','微信支付','支付宝']
+            data:['会员余额','现金','银联','微信支付','支付宝','(自)微信','(自)支付宝']
         },
         series: [
             {
@@ -407,6 +407,8 @@
                     {value:[[${yhAmount}]], name:"银联"},
                     {value:[[${wxAmount}]], name:'微信支付'},
                     {value:[[${zfAmount}]], name:'支付宝'},
+                    {value:[[${diyWXAmount}]], name:'(自)微信'},
+                    {value:[[${diyZFBAmount}]], name:'(自)支付宝'},
 
                 ]
             }

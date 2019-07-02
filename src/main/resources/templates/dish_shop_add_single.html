@@ -284,8 +284,10 @@
         </div>
 
         <div style="margin-top: 15px;margin-left: 20px">
-            <input type="radio" value="1" name="settingPriceModle" onchange="settingPriceView(1)"/><span class="text_navigation" style="margin-right: 20px; margin-left: 10px">单价收费</span>
-            <input type="radio" value="2" name="settingPriceModle" onchange="settingPriceView(2)"/><span class="text_navigation" style="margin-left: 10px">计时收费</span>
+            <input type="hidden" name="timeChargingId" th:value="${mDishTimeChargingRuleEntity.id}">
+            <input type="hidden" name="oldSaleType" th:value="${mDishShopEntity.SaleType}">
+            <input type="radio" value="0" th:checked="${mDishShopEntity.SaleType}==0" name="SaleType" onchange="settingPriceView(1)"/><span class="text_navigation" style="margin-right: 20px; margin-left: 10px">单价收费</span>
+            <input type="radio" value="3" th:checked="${mDishShopEntity.SaleType}==3" name="SaleType" onchange="settingPriceView(2)"/><span class="text_navigation" style="margin-left: 10px">计时收费</span>
         </div>
 
         <div id="timing_charge" style="display: none">
@@ -294,11 +296,11 @@
                 <label class="text_navigation" style="margin-left: 5px">起始计价</label>
 
                 <label class="text_navigation" style="margin-left: 10px">前</label>
-                <input class="input_least_mini_style" id="start_charging_times" name="start_charging_times" onkeyup="clearNoNum(this)" placeholder="输入时间" style="margin-left: 5px" type="text"/>
+                <input class="input_least_mini_style" id="startChargingTimes" name="startChargingTimes" th:value="${mDishTimeChargingRuleEntity.startChargingTimes}" onkeyup="clearNoNum(this)" placeholder="输入时间" style="margin-left: 5px" type="text"/>
 
                 <label class="text_navigation" style="margin-left: 5px">小时</label>
                 <label class="text_navigation" style="margin-left: 10px">计费</label>
-                <input class="input_least_mini_style" id="start_charging_price" name="start_charging_price" onkeyup="clearNoNum(this)" placeholder="输入金额" style="margin-left: 5px" type="text"/>
+                <input class="input_least_mini_style" id="startChargingPrice" name="startChargingPrice" th:value="${mDishTimeChargingRuleEntity.startChargingPrice}" onkeyup="clearNoNum(this)" placeholder="输入金额" style="margin-left: 5px" type="text"/>
                 <label class="text_navigation" style="margin-left: 10px">元</label>
 
                 <span style="font-size: 12px; color: #aeb3b9;margin-left: 15px">例如：前2小时计费100元，则时间输入2，金额输入100；</span>
@@ -309,11 +311,11 @@
                 <label class="text_navigation"  style="margin-left: 5px">计费单价</label>
 
                 <label class="text_navigation" style="margin-left: 10px">每</label>
-                <input class="input_least_mini_style" id="charging_unit" name="charging_unit" onkeyup="clearNoNum(this)" placeholder="输入时间" style="margin-left: 5px" type="text"/>
+                <input class="input_least_mini_style" id="chargingUnit" name="chargingUnit" th:value="${mDishTimeChargingRuleEntity.chargingUnit}" onkeyup="clearNoNum(this)" placeholder="输入时间" style="margin-left: 5px" type="text"/>
 
                 <label class="text_navigation" style="margin-left: 5px">小时</label>
                 <label class="text_navigation" style="margin-left: 10px">计费</label>
-                <input class="input_least_mini_style" id="charging_price" name="charging_price" onkeyup="clearNoNum(this)" placeholder="输入金额" style="margin-left: 5px" type="text"/>
+                <input class="input_least_mini_style" id="chargingPrice" name="chargingPrice" th:value="${mDishTimeChargingRuleEntity.chargingPrice}" onkeyup="clearNoNum(this)" placeholder="输入金额" style="margin-left: 5px" type="text"/>
                 <label class="text_navigation" style="margin-left: 10px">元</label>
 
                 <span style="font-size: 12px; color: #aeb3b9;margin-left: 15px">例如：每1小时收费60元，则时间输入1，金额输入60；</span>
@@ -322,10 +324,10 @@
             <div style="margin-top: 15px">
 
                 <label class="text_navigation" style="margin-left: 75px">满</label>
-                <input class="input_least_mini_style" id="full_unit" name="full_unit" onkeyup="clearNoNum(this)" placeholder="输入时间" style="margin-left: 5px" type="text"/>
+                <input class="input_least_mini_style" id="fullUnit" name="fullUnit" th:value="${mDishTimeChargingRuleEntity.fullUnit}" onkeyup="clearNoNum(this)" placeholder="输入时间" style="margin-left: 5px" type="text"/>
                 <label class="text_navigation" style="margin-left: 5px">分钟</label>
                 <label class="text_navigation" style="margin-left: 10px">计为</label>
-                <input class="input_least_mini_style" id="full_unit_charging" name="full_unit_charging" onkeyup="clearNoNum(this)" placeholder="输入金额" style="margin-left: 5px" type="text"/>
+                <input class="input_least_mini_style" id="fullUnitCharging" name="fullUnitCharging" th:value="${mDishTimeChargingRuleEntity.fullUnitCharging}" onkeyup="clearNoNum(this)" placeholder="输入金额" style="margin-left: 5px" type="text"/>
                 <label class="text_navigation" style="margin-left: 10px">小时</label>
 
                 <span style="font-size: 12px; color: #aeb3b9;margin-left: 15px">例如：满30分钟计为1小时，则时间输入30，计为输入1；</span>
@@ -334,10 +336,10 @@
             <div style="margin-top: 15px">
 
                 <label class="text_navigation" style="margin-left: 63px">不满</label>
-                <input class="input_least_mini_style" id="no_full_unit" name="no_full_unit" onkeyup="clearNoNum(this)" placeholder="输入时间" style="margin-left: 5px" type="text"/>
+                <input class="input_least_mini_style" id="noFullUnit" name="noFullUnit" th:value="${mDishTimeChargingRuleEntity.noFullUnit}" onkeyup="clearNoNum(this)" placeholder="输入时间" style="margin-left: 5px" type="text"/>
                 <label class="text_navigation" style="margin-left: 5px">分钟</label>
                 <label class="text_navigation" style="margin-left: 10px">计为</label>
-                <input class="input_least_mini_style" id="no_full_unit_charging" name="no_full_unit_charging" onkeyup="clearNoNum(this)" placeholder="输入金额" style="margin-left: 5px" type="text"/>
+                <input class="input_least_mini_style" id="noFullUnitCharging" name="noFullUnitCharging" th:value="${mDishTimeChargingRuleEntity.noFullUnitCharging}" onkeyup="clearNoNum(this)" placeholder="输入金额" style="margin-left: 5px" type="text"/>
                 <label class="text_navigation" style="margin-left: 10px">小时</label>
 
                 <span style="font-size: 12px; color: #aeb3b9;margin-left: 15px">例如：不满30分钟计为0.5小时，则时间输入30，计为输入0.5；</span>

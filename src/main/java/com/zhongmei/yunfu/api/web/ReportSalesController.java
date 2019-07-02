@@ -273,6 +273,78 @@ public class ReportSalesController {
         List<BigDecimal> listAmount = new ArrayList<>();
         List<Long> listCount = new ArrayList<>();
 
+        //为默认展示出所有支付方式，对没有支付数据的类型添加默认数据
+        Map<Integer,PaymentItemModel> payMap = new HashMap<>();
+        PaymentItemModel mm1 = new PaymentItemModel();
+        mm1.setPayModeId(1);
+        mm1.setPayModeName("会员余额");
+        mm1.setCount(0l);
+        mm1.setTotalAmount(BigDecimal.ZERO);
+        payMap.put(1,mm1);
+
+        PaymentItemModel mm2 = new PaymentItemModel();
+        mm2.setPayModeId(2);
+        mm2.setPayModeName("现金");
+        mm2.setCount(0l);
+        mm2.setTotalAmount(BigDecimal.ZERO);
+        payMap.put(2,mm2);
+
+        PaymentItemModel mm3 = new PaymentItemModel();
+        mm3.setPayModeId(3);
+        mm3.setPayModeName("银联");
+        mm3.setCount(0l);
+        mm3.setTotalAmount(BigDecimal.ZERO);
+        payMap.put(3,mm3);
+
+        PaymentItemModel mm4 = new PaymentItemModel();
+        mm4.setPayModeId(4);
+        mm4.setPayModeName("微信支付");
+        mm4.setCount(0l);
+        mm4.setTotalAmount(BigDecimal.ZERO);
+        payMap.put(4,mm4);
+
+        PaymentItemModel mm5 = new PaymentItemModel();
+        mm5.setPayModeId(5);
+        mm5.setPayModeName("支付宝");
+        mm5.setCount(0l);
+        mm5.setTotalAmount(BigDecimal.ZERO);
+        payMap.put(5,mm5);
+
+        PaymentItemModel mm6 = new PaymentItemModel();
+        mm6.setPayModeId(101);
+        mm6.setPayModeName("(自)微信");
+        mm6.setCount(0l);
+        mm6.setTotalAmount(BigDecimal.ZERO);
+        payMap.put(101,mm6);
+
+        PaymentItemModel mm7 = new PaymentItemModel();
+        mm7.setPayModeId(102);
+        mm7.setPayModeName("(自)支付宝");
+        mm7.setCount(0l);
+        mm7.setTotalAmount(BigDecimal.ZERO);
+        payMap.put(102,mm7);
+
+
+        if(listData != null && listData.size()==0){
+            for(int i=1;i<=7;i++){
+                listData.add(payMap.get(i));
+            }
+        }else if(listData != null && listData.size()>0){
+            for(PaymentItemModel ptm : listData){
+
+                payMap.put(ptm.getPayModeId(),ptm);
+            }
+            listData = new ArrayList<>();
+            for (Integer key : payMap.keySet()) {
+                listData.add(payMap.get(key));
+            }
+        }else{
+            listData = new ArrayList<>();
+            for(int i=1;i<=7;i++){
+                listData.add(payMap.get(i));
+            }
+        }
+
         Long maxCount = 0l;
         Long maxAmount = 0l;
 
@@ -281,6 +353,8 @@ public class ReportSalesController {
         BigDecimal yhAmount = BigDecimal.ZERO;
         BigDecimal wxAmount = BigDecimal.ZERO;
         BigDecimal zfAmount = BigDecimal.ZERO;
+        BigDecimal diyWXAmount = BigDecimal.ZERO;
+        BigDecimal diyZFBAmount = BigDecimal.ZERO;
         for(PaymentItemModel ptm : listData){
             listName.add(ptm.getPayModeName());
             listAmount.add(ptm.getTotalAmount());
@@ -301,6 +375,12 @@ public class ReportSalesController {
                     break;
                 case 5:
                     zfAmount = ptm.getTotalAmount();
+                    break;
+                case 101:
+                    diyWXAmount = ptm.getTotalAmount();
+                    break;
+                case 102:
+                    diyZFBAmount = ptm.getTotalAmount();
                     break;
             }
 
@@ -326,6 +406,8 @@ public class ReportSalesController {
         model.addAttribute("yhAmount", yhAmount);
         model.addAttribute("wxAmount", wxAmount);
         model.addAttribute("zfAmount", zfAmount);
+        model.addAttribute("diyWXAmount", diyWXAmount);
+        model.addAttribute("diyZFBAmount", diyZFBAmount);
 
         model.addAttribute("listPayData", listData);
         model.addAttribute("listName", listName);

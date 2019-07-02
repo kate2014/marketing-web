@@ -38,6 +38,8 @@ public class DishShopController extends BaseController{
     SupplierService mSupplierService;
     @Autowired
     PurchaseAndSaleService mPurchaseAndSaleService;
+    @Autowired
+    DishTimeChargingRuleService mDishTimeChargingRuleService;
 
     @RequestMapping("/dishShopMain")
     public String dishShopList(Model model, DishShopModel mDishShopModel){
@@ -152,20 +154,32 @@ public class DishShopController extends BaseController{
             List<SupplierEntity> listSupplier = mSupplierService.querySupplier(mSupplierEntity);
             model.addAttribute("listSupplier", listSupplier);
 
+            DishTimeChargingRuleEntity mDishTimeChargingRuleEntity = new DishTimeChargingRuleEntity();
+            DishShopEntity mDishShopEntity = new DishShopEntity();
+            List<DishPropertyEntity> listProperty = new LinkedList<>();
+
+            //默认为单次计费销售
+            mDishShopModel.setPriceModle(1);
+
             if(mDishShopModel.getDishShopId() != null){
-                mDishShopModel.setPriceModle(2);
-                DishShopEntity mDishShopEntity = mDishShopService.queryDishShopById(mDishShopModel.getDishShopId());
-                model.addAttribute("mDishShopEntity", mDishShopEntity);
-                List<DishPropertyEntity> listProperty = mDishPropertyService.queryPropertyByDishId(brandIdentity,shopIdentity,mDishShopModel.getDishShopId());
-                model.addAttribute("listProperty", listProperty);
-            }else{
-                mDishShopModel.setPriceModle(1);
-                DishShopEntity mDishShopEntity = new DishShopEntity();
-                model.addAttribute("mDishShopEntity", mDishShopEntity);
-                List<DishPropertyEntity> listProperty = new ArrayList<>();
-                model.addAttribute("listProperty", listProperty);
+
+                mDishShopEntity = mDishShopService.queryDishShopById(mDishShopModel.getDishShopId());
+
+                List<DishPropertyEntity> listProperties = mDishPropertyService.queryPropertyByDishId(brandIdentity,shopIdentity,mDishShopModel.getDishShopId());
+                listProperty.addAll(listProperties);
+
+                //是否选择计时销售
+                if(mDishShopEntity.getSaleType() == 3){
+                    mDishShopModel.setPriceModle(2);
+                    mDishTimeChargingRuleEntity = mDishTimeChargingRuleService.queryByDishId(brandIdentity,shopIdentity,mDishShopModel.getDishShopId());
+                    model.addAttribute("mDishTimeChargingRuleEntity", mDishTimeChargingRuleEntity);
+                }
+
             }
 
+            model.addAttribute("mDishShopEntity", mDishShopEntity);
+            model.addAttribute("listProperty", listProperty);
+            model.addAttribute("mDishTimeChargingRuleEntity", mDishTimeChargingRuleEntity);
 
         }catch (Exception e){
             e.printStackTrace();
@@ -312,6 +326,17 @@ public class DishShopController extends BaseController{
             mDishShopEntity.setBrandDishUuid(ToolsUtil.genOnlyIdentifier());
 
             mDishShopService.addOrUpdateDishShop(mDishShopEntity);
+
+
+            //添加计时收费规则
+            if(mDishShopModel.getSaleType() == 3){
+                DishTimeChargingRuleEntity mDishTimeChargingRuleEntity = new DishTimeChargingRuleEntity();
+                mDishTimeChargingRuleService.addOrUpdateRule(mDishTimeChargingRuleEntity);
+            }else{
+                if(mDishShopModel.getOldSaleType() == 3){
+                    mDishTimeChargingRuleService.deleteByDishId(brandIdentity,shopIdentity,mDishShopEntity.getId());
+                }
+            }
 
             List<DishPropertyEntity> listData = new ArrayList<>();
             LinkedList<String> listAdditionName = mDishShopModel.getAdditionName();
