@@ -422,12 +422,11 @@ public class ReportController {
 
 
         if(listData != null && listData.size()==0){
-            for(int i=1;i<=7;i++){
-                listData.add(payMap.get(i));
+            for(Integer key : payMap.keySet()){
+                listData.add(payMap.get(key));
             }
         }else if(listData != null && listData.size()>0){
             for(PaymentItemModel ptm : listData){
-
                 payMap.put(ptm.getPayModeId(),ptm);
             }
             listData = new ArrayList<>();
@@ -436,8 +435,8 @@ public class ReportController {
             }
         }else{
             listData = new ArrayList<>();
-            for(int i=1;i<=7;i++){
-                listData.add(payMap.get(i));
+            for(Integer key : payMap.keySet()){
+                listData.add(payMap.get(key));
             }
         }
         Long maxCount = 0l;
