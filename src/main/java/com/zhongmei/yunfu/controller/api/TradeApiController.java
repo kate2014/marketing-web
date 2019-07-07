@@ -3,11 +3,13 @@ package com.zhongmei.yunfu.controller.api;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.zhongmei.yunfu.util.DateFormatUtil;
 import com.zhongmei.yunfu.util.ServerAddress;
 import com.zhongmei.yunfu.util.ToolsUtil;
 import com.zhongmei.yunfu.controller.model.*;
 import com.zhongmei.yunfu.domain.entity.*;
 import com.zhongmei.yunfu.service.*;
+import org.jooq.util.derby.sys.Sys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -62,6 +64,10 @@ public class TradeApiController {
     CustomerService mCustomerService;
     @Autowired
     TradePrivilegeService mTradePrivilegeService;
+    @Autowired
+    FeedbackService mFeedbackService;
+    @Autowired
+    StarRatingService mStarRatingService;
 
     /**
      * 创建订单
@@ -497,6 +503,27 @@ public class TradeApiController {
         try{
 
             TradeDataModel mTradeDataModel = mTradeService.queryTradeDetail(mTradeModel);
+
+            List<FeedbackEntity> listFeedback = mFeedbackService.queryFeedbackByTradeId(mTradeModel.getBrandIdenty(),mTradeModel.getShopIdenty(),mTradeModel.getTradeId());
+            StarRatingEntity mStarRatingEntity = new StarRatingEntity();
+            mStarRatingEntity.setBrandIdenty(mTradeModel.getBrandIdenty());
+            mStarRatingEntity.setShopIdenty(mTradeModel.getShopIdenty());
+            mStarRatingEntity.setTradeId(mTradeModel.getTradeId());
+            List<StarRatingEntity> listStar = mStarRatingService.queryStarList(mStarRatingEntity);
+
+            mTradeDataModel.setListStarRating(listStar);
+
+            List<FeedbackModel> listFeedbackModel = new ArrayList<>();
+            for(FeedbackEntity entity : listFeedback){
+                FeedbackModel mFeedbackModel = new FeedbackModel();
+                mFeedbackModel.setType(entity.getStart());
+                mFeedbackModel.setRelateId(entity.getRelateId());
+                mFeedbackModel.setContent(entity.getContent());
+                mFeedbackModel.setStart(entity.getStart());
+                mFeedbackModel.setServerCreateTime(DateFormatUtil.format(entity.getServerCreateTime(),"yyyy-MM-dd HH:mm:ss"));
+                listFeedbackModel.add(mFeedbackModel);
+            }
+            mTradeDataModel.setListFeedback(listFeedbackModel);
 
             mBaseDataModel.setState("1000");
             mBaseDataModel.setMsg("该会订单信息成功");

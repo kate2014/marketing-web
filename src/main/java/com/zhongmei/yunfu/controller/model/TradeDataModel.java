@@ -16,6 +16,12 @@ public class TradeDataModel {
 
     private List<TradePrivilegeEntity> listPrivilege;
 
+    private List<FeedbackModel> listFeedback;
+
+    private FeedbackEntity returnFeedback;
+
+    private List<StarRatingEntity> listStarRating;
+
     public TradeEntity getTrade() {
         return trade;
     }
@@ -46,5 +52,29 @@ public class TradeDataModel {
 
     public void setListPrivilege(List<TradePrivilegeEntity> listPrivilege) {
         this.listPrivilege = listPrivilege;
+    }
+
+    public List<FeedbackModel> getListFeedback() {
+        return listFeedback;
+    }
+
+    public void setListFeedback(List<FeedbackModel> listFeedback) {
+        this.listFeedback = listFeedback;
+    }
+
+    public List<StarRatingEntity> getListStarRating() {
+        return listStarRating;
+    }
+
+    public void setListStarRating(List<StarRatingEntity> listStarRating) {
+        this.listStarRating = listStarRating;
+    }
+
+    public FeedbackEntity getReturnFeedback() {
+        return returnFeedback;
+    }
+
+    public void setReturnFeedback(FeedbackEntity returnFeedback) {
+        this.returnFeedback = returnFeedback;
     }
 }

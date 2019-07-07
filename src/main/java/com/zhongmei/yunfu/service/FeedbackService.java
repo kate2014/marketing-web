@@ -36,4 +36,14 @@ public interface FeedbackService extends IService<FeedbackEntity> {
      * @throws Exception
      */
     List<FeedbackEntity> queryFeedbackList(FeedbackEntity mFeedbackEntity)throws Exception;
+
+    /**
+     * 根据tradeId查询评论
+     * @param brandIdenty
+     * @param shopIdenty
+     * @param tradeId
+     * @return
+     * @throws Exception
+     */
+    List<FeedbackEntity> queryFeedbackByTradeId(Long brandIdenty,Long shopIdenty,Long tradeId)throws Exception;
 }

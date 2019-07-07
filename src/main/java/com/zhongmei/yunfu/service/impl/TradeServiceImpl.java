@@ -95,7 +95,7 @@ public class TradeServiceImpl extends ServiceImpl<TradeMapper, TradeEntity> impl
         eWrapper.eq("status_flag", 1);
         eWrapper.in("id", tradeId);
         eWrapper.orderBy("server_create_time", false);
-        eWrapper.setSqlSelect("id,uuid,business_type,trade_type,serial_number,trade_time,trade_status,trade_pay_status,trade_no,sale_amount,privilege_amount,trade_amount,trade_amount_before,trade_memo");
+        eWrapper.setSqlSelect("id,uuid,business_type,trade_type,serial_number,trade_time,trade_status,trade_pay_status,trade_no,sale_amount,privilege_amount,trade_amount,trade_amount_before,trade_memo,feedback");
         List<TradeEntity> listData = selectList(eWrapper);
         return listData;
     }

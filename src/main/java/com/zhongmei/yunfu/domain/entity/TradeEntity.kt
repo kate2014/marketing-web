@@ -127,6 +127,10 @@ class TradeEntity : BaseEntity() {
      * 订单就餐人数订单实际就餐人数，放在总表里面,是方便后台根据总金额做统计
      */
     var tradePeopleCount: Int? = null
+    /**
+     * 是否对该订单进行评价 0：未评价 1:已评价
+     */
+    var feedback: Int? = null
 
 
     override fun toString(): String {
@@ -158,6 +162,7 @@ class TradeEntity : BaseEntity() {
         ", clientCreateTime=" + clientCreateTime +
         ", clientUpdateTime=" + clientUpdateTime +
         ", tradePeopleCount=" + tradePeopleCount +
+        ", feedback=" + feedback +
         "}"
     }
 }

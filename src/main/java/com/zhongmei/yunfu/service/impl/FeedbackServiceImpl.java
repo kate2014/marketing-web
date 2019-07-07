@@ -87,4 +87,19 @@ public class FeedbackServiceImpl extends ServiceImpl<FeedbackMapper, FeedbackEnt
 
         return listData;
     }
+
+    @Override
+    public List<FeedbackEntity> queryFeedbackByTradeId(Long brandIdenty, Long shopIdenty, Long tradeId) throws Exception {
+        EntityWrapper<FeedbackEntity> eWrapper = new EntityWrapper<>(new FeedbackEntity());
+
+        eWrapper.eq("brand_identy",brandIdenty);
+        eWrapper.eq("shop_identy",shopIdenty);
+        eWrapper.eq("status_flag",1);
+
+        eWrapper.eq("trade_id",tradeId);
+        eWrapper.orderBy("server_create_time",true);
+        List<FeedbackEntity> listData = selectList(eWrapper);
+
+        return listData;
+    }
 }

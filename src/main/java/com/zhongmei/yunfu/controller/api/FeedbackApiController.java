@@ -6,10 +6,8 @@ import com.zhongmei.yunfu.controller.model.CutDownModel;
 import com.zhongmei.yunfu.domain.entity.CustomerEntity;
 import com.zhongmei.yunfu.domain.entity.FeedbackEntity;
 import com.zhongmei.yunfu.domain.entity.StarRatingEntity;
-import com.zhongmei.yunfu.service.CustomerService;
-import com.zhongmei.yunfu.service.FeedbackService;
-import com.zhongmei.yunfu.service.StarRatingService;
-import com.zhongmei.yunfu.service.TradeCustomerService;
+import com.zhongmei.yunfu.domain.entity.TradeEntity;
+import com.zhongmei.yunfu.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,6 +28,8 @@ public class FeedbackApiController {
     StarRatingService mStarRatingService;
     @Autowired
     CustomerService mCustomerService;
+    @Autowired
+    TradeService mTradeService;
 
     @RequestMapping("/addFeedback")
     public BaseDataModel addForm(ModelMap model,WxFeedbackReq mWxFeedbackReq) {
@@ -115,6 +115,13 @@ public class FeedbackApiController {
             listStar.add(tdStarRatingEntity);
 
             mStarRatingService.batchAddStar(listStar);
+
+            if(mWxFeedbackReq.getTradeId() != null) {
+                TradeEntity mTradeEntity = new TradeEntity();
+                mTradeEntity.setId(mWxFeedbackReq.getTradeId());
+                mTradeEntity.setFeedback(1);
+                mTradeService.updateTrade(mTradeEntity);
+            }
 
             mBaseDataModel.setState("1000");
             mBaseDataModel.setMsg("添加评价反馈成功");
