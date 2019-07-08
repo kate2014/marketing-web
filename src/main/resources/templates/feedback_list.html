@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<style type="text/css">
+
+    html,body{
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        background-color: #FFFFFF;
+    }
+
+
+    /*table tr:nth-child(even){*/
+        /*background: #ccc;*/
+    /*}*/
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <title>用户反馈</title>
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" type="text/css" />
+
+
+    <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/tips/jquery.toast.css}">
+    <script type="text/javascript" th:src="@{/tips/jquery.toast.js}"></script>
+    <script type="text/javascript" th:src="@{/tips/tips.js}"></script>
+
+    <script type="text/javascript" th:src="@{/dialog/rmodal.js}" src="../static/dialog/rmodal.js"></script>
+    <link rel="stylesheet" th:href="@{/dialog/rmodal.css}" href="../static/dialog/rmodal.css" type="text/css"/>
+    <link rel="stylesheet" th:href="@{/dialog/rmodal-no-bootstrap.css}" href="../static/dialog/rmodal-no-bootstrap.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/dialog/animate.min.css}" href="../static/dialog/animate.min.css"/>
+    <link rel="stylesheet" th:href="@{/dialog/bootstrap.min.css}" href="../static/dialog/bootstrap.min.css"/>
+
+</head>
+
+<script type="text/javascript">
+
+    window.onload = function() {
+
+        var modal = new RModal(document.getElementById('modal'), {
+            beforeOpen: function(next) {
+                console.log('beforeOpen');
+                next();
+            }
+            , afterOpen: function() {
+                console.log('opened');
+            }
+
+            , beforeClose: function(next) {
+                console.log('beforeClose');
+                next();
+            }
+            , afterClose: function() {
+                console.log('closed');
+            }
+
+        });
+
+        document.getElementById('showModal').addEventListener("click", function(ev) {
+            ev.preventDefault();
+            modal.open();
+        }, false);
+        document.getElementById('showUpdateDialog').addEventListener("click", function(ev) {
+            ev.preventDefault();
+            modal.open();
+        }, false);
+
+        window.modal = modal;
+    }
+
+    function showReplayView(feedbackId) {
+        $('#feedbackId').val(feedbackId);
+        modal.open();
+    }
+
+    function replayAction() {
+
+        var feedbackId = $('#feedbackId').val();
+        var replayContent = $('#replayContent').val();
+
+        const Url = "[[${basePath}]]/customer/feedback/replayAction?feedbackId="+feedbackId+"&replayContent="+replayContent;
+
+        const Http = new XMLHttpRequest();
+
+        Http.open("GET",Url);
+
+        Http.send();
+
+        Http.onreadystatechange=function () {
+            if(this.readyState == 4 && this.status == 200){
+                location.reload();
+                successTips("操作成功","回复顾客评论信息操作成功！");
+            }
+        }
+
+        modal.close();
+    }
+
+    function showUpdateFeedback(feedbackId,replayContent) {
+        modal.open();
+        $('#feedbackId').val(feedbackId);
+        $('#replayContent').val(replayContent);
+
+    }
+</script>
+
+<body>
+<div class="parent top_view_style">
+    <img th:src="@{/images/lable.jpg}" width="5" height="26" style="margin-left: 20px">
+    <label class="text_navigation" style="margin-left: 10px;width: 30%;margin-top: 8px">会员 》评价反馈</label>
+</div>
+
+
+<div align="center" style="margin-top: 10px">
+    <table class="intervaltablestyle" style="width: 96%; vertical-align: middle">
+
+        <tr th:each="item:${listFeedback}">
+            <td style="padding-left: 15px;padding-right: 15px">
+                <div class="parent public.container">
+                    服务评分：
+                    <div th:each="star:${item.listStar}" class="parent public.container">
+                        <span th:text="${star.starLable}"  style="margin-left: 10px"></span>:
+                        <div th:if="${star.starNum} eq 1" class="parent">
+                            <img th:src="@{/images/start_checked.png}" class="icon_mini_size_style">
+                            <img th:src="@{/images/start_empty.png}" class="icon_mini_size_style">
+                            <img th:src="@{/images/start_empty.png}" class="icon_mini_size_style">
+                            <img th:src="@{/images/start_empty.png}" class="icon_mini_size_style">
+                            <img th:src="@{/images/start_empty.png}" class="icon_mini_size_style">
+                        </div>
+                        <div th:if="${star.starNum} eq 2" class="parent">
+                            <img th:src="@{/images/start_checked.png}" class="icon_mini_size_style">
+                            <img th:src="@{/images/start_checked.png}" class="icon_mini_size_style">
+                            <img th:src="@{/images/start_empty.png}" class="icon_mini_size_style">
+                            <img th:src="@{/images/start_empty.png}" class="icon_mini_size_style">
+                            <img th:src="@{/images/start_empty.png}" class="icon_mini_size_style">
+                        </div>
+                        <div th:if="${star.starNum} eq 3" class="parent">
+                            <img th:src="@{/images/start_checked.png}" class="icon_mini_size_style">
+                            <img th:src="@{/images/start_checked.png}" class="icon_mini_size_style">
+                            <img th:src="@{/images/start_checked.png}" class="icon_mini_size_style">
+                            <img th:src="@{/images/start_empty.png}" class="icon_mini_size_style">
+                            <img th:src="@{/images/start_empty.png}" class="icon_mini_size_style">
+                        </div>
+                        <div th:if="${star.starNum} eq 4" class="parent">
+                            <img th:src="@{/images/start_checked.png}" class="icon_mini_size_style">
+                            <img th:src="@{/images/start_checked.png}" class="icon_mini_size_style">
+                            <img th:src="@{/images/start_checked.png}" class="icon_mini_size_style">
+                            <img th:src="@{/images/start_checked.png}" class="icon_mini_size_style">
+                            <img th:src="@{/images/start_empty.png}" class="icon_mini_size_style">
+                        </div>
+                        <div th:if="${star.starNum} eq 5" class="parent">
+                            <img th:src="@{/images/start_checked.png}" class="icon_mini_size_style">
+                            <img th:src="@{/images/start_checked.png}" class="icon_mini_size_style">
+                            <img th:src="@{/images/start_checked.png}" class="icon_mini_size_style">
+                            <img th:src="@{/images/start_checked.png}" class="icon_mini_size_style">
+                            <img th:src="@{/images/start_checked.png}" class="icon_mini_size_style">
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="parent public.container">评价内容：<span th:text="${item.content}" class="span_nextLine"></span></div>
+                <div class="parent public.container">
+                    会员名称：<span th:text="${item.customerName}" style="margin-right: 15px"></span>
+                    评价时间：<span th:text="${item.serverCreateTime}"></span>
+                </div>
+
+
+                <DIV style="BORDER-TOP: #e1e1e1 1px dashed; OVERFLOW: hidden; HEIGHT: 1px"></DIV>
+
+                <div th:if="${item.start} eq 1">
+                    <div class="parent public.container">
+                        点击回复顾客评论：
+                        <div class="orange_button_style container parent_h" id="showModal" th:onclick="'javascript:showReplayView(\''+${item.feedbackId}+'\')'"
+                             style="margin-left: 10px;width: 80px">回复</div>
+                    </div>
+
+                </div>
+                <div th:if="${item.start} eq 2">
+                    <div class="parent public.container" style="color: #FF6600;">门店回复内容：<span class="span_nextLine" th:text="${item.replayContent}"></span></div>
+                    <div class="parent public.container">
+                        回复人名称：<span th:text="${item.userName}" style="margin-right: 15px"></span>
+                        回复时间：<span th:text="${item.serverUpdateTime}"></span>
+
+                        <div style="cursor: pointer; margin-left: 20px" id="showUpdateDialog" th:onclick="'javascript:showUpdateFeedback(\''+${item.feedbackId}+'\',\''+${item.replayContent}+'\')'"  class="parent container">
+                            编辑:<img th:src="@{/images/modfity_icon.png}" class="icon_middle_style" style="margin-right: 25px">
+                        </div>
+                    </div>
+                </div>
+
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div class="paging">
+
+    <div th:replace="page_info::pagination"/>
+
+</div>
+
+<!--模态窗口-->
+<div id="modal" class="modal">
+    <div class="modal-dialog animated" style="margin-top: 50px">
+        <div class="modal-content" style="height: 290px;width: 500px">
+            <div class="modal-header" style="height: 50px">
+                <h7>回复顾客评价</h7>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="feedbackId" name="feedbackId">
+                <textarea rows="4" id="replayContent" name="replayContent" cols="50" maxlength="150" style="width: 96%;padding: 10px" placeholder="最多输入150个字"></textarea>
+
+            </div>
+
+            <div class="modal-footer">
+                <button class="gray_button_style" onclick="modal.close();">取消</button>
+                <button class="orange_button_style" onclick="replayAction()">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

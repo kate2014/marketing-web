@@ -26,4 +26,14 @@ public interface StarRatingService extends IService<StarRatingEntity> {
      * @throws Exception
      */
     List<StarRatingEntity> queryStarList(StarRatingEntity mStarRatingEntity) throws Exception;
+
+    /**
+     * 查询订单相关的评分
+     * @param tradeIds
+     * @param brandIdenty
+     * @param shopIdenty
+     * @return
+     * @throws Exception
+     */
+    List<StarRatingEntity> queryStarRatingList(String tradeIds,Long brandIdenty,Long shopIdenty) throws Exception;
 }

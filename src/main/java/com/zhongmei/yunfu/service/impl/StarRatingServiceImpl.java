@@ -42,4 +42,17 @@ public class StarRatingServiceImpl extends ServiceImpl<StarRatingMapper, StarRat
         return listData;
     }
 
+    @Override
+    public List<StarRatingEntity> queryStarRatingList(String tradeIds, Long brandIdenty, Long shopIdenty) throws Exception {
+        EntityWrapper<StarRatingEntity> eWrapper = new EntityWrapper<>(new StarRatingEntity());
+
+        eWrapper.eq("brand_identy",brandIdenty);
+        eWrapper.eq("shop_identy",shopIdenty);
+        eWrapper.in("trade_id",tradeIds);
+        eWrapper.eq("status_flag",1);
+        eWrapper.orderBy("server_create_time",false);
+        List<StarRatingEntity> listData = selectList(eWrapper);
+        return listData;
+    }
+
 }

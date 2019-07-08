@@ -102,4 +102,10 @@ public class FeedbackServiceImpl extends ServiceImpl<FeedbackMapper, FeedbackEnt
 
         return listData;
     }
+
+    @Override
+    public boolean midfityFeedback(FeedbackEntity mFeedbackEntity) throws Exception {
+
+        return updateById(mFeedbackEntity);
+    }
 }

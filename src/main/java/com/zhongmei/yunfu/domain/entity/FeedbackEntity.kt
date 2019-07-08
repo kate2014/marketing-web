@@ -35,6 +35,10 @@ class FeedbackEntity : BaseEntity() {
      */
     var content: String? = null
     /**
+     * 门店回复
+     */
+    var replayContent: String? = null
+    /**
      * 订单Id
      */
     var tradeId: Long? = null
@@ -73,6 +77,7 @@ class FeedbackEntity : BaseEntity() {
         ", id=" + id +
         ", type=" + type +
         ", relateId=" + relateId +
+        ", replayContent=" + replayContent +
         ", content=" + content +
         ", tradeId=" + tradeId +
         ", customerId=" + customerId +

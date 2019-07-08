@@ -20,7 +20,7 @@ public interface FeedbackService extends IService<FeedbackEntity> {
     boolean addFeedback(FeedbackEntity mFeedbackEntity)throws Exception;
 
     /**
-     * 分页查询反馈
+     * 分页查询顾客反馈，不包含门店回复
      * @param mFeedbackEntity
      * @param pageNo
      * @param pageSize
@@ -46,4 +46,12 @@ public interface FeedbackService extends IService<FeedbackEntity> {
      * @throws Exception
      */
     List<FeedbackEntity> queryFeedbackByTradeId(Long brandIdenty,Long shopIdenty,Long tradeId)throws Exception;
+
+    /**
+     * 更新评价
+     * @param mFeedbackEntity
+     * @return
+     * @throws Exception
+     */
+    boolean midfityFeedback(FeedbackEntity mFeedbackEntity)throws Exception;
 }

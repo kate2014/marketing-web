@@ -519,8 +519,10 @@ public class TradeApiController {
                 mFeedbackModel.setType(entity.getStart());
                 mFeedbackModel.setRelateId(entity.getRelateId());
                 mFeedbackModel.setContent(entity.getContent());
+                mFeedbackModel.setReplayContent(entity.getReplayContent());
                 mFeedbackModel.setStart(entity.getStart());
                 mFeedbackModel.setServerCreateTime(DateFormatUtil.format(entity.getServerCreateTime(),"yyyy-MM-dd HH:mm:ss"));
+                mFeedbackModel.setServerUpdateTime(DateFormatUtil.format(entity.getServerUpdateTime(),"yyyy-MM-dd HH:mm:ss"));
                 listFeedbackModel.add(mFeedbackModel);
             }
             mTradeDataModel.setListFeedback(listFeedbackModel);
