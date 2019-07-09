@@ -182,7 +182,7 @@
             <td th:text="${#dates.format(item.serverCreateTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
 
             <td align="center" style="vertical-align: center">
-                <img class="see_modify" th:src="@{/images/see_detail.jpg}" th:onclick="@{|location='${basePath}/internal/trade/tradeDetail?tradeId=${item.id}&brandIdenty=${mTradeModel.brandIdenty}&shopIdenty=${mTradeModel.shopIdenty}'|}">
+                <img class="see_modify" th:src="@{/images/see_detail.jpg}" th:onclick="@{|location='${basePath}/internal/trade/tradeDetail?tradeId=${item.id}&brandIdenty=${mTradeModel.brandIdenty}&shopIdenty=${mTradeModel.shopIdenty}&rquestSource=1'|}">
                     <!--<a th:href="@{/internal/trade/tradeDetail(tradeId=${item.id},brandIdenty=${mTradeModel.brandIdenty},shopIdenty=${mTradeModel.shopIdenty})}"><img class="see_modify" th:src="@{/images/see_detail.jpg}"></a>-->
             </td>
 

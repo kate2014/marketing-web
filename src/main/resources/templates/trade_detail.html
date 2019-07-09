@@ -18,8 +18,11 @@
         <img th:src="@{/images/lable.jpg}" width="5" height="26" style="margin-left: 20px">
         <label class="text_navigation" style="margin-left: 10px;width: 30%">订单列表 》订单详情</label>
 
-        <div align="right" style="width: 100%;margin-right: 50px">
+        <div align="right" style="width: 100%;margin-right: 50px" th:if="${mTradeModel.rquestSource} eq 1">
             <button class="gray_button_style" value="" th:onclick="@{|location='${basePath}/internal/trade/listData?brandIdenty=${mTradeModel.brandIdenty}&shopIdenty=${mTradeModel.shopIdenty}'|}" style="margin-left: 10px">返回列表</button>
+        </div>
+        <div align="right" style="width: 100%;margin-right: 50px" th:if="${mTradeModel.rquestSource} ne 1">
+            <button class="gray_button_style" onclick="javascript :history.back(-1);" style="margin-left: 10px">返回</button>
         </div>
     </div>
 </div>

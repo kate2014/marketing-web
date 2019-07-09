@@ -199,7 +199,7 @@ public class TradeController extends BaseController{
             PaymentItemEntity mPaymentItemEntity = mPaymentItemService.queryPaymentItemById(mTradeModel.getPaymentItemId());
             mPaymentItemEntity = mPaymentItemService.refundquery(mPaymentItemEntity, mTradeModel.getTradeId());
 
-            return redirect("/internal/trade/tradeDetail?tradeId="+mTradeModel.getTradeId()+"&brandIdenty="+mPaymentItemEntity.getBrandIdenty()+"&shopIdenty="+mPaymentItemEntity.getShopIdenty());
+            return redirect("/internal/trade/tradeDetail?tradeId="+mTradeModel.getTradeId()+"&brandIdenty="+mPaymentItemEntity.getBrandIdenty()+"&shopIdenty="+mPaymentItemEntity.getShopIdenty()+"&rquestSource=1");
         }catch (Exception e){
             e.printStackTrace();
             return "fail";
@@ -217,7 +217,7 @@ public class TradeController extends BaseController{
 
             mPaymentItemService.retrunPayment(oldPaymentItem.getId(),mPaymentItemEntity,mTradeModel.getTradeId());
 
-            return redirect("/internal/trade/tradeDetail?tradeId="+mTradeModel.getTradeId()+"&brandIdenty="+mPaymentItemEntity.getBrandIdenty()+"&shopIdenty="+mPaymentItemEntity.getShopIdenty());
+            return redirect("/internal/trade/tradeDetail?tradeId="+mTradeModel.getTradeId()+"&brandIdenty="+mPaymentItemEntity.getBrandIdenty()+"&shopIdenty="+mPaymentItemEntity.getShopIdenty()+"&rquestSource=1");
 
         }catch (Exception e){
             e.printStackTrace();

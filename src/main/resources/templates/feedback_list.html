@@ -144,6 +144,9 @@
 
         <tr th:each="item:${listFeedback}">
             <td style="padding-left: 15px;padding-right: 15px">
+                <div class="parent public.container" th:onclick="@{|location='${basePath}/internal/trade/tradeDetail?tradeId=${item.tradeId}&brandIdenty=${mFeedbackModel.brandIdenty}&shopIdenty=${mFeedbackModel.shopIdenty}'|}" style="color: #1296db; cursor: pointer">
+                    点击查看关联订单<img th:src="@{/images/order_icon.png}" class="icon_style">
+                </div>
                 <div class="parent public.container">
                     服务评分：
                     <div th:each="star:${item.listStar}" class="parent public.container">
