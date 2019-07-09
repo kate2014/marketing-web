@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.zhongmei.yunfu.controller.model.CustomerCouponModel;
 import com.zhongmei.yunfu.core.mybatis.mapper.ConditionFilter;
+import com.zhongmei.yunfu.domain.entity.CouponEntity;
 import com.zhongmei.yunfu.domain.entity.CustomerCouponEntity;
 import com.zhongmei.yunfu.domain.entity.MarketingPutOnEntity;
 import com.zhongmei.yunfu.domain.entity.bean.CustomerCouponReport;
@@ -16,6 +17,10 @@ import com.zhongmei.yunfu.service.CustomerCouponService;
 import com.zhongmei.yunfu.service.CustomerService;
 import com.zhongmei.yunfu.service.MarketingPutOnService;
 import com.zhongmei.yunfu.service.vo.CustomerCouponVo;
+import com.zhongmei.yunfu.thirdlib.wxapp.WxTemplateMessageHandler;
+import com.zhongmei.yunfu.thirdlib.wxapp.msg.CouponPushMessage;
+import com.zhongmei.yunfu.thirdlib.wxapp.msg.WxTempMsg;
+import com.zhongmei.yunfu.util.DateFormatUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -196,7 +201,7 @@ public class CustomerCouponServiceImpl extends ServiceImpl<CustomerCouponMapper,
         //投放方案ID  1：进入小程序推送优惠券  2：参与砍价活动推送优惠券 3：注册为新会员推送优惠券 4：支付交易完成推送优惠券 5：预约完成推送优惠券 6：会员消费评价成功推送优惠券
         MarketingPutOnEntity mMarketingPutOnEntity = mMarketingPutOnService.queryMarketingPutOnByType(brandIdenty, shopIdenty, palnId);
         if (mMarketingPutOnEntity != null && mMarketingPutOnEntity.getCouponId() != null) {
-//            CouponEntity mCouponEntity = mCouponServiceImpl.queryByid(Long.valueOf(mMarketingPutOnEntity.getCouponId()));
+
             CustomerCouponEntity mCustomerCoupon = new CustomerCouponEntity();
             mCustomerCoupon.setBrandIdenty(brandIdenty);
             mCustomerCoupon.setShopIdenty(shopIdenty);
@@ -211,6 +216,22 @@ public class CustomerCouponServiceImpl extends ServiceImpl<CustomerCouponMapper,
             mCustomerCoupon.setServerCreateTime(new Date());
             mCustomerCoupon.setServerUpdateTime(new Date());
             Boolean isSuccess = mCustomerCouponService.addCustomerCoupon(mCustomerCoupon);
+            if(isSuccess){
+                CouponEntity mCouponEntity = mCouponServiceImpl.queryByid(Long.valueOf(mMarketingPutOnEntity.getCouponId()));
+                //推送小程序服务通知
+                CouponPushMessage couponPushMessage = new CouponPushMessage();
+                couponPushMessage.setBrandIdenty(brandIdenty);
+                couponPushMessage.setShopIdenty(shopIdenty);
+                couponPushMessage.setCustomerId(customerId);
+                couponPushMessage.setSendDate(new Date().getTime());
+                couponPushMessage.setEndDate(mCouponEntity.getEndTime().getTime());
+                couponPushMessage.setProductName(mMarketingPutOnEntity.getCouponName());
+                couponPushMessage.setNotes(mCouponEntity.getContent());
+                WxTemplateMessageHandler.sendWxTemplateMessage(couponPushMessage);
+
+            }
+
+
             return isSuccess;
         } else {
             return false;

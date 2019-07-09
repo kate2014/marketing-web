@@ -129,7 +129,7 @@ public class PushMessageCustomerServiceImpl extends ServiceImpl<PushMessageCusto
                 couponPushMessage.setBrandIdenty(customerCouponEntity.getBrandIdenty());
                 couponPushMessage.setShopIdenty(customerCouponEntity.getShopIdenty());
                 couponPushMessage.setCustomerId(customerCouponEntity.getCustomerId());
-                couponPushMessage.setSendDate(startTime != null ? startTime.getTime() : null);
+                couponPushMessage.setSendDate(new Date().getTime());
                 couponPushMessage.setEndDate(endTime != null ? endTime.getTime() : null);
                 couponPushMessage.setProductName(customerCouponEntity.getHeading());
                 couponPushMessage.setNotes(customerCouponEntity.getMessage());
