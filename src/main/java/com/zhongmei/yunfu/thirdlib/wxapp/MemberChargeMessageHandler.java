@@ -25,6 +25,7 @@ public class MemberChargeMessageHandler extends WxTemplateMessageHandler<MemberC
     @Override
     protected void createDateItem(WxTemplateSendMsgReq wxTemplateSendMsgReq, MemberChargeMessage wxTempMsg) {
         super.createDateItem(wxTemplateSendMsgReq, wxTempMsg);
+        wxTemplateSendMsgReq.page = "pages/checkNetwork/checkNetwork";
         wxTemplateSendMsgReq
                 .addDataItem("keyword1", wxTempMsg.getChargeType())
                 .addDataItem("keyword2", wxTempMsg.getMobileAccount())

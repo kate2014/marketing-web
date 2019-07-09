@@ -25,7 +25,7 @@ public class OrderPayWxTemplateMessageHandler extends WxTemplateMessageHandler<O
     protected void createDateItem(WxTemplateSendMsgReq wxTemplateSendMsgReq, OrderPayMessage wxTempMsg) {
         super.createDateItem(wxTemplateSendMsgReq, wxTempMsg);
         wxTemplateSendMsgReq.template_id = "y5YfXBtOzkJBQyCfDqLQMU2nxsRGfAgZcTg2M1Zvh18";
-
+        wxTemplateSendMsgReq.page = "/pages/checkNetwork/checkNetwork?urlType=8";
         wxTemplateSendMsgReq
                 .addDataItem("keyword1", wxTempMsg.getTradeNo())
                 .addDataItem("keyword2", wxTempMsg.getTradePayAmount().toString()+"元")
