@@ -261,16 +261,16 @@
     <!--</div>-->
     <form action="couponadd.html" th:action="@{/customer/list}" th:object="${searchModel}">
         <input type="hidden" name="type" th:value="*{type}">
-        <div class="parent" style="margin-top: 20px;width: 95%">
+        <div class="parent" style="margin-top: 10px;width: 95%">
             <label class="text_navigation">来源</label>
-            <select name="sourceId" class="select_style" style="margin-left: 5px">
+            <select name="sourceId" class="select_min_style" style="margin-left: 5px">
                 <option value="">全部</option>
                 <option value="1" th:selected="*{sourceId==1}">门店POS</option>
                 <option value="2" th:selected="*{sourceId==2}">小程序</option>
             </select>
 
             <label class="text_navigation" style="margin-left: 10px">会员等级</label>
-            <select name="groupLevelId" class="select_style" style="margin-left: 5px">
+            <select name="groupLevelId" class="select_min_style" style="margin-left: 5px">
                 <option value="">全部</option>
                 <option th:selected="*{groupLevelId==1}" value="1">银卡</option>
                 <option th:selected="*{groupLevelId==2}" value="2">金卡</option>
@@ -281,10 +281,10 @@
             </select>
 
             <label class="text_navigation" style="margin-left: 10px">姓名</label>
-            <input class="input_style" style="margin-left: 5px" type="text" name="name" th:value="*{name}" />
+            <input class="input_min_style" style="margin-left: 5px" type="text" name="name" th:value="*{name}" />
 
             <label class="text_navigation" style="margin-left: 10px">手机号</label>
-            <input class="input_style" style="margin-left: 5px" type="text" name="mobile" th:value="*{mobile}" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="20"/>
+            <input class="input_min_style" style="margin-left: 5px" type="text" name="mobile" th:value="*{mobile}" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="20"/>
 
             <button class="orange_mine_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
             <button id="service_push" class="blue_mine_button_style select-shop" value="" onclick="return false;" style="margin-left: 10px">服务推送</button>
