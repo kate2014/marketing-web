@@ -130,12 +130,10 @@
 
         $("#import_excel").click(function () {
             var inputFile = $(this).children("input[type=file]");
+            inputFile.val("");
             inputFile[0].click();
             inputFile.off("change").on("change", function () {
-                if (typeof FileReader == "undefined") {
-                    return false;
-                }
-                console.log('正在完善中');
+                console.log('正在完善中' + $(this).val());
             });
         });
     });
