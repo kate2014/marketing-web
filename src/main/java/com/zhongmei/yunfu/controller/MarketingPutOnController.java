@@ -41,7 +41,6 @@ public class MarketingPutOnController extends BaseController {
 
         List<MarketingPutOnEntity> listMarketingPutOn = mMarketingPutOnService.queryMarketingPutOn(brandIdentity, shopIdentity);
 
-
         for (MarketingPutOnEntity mMarketingPutOn : listMarketingPutOn) {
             if (mMarketingPutOn.getPalnId() == 1) {
                 mMarketingPutOnModel.setIdA(mMarketingPutOn.getId());
@@ -76,6 +75,13 @@ public class MarketingPutOnController extends BaseController {
                 mMarketingPutOnModel.setCouponIdE(mMarketingPutOn.getCouponId());
                 mMarketingPutOnModel.setCouponNameE(mMarketingPutOn.getCouponName());
                 mMarketingPutOnModel.setStatusE(mMarketingPutOn.getStatus());
+                continue;
+            }
+            if (mMarketingPutOn.getPalnId() == 6) {
+                mMarketingPutOnModel.setIdF(mMarketingPutOn.getId());
+                mMarketingPutOnModel.setCouponIdF(mMarketingPutOn.getCouponId());
+                mMarketingPutOnModel.setCouponNameF(mMarketingPutOn.getCouponName());
+                mMarketingPutOnModel.setStatusF(mMarketingPutOn.getStatus());
                 continue;
             }
         }

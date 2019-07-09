@@ -82,6 +82,13 @@
 
             document.getElementById("startE").style.display='block';
             document.getElementById("stopE").style.display='none';
+        }else if(tempSelected == 6){
+            document.getElementById("couponIdF").value = selectvalue;
+            document.getElementById("couponNameF").value = couponName;
+            document.getElementById("showcouponNameF").innerText = couponName;
+
+            document.getElementById("startF").style.display='block';
+            document.getElementById("stopF").style.display='none';
         }
 
         //关闭优惠券选择界面
@@ -136,6 +143,15 @@
             document.getElementById("startE").style.display='block';
             document.getElementById("stopE").style.display='none';
         }
+
+        var statusF = document.getElementById("statusF").value
+        if(statusF == 1){
+            document.getElementById("startF").style.display='none';
+            document.getElementById("stopF").style.display='block';
+        }else if(statusF == 2){
+            document.getElementById("startF").style.display='block';
+            document.getElementById("stopF").style.display='none';
+        }
     }
 
     function submitSetting(planId,status) {
@@ -162,6 +178,10 @@
             document.getElementById("id").value = document.getElementById("idE").value;
             document.getElementById("couponId").value = document.getElementById("couponIdE").value;
             document.getElementById("couponName").value = document.getElementById("couponNameE").value;
+        }else if(planId == 6){
+            document.getElementById("id").value = document.getElementById("idF").value;
+            document.getElementById("couponId").value = document.getElementById("couponIdF").value;
+            document.getElementById("couponName").value = document.getElementById("couponNameF").value;
         }
         document.addform.submit();
     }
@@ -192,119 +212,140 @@
 </form>
 <input type="hidden" id="tempSelected">
 
-    <div class="parent" style="height: 60px; margin-left: 40px; margin-right: 40px">
-        <div style="width: 40%">
-            <span class="settinglable">首次进入小程序推送优惠</span></br>
-            <span class="settingprofile">当顾客首次启动小程序时，系统将自动推送优惠信息给会员</span>
-        </div>
-
-        <button class="blue_button_style select-shop" style="margin-left: 20px" onclick="selectCoupon(1)">设置推送优惠券</button>
-
-        <input type="hidden" id="idA" name="idA" th:value="${marketingPutOn.idA}">
-        <input type="hidden" id="couponIdA" name="couponIdA" th:value="${marketingPutOn.couponIdA}">
-        <input type="hidden" id="couponNameA" name="couponNameA" th:value="${marketingPutOn.couponNameA}">
-        <span class="settingcoupon" id="showcouponNameA" name="showcouponNameA"  th:text="${marketingPutOn.couponNameA}"></span>
-        <input type="hidden" id="statusA" name="statusA" th:value="${marketingPutOn.statusA}">
-
-        <button id="startA" style="display: none" class="orange_button_style" value="" onclick="submitSetting(1,1)">启用</button>
-        <button id="stopA" style="display: none" class="gray_button_style" value="" onclick="submitSetting(1,2)">停止</button>
-        </div>
-
+<div class="parent" style="height: 60px; margin-left: 40px; margin-right: 40px">
+    <div style="width: 40%">
+        <span class="settinglable">首次进入小程序推送优惠</span></br>
+        <span class="settingprofile">当顾客首次启动小程序时，系统将自动推送优惠信息给会员</span>
     </div>
 
-    <div class="splitline" style=" margin-left: 40px; margin-right: 40px"></div>
+    <button class="blue_button_style select-shop" style="margin-left: 20px" onclick="selectCoupon(1)">设置推送优惠券</button>
+
+    <input type="hidden" id="idA" name="idA" th:value="${marketingPutOn.idA}">
+    <input type="hidden" id="couponIdA" name="couponIdA" th:value="${marketingPutOn.couponIdA}">
+    <input type="hidden" id="couponNameA" name="couponNameA" th:value="${marketingPutOn.couponNameA}">
+    <span class="settingcoupon" id="showcouponNameA" name="showcouponNameA"  th:text="${marketingPutOn.couponNameA}"></span>
+    <input type="hidden" id="statusA" name="statusA" th:value="${marketingPutOn.statusA}">
+
+    <button id="startA" style="display: none" class="orange_button_style" value="" onclick="submitSetting(1,1)">启用</button>
+    <button id="stopA" style="display: none" class="gray_button_style" value="" onclick="submitSetting(1,2)">停止</button>
+</div>
+
+</div>
+
+<div class="splitline" style=" margin-left: 40px; margin-right: 40px"></div>
 
 
 
-    <div class="parent" style="height: 60px; margin-left: 40px; margin-right: 40px">
-        <div style="width: 40%">
-            <span class="settinglable">参与砍价活动推送优惠</span></br>
-            <span class="settingprofile">当参与好友发起的砍价活动后，系统自动推送优惠给参与者</span>
-        </div>
-
-        <button class="blue_button_style select-shop" style="margin-left: 20px" onclick="selectCoupon(2)">设置推送优惠券</button>
-
-        <input type="hidden" id="idB" name="idB" th:value="${marketingPutOn.idB}">
-        <input type="hidden" id="couponIdB" name="couponIdB" th:value="${marketingPutOn.couponIdB}">
-        <input type="hidden" id="couponNameB" name="couponNameB" th:value="${marketingPutOn.couponNameB}">
-        <span class="settingcoupon" id="showcouponNameB" name="showcouponNameB"  th:text="${marketingPutOn.couponNameB}"></span>
-        <input type="hidden" id="statusB" name="statusA" th:value="${marketingPutOn.statusB}">
-
-        <button id="startB" style="display: none" class="orange_button_style" value="" onclick="submitSetting(2,1)">启用</button>
-        <button id="stopB" style="display: none" class="gray_button_style" value="" onclick="submitSetting(2,2)">停止</button>
-
+<div class="parent" style="height: 60px; margin-left: 40px; margin-right: 40px">
+    <div style="width: 40%">
+        <span class="settinglable">参与砍价活动推送优惠</span></br>
+        <span class="settingprofile">当参与好友发起的砍价活动后，系统自动推送优惠给参与者</span>
     </div>
 
-    <div class="splitline" style=" margin-left: 40px; margin-right: 40px"></div>
+    <button class="blue_button_style select-shop" style="margin-left: 20px" onclick="selectCoupon(2)">设置推送优惠券</button>
+
+    <input type="hidden" id="idB" name="idB" th:value="${marketingPutOn.idB}">
+    <input type="hidden" id="couponIdB" name="couponIdB" th:value="${marketingPutOn.couponIdB}">
+    <input type="hidden" id="couponNameB" name="couponNameB" th:value="${marketingPutOn.couponNameB}">
+    <span class="settingcoupon" id="showcouponNameB" name="showcouponNameB"  th:text="${marketingPutOn.couponNameB}"></span>
+    <input type="hidden" id="statusB" name="statusA" th:value="${marketingPutOn.statusB}">
+
+    <button id="startB" style="display: none" class="orange_button_style" value="" onclick="submitSetting(2,1)">启用</button>
+    <button id="stopB" style="display: none" class="gray_button_style" value="" onclick="submitSetting(2,2)">停止</button>
+
+</div>
+
+<div class="splitline" style=" margin-left: 40px; margin-right: 40px"></div>
 
 
-    <div class="parent" style="height: 60px; margin-left: 40px; margin-right: 40px">
-        <div style="width: 40%">
-            <span class="settinglable">小程序绑定手机推送优惠</span></br>
-            <span class="settingprofile">小程用户绑定手机时，系统自动推送优惠给门店会员</span>
-        </div>
-
-        <button class="blue_button_style select-shop" style="margin-left: 20px" onclick="selectCoupon(3)">设置推送优惠券</button>
-
-
-        <input type="hidden" id="idC" name="idC" th:value="${marketingPutOn.idC}">
-        <input type="hidden" id="couponIdC" name="couponIdC" th:value="${marketingPutOn.couponIdC}">
-        <input type="hidden" id="couponNameC" name="couponNameC" th:value="${marketingPutOn.couponNameC}">
-        <span class="settingcoupon" id="showcouponNameC" name="showcouponNameC"  th:text="${marketingPutOn.couponNameC}"></span>
-        <input type="hidden" id="statusC" name="statusC" th:value="${marketingPutOn.statusC}">
-
-        <button id="startC" style="display: none" class="orange_button_style" value="" onclick="submitSetting(3,1)">启用</button>
-        <button id="stopC" style="display: none" class="gray_button_style" value="" onclick="submitSetting(3,2)">停止</button>
+<div class="parent" style="height: 60px; margin-left: 40px; margin-right: 40px">
+    <div style="width: 40%">
+        <span class="settinglable">小程序绑定手机推送优惠</span></br>
+        <span class="settingprofile">小程用户绑定手机时，系统自动推送优惠给门店会员</span>
     </div>
 
-    <div class="splitline" style=" margin-left: 40px; margin-right: 40px"></div>
+    <button class="blue_button_style select-shop" style="margin-left: 20px" onclick="selectCoupon(3)">设置推送优惠券</button>
+
+
+    <input type="hidden" id="idC" name="idC" th:value="${marketingPutOn.idC}">
+    <input type="hidden" id="couponIdC" name="couponIdC" th:value="${marketingPutOn.couponIdC}">
+    <input type="hidden" id="couponNameC" name="couponNameC" th:value="${marketingPutOn.couponNameC}">
+    <span class="settingcoupon" id="showcouponNameC" name="showcouponNameC"  th:text="${marketingPutOn.couponNameC}"></span>
+    <input type="hidden" id="statusC" name="statusC" th:value="${marketingPutOn.statusC}">
+
+    <button id="startC" style="display: none" class="orange_button_style" value="" onclick="submitSetting(3,1)">启用</button>
+    <button id="stopC" style="display: none" class="gray_button_style" value="" onclick="submitSetting(3,2)">停止</button>
+</div>
+
+<div class="splitline" style=" margin-left: 40px; margin-right: 40px"></div>
 
 
 
-    <div class="parent" style="height: 60px; margin-left: 40px; margin-right: 40px">
-        <div style="width: 40%">
-            <span class="settinglable">支付交易完成推送优惠券</span></br>
-            <span class="settingprofile">当在门店收银系统、小程序端完成一笔交易时，系统将自动推送优惠信息给会员</span>
-        </div>
-
-        <button class="blue_button_style select-shop" style="margin-left: 20px" onclick="selectCoupon(4)">设置推送优惠券</button>
-
-
-        <input type="hidden" id="idD" name="idD" th:value="${marketingPutOn.idD}">
-        <input type="hidden" id="couponIdD" name="couponIdD" th:value="${marketingPutOn.couponIdD}">
-        <input type="hidden" id="couponNameD" name="couponNameD" th:value="${marketingPutOn.couponNameD}">
-        <span class="settingcoupon" id="showcouponNameD" name="showcouponNameD"  th:text="${marketingPutOn.couponNameD}"></span>
-        <input type="hidden" id="statusD" name="statusD" th:value="${marketingPutOn.statusD}">
-
-        <button id="startD" style="display: none" class="orange_button_style" value="" onclick="submitSetting(4,1)">启用</button>
-        <button id="stopD" style="display: none" class="gray_button_style" value="" onclick="submitSetting(4,2)">停止</button>
-
+<div class="parent" style="height: 60px; margin-left: 40px; margin-right: 40px">
+    <div style="width: 40%">
+        <span class="settinglable">支付交易完成推送优惠券</span></br>
+        <span class="settingprofile">当在门店收银系统、小程序端完成一笔交易时，系统将自动推送优惠信息给会员</span>
     </div>
 
-    <div class="splitline" style=" margin-left: 40px; margin-right: 40px"></div>
+    <button class="blue_button_style select-shop" style="margin-left: 20px" onclick="selectCoupon(4)">设置推送优惠券</button>
+
+
+    <input type="hidden" id="idD" name="idD" th:value="${marketingPutOn.idD}">
+    <input type="hidden" id="couponIdD" name="couponIdD" th:value="${marketingPutOn.couponIdD}">
+    <input type="hidden" id="couponNameD" name="couponNameD" th:value="${marketingPutOn.couponNameD}">
+    <span class="settingcoupon" id="showcouponNameD" name="showcouponNameD"  th:text="${marketingPutOn.couponNameD}"></span>
+    <input type="hidden" id="statusD" name="statusD" th:value="${marketingPutOn.statusD}">
+
+    <button id="startD" style="display: none" class="orange_button_style" value="" onclick="submitSetting(4,1)">启用</button>
+    <button id="stopD" style="display: none" class="gray_button_style" value="" onclick="submitSetting(4,2)">停止</button>
+
+</div>
+
+<div class="splitline" style=" margin-left: 40px; margin-right: 40px"></div>
 
 
 
-    <div class="parent" style="height: 60px; margin-left: 40px; margin-right: 40px">
-        <div style="width: 40%">
-            <span class="settinglable">预约成功推送优惠券</span></br>
-            <span class="settingprofile">当在门店预约、小程序预约完成时，系统将自动推送优惠券给预约会员</span>
-        </div>
-
-        <button class="blue_button_style select-shop" style="margin-left: 20px" onclick="selectCoupon(5)">设置推送优惠券</button>
-
-        <input type="hidden" id="idE" name="idE" th:value="${marketingPutOn.idE}">
-        <input type="hidden" id="couponIdE" name="couponIdE" th:value="${marketingPutOn.couponIdE}">
-        <input type="hidden" id="couponNameE" name="couponNameE" th:value="${marketingPutOn.couponNameE}">
-        <span class="settingcoupon" id="showcouponNameE" name="showcouponNameE"  th:text="${marketingPutOn.couponNameE}"></span>
-        <input type="hidden" id="statusE" name="statusE" th:value="${marketingPutOn.statusE}">
-
-        <button id="startE" style="display: none" class="orange_button_style" value="" onclick="submitSetting(5,1)">启用</button>
-        <button id="stopE" style="display: none" class="gray_button_style" value="" onclick="submitSetting(5,2)">停止</button>
-
+<div class="parent" style="height: 60px; margin-left: 40px; margin-right: 40px">
+    <div style="width: 40%">
+        <span class="settinglable">预约成功推送优惠券</span></br>
+        <span class="settingprofile">当在门店预约、小程序预约完成时，系统将自动推送优惠券给预约会员</span>
     </div>
 
-    <div class="splitline" style=" margin-left: 40px; margin-right: 40px"></div>
+    <button class="blue_button_style select-shop" style="margin-left: 20px" onclick="selectCoupon(5)">设置推送优惠券</button>
+
+    <input type="hidden" id="idE" name="idE" th:value="${marketingPutOn.idE}">
+    <input type="hidden" id="couponIdE" name="couponIdE" th:value="${marketingPutOn.couponIdE}">
+    <input type="hidden" id="couponNameE" name="couponNameE" th:value="${marketingPutOn.couponNameE}">
+    <span class="settingcoupon" id="showcouponNameE" name="showcouponNameE"  th:text="${marketingPutOn.couponNameE}"></span>
+    <input type="hidden" id="statusE" name="statusE" th:value="${marketingPutOn.statusE}">
+
+    <button id="startE" style="display: none" class="orange_button_style" value="" onclick="submitSetting(5,1)">启用</button>
+    <button id="stopE" style="display: none" class="gray_button_style" value="" onclick="submitSetting(5,2)">停止</button>
+
+</div>
+
+<div class="splitline" style=" margin-left: 40px; margin-right: 40px"></div>
+
+<div class="parent" style="height: 60px; margin-left: 40px; margin-right: 40px">
+    <div style="width: 40%">
+        <span class="settinglable">评价反馈送优惠券</span></br>
+        <span class="settingprofile">顾客通过小程序对本次消费进行评分和评论反馈，系统将自动为其发放已设置好的优惠券</span>
+    </div>
+
+    <button class="blue_button_style select-shop" style="margin-left: 20px" onclick="selectCoupon(6)">设置推送优惠券</button>
+
+    <input type="hidden" id="idF" name="idF" th:value="${marketingPutOn.idF}">
+    <input type="hidden" id="couponIdF" name="couponIdF" th:value="${marketingPutOn.couponIdF}">
+    <input type="hidden" id="couponNameF" name="couponNameF" th:value="${marketingPutOn.couponNameF}">
+    <span class="settingcoupon" id="showcouponNameF" name="showcouponNameF"  th:text="${marketingPutOn.couponNameF}"></span>
+    <input type="hidden" id="statusF" name="statusE" th:value="${marketingPutOn.statusF}">
+
+    <button id="startF" style="display: none" class="orange_button_style" value="" onclick="submitSetting(6,1)">启用</button>
+    <button id="stopF" style="display: none" class="gray_button_style" value="" onclick="submitSetting(6,2)">停止</button>
+
+</div>
+
+<div class="splitline" style=" margin-left: 40px; margin-right: 40px"></div>
 
 </div>
 

@@ -97,6 +97,21 @@ public class MarketingPutOnModel {
      */
     private Integer statusE;
 
+
+    private Long idF;
+    /**
+     * 自动推送的优惠卷ID
+     */
+    private String couponIdF;
+    /**
+     * 自动推送的优惠卷名称
+     */
+    private String couponNameF;
+    /**
+     * 投放状态 1：投放中 2：未启用
+     */
+    private Integer statusF;
+
     public Long getId() {
         return id;
     }
@@ -295,5 +310,37 @@ public class MarketingPutOnModel {
 
     public void setStatusE(Integer statusE) {
         this.statusE = statusE;
+    }
+
+    public Long getIdF() {
+        return idF;
+    }
+
+    public void setIdF(Long idF) {
+        this.idF = idF;
+    }
+
+    public String getCouponIdF() {
+        return couponIdF;
+    }
+
+    public void setCouponIdF(String couponIdF) {
+        this.couponIdF = couponIdF;
+    }
+
+    public String getCouponNameF() {
+        return couponNameF;
+    }
+
+    public void setCouponNameF(String couponNameF) {
+        this.couponNameF = couponNameF;
+    }
+
+    public Integer getStatusF() {
+        return statusF;
+    }
+
+    public void setStatusF(Integer statusF) {
+        this.statusF = statusF;
     }
 }
