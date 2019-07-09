@@ -3,12 +3,15 @@ package com.zhongmei.yunfu.service.impl;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.zhongmei.yunfu.controller.model.FeedbackModel;
 import com.zhongmei.yunfu.domain.entity.DishShopEntity;
 import com.zhongmei.yunfu.domain.entity.FeedbackEntity;
 import com.zhongmei.yunfu.domain.mapper.FeedbackMapper;
 import com.zhongmei.yunfu.service.FeedbackService;
+import com.zhongmei.yunfu.util.DateFormatUtil;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -22,29 +25,34 @@ public class FeedbackServiceImpl extends ServiceImpl<FeedbackMapper, FeedbackEnt
     }
 
     @Override
-    public Page<FeedbackEntity> queryFeedbackPage(FeedbackEntity mFeedbackEntity, Integer pageNo, Integer pageSize) throws Exception {
+    public Page<FeedbackEntity> queryFeedbackPage(FeedbackModel mFeedbackModel) throws Exception {
 
-        Page<FeedbackEntity> listPage = new Page<>(pageNo, pageSize);
+        Page<FeedbackEntity> listPage = new Page<>(mFeedbackModel.getPageNo(), mFeedbackModel.getPageSize());
 
         EntityWrapper<FeedbackEntity> eWrapper = new EntityWrapper<>(new FeedbackEntity());
 
-        eWrapper.eq("brand_identy",mFeedbackEntity.getBrandIdenty());
-        eWrapper.eq("shop_identy",mFeedbackEntity.getShopIdenty());
+        eWrapper.eq("brand_identy",mFeedbackModel.getBrandIdenty());
+        eWrapper.eq("shop_identy",mFeedbackModel.getShopIdenty());
 
-        if(mFeedbackEntity.getType() != null){
-            eWrapper.eq("type",mFeedbackEntity.getType());
+        if(mFeedbackModel.getType() != null){
+            eWrapper.eq("type",mFeedbackModel.getType());
         }
-        if(mFeedbackEntity.getCustomerId() != null && !mFeedbackEntity.getCustomerId().equals("")){
-            eWrapper.eq("customer_id",mFeedbackEntity.getCustomerId());
+        if(mFeedbackModel.getCustomerId() != null && !mFeedbackModel.getCustomerId().equals("")){
+            eWrapper.eq("customer_id",mFeedbackModel.getCustomerId());
         }
-        if(mFeedbackEntity.getUserId() != null && !mFeedbackEntity.getUserId().equals("")){
-            eWrapper.eq("user_id",mFeedbackEntity.getUserId());
+        if(mFeedbackModel.getUserId() != null && !mFeedbackModel.getUserId().equals("")){
+            eWrapper.eq("user_id",mFeedbackModel.getUserId());
         }
-        if(mFeedbackEntity.getRelateId() != null){
-            eWrapper.eq("relate_id",mFeedbackEntity.getRelateId());
+        if(mFeedbackModel.getRelateId() != null){
+            eWrapper.eq("relate_id",mFeedbackModel.getRelateId());
         }
-        if(mFeedbackEntity.getStart() != null){
-            eWrapper.eq("start",mFeedbackEntity.getStart());
+        if(mFeedbackModel.getStart() != null){
+            eWrapper.eq("start",mFeedbackModel.getStart());
+        }
+        eWrapper.between("server_create_time",mFeedbackModel.getStartDate(),mFeedbackModel.getEndDate());
+
+        if(mFeedbackModel.getStarNum() != null){
+            eWrapper.and("min_score <= {0}",mFeedbackModel.getStarNum());
         }
 
         eWrapper.eq("status_flag",1);

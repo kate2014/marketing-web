@@ -4,6 +4,7 @@ import com.zhongmei.yunfu.controller.model.base.WebBaseModel;
 import com.zhongmei.yunfu.domain.entity.StarRatingEntity;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,6 +33,12 @@ public class FeedbackModel extends WebBaseModel {
      * 门店回复
      */
     private String replayContent;
+
+    private String startDate;
+
+    private String endDate;
+
+    private Integer starNum;
     /**
      * 会员id
      */
@@ -191,5 +198,29 @@ public class FeedbackModel extends WebBaseModel {
 
     public void setCustomerName(String customerName) {
         this.customerName = customerName;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public Integer getStarNum() {
+        return starNum;
+    }
+
+    public void setStarNum(Integer starNum) {
+        this.starNum = starNum;
     }
 }

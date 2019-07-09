@@ -57,6 +57,18 @@ public class FeedbackApiController {
             mFeedbackEntity.setStatusFlag(1);
             mFeedbackEntity.setServerCreateTime(new Date());
 
+            int minScore = 0;
+
+            minScore = mWxFeedbackReq.getHj();
+
+            if(minScore > mWxFeedbackReq.getXg()){
+                minScore = mWxFeedbackReq.getXg();
+            }
+            if(minScore > mWxFeedbackReq.getTd()){
+                minScore = mWxFeedbackReq.getTd();
+            }
+            mFeedbackEntity.setMinScore(minScore);
+
             mFeedbackService.addFeedback(mFeedbackEntity);
 
             List<StarRatingEntity> listStar = new ArrayList<>();

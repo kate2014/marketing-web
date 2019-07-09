@@ -2,6 +2,7 @@ package com.zhongmei.yunfu.service;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.IService;
+import com.zhongmei.yunfu.controller.model.FeedbackModel;
 import com.zhongmei.yunfu.domain.entity.FeedbackEntity;
 
 import java.util.List;
@@ -21,13 +22,11 @@ public interface FeedbackService extends IService<FeedbackEntity> {
 
     /**
      * 分页查询顾客反馈，不包含门店回复
-     * @param mFeedbackEntity
-     * @param pageNo
-     * @param pageSize
+     * @param mFeedbackModel
      * @return
      * @throws Exception
      */
-    Page<FeedbackEntity> queryFeedbackPage(FeedbackEntity mFeedbackEntity,Integer pageNo,Integer pageSize)throws Exception;
+    Page<FeedbackEntity> queryFeedbackPage(FeedbackModel mFeedbackModel)throws Exception;
 
     /**
      * 查询反馈列表

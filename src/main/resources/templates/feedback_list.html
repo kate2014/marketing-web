@@ -23,6 +23,9 @@
     <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" type="text/css" />
     <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" type="text/css" />
 
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/test/jeDate-test.css}">
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/skin/jedate.css}">
+    <script type="text/javascript" th:src="@{/selectdate/src/jedate.js}"></script>
 
     <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
     <link rel="stylesheet" th:href="@{/tips/jquery.toast.css}">
@@ -113,6 +116,27 @@
     <img th:src="@{/images/lable.jpg}" width="5" height="26" style="margin-left: 20px">
     <label class="text_navigation" style="margin-left: 10px;width: 30%;margin-top: 8px">会员 》评价反馈</label>
 </div>
+
+<form method="post" action="" th:action="@{/customer/feedback/list}" th:object="${mFeedbackModel}">
+    <div style="margin-top: 20px">
+        <label class="text_navigation" style="margin-left: 20px">低于评分</label>
+        <select class="select_style" name="starNum" style="margin-left: 5px">
+            <option value="">全部</option>
+            <option th:selected="${mFeedbackModel.starNum==1}" value="1">1星</option>
+            <option th:selected="${mFeedbackModel.starNum==2}" value="2">2星</option>
+            <option th:selected="${mFeedbackModel.starNum==3}" value="3">3星</option>
+            <option th:selected="${mFeedbackModel.starNum==4}" value="4">4星</option>
+            <option th:selected="${mFeedbackModel.starNum==5}" value="5">5星</option>
+        </select>
+
+        <label class="text_navigation" style="margin-left: 10px">查询时间段</label>
+        <input type="text" class="input_style" name="startDate" placeholder="设置查询起始时间" id="startDate" th:value="${mFeedbackModel.startDate}">
+        <label class="text_navigation" style="margin-left: 10px">--</label>
+        <input type="text" class="input_style" name="endDate" placeholder="设置查询结束时间" id="endDate" th:value="${mFeedbackModel.endDate}">
+        <button class="orange_mine_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
+
+    </div>
+</form>
 
 
 <div align="center" style="margin-top: 10px">
@@ -213,7 +237,7 @@
             </div>
             <div class="modal-body">
                 <input type="hidden" id="feedbackId" name="feedbackId">
-                <textarea rows="4" id="replayContent" name="replayContent" cols="50" maxlength="150" style="width: 96%;padding: 10px;font-size:14px" placeholder="最多输入150个字"></textarea>
+                <textarea rows="5" id="replayContent" name="replayContent" cols="50" maxlength="150" style="width: 96%;padding: 10px;font-size:14px" placeholder="最多输入150个字"></textarea>
 
             </div>
 
@@ -224,6 +248,8 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript" th:src="@{/selectdate/test/demo.js}"></script>
 
 </body>
 </html>

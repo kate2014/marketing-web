@@ -43,6 +43,10 @@ class FeedbackEntity : BaseEntity() {
      */
     var tradeId: Long? = null
     /**
+     * 最低评分
+     */
+    var minScore: Int? = null
+    /**
      * 顾客Id
      */
     var customerId: Long? = null
@@ -80,6 +84,7 @@ class FeedbackEntity : BaseEntity() {
         ", replayContent=" + replayContent +
         ", content=" + content +
         ", tradeId=" + tradeId +
+        ", minScore=" + minScore +
         ", customerId=" + customerId +
         ", customerName=" + customerName +
         ", userId=" + userId +

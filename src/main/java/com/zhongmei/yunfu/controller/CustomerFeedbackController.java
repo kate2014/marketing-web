@@ -6,11 +6,13 @@ import com.zhongmei.yunfu.domain.entity.FeedbackEntity;
 import com.zhongmei.yunfu.domain.entity.StarRatingEntity;
 import com.zhongmei.yunfu.service.*;
 import com.zhongmei.yunfu.util.DateFormatUtil;
+import org.jooq.util.derby.sys.Sys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,17 +33,32 @@ public class CustomerFeedbackController extends BaseController{
     public String feedbackList(Model model, FeedbackModel mFeedbackModel) {
 
         try {
-
             Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
             Long shopIdentity = LoginManager.get().getUser().getShopIdenty();
 
-            FeedbackEntity mFeedbackEntity = new FeedbackEntity();
-            mFeedbackEntity.setBrandIdenty(brandIdentity);
-            mFeedbackEntity.setShopIdenty(shopIdentity);
+            mFeedbackModel.setBrandIdenty(brandIdentity);
+            mFeedbackModel.setShopIdenty(shopIdentity);
 
-            Page<FeedbackEntity> listPage = mFeedbackService.queryFeedbackPage(mFeedbackEntity,mFeedbackModel.getPageNo(),mFeedbackModel.getPageSize());
+            //设置默认查询时间
+            if (mFeedbackModel.getStartDate() == null) {
+                Calendar c = Calendar.getInstance();
+                //过去30天
+                c.setTime(new Date());
+                c.add(Calendar.DATE, -30);
+                Date start = c.getTime();
+                String temp = DateFormatUtil.format(start, DateFormatUtil.FORMAT_FULL_DATE);
 
-            setWebPage(model, "/customer/feedback/list", listPage, mFeedbackEntity);
+                mFeedbackModel.setStartDate(temp);
+            }
+
+            if (mFeedbackModel.getEndDate() == null) {
+                Date end = new Date();
+                mFeedbackModel.setEndDate(DateFormatUtil.format(end, DateFormatUtil.FORMAT_FULL_DATE));
+            }
+
+            Page<FeedbackEntity> listPage = mFeedbackService.queryFeedbackPage(mFeedbackModel);
+
+            setWebPage(model, "/customer/feedback/list", listPage, mFeedbackModel);
 
             List<FeedbackEntity> listFeedback = listPage.getRecords();
 
@@ -86,6 +103,8 @@ public class CustomerFeedbackController extends BaseController{
             }
 
             model.addAttribute("listFeedback",listFeedbackModel);
+            model.addAttribute("mFeedbackModel",mFeedbackModel);
+
 
             return "feedback_list";
         }catch (Exception e){
@@ -110,6 +129,8 @@ public class CustomerFeedbackController extends BaseController{
             mFeedbackEntity.setUserId(creatorId);
             mFeedbackEntity.setUserName(creatorname);
             mFeedbackEntity.setServerUpdateTime(new Date());
+            mFeedbackEntity.setUpdatorId(creatorId);
+            mFeedbackEntity.setUpdatorName(creatorname);
 
             mFeedbackService.midfityFeedback(mFeedbackEntity);
 
