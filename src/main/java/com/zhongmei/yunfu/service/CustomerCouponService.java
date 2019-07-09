@@ -129,8 +129,8 @@ public interface CustomerCouponService extends IService<CustomerCouponEntity> {
      * @param shopIdenty
      * @param customerId
      * @param wxOpenId
-     * @param sourceId    优惠券来源 1：商户会员模块触发 2：首次进入小程序触发 3：参与砍价获取 4：小程序绑定手机推送优惠 5：完成交易获取 6：预约成功获取 7：分析门店获取 8：分析活动获取 9：分析新品获取 10：全员推广获取 11：同行特惠获取
-     * @param palnId      投放方案ID  1：进入小程序推送优惠券  2：参与砍价活动推送优惠券 3：小程序绑定手机推送优惠 4：支付交易完成推送优惠券 5：预约完成推送优惠券
+     * @param sourceId    优惠券来源 1：商户会员模块触发 2：首次进入小程序触发 3：参与砍价获取 4：小程序绑定手机推送优惠 5：完成交易获取 6：预约成功获取 7：分析门店获取 8：分析活动获取 9：分析新品获取 10：全员推广获取 11：同行特惠获取 12：会员消费评价成功获取
+     * @param palnId      投放方案ID  1：进入小程序推送优惠券  2：参与砍价活动推送优惠券 3：小程序绑定手机推送优惠 4：支付交易完成推送优惠券 5：预约完成推送优惠券  6：会员消费评价成功推送优惠券
      * @return
      * @throws Exception
      */

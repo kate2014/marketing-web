@@ -193,7 +193,7 @@ public class CustomerCouponServiceImpl extends ServiceImpl<CustomerCouponMapper,
     @Override
     public Boolean putOnCoupon(Long brandIdenty, Long shopIdenty, Long customerId, String wxOpenId, Integer sourceId, Integer palnId) throws Exception {
 
-        //投放方案ID  1：进入小程序推送优惠券  2：参与砍价活动推送优惠券 3：注册为新会员推送优惠券 4：支付交易完成推送优惠券 5：预约完成推送优惠券
+        //投放方案ID  1：进入小程序推送优惠券  2：参与砍价活动推送优惠券 3：注册为新会员推送优惠券 4：支付交易完成推送优惠券 5：预约完成推送优惠券 6：会员消费评价成功推送优惠券
         MarketingPutOnEntity mMarketingPutOnEntity = mMarketingPutOnService.queryMarketingPutOnByType(brandIdenty, shopIdenty, palnId);
         if (mMarketingPutOnEntity != null && mMarketingPutOnEntity.getCouponId() != null) {
 //            CouponEntity mCouponEntity = mCouponServiceImpl.queryByid(Long.valueOf(mMarketingPutOnEntity.getCouponId()));

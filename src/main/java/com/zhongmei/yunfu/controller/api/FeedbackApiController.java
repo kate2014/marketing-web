@@ -30,9 +30,11 @@ public class FeedbackApiController {
     CustomerService mCustomerService;
     @Autowired
     TradeService mTradeService;
+    @Autowired
+    CustomerCouponService mCustomerCouponService;
 
     @RequestMapping("/addFeedback")
-    public BaseDataModel addForm(ModelMap model,WxFeedbackReq mWxFeedbackReq) {
+    public BaseDataModel addForm(@RequestBody WxFeedbackReq mWxFeedbackReq) {
         BaseDataModel mBaseDataModel = new BaseDataModel();
         try {
 
@@ -134,6 +136,11 @@ public class FeedbackApiController {
                 mTradeEntity.setFeedback(1);
                 mTradeService.updateTrade(mTradeEntity);
             }
+
+
+            //评价成功，推送优惠券
+            mCustomerCouponService.putOnCoupon(brandIdenty, shopIdenty,mCustomerEntity.getId(),"", 12,6);
+
 
             mBaseDataModel.setState("1000");
             mBaseDataModel.setMsg("添加评价反馈成功");
