@@ -127,6 +127,17 @@
                 "&mobile=" + mobile;
             location.href = "[[${basePath}]]/customer/export/excel?" + params;
         });
+
+        $("#import_excel").click(function () {
+            var inputFile = $(this).children("input[type=file]");
+            inputFile[0].click();
+            inputFile.off("change").on("change", function () {
+                if (typeof FileReader == "undefined") {
+                    return false;
+                }
+                console.log('正在完善中');
+            });
+        });
     });
 
     function checkDelete(deleteId, name){
@@ -282,7 +293,11 @@
                 <img th:src="@{/images/excel_icon.png}" style="width: 21px;height: 21px">
                 <span style="font-size: 10px;margin-left: 6px">会员导出</span>
             </div>
-
+            <div class="parent" id="import_excel" style="margin-left: 10px;cursor:pointer;" th:if="${#lists.contains(session.loginManager.permissionCodeList, 'CUSTOMER_EXPORT')}">
+                <img th:src="@{/images/excel_icon.png}" style="width: 21px;height: 21px">
+                <span style="font-size: 10px;margin-left: 6px">会员导入</span>
+                <input type="file" style="display: none" />
+            </div>
         </div>
     </form>
     <table  class="gridtablestyle" style="width: 95%; vertical-align: middle;margin-top: 10px">

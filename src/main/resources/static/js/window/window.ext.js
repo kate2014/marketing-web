@@ -48,7 +48,8 @@ window.alert = function (txt) {
     shield.appendChild(alertFram);
     document.body.appendChild(shield);
     this.doOk = function () {
-        document.body.removeChild(shield);
+        //document.body.removeChild(shield);
+        document.getElementById(shield.id).remove();
     }
     //alertFram.focus();
     document.body.onselectstart = function () {
