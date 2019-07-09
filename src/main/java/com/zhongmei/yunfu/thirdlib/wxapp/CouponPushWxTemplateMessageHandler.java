@@ -36,7 +36,7 @@ public class CouponPushWxTemplateMessageHandler extends WxTemplateMessageHandler
         } else {
             keyword2 = "永不过期";
         }
-        wxTemplateSendMsgReq.page = "pages/checkNetwork/checkNetwork";
+        wxTemplateSendMsgReq.page = "/pages/checkNetwork/checkNetwork";
         wxTemplateSendMsgReq.addDataItem("keyword2", keyword2);
         wxTemplateSendMsgReq.addDataItem("keyword3", wxTempMsg.getProductName());
         wxTemplateSendMsgReq.addDataItem("keyword4", wxTempMsg.getNotes());

@@ -25,7 +25,7 @@ public class ServiceTimeCardMessageHandler extends WxTemplateMessageHandler<Orde
     protected void createDateItem(WxTemplateSendMsgReq wxTemplateSendMsgReq, OrderPayMessage wxTempMsg) {
         super.createDateItem(wxTemplateSendMsgReq, wxTempMsg);
         wxTemplateSendMsgReq.template_id = "y5YfXBtOzkJBQyCfDqLQMU2nxsRGfAgZcTg2M1Zvh18";
-        wxTemplateSendMsgReq.page = "pages/checkNetwork/checkNetwork";
+        wxTemplateSendMsgReq.page = "/pages/checkNetwork/checkNetwork?urlType=8";
 
         wxTemplateSendMsgReq
                 .addDataItem("keyword1", wxTempMsg.getTradeNo())
