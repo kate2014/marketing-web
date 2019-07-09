@@ -29,7 +29,7 @@ public class ColloageFailWxTemplateMessageHandler extends WxTemplateMessageHandl
         super.createDateItem(wxTemplateSendMsgReq, wxTempMsg);
 
         wxTemplateSendMsgReq.template_id = "LlpoUbj2qIwCRoRJudZ0x6MDAsUyEVFCFPuRHRjs9u8";
-
+        wxTemplateSendMsgReq.page = "pages/checkNetwork/checkNetwork";
         wxTemplateSendMsgReq.addDataItem("keyword1", wxTempMsg.getTradeNo());
         wxTemplateSendMsgReq.addDataItem("keyword2", wxTempMsg.getCollageName());
         wxTemplateSendMsgReq.addDataItem("keyword3", wxTempMsg.getTradeAmount());
