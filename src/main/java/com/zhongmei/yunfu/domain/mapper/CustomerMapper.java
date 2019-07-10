@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.baomidou.mybatisplus.mapper.Condition;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.zhongmei.yunfu.domain.bean.CustomerDrain;
+import com.zhongmei.yunfu.domain.bean.CustomerMobile;
 import com.zhongmei.yunfu.domain.entity.CustomerEntity;
 import com.zhongmei.yunfu.domain.entity.CustomerExtraEntity;
 import com.zhongmei.yunfu.domain.entity.CustomerReport;
@@ -253,4 +254,11 @@ public interface CustomerMapper extends BaseMapper<CustomerEntity> {
                                                    @Param("storedBalance") BigDecimal storedBalance,
                                                    @Param("cardResidueCount") Integer cardResidueCount);
 
+    /**
+     * 获取当前门店下所有手机号
+     *
+     * @param shopId
+     * @return
+     */
+    List<CustomerMobile> getMobileAll(@Param("shopId") Long shopId);
 }

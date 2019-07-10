@@ -14,6 +14,7 @@ import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdvice;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,9 +31,9 @@ public class RestRequestBodyAdvice implements RequestBodyAdvice/*, ResponseBodyA
     @Autowired
     HttpServletRequest request;
 
-    @ExceptionHandler({Exception.class})
+    /*@ExceptionHandler({Exception.class})
     @ResponseBody
-    public ApiResult handException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception e) throws Exception {
+    public ApiResult handException(HttpServletRequest request, HttpServletResponse response, HandlerMethod handler, Exception e) throws Exception {
         log.error("handException: ", e);
 
         int status = response.getStatus();
@@ -45,7 +46,7 @@ public class RestRequestBodyAdvice implements RequestBodyAdvice/*, ResponseBodyA
 
         //return JSON.toJSONString(ApiResult.newResult(status, message));
         return ApiResult.newResult(status, message);
-    }
+    }*/
 
     @Override
     public boolean supports(MethodParameter methodParameter, Type targetType, Class<? extends HttpMessageConverter<?>> converterType) {
