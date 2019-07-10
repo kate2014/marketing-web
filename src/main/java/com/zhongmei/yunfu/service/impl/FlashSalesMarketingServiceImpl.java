@@ -48,6 +48,11 @@ public class FlashSalesMarketingServiceImpl extends ServiceImpl<FlashSalesMarket
 
         eWrapper.eq("status_flag", 1);
 
+        if(mFlashSalesModel.getEnabledFlag() != null){
+            eWrapper.eq("enabled_flag", mFlashSalesModel.getEnabledFlag());
+        }
+
+
         if (mFlashSalesModel.getEnabledFlag() != null) {
             eWrapper.eq("enabled_flag", mFlashSalesModel.getEnabledFlag());
         }

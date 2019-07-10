@@ -27,6 +27,7 @@ public class FlashSalesApiController {
         BaseDataModel mBaseDataModel = new BaseDataModel();
 
         try {
+            mFlashSalesModel.setEnabledFlag(1);
             Page<FlashSalesMarketingEntity> listPage = mFlashSalesMarketingService.queryFlashSalesList(mFlashSalesModel);
             mBaseDataModel.setState("1000");
             mBaseDataModel.setMsg("获取秒杀数据成功");

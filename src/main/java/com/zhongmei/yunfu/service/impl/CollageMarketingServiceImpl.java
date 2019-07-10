@@ -42,6 +42,9 @@ public class CollageMarketingServiceImpl extends ServiceImpl<CollageMarketingMap
         eWrapper.eq("brand_identity", mCollageMarketingModel.getBrandIdentity());
 
         eWrapper.eq("status_flag", 1);
+        if(mCollageMarketingModel.getEnabledFlag() != null){
+            eWrapper.eq("enabled_flag", mCollageMarketingModel.getEnabledFlag());
+        }
 
         if(mCollageMarketingModel.getShopIdentity() != null){
             eWrapper.eq("shop_identity", mCollageMarketingModel.getShopIdentity());

@@ -47,6 +47,9 @@ public class CutDownMarketingServiceImpl extends ServiceImpl<CutDownMarketingMap
         }
 
         eWrapper.eq("status_flag", 1);
+        if(mCutDownModel.getEnabledFlag() != null){
+            eWrapper.eq("enabled_flag", mCutDownModel.getEnabledFlag());
+        }
 
         if (mCutDownModel.getEnabledFlag() != null) {
             eWrapper.eq("enabled_flag", mCutDownModel.getEnabledFlag());

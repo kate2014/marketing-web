@@ -43,6 +43,7 @@ public class CutDownApiController {
         BaseDataModel mBaseDataModel = new BaseDataModel();
         try {
 
+            mCutDownModel.setEnabledFlag(1);
             Page<CutDownMarketingEntity> listData = mCutDownMarketingService.queryCutDownList(mCutDownModel);
             mBaseDataModel.setState("1000");
             mBaseDataModel.setMsg("获取砍价数据成功");

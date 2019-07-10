@@ -30,6 +30,7 @@ public class CollageApiController {
     public BaseDataModel queryListData(ModelMap model, CollageMarketingModel mCollageMarketingModel) {
         BaseDataModel mBaseDataModel = new BaseDataModel();
         try {
+            mCollageMarketingModel.setEnabledFlag(1);
             Page<CollageMarketingEntity> listData = mCollageMarketingService.queryCollageList(mCollageMarketingModel);
             mBaseDataModel.setState("1000");
             mBaseDataModel.setMsg("获取拼团数据成功");
