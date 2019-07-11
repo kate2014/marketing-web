@@ -1,9 +1,11 @@
 package com.zhongmei.yunfu.web;
 
+import com.zhongmei.yunfu.api.ApiRespStatus;
+import com.zhongmei.yunfu.api.ApiRespStatusException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +26,17 @@ public class DeomController {
         beanList.add(new Bean("aaa", "bbb", "ccc"));
         modelMap.addAttribute("list", beanList);
         return "demo";
+    }
+
+    @GetMapping("/demo2")
+    public String demo2(Model modelMap) throws Exception {
+        throw new ApiRespStatusException(ApiRespStatus.FOUND);
+    }
+
+    @GetMapping("/demo3")
+    @ResponseBody
+    public String demo3(Model modelMap) throws Exception {
+        throw new ApiRespStatusException(ApiRespStatus.FOUND);
     }
 
     static public class Bean {
