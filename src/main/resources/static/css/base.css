@@ -2,6 +2,7 @@
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
+	margin: 0px;
 }
 body{
 	font-family:PingFangSC-Medium;
@@ -805,4 +806,13 @@ html,body {
 	color: #666666;
 	font-size: 6px;
 	clear:both;
+}
+
+a.op-link {
+	color: #FF8800;
+}
+
+a.op-link:hover {
+	color: #FF4400;
+	/*text-decoration: underline;*/
 }

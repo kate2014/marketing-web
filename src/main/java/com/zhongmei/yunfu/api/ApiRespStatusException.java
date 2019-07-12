@@ -1,6 +1,6 @@
 package com.zhongmei.yunfu.api;
 
-public class ApiRespStatusException extends Exception {
+public class ApiRespStatusException extends RuntimeException {
 
     private ApiRespStatus status;
 

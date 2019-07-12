@@ -1,6 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zhongmei.yunfu.domain.mapper.CustomerMapper">
+    <select id="findCustomerByDrainExample"
+            resultType="com.zhongmei.yunfu.domain.bean.CustomerDrain">
+        SELECT
+        c.*,
+        ce.stored_amount,
+        ce.stored_used,
+        ce.stored_balance
+        FROM
+        customer c
+        LEFT JOIN customer_extra ce
+        ON ce.customer_id = c.id
+        WHERE c.relate_id = 0
+        AND c.status_flag = 1
+        AND c.shop_identy = #{shopId}
+        <if test="cardExpireDateLe != null and cardExpireDateGe != null">
+            AND c.card_expire_date &lt;= #{cardExpireDateLe}
+            AND c.card_expire_date &gt;= #{cardExpireDateGe}
+        </if>
+        <if test="consumptionLastTime != null">
+            AND c.consumption_last_time &gt;= #{consumptionLastTime}
+        </if>
+        <choose>
+            <when test="opType == null or opType == 0">
+                <if test="storedBalance != null">
+                    AND ce.stored_balance &gt;= #{storedBalance}
+                </if>
+                <if test="cardResidueCount != null">
+                    AND c.card_residue_count &gt;= #{cardResidueCount}
+                </if>
+            </when>
+            <otherwise>
+                <if test="storedBalance != null">
+                    AND ce.stored_balance &lt;= #{storedBalance}
+                </if>
+                <if test="cardResidueCount != null">
+                    AND c.card_residue_count &lt;= #{cardResidueCount}
+                </if>
+            </otherwise>
+        </choose>
+        ORDER BY IFNULL(c.card_expire_date, &apos;9999-99-99&apos;)
+    </select>
 
     <select id="getMobileAll" resultType="com.zhongmei.yunfu.domain.bean.CustomerMobile">
         SELECT
