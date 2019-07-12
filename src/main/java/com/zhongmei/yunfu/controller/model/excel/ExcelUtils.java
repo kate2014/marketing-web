@@ -1,5 +1,7 @@
 package com.zhongmei.yunfu.controller.model.excel;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.poifs.filesystem.OfficeXmlFileException;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
@@ -7,12 +9,18 @@ import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.xssf.usermodel.extensions.XSSFCellBorder.BorderSide;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import java.awt.*;
+import java.awt.Color;
+import java.io.IOException;
 import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.net.URLEncoder;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 
 public class ExcelUtils {
 
@@ -65,10 +73,10 @@ public class ExcelUtils {
         titleFont.setColor(IndexedColors.BLACK.getIndex());
 
         XSSFCellStyle titleStyle = wb.createCellStyle();
-        titleStyle.setAlignment(XSSFCellStyle.ALIGN_CENTER);
-        titleStyle.setVerticalAlignment(XSSFCellStyle.VERTICAL_CENTER);
+        titleStyle.setAlignment(HorizontalAlignment.CENTER);
+        titleStyle.setVerticalAlignment(VerticalAlignment.CENTER);
         titleStyle.setFillForegroundColor(new XSSFColor(new Color(0xFABF8F)));
-        titleStyle.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
+        titleStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         titleStyle.setFont(titleFont);
         setBorder(titleStyle, BorderStyle.THIN, new XSSFColor(new Color(0, 0, 0)));
 
@@ -96,8 +104,8 @@ public class ExcelUtils {
         dataFont.setColor(IndexedColors.BLACK.getIndex());
 
         XSSFCellStyle dataStyle = wb.createCellStyle();
-        dataStyle.setAlignment(XSSFCellStyle.ALIGN_CENTER);
-        dataStyle.setVerticalAlignment(XSSFCellStyle.VERTICAL_CENTER);
+        dataStyle.setAlignment(HorizontalAlignment.CENTER);
+        dataStyle.setVerticalAlignment(VerticalAlignment.CENTER);
         dataStyle.setFont(dataFont);
         setBorder(dataStyle, BorderStyle.THIN, new XSSFColor(new Color(0, 0, 0)));
 
@@ -149,5 +157,76 @@ public class ExcelUtils {
         style.setBorderColor(BorderSide.LEFT, color);
         style.setBorderColor(BorderSide.RIGHT, color);
         style.setBorderColor(BorderSide.BOTTOM, color);
+    }
+
+    public static void importExcel(MultipartFile file, boolean isFirstTitleRow, Consumer<Map<String, String>> rowCallback) throws IOException {
+        Workbook workbook;
+        try {
+            workbook = new XSSFWorkbook(file.getInputStream());
+        } catch (OfficeXmlFileException e) {
+            workbook = new HSSFWorkbook(file.getInputStream());
+        }
+
+        importExcelWorkbook(workbook, isFirstTitleRow, rowCallback);
+    }
+
+    public static void importExcelWorkbook(Workbook workbook, boolean isFirstTitleRow, Consumer<Map<String, String>> rowCallback) {
+        int numberOfSheetsCount = workbook.getNumberOfSheets();
+        for (int i = 0; i < numberOfSheetsCount; i++) {
+            Sheet sheet = workbook.getSheetAt(i);
+            Map<Integer, String> titleMap = new LinkedHashMap<>();
+            int rowIndex = 0;
+            if (isFirstTitleRow) {
+                rowIndex++;
+                Row row = sheet.getRow(0);
+                getCell(row, cell -> {
+                    String stringCellValue = cell.getStringCellValue();
+                    titleMap.put(cell.getColumnIndex(), stringCellValue);
+                });
+            }
+
+            int lastRowNum = sheet.getLastRowNum();
+            for (; rowIndex <= lastRowNum; rowIndex++) {
+                Row row = sheet.getRow(rowIndex);
+                Map<String, String> rowDataMap = new LinkedHashMap<>();
+                getCell(row, cell -> {
+                    String stringCellValue;
+                    if (cell.getCellType() == CellType.NUMERIC) {
+                        if (DateUtil.isCellDateFormatted(cell)) {
+                            //DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", LocaleUtil.getUserLocale());
+                            //sdf.setTimeZone(LocaleUtil.getUserTimeZone());
+                            //stringCellValue= sdf.format(cell.getDateCellValue());
+                            stringCellValue = String.valueOf(cell.getDateCellValue().getTime());
+                        } else {
+                            stringCellValue = BigDecimal.valueOf(cell.getNumericCellValue()).toPlainString();
+                        }
+                    } else {
+                        stringCellValue = cell.getStringCellValue();
+                    }
+
+                    String title = titleMap.get(cell.getColumnIndex());
+                    rowDataMap.put(title, stringCellValue);
+                });
+
+                if (rowDataMap.size() > 0) {
+                    rowDataMap.put("rowIndex", String.valueOf(rowIndex));
+                    if (rowCallback != null) {
+                        rowCallback.accept(rowDataMap);
+                    }
+                }
+            }
+        }
+    }
+
+    private static void getCell(Row row, Consumer<Cell> function) {
+        int lastCellNum = row.getLastCellNum();
+        for (int cellIndex = row.getFirstCellNum(); cellIndex < lastCellNum; cellIndex++) {
+            Cell cell = row.getCell(cellIndex, Row.MissingCellPolicy.RETURN_BLANK_AS_NULL);
+            if (cell != null) {
+                if (function != null) {
+                    function.accept(cell);
+                }
+            }
+        }
     }
 }

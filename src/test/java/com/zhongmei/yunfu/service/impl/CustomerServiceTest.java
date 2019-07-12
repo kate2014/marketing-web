@@ -36,7 +36,7 @@ public class CustomerServiceTest {
         customerDrainSearchModel.setUser(authUserEntity);
         customerDrainSearchModel.setConsumptionLastTime("2019-01-01");
         customerDrainSearchModel.setWillExpireDay(4);
-        customerDrainSearchModel.setOpType(0);
+        customerDrainSearchModel.setOpType(1);
         customerDrainSearchModel.setCardResidueCount(100);
         customerDrainSearchModel.setStoredBalance(BigDecimal.valueOf(200));
         customerService.findCustomerByDrain(customerDrainSearchModel);

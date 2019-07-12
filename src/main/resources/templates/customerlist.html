@@ -2,21 +2,13 @@
 <html>
 <style type="text/css">
 
-    html,body{
-        /*width: 1280px;*/
+    /*html,body{
+        !*width: 1280px;*!
         height: 100%;
         margin: 0px;
         background-color: #FFFFFF;
-    }
+    }*/
 
-    a.op-link {
-        color: #FF8800;
-    }
-
-    a.op-link:hover {
-        color: #FF4400;
-        /*text-decoration: underline;*/
-    }
 
 </style>
 
@@ -133,7 +125,29 @@
             inputFile.val("");
             inputFile[0].click();
             inputFile.off("change").on("change", function () {
-                console.log('正在完善中' + $(this).val());
+                console.log('上传文件：' + $(this).val());
+                showLoading("正在上传请稍后...");
+                var formData = new FormData();
+                formData.append(thisObj.attr("name"), thisObj[0].files[0]);
+
+                $.ajax({
+                    url: "[[${basePath}]]/customer/excel/import",
+                    type: "post",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success:function(json){
+                        hideLoading();
+                        console.log(json);
+                        alert(json.message);
+
+                    },
+                    error:function(e){
+                        hideLoading();
+                        console.log(e);
+                        alert(e);
+                    }
+                });
             });
         });
     });
@@ -291,7 +305,7 @@
                 <img th:src="@{/images/excel_icon.png}" style="width: 21px;height: 21px">
                 <span style="font-size: 10px;margin-left: 6px">会员导出</span>
             </div>
-            <div class="parent" id="import_excel" style="margin-left: 10px;cursor:pointer;" th:if="${#lists.contains(session.loginManager.permissionCodeList, 'CUSTOMER_EXPORT')}">
+            <div class="parent" id="import_excel" style="margin-left: 10px;cursor:pointer;" th:if="${#lists.contains(session.loginManager.permissionCodeList, 'CUSTOMER_IMPORT')}">
                 <img th:src="@{/images/excel_icon.png}" style="width: 21px;height: 21px">
                 <span style="font-size: 10px;margin-left: 6px">会员导入</span>
                 <input type="file" style="display: none" />

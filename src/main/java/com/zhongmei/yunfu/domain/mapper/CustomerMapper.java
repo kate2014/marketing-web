@@ -207,7 +207,7 @@ public interface CustomerMapper extends BaseMapper<CustomerEntity> {
             " WHERE c.relate_id = 0 AND c.status_flag = 1 ${ew.sqlSegment}")
     List<CustomerDrain> findCustomerByDrain(RowBounds rowBounds, @Param("ew") Wrapper wrapper);
 
-    @Select("<script>" +
+    /*@Select("<script>" +
             "SELECT\n" +
             "  c.*,\n" +
             "  ce.stored_amount,\n" +
@@ -244,7 +244,7 @@ public interface CustomerMapper extends BaseMapper<CustomerEntity> {
             "  </if>\n" +
             "</if>" +
             "  ORDER BY IFNULL(c.card_expire_date, &apos;9999-99-99&apos;)" +
-            "</script>")
+            "</script>")*/
     List<CustomerDrain> findCustomerByDrainExample(RowBounds rowBounds,
                                                    @Param("shopId") Long shopId,
                                                    @Param("consumptionLastTime") String consumptionLastTime,

@@ -3,6 +3,8 @@ package com.zhongmei.yunfu.controller;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.zhongmei.yunfu.api.ApiRespStatus;
+import com.zhongmei.yunfu.api.ApiRespStatusException;
+import com.zhongmei.yunfu.api.ApiResult;
 import com.zhongmei.yunfu.controller.model.CustomerEditModel;
 import com.zhongmei.yunfu.controller.model.CustomerSearchModel;
 import com.zhongmei.yunfu.controller.model.excel.ExcelData;
@@ -24,10 +26,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -207,7 +213,7 @@ public class CustomerController extends BaseController {
     }
 
     @RequestMapping("/save")
-    public String save(Model model,CustomerEditModel editModel) {
+    public String save(Model model, CustomerEditModel editModel) {
         AuthUserEntity loginUser = LoginManager.get().getUser();
         CustomerEntity customer = new CustomerEntity();
         customer.setId(editModel.getId());
@@ -305,6 +311,52 @@ public class CustomerController extends BaseController {
         SimpleDateFormat fdate = new SimpleDateFormat("yyyyMMdd");
         String fileName = String.format("customer-%s.xls", fdate.format(new Date()));
         ExcelUtils.exportExcel(response, fileName, data);
+    }
+
+    @RequestMapping("/excel/import")
+    @ResponseBody
+    public ApiResult excelImport(@RequestParam("excelFile") MultipartFile file) throws Exception {
+        String finalSuffix = file.getOriginalFilename();
+        if (Arrays.stream(new String[]{".xls", ".xlsx"}).noneMatch(s -> finalSuffix.toLowerCase().endsWith(s))) {
+            throw new ApiRespStatusException(ApiRespStatus.FOUND);
+        }
+
+        List<CustomerEntity> customerEntities = new ArrayList<>();
+        ExcelUtils.importExcel(file, true, it -> {
+
+            String name = it.get("姓名");
+            String sex = it.get("性别");
+            String mobile = it.get("手机号");
+            String birthday = it.get("生日");
+            String email = it.get("邮箱");
+            String hobby = it.get("喜好");
+            String address = it.get("所在地址");
+            String desc = it.get("备注");
+
+            if (StringUtils.isEmpty(name) || StringUtils.isEmpty(mobile)) {
+                throw new ApiRespStatusException(ApiRespStatus.FOUND, "第" + it.get("rowIndex") + "行姓名或手机号不能为空");
+            }
+
+            CustomerEntity customerEntity = new CustomerEntity();
+            customerEntity.setName(name);
+            customerEntity.setGender("男".equals(sex) ? 1 : "女".equals(sex) ? 2 : 0);
+            if (birthday != null) {
+                customerEntity.setBirthday(new Date(Long.valueOf(birthday)));
+            }
+            customerEntity.setMobile(mobile);
+            customerEntity.setEmail(email);
+            customerEntity.setHobby(hobby);
+            customerEntity.setAddress(address);
+            customerEntity.setProfile(desc);
+            customerEntity.setSourceId(0);
+            AuthUserEntity loginUser = LoginManager.get().getUser();
+            customerEntity.setBrandIdenty(loginUser.getBrandIdenty());
+            customerEntity.setShopIdenty(loginUser.getShopIdenty());
+            customerEntities.add(customerEntity);
+        });
+
+        customerService.insertBatch(customerEntities);
+        return ApiResult.newSuccess("上传成功，共条" + customerEntities.size() + "记录");
     }
 }
 
