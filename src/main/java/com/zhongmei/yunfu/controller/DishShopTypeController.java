@@ -1,6 +1,7 @@
 package com.zhongmei.yunfu.controller;
 
 import com.zhongmei.yunfu.controller.model.DishShopModel;
+import com.zhongmei.yunfu.domain.entity.AuthUserEntity;
 import com.zhongmei.yunfu.domain.entity.DishBrandTypeEntity;
 import com.zhongmei.yunfu.service.*;
 import com.zhongmei.yunfu.util.ToolsUtil;
@@ -32,6 +33,22 @@ public class DishShopTypeController extends BaseController{
 
     @RequestMapping("/dishShopMainPage")
     public String dishShopMainPage(Model model, DishShopModel mDishShopModel) {
+
+        Long shopId = mDishShopModel.getShopIdenty();
+        Long brandId = mDishShopModel.getBrandIdenty();
+        Long creatorId = mDishShopModel.getCreatorId();
+        String creatorName = mDishShopModel.getCreatorName();
+
+        if(LoginManager.get().getUser() == null){
+            LoginManager.get().setLoginUser(new AuthUserEntity());
+        }
+        LoginManager.get().getUser().setCreatorId(creatorId);
+
+        LoginManager.get().getUser().setCreatorName(creatorName);
+
+        LoginManager.get().getUser().setShopIdenty(shopId);
+        LoginManager.get().getUser().setBrandIdenty(brandId);
+
 
         model.addAttribute("mDishShopModel", mDishShopModel);
         model.addAttribute("dish_shop_manager", 1);//权限
@@ -128,6 +145,8 @@ public class DishShopTypeController extends BaseController{
             mDishBrandTypeEntity.setStatusFlag(1);
             mDishBrandTypeEntity.setCure(2);
             mDishBrandTypeEntity.setServerUpdateTime(new Date());
+            mDishBrandTypeEntity.setCreatorId(mDishShopModel.getCreatorId());
+            mDishBrandTypeEntity.setCreatorName(mDishShopModel.getCreatorName());
             mDishBrandTypeEntity.setUpdatorId(mDishShopModel.getCreatorId());
             mDishBrandTypeEntity.setUpdatorName(mDishShopModel.getCreatorName());
 
