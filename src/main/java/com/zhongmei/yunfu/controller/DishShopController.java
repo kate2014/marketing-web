@@ -397,7 +397,7 @@ public class DishShopController extends BaseController{
 
             mDishTimeChargingRuleService.addOrUpdateRule(mDishTimeChargingRuleEntity);
         }else{
-            if(mDishShopModel.getOldSaleType() == 3){
+            if(mDishShopModel.getOldSaleType() != null && mDishShopModel.getOldSaleType() == 3){
                 mDishTimeChargingRuleService.deleteByDishId(brandIdentity,shopIdentity,mDishShopEntity.getId());
             }
         }
