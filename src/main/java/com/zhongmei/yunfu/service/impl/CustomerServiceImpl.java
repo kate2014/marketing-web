@@ -14,27 +14,26 @@ import com.zhongmei.yunfu.api.pos.vo.CustomerSearchReq;
 import com.zhongmei.yunfu.controller.model.CustomerDrainSearchModel;
 import com.zhongmei.yunfu.controller.model.CustomerModel;
 import com.zhongmei.yunfu.controller.model.CustomerSearchModel;
+import com.zhongmei.yunfu.controller.model.excel.ExcelUtils;
 import com.zhongmei.yunfu.core.mybatis.mapper.ConditionFilter;
 import com.zhongmei.yunfu.core.mybatis.mapper.EntityWrapperFilter;
 import com.zhongmei.yunfu.domain.bean.CustomerDrain;
-import com.zhongmei.yunfu.domain.entity.CustomerEntity;
-import com.zhongmei.yunfu.domain.entity.CustomerEntityCardEntity;
-import com.zhongmei.yunfu.domain.entity.CustomerExtraEntity;
-import com.zhongmei.yunfu.domain.entity.CustomerReport;
+import com.zhongmei.yunfu.domain.bean.CustomerMobile;
+import com.zhongmei.yunfu.domain.entity.*;
 import com.zhongmei.yunfu.domain.enums.EnabledFlag;
 import com.zhongmei.yunfu.domain.enums.StatusFlag;
 import com.zhongmei.yunfu.domain.mapper.CustomerEntityCardMapper;
 import com.zhongmei.yunfu.domain.mapper.CustomerExtraMapper;
 import com.zhongmei.yunfu.domain.mapper.CustomerMapper;
-import com.zhongmei.yunfu.service.CouponService;
-import com.zhongmei.yunfu.service.CustomerCardTimeService;
-import com.zhongmei.yunfu.service.CustomerService;
-import com.zhongmei.yunfu.service.TradeService;
+import com.zhongmei.yunfu.service.*;
 import com.zhongmei.yunfu.util.DateFormatUtil;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -612,5 +611,53 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
     @Override
     public CustomerExtraEntity getCustomerExtra(Long customerId) {
         return customerExtraMapper.selectById(customerId);
+    }
+
+    @Override
+    public List<CustomerEntity> excelImportCustomer(MultipartFile file, Long shopId) throws Exception {
+        List<CustomerMobile> mobileAll = baseMapper.getMobileAll(shopId);
+        Map<String, CustomerMobile> mobileMap = mobileAll.stream()
+                .collect(Collectors.toMap(CustomerMobile::getMobile, customerMobile -> customerMobile, (customerMobile1, customerMobile2) -> customerMobile1));
+
+        Map<String, CustomerEntity> customerEntities = new HashMap<>();
+        ExcelUtils.importExcel(file, true, it -> {
+
+            String name = it.get("姓名");
+            String sex = it.get("性别");
+            String mobile = it.get("手机号");
+            String birthday = it.get("生日");
+            String email = it.get("邮箱");
+            String hobby = it.get("喜好");
+            String address = it.get("所在地址");
+            String desc = it.get("备注");
+
+            if (StringUtils.isEmpty(mobile)) {
+                throw new ApiRespStatusException(ApiRespStatus.FOUND, "第" + it.get("rowIndex") + "手机号不能为空");
+            }
+
+            if (mobileMap.get(mobile) != null) {
+                throw new ApiRespStatusException(ApiRespStatus.FOUND, "第" + it.get("rowIndex") + "手机号" + mobile + "会员已经存在");
+            }
+
+            CustomerEntity customerEntity = new CustomerEntity();
+            customerEntity.setName(name);
+            customerEntity.setGender("男".equals(sex) ? 1 : "女".equals(sex) ? 2 : 0);
+            if (birthday != null) {
+                customerEntity.setBirthday(new Date(Long.valueOf(birthday)));
+            }
+            customerEntity.setMobile(mobile);
+            customerEntity.setEmail(email);
+            customerEntity.setHobby(hobby);
+            customerEntity.setAddress(address);
+            customerEntity.setProfile(desc);
+            customerEntity.setSourceId(0);
+            AuthUserEntity loginUser = LoginManager.get().getUser();
+            customerEntity.setBrandIdenty(loginUser.getBrandIdenty());
+            customerEntity.setShopIdenty(loginUser.getShopIdenty());
+            customerEntities.put(mobile, customerEntity);
+        });
+
+        insertBatch(new ArrayList<>(customerEntities.values()));
+        return new ArrayList<>(customerEntities.values());
     }
 }

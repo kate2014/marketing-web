@@ -13,6 +13,7 @@ import com.zhongmei.yunfu.domain.entity.CustomerEntity;
 import com.zhongmei.yunfu.domain.entity.CustomerEntityCardEntity;
 import com.zhongmei.yunfu.domain.entity.CustomerExtraEntity;
 import com.zhongmei.yunfu.domain.entity.CustomerReport;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collection;
 import java.util.Date;
@@ -297,4 +298,6 @@ public interface CustomerService extends IService<CustomerEntity> {
      * @return
      */
     CustomerExtraEntity getCustomerExtra(Long customerId);
+
+    List<CustomerEntity> excelImportCustomer(MultipartFile file, Long shopId) throws Exception;
 }

@@ -321,41 +321,7 @@ public class CustomerController extends BaseController {
             throw new ApiRespStatusException(ApiRespStatus.FOUND);
         }
 
-        List<CustomerEntity> customerEntities = new ArrayList<>();
-        ExcelUtils.importExcel(file, true, it -> {
-
-            String name = it.get("姓名");
-            String sex = it.get("性别");
-            String mobile = it.get("手机号");
-            String birthday = it.get("生日");
-            String email = it.get("邮箱");
-            String hobby = it.get("喜好");
-            String address = it.get("所在地址");
-            String desc = it.get("备注");
-
-            if (StringUtils.isEmpty(name) || StringUtils.isEmpty(mobile)) {
-                throw new ApiRespStatusException(ApiRespStatus.FOUND, "第" + it.get("rowIndex") + "行姓名或手机号不能为空");
-            }
-
-            CustomerEntity customerEntity = new CustomerEntity();
-            customerEntity.setName(name);
-            customerEntity.setGender("男".equals(sex) ? 1 : "女".equals(sex) ? 2 : 0);
-            if (birthday != null) {
-                customerEntity.setBirthday(new Date(Long.valueOf(birthday)));
-            }
-            customerEntity.setMobile(mobile);
-            customerEntity.setEmail(email);
-            customerEntity.setHobby(hobby);
-            customerEntity.setAddress(address);
-            customerEntity.setProfile(desc);
-            customerEntity.setSourceId(0);
-            AuthUserEntity loginUser = LoginManager.get().getUser();
-            customerEntity.setBrandIdenty(loginUser.getBrandIdenty());
-            customerEntity.setShopIdenty(loginUser.getShopIdenty());
-            customerEntities.add(customerEntity);
-        });
-
-        customerService.insertBatch(customerEntities);
+        List<CustomerEntity> customerEntities = customerService.excelImportCustomer(file, LoginManager.get().getUser().getShopIdenty());
         return ApiResult.newSuccess("上传成功，共条" + customerEntities.size() + "记录");
     }
 }
