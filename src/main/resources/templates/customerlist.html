@@ -305,10 +305,13 @@
                 <img th:src="@{/images/excel_icon.png}" style="width: 21px;height: 21px">
                 <span style="font-size: 10px;margin-left: 6px">会员导出</span>
             </div>
-            <div class="parent" id="import_excel" style="margin-left: 10px;cursor:pointer;" th:if="${#lists.contains(session.loginManager.permissionCodeList, 'CUSTOMER_IMPORT')}">
-                <img th:src="@{/images/excel_icon.png}" style="width: 21px;height: 21px">
-                <span style="font-size: 10px;margin-left: 6px">会员导入</span>
-                <input type="file" style="display: none" />
+            <div class="parent" th:if="${#lists.contains(session.loginManager.permissionCodeList, 'CUSTOMER_IMPORT')}">
+                <div class="parent" id="import_excel" style="margin-left: 10px;cursor:pointer;">
+                    <img th:src="@{/images/excel_icon.png}" style="width: 21px;height: 21px">
+                    <span style="font-size: 10px;margin-left: 6px">会员导入</span>
+                    <input type="file" style="display: none" accept=".xls, .xlsx" />
+                </div>
+                <span style="font-size: 10px;margin-left: 6px"><a class="op-link" th:href="@{/templates/customer-import.xls}">下载会员导入模板</a></span>
             </div>
         </div>
     </form>
