@@ -18,6 +18,10 @@ public class ApiRespStatusException extends RuntimeException {
         this.status = status;
     }
 
+    public ApiRespStatusException(String message) {
+        super(message);
+    }
+
     public ApiRespStatusException(Throwable cause) {
         this(ApiRespStatus.UNKNOWN, cause);
     }

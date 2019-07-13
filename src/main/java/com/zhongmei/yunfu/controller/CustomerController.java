@@ -318,11 +318,11 @@ public class CustomerController extends BaseController {
     public ApiResult excelImport(@RequestParam("excelFile") MultipartFile file) throws Exception {
         String finalSuffix = file.getOriginalFilename();
         if (Arrays.stream(new String[]{".xls", ".xlsx"}).noneMatch(s -> finalSuffix.toLowerCase().endsWith(s))) {
-            throw new ApiRespStatusException(ApiRespStatus.FOUND);
+            throw new ApiRespStatusException(ApiRespStatus.FOUND, "只支持.xls .xlsx后缀文件格式");
         }
 
         List<CustomerEntity> customerEntities = customerService.excelImportCustomer(file, LoginManager.get().getUser().getShopIdenty());
-        return ApiResult.newSuccess("上传成功，共条" + customerEntities.size() + "记录");
+        return ApiResult.newResult(ApiResult.SC_OK, "上传成功，共条" + customerEntities.size() + "记录");
     }
 }
 

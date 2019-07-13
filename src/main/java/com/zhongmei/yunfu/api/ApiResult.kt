@@ -15,9 +15,9 @@ class ApiResult(status: Int, message: String? = null) {
         this.message = message
     }
 
-    constructor(page: Page<*>? = null, content: Any?) : this(SC_OK) {
-        this.page = if (page != null) ApiPage(page) else null
+    constructor(content: Any?, page: Page<*>? = null) : this(SC_OK) {
         this.content = content
+        this.page = if (page != null) ApiPage(page) else null
     }
 
 
@@ -33,8 +33,8 @@ class ApiResult(status: Int, message: String? = null) {
         }
 
         @JvmStatic
-        fun newSuccess(content: Any?, page: Page<*>?): ApiResult {
-            return ApiResult(page, content)
+        fun newSuccess(content: Any?, page: Page<*>? = null): ApiResult {
+            return ApiResult(content, page)
         }
 
         @JvmStatic

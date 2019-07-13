@@ -35,8 +35,10 @@ public class WebExceptionHandler implements HandlerExceptionResolver {
                 String message = ex.getMessage();
                 if (ex instanceof ApiRespStatusException) {
                     ApiRespStatusException statusException = (ApiRespStatusException) ex;
-                    status = statusException.getStatus().getValue();
-                    message = statusException.getStatus().getReason();
+                    if (statusException != null) {
+                        status = statusException.getStatus().getValue();
+                    }
+                    //message = statusException.getStatus().getReason();
                 }
 
                 //return JSON.toJSONString(ApiResult.newResult(status, message));

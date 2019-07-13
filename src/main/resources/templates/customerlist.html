@@ -128,7 +128,7 @@
                 console.log('上传文件：' + $(this).val());
                 showLoading("正在上传请稍后...");
                 var formData = new FormData();
-                formData.append(thisObj.attr("name"), thisObj[0].files[0]);
+                formData.append(inputFile.attr("name"), $(this)[0].files[0]);
 
                 $.ajax({
                     url: "[[${basePath}]]/customer/excel/import",
@@ -145,7 +145,7 @@
                     error:function(e){
                         hideLoading();
                         console.log(e);
-                        alert(e);
+                        alert("[" + e.status + "]" + e.statusText);
                     }
                 });
             });
@@ -309,7 +309,7 @@
                 <div class="parent" id="import_excel" style="margin-left: 10px;cursor:pointer;">
                     <img th:src="@{/images/excel_icon.png}" style="width: 21px;height: 21px">
                     <span style="font-size: 10px;margin-left: 6px">会员导入</span>
-                    <input type="file" style="display: none" accept=".xls, .xlsx" />
+                    <input type="file" name="excelFile" style="display: none" accept=".xls, .xlsx" />
                 </div>
                 <span style="font-size: 10px;margin-left: 6px"><a class="op-link" th:href="@{/templates/customer-import.xls}">下载会员导入模板</a></span>
             </div>
