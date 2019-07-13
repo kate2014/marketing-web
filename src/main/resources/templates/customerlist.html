@@ -237,7 +237,6 @@
 
             <div style="font-size: 12px;color: #12306f;font-weight: bold;margin-left: 20px">会员提醒：</div>
 
-
             <div class="lable_button_style" style="width: 130px;" type="membersBirthdayCount">将过生日会员([[${membersBirthdayCount}]])</div>
 
             <div class="lable_button_style" style="width: 130px; margin-left: 10px" type="membersAnniversaryCount">满周年会员([[${membersAnniversaryCount}]])</div>
@@ -275,14 +274,14 @@
         <input type="hidden" name="type" th:value="*{type}">
         <div class="parent" style="margin-top: 10px;width: 95%">
             <label class="text_navigation">来源</label>
-            <select name="sourceId" class="select_min_style" style="margin-left: 5px">
+            <select name="sourceId" class="select_style" style="margin-left: 5px">
                 <option value="">全部</option>
                 <option value="1" th:selected="*{sourceId==1}">门店POS</option>
                 <option value="2" th:selected="*{sourceId==2}">小程序</option>
             </select>
 
             <label class="text_navigation" style="margin-left: 10px">会员等级</label>
-            <select name="groupLevelId" class="select_min_style" style="margin-left: 5px">
+            <select name="groupLevelId" class="select_style" style="margin-left: 5px">
                 <option value="">全部</option>
                 <option th:selected="*{groupLevelId==1}" value="1">银卡</option>
                 <option th:selected="*{groupLevelId==2}" value="2">金卡</option>
@@ -293,28 +292,33 @@
             </select>
 
             <label class="text_navigation" style="margin-left: 10px">姓名</label>
-            <input class="input_min_style" style="margin-left: 5px" type="text" name="name" th:value="*{name}" />
+            <input class="input_style" style="margin-left: 5px" type="text" name="name" th:value="*{name}" />
 
             <label class="text_navigation" style="margin-left: 10px">手机号</label>
-            <input class="input_min_style" style="margin-left: 5px" type="text" name="mobile" th:value="*{mobile}" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="20"/>
+            <input class="input_style" style="margin-left: 5px" type="text" name="mobile" th:value="*{mobile}" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="20"/>
 
             <button class="orange_mine_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
             <button id="service_push" class="blue_mine_button_style select-shop" value="" onclick="return false;" style="margin-left: 10px">服务推送</button>
 
-            <div class="parent" id="export_excel" style="margin-left: 10px;cursor:pointer;" th:if="${#lists.contains(session.loginManager.permissionCodeList, 'CUSTOMER_EXPORT')}">
-                <img th:src="@{/images/excel_icon.png}" style="width: 21px;height: 21px">
-                <span style="font-size: 10px;margin-left: 6px">会员导出</span>
-            </div>
-            <div class="parent" th:if="${#lists.contains(session.loginManager.permissionCodeList, 'CUSTOMER_IMPORT')}">
-                <div class="parent" id="import_excel" style="margin-left: 10px;cursor:pointer;">
-                    <img th:src="@{/images/excel_icon.png}" style="width: 21px;height: 21px">
-                    <span style="font-size: 10px;margin-left: 6px">会员导入</span>
-                    <input type="file" name="excelFile" style="display: none" accept=".xls, .xlsx" />
-                </div>
-                <span style="font-size: 10px;margin-left: 6px"><a class="op-link" th:href="@{/templates/customer-import.xls}">下载会员导入模板</a></span>
-            </div>
         </div>
+
     </form>
+
+    <div class="parent" style="margin-left: 30px;margin-top: 10px;margin-bottom: 10px;">
+        <div class="parent" id="export_excel" style="margin-left: 10px;cursor:pointer;" th:if="${#lists.contains(session.loginManager.permissionCodeList, 'CUSTOMER_EXPORT')}">
+            <img th:src="@{/images/excel_icon.png}" style="width: 21px;height: 21px">
+            <span style="font-size: 10px;margin-left: 6px">会员导出</span>
+        </div>
+        <div class="parent" th:if="${#lists.contains(session.loginManager.permissionCodeList, 'CUSTOMER_IMPORT')}">
+            <div class="parent" id="import_excel" style="margin-left: 10px;cursor:pointer;">
+                <img th:src="@{/images/excel_icon.png}" style="width: 21px;height: 21px">
+                <span style="font-size: 10px;margin-left: 6px">会员导入</span>
+                <input type="file" name="excelFile" style="display: none" accept=".xls, .xlsx" />
+            </div>
+            <span style="font-size: 10px;margin-left: 6px"><a class="op-link" th:href="@{/templates/customer-import.xls}">下载会员导入模板</a></span>
+        </div>
+    </div>
+
     <table  class="gridtablestyle" style="width: 95%; vertical-align: middle;margin-top: 10px">
         <tr>
             <th><input type="checkbox" id="checkAll"></th>
@@ -348,6 +352,8 @@
     </table>
     <div th:replace="page_info::pagination"/>
     <div style="height: 30px" />
+
+
 </div>
 <!-- 弹窗 -->
 <div class='select-com'></div>
