@@ -220,8 +220,7 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
 
         Page<CustomerDrain> newPage = new Page<>(searchModel.getPageNo(), searchModel.getPageSize());
         //List<CustomerDrain> customerByDrain = baseMapper.findCustomerByDrain(newPage, eWrapper);
-        //newPage.setRecords(customerByDrain);
-        baseMapper.findCustomerByDrainExample(newPage,
+        List<CustomerDrain> customerByDrain = baseMapper.findCustomerByDrainExample(newPage,
                 searchModel.getUser().getShopIdenty(),
                 searchModel.getConsumptionLastTime(),
                 cardExpireDateLe,
@@ -229,6 +228,7 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
                 searchModel.getOpType(),
                 searchModel.getStoredBalance(),
                 searchModel.getCardResidueCount());
+        newPage.setRecords(customerByDrain);
         return newPage;
     }
 
