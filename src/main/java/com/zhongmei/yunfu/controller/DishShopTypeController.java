@@ -30,6 +30,8 @@ public class DishShopTypeController extends BaseController{
     DishSetmealService mDishSetmealService;
     @Autowired
     DishSetmealGroupService mDishSetmealGroupService;
+    @Autowired
+    AuthUserService authUserService;
 
     @RequestMapping("/dishShopMainPage")
     public String dishShopMainPage(Model model, DishShopModel mDishShopModel) {
@@ -51,10 +53,40 @@ public class DishShopTypeController extends BaseController{
 
 
         model.addAttribute("mDishShopModel", mDishShopModel);
-        model.addAttribute("dish_shop_manager", 1);//权限
+
+        Map<String, String> permissionData = authUserService.getAuthPermissionMap(creatorId,shopId);
+
+        if(permissionData.get("DISH_GROUP_AUTHORITY") == null || permissionData.get("DISH_GROUP_AUTHORITY").equals("")){
+            model.addAttribute("dish_group_authority", 0);
+        }else{
+            model.addAttribute("dish_group_authority", 1);
+        }
+
+        if(permissionData.get("DISH_AUTHORITY") == null || permissionData.get("DISH_AUTHORITY").equals("")){
+            model.addAttribute("dish_authority", 0);
+        }else{
+            model.addAttribute("dish_authority", 1);
+        }
+
+        if(permissionData.get("DISH_CARDTIME_AUTHORITY") == null || permissionData.get("DISH_CARDTIME_AUTHORITY").equals("")){
+            model.addAttribute("dish_cradtime_authority", 0);
+        }else{
+            model.addAttribute("dish_cradtime_authority", 1);
+        }
+
+        if(permissionData.get("SUPPLIER_AUTHORITY") == null || permissionData.get("SUPPLIER_AUTHORITY").equals("")){
+            model.addAttribute("supplier_authority", 0);
+        }else{
+            model.addAttribute("supplier_authority", 1);
+        }
 
         return "dish_shop_main";
 
+    }
+
+    @RequestMapping("/emptyPage")
+    public String emptyPage(){
+        return "dish_modle_empty";
     }
 
     @RequestMapping("/dishGroup")

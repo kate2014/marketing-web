@@ -169,6 +169,11 @@ div.parent_h {
     color: #707070;
 }
 
+.empty_text_style{
+    font-size:16px;
+    color: #a5a5a5;
+}
+
 .top_view_style{
     width: 100%;
     height: 50px;

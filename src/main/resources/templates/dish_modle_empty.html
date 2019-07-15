@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<style type="text/css">
+
+    .main{
+        text-align: center;
+        background-color: #fff;
+        border-radius: 20px;
+        position: absolute;
+        left: 50%;
+        top: 36%;
+        transform: translate(-50%,-50%);
+    }
+
+</style>
+<head>
+    <meta charset="UTF-8">
+    <title>选择报表</title>
+
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
+</head>
+
+<body>
+
+<div class="main">
+    <img th:src="@{/images/dish_modle_empty_icon.png}" src="../static//images/dish_modle_empty_icon.png" style="height: auto">
+    <div>
+        <p class="empty_text_style" style="margin-top: 20px">点击左边菜单栏进行品项管理！</p>
+    </div>
+
+</div>
+
+</body>
+</html>
