@@ -468,17 +468,56 @@ public class ReportSalesController {
     public String saleReport(Model model, PurchSaleModel mPurchSaleModel){
         try {
 
+
             List<DishSaleReport> listDishSale = queryDishSale(mPurchSaleModel);
+
             BigDecimal totalCount = BigDecimal.ZERO;
             BigDecimal totalAmount = BigDecimal.ZERO;
             for(DishSaleReport entity : listDishSale){
                 totalCount = totalCount.add(entity.getNumber());
-                totalAmount = totalAmount.add(entity.getActualAmount());
+            }
+
+            List<TradeEntity> listTrade = queryAllTrade(mPurchSaleModel);
+
+
+            Map<Long,DishSaleReport> tempMap = new LinkedHashMap<>();
+
+            for(TradeEntity mTradeEntity : listTrade){
+                DishSaleReport mDishSaleReport = new DishSaleReport();
+                mDishSaleReport.setId(mTradeEntity.getId());
+                mDishSaleReport.setTradeId(mTradeEntity.getId());
+                mDishSaleReport.setTradeNo(mTradeEntity.getTradeNo());
+                mDishSaleReport.setType(mTradeEntity.getTradeType());
+                mDishSaleReport.setSaleAmount(mTradeEntity.getSaleAmount());
+                mDishSaleReport.setTradeAmount(mTradeEntity.getTradeAmount());
+                mDishSaleReport.setPrivilegeAmount(mTradeEntity.getPrivilegeAmount());
+
+                List<DishSaleReport> tempList = new LinkedList<>();
+                mDishSaleReport.setListTradeItem(tempList);
+
+                tempMap.put(mTradeEntity.getId(),mDishSaleReport);
+
+                totalAmount = totalAmount.add(mTradeEntity.getTradeAmount());
+            }
+
+
+            //以订单为维度进行分组
+            for(DishSaleReport dishSale : listDishSale){
+                DishSaleReport tempDate = tempMap.get(dishSale.getTradeId());
+
+                List<DishSaleReport> listItem = tempDate.getListTradeItem();
+                listItem.add(dishSale);
+
+            }
+
+            List<DishSaleReport> listReport = new LinkedList<>();
+            for(Long key : tempMap.keySet()){
+                listReport.add(tempMap.get(key));
             }
 
             model.addAttribute("totalCount", totalCount);
             model.addAttribute("totalAmount", totalAmount);
-            model.addAttribute("listData", listDishSale);
+            model.addAttribute("listReport", listReport);
             model.addAttribute("mPurchSaleModel", mPurchSaleModel);
 
             return "report_dish_sale";
@@ -487,6 +526,23 @@ public class ReportSalesController {
             return "fail";
         }
 
+    }
+
+    public List<TradeEntity> queryAllTrade(PurchSaleModel mPurchSaleModel)throws Exception{
+
+        TradeModel mTradeModel = new TradeModel();
+        mTradeModel.setShopIdenty(mPurchSaleModel.getShopIdenty());
+        mTradeModel.setBrandIdenty(mPurchSaleModel.getBrandIdenty());
+        mTradeModel.setStartDate(mPurchSaleModel.getStartDate());
+        mTradeModel.setEndDate(mPurchSaleModel.getEndDate());
+        mTradeModel.setTradeType(mPurchSaleModel.getType());
+        mTradeModel.setDishName(mPurchSaleModel.getName());
+        mTradeModel.setTradeUser(mPurchSaleModel.getTradeUser());
+        mTradeModel.setCustomerName(mPurchSaleModel.getCustomerName());
+
+
+        List<TradeEntity> listTrade = mTradeService.queryListTrade(mTradeModel);
+        return listTrade;
     }
 
     public List<DishSaleReport> queryDishSale(PurchSaleModel mPurchSaleModel)throws Exception{

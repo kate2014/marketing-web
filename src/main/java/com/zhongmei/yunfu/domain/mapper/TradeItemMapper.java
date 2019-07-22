@@ -46,7 +46,7 @@ public interface TradeItemMapper extends BaseMapper<TradeItemEntity> {
 //            "ORDER BY `serverCreateTime` desc; ")
 //    List<DishSaleReport> listDishSale(@Param("ew") Condition wrapper);
 
-    @Select("SELECT t.id as tradeId,t.trade_no as tradeNo, i.id as tradeItemId, i.`dish_name` as name ,i.`quantity` as number ,i.`actual_amount` as actualAmount ,CASE t.`trade_type` WHEN 1 THEN '销货' WHEN 2 THEN '退货' END AS type , date_format(i.`server_create_time`,'%Y-%m-%d %H:%i:%s') as serverCreateTime \n" +
+    @Select("SELECT t.id as tradeId,t.trade_no as tradeNo, i.id as tradeItemId, i.`dish_name` as name ,i.`quantity` as number ,i.`actual_amount` as actualAmount ,t.`trade_type` AS type , date_format(i.`server_create_time`,'%Y-%m-%d %H:%i:%s') as serverCreateTime \n" +
             "FROM trade t LEFT JOIN `trade_item` i on t.`id` = i.`trade_id` \n" +
             "${ew.sqlSegment} \n" +
             "ORDER BY `serverCreateTime` desc; ")

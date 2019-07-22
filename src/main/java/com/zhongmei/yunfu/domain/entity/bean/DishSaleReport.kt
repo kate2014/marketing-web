@@ -25,7 +25,13 @@ class DishSaleReport : Serializable {
 
     var actualAmount: BigDecimal? = null
 
-    var type: String? = null
+    var tradeAmount: BigDecimal? = null
+
+    var saleAmount: BigDecimal? = null
+
+    var privilegeAmount: BigDecimal? = null
+
+    var type: Int? = null
 
     var status: BigDecimal? = null
 
@@ -40,6 +46,8 @@ class DishSaleReport : Serializable {
     var tradeItemId: Long? = null
 
     var tradeNo: String? = null
+
+    var listTradeItem: List<DishSaleReport>? = null
 
     override fun toString(): String {
         return "PurchaseSaleReport{" +
@@ -56,6 +64,10 @@ class DishSaleReport : Serializable {
                 ", tradeId=" + tradeId +
                 ", tradeItemId=" + tradeItemId +
                 ", tradeNo=" + tradeNo +
+                ", listTradeItem=" + listTradeItem +
+                ", tradeAmount=" + tradeAmount +
+                ", saleAmount=" + saleAmount +
+                ", privilegeAmount=" + privilegeAmount +
                 "}"
     }
 }

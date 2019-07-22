@@ -159,7 +159,7 @@ public class TradeServiceImpl extends ServiceImpl<TradeMapper, TradeEntity> impl
         eWrapper.eq("status_flag", 1);
         eWrapper.between("server_create_time", mTradeModel.getStartDate(), mTradeModel.getEndDate());
         eWrapper.orderBy("server_create_time", true);
-        eWrapper.setSqlSelect("id,biz_date,business_type,trade_type,trade_status,trade_pay_status,source,trade_no,dish_kind_count,trade_amount,server_create_time,server_update_time");
+        eWrapper.setSqlSelect("id,trade_no,biz_date,business_type,trade_type,trade_status,trade_pay_status,source,trade_no,dish_kind_count,sale_amount,trade_amount,privilege_amount,server_create_time,server_update_time");
         List<TradeEntity> listTrade = selectList(eWrapper);
         return listTrade;
     }
