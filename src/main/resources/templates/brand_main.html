@@ -62,7 +62,7 @@
         <span>员工管理</span>
     </a>
 
-    <a href="/"  class="brand_head_defort_stype" align="center">
+    <a th:href="@{/internal/brand/dish/main(brandIdenty=${mAuthUserModel.brandIdenty},shopIdenty=${mAuthUserModel.shopIdenty},creatorId=${mAuthUserModel.creatorId},creatorName=${mAuthUserModel.creatorName})}" class="brand_head_defort_stype" align="center" target="my_iframe">
         <img th:src="@{/images/brand_product_icon.png}" src="../static/images/brand_product_icon.png" class="icon_style" style="margin: 0 auto; margin-top: 4px">
         <span class="head_navigation_text_style">品项管理</span>
     </a>
