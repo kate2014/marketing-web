@@ -58,6 +58,8 @@ public class CustomerStoredServiceImpl extends ServiceImpl<CustomerStoredMapper,
             customerExtraEntity = new CustomerExtraEntity();
             customerExtraEntity.baseCreate(customerStored.getUpdatorId(), customerStored.getUpdatorName());
             customerExtraEntity.setCustomerId(customerStored.getCustomerId());
+            customerExtraEntity.setShopIdenty(customerStored.getShopIdenty());
+            customerExtraEntity.setBrandIdenty(customerStored.getBrandIdenty());
         }
         if (customerStored.getTradeAmount() == null) {
             customerStored.setTradeAmount(BigDecimal.ZERO);

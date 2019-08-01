@@ -55,6 +55,12 @@ public class CustomerExtraEntity extends BaseEntity {
      */
     private BigDecimal storedFullAmount;
 
+    private Long shopIdenty;
+    /**
+     * 品牌标识 : 品牌标识
+     */
+    private Long brandIdenty;
+
 
     public Long getCustomerId() {
         return customerId;
@@ -126,6 +132,22 @@ public class CustomerExtraEntity extends BaseEntity {
 
     public void setStoredFullAmount(BigDecimal storedFullAmount) {
         this.storedFullAmount = storedFullAmount;
+    }
+
+    public Long getShopIdenty() {
+        return shopIdenty;
+    }
+
+    public void setShopIdenty(Long shopIdenty) {
+        this.shopIdenty = shopIdenty;
+    }
+
+    public Long getBrandIdenty() {
+        return brandIdenty;
+    }
+
+    public void setBrandIdenty(Long brandIdenty) {
+        this.brandIdenty = brandIdenty;
     }
 
     @Override
