@@ -22,7 +22,7 @@
             <button class="gray_button_style" value="" th:onclick="@{|location='${basePath}/internal/trade/listData?brandIdenty=${mTradeModel.brandIdenty}&shopIdenty=${mTradeModel.shopIdenty}'|}" style="margin-left: 10px">返回列表</button>
         </div>
         <div align="right" style="width: 100%;margin-right: 50px" th:if="${mTradeModel.rquestSource} ne 1">
-            <button class="gray_button_style" onclick="javascript :history.back(-1);" style="margin-left: 10px">返回</button>
+            <button class="gray_button_style" onclick="javascript :window.history.go(-1);" style="margin-left: 10px">返回</button>
         </div>
     </div>
 </div>
