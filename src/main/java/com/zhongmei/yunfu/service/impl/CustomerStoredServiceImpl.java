@@ -1,9 +1,12 @@
 package com.zhongmei.yunfu.service.impl;
 
+import com.baomidou.mybatisplus.mapper.Condition;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.zhongmei.yunfu.api.ApiRespStatus;
 import com.zhongmei.yunfu.api.ApiRespStatusException;
+import com.zhongmei.yunfu.controller.model.TradeModel;
+import com.zhongmei.yunfu.core.mybatis.mapper.ConditionFilter;
 import com.zhongmei.yunfu.domain.entity.*;
 import com.zhongmei.yunfu.domain.mapper.CustomerExtraMapper;
 import com.zhongmei.yunfu.domain.mapper.CustomerStoredMapper;
@@ -16,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -161,6 +165,22 @@ public class CustomerStoredServiceImpl extends ServiceImpl<CustomerStoredMapper,
         eWrapper.setSqlSelect("id,customer_id,record_type,last_usable_amout,trade_amount,give_amount,residue_balance,trade_id,payment_item_id");
         CustomerStoredEntity mCustomerStoredEntity = selectOne(eWrapper);
         return mCustomerStoredEntity;
+    }
+
+    @Override
+    public List<CustomerSaveReport> querySaveData(TradeModel mTradeModel) throws Exception {
+
+        Condition eWrapper = ConditionFilter.create();
+        eWrapper.isWhere(true);
+        eWrapper.eq("s.brand_identy", mTradeModel.getBrandIdenty());
+        eWrapper.eq("s.shop_identy", mTradeModel.getShopIdenty());
+        eWrapper.eq("s.status_flag", 1);
+
+        eWrapper.between("s.server_create_time", mTradeModel.getStartDate(), mTradeModel.getEndDate());
+
+        List<CustomerSaveReport> listData = baseMapper.querySaveData(eWrapper);
+
+        return listData;
     }
 
     /**

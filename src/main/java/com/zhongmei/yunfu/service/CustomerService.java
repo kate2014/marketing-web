@@ -9,10 +9,7 @@ import com.zhongmei.yunfu.controller.model.CustomerDrainSearchModel;
 import com.zhongmei.yunfu.controller.model.CustomerModel;
 import com.zhongmei.yunfu.controller.model.CustomerSearchModel;
 import com.zhongmei.yunfu.domain.bean.CustomerDrain;
-import com.zhongmei.yunfu.domain.entity.CustomerEntity;
-import com.zhongmei.yunfu.domain.entity.CustomerEntityCardEntity;
-import com.zhongmei.yunfu.domain.entity.CustomerExtraEntity;
-import com.zhongmei.yunfu.domain.entity.CustomerReport;
+import com.zhongmei.yunfu.domain.entity.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collection;
@@ -300,4 +297,13 @@ public interface CustomerService extends IService<CustomerEntity> {
     CustomerExtraEntity getCustomerExtra(Long customerId);
 
     List<CustomerEntity> excelImportCustomer(MultipartFile file, Long shopId) throws Exception;
+
+    /**
+     * 查询门店会员储值、赠送、消费金额
+     * @param brandIdenty
+     * @param shopIdenty
+     * @return
+     * @throws Exception
+     */
+    CustomerExtraEntity queryCustomerSaveReport(Long brandIdenty, Long shopIdenty)throws Exception;;
 }

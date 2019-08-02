@@ -660,4 +660,15 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
         insertBatch(new ArrayList<>(customerEntities.values()));
         return new ArrayList<>(customerEntities.values());
     }
+
+    @Override
+    public CustomerExtraEntity queryCustomerSaveReport(Long brandIdenty, Long shopIdenty) throws Exception {
+        Condition eWrapper = ConditionFilter.create();
+        eWrapper.isWhere(true);
+        eWrapper.eq("brand_identy", brandIdenty);
+        eWrapper.eq("shop_identy", shopIdenty);
+        eWrapper.eq("status_flag", 1);
+        CustomerExtraEntity mCustomerSaveReport = baseMapper.queryCustomerSaveReport(eWrapper);
+        return mCustomerSaveReport;
+    }
 }

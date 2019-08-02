@@ -4,10 +4,7 @@ package com.zhongmei.yunfu.api.web;
 import com.zhongmei.yunfu.controller.model.TradeModel;
 import com.zhongmei.yunfu.controller.model.excel.ExcelData;
 import com.zhongmei.yunfu.controller.model.excel.ExcelUtils;
-import com.zhongmei.yunfu.domain.entity.BrandEntity;
-import com.zhongmei.yunfu.domain.entity.CommercialEntity;
-import com.zhongmei.yunfu.domain.entity.CustomerSaveReport;
-import com.zhongmei.yunfu.domain.entity.DishReport;
+import com.zhongmei.yunfu.domain.entity.*;
 import com.zhongmei.yunfu.service.*;
 import com.zhongmei.yunfu.util.DateFormatUtil;
 import com.zhongmei.yunfu.util.ToolsUtil;
@@ -35,6 +32,8 @@ public class ReportCustomerSaveController {
     CommercialService mCommercialService;
     @Autowired
     CustomerStoredService mCustomerStoredService;
+    @Autowired
+    CustomerService mCustomerService;
 
     @RequestMapping("/customerSave")
     public String cardTimeReport(Model model, TradeModel mTradeModel) {
@@ -58,33 +57,158 @@ public class ReportCustomerSaveController {
                 mTradeModel.setEndDate(DateFormatUtil.format(new Date(), DateFormatUtil.FORMAT_FULL_DATE));
             }
 
-            List<CustomerSaveReport> listData = mTradeService.customerSaveReport(mTradeModel);
+            CustomerExtraEntity mCustomerSaveReport = mCustomerService.queryCustomerSaveReport(mTradeModel.getBrandIdenty(),mTradeModel.getShopIdenty());
+            if(mCustomerSaveReport == null){
+                mCustomerSaveReport = new CustomerExtraEntity();
+                mCustomerSaveReport.setStoredAmount(BigDecimal.ZERO);
+                mCustomerSaveReport.setStoredGive(BigDecimal.ZERO);
+                mCustomerSaveReport.setStoredBalance(BigDecimal.ZERO);
+            }
+            BigDecimal saveBaseAmount = mCustomerSaveReport.getStoredAmount().subtract(mCustomerSaveReport.getStoredGive());
+            model.addAttribute("saveBaseAmount", saveBaseAmount);
+            model.addAttribute("mCustomerSaveReport", mCustomerSaveReport);
 
-            List<Integer> listTradeCount = new LinkedList<>();
-            List<BigDecimal> listSalesAmount = new LinkedList<>();
-            List<String> listCreateDate = new LinkedList<>();
+            List<CustomerSaveReport> listSaveData = mCustomerStoredService.querySaveData(mTradeModel);
+
+            Map<String,String> dateArray = new LinkedHashMap<>();
+            Map<String,Integer> countArray = new LinkedHashMap<>();
+            Map<String,BigDecimal> saveArray = new LinkedHashMap();
+            Map<String,BigDecimal> giveArray = new LinkedHashMap<>();
+            Map<String,BigDecimal> saleArray = new LinkedHashMap<>();
 
             Long maxCount = 0l;
             Long maxAmount = 0l;
-            BigDecimal totalAmount = BigDecimal.ZERO;
 
-            for (CustomerSaveReport dp : listData) {
+            //交易总笔数
+            int totalTrade = 0;
+            //储值消费总额
+            BigDecimal totalSale = BigDecimal.ZERO;
+            //储值总额
+            BigDecimal totalSave = BigDecimal.ZERO;
+            //赠送总额
+            BigDecimal totalGive = BigDecimal.ZERO;
 
-                listTradeCount.add(dp.getTradeCount());
-                listSalesAmount.add(dp.getSalesAmount());
-                listCreateDate.add(dp.getCreateDate());
+            for(CustomerSaveReport entity : listSaveData){
 
-                if (maxCount < dp.getTradeCount()) {
-                    maxCount = Long.valueOf(dp.getTradeCount());
+                dateArray.put(entity.getCreateDate(),entity.getCreateDate());
+                Integer count = countArray.get(entity.getCreateDate());
+
+                totalTrade += entity.getTradeCount();
+
+                if(count == null){
+                    countArray.put(entity.getCreateDate(),entity.getTradeCount());
+                }else {
+                    countArray.put(entity.getCreateDate(),entity.getTradeCount()+count);
                 }
-                if (maxAmount < dp.getSalesAmount().longValue()) {
-                    maxAmount = dp.getSalesAmount().longValue();
+
+
+                //交易类型：1 表示储值  2 表示消费
+                if(entity.getRecordype() == 1){
+                    saveArray.put(entity.getCreateDate(),entity.getTradeAmount());
+                    BigDecimal giveAmount = entity.getGiveAmount();
+                    if(giveAmount == null){
+                        giveAmount = BigDecimal.ZERO;
+                    }
+                    giveArray.put(entity.getCreateDate(),giveAmount);
+
+                    BigDecimal saleAmount = saleArray.get(entity.getCreateDate());
+                    if(saleAmount == null){
+                        saleArray.put(entity.getCreateDate(),BigDecimal.ZERO);
+                    }
+
+                    totalGive = totalGive.add(giveAmount);
+
+                    totalSave = totalSave.add(entity.getTradeAmount());
                 }
-                totalAmount = totalAmount.add(dp.getSalesAmount());
+                if(entity.getRecordype() == 2){
+                    BigDecimal saveAmount = saveArray.get(entity.getCreateDate());
+                    if(saveAmount == null){
+                        saveArray.put(entity.getCreateDate(),BigDecimal.ZERO);
+                        giveArray.put(entity.getCreateDate(),BigDecimal.ZERO);
+                    }
+
+                    saleArray.put(entity.getCreateDate(),entity.getTradeAmount());
+
+                    totalSale = totalSale.add(entity.getTradeAmount());
+                }
+
+
+                //获取最大值，用来做图像展示刻度
+                if(maxCount < entity.getTradeCount()){
+                    maxCount = entity.getTradeCount().longValue();
+                }
+
+                if(maxAmount < entity.getTradeAmount().add(entity.getGiveAmount()).longValue()){
+                    maxAmount = entity.getTradeAmount().add(entity.getGiveAmount()).longValue();
+                }
 
             }
 
+            List<Integer> listCount = new LinkedList<>();
+            for(String key: countArray.keySet()){
+                listCount.add(countArray.get(key));
+            }
 
+            List<String> listDate = new LinkedList<>();
+            for(String key: dateArray.keySet()){
+                listDate.add(dateArray.get(key));
+            }
+
+            List<BigDecimal> listSave = new LinkedList<>();
+            List<BigDecimal> listGive = new LinkedList<>();
+            List<BigDecimal> listSale = new LinkedList<>();
+
+            for(String save : saveArray.keySet()){
+                listSave.add(saveArray.get(save));
+            }
+
+            for(String give : giveArray.keySet()){
+                listGive.add(giveArray.get(give));
+            }
+
+            for(String sale : saleArray.keySet()){
+                listSale.add(saleArray.get(sale));
+            }
+
+            model.addAttribute("listDate", listDate);
+            model.addAttribute("listCount", listCount);
+            model.addAttribute("saveArray", listSave);
+            model.addAttribute("giveArray", listGive);
+            model.addAttribute("saleArray", listSale);
+
+
+            model.addAttribute("totalTrade", totalTrade);
+            model.addAttribute("totalSale", totalSale);
+            model.addAttribute("totalSave", totalSave);
+            model.addAttribute("totalGive", totalGive);
+
+//            List<CustomerSaveReport> listData = mTradeService.customerSaveReport(mTradeModel);
+//
+//            List<Integer> listTradeCount = new LinkedList<>();
+//            List<BigDecimal> listSalesAmount = new LinkedList<>();
+//            List<String> listCreateDate = new LinkedList<>();
+//
+//            Long maxCount = 0l;
+//            Long maxAmount = 0l;
+//            BigDecimal totalAmount = BigDecimal.ZERO;
+//
+//            for (CustomerSaveReport dp : listData) {
+//
+//                listTradeCount.add(dp.getTradeCount());
+//                listSalesAmount.add(dp.getSalesAmount());
+//                listCreateDate.add(dp.getCreateDate());
+//
+//                if (maxCount < dp.getTradeCount()) {
+//                    maxCount = Long.valueOf(dp.getTradeCount());
+//                }
+//                if (maxAmount < dp.getSalesAmount().longValue()) {
+//                    maxAmount = dp.getSalesAmount().longValue();
+//                }
+//                totalAmount = totalAmount.add(dp.getSalesAmount());
+//
+//            }
+//
+//
             maxCount = ToolsUtil.getMaxData(maxCount);
             maxAmount = ToolsUtil.getMaxData(maxAmount);
 
@@ -94,23 +218,27 @@ public class ReportCustomerSaveController {
             model.addAttribute("intervalAmount", maxAmount / 10);
 
 
-            model.addAttribute("mTradeModel", mTradeModel);
-            model.addAttribute("listTradeCount", listTradeCount);
-            model.addAttribute("listSalesAmount", listSalesAmount);
-            model.addAttribute("listCreateDate", listCreateDate);
+
+
 
             //储值详情
             List<CustomerSaveReport> listDetailData = mTradeService.customerSaveDetailReport(mTradeModel);
             BigDecimal totalGiveAmount = BigDecimal.ZERO;
+            BigDecimal totalSaveAmount = BigDecimal.ZERO;
             for(CustomerSaveReport entity : listDetailData){
                 if(entity.getGiveAmount() != null){
                     totalGiveAmount = totalGiveAmount.add(entity.getGiveAmount());
                 }
+                if(entity.getTradeAmount() != null){
+                    totalSaveAmount = totalSaveAmount.add(entity.getTradeAmount());
+                }
             }
             model.addAttribute("listDetailData", listDetailData);
             model.addAttribute("totalCount", listDetailData.size());
-            model.addAttribute("totalAmount", totalAmount);
+            model.addAttribute("totalAmount", totalSaveAmount);
             model.addAttribute("totalGiveAmount", totalGiveAmount);
+
+            model.addAttribute("mTradeModel", mTradeModel);
 
         }catch (Exception e){
             e.printStackTrace();
@@ -145,6 +273,7 @@ public class ReportCustomerSaveController {
         titles.add("会员名称");
         titles.add("储值金额");
         titles.add("储值赠送金额");
+        titles.add("可用金额");
         titles.add("储值时间");
 
         data.setTitles(titles);
@@ -161,6 +290,7 @@ public class ReportCustomerSaveController {
                 row.add(entity.getCustomerName());
                 row.add(entity.getSalesAmount());
                 row.add(entity.getGiveAmount());
+                row.add(entity.getResidueBalance());
                 row.add(entity.getCreateDate());
             }
         }

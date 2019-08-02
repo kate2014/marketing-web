@@ -1,7 +1,12 @@
 package com.zhongmei.yunfu.service;
 
 import com.baomidou.mybatisplus.service.IService;
+import com.zhongmei.yunfu.controller.model.TradeModel;
+import com.zhongmei.yunfu.domain.entity.CustomerSaveReport;
 import com.zhongmei.yunfu.domain.entity.CustomerStoredEntity;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -22,5 +27,14 @@ public interface CustomerStoredService extends IService<CustomerStoredEntity> {
     void refund(CustomerStoredEntity customerStored) throws Exception;
 
     CustomerStoredEntity queryByTradeId(Long tradeId) throws Exception;
+
+    /**
+     * 查询一个时间段内门店的储值消费情况
+     * @param mTradeModel
+     * @return
+     * @throws Exception
+     */
+    List<CustomerSaveReport> querySaveData(TradeModel mTradeModel)throws Exception;
+
 
 }

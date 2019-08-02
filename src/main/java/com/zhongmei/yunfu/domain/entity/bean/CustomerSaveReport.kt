@@ -20,6 +20,10 @@ class CustomerSaveReport : CustomerEntity(), Serializable {
      */
     var tradeCount: Int? = null
     /**
+     * 交易总额
+     */
+    var tradeAmount: BigDecimal? = null
+    /**
      * 消费额度
      */
     val salesAmount: BigDecimal? = null
@@ -27,6 +31,14 @@ class CustomerSaveReport : CustomerEntity(), Serializable {
      * 储值赠送金额
      */
     var giveAmount: BigDecimal? = null
+    /**
+     * 当前可用余额
+     */
+    var residueBalance: BigDecimal? = null
+    /**
+     * 交易类型
+     */
+    var recordype: Int? = null
     /**
      * 创建时间
      */
@@ -39,6 +51,7 @@ class CustomerSaveReport : CustomerEntity(), Serializable {
                 ", tradeCount=" + tradeCount +
                 ", salesAmount=" + salesAmount +
                 ", giveAmount=" + giveAmount +
+                ", residueBalance=" + residueBalance +
                 ", createDate=" + createDate +
                 ", customerName=" + customerName +
                 "}"

@@ -5,9 +5,7 @@ import com.baomidou.mybatisplus.mapper.Condition;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.zhongmei.yunfu.domain.bean.CustomerDrain;
 import com.zhongmei.yunfu.domain.bean.CustomerMobile;
-import com.zhongmei.yunfu.domain.entity.CustomerEntity;
-import com.zhongmei.yunfu.domain.entity.CustomerExtraEntity;
-import com.zhongmei.yunfu.domain.entity.CustomerReport;
+import com.zhongmei.yunfu.domain.entity.*;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.session.RowBounds;
@@ -261,4 +259,14 @@ public interface CustomerMapper extends BaseMapper<CustomerEntity> {
      * @return
      */
     List<CustomerMobile> getMobileAll(@Param("shopId") Long shopId);
+
+    /**
+     * 查询门店会员储值金额，赠送金额，已使用金额
+     * @param wrapper
+     * @return
+     */
+    @Select("SELECT sum(c.`stored_amount`) as storedAmount ,sum(c.`stored_give`) as storedGive, sum(c.`stored_used`) as storedUsed ,sum(c.`stored_balance`) as storedBalance  " +
+            "from `customer_extra` c " +
+            " ${ew.sqlSegment};")
+    CustomerExtraEntity queryCustomerSaveReport(@Param("ew") Condition wrapper);
 }

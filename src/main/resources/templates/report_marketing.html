@@ -290,6 +290,14 @@
                 type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
             }
         },
+        toolbox: {
+            feature: {
+                dataView: {show: true, readOnly: false},
+                magicType: {show: true, type: ['line', 'bar']},
+                restore: {show: true},
+                saveAsImage: {show: true}
+            }
+        },
         legend: {
             data:['秒杀购买数']
         },
