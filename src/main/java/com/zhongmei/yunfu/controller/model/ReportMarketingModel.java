@@ -11,6 +11,12 @@ public class ReportMarketingModel {
      */
     private Long shopIdenty;
 
+    private Integer type;
+
+    private Integer status;
+
+    private Integer enabledFlag;
+
     private String startDate;
 
     private String endDate;
@@ -65,5 +71,29 @@ public class ReportMarketingModel {
 
     public void setPrivilegeType(Integer privilegeType) {
         this.privilegeType = privilegeType;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Integer getEnabledFlag() {
+        return enabledFlag;
+    }
+
+    public void setEnabledFlag(Integer enabledFlag) {
+        this.enabledFlag = enabledFlag;
     }
 }

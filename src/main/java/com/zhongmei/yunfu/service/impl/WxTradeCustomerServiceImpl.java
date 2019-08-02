@@ -2,6 +2,8 @@ package com.zhongmei.yunfu.service.impl;
 
 import com.baomidou.mybatisplus.mapper.Condition;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.zhongmei.yunfu.controller.model.CollageReportModel;
+import com.zhongmei.yunfu.controller.model.ReportMarketingModel;
 import com.zhongmei.yunfu.controller.model.TradeModel;
 import com.zhongmei.yunfu.core.mybatis.mapper.ConditionFilter;
 import com.zhongmei.yunfu.domain.entity.*;
@@ -218,6 +220,20 @@ public class WxTradeCustomerServiceImpl extends ServiceImpl<WxTradeCustomerMappe
 
         Boolean isSuccess = baseMapper.modfiyEnabledFlagByMainCollage(eWrapper);
         return null;
+    }
+
+    @Override
+    public List<CollageReportModel> queryCollageData(ReportMarketingModel mReportMarketingModel) throws Exception {
+        Condition eWrapper = ConditionFilter.create();
+        eWrapper.isWhere(true);
+        eWrapper.eq("brand_identy",mReportMarketingModel.getBrandIdenty());
+        eWrapper.eq("shop_identy",mReportMarketingModel.getShopIdenty());
+
+        eWrapper.eq("type",mReportMarketingModel.getType());
+        eWrapper.eq("enabled_flag",mReportMarketingModel.getEnabledFlag());
+        eWrapper.eq("status",mReportMarketingModel.getStatus());
+        List<CollageReportModel> listData = baseMapper.queryCollageData(eWrapper);
+        return listData;
     }
 
     //查询会员参与活动信息，可用来判断该会员是否参与过该活动

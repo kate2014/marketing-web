@@ -2,6 +2,8 @@ package com.zhongmei.yunfu.controller.model;
 
 public class FlashSalesReportModel {
 
+    private Long marketingId;
+
     private Integer joinCount;
 
     private String name;
@@ -11,6 +13,14 @@ public class FlashSalesReportModel {
     private Long shopIdenty;
 
     private Long brandIdenty;
+
+    public Long getMarketingId() {
+        return marketingId;
+    }
+
+    public void setMarketingId(Long marketingId) {
+        this.marketingId = marketingId;
+    }
 
     public Integer getJoinCount() {
         return joinCount;

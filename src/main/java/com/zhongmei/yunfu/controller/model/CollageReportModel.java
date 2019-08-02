@@ -2,6 +2,10 @@ package com.zhongmei.yunfu.controller.model;
 
 public class CollageReportModel {
 
+    private Long marketingId;
+
+    private Integer countData;
+
     private Integer joinCount;
 
     private String name;
@@ -61,4 +65,21 @@ public class CollageReportModel {
     public void setBrandIdenty(Long brandIdenty) {
         this.brandIdenty = brandIdenty;
     }
+
+    public Long getMarketingId() {
+        return marketingId;
+    }
+
+    public Integer getCountData() {
+        return countData;
+    }
+
+    public void setCountData(Integer countData) {
+        this.countData = countData;
+    }
+
+    public void setMarketingId(Long marketingId) {
+        this.marketingId = marketingId;
+    }
+
 }

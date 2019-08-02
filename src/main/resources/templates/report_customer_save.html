@@ -150,7 +150,7 @@
     <table class="gridtablestyle" style="width: 95%; vertical-align: middle; table-layout: fixed;">
         <tr style="width: 100%">
             <th>会员名称</th>
-            <th>储值金额(包含赠送部分)</th>
+            <th>储值金额(不包含赠送部分)</th>
             <th>储值赠送金额</th>
             <th>可用余额</th>
             <th>充值时间</th>
@@ -166,10 +166,10 @@
 
         </tr>
         <tr style="width: 100%">
-            <th width="100%" colspan="4">
-                合计：储值总单数：<span style="margin-right: 20px" th:text="${totalCount}"></span>
-                储值总金额：<span style="margin-right: 20px" th:text="${totalAmount}"></span>
-                储值赠送总额：<span th:text="${totalGiveAmount}"></span>
+            <th width="100%" colspan="5">
+                合计：储值总单数(笔)：<span style="margin-right: 20px" th:text="${totalCount}"></span>
+                储值总金额(元)：<span style="margin-right: 20px" th:text="${totalAmount}"></span>
+                储值赠送总额(元)：<span th:text="${totalGiveAmount}"></span>
             </th>
         </tr>
     </table>
@@ -250,7 +250,7 @@
             {
                 name:'消费金额',
                 type:'bar',
-                barMaxWidth : 30,//柱图宽度
+                barMaxWidth : 20,//柱图宽度
                 data : [[${saleArray}]]
             },
 
@@ -258,14 +258,14 @@
                 name:'储值金额',
                 type:'bar',
                 stack: '储值金额',
-                barMaxWidth : 30,//柱图宽度
+                barMaxWidth : 20,//柱图宽度
                 data : [[${saveArray}]]
             },
             {
                 name:'赠送金额',
                 type:'bar',
                 stack: '储值金额',
-                barMaxWidth : 30,//柱图宽度
+                barMaxWidth : 20,//柱图宽度
                 data : [[${giveArray}]]
             },
             {

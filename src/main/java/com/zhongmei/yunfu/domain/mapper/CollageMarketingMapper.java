@@ -23,9 +23,9 @@ public interface CollageMarketingMapper extends BaseMapper<CollageMarketingEntit
     @Select("SELECT id,name,begin_time,end_time,collage_people_count,collage_price,original_price,profile,img_url FROM `collage_marketing`  ${ew.sqlSegment} ORDER BY  `server_create_time`  DESC LIMIT 1;")
     CollageMarketingEntity queryNewCollage(@Param("ew") Condition wrapper);
 
-    @Select("SELECT  m.`join_count` as joinCount , m.`name` as name,m.`open_group_count` as openCount ,m.finish_group_count as finishCount \n" +
+    @Select("SELECT m.id as marketingId, m.`join_count` as joinCount , m.`name` as name,m.`open_group_count` as openCount ,m.finish_group_count as finishCount \n" +
             "FROM collage_marketing m \n" +
-            "${ew.sqlSegment} \n" +
+            "${ew.sqlSegment} and unix_timestamp(`validity_period`) >= unix_timestamp(NOW()) \n" +
             "ORDER BY m.`server_create_time` DESC ;")
     List<CollageReportModel> queryCollageReport(@Param("ew") Condition wrapper);
 }

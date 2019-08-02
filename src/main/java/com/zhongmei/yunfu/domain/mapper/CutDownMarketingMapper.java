@@ -23,7 +23,7 @@ public interface CutDownMarketingMapper extends BaseMapper<CutDownMarketingEntit
     @Select("SELECT id,name,begin_time,end_time,start_price,end_price,img_url,profile FROM `cut_down_marketing` ${ew.sqlSegment} ORDER BY  `server_create_time`  DESC LIMIT 1")
     CutDownMarketingEntity queryNewCutDown(@Param("ew") Condition wrapper);
 
-    @Select("SELECT m.`name` ,COUNT(h.`id`) joinCount ,m.`sold_count` as soldCount  FROM `cut_down_marketing` m LEFT JOIN `cut_down_history` h on m.`id` = h.`cut_down_id` \n" +
+    @Select("SELECT m.id as marketingId,m.`name` ,COUNT(h.`id`) joinCount ,m.`sold_count` as soldCount  FROM `cut_down_marketing` m LEFT JOIN `cut_down_history` h on m.`id` = h.`cut_down_id` \n" +
             "${ew.sqlSegment}\n" +
             "GROUP BY h.`cut_down_id` ORDER BY m.`server_create_time` DESC  ;")
     List<CutDownReportModel> queryCutDownReport(@Param("ew") Condition wrapper);

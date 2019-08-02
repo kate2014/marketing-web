@@ -2,6 +2,8 @@ package com.zhongmei.yunfu.controller.model;
 
 public class CutDownReportModel {
 
+    private Long marketingId;
+
     private Integer joinCount;
 
     private String name;
@@ -11,6 +13,14 @@ public class CutDownReportModel {
     private Long shopIdenty;
 
     private Long brandIdenty;
+
+    public Long getMarketingId() {
+        return marketingId;
+    }
+
+    public void setMarketingId(Long marketingId) {
+        this.marketingId = marketingId;
+    }
 
     public Integer getJoinCount() {
         return joinCount;

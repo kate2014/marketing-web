@@ -112,13 +112,13 @@
         toolbox: {
             feature: {
                 dataView: {show: true, readOnly: false},
-                magicType: {show: true, type: ['line', 'bar']},
+                magicType: {show: true, type: ['bar']},
                 restore: {show: true},
                 saveAsImage: {show: true}
             }
         },
         legend: {
-            data:['成团数','开团数','参团人数']
+            data:['参团人数','开团数','成团数','成团人数','已到店消费人数']
         },
         grid: {
             left: '3%',
@@ -146,38 +146,42 @@
                     formatter: '{value}个'
                 }
             },
-            {
-                type: 'value',
-                name: '参团人数',
-                min: 0,
-                max: [[${maxJoinCount}]],
-                interval: [[${intervalJoinCount}]],
-                axisLabel: {
-                    formatter: '{value} 人'
-                }
-            }
         ],
         series : [
 
             {
-                name:'成团数',
+                name:'参团人数',
                 type:'bar',
-                stack: '参团情况',
-                barMaxWidth : 30,//柱图宽度
-                data:[[${finishCount}]]
+                barMaxWidth : 20,//柱图宽度
+                data:[[${joinCount}]]
             },
             {
                 name:'开团数',
                 type:'bar',
-                stack: '参团情况',
-                barMaxWidth : 30,//柱图宽度
+                // stack: '参团情况',
+                barMaxWidth : 20,//柱图宽度
                 data:[[${openCount}]]
             },
             {
-                name:'参团人数',
-                type:'line',
-                yAxisIndex: 1,
-                data:[[${joinCount}]]
+                name:'成团数',
+                type:'bar',
+                // stack: '参团情况',
+                barMaxWidth : 20,//柱图宽度
+                data:[[${finishCount}]]
+            },
+            {
+                name:'成团人数',
+                type:'bar',
+                // stack: '参团情况',
+                barMaxWidth : 20,//柱图宽度
+                data:[[${collageSaleCount}]]
+            },
+            {
+                name:'已到店消费人数',
+                type:'bar',
+                // stack: '参团情况',
+                barMaxWidth : 20,//柱图宽度
+                data:[[${usedCount}]]
             }
         ]
     };
@@ -214,7 +218,7 @@
             }
         },
         legend: {
-            data:['砍价购买成功','参与砍价人数']
+            data:['参与砍价人数','砍价购买成功','已到店消费人数']
         },
         grid: {
             left: '3%',
@@ -232,16 +236,7 @@
             }
         ],
         yAxis : [
-            {
-                type: 'value',
-                name: '砍价购买成功',
-                min: 0,
-                max: [[${maxSoldCount}]],
-                interval: [[${intervalSoldCount}]],
-                axisLabel: {
-                    formatter: '{value}个'
-                }
-            },
+
             {
                 type: 'value',
                 name: '参与砍价人数',
@@ -251,22 +246,38 @@
                 axisLabel: {
                     formatter: '{value} 人'
                 }
+            },
+            {
+                type: 'value',
+                name: '砍价购买成功',
+                min: 0,
+                max: [[${maxSoldCount}]],
+                interval: [[${intervalSoldCount}]],
+                axisLabel: {
+                    formatter: '{value}个'
+                }
             }
         ],
         series : [
 
-            {
-                name:'砍价购买成功',
-                type:'bar',
-                stack: '成功购买数',
-                barMaxWidth : 30,//柱图宽度
-                data:[[${soldCount}]]
-            },
+
             {
                 name:'参与砍价人数',
                 type:'line',
                 yAxisIndex: 1,
                 data:[[${cutDownJoinCount}]]
+            },
+            {
+                name:'砍价购买成功',
+                type:'bar',
+                barMaxWidth : 30,//柱图宽度
+                data:[[${soldCount}]]
+            },
+            {
+                name:'已到店消费人数',
+                type:'bar',
+                barMaxWidth : 30,//柱图宽度
+                data:[[${saleCutDownCount}]]
             }
         ]
     };
@@ -299,7 +310,7 @@
             }
         },
         legend: {
-            data:['秒杀购买数']
+            data:['秒杀购买数','已到店消费人数']
         },
         grid: {
             left: '3%',
@@ -315,18 +326,30 @@
         ],
         yAxis : [
             {
-                type : 'value'
-            }
+                type: 'value',
+                name: '人数',
+                min: 0,
+                max: [[${maxSaleCount}]],
+                interval: [[${intervalSaleCount}]],
+                axisLabel: {
+                    formatter: '{value}个'
+                }
+            },
         ],
         series : [
 
             {
                 name:'秒杀购买数',
                 type:'bar',
-                stack: '秒杀购买数',
                 barMaxWidth : 30,//柱图宽度
                 data:[[${flashSalesSoldCount}]]
             },
+            {
+                name:'已到店消费人数',
+                type:'bar',
+                barMaxWidth : 30,//柱图宽度
+                data:[[${saleFlashCount}]]
+            }
         ]
     };
     ;

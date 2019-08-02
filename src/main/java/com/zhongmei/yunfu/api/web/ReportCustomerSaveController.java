@@ -132,12 +132,7 @@ public class ReportCustomerSaveController {
                     totalSale = totalSale.add(entity.getTradeAmount());
                 }
 
-
                 //获取最大值，用来做图像展示刻度
-                if(maxCount < entity.getTradeCount()){
-                    maxCount = entity.getTradeCount().longValue();
-                }
-
                 if(maxAmount < entity.getTradeAmount().add(entity.getGiveAmount()).longValue()){
                     maxAmount = entity.getTradeAmount().add(entity.getGiveAmount()).longValue();
                 }
@@ -147,6 +142,11 @@ public class ReportCustomerSaveController {
             List<Integer> listCount = new LinkedList<>();
             for(String key: countArray.keySet()){
                 listCount.add(countArray.get(key));
+
+                //获取最大值，用来做图像展示刻度
+                if(maxCount < countArray.get(key)){
+                    maxCount = countArray.get(key).longValue();
+                }
             }
 
             List<String> listDate = new LinkedList<>();
@@ -182,33 +182,6 @@ public class ReportCustomerSaveController {
             model.addAttribute("totalSave", totalSave);
             model.addAttribute("totalGive", totalGive);
 
-//            List<CustomerSaveReport> listData = mTradeService.customerSaveReport(mTradeModel);
-//
-//            List<Integer> listTradeCount = new LinkedList<>();
-//            List<BigDecimal> listSalesAmount = new LinkedList<>();
-//            List<String> listCreateDate = new LinkedList<>();
-//
-//            Long maxCount = 0l;
-//            Long maxAmount = 0l;
-//            BigDecimal totalAmount = BigDecimal.ZERO;
-//
-//            for (CustomerSaveReport dp : listData) {
-//
-//                listTradeCount.add(dp.getTradeCount());
-//                listSalesAmount.add(dp.getSalesAmount());
-//                listCreateDate.add(dp.getCreateDate());
-//
-//                if (maxCount < dp.getTradeCount()) {
-//                    maxCount = Long.valueOf(dp.getTradeCount());
-//                }
-//                if (maxAmount < dp.getSalesAmount().longValue()) {
-//                    maxAmount = dp.getSalesAmount().longValue();
-//                }
-//                totalAmount = totalAmount.add(dp.getSalesAmount());
-//
-//            }
-//
-//
             maxCount = ToolsUtil.getMaxData(maxCount);
             maxAmount = ToolsUtil.getMaxData(maxAmount);
 
@@ -216,9 +189,6 @@ public class ReportCustomerSaveController {
             model.addAttribute("intervalCount", maxCount / 10);
             model.addAttribute("maxAmount", maxAmount);
             model.addAttribute("intervalAmount", maxAmount / 10);
-
-
-
 
 
             //储值详情
@@ -229,8 +199,8 @@ public class ReportCustomerSaveController {
                 if(entity.getGiveAmount() != null){
                     totalGiveAmount = totalGiveAmount.add(entity.getGiveAmount());
                 }
-                if(entity.getTradeAmount() != null){
-                    totalSaveAmount = totalSaveAmount.add(entity.getTradeAmount());
+                if(entity.getSalesAmount() != null){
+                    totalSaveAmount = totalSaveAmount.add(entity.getSalesAmount());
                 }
             }
             model.addAttribute("listDetailData", listDetailData);

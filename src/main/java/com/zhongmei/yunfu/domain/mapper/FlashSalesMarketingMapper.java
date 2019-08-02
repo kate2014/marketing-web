@@ -24,7 +24,7 @@ public interface FlashSalesMarketingMapper extends BaseMapper<FlashSalesMarketin
     @Select("SELECT id,name,begin_time,end_time,original_price,flash_price,img_url,profile FROM `flash_sales_marketing` ${ew.sqlSegment} ORDER BY  `server_create_time`  DESC LIMIT 1;")
     FlashSalesMarketingEntity queryNewFlashSales(@Param("ew") Condition wrapper);
 
-    @Select("SELECT name,`sold_count` as soldCount FROM flash_sales_marketing ${ew.sqlSegment} ORDER BY `server_create_time` DESC ;")
+    @Select("SELECT id as marketingId, name,`sold_count` as soldCount FROM flash_sales_marketing ${ew.sqlSegment} ORDER BY `server_create_time` DESC ;")
     List<FlashSalesReportModel> queryFlashSalesReport(@Param("ew") Condition wrapper);
 
     @Select("UPDATE `flash_sales_marketing` set `sold_count` = `sold_count` + 1 ${ew.sqlSegment}")

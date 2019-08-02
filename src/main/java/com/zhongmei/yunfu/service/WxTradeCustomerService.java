@@ -1,5 +1,7 @@
 package com.zhongmei.yunfu.service;
 
+import com.zhongmei.yunfu.controller.model.CollageReportModel;
+import com.zhongmei.yunfu.controller.model.ReportMarketingModel;
 import com.zhongmei.yunfu.controller.model.TradeModel;
 import com.zhongmei.yunfu.domain.entity.WxTradeCustomerEntity;
 import com.baomidou.mybatisplus.service.IService;
@@ -94,5 +96,13 @@ public interface WxTradeCustomerService extends IService<WxTradeCustomerEntity> 
      * @throws Exception
      */
     Boolean modfiyEnabledFlagByMainCollage(Long collageMainId)throws Exception;
+
+    /**
+     * 获取拼团活动购买、使用情况
+     * @param mReportMarketingModel
+     * @return
+     * @throws Exception
+     */
+    List<CollageReportModel> queryCollageData(ReportMarketingModel mReportMarketingModel)throws Exception;
 
 }

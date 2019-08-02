@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 @Controller
@@ -30,6 +31,8 @@ public class ReportMarketingController {
     BrandService mBrandService;
     @Autowired
     CommercialService mCommercialService;
+    @Autowired
+    WxTradeCustomerService mWxTradeCustomerService;
 
     /**
      * 场景营销（拼团、秒杀、砍价活动数据报表）
@@ -84,47 +87,93 @@ public class ReportMarketingController {
     }
 
     public void collageReport(Model model, ReportMarketingModel mReportMarketingModel) throws Exception{
+
         List<CollageReportModel> listData = mCollageMarketingService.queryCollageReport(mReportMarketingModel);
-        List<String> collageName = new ArrayList<>();
-        List<Integer> joinCount = new ArrayList<>();
-        List<Integer> openCount = new ArrayList<>();
-        List<Integer> finishCount = new ArrayList<>();
+
+        //获取所以已购买拼团活动
+        mReportMarketingModel.setType(1);
+        mReportMarketingModel.setEnabledFlag(1);
+        List<CollageReportModel> listSaleCollage = mWxTradeCustomerService.queryCollageData(mReportMarketingModel);
+        Map<Long,CollageReportModel> tempSaleMap = new LinkedHashMap<>();
+        for(CollageReportModel data : listSaleCollage){
+            tempSaleMap.put(data.getMarketingId(),data);
+        }
+        System.out.println("=====tempSaleMap===="+tempSaleMap);
+
+        //获取所以已使用拼团活动
+        mReportMarketingModel.setStatus(2);
+        List<CollageReportModel> listUsedCollage = mWxTradeCustomerService.queryCollageData(mReportMarketingModel);
+        Map<Long,CollageReportModel> tempUsedMap = new LinkedHashMap<>();
+        for(CollageReportModel data : listUsedCollage){
+            tempUsedMap.put(data.getMarketingId(),data);
+        }
+
+        List<String> collageName = new LinkedList<>();
+        List<Integer> joinCount = new LinkedList<>();
+        List<Integer> openCount = new LinkedList<>();
+        List<Integer> finishCount = new LinkedList<>();
+
+        List<Integer> collageSaleCount = new LinkedList<>();
+        List<Integer> usedCount = new LinkedList<>();
 
         Integer maxCount = 0;
-        Integer maxJoinCount = 0;
         for(CollageReportModel crm : listData){
             collageName.add(crm.getName());
             joinCount.add(crm.getJoinCount());
             openCount.add(crm.getOpenCount());
             finishCount.add(crm.getFinishCount());
 
-            if(maxCount < crm.getOpenCount()){
-                maxCount = crm.getOpenCount()+crm.getFinishCount();
+            CollageReportModel mCollageReportModel = tempSaleMap.get(crm.getMarketingId());
+            System.out.println("=====mCollageReportModel===="+crm.getMarketingId());
+            if(mCollageReportModel != null){
+                collageSaleCount.add(mCollageReportModel.getCountData());
+                System.out.println("=====countData===="+mCollageReportModel.getCountData());
+            }else{
+                collageSaleCount.add(0);
             }
-            if(maxJoinCount < crm.getJoinCount()){
-                maxJoinCount = crm.getJoinCount();
+
+            CollageReportModel mCollageUsedModel = tempUsedMap.get(crm.getMarketingId());
+            if(mCollageUsedModel != null){
+                usedCount.add(mCollageUsedModel.getCountData());
+            }else{
+                usedCount.add(0);
+            }
+
+            if(maxCount < crm.getJoinCount()){
+                maxCount = crm.getJoinCount();
             }
         }
 
         maxCount = ToolsUtil.getMaxData(Long.valueOf(maxCount)).intValue();
-        maxJoinCount = ToolsUtil.getMaxData(Long.valueOf(maxJoinCount)).intValue();
 
         model.addAttribute("maxCount", maxCount);
         model.addAttribute("intervalCount", maxCount/10);
-        model.addAttribute("maxJoinCount", maxJoinCount);
-        model.addAttribute("intervalJoinCount", maxJoinCount/10);
 
         model.addAttribute("collageName", collageName);
         model.addAttribute("joinCount", joinCount);
         model.addAttribute("openCount", openCount);
         model.addAttribute("finishCount", finishCount);
+        model.addAttribute("collageSaleCount", collageSaleCount);
+        model.addAttribute("usedCount", usedCount);
     }
 
     public void cutDownReport(Model model, ReportMarketingModel mReportMarketingModel) throws Exception{
         List<CutDownReportModel> listCutDown = mCutDownMarketingService.queryCutDownReport(mReportMarketingModel);
-        List<String> cutDownName = new ArrayList<>();
-        List<Integer> cutDownJoinCount = new ArrayList<>();
-        List<Integer> soldCount = new ArrayList<>();
+
+        mReportMarketingModel.setType(2);
+        mReportMarketingModel.setEnabledFlag(1);
+        mReportMarketingModel.setStatus(2);
+        List<CollageReportModel> listSaleCollage = mWxTradeCustomerService.queryCollageData(mReportMarketingModel);
+        Map<Long,CollageReportModel> tempSaleMap = new LinkedHashMap<>();
+        for(CollageReportModel data : listSaleCollage){
+            tempSaleMap.put(data.getMarketingId(),data);
+        }
+
+
+        List<String> cutDownName = new LinkedList<>();
+        List<Integer> cutDownJoinCount = new LinkedList<>();
+        List<Integer> soldCount = new LinkedList<>();
+        List<Integer> saleCutDownCount = new LinkedList<>();
 
         Integer maxCutJoinCount = 0;
         Integer maxSoldCount = 0;
@@ -133,6 +182,13 @@ public class ReportMarketingController {
             cutDownName.add(cdm.getName());
             cutDownJoinCount.add(cdm.getJoinCount());
             soldCount.add(cdm.getSoldCount());
+
+            CollageReportModel mCollageReportModel = tempSaleMap.get(cdm.getMarketingId());
+            if(mCollageReportModel != null){
+                saleCutDownCount.add(mCollageReportModel.getCountData());
+            }else{
+                saleCutDownCount.add(0);
+            }
 
             if(maxCutJoinCount < cdm.getJoinCount()){
                 maxCutJoinCount = cdm.getJoinCount();
@@ -153,21 +209,51 @@ public class ReportMarketingController {
         model.addAttribute("cutDownName", cutDownName);
         model.addAttribute("cutDownJoinCount", cutDownJoinCount);
         model.addAttribute("soldCount", soldCount);
+        model.addAttribute("saleCutDownCount", saleCutDownCount);
     }
 
     public void flashSalesReport(Model model, ReportMarketingModel mReportMarketingModel) throws Exception{
 
         List<FlashSalesReportModel> listData = mFlashSalesMarketingService.queryFlashSalesReport(mReportMarketingModel);
+
+        mReportMarketingModel.setType(3);
+        mReportMarketingModel.setEnabledFlag(1);
+        mReportMarketingModel.setStatus(2);
+        List<CollageReportModel> listSaleCollage = mWxTradeCustomerService.queryCollageData(mReportMarketingModel);
+        Map<Long,CollageReportModel> tempSaleMap = new LinkedHashMap<>();
+        for(CollageReportModel data : listSaleCollage){
+            tempSaleMap.put(data.getMarketingId(),data);
+        }
+
         List<String> flashSalesName = new ArrayList<>();
         List<Integer> flashSalesSoldCount = new ArrayList<>();
+        List<Integer> saleFlashCount = new LinkedList<>();
+
+        Integer maxSaleCount = 0;
 
         for(FlashSalesReportModel fsrm : listData){
             flashSalesName.add(fsrm.getName());
             flashSalesSoldCount.add(fsrm.getSoldCount());
+
+            if(maxSaleCount < fsrm.getSoldCount()){
+                maxSaleCount = fsrm.getSoldCount();
+            }
+
+            CollageReportModel mCollageReportModel = tempSaleMap.get(fsrm.getMarketingId());
+            if(mCollageReportModel != null){
+                saleFlashCount.add(mCollageReportModel.getCountData());
+            }else{
+                saleFlashCount.add(0);
+            }
         }
 
         model.addAttribute("flashSalesName", flashSalesName);
         model.addAttribute("flashSalesSoldCount", flashSalesSoldCount);
+        model.addAttribute("saleFlashCount", saleFlashCount);
+
+        maxSaleCount = ToolsUtil.getMaxData(Long.valueOf(maxSaleCount)).intValue();
+        model.addAttribute("maxSaleCount", maxSaleCount);
+        model.addAttribute("intervalSaleCount", maxSaleCount/10);
 
     }
 
