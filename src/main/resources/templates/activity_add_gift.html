@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>特价活动添加</title>
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" type="text/css" />
+
+    <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}" src="../static/js/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/base.js}" src="../static/js/base.js"></script>
+
+
+    <link th:href="@{/upload/upload-one.css}" type="text/css" href="../static/upload/upload-one.css" rel="stylesheet" />
+    <script th:src="@{/upload/upload-one.js}" src="../static/upload/upload-one.js"></script>
+
+    <!-- tips 提示框引用-->
+    <link rel="stylesheet" th:href="@{/tips/jquery.toast.css}" href="../static/tips/jquery.toast.css">
+    <script type="text/javascript" th:src="@{/tips/jquery.toast.js}" src="../static/tips/jquery.toast.js"></script>
+    <script type="text/javascript" th:src="@{/tips/tips.js}" src="../static/tips/tips.js"></script>
+</head>
+
+
+<script type="text/javascript">
+
+    $(function () {
+        $("#dish_select").click(function () {
+            $('.zm-dialog').load('[[${basePath}]]/dish/selectShopPage'); //#container
+
+        })
+    });
+
+    function setDishInfo(dishId, dishName, dishPrice, dishDesc) {
+        $("#productId").attr('value', dishId);
+        $("#productName").attr('value', dishName);
+        $("#originalPrice").attr('value', dishPrice);
+
+    };
+
+
+    function sendForm(type) {
+        var name = document.getElementById("name").value.replace(/(^\s*)|(\s*$)/g, '');
+        var profile = document.getElementById("profile").value.replace(/(^\s*)|(\s*$)/g, '');
+        var beginTime = document.getElementById("beginTime").value.replace(/(^\s*)|(\s*$)/g, '');
+        var endTime = document.getElementById("endTime").value.replace(/(^\s*)|(\s*$)/g, '');
+        var productId = document.getElementById("productId").value.replace(/(^\s*)|(\s*$)/g, '');
+        var originalPrice = document.getElementById("originalPrice").value.replace(/(^\s*)|(\s*$)/g, '');
+        var collagePeopleCount = document.getElementById("collagePeopleCount").value.replace(/(^\s*)|(\s*$)/g, '');
+        var collagePrice = document.getElementById("collagePrice").value.replace(/(^\s*)|(\s*$)/g, '');
+        var maxOpenGroup = document.getElementById("maxOpenGroup").value.replace(/(^\s*)|(\s*$)/g, '');
+        var validityPeriod = document.getElementById("validityPeriod").value.replace(/(^\s*)|(\s*$)/g, '');
+        // var uploadInput = $(".img-show");
+
+        if(name == '' || name == undefined || name == null){
+            warningTips("操作异常提示","活动名称不能为空");
+        }else if(profile == '' || profile == undefined || profile == null){
+            warningTips("操作异常提示","活动简介不能为空");
+        }else if(beginTime == '' || beginTime == undefined || beginTime == null){
+            warningTips("操作异常提示","活动开始时间不能为空");
+        }else if(endTime == '' || endTime == undefined || endTime == null){
+            warningTips("操作异常提示","活动结束时间不能为空");
+        }else if(productId == '' || productId == undefined || productId == null){
+            warningTips("操作异常提示","请选择参与拼团的品项");
+        }else if(originalPrice == '' || originalPrice == undefined || originalPrice == null){
+            warningTips("操作异常提示","商品原价不能为空");
+        }else if(collagePeopleCount == '' || collagePeopleCount == undefined || collagePeopleCount == null){
+            warningTips("操作异常提示","成团人数不能为空");
+        }else if(collagePrice == '' || collagePrice == undefined || collagePrice == null){
+            warningTips("操作异常提示","成团价格不能为空");
+        }else if(maxOpenGroup == '' || maxOpenGroup == undefined || maxOpenGroup == null){
+            warningTips("操作异常提示","最多开团数不能为空");
+        }else if(validityPeriod == '' || validityPeriod == undefined || validityPeriod == null){
+            warningTips("操作异常提示","使用有效期不能为空");
+        }
+        // else if(uploadInput.length == 0){
+        //     warningTips("操作异常提示","活动图片不能为空");
+        // }
+        else{
+            document.getElementById("enabledFlag").value = type;
+            document.addform.submit();
+        }
+
+    }
+
+    $(function () {
+        $("#showCoupon").click(function () {
+            $('.zm-dialog').load('[[${basePath}]]/coupon/showSelectCoupon');
+        })
+    });
+
+    function setCouponInfo(couponId,couponName) {
+        document.getElementById("giftId").value = couponId;
+        document.getElementById("giftName").value = couponName;
+    };
+
+</script>
+
+<body>
+<section class="mark-details" style="width: 100%">
+
+    <div class="parent top_view_style">
+
+        <img th:src="@{/images/lable.jpg}" width="5" height="26" style="margin-left: 20px">
+
+        <label class="text_navigation" style="margin-left: 10px; width: 30%">营销 》特价活动 》推荐成单礼品设置</label>
+
+        <div align="right" style="width: 100%;margin-right: 50px">
+            <button class="orange_button_style" th:onclick="@{|location='${basePath}/activity/modiftyRedPackets?activityId=${activityId}'|}" style="margin-left: 10px">设置完成</button>
+            <button class="gray_button_style" value="" th:onclick="@{|location='${basePath}/activity/addActivityPage?id=${activityId}'|}" style="margin-left: 10px">返回上一步</button>
+        </div>
+    </div>
+
+
+    <div class="parent_h container" style="margin-top: 20px;">
+
+        <DIV class="dotted_line"></DIV>
+        <span class="round_style">1</span><div style="margin-left: 10px;font-size: 14px;color: #e16531">基本信息</div>
+        <DIV class="dotted_line"></DIV>
+        <div class="current_round_style">2</div><div style="margin-left: 10px;font-size: 14px;color: #e16531">推荐成单礼品设置</div>
+        <DIV class="dotted_gray_line"></DIV>
+        <div class="round_gray_style">3</div><div style="margin-left: 10px;font-size: 14px;color: #faccaf">推荐红包设置</div>
+        <DIV class="dotted_gray_line"></DIV>
+    </div>
+
+    <img class="line_style" th:src="@{/images/line.jpg}" src="../static/images/line.jpg" style="margin-top: 20px;margin-bottom: 20px">
+
+    <div align="center" style="margin-top: 10px">
+        <table class="gridtablestyle" style="width: 90%; vertical-align: middle">
+            <tr style="width: 100%">
+                <th>礼品图片</th>
+                <th>推荐成单数</th>
+                <th>赠送礼品</th>
+                <th>操作</th>
+            </tr>
+            <tr th:each="item:${listGiftRule}">
+                <td>
+                    <img th:src="${item.imageUrl}" style="width: 80px; height: auto">
+                </td>
+                <td th:text="${item.orderCount}"></td>
+                <td th:text="${item.giftName}"></td>
+                <td align="center">
+                    <a th:onclick="'javascript:checkDelete(\''+${item.id}+'\')'" style="cursor: pointer">删除</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <form method="post" name="addform" action="" th:action="@{/activity/modiftyActivityGift}">
+
+        <input type="hidden" name="activityId" id="activityId" th:value="${activityId}">
+        <input type="hidden" name="giftId" id="giftId">
+
+        <div class="container parent_h" style="margin-top: 20px">
+
+            <label class="text_navigation" style="margin-left: 10px">推荐成单数：</label>
+            <input class="add_input_style" placeholder="请输入推荐成单数" style="margin-left: 5px" type="text"  name="orderCount" id="orderCount"/>
+
+            <label class="text_navigation" style="margin-left: 10px">赠送礼品：</label>
+            <input type="text" class="add_input_style" name="giftName" placeholder="请选择赠送礼品" id="giftName" readonly="true">
+            <input type="button" id="showCoupon" class='selectCoupon' value="选择礼品" style="margin-left: 10px"></input>
+
+            <label class="text_navigation" style="margin-left: 10px">价格：</label>
+            <input class="add_input_style" placeholder="请输入售卖价格" style="margin-left: 5px" type="text"  name="price" id="price"/>
+
+            <label class="text_navigation" style="margin-left: 10px">礼品图片：</label>
+            <div class="upload-box" name="imageUrl" style="margin-left: 5px;margin-right: 5px">
+                <div class="upload-btn">
+                    <input type="file" name="file" id="upload-input"/>
+                </div>
+            </div>
+            <h6>建议大小200*200</h6>
+
+        </div>
+        <div class="parent_h">
+            <button class="blue_button_style" onclick="submitForm()" style="margin-left: 10px">添加保存</button>
+        </div>
+
+
+    </form>
+
+
+
+
+
+
+
+</section>
+<div class='zm-dialog'/>
+
+</body>
+
+</html>

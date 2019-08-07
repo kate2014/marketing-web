@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>特价活动添加</title>
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" type="text/css" />
+
+    <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}" src="../static/js/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/base.js}" src="../static/js/base.js"></script>
+
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/test/jeDate-test.css}" href="../static/selectdate/test/jeDate-test.css">
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/skin/jedate.css}" href="../static/selectdate/skin/jedate.css">
+    <script type="text/javascript" th:src="@{/selectdate/src/jedate.js}" src="../static/selectdate/src/jedate.js"></script>
+
+    <link th:href="@{/upload/upload-one.css}" type="text/css" href="../static/upload/upload-one.css" rel="stylesheet" />
+    <script th:src="@{/upload/upload-one.js}" src="../static/upload/upload-one.js"></script>
+
+    <!-- tips 提示框引用-->
+    <link rel="stylesheet" th:href="@{/tips/jquery.toast.css}" href="../static/tips/jquery.toast.css">
+    <script type="text/javascript" th:src="@{/tips/jquery.toast.js}" src="../static/tips/jquery.toast.js"></script>
+    <script type="text/javascript" th:src="@{/tips/tips.js}" src="../static/tips/tips.js"></script>
+</head>
+
+<script type="text/javascript" th:src="@{/ckeditor/ckeditor.js}" src="../static/ckeditor/ckeditor.js"></script>
+<script type="text/javascript">
+    CKEDITOR.replace('describe');
+    //如果是在ASP.NET环境下用的服务器端控 件<TextBox>
+    CKEDITOR.replace('tbContent');
+    //如 果<TextBox>控件在母版页中，要这样写
+    CKEDITOR.replace('<%=tbContent.ClientID.Replace("_","$") %>');
+</script>
+
+<script type="text/javascript">
+
+    $(function () {
+        $("#dish_select").click(function () {
+            $('.zm-dialog').load('[[${basePath}]]/dish/selectShopPage'); //#container
+
+        })
+    });
+
+    function setDishInfo(dishId, dishName, dishPrice, dishDesc) {
+        $("#productId").attr('value', dishId);
+        $("#productName").attr('value', dishName);
+        $("#originalPrice").attr('value', dishPrice);
+
+    };
+
+
+    function sendForm(type) {
+        var name = document.getElementById("name").value.replace(/(^\s*)|(\s*$)/g, '');
+        var endTime = document.getElementById("endTime").value.replace(/(^\s*)|(\s*$)/g, '');
+        var productId = document.getElementById("productId").value.replace(/(^\s*)|(\s*$)/g, '');
+        var originalPrice = document.getElementById("originalPrice").value.replace(/(^\s*)|(\s*$)/g, '');
+        var saleAmount = document.getElementById("saleAmount").value.replace(/(^\s*)|(\s*$)/g, '');
+        var joinCount = document.getElementById("joinCount").value.replace(/(^\s*)|(\s*$)/g, '');
+        var customerBuyCount = document.getElementById("customerBuyCount").value.replace(/(^\s*)|(\s*$)/g, '');
+        var validityPeriod = document.getElementById("validityPeriod").value.replace(/(^\s*)|(\s*$)/g, '');
+        // var uploadInput = $(".img-show");
+
+        if(name == '' || name == undefined || name == null){
+            warningTips("操作异常提示","活动名称不能为空");
+        }else if(endTime == '' || endTime == undefined || endTime == null){
+            warningTips("操作异常提示","活动结束时间不能为空");
+        }else if(productId == '' || productId == undefined || productId == null){
+            warningTips("操作异常提示","请选择参与拼团的品项");
+        }else if(originalPrice == '' || originalPrice == undefined || originalPrice == null){
+            warningTips("操作异常提示","商品原价不能为空");
+        }else if(saleAmount == '' || saleAmount == undefined || saleAmount == null){
+            warningTips("操作异常提示","成团价格不能为空");
+        }else if(joinCount == '' || joinCount == undefined || joinCount == null){
+            warningTips("操作异常提示","最多开团数不能为空");
+        }else if(customerBuyCount == '' || customerBuyCount == undefined || validityPeriod == null){
+            warningTips("操作异常提示","使用有效期不能为空");
+        }else if(validityPeriod == '' || validityPeriod == undefined || validityPeriod == null){
+            warningTips("操作异常提示","使用有效期不能为空");
+        }
+        else{
+            document.getElementById("enabledFlag").value = type;
+            document.addform.submit();
+        }
+
+    }
+
+
+</script>
+
+<body>
+<section class="mark-details" style="width: 100%">
+
+    <div class="parent top_view_style">
+
+        <img th:src="@{/images/lable.jpg}" width="5" height="26" style="margin-left: 20px">
+
+        <label class="text_navigation" style="margin-left: 10px; width: 30%">营销 》特价活动</label>
+
+
+        <div align="right" style="width: 100%;margin-right: 50px;text-align: right">
+            <button class="orange_button_style" onclick="sendForm(1)" style="margin-left: 10px">保存操作</button>
+            <span th:if="${not #strings.isEmpty(mActivitySalesEntity.id)}" >
+                <button class="blue_button_style" th:onclick="@{|location='${basePath}/activity/intoSettingGift?id=${mActivitySalesEntity.id}'|}" style="margin-left: 10px">进入下一级</button>
+            </span>
+
+            <button class="gray_button_style" value="" th:onclick="@{|location='${basePath}/activity/salesList'|}" style="margin-left: 10px">返回列表</button>
+        </div>
+    </div>
+
+
+
+    <div class="modle" style="margin-bottom: 50px;width: 100%">
+
+        <form method="post" name="addform" th:action="@{/activity/modfityBaseData}" th:object="${mActivitySalesEntity}" style="width: 100%">
+            <input type="hidden" name="id" th:value="${mActivitySalesEntity.id}">
+            <input type="hidden" name="brandIdenty" th:value="${mActivitySalesEntity.brandIdenty}">
+            <input type="hidden" name="shopIdenty" th:value="${mActivitySalesEntity.shopIdenty}">
+            <input type="hidden" name="enabledFlag" id="enabledFlag">
+            <input type="hidden" name="productId" id="productId" th:value="${mActivitySalesEntity.productId}">
+
+            <div class="parent_h container" style="margin-top: 20px;">
+
+                <DIV class="dotted_line"></DIV>
+                <span class="current_round_style">1</span><div style="margin-left: 10px;font-size: 14px;color: #e16531">基本信息</div>
+                <DIV class="dotted_gray_line"></DIV>
+                <div class="round_gray_style">2</div><div style="margin-left: 10px;font-size: 14px;color: #faccaf">推荐成单礼品设置</div>
+                <DIV class="dotted_gray_line"></DIV>
+                <div class="round_gray_style">3</div><div style="margin-left: 10px;font-size: 14px;color: #faccaf">推荐红包设置</div>
+                <DIV class="dotted_gray_line"></DIV>
+            </div>
+
+            <img class="line_style" th:src="@{/images/line.jpg}" src="../static/images/line.jpg" style="margin-top: 20px;margin-bottom: 20px">
+
+            <div class="details-bom" style="width: 100%">
+
+                <ul class="spell-content">
+                    <li><span>*活动名称</span><input type="text" placeholder="输入活动名称" maxlength="30" name="name" id="name" th:value="${mActivitySalesEntity.name}"/></li>
+
+                    <li><span>*选择品项</span>
+                        <input type="text" placeholder="请选择参与拼团的品项" name="productName" id="productName" th:value="${mActivitySalesEntity.productName}" readonly="true"/>
+                        <button id="dish_select" class="blue_button_style select-shop" value="" onclick="return false;" style="margin-left: 10px">选择品项</button>
+                        <h4>请选择活动品项</h4>
+                    </li>
+
+                    <li><span>*品项原价</span><label><input type="text" onkeyup="clearNoNum(this)" placeholder="请填写品项原售价" class="put" name="originalPrice" id="originalPrice" th:value="${mActivitySalesEntity.originalPrice}"> <h5>元</h5></label></li>
+                    <li><span>*活动价格</span><label><input type="text" onkeyup="clearNoNum(this)" placeholder="请填写大于0且小于原价的数字" class="put" name="saleAmount" id="saleAmount" th:value="${mActivitySalesEntity.saleAmount}"> <h5>元</h5></label></li>
+                    <li><span>*最多售卖数</span><label><input type="text" onkeyup="onlyNumber(this)" placeholder="请填写最多售卖数量" name="joinCount" id="joinCount" th:value="${mActivitySalesEntity.joinCount}"><h5>团</h5></label></li>
+                    <li><span>*每人限购数</span><label><input type="text" onkeyup="onlyNumber(this)" placeholder="输入每人限购数" class="put" id="customerBuyCount" name="customerBuyCount" th:value="${mActivitySalesEntity.customerBuyCount}"> <h5>次</h5></label></li>
+                    <li><span>*活动结束时间</span><input type="text" placeholder="输入活动结束时间" id="endTime" name="endTime" th:value="${#dates.format(mActivitySalesEntity.endTime, 'yyyy-MM-dd HH:mm:ss')}"></li>
+
+
+
+
+                    <li><span>*使用有效期</span><input type="text" placeholder="输入活动使用有效期" id="validityPeriod" name="validityPeriod" th:value="${#dates.format(mActivitySalesEntity.validityPeriod, 'yyyy-MM-dd HH:mm:ss')}"></li>
+
+                    <li>
+                        <span>*上传活动图片</span>
+                        <div class="upload-box" th:src="${mActivitySalesEntity.imageUrl}" name="imageUrl">
+                            <div class="upload-btn">
+                                <input type="file" name="file" id="upload-input"/>
+                            </div>
+                        </div>
+                        <h6>仅可上传1张图片</h6>
+                    </li>
+                    <li></li>
+
+                </ul>
+
+                <div style="margin-bottom: 50px;margin-left: 15px;margin-top: 40px;">
+
+                    <div class="detail_lable_style" style="margin-bottom: 20px">活动详情描述</div>
+
+                    <textarea id="describe" name="describe" cols="100" rows="50" class="ckeditor"
+                              th:text="${mActivitySalesEntity.describe}"></textarea>
+                </div>
+
+
+            </div>
+
+
+
+
+        </form>
+
+    </div>
+
+
+</section>
+
+<div class='zm-dialog'/>
+
+<script type="text/javascript" th:src="@{/selectdate/test/marketing_date.js}" src="../static/selectdate/test/marketing_date.js"></script>
+
+</body>
+
+</html>

@@ -146,7 +146,7 @@
 
                     <li><span>*品项原价</span><label><input type="text" onkeyup="clearNoNum(this)" placeholder="请填写品项原售价" class="put" name="originalPrice" id="originalPrice" th:value="${collageMarketing.originalPrice}"> <h5>元</h5></label></li>
                     <li><span>*成团人数</span><label><input type="text" onkeyup="onlyNumber(this)" placeholder="请填写成团人数" name="collagePeopleCount" id="collagePeopleCount" th:value="${collageMarketing.collagePeopleCount}"><h5>人</h5></label></li>
-                    <li><span>*成团价格</span><label><input type="text" onkeyup="clearNoNum(this)" placeholder="请填写大于0且小于拼团售价的数字" class="put" name="collagePrice" id="collagePrice" th:value="${collageMarketing.collagePrice}"> <h5>元</h5></label></li>
+                    <li><span>*成团价格</span><label><input type="text" onkeyup="clearNoNum(this)" placeholder="请填写大于0且小于原价的数字" class="put" name="collagePrice" id="collagePrice" th:value="${collageMarketing.collagePrice}"> <h5>元</h5></label></li>
                     <li><span>*最多开团数</span><label><input type="text" onkeyup="onlyNumber(this)" placeholder="请填写最多开团数量" name="maxOpenGroup" id="maxOpenGroup" th:value="${collageMarketing.maxOpenGroup}"><h5>团</h5></label></li>
                     <li><span>*使用有效期</span><input type="text" placeholder="输入活动使用有效期" id="validityPeriod" name="validityPeriod" th:value="${#dates.format(collageMarketing.validityPeriod, 'yyyy-MM-dd HH:mm:ss')}"></li>
 
