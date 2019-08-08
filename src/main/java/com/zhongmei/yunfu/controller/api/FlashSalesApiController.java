@@ -78,6 +78,7 @@ public class FlashSalesApiController {
                     orEntity.setBrandIdenty(mFlashSalesReq.getBrandIdenty());
                     orEntity.setShopIdenty(mFlashSalesReq.getShopIdenty());
                     orEntity.setCustomerId(mFlashSalesReq.getCustomerId());
+                    orEntity.setCustomerPhone(mFlashSalesReq.getCustomerPhone());
                     orEntity.setCustomerName(mFlashSalesReq.getCustomerName());
                     orEntity.setWxOpenId(mFlashSalesReq.getWxOpenId());
                     orEntity.setWxPhoto(mFlashSalesReq.getWxPhoto());

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -115,6 +116,43 @@ public class ActivitySalesApiController {
             List<WxTradeCustomerEntity> listTrade = mWxTradeCustomerService.queryListByActivity(mWxTradeCustomerEntity);
             mActivitySalesResp.setListTrade(listTrade);
 
+
+            //添加顾客查看记录,如该顾客对该条活跃已有同样的操作是，只需在原有操作次数的基础上+1
+            if(mActivitySalesReq.getWxOpenId() != null){
+                OperationalRecordsEntity orEntity = new OperationalRecordsEntity();
+                orEntity.setBrandIdenty(mActivitySalesReq.getBrandIdenty());
+                orEntity.setShopIdenty(mActivitySalesReq.getShopIdenty());
+                orEntity.setWxOpenId(mActivitySalesReq.getWxOpenId());
+                orEntity.setActivityId(mActivitySalesReq.getActivityId());
+                orEntity.setType(1);
+                OperationalRecordsEntity recordEntity = mOperationalRecordsService.queryByCustomer(orEntity);
+                if(recordEntity == null){
+                    orEntity = new OperationalRecordsEntity();
+                    orEntity.setBrandIdenty(mActivitySalesReq.getBrandIdenty());
+                    orEntity.setShopIdenty(mActivitySalesReq.getShopIdenty());
+                    orEntity.setCustomerId(mActivitySalesReq.getCustomerId());
+                    orEntity.setCustomerPhone(mActivitySalesReq.getCustomerPhone());
+                    orEntity.setCustomerName(mActivitySalesReq.getCustomerName());
+                    orEntity.setWxOpenId(mActivitySalesReq.getWxOpenId());
+                    orEntity.setWxPhoto(mActivitySalesReq.getWxPhoto());
+                    orEntity.setWxName(mActivitySalesReq.getWxName());
+                    orEntity.setActivityId(mActivitySalesReq.getActivityId());
+                    orEntity.setOperationalCount(1);
+                    orEntity.setType(1);
+                    orEntity.setServerCreateTime(new Date());
+                    orEntity.setServerUpdateTime(new Date());
+                    mOperationalRecordsService.addOperational(orEntity);
+                }else{
+                    orEntity.setBrandIdenty(mActivitySalesReq.getBrandIdenty());
+                    orEntity.setShopIdenty(mActivitySalesReq.getShopIdenty());
+                    orEntity.setWxOpenId(mActivitySalesReq.getWxOpenId());
+                    orEntity.setWxPhoto(mActivitySalesReq.getWxPhoto());
+                    orEntity.setActivityId(mActivitySalesReq.getActivityId());
+                    orEntity.setOperationalCount(recordEntity.getOperationalCount()+1);
+                    orEntity.setServerUpdateTime(new Date());
+                    mOperationalRecordsService.modiftyOperational(orEntity);
+                }
+            }
             responseMode.setMsg("数据获取成功");
             responseMode.setData(mActivitySalesResp);
             responseMode.setState("1000");

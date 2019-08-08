@@ -19,7 +19,17 @@ public class ActivitySalesReq {
 
     private Long activityId;
 
+    private Long customerId;
+
+    private String customerPhone;
+
+    private String customerName;
+
     private String wxOpenId;
+
+    private String wxPhoto;
+
+    private String wxName;
 
     public Long getBrandIdenty() {
         return brandIdenty;
@@ -51,5 +61,45 @@ public class ActivitySalesReq {
 
     public void setWxOpenId(String wxOpenId) {
         this.wxOpenId = wxOpenId;
+    }
+
+    public Long getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
+    }
+
+    public String getCustomerPhone() {
+        return customerPhone;
+    }
+
+    public void setCustomerPhone(String customerPhone) {
+        this.customerPhone = customerPhone;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public String getWxPhoto() {
+        return wxPhoto;
+    }
+
+    public void setWxPhoto(String wxPhoto) {
+        this.wxPhoto = wxPhoto;
+    }
+
+    public String getWxName() {
+        return wxName;
+    }
+
+    public void setWxName(String wxName) {
+        this.wxName = wxName;
     }
 }

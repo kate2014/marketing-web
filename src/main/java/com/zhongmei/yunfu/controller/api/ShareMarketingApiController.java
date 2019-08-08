@@ -106,13 +106,14 @@ public class ShareMarketingApiController {
                 orEntity.setShopIdenty(mShareActionReq.getShopIdenty());
                 orEntity.setWxOpenId(mShareActionReq.getWxOpenId());
                 orEntity.setActivityId(mShareActionReq.getLinksId());
-                orEntity.setType(1);
+                orEntity.setType(2);
                 OperationalRecordsEntity recordEntity = mOperationalRecordsService.queryByCustomer(orEntity);
                 if(recordEntity == null){
                     orEntity = new OperationalRecordsEntity();
                     orEntity.setBrandIdenty(mShareActionReq.getBrandIdenty());
                     orEntity.setShopIdenty(mShareActionReq.getShopIdenty());
                     orEntity.setCustomerId(mShareActionReq.getCustomerId());
+                    orEntity.setCustomerPhone(mShareActionReq.getCustomerPhone());
                     orEntity.setCustomerName(mShareActionReq.getCustomerName());
                     orEntity.setWxOpenId(mShareActionReq.getWxOpenId());
                     orEntity.setWxPhoto(mShareActionReq.getWxPhoto());

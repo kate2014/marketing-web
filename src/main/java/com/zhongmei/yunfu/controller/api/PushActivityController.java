@@ -91,6 +91,7 @@ public class PushActivityController {
                         orEntity.setBrandIdenty(mActivityPushReq.getBrandIdenty());
                         orEntity.setShopIdenty(mActivityPushReq.getShopIdenty());
                         orEntity.setCustomerId(mActivityPushReq.getCustomerId());
+                        orEntity.setCustomerPhone(mActivityPushReq.getCustomerPhone());
                         orEntity.setCustomerName(mActivityPushReq.getCustomerName());
                         orEntity.setWxOpenId(mActivityPushReq.getWxOpenId());
                         orEntity.setWxPhoto(mActivityPushReq.getWxPhoto());

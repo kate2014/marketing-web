@@ -13,6 +13,8 @@ public class ShareActionReq {
 
     private Long customerId;
 
+    private String customerPhone;
+
     private String customerName;
 
     private String wxOpenId;
@@ -96,5 +98,13 @@ public class ShareActionReq {
 
     public void setLinksId(Long linksId) {
         this.linksId = linksId;
+    }
+
+    public String getCustomerPhone() {
+        return customerPhone;
+    }
+
+    public void setCustomerPhone(String customerPhone) {
+        this.customerPhone = customerPhone;
     }
 }

@@ -37,22 +37,22 @@ public class RecommendationAssociationServiceImpl extends ServiceImpl<Recommenda
         eWrapper.eq("activity_id",entity.getActivityId());
 
         if(entity.getMainCustomerId() != null){
-            eWrapper.eq("main_customer_id",entity.getActivityId());
+            eWrapper.eq("main_customer_id",entity.getMainCustomerId());
         }
         if(entity.getMainWxOpenId() != null){
-            eWrapper.eq("main_open_id",entity.getActivityId());
+            eWrapper.eq("main_wx_open_id",entity.getMainWxOpenId());
         }
         if(entity.getAcceptCustomerId() != null){
-            eWrapper.eq("accept_customer_id",entity.getActivityId());
+            eWrapper.eq("accept_customer_id",entity.getAcceptCustomerId());
         }
         if(entity.getAcceptWxOpenId() != null){
-            eWrapper.eq("accept_wx_open_id",entity.getActivityId());
+            eWrapper.eq("accept_wx_open_id",entity.getAcceptWxOpenId());
         }
         if(entity.getTradeId() != null){
-            eWrapper.eq("trade_id",entity.getActivityId());
+            eWrapper.eq("trade_id",entity.getTradeId());
         }
         if(entity.getTransactionStatus() != null){
-            eWrapper.eq("transaction_status",entity.getActivityId());
+            eWrapper.eq("transaction_status",entity.getTransactionStatus());
         }
 
         List<RecommendationAssociationEntity>  listData = selectList(eWrapper);

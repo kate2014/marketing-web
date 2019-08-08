@@ -89,7 +89,9 @@ public class OperationalRecordsServiceImpl extends ServiceImpl<OperationalRecord
 
     @Override
     public OperationalRecordsEntity queryByCustomer(OperationalRecordsEntity entity) throws Exception {
-        EntityWrapper<OperationalRecordsEntity> eWrapper = new EntityWrapper<>(entity);
+
+        EntityWrapper<OperationalRecordsEntity> eWrapper = new EntityWrapper<>(new OperationalRecordsEntity());
+
         eWrapper.eq("brand_identy",entity.getBrandIdenty());
         eWrapper.eq("shop_identy",entity.getShopIdenty());
         eWrapper.eq("activity_id",entity.getActivityId());
@@ -99,7 +101,7 @@ public class OperationalRecordsServiceImpl extends ServiceImpl<OperationalRecord
         if(entity.getWxOpenId() != null){
             eWrapper.eq("wx_open_id",entity.getWxOpenId());
         }
-
+        eWrapper.setSqlSelect("id,brand_identy,shop_identy,activity_id,customer_id,operational_count");
         OperationalRecordsEntity mOperationalRecordsEntity = selectOne(eWrapper);
         return mOperationalRecordsEntity;
     }

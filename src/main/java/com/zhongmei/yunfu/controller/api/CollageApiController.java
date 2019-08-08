@@ -72,6 +72,7 @@ public class CollageApiController {
                     orEntity.setBrandIdenty(mCollageReq.getBrandIdenty());
                     orEntity.setShopIdenty(mCollageReq.getShopIdenty());
                     orEntity.setCustomerId(mCollageReq.getCustomerId());
+                    orEntity.setCustomerPhone(mCollageReq.getCustomerPhone());
                     orEntity.setCustomerName(mCollageReq.getCustomerName());
                     orEntity.setWxOpenId(mCollageReq.getWxOpenId());
                     orEntity.setWxPhoto(mCollageReq.getWxPhoto());

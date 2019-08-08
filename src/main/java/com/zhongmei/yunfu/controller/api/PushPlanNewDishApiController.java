@@ -105,6 +105,7 @@ public class PushPlanNewDishApiController {
                     orEntity.setBrandIdenty(req.getBrandIdenty());
                     orEntity.setShopIdenty(req.getShopIdenty());
                     orEntity.setCustomerId(req.getCustomerId());
+                    orEntity.setCustomerPhone(req.getCustomerPhone());
                     orEntity.setCustomerName(req.getCustomerName());
                     orEntity.setWxOpenId(req.getWxOpenId());
                     orEntity.setWxPhoto(req.getWxPhoto());

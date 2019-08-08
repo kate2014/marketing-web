@@ -79,6 +79,7 @@ public class CutDownApiController {
                     orEntity.setBrandIdenty(CutDownReq.getBrandIdenty());
                     orEntity.setShopIdenty(CutDownReq.getShopIdenty());
                     orEntity.setCustomerId(CutDownReq.getCustomerId());
+                    orEntity.setCustomerPhone(CutDownReq.getCustomerPhone());
                     orEntity.setCustomerName(CutDownReq.getCustomerName());
                     orEntity.setWxOpenId(CutDownReq.getWxOpenId());
                     orEntity.setWxPhoto(CutDownReq.getWxPhoto());
