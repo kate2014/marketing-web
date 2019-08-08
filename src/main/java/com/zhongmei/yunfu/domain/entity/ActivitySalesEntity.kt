@@ -81,6 +81,8 @@ class ActivitySalesEntity : BaseEntity() {
 
     var enabledFlag: Int? = null
 
+    var salesCount: Int? = null
+
     override fun toString(): String {
         return "CouponEntity{" +
                 ", id=" + id +
@@ -98,6 +100,7 @@ class ActivitySalesEntity : BaseEntity() {
                 ", validityPeriod=" + validityPeriod +
                 ", joinCount=" + joinCount +
                 ", enabledFlag=" + enabledFlag +
+                ", salesCount=" + salesCount +
                 "}"
     }
 
