@@ -206,6 +206,10 @@ public class WxTradeCustomerServiceImpl extends ServiceImpl<WxTradeCustomerMappe
             }
         }
 
+        //特价活动
+        if(mTradeModel.getType() == 4){
+
+        }
         return "";
     }
 

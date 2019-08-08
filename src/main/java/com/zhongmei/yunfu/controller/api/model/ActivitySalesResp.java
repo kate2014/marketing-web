@@ -16,6 +16,10 @@ public class ActivitySalesResp {
      */
     List<ActivitySalesGiftEntity> listGift;
     /**
+     * 活动查看、分享、购买次数
+     */
+    List<OperationalRecordsEntity> listOperationalCount;
+    /**
      * 活动用户查看记录
      */
     List<OperationalRecordsEntity> listOperational;
@@ -78,5 +82,13 @@ public class ActivitySalesResp {
 
     public void setListTrade(List<WxTradeCustomerEntity> listTrade) {
         this.listTrade = listTrade;
+    }
+
+    public List<OperationalRecordsEntity> getListOperationalCount() {
+        return listOperationalCount;
+    }
+
+    public void setListOperationalCount(List<OperationalRecordsEntity> listOperationalCount) {
+        this.listOperationalCount = listOperationalCount;
     }
 }

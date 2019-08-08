@@ -63,6 +63,20 @@ public class OperationalRecordsServiceImpl extends ServiceImpl<OperationalRecord
     }
 
     @Override
+    public List<OperationalRecordsEntity> queryDataByActivityId(OperationalRecordsEntity entity) throws Exception {
+        EntityWrapper<OperationalRecordsEntity> eWrapper = new EntityWrapper<>(new OperationalRecordsEntity());
+        eWrapper.eq("brand_identy",entity.getBrandIdenty());
+        eWrapper.eq("shop_identy",entity.getShopIdenty());
+        eWrapper.eq("status_flag",1);
+        eWrapper.eq("activity_id",entity.getActivityId());
+
+        eWrapper.setSqlSelect("sum(operational_count) as operational_count,type,activity_id");
+        eWrapper.groupBy("type");
+
+        return selectList(eWrapper);
+    }
+
+    @Override
     public List<OperationalRecordsEntity> queryCustomer(OperationalRecordsEntity entity) throws Exception {
         EntityWrapper<OperationalRecordsEntity> eWrapper = new EntityWrapper<>(entity);
         eWrapper.eq("brand_identy",entity.getBrandIdenty());

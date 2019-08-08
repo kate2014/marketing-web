@@ -72,10 +72,13 @@ public class ActivitySalesApiController {
             ActivitySalesEntity mActivitySalesEntity = mActivitySalesService.queryById(mActivitySalesReq.getActivityId());
             mActivitySalesResp.setmActivitySalesEntity(mActivitySalesEntity);
 
-            ActivitySalesEntity tempEntity = new ActivitySalesEntity();
-            tempEntity.setId(mActivitySalesEntity.getId());
-            tempEntity.setBrowseCount(mActivitySalesEntity.getBrowseCount()+1);
-            mActivitySalesService.modifityActivity(tempEntity);
+            //获取活动查看数、购买数
+            OperationalRecordsEntity mOperationalRecordsEntity = new OperationalRecordsEntity();
+            mOperationalRecordsEntity.setBrandIdenty(mActivitySalesReq.getBrandIdenty());
+            mOperationalRecordsEntity.setShopIdenty(mActivitySalesReq.getShopIdenty());
+            mOperationalRecordsEntity.setActivityId(mActivitySalesReq.getActivityId());
+            List<OperationalRecordsEntity> listOperationalCount = mOperationalRecordsService.queryDataByActivityId(mOperationalRecordsEntity);
+            mActivitySalesResp.setListOperationalCount(listOperationalCount);
 
             //查询活动推荐成单赠礼信息
             ActivitySalesGiftEntity mActivitySalesGiftEntity = new ActivitySalesGiftEntity();
@@ -120,6 +123,7 @@ public class ActivitySalesApiController {
             mWxTradeCustomerEntity.setMarketingId(mActivitySalesReq.getActivityId());
             List<WxTradeCustomerEntity> listTrade = mWxTradeCustomerService.queryListByActivity(mWxTradeCustomerEntity);
             mActivitySalesResp.setListTrade(listTrade);
+
 
 
             //添加顾客查看记录,如该顾客对该条活跃已有同样的操作是，只需在原有操作次数的基础上+1

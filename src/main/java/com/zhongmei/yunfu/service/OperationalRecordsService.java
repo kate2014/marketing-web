@@ -38,6 +38,13 @@ public interface OperationalRecordsService extends IService<OperationalRecordsEn
     Page<OperationalRecordsEntity> queryByActivityId(OperationalRecordsEntity entity,int pageNo, int pageSize)throws Exception;
 
     /**
+     * 查询活动查看、分享、购买数据
+     * @param entity
+     * @return
+     * @throws Exception
+     */
+    List<OperationalRecordsEntity> queryDataByActivityId(OperationalRecordsEntity entity)throws Exception;
+    /**
      * 查询活动对应的用户
      * @param entity
      * @return
