@@ -72,6 +72,11 @@ public class ActivitySalesApiController {
             ActivitySalesEntity mActivitySalesEntity = mActivitySalesService.queryById(mActivitySalesReq.getActivityId());
             mActivitySalesResp.setmActivitySalesEntity(mActivitySalesEntity);
 
+            ActivitySalesEntity tempEntity = new ActivitySalesEntity();
+            tempEntity.setId(mActivitySalesEntity.getId());
+            tempEntity.setBrowseCount(mActivitySalesEntity.getBrowseCount()+1);
+            mActivitySalesService.modifityActivity(tempEntity);
+
             //查询活动推荐成单赠礼信息
             ActivitySalesGiftEntity mActivitySalesGiftEntity = new ActivitySalesGiftEntity();
             mActivitySalesGiftEntity.setBrandIdenty(mActivitySalesReq.getBrandIdenty());
