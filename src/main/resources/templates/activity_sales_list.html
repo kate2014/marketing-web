@@ -142,6 +142,9 @@
                             活动结束时间：<span th:text="${#dates.format(item.endTime, 'yyyy-MM-dd HH:mm:ss')}" style="margin-right: 30px"></span>
                             活动使用有效期：<span th:text="${#dates.format(item.validityPeriod, 'yyyy-MM-dd HH:mm:ss')}"></span>
                         </div>
+                        <div style="text-align: left" class="parent">
+                            活动简介：<span th:text="${item.profile}" style="margin-right: 30px;display: block;width: 666px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"></span>
+                        </div>
                     </div>
 
                     <div style="margin-right: 20px">

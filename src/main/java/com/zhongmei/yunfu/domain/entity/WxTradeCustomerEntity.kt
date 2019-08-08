@@ -39,6 +39,18 @@ class WxTradeCustomerEntity : BaseEntity() {
      */
     var customerId: Long? = null
     /**
+     * 会员名称
+     */
+    var customerName: String? = null
+    /**
+     * 微信会员头像
+     */
+    var wxPhoto: String? = null
+    /**
+     * 微信编号
+     */
+    var wxOpenId: String? = null
+    /**
      * 状态 1未使用、2已使用
      */
     var status: Int? = null
@@ -47,11 +59,11 @@ class WxTradeCustomerEntity : BaseEntity() {
      */
     var type: Int? = null
     /**
-     * 订单id 
+     * 订单id
      */
     var tradeId: Long? = null
     /**
-     * 品项id 
+     * 品项id
      */
     var dishId: Long? = null
     /**
@@ -61,7 +73,7 @@ class WxTradeCustomerEntity : BaseEntity() {
 
     var validityPeriod: Date? = null
     /**
-     * 门店id 
+     * 门店id
      */
     var shopIdenty: Long? = null
     /**
@@ -76,20 +88,23 @@ class WxTradeCustomerEntity : BaseEntity() {
 
     override fun toString(): String {
         return "WxTradeCustomerEntity{" +
-        ", id=" + id +
-        ", marketingId=" + marketingId +
-        ", marketingName=" + marketingName +
-        ", relateId=" + relateId +
-        ", customerId=" + customerId +
-        ", status=" + status +
-        ", type=" + type +
-        ", tradeId=" + tradeId +
-        ", dishId=" + dishId +
-        ", dishName=" + dishName +
-        ", validityPeriod=" + validityPeriod +
-        ", shopIdenty=" + shopIdenty +
-        ", brandIdenty=" + brandIdenty +
-        ", enabledFlag=" + enabledFlag +
-        "}"
+                ", id=" + id +
+                ", marketingId=" + marketingId +
+                ", marketingName=" + marketingName +
+                ", relateId=" + relateId +
+                ", customerId=" + customerId +
+                ", customerName=" + customerName +
+                ", wxPhoto=" + wxPhoto +
+                ", wxOpenId=" + wxOpenId +
+                ", status=" + status +
+                ", type=" + type +
+                ", tradeId=" + tradeId +
+                ", dishId=" + dishId +
+                ", dishName=" + dishName +
+                ", validityPeriod=" + validityPeriod +
+                ", shopIdenty=" + shopIdenty +
+                ", brandIdenty=" + brandIdenty +
+                ", enabledFlag=" + enabledFlag +
+                "}"
     }
 }

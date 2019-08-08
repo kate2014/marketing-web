@@ -74,6 +74,14 @@ public interface WxTradeCustomerService extends IService<WxTradeCustomerEntity> 
     List<WxTradeCustomerEntity> queryListDataByCustomerId(WxTradeCustomerEntity mWxTradeCustomer)throws Exception;
 
     /**
+     * 查询活动的购买情况
+     * @param mWxTradeCustomer
+     * @return
+     * @throws Exception
+     */
+    List<WxTradeCustomerEntity> queryListByActivity(WxTradeCustomerEntity mWxTradeCustomer)throws Exception;
+
+    /**
      * 验证是否能参与活动
      * @param mTradeModel
      * @return

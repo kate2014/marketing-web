@@ -11,11 +11,11 @@ import com.zhongmei.yunfu.service.LoginManager
 
 /**
  * <p>
- * 特价活动赠送礼品规则
+ * 会员操作记录
  * </p>
  */
-@TableName("activity_sales_gift_rule")
-class ActivitySalesGiftEntity : BaseEntity() {
+@TableName("operational_records")
+class OperationalRecordsEntity : BaseEntity() {
 
     /**
      * 自增主键
@@ -30,44 +30,39 @@ class ActivitySalesGiftEntity : BaseEntity() {
      * 门店Id
      */
     var shopIdenty: Long? = null
-    /**
-     * 活动Id
-     */
+
+    var customerId: Long? = null
+
+    var customerName: String? = null
+
+    var wxOpenId: String? = null
+
+    var wxPhoto: String? = null
+
+    var wxName: String? = null
+
     var activityId: Long? = null
-    /**
-     * 礼品图片
-     */
-    var imageUrl: String? = null
-    /**
-     * 成单数
-     */
-    var orderCount: Int? = null
-    /**
-     * 礼品id
-     */
-    var giftId: Long? = null
-    /**
-     * 礼品名称
-     */
-    var giftName: String? = null
-    /**
-     * 礼品类型：1：礼品券
-     */
-    var giftType: Int? = null
 
+    var operationalCount: Int? = null
 
+    /**
+     * 类型：1：查看  2：分享  3：购买
+     */
+    var type: Int? = null
 
     override fun toString(): String {
         return "CouponEntity{" +
                 ", id=" + id +
                 ", brandIdenty=" + brandIdenty +
                 ", shopIdenty=" + shopIdenty +
+                ", customerId=" + customerId +
+                ", customerName=" + customerName +
+                ", wxOpenId=" + wxOpenId +
+                ", wxPhoto=" + wxPhoto +
+                ", wxName=" + wxName +
                 ", activityId=" + activityId +
-                ", imageUrl=" + imageUrl +
-                ", orderCount=" + orderCount +
-                ", giftId=" + giftId +
-                ", giftName=" + giftName +
-                ", giftType=" + giftType +
+                ", operationalCount=" + operationalCount +
+                ", type=" + type +
                 "}"
     }
 

@@ -83,21 +83,25 @@ public class ActivitySalesController extends BaseController{
 
             ActivitySalesEntity mActivitySalesEntity = new ActivitySalesEntity();
 
+
+            mActivitySalesEntity.setName(mActivitySalesModel.getName());
+            mActivitySalesEntity.setImageUrl(mActivitySalesModel.getImageUrl());
+            mActivitySalesEntity.setSaleAmount(mActivitySalesModel.getSaleAmount());
+            mActivitySalesEntity.setProductId(mActivitySalesModel.getProductId());
+            mActivitySalesEntity.setProductName(mActivitySalesModel.getProductName());
+            mActivitySalesEntity.setCustomerBuyCount(mActivitySalesModel.getCustomerBuyCount());
+            mActivitySalesEntity.setOriginalPrice(mActivitySalesModel.getOriginalPrice());
+            mActivitySalesEntity.setDescribe(mActivitySalesModel.getDescribe());
+            mActivitySalesEntity.setEndTime(DateFormatUtil.parseDate(mActivitySalesModel.getEndTime(), DateFormatUtil.FORMAT_FULL_DATE));
+            mActivitySalesEntity.setValidityPeriod(DateFormatUtil.parseDate(mActivitySalesModel.getValidityPeriod(), DateFormatUtil.FORMAT_FULL_DATE));
+            mActivitySalesEntity.setJoinCount(mActivitySalesModel.getJoinCount());
+            mActivitySalesEntity.setEnabledFlag(mActivitySalesModel.getEnabledFlag());
+            mActivitySalesEntity.setProfile(mActivitySalesModel.getProfile());
+
             if(mActivitySalesModel.getId() == null){
                 mActivitySalesEntity.setBrandIdenty(brandIdentity);
                 mActivitySalesEntity.setShopIdenty(shopIdentity);
-                mActivitySalesEntity.setName(mActivitySalesModel.getName());
-                mActivitySalesEntity.setImageUrl(mActivitySalesModel.getImageUrl());
-                mActivitySalesEntity.setSaleAmount(mActivitySalesModel.getSaleAmount());
-                mActivitySalesEntity.setProductId(mActivitySalesModel.getProductId());
-                mActivitySalesEntity.setProductName(mActivitySalesModel.getProductName());
-                mActivitySalesEntity.setCustomerBuyCount(mActivitySalesModel.getCustomerBuyCount());
-                mActivitySalesEntity.setOriginalPrice(mActivitySalesModel.getOriginalPrice());
-                mActivitySalesEntity.setDescribe(mActivitySalesModel.getDescribe());
-                mActivitySalesEntity.setEndTime(DateFormatUtil.parseDate(mActivitySalesModel.getEndTime(), DateFormatUtil.FORMAT_FULL_DATE));
-                mActivitySalesEntity.setValidityPeriod(DateFormatUtil.parseDate(mActivitySalesModel.getValidityPeriod(), DateFormatUtil.FORMAT_FULL_DATE));
-                mActivitySalesEntity.setJoinCount(mActivitySalesModel.getJoinCount());
-                mActivitySalesEntity.setEnabledFlag(mActivitySalesModel.getEnabledFlag());
+
 
                 mActivitySalesEntity.setCreatorId(creatorId);
                 mActivitySalesEntity.setCreatorName(creatorName);
@@ -109,17 +113,6 @@ public class ActivitySalesController extends BaseController{
             }else{
 
                 mActivitySalesEntity.setId(mActivitySalesModel.getId());
-                mActivitySalesEntity.setName(mActivitySalesModel.getName());
-                mActivitySalesEntity.setImageUrl(mActivitySalesModel.getImageUrl());
-                mActivitySalesEntity.setSaleAmount(mActivitySalesModel.getSaleAmount());
-                mActivitySalesEntity.setProductId(mActivitySalesModel.getProductId());
-                mActivitySalesEntity.setProductName(mActivitySalesModel.getProductName());
-                mActivitySalesEntity.setCustomerBuyCount(mActivitySalesModel.getCustomerBuyCount());
-                mActivitySalesEntity.setOriginalPrice(mActivitySalesModel.getOriginalPrice());
-                mActivitySalesEntity.setDescribe(mActivitySalesModel.getDescribe());
-                mActivitySalesEntity.setEndTime(DateFormatUtil.parseDate(mActivitySalesModel.getEndTime(), DateFormatUtil.FORMAT_FULL_DATE));
-                mActivitySalesEntity.setValidityPeriod(DateFormatUtil.parseDate(mActivitySalesModel.getValidityPeriod(), DateFormatUtil.FORMAT_FULL_DATE));
-                mActivitySalesEntity.setJoinCount(mActivitySalesModel.getJoinCount());
                 mActivitySalesEntity.setUpdatorId(creatorId);
                 mActivitySalesEntity.setUpdatorName(creatorName);
                 mActivitySalesEntity.setServerUpdateTime(new Date());

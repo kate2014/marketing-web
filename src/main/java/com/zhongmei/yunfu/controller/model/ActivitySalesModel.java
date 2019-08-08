@@ -20,6 +20,8 @@ public class ActivitySalesModel extends WebBaseModel {
     private Long productId;
 
     private String productName;
+
+    private String profile;
     /**
      * 服务原价
      */
@@ -260,5 +262,13 @@ public class ActivitySalesModel extends WebBaseModel {
 
     public void setSecondMaxAmount(BigDecimal secondMaxAmount) {
         this.secondMaxAmount = secondMaxAmount;
+    }
+
+    public String getProfile() {
+        return profile;
+    }
+
+    public void setProfile(String profile) {
+        this.profile = profile;
     }
 }

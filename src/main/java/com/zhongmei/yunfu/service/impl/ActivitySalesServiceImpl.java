@@ -39,7 +39,7 @@ public class ActivitySalesServiceImpl extends ServiceImpl<ActivitySalesMapper, A
             eWrapper.eq("enabled_flag",mActivitySalesEntity.getEnabledFlag());
         }
 
-        eWrapper.setSqlSelect("id,name,image_url,sale_amount,end_time,validity_period,enabled_flag");
+        eWrapper.setSqlSelect("id,name,profile,buy_count,image_url,sale_amount,end_time,validity_period,enabled_flag");
         return selectList(eWrapper);
     }
 

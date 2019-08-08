@@ -39,6 +39,7 @@ public class ActivitySalesGiftServiceImpl extends ServiceImpl<ActivitySalesGiftM
         eWrapper.eq("shop_identy",mActivitySalesGiftEntity.getShopIdenty());
         eWrapper.eq("status_flag",1);
         eWrapper.eq("activity_id",mActivitySalesGiftEntity.getActivityId());
+        eWrapper.setSqlSelect("id,image_url,order_count,gift_name");
         return selectList(eWrapper);
     }
 }

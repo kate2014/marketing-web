@@ -27,7 +27,7 @@ public interface ActivitySalesService extends IService<ActivitySalesEntity> {
     boolean deleteById(Long id)throws Exception;
 
     /**
-     * 查询门店所有活动
+     * 查询门店关联所有活动
      * @param mActivitySalesEntity
      * @return
      */
@@ -39,4 +39,6 @@ public interface ActivitySalesService extends IService<ActivitySalesEntity> {
      * @return
      */
     ActivitySalesEntity queryById(Long id)throws Exception;
+
+
 }

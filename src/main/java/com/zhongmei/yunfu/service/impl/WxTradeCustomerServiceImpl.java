@@ -101,6 +101,23 @@ public class WxTradeCustomerServiceImpl extends ServiceImpl<WxTradeCustomerMappe
         return lsitData;
     }
 
+    @Override
+    public List<WxTradeCustomerEntity> queryListByActivity(WxTradeCustomerEntity mWxTradeCustomer) throws Exception {
+        EntityWrapper<WxTradeCustomerEntity> eWrapper = new EntityWrapper<>(new WxTradeCustomerEntity());
+        eWrapper.eq("brand_identy", mWxTradeCustomer.getBrandIdenty());
+        eWrapper.eq("shop_identy", mWxTradeCustomer.getShopIdenty());
+        eWrapper.eq("marketing_id", mWxTradeCustomer.getMarketingId());
+        eWrapper.eq("status", 1);
+        eWrapper.eq("enabled_flag", 1);
+        eWrapper.eq("status_flag", 1);
+        eWrapper.setSqlSelect("marketing_id,marketing_name,customer_name,wx_photo");
+        eWrapper.orderBy("server_create_time",false);
+        eWrapper.last("limit 20");
+        List<WxTradeCustomerEntity> lsitData = selectList(eWrapper);
+
+        return lsitData;
+    }
+
     //验证活动是否可以参与
     @Override
     public String checkMarketingVaild(TradeModel mTradeModel)throws Exception{

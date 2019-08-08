@@ -39,6 +39,10 @@ class ActivitySalesEntity : BaseEntity() {
      */
     var imageUrl: String? = null
     /**
+     * 活动简介
+     */
+    var profile: String? = null
+    /**
      * 售卖价格
      */
     var saleAmount: BigDecimal? = null
@@ -77,6 +81,11 @@ class ActivitySalesEntity : BaseEntity() {
 
     var enabledFlag: Int? = null
 
+    var browseCount: Int? = null
+
+    var shareCount: Int? = null
+
+    var buyCount: Int? = null
 
     override fun toString(): String {
         return "CouponEntity{" +
@@ -85,6 +94,7 @@ class ActivitySalesEntity : BaseEntity() {
                 ", shopIdenty=" + shopIdenty +
                 ", name=" + name +
                 ", imageUrl=" + imageUrl +
+                ", profile=" + profile +
                 ", saleAmount=" + saleAmount +
                 ", productId=" + productId +
                 ", productName=" + productName +
@@ -94,6 +104,9 @@ class ActivitySalesEntity : BaseEntity() {
                 ", validityPeriod=" + validityPeriod +
                 ", joinCount=" + joinCount +
                 ", enabledFlag=" + enabledFlag +
+                ", browseCount=" + browseCount +
+                ", shareCount=" + shareCount +
+                ", buyCount=" + buyCount +
                 "}"
     }
 

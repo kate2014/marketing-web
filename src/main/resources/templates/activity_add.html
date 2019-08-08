@@ -135,7 +135,9 @@
             <div class="details-bom" style="width: 100%">
 
                 <ul class="spell-content">
+
                     <li><span>*活动名称</span><input type="text" placeholder="输入活动名称" maxlength="30" name="name" id="name" th:value="${mActivitySalesEntity.name}"/></li>
+                    <li><span>*活动简介</span><input type="text" placeholder="输入活动简介" maxlength="100" name="profile" id="profile" th:value="${mActivitySalesEntity.profile}"/></li>
 
                     <li><span>*选择品项</span>
                         <input type="text" placeholder="请选择参与拼团的品项" name="productName" id="productName" th:value="${mActivitySalesEntity.productName}" readonly="true"/>
