@@ -1,9 +1,12 @@
 package com.zhongmei.yunfu.controller.api;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import com.zhongmei.yunfu.controller.api.model.ActivityPushReq;
 import com.zhongmei.yunfu.controller.model.ActivitySearchModel;
 import com.zhongmei.yunfu.controller.model.BaseDataModel;
+import com.zhongmei.yunfu.domain.entity.OperationalRecordsEntity;
 import com.zhongmei.yunfu.domain.entity.PushPlanActivityEntity;
+import com.zhongmei.yunfu.service.OperationalRecordsService;
 import com.zhongmei.yunfu.service.PushPlanActivityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +15,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Date;
 
 
 /**
@@ -26,6 +31,8 @@ public class PushActivityController {
     @Autowired
     PushPlanActivityService pushPlanActivityService;
 
+    @Autowired
+    OperationalRecordsService mOperationalRecordsService;
     /**
      * 获取门店活动数据
      *
@@ -55,19 +62,57 @@ public class PushActivityController {
      * 根据Id获取活动详情
      *
      * @param model
-     * @param mActivitySearchModel
+     * @param mActivityPushReq
      * @return
      */
     @GetMapping("/findActivityDetail")
-    public BaseDataModel findActivityData(ModelMap model, ActivitySearchModel mActivitySearchModel) {
+    public BaseDataModel findActivityData(ModelMap model, ActivityPushReq mActivityPushReq) {
 
         BaseDataModel mBaseDataModel = new BaseDataModel();
         try {
-            PushPlanActivityEntity mPushPlanActivity = pushPlanActivityService.findActivityById(mActivitySearchModel.getId());
+            PushPlanActivityEntity mPushPlanActivity = pushPlanActivityService.findActivityById(mActivityPushReq.getId());
 
             if (mPushPlanActivity != null) {
                 //添加浏览次数
-                pushPlanActivityService.updateActivityNumber(mActivitySearchModel.getId(), mPushPlanActivity.getScanNumber() + 1, null);
+                pushPlanActivityService.updateActivityNumber(mActivityPushReq.getId(), mPushPlanActivity.getScanNumber() + 1, null);
+
+
+                //添加顾客查看记录,如该顾客对该条活跃已有同样的操作是，只需在原有操作次数的基础上+1
+                if(mActivityPushReq.getWxOpenId() != null){
+                    OperationalRecordsEntity orEntity = new OperationalRecordsEntity();
+                    orEntity.setBrandIdenty(mActivityPushReq.getBrandIdenty());
+                    orEntity.setShopIdenty(mActivityPushReq.getShopIdenty());
+                    orEntity.setWxOpenId(mActivityPushReq.getWxOpenId());
+                    orEntity.setActivityId(mActivityPushReq.getId());
+                    orEntity.setType(1);
+                    OperationalRecordsEntity recordEntity = mOperationalRecordsService.queryByCustomer(orEntity);
+                    if(recordEntity == null){
+                        orEntity = new OperationalRecordsEntity();
+                        orEntity.setBrandIdenty(mActivityPushReq.getBrandIdenty());
+                        orEntity.setShopIdenty(mActivityPushReq.getShopIdenty());
+                        orEntity.setCustomerId(mActivityPushReq.getCustomerId());
+                        orEntity.setCustomerName(mActivityPushReq.getCustomerName());
+                        orEntity.setWxOpenId(mActivityPushReq.getWxOpenId());
+                        orEntity.setWxPhoto(mActivityPushReq.getWxPhoto());
+                        orEntity.setWxName(mActivityPushReq.getWxName());
+                        orEntity.setActivityId(mActivityPushReq.getId());
+                        orEntity.setOperationalCount(1);
+                        orEntity.setType(1);
+                        orEntity.setServerCreateTime(new Date());
+                        orEntity.setServerUpdateTime(new Date());
+                        mOperationalRecordsService.addOperational(orEntity);
+                    }else{
+                        orEntity.setBrandIdenty(mActivityPushReq.getBrandIdenty());
+                        orEntity.setShopIdenty(mActivityPushReq.getShopIdenty());
+                        orEntity.setWxOpenId(mActivityPushReq.getWxOpenId());
+                        orEntity.setWxPhoto(mActivityPushReq.getWxPhoto());
+                        orEntity.setActivityId(mActivityPushReq.getId());
+                        orEntity.setOperationalCount(recordEntity.getOperationalCount()+1);
+                        orEntity.setServerUpdateTime(new Date());
+                        mOperationalRecordsService.modiftyOperational(orEntity);
+                    }
+                }
+                
                 mBaseDataModel.setState("1000");
                 mBaseDataModel.setMsg("获取活动详情成功");
                 mBaseDataModel.setData(mPushPlanActivity);

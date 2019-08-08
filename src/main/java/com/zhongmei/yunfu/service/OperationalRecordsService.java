@@ -52,4 +52,12 @@ public interface OperationalRecordsService extends IService<OperationalRecordsEn
      */
     Boolean deleteByAction(OperationalRecordsEntity entity)throws Exception;
 
+    /**
+     * 查询用户对该信息的操作记录
+     * @param entity
+     * @return
+     * @throws Exception
+     */
+    OperationalRecordsEntity queryByCustomer(OperationalRecordsEntity entity)throws Exception;
+
 }

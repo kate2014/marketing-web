@@ -1,12 +1,10 @@
 package com.zhongmei.yunfu.controller.api;
 
+import com.zhongmei.yunfu.controller.api.model.ShareActionReq;
 import com.zhongmei.yunfu.controller.model.BaseDataModel;
 import com.zhongmei.yunfu.controller.model.ShareActionModel;
 import com.zhongmei.yunfu.controller.model.ShareMarketingModel;
-import com.zhongmei.yunfu.domain.entity.CouponEntity;
-import com.zhongmei.yunfu.domain.entity.CustomerCouponEntity;
-import com.zhongmei.yunfu.domain.entity.CustomerEntity;
-import com.zhongmei.yunfu.domain.entity.MarketingShareEntity;
+import com.zhongmei.yunfu.domain.entity.*;
 import com.zhongmei.yunfu.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -35,6 +33,9 @@ public class ShareMarketingApiController {
     CustomerCouponService mCustomerCouponService;
     @Autowired
     CustomerService mCustomerService;
+
+    @Autowired
+    OperationalRecordsService mOperationalRecordsService;
     /**
      * 获取门分享设置
      *
@@ -63,32 +64,77 @@ public class ShareMarketingApiController {
 
 
     /**
-     * 分享有礼接口  支持门店分享、活动分析、新品分享
-     * ShareType 分享类型：1：门店分享 2：新品分享 3：活动分享
+     * 分享有礼接口  支持门店分享、活动分析、新品分享、拼团、秒杀、砍价、特价活动
+     * ShareType 分享类型：门店分享 2：新品分享 3：活动分享 4：拼团 5：秒杀 6：砍价  7：特价活动
      *
      * @param model
-     * @param shareActionModel
+     * @param mShareActionReq
      * @return
      */
     @GetMapping("/shareAction")
-    public BaseDataModel shareCount(ModelMap model, ShareActionModel shareActionModel) {
+    public BaseDataModel shareCount(ModelMap model, ShareActionReq mShareActionReq) {
 
         BaseDataModel mBaseDataModel = new BaseDataModel();
         try {
             Boolean isSuccess = true;
-            if (shareActionModel.getShareType() == 1) {
+            if (mShareActionReq.getShareType() == 1) {
                 //触发优惠券
-                sendCouponForCustomer(1, shareActionModel.getCustomerId(), shareActionModel.getOpenId(), shareActionModel.getBrandIdenty(), shareActionModel.getShopIdenty());
-            } else if (shareActionModel.getShareType() == 2) {
-                isSuccess = mPushPlanNewDishService.refreshShareNumber(shareActionModel.getLinksId());
+                sendCouponForCustomer(1, mShareActionReq.getCustomerId(), mShareActionReq.getWxOpenId(), mShareActionReq.getBrandIdenty(), mShareActionReq.getShopIdenty());
+            } else if (mShareActionReq.getShareType() == 2) {
+//                isSuccess = mPushPlanNewDishService.refreshShareNumber(mShareActionReq.getLinksId());
                 //触发优惠券
-                isSuccess = sendCouponForCustomer(2, shareActionModel.getCustomerId(), shareActionModel.getOpenId(), shareActionModel.getBrandIdenty(), shareActionModel.getShopIdenty());
-            } else if (shareActionModel.getShareType() == 3) {
+                isSuccess = sendCouponForCustomer(2, mShareActionReq.getCustomerId(), mShareActionReq.getWxOpenId(), mShareActionReq.getBrandIdenty(), mShareActionReq.getShopIdenty());
+            } else if (mShareActionReq.getShareType() == 3) {
                 //活动分享次数+1
-                isSuccess = pushPlanActivityService.updateActivityNumber(shareActionModel.getLinksId(), null, 1);
-                isSuccess = sendCouponForCustomer(3, shareActionModel.getCustomerId(), shareActionModel.getOpenId(), shareActionModel.getBrandIdenty(), shareActionModel.getShopIdenty());
+//                isSuccess = pushPlanActivityService.updateActivityNumber(mShareActionReq.getLinksId(), null, 1);
+                isSuccess = sendCouponForCustomer(3, mShareActionReq.getCustomerId(), mShareActionReq.getWxOpenId(), mShareActionReq.getBrandIdenty(), mShareActionReq.getShopIdenty());
                 //触发优惠券
+            } else if(mShareActionReq.getShareType() == 4){
+
+            } else if(mShareActionReq.getShareType() == 5){
+
+            } else if(mShareActionReq.getShareType() == 6){
+
+            } else if(mShareActionReq.getShareType() == 7){
+
             }
+
+            //添加顾客查看记录,如该顾客对该条活跃已有同样的操作是，只需在原有操作次数的基础上+1
+            if(mShareActionReq.getWxOpenId() != null){
+                OperationalRecordsEntity orEntity = new OperationalRecordsEntity();
+                orEntity.setBrandIdenty(mShareActionReq.getBrandIdenty());
+                orEntity.setShopIdenty(mShareActionReq.getShopIdenty());
+                orEntity.setWxOpenId(mShareActionReq.getWxOpenId());
+                orEntity.setActivityId(mShareActionReq.getLinksId());
+                orEntity.setType(1);
+                OperationalRecordsEntity recordEntity = mOperationalRecordsService.queryByCustomer(orEntity);
+                if(recordEntity == null){
+                    orEntity = new OperationalRecordsEntity();
+                    orEntity.setBrandIdenty(mShareActionReq.getBrandIdenty());
+                    orEntity.setShopIdenty(mShareActionReq.getShopIdenty());
+                    orEntity.setCustomerId(mShareActionReq.getCustomerId());
+                    orEntity.setCustomerName(mShareActionReq.getCustomerName());
+                    orEntity.setWxOpenId(mShareActionReq.getWxOpenId());
+                    orEntity.setWxPhoto(mShareActionReq.getWxPhoto());
+                    orEntity.setWxName(mShareActionReq.getWxName());
+                    orEntity.setActivityId(mShareActionReq.getLinksId());
+                    orEntity.setOperationalCount(1);
+                    orEntity.setType(2);
+                    orEntity.setServerCreateTime(new Date());
+                    orEntity.setServerUpdateTime(new Date());
+                    mOperationalRecordsService.addOperational(orEntity);
+                }else{
+                    orEntity.setBrandIdenty(mShareActionReq.getBrandIdenty());
+                    orEntity.setShopIdenty(mShareActionReq.getShopIdenty());
+                    orEntity.setWxOpenId(mShareActionReq.getWxOpenId());
+                    orEntity.setWxPhoto(mShareActionReq.getWxPhoto());
+                    orEntity.setActivityId(mShareActionReq.getLinksId());
+                    orEntity.setOperationalCount(recordEntity.getOperationalCount()+1);
+                    orEntity.setServerUpdateTime(new Date());
+                    mOperationalRecordsService.modiftyOperational(orEntity);
+                }
+            }
+            
 
             if (isSuccess) {
                 mBaseDataModel.setState("1000");

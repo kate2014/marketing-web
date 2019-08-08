@@ -1,6 +1,6 @@
-package com.zhongmei.yunfu.controller.model;
+package com.zhongmei.yunfu.controller.api.model;
 
-public class ShareActionModel {
+public class ShareActionReq {
 
     /**
      * 分享活动类型1：门店分享 2：新品分享 3：活动分享 4：拼团 5：秒杀 6：砍价  7：特价活动
@@ -13,7 +13,13 @@ public class ShareActionModel {
 
     private Long customerId;
 
-    private String openId;
+    private String customerName;
+
+    private String wxOpenId;
+
+    private String wxPhoto;
+
+    private String wxName;
 
     /**
      * 关联ID, 如分享的是活动这该字段保存活动id,如分享的是新品，则该字段保存新品id
@@ -52,12 +58,36 @@ public class ShareActionModel {
         this.customerId = customerId;
     }
 
-    public String getOpenId() {
-        return openId;
+    public String getCustomerName() {
+        return customerName;
     }
 
-    public void setOpenId(String openId) {
-        this.openId = openId;
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public String getWxOpenId() {
+        return wxOpenId;
+    }
+
+    public void setWxOpenId(String wxOpenId) {
+        this.wxOpenId = wxOpenId;
+    }
+
+    public String getWxPhoto() {
+        return wxPhoto;
+    }
+
+    public void setWxPhoto(String wxPhoto) {
+        this.wxPhoto = wxPhoto;
+    }
+
+    public String getWxName() {
+        return wxName;
+    }
+
+    public void setWxName(String wxName) {
+        this.wxName = wxName;
     }
 
     public Long getLinksId() {

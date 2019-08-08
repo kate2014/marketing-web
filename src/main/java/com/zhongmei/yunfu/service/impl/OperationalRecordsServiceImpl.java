@@ -86,4 +86,21 @@ public class OperationalRecordsServiceImpl extends ServiceImpl<OperationalRecord
         eWrapper.eq("activity_id",entity.getActivityId());
         return delete(eWrapper);
     }
+
+    @Override
+    public OperationalRecordsEntity queryByCustomer(OperationalRecordsEntity entity) throws Exception {
+        EntityWrapper<OperationalRecordsEntity> eWrapper = new EntityWrapper<>(entity);
+        eWrapper.eq("brand_identy",entity.getBrandIdenty());
+        eWrapper.eq("shop_identy",entity.getShopIdenty());
+        eWrapper.eq("activity_id",entity.getActivityId());
+        if(entity.getType() != null){
+            eWrapper.eq("type",entity.getType());
+        }
+        if(entity.getWxOpenId() != null){
+            eWrapper.eq("wx_open_id",entity.getWxOpenId());
+        }
+
+        OperationalRecordsEntity mOperationalRecordsEntity = selectOne(eWrapper);
+        return mOperationalRecordsEntity;
+    }
 }
