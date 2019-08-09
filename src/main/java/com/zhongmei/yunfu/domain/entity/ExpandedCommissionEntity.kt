@@ -52,6 +52,10 @@ class ExpandedCommissionEntity : BaseEntity() {
      */
     var exchangeAmount: BigDecimal? = null
     /**
+     * 提成来源 1：推广会员提成  2：红包
+     */
+    var source: Int? = null
+    /**
      * 业务类型 1：提成累加  2：兑换 3:扣减（退货时需扣减）
      */
     var type: Int? = null

@@ -35,7 +35,9 @@ class RecommendationAssociationEntity : BaseEntity() {
 
     var mainWxOpenId: String? = null
 
-    var acceptCustomerId: Long? = null
+    var mainCustomerName: String? = null
+
+    var mainWxPhoto: String? = null
 
     var acceptWxOpenId: String? = null
 
@@ -55,7 +57,8 @@ class RecommendationAssociationEntity : BaseEntity() {
                 ", shopIdenty=" + shopIdenty +
                 ", mainCustomerId=" + mainCustomerId +
                 ", mainWxOpenId=" + mainWxOpenId +
-                ", acceptCustomerId=" + acceptCustomerId +
+                ", mainCustomerName=" + mainCustomerName +
+                ", mainWxPhoto=" + mainWxPhoto +
                 ", acceptWxOpenId=" + acceptWxOpenId +
                 ", tradeId=" + tradeId +
                 ", activityId=" + activityId +

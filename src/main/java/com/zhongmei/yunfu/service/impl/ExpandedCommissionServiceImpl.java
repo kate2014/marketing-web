@@ -46,6 +46,7 @@ public class ExpandedCommissionServiceImpl extends ServiceImpl<ExpandedCommissio
             mExpandedCommission.setTotalCommission(commissionAmount);//累积提成总额
             mExpandedCommission.setCanExchange(commissionAmount);//可兑换提成金额
             mExpandedCommission.setExchangeAmount(BigDecimal.ZERO);//单次兑换提成金额
+            mExpandedCommission.setSource(1);
 
         } else {
             mExpandedCommission.setTotalAmount(ecNew.getTotalAmount().add(mExpandedCommission.getChangeSalesAmount()));//累积消费总额
@@ -60,6 +61,7 @@ public class ExpandedCommissionServiceImpl extends ServiceImpl<ExpandedCommissio
             mExpandedCommission.setTotalCommission(ecNew.getTotalCommission().add(commissionAmount));//累积提成总额
             mExpandedCommission.setCanExchange(ecNew.getCanExchange().add(commissionAmount));//可兑换提成金额
             mExpandedCommission.setExchangeAmount(BigDecimal.ZERO);//单次兑换提成金额
+            mExpandedCommission.setSource(1);
         }
 
         mExpandedCommission.setType(1);
@@ -152,6 +154,43 @@ public class ExpandedCommissionServiceImpl extends ServiceImpl<ExpandedCommissio
         Page<CommissionSearchModel> page = new Page<>(mCommissionSearchModel.getPageNo(), mCommissionSearchModel.getPageSize());
         page.setRecords(baseMapper.qeryListCommission(page,eWrapper));
         return page;
+    }
+
+    @Override
+    public Boolean addRedPacketsCommission(ExpandedCommissionEntity mExpandedCommission,BigDecimal amount) throws Exception {
+
+        ExpandedCommissionEntity ecNew = queryNewCommission(mExpandedCommission);
+
+        //如为空则表示是第一次参与提成
+        if (ecNew == null) {
+
+            mExpandedCommission.setTotalAmount(BigDecimal.ZERO);//累积消费总额
+            mExpandedCommission.setChangeSalesAmount(BigDecimal.ZERO);//单次消费额度
+            mExpandedCommission.setCommissionRatio(BigDecimal.ZERO);//提成比例
+            //红包金额
+            mExpandedCommission.setCommissionAmount(amount);//单次提成金额
+
+            mExpandedCommission.setTotalCommission(amount);//累积提成总额
+            mExpandedCommission.setCanExchange(amount);//可兑换提成金额
+            mExpandedCommission.setExchangeAmount(BigDecimal.ZERO);//单次兑换提成金额
+            mExpandedCommission.setSource(2);
+
+        } else {
+            mExpandedCommission.setTotalAmount(ecNew.getTotalAmount());//累积消费总额
+            mExpandedCommission.setChangeSalesAmount(BigDecimal.ZERO);//单次消费额度
+            mExpandedCommission.setCommissionRatio(BigDecimal.ZERO);//提成比例
+            //红包金额
+            mExpandedCommission.setCommissionAmount(amount);//单次提成金额
+
+            mExpandedCommission.setTotalCommission(ecNew.getTotalCommission().add(amount));//累积提成总额
+            mExpandedCommission.setCanExchange(ecNew.getCanExchange().add(amount));//可兑换提成金额
+            mExpandedCommission.setExchangeAmount(BigDecimal.ZERO);//单次兑换提成金额
+            mExpandedCommission.setSource(2);
+        }
+
+        mExpandedCommission.setType(1);
+        Boolean isSuccess = insert(mExpandedCommission);
+        return isSuccess;
     }
 
 

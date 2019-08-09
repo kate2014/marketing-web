@@ -51,6 +51,15 @@ public class TradeModel extends WebBaseModel {
      */
     private String customerName;
 
+    /**
+     * 推荐者会员id
+     */
+    private Long recommendCustomerId;
+    /**
+     * 推荐者微信OpenId
+     */
+    private String recommendOpenId;
+
     private Integer customerType;
     /**
      * 顾客性别:
@@ -373,5 +382,21 @@ public class TradeModel extends WebBaseModel {
 
     public void setRquestSource(Integer rquestSource) {
         this.rquestSource = rquestSource;
+    }
+
+    public Long getRecommendCustomerId() {
+        return recommendCustomerId;
+    }
+
+    public void setRecommendCustomerId(Long recommendCustomerId) {
+        this.recommendCustomerId = recommendCustomerId;
+    }
+
+    public String getRecommendOpenId() {
+        return recommendOpenId;
+    }
+
+    public void setRecommendOpenId(String recommendOpenId) {
+        this.recommendOpenId = recommendOpenId;
     }
 }

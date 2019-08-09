@@ -76,7 +76,8 @@ public class PayOrderApiController {
     FlashSalesMarketingService mFlashSalesMarketingService;
     @Autowired
     RestTemplate restTemplate;
-
+    @Autowired
+    RedPacketsRecordService mRedPacketsRecordService;
 
     @GetMapping("/payOrder")
     public BaseDataModel payOrder(Model model, TradeModel mTradeModel){
@@ -680,6 +681,9 @@ public class PayOrderApiController {
         WxTradeCustomerEntity mWxTradeCustomerEntity = updateMarketing(mPaymentEntity.getRelateId());
 
         sendWxMessage(mTradeEntity.getId(),mWxTradeCustomerEntity.getCustomerId());
+
+        //触发发送推荐成单红包
+        mRedPacketsRecordService.sendRedPackets(mTradeEntity.getBrandIdenty(),mTradeEntity.getShopIdenty(),mTradeEntity.getId());
 
         return mWxTradeCustomerEntity;
     }

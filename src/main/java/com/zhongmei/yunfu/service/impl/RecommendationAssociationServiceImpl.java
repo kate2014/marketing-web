@@ -42,9 +42,6 @@ public class RecommendationAssociationServiceImpl extends ServiceImpl<Recommenda
         if(entity.getMainWxOpenId() != null){
             eWrapper.eq("main_wx_open_id",entity.getMainWxOpenId());
         }
-        if(entity.getAcceptCustomerId() != null){
-            eWrapper.eq("accept_customer_id",entity.getAcceptCustomerId());
-        }
         if(entity.getAcceptWxOpenId() != null){
             eWrapper.eq("accept_wx_open_id",entity.getAcceptWxOpenId());
         }
@@ -66,9 +63,7 @@ public class RecommendationAssociationServiceImpl extends ServiceImpl<Recommenda
         eWrapper.eq("shop_identy",entity.getShopIdenty());
         eWrapper.eq("status_flag",1);
         eWrapper.eq("activity_id",entity.getActivityId());
-        if(entity.getAcceptCustomerId() != null){
-            eWrapper.eq("accept_customer_id",entity.getActivityId());
-        }
+
         if(entity.getAcceptWxOpenId() != null){
             eWrapper.eq("accept_wx_open_id",entity.getActivityId());
         }
@@ -82,6 +77,18 @@ public class RecommendationAssociationServiceImpl extends ServiceImpl<Recommenda
         RecommendationAssociationEntity mEntity = selectOne(eWrapper);
 
         return mEntity;
+    }
+
+    @Override
+    public RecommendationAssociationEntity queryByTradeId(Long brandIdenty, Long shopIdenty, Long tradeId) throws Exception {
+
+        EntityWrapper<RecommendationAssociationEntity> eWrapper = new EntityWrapper<>();
+        eWrapper.eq("brand_identy",brandIdenty);
+        eWrapper.eq("shop_identy",shopIdenty);
+        eWrapper.eq("status_flag",1);
+        eWrapper.eq("trade_id",tradeId);
+
+        return selectOne(eWrapper);
     }
 
     @Override

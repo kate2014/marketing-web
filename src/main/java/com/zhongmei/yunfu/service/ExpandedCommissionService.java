@@ -5,6 +5,7 @@ import com.zhongmei.yunfu.controller.model.CommissionSearchModel;
 import com.zhongmei.yunfu.domain.entity.ExpandedCommissionEntity;
 import com.baomidou.mybatisplus.service.IService;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -66,4 +67,13 @@ public interface ExpandedCommissionService extends IService<ExpandedCommissionEn
      * @throws Exception
      */
     Page<CommissionSearchModel> queryListCommission(CommissionSearchModel mCommissionSearchModel) throws Exception;
+
+    /**
+     * 添加会员返点获取额度
+     * @param mExpandedCommission
+     * @param amount
+     * @return
+     * @throws Exception
+     */
+    Boolean addRedPacketsCommission(ExpandedCommissionEntity mExpandedCommission, BigDecimal amount) throws Exception;
 }

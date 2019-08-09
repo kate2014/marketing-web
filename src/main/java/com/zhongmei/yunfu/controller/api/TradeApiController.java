@@ -68,7 +68,10 @@ public class TradeApiController {
     FeedbackService mFeedbackService;
     @Autowired
     StarRatingService mStarRatingService;
-
+    @Autowired
+    ActivitySalesService mActivitySalesService;
+    @Autowired
+    RecommendationAssociationService mRAService;
     /**
      * 创建订单
      *
@@ -153,25 +156,58 @@ public class TradeApiController {
      * @param trade
      * @return
      */
-    public String createCustomrMarketing(TradeModel mTradeModel,TradeEntity trade){
+    public String createCustomrMarketing(TradeModel mTradeModel,TradeEntity trade) throws Exception{
         String message = "";
         //拼团
         if(mTradeModel.getType() == 1){
             //判断是开团还是参团
             if(mTradeModel.getRelationId() == null || mTradeModel.getRelationId() == 0){
-                message = createCollageCustomer(mTradeModel, trade);
+                message = createCollageCustomer(mTradeModel, trade);//添加开团信息，并添加wxtradeCustomer表数据
             }else{
-                message = joinCollage(mTradeModel, trade);
+                message = joinCollage(mTradeModel, trade);//添加参团信息，并添加wxtradeCustomer表数据
             }
 
         }else if(mTradeModel.getType() == 2){
             addWxTradeCustomer(trade,mTradeModel);
         }else if(mTradeModel.getType() == 3){
             addWxTradeCustomer(trade,mTradeModel);
+        }else if(mTradeModel.getType() == 4){
+            String returnMessage = addWxTradeCustomer(trade,mTradeModel);
+            if(!returnMessage.equals("")){ //订单创建成功后，构建推荐人关联，用于支付完成后发放红包和验证发放礼品
+
+                buildRecommendAssociation(mTradeModel,trade);
+            }
         }
 
 
         return message;
+    }
+
+    /**
+     * 构建推荐成单关联关系
+     * @param mTradeModel
+     * @param trade
+     */
+    public void buildRecommendAssociation(TradeModel mTradeModel,TradeEntity trade){
+        try {
+            if((mTradeModel.getRecommendOpenId() != null && !mTradeModel.getRecommendOpenId().equals("")) || (mTradeModel.getRecommendCustomerId() != null && !mTradeModel.getRecommendCustomerId().equals(""))){
+                RecommendationAssociationEntity entity = new RecommendationAssociationEntity();
+
+                entity.setShopIdenty(mTradeModel.getShopIdenty());
+                entity.setBrandIdenty(mTradeModel.getBrandIdenty());
+                entity.setMainCustomerId(mTradeModel.getCustomerId());
+                entity.setMainWxOpenId(mTradeModel.getWxOpenId());
+                entity.setAcceptWxOpenId(mTradeModel.getRecommendOpenId());
+                entity.setTradeId(trade.getId());
+                entity.setActivityId(mTradeModel.getMarketingId());
+                entity.setTransactionStatus(1);
+
+                mRAService.addAssociation(entity);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     /**
@@ -203,6 +239,12 @@ public class TradeApiController {
                 FlashSalesMarketingEntity mFlashSalesMarketingEntity = mFlashSalesMarketingService.queryFlashSalesById(mTradeModel.getMarketingId());
                 validityPeriod = mFlashSalesMarketingEntity.getValidityPeriod();
                 mTradeModel.setMarketingName(mFlashSalesMarketingEntity.getName());
+            }
+            //特价活动
+            if(mTradeModel.getType() ==4){
+                ActivitySalesEntity mActivitySalesEntity = mActivitySalesService.queryById(mTradeModel.getMarketingId());
+                validityPeriod = mActivitySalesEntity.getValidityPeriod();
+                mTradeModel.setMarketingName(mActivitySalesEntity.getName());
             }
 
 

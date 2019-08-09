@@ -36,4 +36,15 @@ public interface RedPacketsRecordService extends IService<RedPacketsRecordEntity
      * @throws Exception
      */
     List<RedPacketsRecordEntity> queryRankingList(RedPacketsRecordEntity entity)throws Exception;
+
+    /**
+     * 发放红包
+     * @param brandIdenty
+     * @param shopIdenty
+     * @param tradeId
+     * @return
+     * @throws Exception
+     */
+    public Boolean sendRedPackets(Long brandIdenty,Long shopIdenty,Long tradeId) throws Exception;
+
 }
