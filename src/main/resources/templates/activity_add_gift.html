@@ -106,7 +106,7 @@
         <label class="text_navigation" style="margin-left: 10px; width: 30%">营销 》特价活动 》推荐成单礼品设置</label>
 
         <div align="right" style="width: 100%;margin-right: 50px">
-            <button class="orange_button_style" th:onclick="@{|location='${basePath}/activity/modiftyRedPackets?activityId=${activityId}'|}" style="margin-left: 10px">设置完成</button>
+            <button class="orange_button_style" th:onclick="@{|location='${basePath}/activity/modiftyRedPackets?activityId=${activityId}'|}" style="margin-left: 10px">添加完成</button>
             <button class="gray_button_style" value="" th:onclick="@{|location='${basePath}/activity/addActivityPage?id=${activityId}'|}" style="margin-left: 10px">返回上一步</button>
         </div>
     </div>
@@ -171,7 +171,7 @@
             <h6>建议大小200*200</h6>
 
         </div>
-        <div class="parent_h">
+        <div class="parent_h" style="margin-bottom: 36px">
             <button class="blue_button_style" onclick="submitForm()" style="margin-left: 10px">添加保存</button>
         </div>
 

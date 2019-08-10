@@ -127,7 +127,7 @@
 
         <div style="margin-left: 30px">
             <input type="hidden" name="activityId" id="activityId" th:value="${activityId}">
-            <input type="hidden" name="id" id="id" th:value="${redPackets.id}">
+            <input type="text" name="id" id="id" th:value="${redPackets.id}">
 
             <div class="parent">
                 <img th:src="@{/images/lable.jpg}" src="../static/images/lable.jpg" style="height: 25px; width: 4px">
@@ -155,7 +155,7 @@
         </div>
 
 
-        <div class="parent_h" style="margin-top: 20px">
+        <div class="parent_h" style="margin-top: 20px;margin-bottom: 36px">
 
 
             <button class="blue_button_style" onclick="submitForm()" style="margin-left: 10px">保存</button>

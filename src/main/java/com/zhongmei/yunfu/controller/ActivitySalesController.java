@@ -269,6 +269,7 @@ public class ActivitySalesController extends BaseController{
                 mActivityRedPacketsEntity.setServerCreateTime(new Date());
                 mActivityRedPacketsEntity.setServerUpdateTime(new Date());
             }else{
+                mActivityRedPacketsEntity.setId(mActivitySalesModel.getId());
                 mActivityRedPacketsEntity.setUpdatorId(creatorId);
                 mActivityRedPacketsEntity.setUpdatorName(creatorName);
                 mActivityRedPacketsEntity.setServerUpdateTime(new Date());
