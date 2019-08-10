@@ -35,6 +35,10 @@ public class WxTradeCustomerServiceImpl extends ServiceImpl<WxTradeCustomerMappe
     CutDownMarketingService mCutDownMarketingService;
     @Autowired
     FlashSalesMarketingService mFlashSalesMarketingService;
+    @Autowired
+    RecommendationAssociationService mRAService;
+    @Autowired
+    ActivitySalesService mActivitySalesService;
 
     @Override
     public Boolean addWxTradeCustomer(WxTradeCustomerEntity mWxTradeCustomer) throws Exception {
@@ -205,10 +209,17 @@ public class WxTradeCustomerServiceImpl extends ServiceImpl<WxTradeCustomerMappe
                 return "活动已售罄";
             }
         }
-
         //特价活动
         if(mTradeModel.getType() == 4){
 
+            //查询用户已购买数量
+            int joinCount = queryJoinCountByCustomer(mTradeModel);
+
+            //查询活动
+            int customerBuyCount = mActivitySalesService.queryJoinCountById(mTradeModel.getMarketingId());
+            if(joinCount >=  customerBuyCount){
+                return "该活动每人限制参与"+customerBuyCount+"次，您已参与购买了"+joinCount+"次，不能再次参与该活动，如有需求请直接联系商家";
+            }
         }
         return "";
     }

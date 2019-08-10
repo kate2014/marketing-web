@@ -48,4 +48,14 @@ public class ActivitySalesServiceImpl extends ServiceImpl<ActivitySalesMapper, A
 
         return selectById(id);
     }
+
+    @Override
+    public Integer queryJoinCountById(Long id) throws Exception {
+
+        EntityWrapper<ActivitySalesEntity> eWrapper = new EntityWrapper<>();
+        eWrapper.eq("id",id);
+        eWrapper.setSqlSelect("customer_buy_count");
+        ActivitySalesEntity mmActivitySalesEntity = selectOne(eWrapper);
+        return mmActivitySalesEntity.getCustomerBuyCount();
+    }
 }
