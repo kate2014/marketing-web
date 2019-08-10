@@ -54,4 +54,12 @@ public interface RecommendationAssociationService extends IService<Recommendatio
      * @throws Exception
      */
     Boolean modfityAssciation(RecommendationAssociationEntity entity)throws Exception;
+
+    /**
+     * 查询用户直接推荐成单数
+     * @param entity
+     * @return
+     * @throws Exception
+     */
+    Integer queryUserTradeCount(RecommendationAssociationEntity entity)throws Exception;
 }

@@ -34,6 +34,10 @@ public class RedPacketsRecordServiceImpl extends ServiceImpl<RedPacketsRecordMap
     ExpandedCommissionService mECService;
     @Autowired
     ExpandedCommissionService mExpandedCommissionService;
+    @Autowired
+    ActivitySalesGiftService mActivitySalesGiftService;
+    @Autowired
+    CustomerCouponService mCustomerCouponService;
 
     @Override
     public Boolean addRecord(RedPacketsRecordEntity entity) throws Exception {
@@ -140,6 +144,9 @@ public class RedPacketsRecordServiceImpl extends ServiceImpl<RedPacketsRecordMap
             entity.setTradeId(firstRA.getTradeId());
             entity.setTransactionStatus(2);
             mRAService.modfityAssciation(entity);
+
+            //查询用户推荐成单数，并做礼品推送
+            sendGift(firstRA);
         }
 
         return true;
@@ -167,6 +174,14 @@ public class RedPacketsRecordServiceImpl extends ServiceImpl<RedPacketsRecordMap
         return entity;
     }
 
+    /**
+     * 构建提成金额对象
+     * @param brandIdenty
+     * @param shopIdenty
+     * @param tradeId
+     * @param customerId
+     * @return
+     */
     public ExpandedCommissionEntity buildCommission(Long brandIdenty,Long shopIdenty,Long tradeId,Long customerId){
         ExpandedCommissionEntity mExpandedCommission = new ExpandedCommissionEntity();
 
@@ -179,5 +194,34 @@ public class RedPacketsRecordServiceImpl extends ServiceImpl<RedPacketsRecordMap
         mExpandedCommission.setStatusFlag(1);
 
         return mExpandedCommission;
+    }
+
+    /**
+     * 查询用户推荐成单数，并做礼品推送
+     * @param firstRA
+     * @return
+     */
+    public Boolean sendGift(RecommendationAssociationEntity firstRA){
+        try {
+            //查询用户已推荐成单数
+            int count = mRAService.queryUserTradeCount(firstRA);
+
+            //查询活动礼品赠送规则
+            ActivitySalesGiftEntity mActivitySalesGiftEntity = new ActivitySalesGiftEntity();
+            List<ActivitySalesGiftEntity> listASG = mActivitySalesGiftService.queryListData(mActivitySalesGiftEntity);
+
+            for(ActivitySalesGiftEntity entity :  listASG){
+                if(entity.getOrderCount() == count){
+                    mCustomerCouponService.putOnCoupon(firstRA.getBrandIdenty(), firstRA.getShopIdenty(),firstRA.getMainCustomerId(),firstRA.getMainWxOpenId(), 13,7);
+                }
+
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
     }
 }

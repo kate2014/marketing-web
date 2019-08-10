@@ -102,4 +102,16 @@ public class RecommendationAssociationServiceImpl extends ServiceImpl<Recommenda
 
         return update(entity,eWrapper);
     }
+
+    @Override
+    public Integer queryUserTradeCount(RecommendationAssociationEntity entity) throws Exception {
+        EntityWrapper<RecommendationAssociationEntity> eWrapper = new EntityWrapper<>();
+        eWrapper.eq("brand_identy",entity.getBrandIdenty());
+        eWrapper.eq("shop_identy",entity.getShopIdenty());
+        eWrapper.eq("status_flag",1);
+        eWrapper.eq("activity_id",entity.getActivityId());
+        eWrapper.eq("main_wx_open_id",entity.getMainWxOpenId());
+        List<RecommendationAssociationEntity> listData = selectList(eWrapper);
+        return listData.size();
+    }
 }

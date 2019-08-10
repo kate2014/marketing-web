@@ -42,4 +42,6 @@ public class ActivitySalesGiftServiceImpl extends ServiceImpl<ActivitySalesGiftM
         eWrapper.setSqlSelect("id,image_url,order_count,gift_name");
         return selectList(eWrapper);
     }
+
+
 }

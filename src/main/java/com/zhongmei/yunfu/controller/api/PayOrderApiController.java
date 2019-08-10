@@ -682,8 +682,9 @@ public class PayOrderApiController {
 
         sendWxMessage(mTradeEntity.getId(),mWxTradeCustomerEntity.getCustomerId());
 
-        //触发发送推荐成单红包
+        //触发发送推荐成单红包,发放推荐达成单数赠送礼品
         mRedPacketsRecordService.sendRedPackets(mTradeEntity.getBrandIdenty(),mTradeEntity.getShopIdenty(),mTradeEntity.getId());
+
 
         return mWxTradeCustomerEntity;
     }
