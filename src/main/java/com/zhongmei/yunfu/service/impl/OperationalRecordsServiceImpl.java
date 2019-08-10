@@ -1,8 +1,11 @@
 package com.zhongmei.yunfu.service.impl;
 
+import com.baomidou.mybatisplus.mapper.Condition;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.zhongmei.yunfu.controller.model.ActivityEffectModel;
+import com.zhongmei.yunfu.core.mybatis.mapper.ConditionFilter;
 import com.zhongmei.yunfu.domain.entity.CollageMarketingEntity;
 import com.zhongmei.yunfu.domain.entity.OperationalRecordsEntity;
 import com.zhongmei.yunfu.domain.mapper.OperationalRecordsMapper;
@@ -57,7 +60,7 @@ public class OperationalRecordsServiceImpl extends ServiceImpl<OperationalRecord
         eWrapper.eq("status_flag",1);
         eWrapper.eq("activity_id",entity.getActivityId());
         eWrapper.eq("type",entity.getType());
-        eWrapper.orderBy("server_update_time",false);
+        eWrapper.orderBy("operational_count",false);
         Page<OperationalRecordsEntity> listData = selectPage(listPage,eWrapper);
         return listData;
     }
@@ -118,5 +121,19 @@ public class OperationalRecordsServiceImpl extends ServiceImpl<OperationalRecord
         eWrapper.setSqlSelect("id,brand_identy,shop_identy,activity_id,customer_id,operational_count");
         OperationalRecordsEntity mOperationalRecordsEntity = selectOne(eWrapper);
         return mOperationalRecordsEntity;
+    }
+
+    @Override
+    public List<OperationalRecordsEntity> queryEffectCount(OperationalRecordsEntity entity) throws Exception {
+
+        EntityWrapper<OperationalRecordsEntity> eWrapper = new EntityWrapper<>(new OperationalRecordsEntity());
+
+        eWrapper.eq("brand_identy",entity.getBrandIdenty());
+        eWrapper.eq("shop_identy",entity.getShopIdenty());
+        eWrapper.eq("activity_id",entity.getActivityId());
+        eWrapper.groupBy("type");
+        eWrapper.setSqlSelect("count(id) as id,type,sum(operational_count) as operationalCount");
+
+        return selectList(eWrapper);
     }
 }

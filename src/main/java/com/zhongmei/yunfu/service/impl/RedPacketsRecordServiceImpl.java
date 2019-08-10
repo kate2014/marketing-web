@@ -83,7 +83,7 @@ public class RedPacketsRecordServiceImpl extends ServiceImpl<RedPacketsRecordMap
     }
 
     /**
-     * 发放红包
+     * 发放红包、赠送礼品
      * @return
      */
     @Override

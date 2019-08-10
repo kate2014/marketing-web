@@ -2,6 +2,7 @@ package com.zhongmei.yunfu.service;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.IService;
+import com.zhongmei.yunfu.controller.model.ActivityEffectModel;
 import com.zhongmei.yunfu.domain.entity.OperationalRecordsEntity;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public interface OperationalRecordsService extends IService<OperationalRecordsEn
     Boolean modiftyOperational(OperationalRecordsEntity entity)throws Exception;
 
     /**
-     * 查询活动的分享信息
+     * 查询活动的效果信息
      * @param entity
      * @return
      * @throws Exception
@@ -67,4 +68,11 @@ public interface OperationalRecordsService extends IService<OperationalRecordsEn
      */
     OperationalRecordsEntity queryByCustomer(OperationalRecordsEntity entity)throws Exception;
 
+    /**
+     * 查询活动效果统计
+     * @param entity
+     * @return
+     * @throws Exception
+     */
+    List<OperationalRecordsEntity> queryEffectCount(OperationalRecordsEntity entity)throws Exception;
 }

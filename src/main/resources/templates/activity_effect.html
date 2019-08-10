@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<style type="text/css">
+
+    html,body{
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        background-color: #FFFFFF;
+    }
+
+    <!-- 选项卡 -->
+    ol, ul, li{	list-style: none}
+    /*html,body { margin:0; padding:0; height:100%}*/
+    .table_card { /*width:96%;*/ margin: 5px 20px 0 20px;}
+    .table_card .tab { height:37px; font-size:14px;}
+    .table_card .tab li {font-size: 10px; float:left; height:37px; line-height:37px; padding:0 25px; margin-right:4px; border-radius: 5px 5px 0 0;}
+    .table_card .tab li:hover { height:37px; cursor:pointer;}
+    .table_card .activ { height:37px !important; !important; border-top:1px solid #e1e1e1;border-left:1px solid #e1e1e1;border-right:1px solid #e1e1e1;background-color: #FFFFFF;color: #3b3b1f}
+    .table_card .inverse { height:37px; background-color: #e1e1e1;color: #a6a6a6}
+    .table_card .hint {color: white; display:block; text-align: center;}
+
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <title>特价活动效果</title>
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" type="text/css" />
+
+    <script type="text/javascript" th:src="@{/js/window/window.ext.js}" src="../static/js/window/window.ext.js" ></script>
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" />
+    <!-- diglog -->
+    <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/diy_dialog.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/diy_dialog.css}" href="../static/css/diy_dialog.css" type="text/css" />
+
+    <script type="text/javascript" src="../static/js/echarts.min.js" th:src="@{/js/echarts.min.js}"></script>
+</head>
+
+<script type="text/javascript">
+
+    $(function () {
+        $(".tab li").click(function(){
+            var clickIndex = $(this).index();
+
+            if(clickIndex != 0){
+                $("#0").attr("class","inverse");
+            }else{
+                $("#0").attr("class","activ");
+            }
+            if(clickIndex != 1){
+                $("#1").attr("class","inverse");
+            }else{
+                $("#1").attr("class","activ");
+            }
+            if(clickIndex != 2){
+                $("#2").attr("class","inverse");
+            }else{
+                $("#2").attr("class","activ");
+            }
+        })
+
+
+        loadingIframe();
+
+        var iframe = document.getElementById("effect_iframe");
+        if (iframe.attachEvent){
+            iframe.attachEvent("onload", function(){
+                // iframe加载完成后要进行的操作
+                hideLoading();
+            })
+        } else {
+            iframe.onload = function(){
+                // iframe加载完成后要进行的操作
+                hideLoading();
+            }
+        }
+
+
+    });
+
+    function loadingIframe() {
+        showLoading("数据加载中，请稍后...")
+    }
+
+</script>
+
+<body>
+
+<div class="parent top_view_style">
+    <img th:src="@{/images/lable.jpg}" width="5" height="26" style="margin-left: 20px">
+    <label class="text_navigation" style="margin-left: 10px;width: 30%">营销 》特价活动 》活动效果</label>
+
+    <div align="right" style="width: 100%;margin-right: 50px">
+        <button class="gray_button_style" value="" th:onclick="@{|location='${basePath}/activity/salesList'|}" style="margin-left: 10px">返回</button>
+    </div>
+</div>
+
+<div style="width: 90%;height:400px; align-content: center; text-align: center; margin-left: 20px">
+    <div id="effectReport" style="width: 100%;height:400px;"></div>
+    <p style="font-weight: bold; margin-left: 6px">活动效果统计</p>
+</div>
+
+<div class="parent_h container" style="padding: 10px;background-color: #e1e1e1;margin-top: 20px">
+    <div class="parent">
+
+        <img src="../static/images/see_icon.png" th:src="@{/images/see_icon.png}" style="margin-right: 5px;height: 23px;width: auto">
+
+        <div>浏览人数：<span th:text="${seeCount.id}" style="margin-right: 5px;font-size: 16px;color: #FF7E00;">100000.00</span>人</div>
+        <div style="margin-left: 15px">
+            浏览次数：<span th:text="${seeCount.operationalCount}" style="margin-right: 5px;font-size: 16px;color: #FF7E00;">100000.00</span>次</div>
+
+    </div>
+
+    <div class="parent" style="margin-left: 25px">
+
+        <img src="../static/images/share_icon.png" th:src="@{/images/share_icon.png}" style="margin-right: 5px;height: 21px;width: auto">
+
+        <div>分享人数：<span th:text="${shareCount.id}" style="margin-right: 5px;font-size: 16px;color: #FF7E00">100000.00</span>人</div>
+        <div style="margin-left: 15px">
+            分享次数：<span th:text="${shareCount.operationalCount}" style="margin-right: 5px;font-size: 16px;color: #FF7E00;">100000.00</span>次</div>
+
+    </div>
+
+    <div class="parent" style="margin-left: 25px">
+
+        <img src="../static/images/buy_icon.png" th:src="@{/images/buy_icon.png}" style="margin-right: 5px;height: 24px;width: auto">
+
+        <div>购买人数：<span th:text="${salesCount.id}" style="margin-right: 5px;font-size: 16px;color: #FF7E00">100000.00</span>人</div>
+        <div style="margin-left: 15px">
+            购买数量：<span th:text="${salesCount.operationalCount}" style="margin-right: 5px;font-size: 16px;color: #FF7E00;">100000.00</span>次</div>
+
+    </div>
+
+</div>
+
+
+
+<div class="table_card">
+
+    <ul class="tab" style="margin-left: 30px">
+        <li id="0" onclick="loadingIframe()" class="activ" style="margin-bottom: -1px" target="effect_iframe" th:href="@{/activity/effect/detail(activityId=${mActivitySalesModel.id},type=1)}">浏览情况</li>
+        <li id="1" onclick="loadingIframe()" class="inverse" style="margin-bottom: -1px" target="effect_iframe" th:href="@{/activity/effect/detail(activityId=${mActivitySalesModel.id},type=1)}">分享情况</li>
+        <li id="2" onclick="loadingIframe()" class="inverse" style="margin-bottom: -1px" target="effect_iframe" th:href="@{/activity/effect/detail(activityId=${mActivitySalesModel.id},type=1)}">购买情况</li>
+    </ul>
+    <div style="height: 1px;width: 100%;background-color: #e1e1e1;margin-top: -1px"></div>
+</div>
+<div align="center" style="margin-top: 10px;width: 100%;height: 100%">
+
+    <iframe id="effect_iframe" onload="loadingIframe()" th:src="@{/activity/effect/detail(type=1,activityId=${mActivitySalesModel.id})}" width="100%" height="100%" style="border: 0px"></iframe>
+
+</div>
+
+
+<script th:inline="javascript">
+
+    var dom = document.getElementById("effectReport");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '活动效果概况';
+
+    option = {
+        dataset: {
+            source: [
+                ['score', 'amount', 'product'],
+
+                [40, [[${salesCount.operationalCount}]], '购买次数'],
+                [50, [[${salesCount.id}]], '购买人数'],
+                [60, [[${shareCount.operationalCount}]], '分享次数'],
+                [70, [[${shareCount.id}]], '分享人数'],
+                [80, [[${seeCount.operationalCount}]], '浏览次数'],
+                [90, [[${seeCount.id}]], '浏览人数'],
+
+            ]
+        },
+        grid: {containLabel: true},
+        xAxis: {name: '数量'},
+        yAxis: {type: 'category'},
+        visualMap: {
+            orient: 'horizontal',
+            left: 'center',
+            min: 10,
+            max: 100,
+            text: ['High Score', 'Low Score'],
+            // Map the score column to color
+            dimension: 0,
+            inRange: {
+                color: ['#D7DA8B', '#E15457']
+            }
+        },
+        series: [
+            {
+                type: 'bar',
+                encode: {
+                    // Map the "amount" column to X axis.
+                    x: 'amount',
+                    // Map the "product" column to Y axis
+                    y: 'product'
+                }
+            }
+        ]
+    };
+
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+
+
+</script>
+
+</body>
+</html>

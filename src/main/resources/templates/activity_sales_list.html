@@ -85,7 +85,7 @@
     <label class="text_navigation" style="margin-left: 10px;width: 30%">营销 》特价活动</label>
 
     <div align="right" style="width: 100%;margin-right: 50px">
-        <button class="blue_button_style" value="" th:onclick="@{|location='${basePath}/activity/addActivityPage'|}">+新建优惠券</button>
+        <button class="blue_button_style" value="" th:onclick="@{|location='${basePath}/activity/addActivityPage'|}">+新建活动</button>
         <button class="gray_button_style" value="" th:onclick="@{|location='${basePath}/home'|}" style="margin-left: 10px">返回</button>
     </div>
 </div>
@@ -109,15 +109,6 @@
 </form>
 <div align="center" style="margin-top: 10px">
     <table class="gridtablestyle" style="width: 90%; vertical-align: middle">
-        <!--<tr style="width: 100%">-->
-            <!--<th>活动图片</th>-->
-            <!--<th>活动名称</th>-->
-            <!--<th>活动状态</th>-->
-            <!--<th>活动价格</th>-->
-            <!--<th>活动结束时间</th>-->
-            <!--<th>购买活动使用有效期</th>-->
-            <!--<th>操作</th>-->
-        <!--</tr>-->
         <tr th:each="item:${listData}">
 
             <td>
@@ -150,7 +141,7 @@
                     <div style="margin-right: 20px">
                         <div style="text-align: right">
 
-                            <div class="parent" th:onclick="@{|location='${basePath}/activity/addActivityPage?id=${item.id}'|}" style="cursor: pointer">
+                            <div class="parent" th:onclick="@{|location='${basePath}/activity/effect?id=${item.id}'|}" style="cursor: pointer">
                                 <img src="../static/images/activity_report_icon.png" class="image_size_style">效果查看</div>
 
                             <div class="parent" th:onclick="@{|location='${basePath}/activity/addActivityPage?id=${item.id}'|}" style="cursor: pointer">
