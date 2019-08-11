@@ -132,6 +132,7 @@ public class OperationalRecordsServiceImpl extends ServiceImpl<OperationalRecord
         eWrapper.eq("shop_identy",entity.getShopIdenty());
         eWrapper.eq("activity_id",entity.getActivityId());
         eWrapper.groupBy("type");
+        eWrapper.orderBy("type",false);
         eWrapper.setSqlSelect("count(id) as id,type,sum(operational_count) as operationalCount");
 
         return selectList(eWrapper);

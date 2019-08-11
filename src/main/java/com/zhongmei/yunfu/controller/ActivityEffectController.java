@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -63,9 +64,25 @@ public class ActivityEffectController extends BaseController{
                 }
 
             }
+
             model.addAttribute("seeCount",seeCount);
             model.addAttribute("shareCount",shareCount);
             model.addAttribute("salesCount",salesCount);
+
+            List<Long> persionCount = new LinkedList<>();
+            List<Integer> optionCount = new LinkedList<>();
+
+            persionCount.add(seeCount.getId());
+            optionCount.add(seeCount.getOperationalCount());
+
+            persionCount.add(shareCount.getId());
+            optionCount.add(shareCount.getOperationalCount());
+
+            persionCount.add(salesCount.getId());
+            optionCount.add(salesCount.getOperationalCount());
+
+            model.addAttribute("persionCount",persionCount);
+            model.addAttribute("optionCount",optionCount);
 
             model.addAttribute("mActivitySalesModel",mActivitySalesModel);
 
