@@ -126,10 +126,12 @@ public class WxTradeCustomerServiceImpl extends ServiceImpl<WxTradeCustomerMappe
     @Override
     public String checkMarketingVaild(TradeModel mTradeModel)throws Exception{
 
-        //判断会员是否参与过该活动，目前限制一活动同一人只能参与一次
-        int count = queryJoinCountByCustomer(mTradeModel);
-        if(count>0){
-            return "您已参与过该活动，不允许多次参与，请在-我的-订单中心查看";
+        if(mTradeModel.getType() != 4){
+            //判断会员是否参与过该活动，目前拼团、秒杀、砍价限制一活动同一人只能参与一次
+            int count = queryJoinCountByCustomer(mTradeModel);
+            if(count>0){
+                return "您已参与过该活动，不允许多次参与，请在-我的-订单中心查看";
+            }
         }
 
         //拼团
@@ -218,7 +220,7 @@ public class WxTradeCustomerServiceImpl extends ServiceImpl<WxTradeCustomerMappe
             //查询活动
             int customerBuyCount = mActivitySalesService.queryJoinCountById(mTradeModel.getMarketingId());
             if(joinCount >=  customerBuyCount){
-                return "该活动每人限制参与"+customerBuyCount+"次，您已参与购买了"+joinCount+"次，不能再次参与该活动，如有需求请直接联系商家";
+                return "该活动每人限制参与"+customerBuyCount+"次，您已参与了"+joinCount+"次，请前往-我的-订单中心查看";
             }
         }
         return "";

@@ -172,8 +172,10 @@ public class TradeApiController {
         }else if(mTradeModel.getType() == 3){
             addWxTradeCustomer(trade,mTradeModel);
         }else if(mTradeModel.getType() == 4){
+
             String returnMessage = addWxTradeCustomer(trade,mTradeModel);
-            if(!returnMessage.equals("")){ //订单创建成功后，构建推荐人关联，用于支付完成后发放红包和验证发放礼品
+
+            if(returnMessage.equals("")){ //订单创建成功后，构建推荐人关联，用于支付完成后发放红包和验证发放礼品
 
                 buildRecommendAssociation(mTradeModel,trade);
             }
@@ -190,6 +192,7 @@ public class TradeApiController {
      */
     public void buildRecommendAssociation(TradeModel mTradeModel,TradeEntity trade){
         try {
+
             if((mTradeModel.getRecommendOpenId() != null && !mTradeModel.getRecommendOpenId().equals("")) || (mTradeModel.getRecommendCustomerId() != null && !mTradeModel.getRecommendCustomerId().equals(""))){
                 RecommendationAssociationEntity entity = new RecommendationAssociationEntity();
 
