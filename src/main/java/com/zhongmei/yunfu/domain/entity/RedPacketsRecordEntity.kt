@@ -12,10 +12,10 @@ import com.zhongmei.yunfu.service.LoginManager
 
 /**
  * <p>
- * 特价活动赠送礼品规则
+ * 红包发放规则
  * </p>
  */
-@TableName("activity_red_packets_rule")
+@TableName("red_packets_record")
 class RedPacketsRecordEntity : SupperEntity() {
 
     /**
@@ -38,9 +38,13 @@ class RedPacketsRecordEntity : SupperEntity() {
 
     var customerId: Long? = null
 
+    var customerName: String? = null
+
+    var customerPhone: String? = null
+
     var wxOpenId: String? = null
 
-    var customerName: String? = null
+    var wxName: String? = null
 
     var wxPhoto: String? = null
 
@@ -64,7 +68,9 @@ class RedPacketsRecordEntity : SupperEntity() {
                 ", shopIdenty=" + shopIdenty +
                 ", activityId=" + activityId +
                 ", customerId=" + customerId +
+                ", customerPhone=" + customerPhone +
                 ", wxOpenId=" + wxOpenId +
+                ", wxName=" + wxName +
                 ", customerName=" + customerName +
                 ", wxPhoto=" + wxPhoto +
                 ", amount=" + amount +

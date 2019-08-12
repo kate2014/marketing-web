@@ -1,6 +1,8 @@
 package com.zhongmei.yunfu.service;
 
 import com.baomidou.mybatisplus.service.IService;
+import com.zhongmei.yunfu.controller.model.ActivityEffectModel;
+import com.zhongmei.yunfu.controller.model.CustomerGiftModel;
 import com.zhongmei.yunfu.domain.entity.ActivitySalesEntity;
 import com.zhongmei.yunfu.domain.entity.ActivitySalesGiftEntity;
 
@@ -33,5 +35,12 @@ public interface ActivitySalesGiftService extends IService<ActivitySalesGiftEnti
      */
     List<ActivitySalesGiftEntity> queryListData(ActivitySalesGiftEntity mActivitySalesGiftEntity)throws Exception;
 
+    /**
+     * 获取活动礼品赠送情况
+     * @param mActivityEffectModel
+     * @return
+     * @throws Exception
+     */
+    List<CustomerGiftModel> queryActivityGift(ActivityEffectModel mActivityEffectModel)throws Exception;
 
 }

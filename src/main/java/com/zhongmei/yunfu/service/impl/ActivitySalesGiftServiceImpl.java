@@ -1,7 +1,12 @@
 package com.zhongmei.yunfu.service.impl;
 
+import com.baomidou.mybatisplus.mapper.Condition;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.zhongmei.yunfu.controller.model.ActivityEffectModel;
+import com.zhongmei.yunfu.controller.model.CollageCustomerModel;
+import com.zhongmei.yunfu.controller.model.CustomerGiftModel;
+import com.zhongmei.yunfu.core.mybatis.mapper.ConditionFilter;
 import com.zhongmei.yunfu.domain.entity.ActivitySalesEntity;
 import com.zhongmei.yunfu.domain.entity.ActivitySalesGiftEntity;
 import com.zhongmei.yunfu.domain.mapper.ActivitySalesGiftMapper;
@@ -41,6 +46,18 @@ public class ActivitySalesGiftServiceImpl extends ServiceImpl<ActivitySalesGiftM
         eWrapper.eq("activity_id",mActivitySalesGiftEntity.getActivityId());
         eWrapper.setSqlSelect("id,image_url,order_count,gift_name");
         return selectList(eWrapper);
+    }
+
+    @Override
+    public List<CustomerGiftModel> queryActivityGift(ActivityEffectModel mActivityEffectModel) throws Exception {
+        Condition eWrapper = ConditionFilter.create();
+        eWrapper.eq("c.brand_identy",mActivityEffectModel.getBrandIdenty());
+        eWrapper.eq("c.shop_identy",mActivityEffectModel.getShopIdenty());
+        eWrapper.eq("c.activity_id",mActivityEffectModel.getActivityId());
+        eWrapper.eq("c.status_flag",1);
+        List<CustomerGiftModel> listData = baseMapper.queryActivityGift(eWrapper);
+
+        return listData;
     }
 
 

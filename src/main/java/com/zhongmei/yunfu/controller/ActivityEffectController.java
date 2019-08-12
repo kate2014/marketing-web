@@ -3,12 +3,12 @@ package com.zhongmei.yunfu.controller;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.zhongmei.yunfu.controller.model.ActivityEffectModel;
 import com.zhongmei.yunfu.controller.model.ActivitySalesModel;
+import com.zhongmei.yunfu.controller.model.CustomerGiftModel;
 import com.zhongmei.yunfu.domain.entity.CollageMarketingEntity;
 import com.zhongmei.yunfu.domain.entity.OperationalRecordsEntity;
 import com.zhongmei.yunfu.domain.entity.RecommendationAssociationEntity;
-import com.zhongmei.yunfu.service.LoginManager;
-import com.zhongmei.yunfu.service.OperationalRecordsService;
-import com.zhongmei.yunfu.service.RecommendationAssociationService;
+import com.zhongmei.yunfu.domain.entity.RedPacketsRecordEntity;
+import com.zhongmei.yunfu.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +28,10 @@ public class ActivityEffectController extends BaseController{
     OperationalRecordsService mOperationalRecordsService;
     @Autowired
     RecommendationAssociationService mRAService;
+    @Autowired
+    ActivitySalesGiftService mActivitySalesGiftService;
+    @Autowired
+    RedPacketsRecordService mRedPacketsRecordService;
 
     @RequestMapping("/effect")
     public String querySalesList(Model model, ActivitySalesModel mActivitySalesModel) {
@@ -164,10 +168,55 @@ public class ActivityEffectController extends BaseController{
      * @param mActivityEffectModel
      * @return
      */
+    @RequestMapping("/effect/giftDetail")
     public String giftDetail(Model model, ActivityEffectModel mActivityEffectModel){
 
+        try {
+            Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
+            Long shopIdentity = LoginManager.get().getUser().getShopIdenty();
+            mActivityEffectModel.setBrandIdenty(brandIdentity);
+            mActivityEffectModel.setShopIdenty(shopIdentity);
+            List<CustomerGiftModel> listGift =  mActivitySalesGiftService.queryActivityGift(mActivityEffectModel);
+            model.addAttribute("listGift", listGift);
+            model.addAttribute("mActivityEffectModel", mActivityEffectModel);
+        }catch (Exception e){
+            e.printStackTrace();
+            return "fail";
+        }
 
-        return "";
+        return "activity_effect_gift";
+    }
+
+    /**
+     * 获取红包发放情况
+     * @param model
+     * @param mActivityEffectModel
+     * @return
+     */
+    @RequestMapping("/effect/redPacketsDetail")
+    public String redPacketsDetail(Model model, ActivityEffectModel mActivityEffectModel){
+
+        try{
+            Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
+            Long shopIdentity = LoginManager.get().getUser().getShopIdenty();
+
+            RedPacketsRecordEntity entity = new RedPacketsRecordEntity();
+            entity.setBrandIdenty(brandIdentity);
+            entity.setShopIdenty(shopIdentity);
+            entity.setActivityId(mActivityEffectModel.getActivityId());
+
+            Page<RedPacketsRecordEntity> listData = mRedPacketsRecordService.queryRedPackets(entity,mActivityEffectModel.getPageNo(),mActivityEffectModel.getPageSize());
+
+            setWebPage(model, "/activity/effect/redPacketsDetail", listData, mActivityEffectModel);
+            model.addAttribute("mActivityEffectModel", mActivityEffectModel);
+            model.addAttribute("list", listData.getRecords());
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return "fail";
+        }
+
+        return "activity_effect_redpackets";
     }
 
 }

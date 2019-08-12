@@ -38,8 +38,6 @@ class RecommendationAssociationEntity : SupperEntity() {
 
     var mainCustomerName: String? = null
 
-    var mainWxPhoto: String? = null
-
     var acceptWxOpenId: String? = null
 
     var tradeId: Long? = null
@@ -59,7 +57,6 @@ class RecommendationAssociationEntity : SupperEntity() {
                 ", mainCustomerId=" + mainCustomerId +
                 ", mainWxOpenId=" + mainWxOpenId +
                 ", mainCustomerName=" + mainCustomerName +
-                ", mainWxPhoto=" + mainWxPhoto +
                 ", acceptWxOpenId=" + acceptWxOpenId +
                 ", tradeId=" + tradeId +
                 ", activityId=" + activityId +

@@ -38,6 +38,8 @@ public class RedPacketsRecordServiceImpl extends ServiceImpl<RedPacketsRecordMap
     ActivitySalesGiftService mActivitySalesGiftService;
     @Autowired
     CustomerCouponService mCustomerCouponService;
+    @Autowired
+    OperationalRecordsService mOperationalRecordsService;
 
     @Override
     public Boolean addRecord(RedPacketsRecordEntity entity) throws Exception {
@@ -152,15 +154,49 @@ public class RedPacketsRecordServiceImpl extends ServiceImpl<RedPacketsRecordMap
         return true;
     }
 
+    @Override
+    public Page<RedPacketsRecordEntity> queryRedPackets(RedPacketsRecordEntity entity, int pageNo, int pageSize) throws Exception {
+
+        RedPacketsRecordEntity mRedPacketsRecordEntity = new RedPacketsRecordEntity();
+        Page<RedPacketsRecordEntity> listPage = new Page<>(pageNo, pageSize);
+        EntityWrapper<RedPacketsRecordEntity> eWrapper = new EntityWrapper<>(mRedPacketsRecordEntity);
+
+        eWrapper.eq("brand_identy",entity.getBrandIdenty());
+        eWrapper.eq("shop_identy",entity.getShopIdenty());
+        eWrapper.eq("activity_id",entity.getActivityId());
+        eWrapper.eq("status_flag",1);
+
+        eWrapper.setSqlSelect("customer_name,customer_phone,wx_name,wx_photo,sum(amount) as amount,count(id) as id");
+        eWrapper.orderBy("sum(amount)",false);
+
+        Page<RedPacketsRecordEntity> listData = selectPage(listPage,eWrapper);
+        return listData;
+
+    }
+
     /**
      * 构建红包发放记录对象
      * @return
      */
-    public RedPacketsRecordEntity buildRedPacketsRecord(RecommendationAssociationEntity raEntity,double amount,int sourcId){
+    public RedPacketsRecordEntity buildRedPacketsRecord(RecommendationAssociationEntity raEntity,double amount,int sourcId)throws Exception{
+
+        //通过查询操作记录表获取用户基本信息，用于补全红包发放数据对象
+        OperationalRecordsEntity orEntity = new OperationalRecordsEntity();
+        orEntity.setBrandIdenty(raEntity.getBrandIdenty());
+        orEntity.setShopIdenty(raEntity.getShopIdenty());
+        orEntity.setWxOpenId(raEntity.getMainWxOpenId());
+        orEntity.setActivityId(raEntity.getId());
+        orEntity.setType(1);
+        OperationalRecordsEntity recordEntity = mOperationalRecordsService.queryByCustomer(orEntity);
+
+
         RedPacketsRecordEntity entity = new RedPacketsRecordEntity();
-        entity.setWxOpenId(raEntity.getMainWxOpenId());
+        entity.setCustomerId(raEntity.getMainCustomerId());
         entity.setCustomerName(raEntity.getMainCustomerName());
-        entity.setWxPhoto(raEntity.getMainWxPhoto());
+        entity.setCustomerPhone(recordEntity.getCustomerPhone());
+        entity.setWxOpenId(raEntity.getMainWxOpenId());
+        entity.setWxName(recordEntity.getWxName());
+        entity.setWxPhoto(recordEntity.getWxPhoto());
         entity.setAmount(new BigDecimal(amount));
         entity.setActivityId(raEntity.getActivityId());
         entity.setTradeId(raEntity.getTradeId());

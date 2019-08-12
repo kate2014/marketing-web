@@ -100,7 +100,7 @@ public class RecommendationAssociationServiceImpl extends ServiceImpl<Recommenda
         eWrapper.eq("transaction_status",2);
         eWrapper.groupBy("main_wx_open_id");
         eWrapper.orderBy("count(id)",false);
-        eWrapper.setSqlSelect("count(id) as id,main_customer_id,main_wx_open_id,main_customer_name,main_wx_photo");
+        eWrapper.setSqlSelect("count(id) as id,main_customer_id,main_wx_open_id,main_customer_name");
         Page<RecommendationAssociationEntity> listData = selectPage(listPage,eWrapper);
         return listData;
     }

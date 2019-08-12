@@ -198,9 +198,9 @@ public class TradeApiController {
 
                 entity.setShopIdenty(mTradeModel.getShopIdenty());
                 entity.setBrandIdenty(mTradeModel.getBrandIdenty());
-                entity.setMainCustomerId(mTradeModel.getCustomerId());
-                entity.setMainWxOpenId(mTradeModel.getWxOpenId());
-                entity.setAcceptWxOpenId(mTradeModel.getRecommendOpenId());
+                entity.setMainCustomerId(mTradeModel.getRecommendCustomerId());
+                entity.setMainWxOpenId(mTradeModel.getRecommendOpenId());
+                entity.setAcceptWxOpenId(mTradeModel.getWxOpenId());
                 entity.setTradeId(trade.getId());
                 entity.setActivityId(mTradeModel.getMarketingId());
                 entity.setTransactionStatus(1);

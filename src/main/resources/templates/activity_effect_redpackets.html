@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<style type="text/css">
+
+    html,body{
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        background-color: #FFFFFF;
+    }
+
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <title>特价活动礼品赠送情况</title>
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" type="text/css" />
+
+    <!-- diglog -->
+    <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/diy_dialog.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/diy_dialog.css}" href="../static/css/diy_dialog.css" type="text/css" />
+</head>
+
+<script type="text/javascript">
+
+
+</script>
+
+<body>
+
+<div align="center" style="margin-top: 10px">
+    <table class="gridtablestyle" style="width: 96%; vertical-align: middle">
+        <tr style="width: 100%">
+            <th>操作</th>
+            <th>顾客</th>
+            <th>名称</th>
+            <th>电话</th>
+            <th>推荐次数</th>
+            <th>红包总额</th>
+
+        </tr>
+        <tr th:each="item:${list}">
+            <td>
+                <input type="checkbox">
+            </td>
+            <td>
+                <div class="parent container">
+                    <img style="height: 36px;width: auto;margin-right: 5px" th:src="${item.wxPhoto}" src="https://wx.qlogo.cn/mmopen/vi_32/SEqTQhLC64kJFicxclAywVS9bwicZhmbr2fhVz02kwdAOBUn43EjkXoPltHerOQCZAToK3kk5eRAC64aZplVhd4w/132">
+                    <span th:text="${item.wxName}">Calme</span>
+                </div>
+            </td>
+
+            <td th:text="${item.customerName}">张三</td>
+            <td th:text="${item.customerPhone}">189080888898</td>
+
+            <td th:text="${item.id}"></td>
+            <td th:text="${item.amount}">2</td>
+
+        </tr>
+
+    </table>
+</div>
+
+</body>
+</html>

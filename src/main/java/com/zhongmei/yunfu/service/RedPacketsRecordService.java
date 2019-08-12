@@ -47,4 +47,14 @@ public interface RedPacketsRecordService extends IService<RedPacketsRecordEntity
      */
     public Boolean sendRedPackets(Long brandIdenty,Long shopIdenty,Long tradeId) throws Exception;
 
+    /**
+     * 查询门店活动中红包发放情况
+     * @param entity
+     * @param pageNo
+     * @param pageSize
+     * @return
+     * @throws Exception
+     */
+    Page<RedPacketsRecordEntity> queryRedPackets(RedPacketsRecordEntity entity,int pageNo,int pageSize)throws Exception;
+
 }
