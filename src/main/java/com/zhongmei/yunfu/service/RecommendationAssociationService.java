@@ -1,5 +1,6 @@
 package com.zhongmei.yunfu.service;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.IService;
 import com.zhongmei.yunfu.domain.entity.ActivityRedPacketsEntity;
 import com.zhongmei.yunfu.domain.entity.RecommendationAssociationEntity;
@@ -46,6 +47,14 @@ public interface RecommendationAssociationService extends IService<Recommendatio
      * @throws Exception
      */
     RecommendationAssociationEntity queryByTradeId(Long brandIdenty,Long shopIdenty,Long tradeId)throws Exception;
+
+    /**
+     * 查询会员推荐成单信息
+     * @param entity
+     * @return
+     * @throws Exception
+     */
+    Page<RecommendationAssociationEntity> queryRAByCustomer(RecommendationAssociationEntity entity,Integer pageNo,Integer pageSize)throws Exception;
 
     /**
      * 更新推荐状态

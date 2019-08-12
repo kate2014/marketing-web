@@ -24,7 +24,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>添加品项</title>
+    <title>特价活动效果</title>
     <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
     <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
     <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" />
@@ -60,6 +60,15 @@
             if(clickIndex != 2){
                 $("#2").addClass("inverse");
             }
+            if(clickIndex != 3){
+                $("#3").addClass("inverse");
+            }
+            if(clickIndex != 4){
+                $("#4").addClass("inverse");
+            }
+            if(clickIndex != 5){
+                $("#5").addClass("inverse");
+            }
             $(".tab li").eq(clickIndex).addClass("activ").siblings().removeClass("activ");
 
             $("input[name='opType']").val(clickIndex);
@@ -85,7 +94,7 @@
     <div id="effectReport" style="width: 100%;height:400px;"></div>
 </div>
 
-<div class="parent_h container" style="padding: 10px;background-color: #e1e1e1;margin-top: 20px">
+<div class="parent_h container" style="padding: 10px;background-color: #4e555b;margin-top: 20px;color: #FFFFFF;font-size: 14px">
     <div class="parent">
 
         <img src="../static/images/see_icon.png" th:src="@{/images/see_icon.png}" style="margin-right: 5px;height: 23px;width: auto">
@@ -121,9 +130,12 @@
 <div class="table_card" style="margin-top: 20px">
 
     <ul class="tab" style="margin-left: 30px">
-        <li id="0" class="activ" style="margin-bottom: -1px" target="dish_iframe" th:href="@{/activity/effect/detail(type=1,activityId=${mActivitySalesModel.id})}">浏览情况</li>
-        <li id="1" class="inverse" style="margin-bottom: -1px" target="dish_iframe" th:href="@{/activity/effect/detail(type=2,activityId=${mActivitySalesModel.id})}">分析情况</li>
-        <li id="2" class="inverse" style="margin-bottom: -1px" target="dish_iframe" th:href="@{/activity/effect/detail(type=3,activityId=${mActivitySalesModel.id})}">购买情况</li>
+        <li id="0" class="activ" style="margin-bottom: -1px;width: 150px;text-align: center" target="dish_iframe" th:href="@{/activity/effect/detail(type=1,activityId=${mActivitySalesModel.id})}">浏览情况</li>
+        <li id="1" class="inverse" style="margin-bottom: -1px;width: 150px;text-align: center" target="dish_iframe" th:href="@{/activity/effect/detail(type=2,activityId=${mActivitySalesModel.id})}">分享情况</li>
+        <li id="2" class="inverse" style="margin-bottom: -1px;width: 150px;text-align: center" target="dish_iframe" th:href="@{/activity/effect/detail(type=3,activityId=${mActivitySalesModel.id})}">购买情况</li>
+        <li id="3" class="inverse" style="margin-bottom: -1px;width: 150px;text-align: center" target="dish_iframe" th:href="@{/activity/effect/recommend(activityId=${mActivitySalesModel.id})}">推荐成单情况</li>
+        <li id="4" class="inverse" style="margin-bottom: -1px;width: 150px;text-align: center" target="dish_iframe" th:href="@{/activity/effect/detail(type=3,activityId=${mActivitySalesModel.id})}">礼品赠送情况</li>
+        <li id="5" class="inverse" style="margin-bottom: -1px;width: 150px;text-align: center" target="dish_iframe" th:href="@{/activity/effect/detail(type=3,activityId=${mActivitySalesModel.id})}">红包发放情况</li>
     </ul>
     <div style="height: 1px;width: 100%;background-color: #e1e1e1;margin-top: -1px"></div>
 </div>

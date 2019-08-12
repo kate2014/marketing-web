@@ -5,8 +5,10 @@ import com.zhongmei.yunfu.controller.model.ActivityEffectModel;
 import com.zhongmei.yunfu.controller.model.ActivitySalesModel;
 import com.zhongmei.yunfu.domain.entity.CollageMarketingEntity;
 import com.zhongmei.yunfu.domain.entity.OperationalRecordsEntity;
+import com.zhongmei.yunfu.domain.entity.RecommendationAssociationEntity;
 import com.zhongmei.yunfu.service.LoginManager;
 import com.zhongmei.yunfu.service.OperationalRecordsService;
+import com.zhongmei.yunfu.service.RecommendationAssociationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +26,8 @@ public class ActivityEffectController extends BaseController{
 
     @Autowired
     OperationalRecordsService mOperationalRecordsService;
+    @Autowired
+    RecommendationAssociationService mRAService;
 
     @RequestMapping("/effect")
     public String querySalesList(Model model, ActivitySalesModel mActivitySalesModel) {
@@ -119,6 +123,39 @@ public class ActivityEffectController extends BaseController{
             return "fail";
         }
 
+    }
+
+    /**
+     * 推荐成单情况
+     * @param model
+     * @param mActivityEffectModel
+     * @return
+     */
+    @RequestMapping("/effect/recommend")
+    public String queryRecommendDetail(Model model, ActivityEffectModel mActivityEffectModel){
+
+        try {
+            Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
+            Long shopIdentity = LoginManager.get().getUser().getShopIdenty();
+
+            RecommendationAssociationEntity entity = new RecommendationAssociationEntity();
+            entity.setBrandIdenty(brandIdentity);
+            entity.setShopIdenty(shopIdentity);
+            entity.setActivityId(mActivityEffectModel.getActivityId());
+
+            Page<RecommendationAssociationEntity> listData = mRAService.queryRAByCustomer(entity,mActivityEffectModel.getPageNo(),mActivityEffectModel.getPageSize());
+
+            setWebPage(model, "/activity/effect/detail", listData, mActivityEffectModel);
+            model.addAttribute("mActivityEffectModel", mActivityEffectModel);
+            model.addAttribute("list", listData.getRecords());
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return "fail";
+        }
+
+        return "activity_recommendation_detail";
     }
 
 }

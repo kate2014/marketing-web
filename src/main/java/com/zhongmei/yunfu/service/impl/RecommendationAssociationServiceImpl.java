@@ -1,13 +1,10 @@
 package com.zhongmei.yunfu.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
-import com.zhongmei.yunfu.domain.entity.ActivityRedPacketsEntity;
-import com.zhongmei.yunfu.domain.entity.ActivitySalesEntity;
 import com.zhongmei.yunfu.domain.entity.RecommendationAssociationEntity;
-import com.zhongmei.yunfu.domain.mapper.ActivitySalesMapper;
 import com.zhongmei.yunfu.domain.mapper.RecommendationAssociationMapper;
-import com.zhongmei.yunfu.service.ActivitySalesService;
 import com.zhongmei.yunfu.service.RecommendationAssociationService;
 import org.springframework.stereotype.Service;
 
@@ -89,6 +86,23 @@ public class RecommendationAssociationServiceImpl extends ServiceImpl<Recommenda
         eWrapper.eq("trade_id",tradeId);
 
         return selectOne(eWrapper);
+    }
+
+    @Override
+    public Page<RecommendationAssociationEntity> queryRAByCustomer(RecommendationAssociationEntity entity, Integer pageNo, Integer pageSize) throws Exception {
+        RecommendationAssociationEntity raEntity = new RecommendationAssociationEntity();
+        Page<RecommendationAssociationEntity> listPage = new Page<>(pageNo, pageSize);
+        EntityWrapper<RecommendationAssociationEntity> eWrapper = new EntityWrapper<>(raEntity);
+        eWrapper.eq("brand_identy",entity.getBrandIdenty());
+        eWrapper.eq("shop_identy",entity.getShopIdenty());
+        eWrapper.eq("status_flag",1);
+        eWrapper.eq("activity_id",entity.getActivityId());
+        eWrapper.eq("transaction_status",2);
+        eWrapper.groupBy("main_wx_open_id");
+        eWrapper.orderBy("count(id)",false);
+        eWrapper.setSqlSelect("count(id) as id,main_customer_id,main_wx_open_id,main_customer_name,main_wx_photo");
+        Page<RecommendationAssociationEntity> listData = selectPage(listPage,eWrapper);
+        return listData;
     }
 
     @Override

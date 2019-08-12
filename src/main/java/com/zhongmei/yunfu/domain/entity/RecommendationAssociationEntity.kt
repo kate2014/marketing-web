@@ -6,6 +6,7 @@ import java.util.Date;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName
 import com.zhongmei.yunfu.domain.entity.base.BaseEntity;
+import com.zhongmei.yunfu.domain.entity.base.SupperEntity
 import com.zhongmei.yunfu.domain.enums.StatusFlag
 import com.zhongmei.yunfu.service.LoginManager
 
@@ -15,7 +16,7 @@ import com.zhongmei.yunfu.service.LoginManager
  * </p>
  */
 @TableName("recommendation_association")
-class RecommendationAssociationEntity : BaseEntity() {
+class RecommendationAssociationEntity : SupperEntity() {
 
     /**
      * 自增主键
