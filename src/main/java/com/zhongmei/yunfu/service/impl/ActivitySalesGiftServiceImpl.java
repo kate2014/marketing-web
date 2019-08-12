@@ -38,6 +38,14 @@ public class ActivitySalesGiftServiceImpl extends ServiceImpl<ActivitySalesGiftM
     }
 
     @Override
+    public Boolean deleteByActivityId(Long activityId) throws Exception {
+        EntityWrapper<ActivitySalesGiftEntity> eWrapper = new EntityWrapper<>();
+        eWrapper.eq("activity_id",activityId);
+
+        return delete(eWrapper);
+    }
+
+    @Override
     public List<ActivitySalesGiftEntity> queryListData(ActivitySalesGiftEntity mActivitySalesGiftEntity) throws Exception {
         EntityWrapper<ActivitySalesGiftEntity> eWrapper = new EntityWrapper<>();
         eWrapper.eq("brand_identy",mActivitySalesGiftEntity.getBrandIdenty());

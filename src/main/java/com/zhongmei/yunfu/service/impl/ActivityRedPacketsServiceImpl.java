@@ -42,4 +42,11 @@ public class ActivityRedPacketsServiceImpl extends ServiceImpl<ActivityRedPacket
         ActivityRedPacketsEntity entity = selectOne(eWrapper);
         return entity;
     }
+
+    @Override
+    public Boolean deleteByActivityId(Long activityId) throws Exception {
+        EntityWrapper<ActivityRedPacketsEntity> eWrapper = new EntityWrapper<>();
+        eWrapper.eq("activity_id",activityId);
+        return delete(eWrapper);
+    }
 }

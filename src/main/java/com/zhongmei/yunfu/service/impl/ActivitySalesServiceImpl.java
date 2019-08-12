@@ -26,7 +26,9 @@ public class ActivitySalesServiceImpl extends ServiceImpl<ActivitySalesMapper, A
 
     @Override
     public boolean deleteById(Long id) throws Exception {
-        return deleteById(id);
+        EntityWrapper<ActivitySalesEntity> eWrapper = new EntityWrapper<>();
+        eWrapper.eq("id",id);
+        return delete(eWrapper);
     }
 
     @Override
@@ -37,6 +39,9 @@ public class ActivitySalesServiceImpl extends ServiceImpl<ActivitySalesMapper, A
         eWrapper.eq("status_flag",1);
         if(mActivitySalesEntity.getEnabledFlag() != null){
             eWrapper.eq("enabled_flag",mActivitySalesEntity.getEnabledFlag());
+        }
+        if(mActivitySalesEntity.getName() != null){
+            eWrapper.like("name",mActivitySalesEntity.getName());
         }
 
         eWrapper.setSqlSelect("id,name,profile,image_url,sales_count,sale_amount,end_time,validity_period,enabled_flag");

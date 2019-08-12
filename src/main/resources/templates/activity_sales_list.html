@@ -59,7 +59,7 @@
 
     function deleteRequest (deleteId) {
 
-        const Url = "[[${basePath}]]/coupon/delete?id="+deleteId;
+        const Url = "[[${basePath}]]/activity/deleteActivity?id="+deleteId;
 
         const Http = new XMLHttpRequest();
 
@@ -95,19 +95,19 @@
 
         <label class="text_navigation" style="margin-left: 10px">状态</label>
         <select name="enabledFlag" class="select_style" style="margin-left: 5px">
-            <option value="0">全部</option>
+            <option>全部</option>
             <option value="1" th:selected="${mActivitySalesModel.enabledFlag==1}">进行中</option>
             <option value="2" th:selected="${mActivitySalesModel.enabledFlag==2}">活动停止</option>
         </select>
 
         <label class="text_navigation" style="margin-left: 10px">方案名称</label>
-        <input class="input_style" style="margin-left: 5px" type="text" name="keyWord" th:value="${mActivitySalesModel.name}" />
+        <input class="input_style" style="margin-left: 5px" type="text" name="name" th:value="${mActivitySalesModel.name}" />
 
         <button class="orange_mine_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
 
     </div>
 </form>
-<div align="center" style="margin-top: 10px">
+<div align="center" style="margin-top: 10px;margin-bottom: 36px">
     <table class="gridtablestyle" style="width: 90%; vertical-align: middle">
         <tr th:each="item:${listData}">
 

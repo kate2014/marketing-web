@@ -34,4 +34,11 @@ public interface ActivityRedPacketsService extends IService<ActivityRedPacketsEn
      */
     ActivityRedPacketsEntity queryRule(ActivityRedPacketsEntity mActivityRedPacketsEntity)throws Exception;
 
+    /**
+     * 根据活动id删除红包赠送规则
+     * @param activityId
+     * @return
+     * @throws Exception
+     */
+    Boolean deleteByActivityId(Long activityId)throws Exception;
 }

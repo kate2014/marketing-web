@@ -34,6 +34,8 @@ public class ActivitySalesController extends BaseController{
             ActivitySalesEntity mActivitySalesEntity = new ActivitySalesEntity();
             mActivitySalesEntity.setBrandIdenty(brandIdentity);
             mActivitySalesEntity.setShopIdenty(shopIdentity);
+            mActivitySalesEntity.setEnabledFlag(mActivitySalesModel.getEnabledFlag());
+            mActivitySalesEntity.setName(mActivitySalesModel.getName());
 
             List<ActivitySalesEntity> listData = mActivitySalesService.queryListData(mActivitySalesEntity);
 
@@ -47,6 +49,30 @@ public class ActivitySalesController extends BaseController{
         }
 
         return "activity_sales_list";
+    }
+
+    /**
+     * 删除活动
+     * @param model
+     * @param mActivitySalesModel
+     * @return
+     */
+    @RequestMapping("/deleteActivity")
+    public String deleteActivity(Model model, ActivitySalesModel mActivitySalesModel){
+
+        try {
+            if(mActivitySalesModel.getId() != null){
+                mActivitySalesService.deleteById(mActivitySalesModel.getId());
+                mActivitySalesGiftService.deleteByActivityId(mActivitySalesModel.getId());
+                mActivityRedPacketsService.deleteByActivityId(mActivitySalesModel.getId());
+            }
+
+            return "success";
+        }catch (Exception e){
+            e.printStackTrace();
+            return "fail";
+        }
+
     }
 
     @RequestMapping("/addActivityPage")
