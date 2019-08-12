@@ -52,6 +52,10 @@ class OperationalRecordsEntity : SupperEntity() {
      * 类型：1：查看  2：分享  3：购买
      */
     var type: Int? = null
+    /**
+     * 1：门店操作、2：活动操作、3：新品操作、4：拼团、5：秒杀、6：砍价、7：特价活动
+     */
+    var source: Int? = null
 
     override fun toString(): String {
         return "CouponEntity{" +
@@ -67,6 +71,7 @@ class OperationalRecordsEntity : SupperEntity() {
                 ", activityId=" + activityId +
                 ", operationalCount=" + operationalCount +
                 ", type=" + type +
+                ", source=" + source +
                 "}"
     }
 

@@ -99,6 +99,7 @@ public class PushActivityController {
                         orEntity.setActivityId(mActivityPushReq.getId());
                         orEntity.setOperationalCount(1);
                         orEntity.setType(1);
+                        orEntity.setSource(2);
                         orEntity.setServerCreateTime(new Date());
                         orEntity.setServerUpdateTime(new Date());
                         mOperationalRecordsService.addOperational(orEntity);

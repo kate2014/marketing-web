@@ -79,27 +79,30 @@ public class ShareMarketingApiController {
             Boolean isSuccess = true;
             if (mShareActionReq.getShareType() == 1) {
                 //触发优惠券
-                sendCouponForCustomer(1, mShareActionReq.getCustomerId(), mShareActionReq.getWxOpenId(), mShareActionReq.getBrandIdenty(), mShareActionReq.getShopIdenty());
+                sendCouponForCustomer(1, mShareActionReq);
             } else if (mShareActionReq.getShareType() == 2) {
-//                isSuccess = mPushPlanNewDishService.refreshShareNumber(mShareActionReq.getLinksId());
+                //新品分享次数+1
+                isSuccess = mPushPlanNewDishService.refreshShareNumber(mShareActionReq.getLinksId());
                 //触发优惠券
-                isSuccess = sendCouponForCustomer(2, mShareActionReq.getCustomerId(), mShareActionReq.getWxOpenId(), mShareActionReq.getBrandIdenty(), mShareActionReq.getShopIdenty());
+                isSuccess = sendCouponForCustomer(2, mShareActionReq);
             } else if (mShareActionReq.getShareType() == 3) {
                 //活动分享次数+1
-//                isSuccess = pushPlanActivityService.updateActivityNumber(mShareActionReq.getLinksId(), null, 1);
-                isSuccess = sendCouponForCustomer(3, mShareActionReq.getCustomerId(), mShareActionReq.getWxOpenId(), mShareActionReq.getBrandIdenty(), mShareActionReq.getShopIdenty());
+                isSuccess = pushPlanActivityService.updateActivityNumber(mShareActionReq.getLinksId(), null, 1);
+                isSuccess = sendCouponForCustomer(3, mShareActionReq);
                 //触发优惠券
-            } else if(mShareActionReq.getShareType() == 4){
-
-            } else if(mShareActionReq.getShareType() == 5){
-
-            } else if(mShareActionReq.getShareType() == 6){
-
-            } else if(mShareActionReq.getShareType() == 7){
-
             }
+            //因目前只有分享门店、分享新品、分享活动才赠送优惠券，所以不对其他分享做优惠券下发
+//            else if(mShareActionReq.getShareType() == 4){
+//
+//            } else if(mShareActionReq.getShareType() == 5){
+//
+//            } else if(mShareActionReq.getShareType() == 6){
+//
+//            } else if(mShareActionReq.getShareType() == 7){
+//
+//            }
 
-            //添加顾客查看记录,如该顾客对该条活跃已有同样的操作是，只需在原有操作次数的基础上+1
+            //添加顾客查看记录,如该顾客对该条信息已有同样的操作是，只需在原有操作次数的基础上+1
             if(mShareActionReq.getWxOpenId() != null){
                 OperationalRecordsEntity orEntity = new OperationalRecordsEntity();
                 orEntity.setBrandIdenty(mShareActionReq.getBrandIdenty());
@@ -121,6 +124,7 @@ public class ShareMarketingApiController {
                     orEntity.setActivityId(mShareActionReq.getLinksId());
                     orEntity.setOperationalCount(1);
                     orEntity.setType(2);
+                    orEntity.setSource(mShareActionReq.getShareType());
                     orEntity.setServerCreateTime(new Date());
                     orEntity.setServerUpdateTime(new Date());
                     mOperationalRecordsService.addOperational(orEntity);
@@ -157,13 +161,13 @@ public class ShareMarketingApiController {
         return mBaseDataModel;
     }
 
-    public Boolean sendCouponForCustomer(int shareType, Long customerId, String wxOpenid, Long brandIdenty, Long shopIdenty) {
+    public Boolean sendCouponForCustomer(int shareType, ShareActionReq mShareActionReq) {
 
 
         Boolean isSuccess = true;
         try {
 
-            List<MarketingShareEntity> listMarketingShare = mMarketingShareService.findSharePlanByShopId(shopIdenty);
+            List<MarketingShareEntity> listMarketingShare = mMarketingShareService.findSharePlanByShopId(mShareActionReq.getShopIdenty());
             for (MarketingShareEntity ms : listMarketingShare) {
                 if (ms.getShareType() == shareType && ms.getShareState() == 1) {
                     Integer source = 0;
@@ -175,21 +179,9 @@ public class ShareMarketingApiController {
                         source = 8;
                     }
 
-                    CustomerCouponEntity mCustomerCoupon = new CustomerCouponEntity();
-                    mCustomerCoupon.setBrandIdenty(brandIdenty);
-                    mCustomerCoupon.setShopIdenty(shopIdenty);
-                    mCustomerCoupon.setSourceId(source);
-                    mCustomerCoupon.setCouponId(ms.getCouponId());
-                    mCustomerCoupon.setCouponName(ms.getCouponName());
-//                    mCustomerCoupon.setCouponType();
-                    mCustomerCoupon.setCustomerId(customerId);
-                    mCustomerCoupon.setWxCustomerOpenid(wxOpenid);
-                    mCustomerCoupon.setStatus(1);
-                    mCustomerCoupon.setEnabledFlag(1);
-                    mCustomerCoupon.setServerCreateTime(new Date());
-                    mCustomerCoupon.setServerUpdateTime(new Date());
-
-                    mCustomerCouponService.addCustomerCoupon(mCustomerCoupon);
+                    mCustomerCouponService.sendCustomerCoupon(mShareActionReq.getBrandIdenty(), mShareActionReq.getShopIdenty(),
+                            mShareActionReq.getCustomerId(), mShareActionReq.getWxOpenId(),ms.getCouponId(),ms.getCouponName(),
+                            mShareActionReq.getLinksId(), source);
 
                     break;
                 }

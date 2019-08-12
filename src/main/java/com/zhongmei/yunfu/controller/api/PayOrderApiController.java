@@ -271,7 +271,13 @@ public class PayOrderApiController {
                 updateWxTrade(tradeId,1);
                 isSuccess = updateFlashSalesMarketing(mWxTradeCustomerEntity);
             }
-
+            //特价活动
+            if(type == 4){
+                //更新顾客活动购买状态
+                updateWxTrade(tradeId,1);
+                //触发发送推荐成单红包,发放推荐达成单数赠送礼品
+                mRedPacketsRecordService.sendRedPackets(mWxTradeCustomerEntity.getBrandIdenty(),mWxTradeCustomerEntity.getShopIdenty(),tradeId);
+            }
 
         }catch (Exception e){
             e.printStackTrace();
@@ -681,10 +687,6 @@ public class PayOrderApiController {
         WxTradeCustomerEntity mWxTradeCustomerEntity = updateMarketing(mPaymentEntity.getRelateId());
 
         sendWxMessage(mTradeEntity.getId(),mWxTradeCustomerEntity.getCustomerId());
-
-        //触发发送推荐成单红包,发放推荐达成单数赠送礼品
-        mRedPacketsRecordService.sendRedPackets(mTradeEntity.getBrandIdenty(),mTradeEntity.getShopIdenty(),mTradeEntity.getId());
-
 
         return mWxTradeCustomerEntity;
     }

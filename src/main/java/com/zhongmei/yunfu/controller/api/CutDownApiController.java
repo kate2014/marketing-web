@@ -87,6 +87,7 @@ public class CutDownApiController {
                     orEntity.setActivityId(CutDownReq.getId());
                     orEntity.setOperationalCount(1);
                     orEntity.setType(1);
+                    orEntity.setSource(5);
                     orEntity.setServerCreateTime(new Date());
                     orEntity.setServerUpdateTime(new Date());
                     mOperationalRecordsService.addOperational(orEntity);

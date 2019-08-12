@@ -79,6 +79,7 @@ public class CollageApiController {
                     orEntity.setWxName(mCollageReq.getWxName());
                     orEntity.setActivityId(mCollageReq.getId());
                     orEntity.setOperationalCount(1);
+                    orEntity.setSource(4);
                     orEntity.setType(1);
                     orEntity.setServerCreateTime(new Date());
                     orEntity.setServerUpdateTime(new Date());

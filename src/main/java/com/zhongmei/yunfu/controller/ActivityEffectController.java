@@ -158,4 +158,16 @@ public class ActivityEffectController extends BaseController{
         return "activity_recommendation_detail";
     }
 
+    /**
+     * 礼品赠送情况
+     * @param model
+     * @param mActivityEffectModel
+     * @return
+     */
+    public String giftDetail(Model model, ActivityEffectModel mActivityEffectModel){
+
+
+        return "";
+    }
+
 }

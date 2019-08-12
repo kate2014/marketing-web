@@ -130,11 +130,25 @@ public interface CustomerCouponService extends IService<CustomerCouponEntity> {
      * @param customerId
      * @param wxOpenId
      * @param sourceId    优惠券来源 1：商户会员模块触发 2：首次进入小程序触发 3：参与砍价获取 4：小程序绑定手机推送优惠 5：完成交易获取 6：预约成功获取 7：分享门店获取 8：分享活动获取 9：分享新品获取 10：全员推广获取 11：同行特惠获取 12：会员消费评价成功获取 13：参与特价活动推出成单获取
-     * @param palnId      投放方案ID  1：进入小程序推送优惠券  2：参与砍价活动推送优惠券 3：小程序绑定手机推送优惠 4：支付交易完成推送优惠券 5：预约完成推送优惠券  6：会员消费评价成功推送优惠券 7：参与特价活动推出成单获取
+     * @param palnId      投放方案ID  1：进入小程序推送优惠券  2：参与砍价活动推送优惠券 3：小程序绑定手机推送优惠 4：支付交易完成推送优惠券 5：预约完成推送优惠券  6：会员消费评价成功推送优惠券
      * @return
      * @throws Exception
      */
     Boolean putOnCoupon(Long brandIdenty, Long shopIdenty, Long customerId, String wxOpenId, Integer sourceId, Integer palnId) throws Exception;
 
     Page<CustomerCouponEntity> selectPage(Page<CustomerCouponEntity> page, Long customerId, Long shopId);
+
+    /**
+     * 发放优惠券
+     * @param brandIdenty
+     * @param shopIdenty
+     * @param customerId
+     * @param wxOpenId
+     * @param couponId
+     * @param couponName
+     * @param sourceId
+     * @return
+     * @throws Exception
+     */
+    Boolean sendCustomerCoupon(Long brandIdenty, Long shopIdenty, Long customerId, String wxOpenId,Long couponId,String couponName,Long activityId, Integer sourceId) throws Exception;
 }

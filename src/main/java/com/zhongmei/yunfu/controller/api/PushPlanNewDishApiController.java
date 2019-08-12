@@ -113,6 +113,7 @@ public class PushPlanNewDishApiController {
                     orEntity.setActivityId(req.getId());
                     orEntity.setOperationalCount(1);
                     orEntity.setType(1);
+                    orEntity.setSource(3);
                     orEntity.setServerCreateTime(new Date());
                     orEntity.setServerUpdateTime(new Date());
                     mOperationalRecordsService.addOperational(orEntity);

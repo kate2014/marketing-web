@@ -26,7 +26,7 @@ class CustomerCouponEntity : BaseEntity() {
      */
     var couponId: Long? = null
     /**
-     * 优惠券来源 1：商户会员模块触发 2：进入小程序触发 3：参与砍价获取 4：注册新会员获取 5：完成交易获取 6：预约成功获取 7：分析门店获取 8：分析活动获取 9：分析新品获取 10：全员推广获取 11：同行特惠获取
+     * 优惠券来源 1：商户会员模块触发 2：首次进入小程序触发 3：参与砍价获取 4：小程序绑定手机推送优惠 5：完成交易获取 6：预约成功获取 7：分享门店获取 8：分享活动获取 9：分享新品获取 10：全员推广获取 11：同行特惠获取 12：会员消费评价成功获取 13：参与特价活动推出成单获取
      */
     var sourceId: Int? = null
     /**
@@ -46,11 +46,15 @@ class CustomerCouponEntity : BaseEntity() {
      */
     var wxCustomerOpenid: String? = null
     /**
+     * 优惠券发放对应的活动Id
+     */
+    var activityId: Long? = null
+    /**
      * 使用状态 : 1:未使用;2:已使用
      */
     var status: Int? = null
     /**
-     * 门店id 
+     * 门店id
      */
     var shopIdenty: Long? = null
     /**
@@ -65,17 +69,18 @@ class CustomerCouponEntity : BaseEntity() {
 
     override fun toString(): String {
         return "CustomerCouponEntity{" +
-        ", id=" + id +
-        ", couponId=" + couponId +
-        ", sourceId=" + sourceId +
-        ", couponType=" + couponType +
-        ", couponName=" + couponName +
-        ", customerId=" + customerId +
-        ", wxCustomerOpenid=" + wxCustomerOpenid +
-        ", status=" + status +
-        ", shopIdenty=" + shopIdenty +
-        ", brandIdenty=" + brandIdenty +
-        ", enabledFlag=" + enabledFlag +
-        "}"
+                ", id=" + id +
+                ", couponId=" + couponId +
+                ", sourceId=" + sourceId +
+                ", couponType=" + couponType +
+                ", couponName=" + couponName +
+                ", customerId=" + customerId +
+                ", wxCustomerOpenid=" + wxCustomerOpenid +
+                ", activityId=" + activityId +
+                ", status=" + status +
+                ", shopIdenty=" + shopIdenty +
+                ", brandIdenty=" + brandIdenty +
+                ", enabledFlag=" + enabledFlag +
+                "}"
     }
 }

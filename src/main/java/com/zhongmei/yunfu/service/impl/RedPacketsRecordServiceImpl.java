@@ -208,11 +208,14 @@ public class RedPacketsRecordServiceImpl extends ServiceImpl<RedPacketsRecordMap
 
             //查询活动礼品赠送规则
             ActivitySalesGiftEntity mActivitySalesGiftEntity = new ActivitySalesGiftEntity();
+            mActivitySalesGiftEntity.setBrandIdenty(firstRA.getBrandIdenty());
+            mActivitySalesGiftEntity.setShopIdenty(firstRA.getShopIdenty());
+            mActivitySalesGiftEntity.setActivityId(firstRA.getActivityId());
             List<ActivitySalesGiftEntity> listASG = mActivitySalesGiftService.queryListData(mActivitySalesGiftEntity);
 
             for(ActivitySalesGiftEntity entity :  listASG){
                 if(entity.getOrderCount() == count){
-                    mCustomerCouponService.putOnCoupon(firstRA.getBrandIdenty(), firstRA.getShopIdenty(),firstRA.getMainCustomerId(),firstRA.getMainWxOpenId(), 13,7);
+                    mCustomerCouponService.sendCustomerCoupon(firstRA.getBrandIdenty(), firstRA.getShopIdenty(),firstRA.getMainCustomerId(),firstRA.getMainWxOpenId(),entity.getGiftId(),entity.getGiftName(),firstRA.getActivityId(),13);
                 }
 
             }
