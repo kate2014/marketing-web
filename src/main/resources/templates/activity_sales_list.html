@@ -95,7 +95,7 @@
 
         <label class="text_navigation" style="margin-left: 10px">状态</label>
         <select name="enabledFlag" class="select_style" style="margin-left: 5px">
-            <option>全部</option>
+            <option value="0">全部</option>
             <option value="1" th:selected="${mActivitySalesModel.enabledFlag==1}">进行中</option>
             <option value="2" th:selected="${mActivitySalesModel.enabledFlag==2}">活动停止</option>
         </select>
@@ -129,7 +129,7 @@
                         </div>
 
                         <div style="text-align: left">
-                            活动售价：<span th:text="${item.saleAmount}" style="margin-right: 30px"></span>
+                            活动售价：<span th:text="${item.saleAmount}" style="margin-right: 30px;color: #e16531;"></span>
                             活动结束时间：<span th:text="${#dates.format(item.endTime, 'yyyy-MM-dd HH:mm:ss')}" style="margin-right: 30px"></span>
                             活动使用有效期：<span th:text="${#dates.format(item.validityPeriod, 'yyyy-MM-dd HH:mm:ss')}"></span>
                         </div>

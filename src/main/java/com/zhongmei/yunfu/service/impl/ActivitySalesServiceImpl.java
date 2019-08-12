@@ -37,7 +37,7 @@ public class ActivitySalesServiceImpl extends ServiceImpl<ActivitySalesMapper, A
         eWrapper.eq("brand_identy",mActivitySalesEntity.getBrandIdenty());
         eWrapper.eq("shop_identy",mActivitySalesEntity.getShopIdenty());
         eWrapper.eq("status_flag",1);
-        if(mActivitySalesEntity.getEnabledFlag() != null){
+        if(mActivitySalesEntity.getEnabledFlag() != null && mActivitySalesEntity.getEnabledFlag() != 0){
             eWrapper.eq("enabled_flag",mActivitySalesEntity.getEnabledFlag());
         }
         if(mActivitySalesEntity.getName() != null){
