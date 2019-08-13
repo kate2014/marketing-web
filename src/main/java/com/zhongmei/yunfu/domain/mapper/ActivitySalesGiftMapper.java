@@ -17,7 +17,7 @@ import java.util.List;
  */
 public interface ActivitySalesGiftMapper extends BaseMapper<ActivitySalesGiftEntity> {
 
-    @Select("SELECT c.`coupon_name` as giftName ,c.`coupon_id` as giftId ,o.`wx_photo` as wxPhoto," +
+    @Select("SELECT c.customer_id, c.`coupon_name` as giftName ,c.`coupon_id` as giftId ,o.`wx_photo` as wxPhoto," +
             "o.`wx_name` as wxName ,o.`wx_open_id` as wxOpenId , o.`customer_name` as customerName," +
             "o.`customer_phone` as customerPhone, c.`server_create_time` as serverCreateTime " +
             "FROM `customer_coupon` c ,`operational_records` o \n" +

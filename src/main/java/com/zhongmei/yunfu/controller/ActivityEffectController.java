@@ -149,6 +149,7 @@ public class ActivityEffectController extends BaseController{
             entity.setBrandIdenty(brandIdentity);
             entity.setShopIdenty(shopIdentity);
             entity.setActivityId(mActivityEffectModel.getActivityId());
+            entity.setMainCustomerName(mActivityEffectModel.getCustomerName());
 
             Page<RecommendationAssociationEntity> listData = mRAService.queryRAByCustomer(entity,mActivityEffectModel.getPageNo(),mActivityEffectModel.getPageSize());
 
@@ -179,6 +180,8 @@ public class ActivityEffectController extends BaseController{
             Long shopIdentity = LoginManager.get().getUser().getShopIdenty();
             mActivityEffectModel.setBrandIdenty(brandIdentity);
             mActivityEffectModel.setShopIdenty(shopIdentity);
+            mActivityEffectModel.setCustomerName(mActivityEffectModel.getCustomerName());
+            mActivityEffectModel.setCustomerPhone(mActivityEffectModel.getCustomerPhone());
             List<CustomerGiftModel> listGift =  mActivitySalesGiftService.queryActivityGift(mActivityEffectModel);
             model.addAttribute("listGift", listGift);
             model.addAttribute("mActivityEffectModel", mActivityEffectModel);
@@ -207,6 +210,8 @@ public class ActivityEffectController extends BaseController{
             entity.setBrandIdenty(brandIdentity);
             entity.setShopIdenty(shopIdentity);
             entity.setActivityId(mActivityEffectModel.getActivityId());
+            entity.setCustomerName(mActivityEffectModel.getCustomerName());
+            entity.setCustomerPhone(mActivityEffectModel.getCustomerPhone());
 
             Page<RedPacketsRecordEntity> listData = mRedPacketsRecordService.queryRedPackets(entity,mActivityEffectModel.getPageNo(),mActivityEffectModel.getPageSize());
 

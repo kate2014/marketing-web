@@ -165,8 +165,14 @@ public class RedPacketsRecordServiceImpl extends ServiceImpl<RedPacketsRecordMap
         eWrapper.eq("shop_identy",entity.getShopIdenty());
         eWrapper.eq("activity_id",entity.getActivityId());
         eWrapper.eq("status_flag",1);
+        if(entity.getCustomerName() != null && !entity.getCustomerName().equals("")){
+            eWrapper.eq("customer_name",entity.getCustomerName());
+        }
+        if(entity.getCustomerPhone() != null &&  !entity.getCustomerPhone().equals("")){
+            eWrapper.eq("customer_phone",entity.getCustomerPhone());
+        }
 
-        eWrapper.setSqlSelect("customer_name,customer_phone,wx_name,wx_photo,sum(amount) as amount,count(id) as id");
+        eWrapper.setSqlSelect("customer_id,customer_name,customer_phone,wx_name,wx_photo,sum(amount) as amount,count(id) as id");
         eWrapper.orderBy("sum(amount)",false);
 
         Page<RedPacketsRecordEntity> listData = selectPage(listPage,eWrapper);

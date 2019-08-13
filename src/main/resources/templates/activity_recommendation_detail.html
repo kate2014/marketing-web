@@ -19,28 +19,109 @@
     <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" type="text/css" />
     <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" type="text/css" />
 
-    <!-- diglog -->
     <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/base.js}" src="../static/js/base.js" ></script>
 </head>
 
 <script type="text/javascript">
 
+    $(function () {
+        $("#service_push").click(function () {
+            var customerIds = [];
+            $("input[name='checkItem']:checked").each(function () {
+                customerIds.push(this.id);
+            });
+            if (customerIds.length == 0) {
+                $('.select-com').hide();
+                alert("请选择顾客");
+                return;
+            }
+
+            $('.select-com').load('[[${basePath}]]/customer/service  #container', null, function (result) {
+                //$.ready(true);
+                var $select_com = $(this);
+                $select_com.show();
+                $("script").each(function () {
+                    if (this.src) {
+                        //$select_com.appendTo('#container');
+                        //alert(this.src);
+                        $.getScript(this.src);
+                    }
+                });
+                /*$('.close').click(function(){
+                $('.select-com').hide();
+            })*/
+                $(".dialog_submit").click(function () {
+                    var serviceItem = $("#dish_iframe").contents()
+                        .find("input[name='itemRadio']:checked:first");
+                    if (!serviceItem[0]) {
+                        alert("请选择推送的服务");
+                        return;
+                    }
+
+                    var data = {
+                        customerIds: customerIds,
+                        serviceType: serviceItem.attr("value"),
+                        serviceId: serviceItem.attr("id")
+                    };
+
+                    $.ajax({
+                        url: "[[${basePath}]]/customer/service/push",
+                        type: "post",
+                        data: JSON.stringify(data),
+                        contentType: 'application/json;charset=UTF-8',
+                        success: function (json) {
+                            if (json && json.status != 1000) {
+                                alert(json.message);
+                                return
+                            }
+
+                            $select_com.hide();
+                            alert("推送服务成功");
+                        },
+                        error: function (e) {
+                            alert(e.responseText);
+                        }
+                    });
+
+                })
+            });
+        })
+    });
 
 </script>
 
 <body>
 
+<div class="parent_h container" style="margin-top: 10px">
+    <form method="post" action="" th:action="@{/activity/effect/recommend}" th:object="${mActivityEffectModel}">
+        <div class="parent_h container">
+
+            <input type="hidden" name="activityId" id="activityId" th:value="${mActivityEffectModel.activityId}">
+
+            <label class="text_navigation">顾客姓名</label>
+            <input class="input_style" style="margin-left: 5px" type="text" th:value="${mActivityEffectModel.customerName}" name="customerName" id="customerName"/>
+
+            <button class="orange_mine_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
+
+        </div>
+    </form>
+
+    <button class="blue_mine_button_style" value="" onclick="this" style="margin-left: 10px" id="service_push">服务推送</button>
+
+</div>
+
 <div align="center" style="margin-top: 10px">
     <table class="gridtablestyle" style="width: 96%; vertical-align: middle">
         <tr style="width: 100%">
-            <th>操作</th>
+            <th width="60px"><input type="checkbox" id="checkAll"></th>
             <th>顾客</th>
             <th>推荐成单数</th>
 
         </tr>
         <tr th:each="item:${list}">
             <td>
-                <input type="checkbox">
+                <input name="checkItem" type="checkbox" th:id="${item.mainCustomerId}">
             </td>
             <td>
                 <div class="parent container">
@@ -60,7 +141,7 @@
     <div th:replace="page_info::pagination"/>
 </div>
 
-
+<div class='select-com'></div>
 
 
 </body>

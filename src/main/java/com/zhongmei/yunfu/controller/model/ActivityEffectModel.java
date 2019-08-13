@@ -2,6 +2,8 @@ package com.zhongmei.yunfu.controller.model;
 
 import com.zhongmei.yunfu.controller.model.base.WebBaseModel;
 
+import java.math.BigDecimal;
+
 public class ActivityEffectModel extends WebBaseModel {
 
     private Long id;
@@ -38,6 +40,8 @@ public class ActivityEffectModel extends WebBaseModel {
      * 类型：1：查看  2：分享  3：购买
      */
     private Integer type;
+
+    private BigDecimal amount;
 
     public Long getId() {
         return id;
@@ -141,5 +145,13 @@ public class ActivityEffectModel extends WebBaseModel {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
 }

@@ -98,6 +98,9 @@ public class RecommendationAssociationServiceImpl extends ServiceImpl<Recommenda
         eWrapper.eq("status_flag",1);
         eWrapper.eq("activity_id",entity.getActivityId());
         eWrapper.eq("transaction_status",2);
+        if(entity.getMainCustomerName() != null){
+            eWrapper.like("main_customer_name",entity.getMainCustomerName());
+        }
         eWrapper.groupBy("main_wx_open_id");
         eWrapper.orderBy("count(id)",false);
         eWrapper.setSqlSelect("count(id) as id,main_customer_id,main_wx_open_id,main_customer_name");

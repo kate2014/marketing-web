@@ -63,6 +63,12 @@ public class ActivitySalesGiftServiceImpl extends ServiceImpl<ActivitySalesGiftM
         eWrapper.eq("c.shop_identy",mActivityEffectModel.getShopIdenty());
         eWrapper.eq("c.activity_id",mActivityEffectModel.getActivityId());
         eWrapper.eq("c.status_flag",1);
+        if(mActivityEffectModel.getCustomerName() != null){
+            eWrapper.like("o.customer_name",mActivityEffectModel.getCustomerName());
+        }
+        if(mActivityEffectModel.getCustomerPhone() != null){
+            eWrapper.eq("o.customer_phone",mActivityEffectModel.getCustomerPhone());
+        }
         List<CustomerGiftModel> listData = baseMapper.queryActivityGift(eWrapper);
 
         return listData;
