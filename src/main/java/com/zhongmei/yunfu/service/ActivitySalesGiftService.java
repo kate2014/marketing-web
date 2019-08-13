@@ -27,7 +27,7 @@ public interface ActivitySalesGiftService extends IService<ActivitySalesGiftEnti
      * @param id
      * @return
      */
-    boolean deleteById(Long id)throws Exception;
+    boolean deleteGiftById(Long id)throws Exception;
 
     /**
      * 根据活动id删除礼品设置

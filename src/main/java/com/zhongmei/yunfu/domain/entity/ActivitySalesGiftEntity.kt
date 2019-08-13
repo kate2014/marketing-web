@@ -54,6 +54,10 @@ class ActivitySalesGiftEntity : BaseEntity() {
      * 礼品类型：1：礼品券
      */
     var giftType: Int? = null
+    /**
+     * 礼品价格
+     */
+    var giftPrice: BigDecimal? = null
 
 
 
@@ -68,6 +72,7 @@ class ActivitySalesGiftEntity : BaseEntity() {
                 ", giftId=" + giftId +
                 ", giftName=" + giftName +
                 ", giftType=" + giftType +
+                ", giftPrice=" + giftPrice +
                 "}"
     }
 

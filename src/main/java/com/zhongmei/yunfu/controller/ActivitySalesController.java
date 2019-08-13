@@ -210,6 +210,7 @@ public class ActivitySalesController extends BaseController{
             mActivitySalesGiftEntity.setOrderCount(mActivitySalesModel.getOrderCount());
             mActivitySalesGiftEntity.setGiftId(mActivitySalesModel.getGiftId());
             mActivitySalesGiftEntity.setGiftName(mActivitySalesModel.getGiftName());
+            mActivitySalesGiftEntity.setGiftPrice(mActivitySalesModel.getGiftPrice());
             mActivitySalesGiftEntity.setImageUrl(mActivitySalesModel.getImageUrl());
             mActivitySalesGiftEntity.setGiftType(1);
             mActivitySalesGiftEntity.setStatusFlag(1);
@@ -222,13 +223,20 @@ public class ActivitySalesController extends BaseController{
 
             mActivitySalesGiftService.addActivityGift(mActivitySalesGiftEntity);
 
-            List<ActivitySalesGiftEntity> listGiftRule = mActivitySalesGiftService.queryListData(mActivitySalesGiftEntity);
+            return String.format("redirect:/activity/intoSettingGift?id=%d",mActivitySalesModel.getActivityId());
+        }catch (Exception e){
+            e.printStackTrace();
+            return "fail";
+        }
 
-            model.addAttribute("listGiftRule",listGiftRule);
-            model.addAttribute("activityId",mActivitySalesModel.getActivityId());
+    }
 
-            model.addAttribute("mActivitySalesModel",mActivitySalesModel);
-            return "activity_add_gift";
+    @RequestMapping("/deleteGift")
+    public String deleteGift(Model model, ActivitySalesModel mActivitySalesModel){
+
+        try {
+            mActivitySalesGiftService.deleteGiftById(mActivitySalesModel.getId());
+            return "success";
 
         }catch (Exception e){
             e.printStackTrace();

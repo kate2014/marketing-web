@@ -33,7 +33,7 @@ public class ActivitySalesGiftServiceImpl extends ServiceImpl<ActivitySalesGiftM
     }
 
     @Override
-    public boolean deleteById(Long id) throws Exception {
+    public boolean deleteGiftById(Long id) throws Exception {
         return deleteById(id);
     }
 
@@ -52,7 +52,7 @@ public class ActivitySalesGiftServiceImpl extends ServiceImpl<ActivitySalesGiftM
         eWrapper.eq("shop_identy",mActivitySalesGiftEntity.getShopIdenty());
         eWrapper.eq("status_flag",1);
         eWrapper.eq("activity_id",mActivitySalesGiftEntity.getActivityId());
-        eWrapper.setSqlSelect("id,image_url,order_count,gift_name");
+        eWrapper.setSqlSelect("id,image_url,order_count,gift_name,gift_price");
         return selectList(eWrapper);
     }
 

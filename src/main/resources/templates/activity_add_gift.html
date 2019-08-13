@@ -11,7 +11,7 @@
 </style>
 <head>
     <meta charset="UTF-8">
-    <title>特价活动添加</title>
+    <title>特价活动礼品规则添加</title>
     <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
     <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
     <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" type="text/css" />
@@ -19,7 +19,9 @@
 
     <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}" src="../static/js/jquery-3.1.1.min.js"></script>
     <script type="text/javascript" th:src="@{/js/base.js}" src="../static/js/base.js"></script>
-
+    <!-- diglog -->
+    <script type="text/javascript" th:src="@{/js/diy_dialog.js}" src="../static/js/diy_dialog.js"></script>
+    <link rel="stylesheet" th:href="@{/css/diy_dialog.css}" href="../static/css/diy_dialog.css" type="text/css" />
 
     <link th:href="@{/upload/upload-one.css}" type="text/css" href="../static/upload/upload-one.css" rel="stylesheet" />
     <script th:src="@{/upload/upload-one.js}" src="../static/upload/upload-one.js"></script>
@@ -28,65 +30,23 @@
     <link rel="stylesheet" th:href="@{/tips/jquery.toast.css}" href="../static/tips/jquery.toast.css">
     <script type="text/javascript" th:src="@{/tips/jquery.toast.js}" src="../static/tips/jquery.toast.js"></script>
     <script type="text/javascript" th:src="@{/tips/tips.js}" src="../static/tips/tips.js"></script>
+
+
 </head>
 
 
 <script type="text/javascript">
 
-    $(function () {
-        $("#dish_select").click(function () {
-            $('.zm-dialog').load('[[${basePath}]]/dish/selectShopPage'); //#container
 
-        })
-    });
+    function sendForm() {
+        var orderCount = document.getElementById("orderCount").value.replace(/(^\s*)|(\s*$)/g, '');
+        var giftName = document.getElementById("giftName").value.replace(/(^\s*)|(\s*$)/g, '');
 
-    function setDishInfo(dishId, dishName, dishPrice, dishDesc) {
-        $("#productId").attr('value', dishId);
-        $("#productName").attr('value', dishName);
-        $("#originalPrice").attr('value', dishPrice);
-
-    };
-
-
-    function sendForm(type) {
-        var name = document.getElementById("name").value.replace(/(^\s*)|(\s*$)/g, '');
-        var profile = document.getElementById("profile").value.replace(/(^\s*)|(\s*$)/g, '');
-        var beginTime = document.getElementById("beginTime").value.replace(/(^\s*)|(\s*$)/g, '');
-        var endTime = document.getElementById("endTime").value.replace(/(^\s*)|(\s*$)/g, '');
-        var productId = document.getElementById("productId").value.replace(/(^\s*)|(\s*$)/g, '');
-        var originalPrice = document.getElementById("originalPrice").value.replace(/(^\s*)|(\s*$)/g, '');
-        var collagePeopleCount = document.getElementById("collagePeopleCount").value.replace(/(^\s*)|(\s*$)/g, '');
-        var collagePrice = document.getElementById("collagePrice").value.replace(/(^\s*)|(\s*$)/g, '');
-        var maxOpenGroup = document.getElementById("maxOpenGroup").value.replace(/(^\s*)|(\s*$)/g, '');
-        var validityPeriod = document.getElementById("validityPeriod").value.replace(/(^\s*)|(\s*$)/g, '');
-        // var uploadInput = $(".img-show");
-
-        if(name == '' || name == undefined || name == null){
-            warningTips("操作异常提示","活动名称不能为空");
-        }else if(profile == '' || profile == undefined || profile == null){
-            warningTips("操作异常提示","活动简介不能为空");
-        }else if(beginTime == '' || beginTime == undefined || beginTime == null){
-            warningTips("操作异常提示","活动开始时间不能为空");
-        }else if(endTime == '' || endTime == undefined || endTime == null){
-            warningTips("操作异常提示","活动结束时间不能为空");
-        }else if(productId == '' || productId == undefined || productId == null){
-            warningTips("操作异常提示","请选择参与拼团的品项");
-        }else if(originalPrice == '' || originalPrice == undefined || originalPrice == null){
-            warningTips("操作异常提示","商品原价不能为空");
-        }else if(collagePeopleCount == '' || collagePeopleCount == undefined || collagePeopleCount == null){
-            warningTips("操作异常提示","成团人数不能为空");
-        }else if(collagePrice == '' || collagePrice == undefined || collagePrice == null){
-            warningTips("操作异常提示","成团价格不能为空");
-        }else if(maxOpenGroup == '' || maxOpenGroup == undefined || maxOpenGroup == null){
-            warningTips("操作异常提示","最多开团数不能为空");
-        }else if(validityPeriod == '' || validityPeriod == undefined || validityPeriod == null){
-            warningTips("操作异常提示","使用有效期不能为空");
-        }
-        // else if(uploadInput.length == 0){
-        //     warningTips("操作异常提示","活动图片不能为空");
-        // }
-        else{
-            document.getElementById("enabledFlag").value = type;
+        if(orderCount == '' || orderCount == undefined || orderCount == null){
+            warningTips("操作异常提示","推荐成单数不能为空");
+        }else if(giftName == '' || giftName == undefined || giftName == null){
+            warningTips("操作异常提示","赠送礼品不能为空");
+        }else{
             document.addform.submit();
         }
 
@@ -103,9 +63,44 @@
         document.getElementById("giftName").value = couponName;
     };
 
+
+    function checkDelete(deleteId,activityId){
+        var message = "请确认是否要删除该条礼品赠送规则?";
+        dialogBox(message,
+            function () {
+                deleteRequest(deleteId,activityId);
+            },
+            function(){
+
+            }
+        );
+    }
+
+    function deleteRequest (deleteId,activityId) {
+
+        const Url = "[[${basePath}]]/activity/deleteGift?id="+deleteId+"&activityId="+activityId;
+
+        const Http = new XMLHttpRequest();
+
+        Http.open("GET",Url);
+
+        Http.send();
+
+        Http.onreadystatechange=function () {
+            if(this.readyState == 4 && this.status == 200){
+
+                location.reload();
+            }
+        }
+
+    }
+
+
 </script>
 
 <body>
+<div id="showDialog"></div>
+
 <section class="mark-details" style="width: 100%">
 
     <div class="parent top_view_style">
@@ -140,6 +135,7 @@
                 <th>礼品图片</th>
                 <th>推荐成单数</th>
                 <th>赠送礼品</th>
+                <th>礼品价格</th>
                 <th>操作</th>
             </tr>
             <tr th:each="item:${listGiftRule}">
@@ -148,48 +144,51 @@
                 </td>
                 <td th:text="${item.orderCount}"></td>
                 <td th:text="${item.giftName}"></td>
+                <td th:text="${item.giftPrice}"></td>
                 <td align="center">
-                    <a th:onclick="'javascript:checkDelete(\''+${item.id}+'\')'" style="cursor: pointer">删除</a>
+                    <div class="parent_h container" th:onclick="'javascript:checkDelete(\''+${item.id}+'\',\''+${activityId}+'\')'" style="cursor: pointer">
+                        <img src="../static/images/delect_icon.png" class="image_size_style">删除</div>
+
                 </td>
             </tr>
         </table>
     </div>
-    <form method="post" name="addform" action="" th:action="@{/activity/modiftyActivityGift}">
+    <div class="parent_h container" style="margin-top: 20px">
+        <form method="post" name="addform" action="" th:action="@{/activity/modiftyActivityGift}">
 
-        <input type="hidden" name="activityId" id="activityId" th:value="${activityId}">
-        <input type="hidden" name="giftId" id="giftId">
+            <input type="hidden" name="activityId" id="activityId" th:value="${activityId}">
+            <input type="hidden" name="giftId" id="giftId">
 
-        <div class="container parent_h" style="margin-top: 20px">
+            <div class="container parent_h">
 
-            <label class="text_navigation" style="margin-left: 10px">推荐成单数：</label>
-            <input class="add_input_style" placeholder="请输入推荐成单数" style="margin-left: 5px" type="text"  name="orderCount" id="orderCount"/>
+                <label class="text_navigation" style="margin-left: 10px">*推荐成单数：</label>
+                <input class="input_min_style" onkeyup="onlyNumber(this)" placeholder="请输入推荐成单数" style="margin-left: 5px" type="text"  name="orderCount" id="orderCount"/>
 
-            <label class="text_navigation" style="margin-left: 10px">赠送礼品：</label>
-            <input type="text" class="add_input_style" name="giftName" placeholder="请选择赠送礼品" id="giftName" readonly="true">
-            <input type="button" id="showCoupon" class='selectCoupon' value="选择礼品" style="margin-left: 10px"></input>
+                <label class="text_navigation" style="margin-left: 10px">*赠送礼品：</label>
+                <input type="text" class="input_min_style" name="giftName" placeholder="请选择赠送礼品" id="giftName" readonly="true">
+                <input type="button" id="showCoupon" class='selectCoupon' value="选择礼品" style="margin-left: 10px"></input>
 
-            <label class="text_navigation" style="margin-left: 10px">价格：</label>
-            <input class="add_input_style" placeholder="请输入售卖价格" style="margin-left: 5px" type="text"  name="price" id="price"/>
+                <label class="text_navigation" style="margin-left: 10px">价格：</label>
+                <input class="input_min_style" onkeyup="clearNoNum(this)"  placeholder="请输入售卖价格" style="margin-left: 5px" type="text"  name="giftPrice" id="giftPrice"/>
 
-            <label class="text_navigation" style="margin-left: 10px">礼品图片：</label>
-            <div class="upload-box" name="imageUrl" style="margin-left: 5px;margin-right: 5px">
-                <div class="upload-btn">
-                    <input type="file" name="file" id="upload-input"/>
+                <label class="text_navigation" style="margin-left: 10px">礼品图片：</label>
+                <div class="upload-box" name="imageUrl" style="margin-left: 5px;margin-right: 5px">
+                    <div class="upload-btn">
+                        <input type="file" name="file" id="upload-input"/>
+                    </div>
                 </div>
+                <h6>建议大小200*200</h6>
+
             </div>
-            <h6>建议大小200*200</h6>
 
-        </div>
+        </form>
 
-    </form>
-
-    <div class="parent_h" style="margin-bottom: 36px">
-        <button class="blue_button_style" onclick="sendForm()" style="margin-left: 10px">添加</button>
+        <button class="blue_button_style" onclick="sendForm()" style="margin-left: 20px">添加</button>
     </div>
 
 
-
 </section>
+
 <div class='zm-dialog'/>
 
 </body>

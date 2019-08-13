@@ -47,6 +47,8 @@ public class ActivitySalesModel extends WebBaseModel {
 
     private String giftName;
 
+    private BigDecimal giftPrice;
+
     private Integer orderCount;
 
 
@@ -270,5 +272,13 @@ public class ActivitySalesModel extends WebBaseModel {
 
     public void setProfile(String profile) {
         this.profile = profile;
+    }
+
+    public BigDecimal getGiftPrice() {
+        return giftPrice;
+    }
+
+    public void setGiftPrice(BigDecimal giftPrice) {
+        this.giftPrice = giftPrice;
     }
 }

@@ -21,9 +21,6 @@
     <script type="text/javascript" th:src="@{/js/base.js}" src="../static/js/base.js"></script>
 
 
-    <link th:href="@{/upload/upload-one.css}" type="text/css" href="../static/upload/upload-one.css" rel="stylesheet" />
-    <script th:src="@{/upload/upload-one.js}" src="../static/upload/upload-one.js"></script>
-
     <!-- tips 提示框引用-->
     <link rel="stylesheet" th:href="@{/tips/jquery.toast.css}" href="../static/tips/jquery.toast.css">
     <script type="text/javascript" th:src="@{/tips/jquery.toast.js}" src="../static/tips/jquery.toast.js"></script>
@@ -48,60 +45,25 @@
     };
 
 
-    function sendForm(type) {
-        var name = document.getElementById("name").value.replace(/(^\s*)|(\s*$)/g, '');
-        var profile = document.getElementById("profile").value.replace(/(^\s*)|(\s*$)/g, '');
-        var beginTime = document.getElementById("beginTime").value.replace(/(^\s*)|(\s*$)/g, '');
-        var endTime = document.getElementById("endTime").value.replace(/(^\s*)|(\s*$)/g, '');
-        var productId = document.getElementById("productId").value.replace(/(^\s*)|(\s*$)/g, '');
-        var originalPrice = document.getElementById("originalPrice").value.replace(/(^\s*)|(\s*$)/g, '');
-        var collagePeopleCount = document.getElementById("collagePeopleCount").value.replace(/(^\s*)|(\s*$)/g, '');
-        var collagePrice = document.getElementById("collagePrice").value.replace(/(^\s*)|(\s*$)/g, '');
-        var maxOpenGroup = document.getElementById("maxOpenGroup").value.replace(/(^\s*)|(\s*$)/g, '');
-        var validityPeriod = document.getElementById("validityPeriod").value.replace(/(^\s*)|(\s*$)/g, '');
-        // var uploadInput = $(".img-show");
+    function sendForm() {
+        var firstMinAmount = document.getElementById("firstMinAmount").value.replace(/(^\s*)|(\s*$)/g, '');
+        var firstMaxAmount = document.getElementById("firstMaxAmount").value.replace(/(^\s*)|(\s*$)/g, '');
+        var secondMinAmount = document.getElementById("secondMinAmount").value.replace(/(^\s*)|(\s*$)/g, '');
+        var secondMaxAmount = document.getElementById("secondMaxAmount").value.replace(/(^\s*)|(\s*$)/g, '');
 
-        if(name == '' || name == undefined || name == null){
-            warningTips("操作异常提示","活动名称不能为空");
-        }else if(profile == '' || profile == undefined || profile == null){
-            warningTips("操作异常提示","活动简介不能为空");
-        }else if(beginTime == '' || beginTime == undefined || beginTime == null){
-            warningTips("操作异常提示","活动开始时间不能为空");
-        }else if(endTime == '' || endTime == undefined || endTime == null){
-            warningTips("操作异常提示","活动结束时间不能为空");
-        }else if(productId == '' || productId == undefined || productId == null){
-            warningTips("操作异常提示","请选择参与拼团的品项");
-        }else if(originalPrice == '' || originalPrice == undefined || originalPrice == null){
-            warningTips("操作异常提示","商品原价不能为空");
-        }else if(collagePeopleCount == '' || collagePeopleCount == undefined || collagePeopleCount == null){
-            warningTips("操作异常提示","成团人数不能为空");
-        }else if(collagePrice == '' || collagePrice == undefined || collagePrice == null){
-            warningTips("操作异常提示","成团价格不能为空");
-        }else if(maxOpenGroup == '' || maxOpenGroup == undefined || maxOpenGroup == null){
-            warningTips("操作异常提示","最多开团数不能为空");
-        }else if(validityPeriod == '' || validityPeriod == undefined || validityPeriod == null){
-            warningTips("操作异常提示","使用有效期不能为空");
-        }
-        // else if(uploadInput.length == 0){
-        //     warningTips("操作异常提示","活动图片不能为空");
-        // }
-        else{
-            document.getElementById("enabledFlag").value = type;
+        if(firstMinAmount == '' || firstMinAmount == undefined || firstMinAmount == null){
+            warningTips("操作异常提示","直接推荐随机最小红包不能为空");
+        }else if(firstMaxAmount == '' || firstMaxAmount == undefined || firstMaxAmount == null){
+            warningTips("操作异常提示","直接推荐随机最大红包不能为空");
+        }else if(secondMinAmount == '' || secondMinAmount == undefined || secondMinAmount == null){
+            warningTips("操作异常提示","间接推荐随机最小红包不能为空");
+        }else if(secondMaxAmount == '' || secondMaxAmount == undefined || secondMaxAmount == null){
+            warningTips("操作异常提示","间接推荐随机最大红包不能为空");
+        }else{
             document.addform.submit();
         }
 
     }
-
-    $(function () {
-        $("#showCoupon").click(function () {
-            $('.zm-dialog').load('[[${basePath}]]/coupon/showSelectCoupon');
-        })
-    });
-
-    function setCouponInfo(couponId,couponName) {
-        document.getElementById("giftId").value = couponId;
-        document.getElementById("giftName").value = couponName;
-    };
 
 </script>
 
@@ -136,7 +98,7 @@
 
         <div style="margin-left: 30px">
             <input type="hidden" name="activityId" id="activityId" th:value="${activityId}">
-            <input type="text" name="id" id="id" th:value="${redPackets.id}">
+            <input type="hidden" name="id" id="id" th:value="${redPackets.id}">
 
             <div class="parent">
                 <img th:src="@{/images/lable.jpg}" src="../static/images/lable.jpg" style="height: 25px; width: 4px">
@@ -144,10 +106,10 @@
             </div>
 
             <label class="text_navigation" style="margin-left: 20px">随机最小红包：</label>
-            <input class="add_input_style" placeholder="请输入随机最小红包金额" th:value="${redPackets.firstMinAmount}" style="margin-left: 5px;margin-right: 10px" type="text"  name="firstMinAmount" id="firstMinAmount"/>
+            <input class="add_input_style" onkeyup="clearNoNum(this)" placeholder="请输入随机最小红包金额" th:value="${redPackets.firstMinAmount}" style="margin-left: 5px;margin-right: 10px" type="text"  name="firstMinAmount" id="firstMinAmount"/>
             ----
             <label class="text_navigation" style="margin-left: 10px;">随机最大红包：</label>
-            <input class="add_input_style" placeholder="请输入随机最大红包金额" th:value="${redPackets.firstMaxAmount}" style="margin-left: 5px" type="text"  name="firstMaxAmount" id="firstMaxAmount"/>
+            <input class="add_input_style" onkeyup="clearNoNum(this)" placeholder="请输入随机最大红包金额" th:value="${redPackets.firstMaxAmount}" style="margin-left: 5px" type="text"  name="firstMaxAmount" id="firstMaxAmount"/>
 
             <div class="parent" style="margin-top: 20px">
                 <img th:src="@{/images/lable.jpg}" src="../static/images/lable.jpg" style="height: 25px; width: 4px">
@@ -155,19 +117,10 @@
             </div>
 
             <label class="text_navigation" style="margin-left: 20px">随机最小红包：</label>
-            <input class="add_input_style" placeholder="请输入随机最小红包金额" th:value="${redPackets.secondMinAmount}" style="margin-left: 5px;margin-right: 10px" type="text"  name="secondMinAmount" id="secondMinAmount"/>
+            <input class="add_input_style" onkeyup="clearNoNum(this)" placeholder="请输入随机最小红包金额" th:value="${redPackets.secondMinAmount}" style="margin-left: 5px;margin-right: 10px" type="text"  name="secondMinAmount" id="secondMinAmount"/>
             ----
             <label class="text_navigation" style="margin-left: 10px;">随机最大红包：</label>
-            <input class="add_input_style" placeholder="请输入随机最大红包金额" th:value="${redPackets.secondMaxAmount}" style="margin-left: 5px" type="text"  name="secondMaxAmount" id="secondMaxAmount"/>
-
-
-        </div>
-
-
-        <div class="parent_h" style="margin-top: 20px;margin-bottom: 36px">
-
-
-            <button class="blue_button_style" onclick="submitForm()" style="margin-left: 10px">保存</button>
+            <input class="add_input_style" onkeyup="clearNoNum(this)" placeholder="请输入随机最大红包金额" th:value="${redPackets.secondMaxAmount}" style="margin-left: 5px" type="text"  name="secondMaxAmount" id="secondMaxAmount"/>
 
 
         </div>
@@ -175,9 +128,14 @@
 
     </form>
 
+    <div class="parent_h" style="margin-top: 20px;margin-bottom: 36px">
+
+        <button class="blue_button_style" onclick="sendForm()" style="margin-left: 10px">保存</button>
+
+    </div>
+
 
 </section>
-<div class='zm-dialog'/>
 
 </body>
 

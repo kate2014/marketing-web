@@ -156,7 +156,7 @@
 
                     <li><span>*品项原价</span><label><input type="text" onkeyup="clearNoNum(this)" placeholder="请填写品项原售价" class="put" name="originalPrice" id="originalPrice" th:value="${mActivitySalesEntity.originalPrice}"> <h5>元</h5></label></li>
                     <li><span>*活动价格</span><label><input type="text" onkeyup="clearNoNum(this)" placeholder="请填写大于0且小于原价的数字" class="put" name="saleAmount" id="saleAmount" th:value="${mActivitySalesEntity.saleAmount}"> <h5>元</h5></label></li>
-                    <li><span>*最多售卖数</span><label><input type="text" onkeyup="onlyNumber(this)" placeholder="请填写最多售卖数量" name="joinCount" id="joinCount" th:value="${mActivitySalesEntity.joinCount}"><h5>团</h5></label></li>
+                    <li><span>*最多售卖数</span><label><input type="text" onkeyup="onlyNumber(this)" placeholder="请填写最多售卖数量" name="joinCount" id="joinCount" th:value="${mActivitySalesEntity.joinCount}"><h5>个</h5></label></li>
                     <li><span>*每人限购数</span><label><input type="text" onkeyup="onlyNumber(this)" placeholder="输入每人限购数" class="put" id="customerBuyCount" name="customerBuyCount" th:value="${mActivitySalesEntity.customerBuyCount}"> <h5>次</h5></label></li>
                     <li><span>*活动结束时间</span><input type="text" placeholder="输入活动结束时间" id="endTime" name="endTime" th:value="${#dates.format(mActivitySalesEntity.endTime, 'yyyy-MM-dd HH:mm:ss')}"></li>
 
