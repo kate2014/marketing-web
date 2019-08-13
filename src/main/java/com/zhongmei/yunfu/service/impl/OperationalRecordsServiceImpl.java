@@ -59,6 +59,15 @@ public class OperationalRecordsServiceImpl extends ServiceImpl<OperationalRecord
         eWrapper.eq("shop_identy",entity.getShopIdenty());
         eWrapper.eq("status_flag",1);
         eWrapper.eq("activity_id",entity.getActivityId());
+        if(entity.getCustomerName() != null){
+            eWrapper.like("customer_name",entity.getCustomerName());
+        }
+        if(entity.getCustomerPhone() != null){
+            eWrapper.like("customer_phone",entity.getCustomerPhone());
+        }
+        if(entity.getOperationalCount() != null){
+            eWrapper.ge("operational_count",entity.getOperationalCount());
+        }
         eWrapper.eq("type",entity.getType());
         eWrapper.orderBy("operational_count",false);
         Page<OperationalRecordsEntity> listData = selectPage(listPage,eWrapper);

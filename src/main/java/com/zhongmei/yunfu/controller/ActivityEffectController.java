@@ -114,6 +114,9 @@ public class ActivityEffectController extends BaseController{
             entity.setShopIdenty(shopIdentity);
             entity.setActivityId(mActivityEffectModel.getActivityId());
             entity.setType(mActivityEffectModel.getType());
+            entity.setCustomerName(mActivityEffectModel.getCustomerName());
+            entity.setCustomerPhone(mActivityEffectModel.getCustomerPhone());
+            entity.setOperationalCount(mActivityEffectModel.getOperationalCount());
 
             Page<OperationalRecordsEntity> pageData = mOperationalRecordsService.queryByActivityId(entity,mActivityEffectModel.getPageNo(),mActivityEffectModel.getPageSize());
 

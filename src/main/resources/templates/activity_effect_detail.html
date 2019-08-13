@@ -32,6 +32,42 @@
 
 <body>
 
+<div class="parent_h container" style="margin-top: 10px">
+    <form method="post" action="" th:action="@{/activity/effect/detail}" th:object="${mActivitySalesModel}">
+        <div class="parent_h container">
+
+            <input type="hidden" name="activityId" id="activityId" th:value="${mActivitySalesModel.activityId}">
+            <input type="hidden" name="type" id="type" th:value="${mActivitySalesModel.type}">
+
+            <label class="text_navigation">顾客姓名</label>
+            <input class="input_style" style="margin-left: 5px" type="text" th:value="${mActivitySalesModel.customerName}" name="customerName" id="customerName"/>
+
+            <label class="text_navigation" style="margin-left: 10px">顾客电话</label>
+            <input class="input_style" style="margin-left: 5px" type="text" th:value="${mActivitySalesModel.customerPhone}" name="customerPhone" id="customerPhone"/>
+
+
+            <div th:switch="${mActivitySalesModel.type}">
+                <p th:case="'1'">
+                    <label class="text_navigation" style="margin-left: 10px">浏览次数 > </label>
+                </p>
+                <p th:case="'2'">
+                    <label class="text_navigation" style="margin-left: 10px">分享次数 > </label>
+                </p>
+                <p th:case="'3'">
+                    <label class="text_navigation" style="margin-left: 10px">购买次数 > </label>
+                </p>
+            </div>
+
+            <input class="input_style" style="margin-left: 5px" type="text" th:value="${mActivitySalesModel.operationalCount}" name="operationalCount" id="operationalCount"/>
+
+            <button class="orange_mine_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
+
+        </div>
+    </form>
+
+    <button class="blue_mine_button_style" value="" onclick="this" style="margin-left: 10px">服务推送</button>
+</div>
+
 <div align="center" style="margin-top: 10px">
     <table class="gridtablestyle" style="width: 96%; vertical-align: middle">
         <tr style="width: 100%">
