@@ -24,6 +24,10 @@ public class ActivitySalesController extends BaseController{
     ActivitySalesGiftService mActivitySalesGiftService;
     @Autowired
     ActivityRedPacketsService mActivityRedPacketsService;
+    @Autowired
+    OperationalRecordsService mOperationalRecordsService;
+    @Autowired
+    RecommendationAssociationService mRecommendationAssociationService;
 
     @RequestMapping("/salesList")
     public String querySalesList(Model model, ActivitySalesModel mActivitySalesModel) {
@@ -65,6 +69,11 @@ public class ActivitySalesController extends BaseController{
                 mActivitySalesService.deleteById(mActivitySalesModel.getId());
                 mActivitySalesGiftService.deleteByActivityId(mActivitySalesModel.getId());
                 mActivityRedPacketsService.deleteByActivityId(mActivitySalesModel.getId());
+
+                //删除活动对应的操作记录
+                mOperationalRecordsService.deleteByActivity(mActivitySalesModel.getId());
+                //删除活动推广关联关系
+                mRecommendationAssociationService.deleteByActivity(mActivitySalesModel.getId());
             }
 
             return "success";

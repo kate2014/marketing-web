@@ -134,4 +134,11 @@ public class RecommendationAssociationServiceImpl extends ServiceImpl<Recommenda
         List<RecommendationAssociationEntity> listData = selectList(eWrapper);
         return listData.size();
     }
+
+    @Override
+    public Boolean deleteByActivity(Long activityId) throws Exception {
+        EntityWrapper<RecommendationAssociationEntity> eWrapper = new EntityWrapper<>();
+        eWrapper.eq("activity_id",activityId);
+        return delete(eWrapper);
+    }
 }

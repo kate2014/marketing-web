@@ -146,4 +146,13 @@ public class OperationalRecordsServiceImpl extends ServiceImpl<OperationalRecord
 
         return selectList(eWrapper);
     }
+
+    @Override
+    public Boolean deleteByActivity(Long activityId) throws Exception {
+        EntityWrapper<OperationalRecordsEntity> eWrapper = new EntityWrapper<>(new OperationalRecordsEntity());
+
+        eWrapper.eq("activity_id",activityId);
+
+        return delete(eWrapper);
+    }
 }

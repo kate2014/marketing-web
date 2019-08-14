@@ -72,4 +72,12 @@ public interface RecommendationAssociationService extends IService<Recommendatio
      */
     Integer queryUserTradeCount(RecommendationAssociationEntity entity)throws Exception;
 
+    /**
+     * 根据活动id删除对应的推荐信息
+     * @param activityId
+     * @return
+     * @throws Exception
+     */
+    Boolean deleteByActivity(Long activityId)throws Exception;
+
 }
