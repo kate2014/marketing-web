@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<style type="text/css">
+
+    html,body{
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        background-color: #FFFFFF;
+    }
+
+    <!-- 选项卡 -->
+    ol, ul, li{	list-style: none}
+    /*html,body { margin:0; padding:0; height:100%}*/
+    .table_card { /*width:96%;*/ margin: 5px 20px 0 20px;}
+    .table_card .tab { height:37px; font-size:14px;}
+    .table_card .tab li {font-size: 10px; float:left; height:37px; line-height:37px; padding:0 25px; margin-right:4px; border-radius: 5px 5px 0 0;}
+    .table_card .tab li:hover { height:37px; cursor:pointer;}
+    .table_card .activ { height:37px !important; !important; border-top:1px solid #e1e1e1;border-left:1px solid #e1e1e1;border-right:1px solid #e1e1e1;background-color: #FFFFFF;color: #3b3b1f}
+    .table_card .inverse { height:37px; background-color: #e1e1e1;color: #a6a6a6}
+    .table_card .hint {color: white; display:block; text-align: center;}
+
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <title>效果查看</title>
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" />
+    <link rel="stylesheet" th:href="@{/css/customer.css}" href="../static/css/customer.css" />
+    <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}" src="../static/js/jquery-3.1.1.min.js" ></script>
+    <script type="text/javascript" th:src="@{/js/base.js}" src="../static/js/base.js" ></script>
+    <script type="text/javascript" th:src="@{/js/window/window.ext.js}" src="../static/js/window/window.ext.js" ></script>
+
+
+</head>
+
+<script type="text/javascript">
+
+    $(function () {
+        var opType = $("input[name='opType']").val();
+        opType = opType ? opType : 0;
+        $(".tab li").eq(opType).addClass("activ").siblings().removeClass("activ");
+        var tabIndex = $(".tab li.activ").index();
+        $(".tab li").click(function(){
+            var clickIndex = $(this).index();
+
+            if(clickIndex != 0){
+                $("#0").addClass("inverse");
+            }
+            if(clickIndex != 1){
+                $("#1").addClass("inverse");
+            }
+            $(".tab li").eq(clickIndex).addClass("activ").siblings().removeClass("activ");
+
+            $("input[name='opType']").val(clickIndex);
+
+        })
+
+
+    });
+
+</script>
+
+<body>
+<div class="parent top_view_style">
+    <img th:src="@{/images/lable.jpg}" width="5" height="26" style="margin-left: 20px">
+    <label class="text_navigation" style="margin-left: 10px;width: 30%">营销 》新品推送 》效果详情</label>
+
+    <div align="right" style="width: 100%;margin-right: 50px">
+        <button class="gray_button_style" value="" th:onclick="@{|location='${basePath}/pushPlanNewDish'|}" style="margin-left: 10px">返回</button>
+    </div>
+</div>
+
+<div class="table_card" style="margin-top: 20px">
+
+    <ul class="tab" style="margin-left: 30px">
+        <li id="0" class="activ" style="margin-bottom: -1px;width: 150px;text-align: center" target="dish_iframe" th:href="@{/pushPlanNewDish/effectDetail(type=1,activityId=${newDishPushModel.activityId})}">浏览情况</li>
+        <li id="1" class="inverse" style="margin-bottom: -1px;width: 150px;text-align: center" target="dish_iframe" th:href="@{/pushPlanNewDish/effectDetail(type=2,activityId=${newDishPushModel.activityId})}">分享情况</li>
+
+    </ul>
+    <div style="height: 1px;width: 100%;background-color: #e1e1e1;margin-top: -1px"></div>
+</div>
+
+<div align="center" style="margin-top: 10px;width: 100%;height: 100%">
+    <input type="hidden" name="opType" value="0">
+
+    <iframe id="dish_iframe" th:src="@{/pushPlanNewDish/effectDetail(type=1,activityId=${newDishPushModel.activityId})}" width="100%" height="100%" style="border: 0px"></iframe>
+
+</div>
+
+</body>
+</html>

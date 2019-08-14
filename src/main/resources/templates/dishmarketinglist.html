@@ -32,15 +32,15 @@
 <head>
     <meta charset="UTF-8">
     <title>新品推送列表</title>
-    <link rel="stylesheet" th:href="@{/css/public.css}" type="text/css" />
-    <link rel="stylesheet" th:href="@{/css/widget.css}" type="text/css" />
-    <link rel="stylesheet" th:href="@{/css/base.css}" type="text/css" />
-    <link rel="stylesheet" th:href="@{/css/common.css}" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" type="text/css" />
 
     <!-- diglog -->
     <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
-    <script type="text/javascript" th:src="@{/js/diy_dialog.js}"></script>
-    <link rel="stylesheet" th:href="@{/css/diy_dialog.css}" type="text/css" />
+    <script type="text/javascript" th:src="@{/js/diy_dialog.js}" src="../static/js/diy_dialog.js"></script>
+    <link rel="stylesheet" th:href="@{/css/diy_dialog.css}" href="../static/css/diy_dialog.css" type="text/css" />
 </head>
 
 <script type="text/javascript">
@@ -120,6 +120,7 @@
             <th>浏览次数</th>
             <th>分享次数</th>
             <th>操作</th>
+            <th>效果详情</th>
         </tr>
         <tr  th:each="item:${list}">
             <td>
@@ -162,6 +163,11 @@
                 </div>
 
 
+            </td>
+            <td>
+                <div class="parent container" th:onclick="@{|location='${basePath}/pushPlanNewDish/effect?activityId=${item.id}'|}" style="cursor: pointer">
+                    <img src="../static/images/activity_report_icon.png"  th:src="@{/images/activity_report_icon.png}"  class="image_size_style">效果查看
+                </div>
             </td>
         </tr>
     </table>

@@ -2,7 +2,10 @@ package com.zhongmei.yunfu.controller;
 
 
 import com.baomidou.mybatisplus.plugins.Page;
+import com.zhongmei.yunfu.controller.model.NewDishPushSearchModel;
+import com.zhongmei.yunfu.domain.entity.OperationalRecordsEntity;
 import com.zhongmei.yunfu.service.LoginManager;
+import com.zhongmei.yunfu.service.OperationalRecordsService;
 import com.zhongmei.yunfu.util.DateFormatUtil;
 import com.zhongmei.yunfu.controller.model.ActivityModifyModel;
 import com.zhongmei.yunfu.controller.model.ActivitySearchModel;
@@ -31,7 +34,8 @@ public class PushPlanActivityController extends BaseController {
 
     @Autowired
     PushPlanActivityService pushPlanActivityService;
-
+    @Autowired
+    OperationalRecordsService mOperationalRecordsService;
 
     @RequestMapping("/list")
     public String list(Model model, ActivitySearchModel searchModel) {
@@ -184,6 +188,44 @@ public class PushPlanActivityController extends BaseController {
             return "fail";
         }
         return "success";
+    }
+
+    @RequestMapping("/effect")
+    public String effect(Model model, ActivitySearchModel searchModel){
+
+        model.addAttribute("searchModel", searchModel);
+
+        return "push_activity_effect";
+    }
+
+    @RequestMapping("/effectDetail")
+    public String effectDetail(Model model,ActivitySearchModel searchModel){
+
+        try {
+            Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
+            Long shopIdentity = LoginManager.get().getUser().getShopIdenty();
+
+            OperationalRecordsEntity entity = new OperationalRecordsEntity();
+            entity.setBrandIdenty(brandIdentity);
+            entity.setShopIdenty(shopIdentity);
+            entity.setActivityId(searchModel.getActivityId());
+            entity.setType(searchModel.getType());
+            entity.setCustomerName(searchModel.getCustomerName());
+            entity.setCustomerPhone(searchModel.getCustomerPhone());
+            entity.setOperationalCount(searchModel.getOperationalCount());
+
+            Page<OperationalRecordsEntity> listPage = mOperationalRecordsService.queryByActivityId(entity,searchModel.getPageNo(),searchModel.getPageSize());
+            setWebPage(model, "/pushPlanNewDish/effectDetail", listPage, searchModel);
+
+            model.addAttribute("listData", listPage.getRecords());
+            model.addAttribute("searchModel", searchModel);
+            return "push_activity_effect_detail";
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return "fail";
+        }
+
     }
 
 }

@@ -25,6 +25,12 @@ public class ActivitySearchModel extends WebBaseModel implements IShopIdenty {
 
     private String WXOpenId;
 
+    private Long activityId;
+    private Integer type;//1：浏览   2：分享
+    private String customerName;
+    private String customerPhone;
+    private Integer operationalCount;
+
     public Long getId() {
         return id;
     }
@@ -111,5 +117,45 @@ public class ActivitySearchModel extends WebBaseModel implements IShopIdenty {
 
     public void setWXOpenId(String WXOpenId) {
         this.WXOpenId = WXOpenId;
+    }
+
+    public Long getActivityId() {
+        return activityId;
+    }
+
+    public void setActivityId(Long activityId) {
+        this.activityId = activityId;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public String getCustomerPhone() {
+        return customerPhone;
+    }
+
+    public void setCustomerPhone(String customerPhone) {
+        this.customerPhone = customerPhone;
+    }
+
+    public Integer getOperationalCount() {
+        return operationalCount;
+    }
+
+    public void setOperationalCount(Integer operationalCount) {
+        this.operationalCount = operationalCount;
     }
 }

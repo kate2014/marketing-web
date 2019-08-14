@@ -4,9 +4,11 @@ package com.zhongmei.yunfu.controller;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.zhongmei.yunfu.controller.model.NewDishPushModel;
 import com.zhongmei.yunfu.controller.model.NewDishPushSearchModel;
+import com.zhongmei.yunfu.domain.entity.OperationalRecordsEntity;
 import com.zhongmei.yunfu.domain.entity.PushPlanNewDishEntity;
 import com.zhongmei.yunfu.domain.enums.StatusFlag;
 import com.zhongmei.yunfu.service.LoginManager;
+import com.zhongmei.yunfu.service.OperationalRecordsService;
 import com.zhongmei.yunfu.service.PushPlanNewDishService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -32,6 +34,8 @@ public class PushPlanNewDishController extends BaseController {
 
     @Autowired
     PushPlanNewDishService mPushNewDishService;
+    @Autowired
+    OperationalRecordsService mOperationalRecordsService;
 
     @RequestMapping({"", "/list"})
     public String getPlanList(Model model, NewDishPushSearchModel newDishPushModel) {
@@ -150,6 +154,44 @@ public class PushPlanNewDishController extends BaseController {
         NewDishPushModel newDishPushmodel = new NewDishPushModel(newDishPlan);
         model.addAttribute("newDishPlan", newDishPushmodel);
         return "dishmarketingadd";
+    }
+
+    @RequestMapping("/effect")
+    public String effect(Model model,NewDishPushSearchModel newDishPushModel){
+
+        model.addAttribute("newDishPushModel", newDishPushModel);
+
+        return "push_dish_effect";
+    }
+
+    @RequestMapping("/effectDetail")
+    public String effectDetail(Model model,NewDishPushSearchModel newDishPushModel){
+
+        try {
+            Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
+            Long shopIdentity = LoginManager.get().getUser().getShopIdenty();
+
+            OperationalRecordsEntity entity = new OperationalRecordsEntity();
+            entity.setBrandIdenty(brandIdentity);
+            entity.setShopIdenty(shopIdentity);
+            entity.setActivityId(newDishPushModel.getActivityId());
+            entity.setType(newDishPushModel.getType());
+            entity.setCustomerName(newDishPushModel.getCustomerName());
+            entity.setCustomerPhone(newDishPushModel.getCustomerPhone());
+            entity.setOperationalCount(newDishPushModel.getOperationalCount());
+
+            Page<OperationalRecordsEntity> listPage = mOperationalRecordsService.queryByActivityId(entity,newDishPushModel.getPageNo(),newDishPushModel.getPageSize());
+            setWebPage(model, "/pushPlanNewDish/effectDetail", listPage, newDishPushModel);
+
+            model.addAttribute("listData", listPage.getRecords());
+            model.addAttribute("newDishPushModel", newDishPushModel);
+            return "push_dish_effect_detail";
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return "fail";
+        }
+
     }
 }
 

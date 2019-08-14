@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <style type="text/css">
 
     html,body{
@@ -9,25 +9,36 @@
         background-color: #FFFFFF;
     }
 
+    <!-- 选项卡 -->
+    ol, ul, li{	list-style: none}
+    /*html,body { margin:0; padding:0; height:100%}*/
+    .table_card { /*width:96%;*/ margin: 5px 20px 0 20px;}
+    .table_card .tab { height:37px; font-size:14px;}
+    .table_card .tab li {font-size: 10px; float:left; height:37px; line-height:37px; padding:0 25px; margin-right:4px; border-radius: 5px 5px 0 0;}
+    .table_card .tab li:hover { height:37px; cursor:pointer;}
+    .table_card .activ { height:37px !important; !important; border-top:1px solid #e1e1e1;border-left:1px solid #e1e1e1;border-right:1px solid #e1e1e1;background-color: #FFFFFF;color: #3b3b1f}
+    .table_card .inverse { height:37px; background-color: #e1e1e1;color: #a6a6a6}
+    .table_card .hint {color: white; display:block; text-align: center;}
+
 </style>
 
 <head>
     <meta charset="UTF-8">
-    <title>特价活动效果</title>
+    <title>效果查看</title>
     <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
     <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
-    <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" type="text/css" />
-    <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" type="text/css" />
-
-    <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" />
+    <link rel="stylesheet" th:href="@{/css/customer.css}" href="../static/css/customer.css" />
+    <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}" src="../static/js/jquery-3.1.1.min.js" ></script>
     <script type="text/javascript" th:src="@{/js/base.js}" src="../static/js/base.js" ></script>
+    <script type="text/javascript" th:src="@{/js/window/window.ext.js}" src="../static/js/window/window.ext.js" ></script>
 
-    <!-- diglog -->
-    <script type="text/javascript" th:src="@{/js/diy_dialog.js}"></script>
-    <link rel="stylesheet" th:href="@{/css/diy_dialog.css}" href="../static/css/diy_dialog.css" type="text/css" />
+
 </head>
 
 <script type="text/javascript">
+
     $(function () {
         $("#service_push").click(function () {
             var customerIds = [];
@@ -91,37 +102,35 @@
             });
         })
     });
+
 </script>
 
 <body>
 
 <div class="parent_h container" style="margin-top: 10px">
-    <form method="post" action="" th:action="@{/activity/effect/detail}" th:object="${mActivitySalesModel}">
+    <form method="post" action="" th:action="@{/pushPlanActivity/effectDetail}" th:object="${searchModel}">
         <div class="parent_h container">
 
-            <input type="hidden" name="activityId" id="activityId" th:value="${mActivitySalesModel.activityId}">
-            <input type="hidden" name="type" id="type" th:value="${mActivitySalesModel.type}">
+            <input type="hidden" name="activityId" id="activityId" th:value="${searchModel.activityId}">
+            <input type="hidden" name="type" id="type" th:value="${searchModel.type}">
 
             <label class="text_navigation">顾客姓名</label>
-            <input class="input_style" style="margin-left: 5px" type="text" th:value="${mActivitySalesModel.customerName}" name="customerName" id="customerName"/>
+            <input class="input_style" style="margin-left: 5px" type="text" th:value="${searchModel.customerName}" name="customerName" id="customerName"/>
 
             <label class="text_navigation" style="margin-left: 10px">顾客电话</label>
-            <input class="input_style" style="margin-left: 5px" type="text" th:value="${mActivitySalesModel.customerPhone}" name="customerPhone" id="customerPhone"/>
+            <input class="input_style" style="margin-left: 5px" type="text" th:value="${searchModel.customerPhone}" name="customerPhone" id="customerPhone"/>
 
 
-            <div th:switch="${mActivitySalesModel.type}">
+            <div th:switch="${searchModel.type}">
                 <p th:case="'1'">
                     <label class="text_navigation" style="margin-left: 10px">浏览次数 >= </label>
                 </p>
                 <p th:case="'2'">
                     <label class="text_navigation" style="margin-left: 10px">分享次数 >= </label>
                 </p>
-                <p th:case="'3'">
-                    <label class="text_navigation" style="margin-left: 10px">购买次数 >= </label>
-                </p>
             </div>
 
-            <input class="input_style" style="margin-left: 5px" type="text" th:value="${mActivitySalesModel.operationalCount}" name="operationalCount" id="operationalCount"/>
+            <input class="input_style" style="margin-left: 5px" type="text" th:value="${searchModel.operationalCount}" name="operationalCount" id="operationalCount"/>
 
             <button class="orange_mine_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
 
@@ -131,6 +140,7 @@
     <button class="blue_mine_button_style" value="" onclick="this" style="margin-left: 10px" id="service_push">服务推送</button>
 </div>
 
+
 <div align="center" style="margin-top: 10px">
     <table class="gridtablestyle" style="width: 96%; vertical-align: middle">
         <tr style="width: 100%">
@@ -139,22 +149,20 @@
             <th>姓名</th>
             <th>电话</th>
             <th>
-                <div th:switch="${mActivitySalesModel.type}">
+                <div th:switch="${searchModel.type}">
                     <p th:case="'1'">
                         浏览次数
                     </p>
                     <p th:case="'2'">
                         分享次数
                     </p>
-                    <p th:case="'3'">
-                        购买次数
-                    </p>
+
                 </div>
             </th>
             <th>最近操作时间</th>
 
         </tr>
-        <tr th:each="item:${list}">
+        <tr th:each="item:${listData}">
             <td>
                 <input name="checkItem" type="checkbox" th:id="${item.customerId}">
             </td>
@@ -181,7 +189,6 @@
 </div>
 
 <div class='select-com'></div>
-
 
 </body>
 </html>
