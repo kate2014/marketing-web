@@ -57,4 +57,12 @@ public interface RedPacketsRecordService extends IService<RedPacketsRecordEntity
      */
     Page<RedPacketsRecordEntity> queryRedPackets(RedPacketsRecordEntity entity,int pageNo,int pageSize)throws Exception;
 
+    /**
+     * 获取会员红包获取情况
+     * @param entity
+     * @return
+     * @throws Exception
+     */
+    List<RedPacketsRecordEntity> queryRedPacketsByCustomer(RedPacketsRecordEntity entity) throws Exception;
+
 }

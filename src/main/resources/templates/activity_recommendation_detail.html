@@ -102,6 +102,9 @@
             <label class="text_navigation">顾客姓名</label>
             <input class="input_style" style="margin-left: 5px" type="text" th:value="${mActivityEffectModel.customerName}" name="customerName" id="customerName"/>
 
+            <label class="text_navigation" style="margin-left: 10px">顾客电话</label>
+            <input class="input_style" style="margin-left: 5px" type="text" th:value="${mActivityEffectModel.customerPhone}" name="customerPhone" id="customerPhone"/>
+
             <button class="orange_mine_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
 
         </div>
@@ -116,6 +119,8 @@
         <tr style="width: 100%">
             <th width="60px"><input type="checkbox" id="checkAll"></th>
             <th>顾客</th>
+            <th>顾客姓名</th>
+            <th>顾客电话</th>
             <th>推荐成单数</th>
 
         </tr>
@@ -126,8 +131,14 @@
             <td>
                 <div class="parent container">
                     <img style="height: 36px;width: auto;margin-right: 5px" th:src="${item.mainWxPhoto}" src="https://wx.qlogo.cn/mmopen/vi_32/SEqTQhLC64kJFicxclAywVS9bwicZhmbr2fhVz02kwdAOBUn43EjkXoPltHerOQCZAToK3kk5eRAC64aZplVhd4w/132">
-                    <span th:text="${item.mainCustomerName}">Calme</span>
+                    <span th:text="${item.mainWxName}">Calme</span>
                 </div>
+            </td>
+            <td>
+                <span th:text="${item.mainCustomerName}">Calme</span>
+            </td>
+            <td>
+                <span th:text="${item.mainCustomerPhone}">Calme</span>
             </td>
 
             <td th:text="${item.id}">2</td>

@@ -98,12 +98,15 @@ public class RecommendationAssociationServiceImpl extends ServiceImpl<Recommenda
         eWrapper.eq("status_flag",1);
         eWrapper.eq("activity_id",entity.getActivityId());
         eWrapper.eq("transaction_status",2);
-        if(entity.getMainCustomerName() != null){
+        if(entity.getMainCustomerName() != null && !entity.getMainCustomerName().equals("")){
             eWrapper.like("main_customer_name",entity.getMainCustomerName());
+        }
+        if(entity.getMainCustomerPhone() != null && !entity.getMainCustomerPhone().equals("")){
+            eWrapper.eq("main_customer_phone",entity.getMainCustomerPhone());
         }
         eWrapper.groupBy("main_wx_open_id");
         eWrapper.orderBy("count(id)",false);
-        eWrapper.setSqlSelect("count(id) as id,main_customer_id,main_wx_open_id,main_customer_name");
+        eWrapper.setSqlSelect("count(id) as id,main_customer_id,main_wx_open_id,main_customer_name,main_customer_phone,main_wx_name,main_wx_photo");
         Page<RecommendationAssociationEntity> listData = selectPage(listPage,eWrapper);
         return listData;
     }

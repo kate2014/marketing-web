@@ -150,6 +150,7 @@ public class ActivityEffectController extends BaseController{
             entity.setShopIdenty(shopIdentity);
             entity.setActivityId(mActivityEffectModel.getActivityId());
             entity.setMainCustomerName(mActivityEffectModel.getCustomerName());
+            entity.setMainCustomerPhone(mActivityEffectModel.getCustomerPhone());
 
             Page<RecommendationAssociationEntity> listData = mRAService.queryRAByCustomer(entity,mActivityEffectModel.getPageNo(),mActivityEffectModel.getPageSize());
 

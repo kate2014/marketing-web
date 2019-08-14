@@ -151,4 +151,14 @@ public interface CustomerCouponService extends IService<CustomerCouponEntity> {
      * @throws Exception
      */
     Boolean sendCustomerCoupon(Long brandIdenty, Long shopIdenty, Long customerId, String wxOpenId,Long couponId,String couponName,Long activityId, Integer sourceId) throws Exception;
+
+    /**
+     * 获取会员活动中获取的优惠券
+     * @param brandIdenty
+     * @param shopIdenty
+     * @param customerId
+     * @return
+     * @throws Exception
+     */
+    List<CustomerCouponEntity> queryActivityGfitByCustomer(Long brandIdenty, Long shopIdenty, Long customerId,Integer status) throws Exception;
 }

@@ -3,6 +3,7 @@ package com.zhongmei.yunfu.service.impl;
 import com.baomidou.mybatisplus.mapper.Condition;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.zhongmei.yunfu.controller.api.model.ActivityGiftEffectResp;
 import com.zhongmei.yunfu.controller.model.ActivityEffectModel;
 import com.zhongmei.yunfu.controller.model.CollageCustomerModel;
 import com.zhongmei.yunfu.controller.model.CustomerGiftModel;
@@ -70,6 +71,21 @@ public class ActivitySalesGiftServiceImpl extends ServiceImpl<ActivitySalesGiftM
             eWrapper.eq("o.customer_phone",mActivityEffectModel.getCustomerPhone());
         }
         List<CustomerGiftModel> listData = baseMapper.queryActivityGift(eWrapper);
+
+        return listData;
+    }
+
+    @Override
+    public List<ActivityGiftEffectResp> queryCustomerGift(ActivityEffectModel mActivityEffectModel) throws Exception {
+        Condition eWrapper = ConditionFilter.create();
+        eWrapper.isWhere(true);
+        eWrapper.eq("r.brand_identy",mActivityEffectModel.getBrandIdenty());
+        eWrapper.eq("r.shop_identy",mActivityEffectModel.getShopIdenty());
+        eWrapper.eq("r.main_customer_id",mActivityEffectModel.getCustomerId());
+        eWrapper.eq("r.transaction_status",2);
+        eWrapper.eq("r.status_flag",1);
+
+        List<ActivityGiftEffectResp> listData = baseMapper.queryCustomerGift(eWrapper);
 
         return listData;
     }

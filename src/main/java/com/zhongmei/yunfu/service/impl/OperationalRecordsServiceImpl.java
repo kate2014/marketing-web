@@ -127,7 +127,7 @@ public class OperationalRecordsServiceImpl extends ServiceImpl<OperationalRecord
         if(entity.getWxOpenId() != null){
             eWrapper.eq("wx_open_id",entity.getWxOpenId());
         }
-        eWrapper.setSqlSelect("id,brand_identy,shop_identy,activity_id,customer_id,operational_count");
+//        eWrapper.setSqlSelect("id,brand_identy,shop_identy,activity_id,customer_id,operational_count,");
         OperationalRecordsEntity mOperationalRecordsEntity = selectOne(eWrapper);
         return mOperationalRecordsEntity;
     }

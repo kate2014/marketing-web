@@ -202,6 +202,10 @@ public class MarketingExpandedApiController {
 
             mCustomerCommissionModel.setExpandedCommission(mExpandedCommission);
 
+            List<CustomerCouponEntity> listCC = mCustomerCouponService.queryActivityGfitByCustomer(mCustomerMarketingExpanded.getBrandIdenty(), mCustomerMarketingExpanded.getShopIdenty(), mCustomerMarketingExpanded.getCustomerId(),1);
+
+            mCustomerCommissionModel.setGiftCount(listCC.size());
+
             mBaseDataModel.setState("1000");
             mBaseDataModel.setMsg("获取我的推广数据成功");
             mBaseDataModel.setData(mCustomerCommissionModel);

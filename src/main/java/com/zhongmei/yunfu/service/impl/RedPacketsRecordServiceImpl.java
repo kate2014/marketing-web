@@ -180,6 +180,20 @@ public class RedPacketsRecordServiceImpl extends ServiceImpl<RedPacketsRecordMap
 
     }
 
+    @Override
+    public List<RedPacketsRecordEntity> queryRedPacketsByCustomer(RedPacketsRecordEntity entity) throws Exception {
+        EntityWrapper<RedPacketsRecordEntity> eWrapper = new EntityWrapper<>();
+        eWrapper.eq("brand_identy",entity.getBrandIdenty());
+        eWrapper.eq("shop_identy",entity.getShopIdenty());
+        eWrapper.eq("customer_id",entity.getCustomerId());
+        eWrapper.eq("status_flag",1);
+        eWrapper.orderBy("server_create_time",false);
+        eWrapper.setSqlSelect("amount,source,server_create_time");
+        List<RedPacketsRecordEntity> listRedPackets = selectList(eWrapper);
+
+        return listRedPackets;
+    }
+
     /**
      * 构建红包发放记录对象
      * @return

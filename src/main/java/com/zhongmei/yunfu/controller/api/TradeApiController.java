@@ -72,6 +72,8 @@ public class TradeApiController {
     ActivitySalesService mActivitySalesService;
     @Autowired
     RecommendationAssociationService mRAService;
+    @Autowired
+    OperationalRecordsService mOperationalRecordsService;
     /**
      * 创建订单
      *
@@ -194,12 +196,25 @@ public class TradeApiController {
         try {
 
             if((mTradeModel.getRecommendOpenId() != null && !mTradeModel.getRecommendOpenId().equals("")) || (mTradeModel.getRecommendCustomerId() != null && !mTradeModel.getRecommendCustomerId().equals(""))){
+               //获取推荐人详细信息
+                OperationalRecordsEntity opEntity = new OperationalRecordsEntity();
+                opEntity.setBrandIdenty(mTradeModel.getBrandIdenty());
+                opEntity.setShopIdenty(mTradeModel.getShopIdenty());
+                opEntity.setActivityId(mTradeModel.getMarketingId());
+                opEntity.setWxOpenId(mTradeModel.getRecommendOpenId());
+                opEntity.setType(1);
+                OperationalRecordsEntity mOREntity = mOperationalRecordsService.queryByCustomer(opEntity);
+
                 RecommendationAssociationEntity entity = new RecommendationAssociationEntity();
 
                 entity.setShopIdenty(mTradeModel.getShopIdenty());
                 entity.setBrandIdenty(mTradeModel.getBrandIdenty());
                 entity.setMainCustomerId(mTradeModel.getRecommendCustomerId());
+                entity.setMainCustomerName(mOREntity.getCustomerName());
                 entity.setMainWxOpenId(mTradeModel.getRecommendOpenId());
+                entity.setMainWxName(mOREntity.getWxName());
+                entity.setMainWxPhoto(mOREntity.getWxPhoto());
+                entity.setMainCustomerPhone(mOREntity.getCustomerPhone());
                 entity.setAcceptWxOpenId(mTradeModel.getWxOpenId());
                 entity.setTradeId(trade.getId());
                 entity.setActivityId(mTradeModel.getMarketingId());

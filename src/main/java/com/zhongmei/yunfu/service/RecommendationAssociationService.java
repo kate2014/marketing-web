@@ -71,4 +71,5 @@ public interface RecommendationAssociationService extends IService<Recommendatio
      * @throws Exception
      */
     Integer queryUserTradeCount(RecommendationAssociationEntity entity)throws Exception;
+
 }

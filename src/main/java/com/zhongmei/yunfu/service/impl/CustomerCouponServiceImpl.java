@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.zhongmei.yunfu.controller.model.CustomerCouponModel;
 import com.zhongmei.yunfu.core.mybatis.mapper.ConditionFilter;
+import com.zhongmei.yunfu.domain.entity.ActivitySalesGiftEntity;
 import com.zhongmei.yunfu.domain.entity.CouponEntity;
 import com.zhongmei.yunfu.domain.entity.CustomerCouponEntity;
 import com.zhongmei.yunfu.domain.entity.MarketingPutOnEntity;
@@ -256,5 +257,22 @@ public class CustomerCouponServiceImpl extends ServiceImpl<CustomerCouponMapper,
         }
 
         return isSuccess;
+    }
+
+    @Override
+    public List<CustomerCouponEntity> queryActivityGfitByCustomer(Long brandIdenty, Long shopIdenty, Long customerId,Integer status) throws Exception {
+        EntityWrapper<CustomerCouponEntity> eWrapper = new EntityWrapper<>();
+        eWrapper.eq("brand_identy",brandIdenty);
+        eWrapper.eq("shop_identy",shopIdenty);
+        eWrapper.eq("customer_id",customerId);
+        eWrapper.eq("status_flag",1);
+        if(status != null){
+            eWrapper.eq("status",status);
+        }
+        eWrapper.isNotNull("activity_id");
+        eWrapper.setSqlSelect("coupon_id,coupon_name,source_id,customer_id,activity_id,status");
+
+        List<CustomerCouponEntity> listCustomerCoupon = selectList(eWrapper);
+        return listCustomerCoupon;
     }
 }

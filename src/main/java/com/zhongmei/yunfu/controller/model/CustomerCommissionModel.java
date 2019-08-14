@@ -11,6 +11,8 @@ public class CustomerCommissionModel {
 
     private ExpandedCommissionEntity expandedCommission;
 
+    private Integer giftCount;
+
     public List<CustomerMarketingExpandedEntity> getListExpanded() {
         return listExpanded;
     }
@@ -25,5 +27,13 @@ public class CustomerCommissionModel {
 
     public void setExpandedCommission(ExpandedCommissionEntity expandedCommission) {
         this.expandedCommission = expandedCommission;
+    }
+
+    public Integer getGiftCount() {
+        return giftCount;
+    }
+
+    public void setGiftCount(Integer giftCount) {
+        this.giftCount = giftCount;
     }
 }
