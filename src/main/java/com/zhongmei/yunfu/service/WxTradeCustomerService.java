@@ -113,4 +113,11 @@ public interface WxTradeCustomerService extends IService<WxTradeCustomerEntity> 
      */
     List<CollageReportModel> queryCollageData(ReportMarketingModel mReportMarketingModel)throws Exception;
 
+    /**
+     * 查询活动售卖量
+     * @param mTradeModel
+     * @return
+     * @throws Exception
+     */
+    Integer querySalesCount(TradeModel mTradeModel)throws Exception;
 }

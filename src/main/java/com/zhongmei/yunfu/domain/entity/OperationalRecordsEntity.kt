@@ -49,7 +49,7 @@ class OperationalRecordsEntity : SupperEntity() {
     var operationalCount: Int? = null
 
     /**
-     * 类型：1：查看  2：分享  3：购买
+     * 类型：1：查看  2：分享
      */
     var type: Int? = null
     /**

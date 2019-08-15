@@ -55,7 +55,7 @@ class WxTradeCustomerEntity : BaseEntity() {
      */
     var status: Int? = null
     /**
-     * 类型 1 拼团、2 砍价、 3 秒杀
+     * 类型 1 拼团、2 砍价、 3 秒杀 、 4特价活动
      */
     var type: Int? = null
     /**

@@ -5,6 +5,7 @@ import com.zhongmei.yunfu.controller.api.model.ActivitySalesReq;
 import com.zhongmei.yunfu.controller.api.model.ActivitySalesResp;
 import com.zhongmei.yunfu.controller.model.ActivitySalesModel;
 import com.zhongmei.yunfu.controller.model.BaseDataModel;
+import com.zhongmei.yunfu.controller.model.TradeModel;
 import com.zhongmei.yunfu.domain.entity.*;
 import com.zhongmei.yunfu.service.*;
 import com.zhongmei.yunfu.service.impl.RedPacketsRecordServiceImpl;
@@ -78,7 +79,23 @@ public class ActivitySalesApiController {
             mOperationalRecordsEntity.setShopIdenty(mActivitySalesReq.getShopIdenty());
             mOperationalRecordsEntity.setActivityId(mActivitySalesReq.getActivityId());
             List<OperationalRecordsEntity> listOperationalCount = mOperationalRecordsService.queryDataByActivityId(mOperationalRecordsEntity);
+            //售卖数量统计
+            TradeModel mTradeModel = new TradeModel();
+            mTradeModel.setBrandIdenty(mActivitySalesReq.getBrandIdenty());
+            mTradeModel.setShopIdenty(mActivitySalesReq.getShopIdenty());
+            mTradeModel.setMarketingId(mActivitySalesReq.getActivityId());
+            mTradeModel.setType(4);
+            Integer salesCount = mWxTradeCustomerService.querySalesCount(mTradeModel);
+
+            OperationalRecordsEntity salesOperationalRecords = new OperationalRecordsEntity();
+            salesOperationalRecords.setActivityId(mActivitySalesReq.getActivityId());
+            salesOperationalRecords.setType(3);
+            salesOperationalRecords.setOperationalCount(salesCount);
+
+            listOperationalCount.add(salesOperationalRecords);
+
             mActivitySalesResp.setListOperationalCount(listOperationalCount);
+
 
             //查询活动推荐成单赠礼信息
             ActivitySalesGiftEntity mActivitySalesGiftEntity = new ActivitySalesGiftEntity();

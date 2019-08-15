@@ -111,7 +111,7 @@ public class WxTradeCustomerServiceImpl extends ServiceImpl<WxTradeCustomerMappe
         eWrapper.eq("brand_identy", mWxTradeCustomer.getBrandIdenty());
         eWrapper.eq("shop_identy", mWxTradeCustomer.getShopIdenty());
         eWrapper.eq("marketing_id", mWxTradeCustomer.getMarketingId());
-        eWrapper.eq("status", 1);
+//        eWrapper.eq("status", 1);
         eWrapper.eq("enabled_flag", 1);
         eWrapper.eq("status_flag", 1);
         eWrapper.setSqlSelect("marketing_id,marketing_name,customer_name,wx_photo");
@@ -270,6 +270,21 @@ public class WxTradeCustomerServiceImpl extends ServiceImpl<WxTradeCustomerMappe
         return listData;
     }
 
+    @Override
+    public Integer querySalesCount(TradeModel mTradeModel) throws Exception {
+
+        EntityWrapper<WxTradeCustomerEntity> eWrapper = new EntityWrapper<>(new WxTradeCustomerEntity());
+        eWrapper.eq("brand_identy", mTradeModel.getBrandIdenty());
+        eWrapper.eq("shop_identy", mTradeModel.getShopIdenty());
+        eWrapper.eq("marketing_id", mTradeModel.getMarketingId());
+        eWrapper.eq("type", mTradeModel.getType());
+        eWrapper.eq("enabled_flag", 1);
+        eWrapper.eq("status_flag",1);
+        eWrapper.setSqlSelect("id");
+        List<WxTradeCustomerEntity> listData = selectList(eWrapper);
+        return listData.size();
+    }
+
     //查询会员参与活动信息，可用来判断该会员是否参与过该活动
     public String queryJoinCountByCollageId(TradeModel mTradeModel) throws Exception{
         //判断用户是否参与过该活动，目前一个活动同一用户只能参加一次
@@ -288,4 +303,6 @@ public class WxTradeCustomerServiceImpl extends ServiceImpl<WxTradeCustomerMappe
             return null;
         }
     }
+
+
 }
