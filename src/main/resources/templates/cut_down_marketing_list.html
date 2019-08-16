@@ -131,7 +131,7 @@
 </form>
 
 <div align="center" style="margin-top: 10px">
-    <table class="gridtablestyle" style="width: 90%; vertical-align: middle">
+    <table class="gridtablestyle" style="width: 95%; vertical-align: middle">
         <tr style="width: 100%">
             <th>名称</th>
             <th>状态</th>
@@ -142,6 +142,7 @@
             <th>可售卖数量</th>
             <th>已售卖数量</th>
             <th>操作</th>
+            <th>效果详情</th>
         </tr>
         <tr th:each="item:${list}">
             <td th:text="${item.name}"></td>
@@ -167,7 +168,11 @@
                 <a th:onclick="'javascript:checkStop(\''+${item.id}+'\',\''+${item.name}+'\')'" style="cursor: pointer">停用</a>
                 <a th:onclick="'javascript:checkDelete(\''+${item.id}+'\',\''+${item.name}+'\')'" style="cursor: pointer">删除</a>
             </td>
-
+            <td>
+                <div class="parent_h container" th:onclick="@{|location='${basePath}/cutDownEffect/effect?activityId=${item.id}'|}" style="cursor: pointer">
+                    <img src="../static/images/activity_report_icon.png"  th:src="@{/images/activity_report_icon.png}"  class="icon_margin_right_style">效果查看
+                </div>
+            </td>
         </tr>
 
     </table>

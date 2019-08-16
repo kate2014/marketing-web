@@ -1,14 +1,13 @@
 package com.zhongmei.yunfu.controller;
 
-
 import com.baomidou.mybatisplus.plugins.Page;
 import com.zhongmei.yunfu.controller.model.ActivitySearchModel;
-import com.zhongmei.yunfu.controller.model.CollageMarketingModel;
+import com.zhongmei.yunfu.controller.model.FlashSalesModel;
 import com.zhongmei.yunfu.controller.model.TradeModel;
-import com.zhongmei.yunfu.domain.entity.CollageMarketingEntity;
+import com.zhongmei.yunfu.domain.entity.FlashSalesMarketingEntity;
 import com.zhongmei.yunfu.domain.entity.OperationalRecordsEntity;
 import com.zhongmei.yunfu.domain.entity.WxTradeCustomerEntity;
-import com.zhongmei.yunfu.service.CollageMarketingService;
+import com.zhongmei.yunfu.service.FlashSalesMarketingService;
 import com.zhongmei.yunfu.service.LoginManager;
 import com.zhongmei.yunfu.service.OperationalRecordsService;
 import com.zhongmei.yunfu.service.WxTradeCustomerService;
@@ -18,22 +17,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
  * <p>
- * 拼团活动 前端控制器
+ * 秒杀活动 前端控制器
  * </p>
  *
  * @author yangyp
  * @since 2018-09-10
  */
 @Controller
-@RequestMapping("/collageEffect")
-public class CollageEffectController extends BaseController{
+@RequestMapping("/flashSalesEffect")
+public class FlashSalesEffectController extends BaseController{
 
     @Autowired
     OperationalRecordsService mOperationalRecordsService;
@@ -82,8 +80,8 @@ public class CollageEffectController extends BaseController{
             mTradeModel.setBrandIdenty(brandIdentity);
             mTradeModel.setShopIdenty(shopIdentity);
             mTradeModel.setMarketingId(searchModel.getActivityId());
-            mTradeModel.setType(1);
-            //获取拼团成功信息
+            mTradeModel.setType(3);
+            //获取秒杀成功信息
             List<WxTradeCustomerEntity> listSalseData = mWxTradeCustomerService.querySalseDetail(mTradeModel);
 
             if(listSalseData != null && listSalseData.size() > 0){
@@ -116,14 +114,13 @@ public class CollageEffectController extends BaseController{
 
             model.addAttribute("searchModel",searchModel);
 
-            return "collage_effect";
+            return "flash_sales_effect";
         }catch (Exception e){
             e.printStackTrace();
             return "fail";
         }
 
     }
-
 
 
     @RequestMapping("/browseDetail")
@@ -143,50 +140,17 @@ public class CollageEffectController extends BaseController{
             entity.setOperationalCount(searchModel.getOperationalCount());
 
             Page<OperationalRecordsEntity> listPage = mOperationalRecordsService.queryByActivityId(entity,searchModel.getPageNo(),searchModel.getPageSize());
-            setWebPage(model, "/collageEffect/browseDetail", listPage, searchModel);
+            setWebPage(model, "/flashSalesEffect/browseDetail", listPage, searchModel);
 
             model.addAttribute("listData", listPage.getRecords());
             model.addAttribute("searchModel", searchModel);
-            return "collage_effect_detail";
+            return "flash_sales_effect_detail";
 
         }catch (Exception e){
             e.printStackTrace();
             return "fail";
         }
 
-    }
-
-    /**
-     * 参团情况详情
-     * @param model
-     * @param searchModel
-     * @return
-     */
-    @RequestMapping("/joinCollageEffect")
-    public String joinCollageEffect(Model model,ActivitySearchModel searchModel){
-        try {
-            Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
-            Long shopIdentity = LoginManager.get().getUser().getShopIdenty();
-
-            OperationalRecordsEntity entity = new OperationalRecordsEntity();
-            entity.setBrandIdenty(brandIdentity);
-            entity.setShopIdenty(shopIdentity);
-            entity.setActivityId(searchModel.getActivityId());
-            entity.setType(1);
-            entity.setCustomerName(searchModel.getCustomerName());
-            entity.setCustomerPhone(searchModel.getCustomerPhone());
-            entity.setOperationalCount(searchModel.getOperationalCount());
-
-            List<OperationalRecordsEntity> listData = mOperationalRecordsService.queryJoinEffect(entity);
-            model.addAttribute("listData", listData);
-            model.addAttribute("searchModel", searchModel);
-
-        }catch (Exception e){
-            e.printStackTrace();
-            return "fail";
-        }
-
-        return "collage_join_effect";
     }
 
 
@@ -196,7 +160,7 @@ public class CollageEffectController extends BaseController{
      * @param searchModel
      * @return
      */
-    @RequestMapping("/finishCollageEffect")
+    @RequestMapping("/finishFlashSalesEffect")
     public String finishCollageEffect(Model model,ActivitySearchModel searchModel){
         try {
             Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
@@ -208,20 +172,19 @@ public class CollageEffectController extends BaseController{
             entity.setCustomerName(searchModel.getCustomerName());
             entity.setCustomerPhone(searchModel.getCustomerPhone());
             entity.setOperationalCount(searchModel.getOperationalCount());
-            entity.setType(1);//wxtradeCustomer中type为1表示拼团
+            entity.setType(3);//wxtradeCustomer中type为3表示秒杀
 
             List<OperationalRecordsEntity> listData = mOperationalRecordsService.querySalesEffect(entity);
 
             model.addAttribute("searchModel", searchModel);
             model.addAttribute("listData", listData);
 
-            return "collage_join_effect";
+            return "flash_sales_finish_effect";
         }catch (Exception e){
             e.printStackTrace();
             return "fail";
         }
     }
-
 
 }
 

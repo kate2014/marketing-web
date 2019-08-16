@@ -165,6 +165,7 @@ public class ActivitySalesApiController {
                     orEntity.setActivityId(mActivitySalesReq.getActivityId());
                     orEntity.setOperationalCount(1);
                     orEntity.setType(1);
+                    orEntity.setSource(7);
                     orEntity.setServerCreateTime(new Date());
                     orEntity.setServerUpdateTime(new Date());
                     mOperationalRecordsService.addOperational(orEntity);
