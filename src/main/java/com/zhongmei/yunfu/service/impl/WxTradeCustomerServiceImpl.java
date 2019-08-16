@@ -304,5 +304,31 @@ public class WxTradeCustomerServiceImpl extends ServiceImpl<WxTradeCustomerMappe
         }
     }
 
+    public List<WxTradeCustomerEntity> querySalseDetail(TradeModel mTradeModel)throws Exception{
+        EntityWrapper<WxTradeCustomerEntity> eWrapper = new EntityWrapper<>(new WxTradeCustomerEntity());
+        eWrapper.eq("brand_identy", mTradeModel.getBrandIdenty());
+        eWrapper.eq("shop_identy", mTradeModel.getShopIdenty());
+        eWrapper.eq("marketing_id", mTradeModel.getMarketingId());
+        eWrapper.eq("type", mTradeModel.getType());
+        eWrapper.eq("enabled_flag", 1);
+        eWrapper.eq("status_flag",1);
+        eWrapper.setSqlSelect("count(id),marketing_name,customer_id");
+        eWrapper.groupBy("customer_id");
+
+        return selectList(eWrapper);
+    }
+
+    @Override
+    public Integer querySalseCount(TradeModel mTradeModel) throws Exception {
+        EntityWrapper<WxTradeCustomerEntity> eWrapper = new EntityWrapper<>(new WxTradeCustomerEntity());
+        eWrapper.eq("brand_identy", mTradeModel.getBrandIdenty());
+        eWrapper.eq("shop_identy", mTradeModel.getShopIdenty());
+        eWrapper.eq("marketing_id", mTradeModel.getMarketingId());
+        eWrapper.eq("type", mTradeModel.getType());
+        eWrapper.eq("enabled_flag", 1);
+        eWrapper.eq("status_flag",1);
+
+        return selectCount(eWrapper);
+    }
 
 }

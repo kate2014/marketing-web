@@ -4,10 +4,8 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.zhongmei.yunfu.controller.model.ActivityEffectModel;
 import com.zhongmei.yunfu.controller.model.ActivitySalesModel;
 import com.zhongmei.yunfu.controller.model.CustomerGiftModel;
-import com.zhongmei.yunfu.domain.entity.CollageMarketingEntity;
-import com.zhongmei.yunfu.domain.entity.OperationalRecordsEntity;
-import com.zhongmei.yunfu.domain.entity.RecommendationAssociationEntity;
-import com.zhongmei.yunfu.domain.entity.RedPacketsRecordEntity;
+import com.zhongmei.yunfu.controller.model.TradeModel;
+import com.zhongmei.yunfu.domain.entity.*;
 import com.zhongmei.yunfu.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,6 +30,8 @@ public class ActivityEffectController extends BaseController{
     ActivitySalesGiftService mActivitySalesGiftService;
     @Autowired
     RedPacketsRecordService mRedPacketsRecordService;
+    @Autowired
+    WxTradeCustomerService mWxTradeCustomerService;
 
     @RequestMapping("/effect")
     public String querySalesList(Model model, ActivitySalesModel mActivitySalesModel) {
@@ -71,6 +71,20 @@ public class ActivityEffectController extends BaseController{
                     salesCount = effect;
                 }
 
+            }
+
+            TradeModel mTradeModel = new TradeModel();
+            mTradeModel.setBrandIdenty(brandIdentity);
+            mTradeModel.setShopIdenty(shopIdentity);
+            mTradeModel.setMarketingId(mActivitySalesModel.getId());
+            mTradeModel.setType(4);
+
+            List<WxTradeCustomerEntity> listSalseData = mWxTradeCustomerService.querySalseDetail(mTradeModel);
+
+            if(listSalseData != null && listSalseData.size() > 0){
+                Integer salseCount = mWxTradeCustomerService.querySalseCount(mTradeModel);
+                salesCount.setId(Long.valueOf(listSalseData.size()));
+                salesCount.setOperationalCount(salseCount);
             }
 
             model.addAttribute("seeCount",seeCount);

@@ -37,7 +37,7 @@ public class TradeModel extends WebBaseModel {
      */
     private String marketingName;
     /**
-     * 类型 1 拼团、2 砍价、 3 秒杀
+     * 类型 1 拼团、2 砍价、 3 秒杀 、4 特价活动
      */
     private Integer type;
 
