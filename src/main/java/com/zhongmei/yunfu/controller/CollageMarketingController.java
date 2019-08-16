@@ -3,9 +3,12 @@ package com.zhongmei.yunfu.controller;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.zhongmei.yunfu.controller.model.ActivitySearchModel;
+import com.zhongmei.yunfu.controller.model.TradeModel;
 import com.zhongmei.yunfu.domain.entity.OperationalRecordsEntity;
+import com.zhongmei.yunfu.domain.entity.WxTradeCustomerEntity;
 import com.zhongmei.yunfu.service.LoginManager;
 import com.zhongmei.yunfu.service.OperationalRecordsService;
+import com.zhongmei.yunfu.service.WxTradeCustomerService;
 import com.zhongmei.yunfu.util.DateFormatUtil;
 import com.zhongmei.yunfu.controller.model.CollageMarketingModel;
 import com.zhongmei.yunfu.domain.entity.CollageMarketingEntity;
@@ -18,6 +21,8 @@ import org.springframework.stereotype.Controller;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * <p>
@@ -33,8 +38,6 @@ public class CollageMarketingController extends BaseController{
 
     @Autowired
     CollageMarketingService mCollageMarketingService;
-    @Autowired
-    OperationalRecordsService mOperationalRecordsService;
 
     @RequestMapping("/queryListData")
     public String queryListData(Model model, CollageMarketingModel mCollageMarketingModel) {
@@ -215,46 +218,6 @@ public class CollageMarketingController extends BaseController{
                 return "fail";
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            return "fail";
-        }
-
-    }
-
-    @RequestMapping("/effect")
-    public String effect(Model model, ActivitySearchModel searchModel){
-
-        //获取
-
-        model.addAttribute("searchModel", searchModel);
-
-        return "collage_effect";
-    }
-
-    @RequestMapping("/effectDetail")
-    public String effectDetail(Model model,ActivitySearchModel searchModel){
-
-        try {
-            Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
-            Long shopIdentity = LoginManager.get().getUser().getShopIdenty();
-
-            OperationalRecordsEntity entity = new OperationalRecordsEntity();
-            entity.setBrandIdenty(brandIdentity);
-            entity.setShopIdenty(shopIdentity);
-            entity.setActivityId(searchModel.getActivityId());
-            entity.setType(searchModel.getType());
-            entity.setCustomerName(searchModel.getCustomerName());
-            entity.setCustomerPhone(searchModel.getCustomerPhone());
-            entity.setOperationalCount(searchModel.getOperationalCount());
-
-            Page<OperationalRecordsEntity> listPage = mOperationalRecordsService.queryByActivityId(entity,searchModel.getPageNo(),searchModel.getPageSize());
-            setWebPage(model, "/pushPlanNewDish/effectDetail", listPage, searchModel);
-
-            model.addAttribute("listData", listPage.getRecords());
-            model.addAttribute("searchModel", searchModel);
-            return "push_activity_effect_detail";
-
-        }catch (Exception e){
             e.printStackTrace();
             return "fail";
         }

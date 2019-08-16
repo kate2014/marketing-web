@@ -215,7 +215,7 @@ public class PushPlanActivityController extends BaseController {
             entity.setOperationalCount(searchModel.getOperationalCount());
 
             Page<OperationalRecordsEntity> listPage = mOperationalRecordsService.queryByActivityId(entity,searchModel.getPageNo(),searchModel.getPageSize());
-            setWebPage(model, "/pushPlanNewDish/effectDetail", listPage, searchModel);
+            setWebPage(model, "/pushPlanActivity/effectDetail", listPage, searchModel);
 
             model.addAttribute("listData", listPage.getRecords());
             model.addAttribute("searchModel", searchModel);

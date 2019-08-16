@@ -135,7 +135,7 @@
         <tr style="width: 100%">
             <th>名称</th>
             <th>状态</th>
-            <th>成团人数</th>
+            <!--<th>成团人数</th>-->
             <th>成团价格</th>
             <th>已开团数</th>
             <!--<th>已参团人数</th>-->
@@ -161,7 +161,7 @@
                 </div>
             </td>
 
-            <td th:text="${item.collagePeopleCount}"></td>
+            <!--<td th:text="${item.collagePeopleCount}"></td>-->
             <td th:text="${item.collagePrice}"></td>
             <td th:text="${item.openGroupCount}"></td>
             <!--<td th:text="${item.joinCount}"></td>-->
@@ -177,8 +177,8 @@
             </td>
 
             <td>
-                <div class="parent container" th:onclick="@{|location='${basePath}/collageMarketing/effect?activityId=${item.id}'|}" style="cursor: pointer">
-                    <img src="../static/images/activity_report_icon.png"  th:src="@{/images/activity_report_icon.png}"  class="image_size_style">效果查看
+                <div class="parent_h container" th:onclick="@{|location='${basePath}/collageEffect/effect?activityId=${item.id}'|}" style="cursor: pointer">
+                    <img src="../static/images/activity_report_icon.png"  th:src="@{/images/activity_report_icon.png}"  class="icon_margin_right_style">效果查看
                 </div>
             </td>
 

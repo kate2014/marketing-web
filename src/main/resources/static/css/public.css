@@ -152,6 +152,13 @@ div.parent_h {
     margin-right: 10px;
 }
 
+.icon_margin_right_style{
+    width: 21px;
+    height: 21px;
+    border: 0px;
+    margin-right: 5px;
+}
+
 .icon_middle_style{
     width: 16px;
     height: 16px;

@@ -91,4 +91,12 @@ public interface OperationalRecordsService extends IService<OperationalRecordsEn
      * @throws Exception
      */
     List<OperationalRecordsEntity> querySalesEffect(OperationalRecordsEntity entity)throws Exception;
+
+    /**
+     * 获取活动参与情况，如拼团时则统计所以参与过拼团人信息
+     * @param entity
+     * @return
+     * @throws Exception
+     */
+    List<OperationalRecordsEntity> queryJoinEffect(OperationalRecordsEntity entity)throws Exception;
 }

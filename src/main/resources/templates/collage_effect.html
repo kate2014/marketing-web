@@ -113,9 +113,9 @@
 
         <img src="../static/images/buy_icon.png" th:src="@{/images/buy_icon.png}" style="margin-right: 5px;height: 24px;width: auto">
 
-        <div>参团人数：<span th:text="${salesCount.id}" style="margin-right: 5px;font-size: 16px;color: #FF7E00">100000.00</span>人</div>
+        <div>成团人数：<span th:text="${salesCount.id}" style="margin-right: 5px;font-size: 16px;color: #FF7E00">100000.00</span>人</div>
         <div style="margin-left: 15px">
-            成团人数：<span th:text="${salesCount.operationalCount}" style="margin-right: 5px;font-size: 16px;color: #FF7E00;">100000.00</span>人</div>
+            购买数量：<span th:text="${salesCount.operationalCount}" style="margin-right: 5px;font-size: 16px;color: #FF7E00;">100000.00</span>次</div>
 
     </div>
 
@@ -124,10 +124,10 @@
 <div class="table_card" style="margin-top: 20px">
 
     <ul class="tab" style="margin-left: 30px">
-        <li id="0" class="activ" style="margin-bottom: -1px;width: 150px;text-align: center" target="dish_iframe" th:href="@{/activity/effect/detail(type=1,activityId=${mActivitySalesModel.id})}">浏览情况</li>
-        <li id="1" class="inverse" style="margin-bottom: -1px;width: 150px;text-align: center" target="dish_iframe" th:href="@{/activity/effect/detail(type=2,activityId=${mActivitySalesModel.id})}">分享情况</li>
-        <li id="2" class="inverse" style="margin-bottom: -1px;width: 150px;text-align: center" target="dish_iframe" th:href="@{/activity/effect/detail(type=3,activityId=${mActivitySalesModel.id})}">参团情况</li>
-        <li id="3" class="inverse" style="margin-bottom: -1px;width: 150px;text-align: center" target="dish_iframe" th:href="@{/activity/effect/recommend(activityId=${mActivitySalesModel.id})}">成团情况</li>
+        <li id="0" class="activ" style="margin-bottom: -1px;width: 150px;text-align: center" target="dish_iframe" th:href="@{/collageEffect/browseDetail(type=1,activityId=${searchModel.activityId})}">浏览情况</li>
+        <li id="1" class="inverse" style="margin-bottom: -1px;width: 150px;text-align: center" target="dish_iframe" th:href="@{/collageEffect/browseDetail(type=2,activityId=${searchModel.activityId})}">分享情况</li>
+        <li id="2" class="inverse" style="margin-bottom: -1px;width: 150px;text-align: center" target="dish_iframe" th:href="@{/collageEffect/joinCollageEffect(activityId=${searchModel.activityId})}">参团情况</li>
+        <li id="3" class="inverse" style="margin-bottom: -1px;width: 150px;text-align: center" target="dish_iframe" th:href="@{/collageEffect/finishCollageEffect(activityId=${searchModel.activityId})}">成团情况</li>
     </ul>
     <div style="height: 1px;width: 100%;background-color: #e1e1e1;margin-top: -1px"></div>
 </div>
@@ -135,7 +135,7 @@
 <div align="center" style="margin-top: 10px;width: 100%;height: 100%">
     <input type="hidden" name="opType" value="0">
 
-    <iframe id="dish_iframe" th:src="@{/activity/effect/detail(type=1,activityId=${mActivitySalesModel.id})}" width="100%" height="100%" style="border: 0px"></iframe>
+    <iframe id="dish_iframe" th:src="@{/collageEffect/browseDetail(type=1,activityId=${searchModel.activityId})}" width="100%" height="100%" style="border: 0px"></iframe>
 
 </div>
 

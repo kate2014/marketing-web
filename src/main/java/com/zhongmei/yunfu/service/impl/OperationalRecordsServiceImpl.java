@@ -162,7 +162,7 @@ public class OperationalRecordsServiceImpl extends ServiceImpl<OperationalRecord
         Condition eWrapper = ConditionFilter.create();
         eWrapper.isWhere(true);
         if(entity.getCustomerName() != null && !entity.getCustomerName().equals("")){
-            eWrapper.like("a.customer_name", entity.getCustomerName());
+            eWrapper.like("b.customer_name", entity.getCustomerName());
         }
         if(entity.getCustomerPhone() != null && !entity.getCustomerPhone().equals("")){
             eWrapper.eq("b.customer_phone", entity.getCustomerPhone());
@@ -171,7 +171,41 @@ public class OperationalRecordsServiceImpl extends ServiceImpl<OperationalRecord
             eWrapper.ge("a.count", entity.getOperationalCount());
         }
 
-        List<OperationalRecordsEntity> listData = baseMapper.querySalesEffect(eWrapper,entity.getBrandIdenty(),entity.getShopIdenty(),entity.getActivityId());
+        List<OperationalRecordsEntity> listData = baseMapper.querySalesEffect(eWrapper,entity.getBrandIdenty(),entity.getShopIdenty(),entity.getActivityId(),entity.getType());
         return listData;
+    }
+
+    @Override
+    public List<OperationalRecordsEntity> queryJoinEffect(OperationalRecordsEntity entity) throws Exception {
+
+        //wxTradeCustomer
+        Condition aWrapper = ConditionFilter.create();
+        aWrapper.eq("w.brand_identy",entity.getBrandIdenty());
+        aWrapper.eq("w.shop_identy",entity.getShopIdenty());
+        aWrapper.eq("w.marketing_id",entity.getActivityId());
+        aWrapper.eq("w.type",entity.getType());
+
+        //operationalRecords
+        Condition bWrapper = ConditionFilter.create();
+        bWrapper.eq("o.brand_identy",entity.getBrandIdenty());
+        bWrapper.eq("o.shop_identy",entity.getShopIdenty());
+        bWrapper.eq("o.activity_id",entity.getActivityId());
+        bWrapper.eq("o.type",1);
+
+        Condition eWrapper = ConditionFilter.create();
+        eWrapper.isWhere(true);
+        if(entity.getCustomerName() != null && !entity.getCustomerName().equals("")){
+            eWrapper.like("b.customer_name", entity.getCustomerName());
+        }
+        if(entity.getCustomerPhone() != null && !entity.getCustomerPhone().equals("")){
+            eWrapper.eq("b.customer_phone", entity.getCustomerPhone());
+        }
+        if(entity.getOperationalCount() != null && !entity.getOperationalCount().equals("")){
+            eWrapper.ge("a.count", entity.getOperationalCount());
+        }
+
+        List<OperationalRecordsEntity> listData = baseMapper.queryJoinEffect(eWrapper,entity.getBrandIdenty(),entity.getShopIdenty(),entity.getActivityId(),entity.getType());
+        return listData;
+
     }
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html>
 <style type="text/css">
 
     html,body{
@@ -13,21 +13,21 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>效果查看</title>
+    <title>特价活动效果</title>
     <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
     <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
-    <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" />
-    <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" />
-    <link rel="stylesheet" th:href="@{/css/customer.css}" href="../static/css/customer.css" />
-    <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}" src="../static/js/jquery-3.1.1.min.js" ></script>
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" type="text/css" />
+
+    <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/base.js}" src="../static/js/base.js" ></script>
-    <script type="text/javascript" th:src="@{/js/window/window.ext.js}" src="../static/js/window/window.ext.js" ></script>
 
-
+    <!-- diglog -->
+    <script type="text/javascript" th:src="@{/js/diy_dialog.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/diy_dialog.css}" href="../static/css/diy_dialog.css" type="text/css" />
 </head>
 
 <script type="text/javascript">
-
     $(function () {
         $("#service_push").click(function () {
             var customerIds = [];
@@ -91,13 +91,12 @@
             });
         })
     });
-
 </script>
 
 <body>
 
 <div class="parent_h container" style="margin-top: 10px">
-    <form method="post" action="" th:action="@{/pushPlanActivity/effectDetail}" th:object="${searchModel}">
+    <form method="post" action="" th:action="@{/collageEffect/joinCollageEffect}" th:object="${searchModel}">
         <div class="parent_h container">
 
             <input type="hidden" name="activityId" id="activityId" th:value="${searchModel.activityId}">
@@ -109,16 +108,7 @@
             <label class="text_navigation" style="margin-left: 10px">顾客电话</label>
             <input class="input_style" style="margin-left: 5px" type="text" th:value="${searchModel.customerPhone}" name="customerPhone" id="customerPhone"/>
 
-
-            <div th:switch="${searchModel.type}">
-                <p th:case="'1'">
-                    <label class="text_navigation" style="margin-left: 10px">浏览次数 >= </label>
-                </p>
-                <p th:case="'2'">
-                    <label class="text_navigation" style="margin-left: 10px">分享次数 >= </label>
-                </p>
-            </div>
-
+            <label class="text_navigation" style="margin-left: 10px">参与次数>=</label>
             <input class="input_style" style="margin-left: 5px" type="text" th:value="${searchModel.operationalCount}" name="operationalCount" id="operationalCount"/>
 
             <button class="orange_mine_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
@@ -129,7 +119,6 @@
     <button class="blue_mine_button_style" value="" onclick="this" style="margin-left: 10px" id="service_push">服务推送</button>
 </div>
 
-
 <div align="center" style="margin-top: 10px">
     <table class="gridtablestyle" style="width: 96%; vertical-align: middle">
         <tr style="width: 100%">
@@ -137,18 +126,7 @@
             <th>顾客</th>
             <th>姓名</th>
             <th>电话</th>
-            <th>
-                <div th:switch="${searchModel.type}">
-                    <p th:case="'1'">
-                        浏览次数
-                    </p>
-                    <p th:case="'2'">
-                        分享次数
-                    </p>
-
-                </div>
-            </th>
-            <th>最近操作时间</th>
+            <th>参与次数</th>
 
         </tr>
         <tr th:each="item:${listData}">
@@ -166,15 +144,10 @@
             <td th:text="${item.customerPhone}">189080888898</td>
 
             <td th:text="${item.operationalCount}">2</td>
-            <td th:text="${#dates.format(item.serverUpdateTime, 'yyyy-MM-dd HH:mm:ss')}">2</td>
 
         </tr>
 
     </table>
-</div>
-
-<div class="paging" style="margin-bottom: 36px">
-    <div th:replace="page_info::pagination"/>
 </div>
 
 <div class='select-com'></div>

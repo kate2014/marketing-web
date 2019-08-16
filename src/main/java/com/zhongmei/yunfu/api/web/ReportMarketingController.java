@@ -98,7 +98,6 @@ public class ReportMarketingController {
         for(CollageReportModel data : listSaleCollage){
             tempSaleMap.put(data.getMarketingId(),data);
         }
-        System.out.println("=====tempSaleMap===="+tempSaleMap);
 
         //获取所以已使用拼团活动
         mReportMarketingModel.setStatus(2);
@@ -124,10 +123,8 @@ public class ReportMarketingController {
             finishCount.add(crm.getFinishCount());
 
             CollageReportModel mCollageReportModel = tempSaleMap.get(crm.getMarketingId());
-            System.out.println("=====mCollageReportModel===="+crm.getMarketingId());
             if(mCollageReportModel != null){
                 collageSaleCount.add(mCollageReportModel.getCountData());
-                System.out.println("=====countData===="+mCollageReportModel.getCountData());
             }else{
                 collageSaleCount.add(0);
             }

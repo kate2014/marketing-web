@@ -67,8 +67,6 @@ public class ActivityEffectController extends BaseController{
                     seeCount = effect;
                 }else if(effect.getType() == 2){
                     shareCount = effect;
-                }else if(effect.getType() == 3){
-                    salesCount = effect;
                 }
 
             }
@@ -146,6 +144,12 @@ public class ActivityEffectController extends BaseController{
 
     }
 
+    /**
+     * 售卖情况
+     * @param model
+     * @param mActivityEffectModel
+     * @return
+     */
     @RequestMapping("/effect/salesEffect")
     public String salesEffect(Model model, ActivityEffectModel mActivityEffectModel){
         try {
@@ -158,6 +162,7 @@ public class ActivityEffectController extends BaseController{
             entity.setCustomerName(mActivityEffectModel.getCustomerName());
             entity.setCustomerPhone(mActivityEffectModel.getCustomerPhone());
             entity.setOperationalCount(mActivityEffectModel.getOperationalCount());
+            entity.setType(4);//wxtradeCustomer中type为4表示特价商品
 
             List<OperationalRecordsEntity> listData = mOperationalRecordsService.querySalesEffect(entity);
 
