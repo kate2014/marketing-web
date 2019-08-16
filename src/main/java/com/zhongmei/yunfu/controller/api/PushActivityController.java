@@ -83,8 +83,10 @@ public class PushActivityController {
                     orEntity.setBrandIdenty(mActivityPushReq.getBrandIdenty());
                     orEntity.setShopIdenty(mActivityPushReq.getShopIdenty());
                     orEntity.setWxOpenId(mActivityPushReq.getWxOpenId());
+                    orEntity.setCustomerId(mActivityPushReq.getCustomerId());
                     orEntity.setActivityId(mActivityPushReq.getId());
                     orEntity.setType(1);
+                    orEntity.setSource(3);
                     OperationalRecordsEntity recordEntity = mOperationalRecordsService.queryByCustomer(orEntity);
                     if(recordEntity == null){
                         orEntity = new OperationalRecordsEntity();
@@ -99,7 +101,7 @@ public class PushActivityController {
                         orEntity.setActivityId(mActivityPushReq.getId());
                         orEntity.setOperationalCount(1);
                         orEntity.setType(1);
-                        orEntity.setSource(2);
+                        orEntity.setSource(3);
                         orEntity.setServerCreateTime(new Date());
                         orEntity.setServerUpdateTime(new Date());
                         mOperationalRecordsService.addOperational(orEntity);

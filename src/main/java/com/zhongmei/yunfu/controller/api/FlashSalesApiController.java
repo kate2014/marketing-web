@@ -70,8 +70,10 @@ public class FlashSalesApiController {
                 orEntity.setBrandIdenty(mFlashSalesReq.getBrandIdenty());
                 orEntity.setShopIdenty(mFlashSalesReq.getShopIdenty());
                 orEntity.setWxOpenId(mFlashSalesReq.getWxOpenId());
+                orEntity.setCustomerId(mFlashSalesReq.getCustomerId());
                 orEntity.setActivityId(mFlashSalesReq.getId());
                 orEntity.setType(1);
+                orEntity.setSource(5);
                 OperationalRecordsEntity recordEntity = mOperationalRecordsService.queryByCustomer(orEntity);
                 if(recordEntity == null){
                     orEntity = new OperationalRecordsEntity();

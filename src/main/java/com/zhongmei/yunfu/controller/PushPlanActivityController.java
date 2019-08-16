@@ -213,6 +213,7 @@ public class PushPlanActivityController extends BaseController {
             entity.setCustomerName(searchModel.getCustomerName());
             entity.setCustomerPhone(searchModel.getCustomerPhone());
             entity.setOperationalCount(searchModel.getOperationalCount());
+            entity.setSource(3);
 
             Page<OperationalRecordsEntity> listPage = mOperationalRecordsService.queryByActivityId(entity,searchModel.getPageNo(),searchModel.getPageSize());
             setWebPage(model, "/pushPlanActivity/effectDetail", listPage, searchModel);

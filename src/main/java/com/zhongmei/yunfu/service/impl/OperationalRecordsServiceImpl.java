@@ -39,6 +39,7 @@ public class OperationalRecordsServiceImpl extends ServiceImpl<OperationalRecord
         eWrapper.eq("status_flag",1);
         eWrapper.eq("activity_id",entity.getActivityId());
         eWrapper.eq("type",entity.getType());
+        eWrapper.eq("source",entity.getSource());
         if(entity.getCustomerId() != null){
             eWrapper.eq("customer_id",entity.getCustomerId());
         }
@@ -60,6 +61,7 @@ public class OperationalRecordsServiceImpl extends ServiceImpl<OperationalRecord
         eWrapper.eq("shop_identy",entity.getShopIdenty());
         eWrapper.eq("status_flag",1);
         eWrapper.eq("activity_id",entity.getActivityId());
+        eWrapper.eq("source",entity.getSource());
         if(entity.getCustomerName() != null){
             eWrapper.like("customer_name",entity.getCustomerName());
         }
@@ -82,6 +84,7 @@ public class OperationalRecordsServiceImpl extends ServiceImpl<OperationalRecord
         eWrapper.eq("shop_identy",entity.getShopIdenty());
         eWrapper.eq("status_flag",1);
         eWrapper.eq("activity_id",entity.getActivityId());
+        eWrapper.eq("source",entity.getSource());
 
         eWrapper.setSqlSelect("sum(operational_count) as operational_count,type,activity_id");
         eWrapper.groupBy("type");
@@ -97,6 +100,7 @@ public class OperationalRecordsServiceImpl extends ServiceImpl<OperationalRecord
         eWrapper.eq("status_flag",1);
         eWrapper.eq("activity_id",entity.getActivityId());
         eWrapper.eq("type",entity.getType());
+        eWrapper.eq("source",entity.getSource());
         eWrapper.orderBy("server_update_time",false);
         eWrapper.last("limit 6");
 
@@ -111,6 +115,7 @@ public class OperationalRecordsServiceImpl extends ServiceImpl<OperationalRecord
         eWrapper.eq("brand_identy",entity.getBrandIdenty());
         eWrapper.eq("shop_identy",entity.getShopIdenty());
         eWrapper.eq("activity_id",entity.getActivityId());
+        eWrapper.eq("source",entity.getSource());
         return delete(eWrapper);
     }
 
@@ -122,11 +127,17 @@ public class OperationalRecordsServiceImpl extends ServiceImpl<OperationalRecord
         eWrapper.eq("brand_identy",entity.getBrandIdenty());
         eWrapper.eq("shop_identy",entity.getShopIdenty());
         eWrapper.eq("activity_id",entity.getActivityId());
+        if(entity.getCustomerId() != null){
+            eWrapper.eq("customer_id",entity.getCustomerId());
+        }
         if(entity.getType() != null){
             eWrapper.eq("type",entity.getType());
         }
         if(entity.getWxOpenId() != null){
             eWrapper.eq("wx_open_id",entity.getWxOpenId());
+        }
+        if(entity.getSource() != null){
+            eWrapper.eq("source",entity.getSource());
         }
 //        eWrapper.setSqlSelect("id,brand_identy,shop_identy,activity_id,customer_id,operational_count,");
         OperationalRecordsEntity mOperationalRecordsEntity = selectOne(eWrapper);
@@ -141,20 +152,12 @@ public class OperationalRecordsServiceImpl extends ServiceImpl<OperationalRecord
         eWrapper.eq("brand_identy",entity.getBrandIdenty());
         eWrapper.eq("shop_identy",entity.getShopIdenty());
         eWrapper.eq("activity_id",entity.getActivityId());
+        eWrapper.eq("source",entity.getSource());
         eWrapper.groupBy("type");
         eWrapper.orderBy("type",false);
         eWrapper.setSqlSelect("count(id) as id,type,sum(operational_count) as operationalCount");
 
         return selectList(eWrapper);
-    }
-
-    @Override
-    public Boolean deleteByActivity(Long activityId) throws Exception {
-        EntityWrapper<OperationalRecordsEntity> eWrapper = new EntityWrapper<>(new OperationalRecordsEntity());
-
-        eWrapper.eq("activity_id",activityId);
-
-        return delete(eWrapper);
     }
 
     @Override
@@ -177,20 +180,6 @@ public class OperationalRecordsServiceImpl extends ServiceImpl<OperationalRecord
 
     @Override
     public List<OperationalRecordsEntity> queryJoinEffect(OperationalRecordsEntity entity) throws Exception {
-
-        //wxTradeCustomer
-        Condition aWrapper = ConditionFilter.create();
-        aWrapper.eq("w.brand_identy",entity.getBrandIdenty());
-        aWrapper.eq("w.shop_identy",entity.getShopIdenty());
-        aWrapper.eq("w.marketing_id",entity.getActivityId());
-        aWrapper.eq("w.type",entity.getType());
-
-        //operationalRecords
-        Condition bWrapper = ConditionFilter.create();
-        bWrapper.eq("o.brand_identy",entity.getBrandIdenty());
-        bWrapper.eq("o.shop_identy",entity.getShopIdenty());
-        bWrapper.eq("o.activity_id",entity.getActivityId());
-        bWrapper.eq("o.type",1);
 
         Condition eWrapper = ConditionFilter.create();
         eWrapper.isWhere(true);

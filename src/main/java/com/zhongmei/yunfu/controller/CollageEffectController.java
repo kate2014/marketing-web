@@ -53,6 +53,7 @@ public class CollageEffectController extends BaseController{
             entity.setBrandIdenty(brandIdentity);
             entity.setShopIdenty(shopIdentity);
             entity.setActivityId(searchModel.getActivityId());
+            entity.setSource(4);
 
             List<OperationalRecordsEntity> listCount = mOperationalRecordsService.queryEffectCount(entity);
 
@@ -141,6 +142,7 @@ public class CollageEffectController extends BaseController{
             entity.setCustomerName(searchModel.getCustomerName());
             entity.setCustomerPhone(searchModel.getCustomerPhone());
             entity.setOperationalCount(searchModel.getOperationalCount());
+            entity.setSource(4);
 
             Page<OperationalRecordsEntity> listPage = mOperationalRecordsService.queryByActivityId(entity,searchModel.getPageNo(),searchModel.getPageSize());
             setWebPage(model, "/collageEffect/browseDetail", listPage, searchModel);
@@ -177,6 +179,7 @@ public class CollageEffectController extends BaseController{
             entity.setCustomerPhone(searchModel.getCustomerPhone());
             entity.setOperationalCount(searchModel.getOperationalCount());
 
+
             List<OperationalRecordsEntity> listData = mOperationalRecordsService.queryJoinEffect(entity);
             model.addAttribute("listData", listData);
             model.addAttribute("searchModel", searchModel);
@@ -191,7 +194,7 @@ public class CollageEffectController extends BaseController{
 
 
     /**
-     * 参团情况详情
+     * 成团情况详情
      * @param model
      * @param searchModel
      * @return

@@ -53,7 +53,7 @@ class OperationalRecordsEntity : SupperEntity() {
      */
     var type: Int? = null
     /**
-     * 1：门店操作、2：活动操作、3：新品操作、4：拼团、5：秒杀、6：砍价、7：特价活动
+     * 1：门店分享 2：新品分享 3：活动分享 4：拼团 5：秒杀 6：砍价  7：特价活动
      */
     var source: Int? = null
 

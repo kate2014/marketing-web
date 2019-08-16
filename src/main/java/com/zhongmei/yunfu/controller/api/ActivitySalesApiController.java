@@ -73,13 +73,14 @@ public class ActivitySalesApiController {
             ActivitySalesEntity mActivitySalesEntity = mActivitySalesService.queryById(mActivitySalesReq.getActivityId());
             mActivitySalesResp.setmActivitySalesEntity(mActivitySalesEntity);
 
-            //获取活动查看数、购买数
+            //获取活动查看数
             OperationalRecordsEntity mOperationalRecordsEntity = new OperationalRecordsEntity();
             mOperationalRecordsEntity.setBrandIdenty(mActivitySalesReq.getBrandIdenty());
             mOperationalRecordsEntity.setShopIdenty(mActivitySalesReq.getShopIdenty());
             mOperationalRecordsEntity.setActivityId(mActivitySalesReq.getActivityId());
+            mOperationalRecordsEntity.setSource(7);
             List<OperationalRecordsEntity> listOperationalCount = mOperationalRecordsService.queryDataByActivityId(mOperationalRecordsEntity);
-            //售卖数量统计
+            //购买数量统计
             TradeModel mTradeModel = new TradeModel();
             mTradeModel.setBrandIdenty(mActivitySalesReq.getBrandIdenty());
             mTradeModel.setShopIdenty(mActivitySalesReq.getShopIdenty());
@@ -111,6 +112,7 @@ public class ActivitySalesApiController {
             entity.setBrandIdenty(mActivitySalesReq.getBrandIdenty());
             entity.setShopIdenty(mActivitySalesReq.getShopIdenty());
             entity.setActivityId(mActivitySalesReq.getActivityId());
+            entity.setSource(7);
             entity.setType(1);
             List<OperationalRecordsEntity> listOperational = mOperationalRecordsService.queryCustomer(entity);
             mActivitySalesResp.setListOperational(listOperational);
@@ -149,8 +151,10 @@ public class ActivitySalesApiController {
                 orEntity.setBrandIdenty(mActivitySalesReq.getBrandIdenty());
                 orEntity.setShopIdenty(mActivitySalesReq.getShopIdenty());
                 orEntity.setWxOpenId(mActivitySalesReq.getWxOpenId());
+                orEntity.setCustomerId(mActivitySalesReq.getCustomerId());
                 orEntity.setActivityId(mActivitySalesReq.getActivityId());
                 orEntity.setType(1);
+                orEntity.setSource(7);
                 OperationalRecordsEntity recordEntity = mOperationalRecordsService.queryByCustomer(orEntity);
                 if(recordEntity == null){
                     orEntity = new OperationalRecordsEntity();

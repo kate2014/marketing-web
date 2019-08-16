@@ -64,8 +64,10 @@ public class CollageApiController {
                 orEntity.setBrandIdenty(mCollageReq.getBrandIdenty());
                 orEntity.setShopIdenty(mCollageReq.getShopIdenty());
                 orEntity.setWxOpenId(mCollageReq.getWxOpenId());
+                orEntity.setCustomerId(mCollageReq.getCustomerId());
                 orEntity.setActivityId(mCollageReq.getId());
                 orEntity.setType(1);
+                orEntity.setSource(4);
                 OperationalRecordsEntity recordEntity = mOperationalRecordsService.queryByCustomer(orEntity);
                 if(recordEntity == null){
                     orEntity = new OperationalRecordsEntity();

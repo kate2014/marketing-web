@@ -179,6 +179,7 @@ public class PushPlanNewDishController extends BaseController {
             entity.setCustomerName(newDishPushModel.getCustomerName());
             entity.setCustomerPhone(newDishPushModel.getCustomerPhone());
             entity.setOperationalCount(newDishPushModel.getOperationalCount());
+            entity.setSource(2);
 
             Page<OperationalRecordsEntity> listPage = mOperationalRecordsService.queryByActivityId(entity,newDishPushModel.getPageNo(),newDishPushModel.getPageSize());
             setWebPage(model, "/pushPlanNewDish/effectDetail", listPage, newDishPushModel);

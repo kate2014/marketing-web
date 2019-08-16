@@ -97,7 +97,9 @@ public class PushPlanNewDishApiController {
                 orEntity.setBrandIdenty(req.getBrandIdenty());
                 orEntity.setShopIdenty(req.getShopIdenty());
                 orEntity.setWxOpenId(req.getWxOpenId());
+                orEntity.setCustomerId(req.getCustomerId());
                 orEntity.setActivityId(req.getId());
+                orEntity.setSource(2);
                 orEntity.setType(1);
                 OperationalRecordsEntity recordEntity = mOperationalRecordsService.queryByCustomer(orEntity);
                 if(recordEntity == null){
@@ -113,7 +115,7 @@ public class PushPlanNewDishApiController {
                     orEntity.setActivityId(req.getId());
                     orEntity.setOperationalCount(1);
                     orEntity.setType(1);
-                    orEntity.setSource(3);
+                    orEntity.setSource(2);
                     orEntity.setServerCreateTime(new Date());
                     orEntity.setServerUpdateTime(new Date());
                     mOperationalRecordsService.addOperational(orEntity);

@@ -65,8 +65,7 @@ public class ShareMarketingApiController {
 
     /**
      * 分享有礼接口  支持门店分享、活动分析、新品分享、拼团、秒杀、砍价、特价活动
-     * ShareType 分享类型：门店分享 2：新品分享 3：活动分享 4：拼团 5：秒杀 6：砍价  7：特价活动
-     *
+     * ShareType 分享活动类型1：门店分享 2：新品分享 3：活动分享 4：拼团 5：秒杀 6：砍价  7：特价活动
      * @param model
      * @param mShareActionReq
      * @return
@@ -80,17 +79,18 @@ public class ShareMarketingApiController {
             if (mShareActionReq.getShareType() == 1) {
                 //触发优惠券
                 sendCouponForCustomer(1, mShareActionReq);
+            }  else if (mShareActionReq.getShareType() == 3) {
+                //活动分享次数+1
+                isSuccess = pushPlanActivityService.updateActivityNumber(mShareActionReq.getLinksId(), null, 1);
+                isSuccess = sendCouponForCustomer(3, mShareActionReq);
+                //触发优惠券
             } else if (mShareActionReq.getShareType() == 2) {
                 //新品分享次数+1
                 isSuccess = mPushPlanNewDishService.refreshShareNumber(mShareActionReq.getLinksId());
                 //触发优惠券
                 isSuccess = sendCouponForCustomer(2, mShareActionReq);
-            } else if (mShareActionReq.getShareType() == 3) {
-                //活动分享次数+1
-                isSuccess = pushPlanActivityService.updateActivityNumber(mShareActionReq.getLinksId(), null, 1);
-                isSuccess = sendCouponForCustomer(3, mShareActionReq);
-                //触发优惠券
             }
+
             //因目前只有分享门店、分享新品、分享活动才赠送优惠券，所以不对其他分享做优惠券下发
 //            else if(mShareActionReq.getShareType() == 4){
 //
@@ -108,8 +108,10 @@ public class ShareMarketingApiController {
                 orEntity.setBrandIdenty(mShareActionReq.getBrandIdenty());
                 orEntity.setShopIdenty(mShareActionReq.getShopIdenty());
                 orEntity.setWxOpenId(mShareActionReq.getWxOpenId());
+                orEntity.setCustomerId(mShareActionReq.getCustomerId());
                 orEntity.setActivityId(mShareActionReq.getLinksId());
                 orEntity.setType(2);
+                orEntity.setSource(mShareActionReq.getShareType());
                 OperationalRecordsEntity recordEntity = mOperationalRecordsService.queryByCustomer(orEntity);
                 if(recordEntity == null){
                     orEntity = new OperationalRecordsEntity();

@@ -46,6 +46,7 @@ public class CutDownEffectController extends BaseController{
             entity.setBrandIdenty(brandIdentity);
             entity.setShopIdenty(shopIdentity);
             entity.setActivityId(searchModel.getActivityId());
+            entity.setSource(6);
 
             List<OperationalRecordsEntity> listCount = mOperationalRecordsService.queryEffectCount(entity);
 
@@ -130,6 +131,7 @@ public class CutDownEffectController extends BaseController{
             entity.setShopIdenty(shopIdentity);
             entity.setActivityId(searchModel.getActivityId());
             entity.setType(searchModel.getType());
+            entity.setSource(6);
             entity.setCustomerName(searchModel.getCustomerName());
             entity.setCustomerPhone(searchModel.getCustomerPhone());
             entity.setOperationalCount(searchModel.getOperationalCount());

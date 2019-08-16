@@ -66,12 +66,20 @@ public class ActivitySalesController extends BaseController{
 
         try {
             if(mActivitySalesModel.getId() != null){
+                Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
+                Long shopIdentity = LoginManager.get().getUser().getShopIdenty();
+
                 mActivitySalesService.deleteById(mActivitySalesModel.getId());
                 mActivitySalesGiftService.deleteByActivityId(mActivitySalesModel.getId());
                 mActivityRedPacketsService.deleteByActivityId(mActivitySalesModel.getId());
 
                 //删除活动对应的操作记录
-                mOperationalRecordsService.deleteByActivity(mActivitySalesModel.getId());
+                OperationalRecordsEntity entity = new OperationalRecordsEntity();
+                entity.setBrandIdenty(brandIdentity);
+                entity.setShopIdenty(shopIdentity);
+                entity.setActivityId(mActivitySalesModel.getId());
+                entity.setSource(7);
+                mOperationalRecordsService.deleteByAction(entity);
                 //删除活动推广关联关系
                 mRecommendationAssociationService.deleteByActivity(mActivitySalesModel.getId());
             }

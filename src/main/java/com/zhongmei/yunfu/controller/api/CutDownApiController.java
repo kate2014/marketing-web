@@ -71,8 +71,10 @@ public class CutDownApiController {
                 orEntity.setBrandIdenty(CutDownReq.getBrandIdenty());
                 orEntity.setShopIdenty(CutDownReq.getShopIdenty());
                 orEntity.setWxOpenId(CutDownReq.getWxOpenId());
+                orEntity.setCustomerId(CutDownReq.getCustomerId());
                 orEntity.setActivityId(CutDownReq.getId());
                 orEntity.setType(1);
+                orEntity.setSource(6);
                 OperationalRecordsEntity recordEntity = mOperationalRecordsService.queryByCustomer(orEntity);
                 if(recordEntity == null){
                     orEntity = new OperationalRecordsEntity();
@@ -87,7 +89,7 @@ public class CutDownApiController {
                     orEntity.setActivityId(CutDownReq.getId());
                     orEntity.setOperationalCount(1);
                     orEntity.setType(1);
-                    orEntity.setSource(5);
+                    orEntity.setSource(6);
                     orEntity.setServerCreateTime(new Date());
                     orEntity.setServerUpdateTime(new Date());
                     mOperationalRecordsService.addOperational(orEntity);

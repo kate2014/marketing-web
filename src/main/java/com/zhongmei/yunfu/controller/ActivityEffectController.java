@@ -46,6 +46,7 @@ public class ActivityEffectController extends BaseController{
             entity.setBrandIdenty(brandIdentity);
             entity.setShopIdenty(shopIdentity);
             entity.setActivityId(mActivitySalesModel.getId());
+            entity.setSource(7);
 
             List<OperationalRecordsEntity> listCount = mOperationalRecordsService.queryEffectCount(entity);
 
@@ -129,6 +130,7 @@ public class ActivityEffectController extends BaseController{
             entity.setCustomerName(mActivityEffectModel.getCustomerName());
             entity.setCustomerPhone(mActivityEffectModel.getCustomerPhone());
             entity.setOperationalCount(mActivityEffectModel.getOperationalCount());
+            entity.setSource(7);
 
             Page<OperationalRecordsEntity> pageData = mOperationalRecordsService.queryByActivityId(entity,mActivityEffectModel.getPageNo(),mActivityEffectModel.getPageSize());
 
