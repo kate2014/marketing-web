@@ -8,6 +8,7 @@ import com.zhongmei.yunfu.controller.model.ActivityEffectModel;
 import com.zhongmei.yunfu.core.mybatis.mapper.ConditionFilter;
 import com.zhongmei.yunfu.domain.entity.CollageMarketingEntity;
 import com.zhongmei.yunfu.domain.entity.OperationalRecordsEntity;
+import com.zhongmei.yunfu.domain.entity.PaymentEntity;
 import com.zhongmei.yunfu.domain.mapper.OperationalRecordsMapper;
 import com.zhongmei.yunfu.service.OperationalRecordsService;
 import org.springframework.stereotype.Service;
@@ -154,5 +155,23 @@ public class OperationalRecordsServiceImpl extends ServiceImpl<OperationalRecord
         eWrapper.eq("activity_id",activityId);
 
         return delete(eWrapper);
+    }
+
+    @Override
+    public List<OperationalRecordsEntity> querySalesEffect(OperationalRecordsEntity entity) throws Exception {
+        Condition eWrapper = ConditionFilter.create();
+        eWrapper.isWhere(true);
+        if(entity.getCustomerName() != null && !entity.getCustomerName().equals("")){
+            eWrapper.like("a.customer_name", entity.getCustomerName());
+        }
+        if(entity.getCustomerPhone() != null && !entity.getCustomerPhone().equals("")){
+            eWrapper.eq("b.customer_phone", entity.getCustomerPhone());
+        }
+        if(entity.getOperationalCount() != null && !entity.getOperationalCount().equals("")){
+            eWrapper.ge("a.count", entity.getOperationalCount());
+        }
+
+        List<OperationalRecordsEntity> listData = baseMapper.querySalesEffect(eWrapper,entity.getBrandIdenty(),entity.getShopIdenty(),entity.getActivityId());
+        return listData;
     }
 }

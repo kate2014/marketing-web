@@ -132,6 +132,32 @@ public class ActivityEffectController extends BaseController{
 
     }
 
+    @RequestMapping("/effect/salesEffect")
+    public String salesEffect(Model model, ActivityEffectModel mActivityEffectModel){
+        try {
+            Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
+            Long shopIdentity = LoginManager.get().getUser().getShopIdenty();
+            OperationalRecordsEntity entity = new OperationalRecordsEntity();
+            entity.setBrandIdenty(brandIdentity);
+            entity.setShopIdenty(shopIdentity);
+            entity.setActivityId(mActivityEffectModel.getActivityId());
+            entity.setCustomerName(mActivityEffectModel.getCustomerName());
+            entity.setCustomerPhone(mActivityEffectModel.getCustomerPhone());
+            entity.setOperationalCount(mActivityEffectModel.getOperationalCount());
+
+            List<OperationalRecordsEntity> listData = mOperationalRecordsService.querySalesEffect(entity);
+
+            model.addAttribute("mActivitySalesModel", mActivityEffectModel);
+            model.addAttribute("list", listData);
+
+            return "activity_sales_effect_detail";
+        }catch (Exception e){
+            e.printStackTrace();
+            return "fail";
+        }
+
+    }
+
     /**
      * 推荐成单情况
      * @param model

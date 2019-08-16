@@ -96,7 +96,7 @@
 <body>
 
 <div class="parent_h container" style="margin-top: 10px">
-    <form method="post" action="" th:action="@{/activity/effect/detail}" th:object="${mActivitySalesModel}">
+    <form method="post" action="" th:action="@{/activity/effect/salesEffect}" th:object="${mActivitySalesModel}">
         <div class="parent_h container">
 
             <input type="hidden" name="activityId" id="activityId" th:value="${mActivitySalesModel.activityId}">
@@ -108,16 +108,7 @@
             <label class="text_navigation" style="margin-left: 10px">顾客电话</label>
             <input class="input_style" style="margin-left: 5px" type="text" th:value="${mActivitySalesModel.customerPhone}" name="customerPhone" id="customerPhone"/>
 
-
-            <div th:switch="${mActivitySalesModel.type}">
-                <p th:case="'1'">
-                    <label class="text_navigation" style="margin-left: 10px">浏览次数 >= </label>
-                </p>
-                <p th:case="'2'">
-                    <label class="text_navigation" style="margin-left: 10px">分享次数 >= </label>
-                </p>
-            </div>
-
+            <label class="text_navigation" style="margin-left: 10px">购买次数</label>
             <input class="input_style" style="margin-left: 5px" type="text" th:value="${mActivitySalesModel.operationalCount}" name="operationalCount" id="operationalCount"/>
 
             <button class="orange_mine_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
@@ -137,12 +128,7 @@
             <th>电话</th>
             <th>
                 <div th:switch="${mActivitySalesModel.type}">
-                    <p th:case="'1'">
-                        浏览次数
-                    </p>
-                    <p th:case="'2'">
-                        分享次数
-                    </p>
+                    购买次数
                 </div>
             </th>
             <th>最近操作时间</th>
@@ -170,12 +156,7 @@
     </table>
 </div>
 
-<div class="paging" style="margin-bottom: 36px">
-    <div th:replace="page_info::pagination"/>
-</div>
-
 <div class='select-com'></div>
-
 
 </body>
 </html>

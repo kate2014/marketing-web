@@ -83,4 +83,12 @@ public interface OperationalRecordsService extends IService<OperationalRecordsEn
      * @throws Exception
      */
     Boolean deleteByActivity(Long activityId)throws Exception;
+
+    /**
+     * 获取活动售卖情况
+     * @param entity
+     * @return
+     * @throws Exception
+     */
+    List<OperationalRecordsEntity> querySalesEffect(OperationalRecordsEntity entity)throws Exception;
 }
