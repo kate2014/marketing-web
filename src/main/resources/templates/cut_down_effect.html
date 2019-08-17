@@ -63,6 +63,9 @@
             if(clickIndex != 3){
                 $("#3").addClass("inverse");
             }
+            if(clickIndex != 4){
+                $("#4").addClass("inverse");
+            }
             $(".tab li").eq(clickIndex).addClass("activ").siblings().removeClass("activ");
 
             $("input[name='opType']").val(clickIndex);
@@ -126,8 +129,9 @@
     <ul class="tab" style="margin-left: 30px">
         <li id="0" class="activ" style="margin-bottom: -1px;width: 150px;text-align: center" target="dish_iframe" th:href="@{/cutDownEffect/browseDetail(type=1,activityId=${searchModel.activityId})}">浏览情况</li>
         <li id="1" class="inverse" style="margin-bottom: -1px;width: 150px;text-align: center" target="dish_iframe" th:href="@{/cutDownEffect/browseDetail(type=2,activityId=${searchModel.activityId})}">分享情况</li>
-        <li id="2" class="inverse" style="margin-bottom: -1px;width: 150px;text-align: center" target="dish_iframe" th:href="@{/cutDownEffect/joinCutDownEffect(activityId=${searchModel.activityId})}">参与情况</li>
-        <li id="3" class="inverse" style="margin-bottom: -1px;width: 150px;text-align: center" target="dish_iframe" th:href="@{/cutDownEffect/finishCutDownEffect(activityId=${searchModel.activityId})}">售卖情况</li>
+        <li id="2" class="inverse" style="margin-bottom: -1px;width: 150px;text-align: center" target="dish_iframe" th:href="@{/cutDownEffect/launchCutDown(activityId=${searchModel.activityId})}">发起砍价情况</li>
+        <li id="3" class="inverse" style="margin-bottom: -1px;width: 150px;text-align: center" target="dish_iframe" th:href="@{/cutDownEffect/joinCutDownEffect(activityId=${searchModel.activityId})}">参与砍价情况</li>
+        <li id="4" class="inverse" style="margin-bottom: -1px;width: 150px;text-align: center" target="dish_iframe" th:href="@{/cutDownEffect/finishCutDownEffect(activityId=${searchModel.activityId})}">售卖情况</li>
     </ul>
     <div style="height: 1px;width: 100%;background-color: #e1e1e1;margin-top: -1px"></div>
 </div>
@@ -135,7 +139,7 @@
 <div align="center" style="margin-top: 10px;width: 100%;height: 100%">
     <input type="hidden" name="opType" value="0">
 
-    <iframe id="dish_iframe" th:src="@{/flashSalesEffect/browseDetail(type=1,activityId=${searchModel.activityId})}" width="100%" height="100%" style="border: 0px"></iframe>
+    <iframe id="dish_iframe" th:src="@{/cutDownEffect/browseDetail(type=1,activityId=${searchModel.activityId})}" width="100%" height="100%" style="border: 0px"></iframe>
 
 </div>
 

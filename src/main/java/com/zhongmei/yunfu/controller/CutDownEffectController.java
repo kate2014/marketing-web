@@ -3,11 +3,11 @@ package com.zhongmei.yunfu.controller;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.zhongmei.yunfu.controller.model.ActivitySearchModel;
 import com.zhongmei.yunfu.controller.model.TradeModel;
+import com.zhongmei.yunfu.domain.entity.CutDownCustomerEntity;
+import com.zhongmei.yunfu.domain.entity.CutDownHistoryEntity;
 import com.zhongmei.yunfu.domain.entity.OperationalRecordsEntity;
 import com.zhongmei.yunfu.domain.entity.WxTradeCustomerEntity;
-import com.zhongmei.yunfu.service.LoginManager;
-import com.zhongmei.yunfu.service.OperationalRecordsService;
-import com.zhongmei.yunfu.service.WxTradeCustomerService;
+import com.zhongmei.yunfu.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +32,10 @@ public class CutDownEffectController extends BaseController{
     OperationalRecordsService mOperationalRecordsService;
     @Autowired
     WxTradeCustomerService mWxTradeCustomerService;
+    @Autowired
+    CutDownCustomerService mCutDownCustomerService;
+    @Autowired
+    CutDownHistoryService mCutDownHistoryService;
 
     @RequestMapping("/effect")
     public String effect(Model model, ActivitySearchModel searchModel){
@@ -141,8 +145,37 @@ public class CutDownEffectController extends BaseController{
 
             model.addAttribute("listData", listPage.getRecords());
             model.addAttribute("searchModel", searchModel);
-            return "flash_sales_effect_detail";
+            return "cut_down_effect_detail";
 
+        }catch (Exception e){
+            e.printStackTrace();
+            return "fail";
+        }
+
+    }
+
+    /**
+     * 砍价发起情况
+     * @return
+     */
+    @RequestMapping("/launchCutDown")
+    public String launchCutDown(Model model,ActivitySearchModel searchModel){
+
+        try {
+            Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
+            Long shopIdentity = LoginManager.get().getUser().getShopIdenty();
+
+            CutDownCustomerEntity mCutDownCustomer = new CutDownCustomerEntity();
+            mCutDownCustomer.setBrandIdentity(brandIdentity);
+            mCutDownCustomer.setShopIdentity(shopIdentity);
+            mCutDownCustomer.setCutDownId(searchModel.getActivityId());
+            Page<CutDownCustomerEntity> listPage = mCutDownCustomerService.queryLaunchData(mCutDownCustomer,searchModel.getPageNo(),searchModel.getPageSize());
+            setWebPage(model, "/flashSalesEffect/launchCutDown", listPage, searchModel);
+
+            model.addAttribute("listData", listPage.getRecords());
+            model.addAttribute("searchModel", searchModel);
+
+            return "cut_down_launch_effect";
         }catch (Exception e){
             e.printStackTrace();
             return "fail";
@@ -159,7 +192,28 @@ public class CutDownEffectController extends BaseController{
     @RequestMapping("/joinCutDownEffect")
     public String joinCutDownEffect(Model model,ActivitySearchModel searchModel){
 
-        return "";
+        try {
+            Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
+            Long shopIdentity = LoginManager.get().getUser().getShopIdenty();
+
+            CutDownHistoryEntity mCutDownCustomer = new CutDownHistoryEntity();
+            mCutDownCustomer.setBrandIdentity(brandIdentity);
+            mCutDownCustomer.setShopIdentity(shopIdentity);
+            mCutDownCustomer.setCutDownId(searchModel.getActivityId());
+
+            Page<CutDownHistoryEntity> listPage = mCutDownHistoryService.queryJoinData(mCutDownCustomer,searchModel.getPageNo(),searchModel.getPageSize());
+
+            setWebPage(model, "/flashSalesEffect/joinCutDownEffect", listPage, searchModel);
+
+            model.addAttribute("listData", listPage.getRecords());
+            model.addAttribute("searchModel", searchModel);
+
+            return "cut_down_join_effect";
+        }catch (Exception e){
+            e.printStackTrace();
+            return "fail";
+        }
+
     }
 
     /**
@@ -169,7 +223,7 @@ public class CutDownEffectController extends BaseController{
      * @return
      */
     @RequestMapping("/finishCutDownEffect")
-    public String finishCollageEffect(Model model,ActivitySearchModel searchModel){
+    public String finishCutDownEffect(Model model,ActivitySearchModel searchModel){
         try {
             Long brandIdentity = LoginManager.get().getUser().getBrandIdenty();
             Long shopIdentity = LoginManager.get().getUser().getShopIdenty();
@@ -187,7 +241,7 @@ public class CutDownEffectController extends BaseController{
             model.addAttribute("searchModel", searchModel);
             model.addAttribute("listData", listData);
 
-            return "flash_sales_finish_effect";
+            return "cut_down_finish_effect";
         }catch (Exception e){
             e.printStackTrace();
             return "fail";

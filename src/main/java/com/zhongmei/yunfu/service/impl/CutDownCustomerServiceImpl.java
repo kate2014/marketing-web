@@ -2,10 +2,12 @@ package com.zhongmei.yunfu.service.impl;
 
 import com.baomidou.mybatisplus.mapper.Condition;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.zhongmei.yunfu.controller.model.CollageCustomerModel;
 import com.zhongmei.yunfu.controller.model.CutDownCustomerModel;
 import com.zhongmei.yunfu.core.mybatis.mapper.ConditionFilter;
 import com.zhongmei.yunfu.domain.entity.CutDownCustomerEntity;
+import com.zhongmei.yunfu.domain.entity.FeedbackEntity;
 import com.zhongmei.yunfu.domain.mapper.CutDownCustomerMapper;
 import com.zhongmei.yunfu.service.CutDownCustomerService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
@@ -51,6 +53,23 @@ public class CutDownCustomerServiceImpl extends ServiceImpl<CutDownCustomerMappe
 
         return listData;
     }
+
+    @Override
+    public Page<CutDownCustomerEntity> queryLaunchData(CutDownCustomerEntity mCutDownCustomer, Integer pageNo, Integer pageSize) throws Exception {
+
+        Page<CutDownCustomerEntity> listPage = new Page<>(pageNo, pageSize);
+        EntityWrapper<CutDownCustomerEntity> eWrapper = new EntityWrapper<>(new CutDownCustomerEntity());
+        eWrapper.eq("brand_identity",mCutDownCustomer.getBrandIdentity());
+        eWrapper.eq("shop_identity",mCutDownCustomer.getShopIdentity());
+        eWrapper.eq("cut_down_id",mCutDownCustomer.getCutDownId());
+        eWrapper.eq("status_flag",1);
+
+        eWrapper.setSqlSelect("id,cut_down_id,customer_id,wx_name,wx_photo,state,join_count");
+        Page<CutDownCustomerEntity> listData = selectPage(listPage, eWrapper);
+
+        return listData;
+    }
+
 
     @Override
     public CutDownCustomerEntity queryDataById(Long id) throws Exception {

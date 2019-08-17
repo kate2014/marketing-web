@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName
 import com.zhongmei.yunfu.domain.entity.base.BaseEntity;
+import com.zhongmei.yunfu.domain.entity.base.SupperEntity
 
 /**
  * <p>
@@ -15,7 +16,7 @@ import com.zhongmei.yunfu.domain.entity.base.BaseEntity;
  * @since 2018-10-01
  */
 @TableName("cut_down_customer")
-class CutDownCustomerEntity : BaseEntity() {
+class CutDownCustomerEntity : SupperEntity() {
 
     /**
      * 自增主键

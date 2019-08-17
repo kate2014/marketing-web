@@ -1,5 +1,6 @@
 package com.zhongmei.yunfu.service;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.zhongmei.yunfu.domain.entity.CutDownHistoryEntity;
 import com.baomidou.mybatisplus.service.IService;
 
@@ -30,6 +31,14 @@ public interface CutDownHistoryService extends IService<CutDownHistoryEntity> {
      * @return
      */
     List<CutDownHistoryEntity> queryDataList(CutDownHistoryEntity mCutDownHistory) throws Exception;
+
+    /**
+     * 查询砍价活动参与情况
+     * @param mCutDownHistory
+     * @return
+     * @throws Exception
+     */
+    Page<CutDownHistoryEntity> queryJoinData(CutDownHistoryEntity mCutDownHistory,Integer pageNo,Integer pageSize) throws Exception;
 
     /**
      * 查询同一活动参数次数

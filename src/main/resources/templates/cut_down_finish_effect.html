@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<style type="text/css">
+
+    html,body{
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        background-color: #FFFFFF;
+    }
+
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <title>秒杀活动效果</title>
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" type="text/css" />
+
+    <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/base.js}" src="../static/js/base.js" ></script>
+
+    <!-- diglog -->
+    <script type="text/javascript" th:src="@{/js/diy_dialog.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/diy_dialog.css}" href="../static/css/diy_dialog.css" type="text/css" />
+</head>
+
+<script type="text/javascript">
+    $(function () {
+        $("#service_push").click(function () {
+            var customerIds = [];
+            $("input[name='checkItem']:checked").each(function () {
+                customerIds.push(this.id);
+            });
+            if (customerIds.length == 0) {
+                $('.select-com').hide();
+                alert("请选择顾客");
+                return;
+            }
+
+            $('.select-com').load('[[${basePath}]]/customer/service  #container', null, function (result) {
+                //$.ready(true);
+                var $select_com = $(this);
+                $select_com.show();
+                $("script").each(function () {
+                    if (this.src) {
+                        //$select_com.appendTo('#container');
+                        //alert(this.src);
+                        $.getScript(this.src);
+                    }
+                });
+                /*$('.close').click(function(){
+                $('.select-com').hide();
+            })*/
+                $(".dialog_submit").click(function () {
+                    var serviceItem = $("#dish_iframe").contents()
+                        .find("input[name='itemRadio']:checked:first");
+                    if (!serviceItem[0]) {
+                        alert("请选择推送的服务");
+                        return;
+                    }
+
+                    var data = {
+                        customerIds: customerIds,
+                        serviceType: serviceItem.attr("value"),
+                        serviceId: serviceItem.attr("id")
+                    };
+
+                    $.ajax({
+                        url: "[[${basePath}]]/customer/service/push",
+                        type: "post",
+                        data: JSON.stringify(data),
+                        contentType: 'application/json;charset=UTF-8',
+                        success: function (json) {
+                            if (json && json.status != 1000) {
+                                alert(json.message);
+                                return
+                            }
+
+                            $select_com.hide();
+                            alert("推送服务成功");
+                        },
+                        error: function (e) {
+                            alert(e.responseText);
+                        }
+                    });
+
+                })
+            });
+        })
+    });
+</script>
+
+<body>
+
+<div class="parent_h container" style="margin-top: 10px">
+    <form method="post" action="" th:action="@{/cutDownEffect/finishCutDownEffect}" th:object="${searchModel}">
+        <div class="parent_h container">
+
+            <input type="hidden" name="activityId" id="activityId" th:value="${searchModel.activityId}">
+            <input type="hidden" name="type" id="type" th:value="${searchModel.type}">
+
+            <label class="text_navigation">顾客姓名</label>
+            <input class="input_style" style="margin-left: 5px" type="text" th:value="${searchModel.customerName}" name="customerName" id="customerName"/>
+
+            <label class="text_navigation" style="margin-left: 10px">顾客电话</label>
+            <input class="input_style" style="margin-left: 5px" type="text" th:value="${searchModel.customerPhone}" name="customerPhone" id="customerPhone"/>
+
+            <label class="text_navigation" style="margin-left: 10px">购买次数>=</label>
+            <input class="input_style" style="margin-left: 5px" type="text" th:value="${searchModel.operationalCount}" name="operationalCount" id="operationalCount"/>
+
+            <button class="orange_mine_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
+
+        </div>
+    </form>
+
+    <button class="blue_mine_button_style" value="" onclick="this" style="margin-left: 10px" id="service_push">服务推送</button>
+</div>
+
+<div align="center" style="margin-top: 10px">
+    <table class="gridtablestyle" style="width: 96%; vertical-align: middle">
+        <tr style="width: 100%">
+            <th><input type="checkbox" id="checkAll"></th>
+            <th>顾客</th>
+            <th>姓名</th>
+            <th>电话</th>
+            <th>购买次数</th>
+
+        </tr>
+        <tr th:each="item:${listData}">
+            <td>
+                <input name="checkItem" type="checkbox" th:id="${item.customerId}">
+            </td>
+            <td>
+                <div class="parent container">
+                    <img style="height: 36px;width: auto;margin-right: 5px" th:src="${item.wxPhoto}" src="https://wx.qlogo.cn/mmopen/vi_32/SEqTQhLC64kJFicxclAywVS9bwicZhmbr2fhVz02kwdAOBUn43EjkXoPltHerOQCZAToK3kk5eRAC64aZplVhd4w/132">
+                    <span th:text="${item.wxName}">Calme</span>
+                </div>
+            </td>
+
+            <td th:text="${item.customerName}">张三</td>
+            <td th:text="${item.customerPhone}">189080888898</td>
+
+            <td th:text="${item.operationalCount}">2</td>
+
+        </tr>
+
+    </table>
+</div>
+
+<div class='select-com'></div>
+
+</body>
+</html>

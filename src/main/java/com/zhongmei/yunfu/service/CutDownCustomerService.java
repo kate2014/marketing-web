@@ -1,5 +1,6 @@
 package com.zhongmei.yunfu.service;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.zhongmei.yunfu.controller.model.CutDownCustomerModel;
 import com.zhongmei.yunfu.domain.entity.CutDownCustomerEntity;
 import com.baomidou.mybatisplus.service.IService;
@@ -39,6 +40,14 @@ public interface CutDownCustomerService extends IService<CutDownCustomerEntity> 
      * @return
      */
     List<CutDownCustomerModel> queryDataList(CutDownCustomerEntity mCutDownCustomer) throws Exception;
+
+    /**
+     * 获取活动发起砍价情况
+     * @param mCutDownCustomer
+     * @return
+     * @throws Exception
+     */
+    Page<CutDownCustomerEntity> queryLaunchData(CutDownCustomerEntity mCutDownCustomer, Integer pageNo, Integer pageSize) throws Exception;
 
     /**
      * 根据id查询某条发起的砍价
