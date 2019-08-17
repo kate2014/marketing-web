@@ -63,6 +63,12 @@ public class CutDownCustomerServiceImpl extends ServiceImpl<CutDownCustomerMappe
         eWrapper.eq("shop_identity",mCutDownCustomer.getShopIdentity());
         eWrapper.eq("cut_down_id",mCutDownCustomer.getCutDownId());
         eWrapper.eq("status_flag",1);
+        if(mCutDownCustomer.getState() != null && !mCutDownCustomer.getState().equals("")){
+            eWrapper.eq("state",mCutDownCustomer.getState());
+        }
+        if(mCutDownCustomer.getJoinCount() != null && !mCutDownCustomer.getJoinCount().equals("")){
+            eWrapper.ge("join_count",mCutDownCustomer.getJoinCount());
+        }
 
         eWrapper.setSqlSelect("id,cut_down_id,customer_id,wx_name,wx_photo,state,join_count");
         Page<CutDownCustomerEntity> listData = selectPage(listPage, eWrapper);

@@ -3,6 +3,8 @@ package com.zhongmei.yunfu.controller.model;
 import com.zhongmei.yunfu.controller.model.base.IShopIdenty;
 import com.zhongmei.yunfu.controller.model.base.WebBaseModel;
 
+import java.math.BigDecimal;
+
 /**
  * 活动查询列表
  */
@@ -30,6 +32,9 @@ public class ActivitySearchModel extends WebBaseModel implements IShopIdenty {
     private String customerName;
     private String customerPhone;
     private Integer operationalCount;
+    private Integer state;
+    private Integer joinCount;
+    private BigDecimal cutPrice;
 
     public Long getId() {
         return id;
@@ -157,5 +162,29 @@ public class ActivitySearchModel extends WebBaseModel implements IShopIdenty {
 
     public void setOperationalCount(Integer operationalCount) {
         this.operationalCount = operationalCount;
+    }
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
+    }
+
+    public Integer getJoinCount() {
+        return joinCount;
+    }
+
+    public void setJoinCount(Integer joinCount) {
+        this.joinCount = joinCount;
+    }
+
+    public BigDecimal getCutPrice() {
+        return cutPrice;
+    }
+
+    public void setCutPrice(BigDecimal cutPrice) {
+        this.cutPrice = cutPrice;
     }
 }

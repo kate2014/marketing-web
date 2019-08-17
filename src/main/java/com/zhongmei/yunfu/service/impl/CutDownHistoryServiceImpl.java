@@ -44,6 +44,9 @@ public class CutDownHistoryServiceImpl extends ServiceImpl<CutDownHistoryMapper,
         eWrapper.eq("brand_identity",mCutDownHistory.getBrandIdentity());
         eWrapper.eq("shop_identity",mCutDownHistory.getShopIdentity());
         eWrapper.eq("cut_down_id",mCutDownHistory.getCutDownId());
+        if(mCutDownHistory.getCutPrice() != null && !mCutDownHistory.getCutPrice().equals("")){
+            eWrapper.ge("cut_price",mCutDownHistory.getCutPrice());
+        }
         eWrapper.setSqlSelect("id,cut_down_id,customer_id,open_id,wx_name,wx_photo,server_create_time,cut_price");
         eWrapper.orderBy("server_create_time",false);
         Page<CutDownHistoryEntity> listData = selectPage(listPage, eWrapper);

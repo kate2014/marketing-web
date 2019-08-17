@@ -103,11 +103,17 @@
             <input type="hidden" name="activityId" id="activityId" th:value="${searchModel.activityId}">
             <input type="hidden" name="type" id="type" th:value="${searchModel.type}">
 
-            <label class="text_navigation">顾客姓名</label>
-            <input class="input_style" style="margin-left: 5px" type="text" th:value="${searchModel.customerName}" name="customerName" id="customerName"/>
+            <label class="text_navigation">已邀请砍价人数>=</label>
+            <input class="input_style" style="margin-left: 5px" type="text" th:value="${searchModel.joinCount}" name="joinCount" id="joinCount"/>
 
-            <label class="text_navigation" style="margin-left: 10px">顾客电话</label>
-            <input class="input_style" style="margin-left: 5px" type="text" th:value="${searchModel.customerPhone}" name="customerPhone" id="customerPhone"/>
+            <label class="text_navigation" style="margin-left: 10px">砍价状态</label>
+            <select class="select_style" name="state" style="margin-left: 5px">
+                <option value="">全部</option>
+                <option th:selected="${searchModel.state==1}" th:value="1">砍价中</option>
+                <option th:selected="${searchModel.state==2}" th:value="2">砍价完成</option>
+                <option th:selected="${searchModel.state==3}" th:value="3">砍价失败</option>
+                <option th:selected="${searchModel.state==4}" th:value="4">购买完成</option>
+            </select>
 
             <button class="orange_mine_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
 
@@ -123,8 +129,8 @@
         <tr style="width: 100%">
             <th><input type="checkbox" id="checkAll"></th>
             <th>顾客</th>
-            <th>已邀请砍价人数</th>
             <th>砍价状态</th>
+            <th>已邀请砍价人数</th>
 
         </tr>
         <tr th:each="item:${listData}">

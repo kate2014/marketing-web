@@ -169,6 +169,8 @@ public class CutDownEffectController extends BaseController{
             mCutDownCustomer.setBrandIdentity(brandIdentity);
             mCutDownCustomer.setShopIdentity(shopIdentity);
             mCutDownCustomer.setCutDownId(searchModel.getActivityId());
+            mCutDownCustomer.setJoinCount(searchModel.getJoinCount());
+            mCutDownCustomer.setState(searchModel.getState());
             Page<CutDownCustomerEntity> listPage = mCutDownCustomerService.queryLaunchData(mCutDownCustomer,searchModel.getPageNo(),searchModel.getPageSize());
             setWebPage(model, "/flashSalesEffect/launchCutDown", listPage, searchModel);
 
@@ -200,6 +202,7 @@ public class CutDownEffectController extends BaseController{
             mCutDownCustomer.setBrandIdentity(brandIdentity);
             mCutDownCustomer.setShopIdentity(shopIdentity);
             mCutDownCustomer.setCutDownId(searchModel.getActivityId());
+            mCutDownCustomer.setCutPrice(searchModel.getCutPrice());
 
             Page<CutDownHistoryEntity> listPage = mCutDownHistoryService.queryJoinData(mCutDownCustomer,searchModel.getPageNo(),searchModel.getPageSize());
 

@@ -103,11 +103,8 @@
             <input type="hidden" name="activityId" id="activityId" th:value="${searchModel.activityId}">
             <input type="hidden" name="type" id="type" th:value="${searchModel.type}">
 
-            <label class="text_navigation">顾客姓名</label>
-            <input class="input_style" style="margin-left: 5px" type="text" th:value="${searchModel.customerName}" name="customerName" id="customerName"/>
-
-            <label class="text_navigation" style="margin-left: 10px">顾客电话</label>
-            <input class="input_style" style="margin-left: 5px" type="text" th:value="${searchModel.customerPhone}" name="customerPhone" id="customerPhone"/>
+            <label class="text_navigation">砍价金额>=</label>
+            <input class="input_style" style="margin-left: 5px" type="text" th:value="${searchModel.cutPrice}" name="cutPrice" id="cutPrice"/>
 
             <button class="orange_mine_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
 
