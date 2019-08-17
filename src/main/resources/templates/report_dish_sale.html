@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
     <title>每日对账</title>
     <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
@@ -155,7 +156,7 @@
         </div>
 
         <div class="parent" style="margin-top: 5px;padding-top: 10px;margin-left: 10px; margin-right: 10px; border-top: #e1e1e1 dashed 1px">
-            <form method="post" name="queryData" id="queryData" action="" th:action="@{/internal/sales/saleReport}" th:object="${mPurchSaleModel}">
+            <form method="get" name="queryData" id="queryData" action="" th:action="@{/internal/sales/saleReport}" th:object="${mPurchSaleModel}">
 
                 <input type="hidden" name="brandIdenty" th:value="${mPurchSaleModel.brandIdenty}">
                 <input type="hidden" name="shopIdenty" th:value="${mPurchSaleModel.shopIdenty}">

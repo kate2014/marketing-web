@@ -117,7 +117,7 @@
     <label class="text_navigation" style="margin-left: 10px;width: 30%;margin-top: 8px">会员 》评价反馈</label>
 </div>
 
-<form method="post" action="" th:action="@{/customer/feedback/list}" th:object="${mFeedbackModel}">
+<form method="get" action="" th:action="@{/customer/feedback/list}" th:object="${mFeedbackModel}">
     <div style="margin-top: 20px">
         <label class="text_navigation" style="margin-left: 20px">低于评分</label>
         <select class="select_style" name="starNum" style="margin-left: 5px">
