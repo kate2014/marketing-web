@@ -120,6 +120,8 @@ public class TradeModel extends WebBaseModel {
 
     private Integer rquestSource;
 
+    private String wxPhoto;
+
     public String getWxOpenId() {
         return wxOpenId;
     }
@@ -398,5 +400,13 @@ public class TradeModel extends WebBaseModel {
 
     public void setRecommendOpenId(String recommendOpenId) {
         this.recommendOpenId = recommendOpenId;
+    }
+
+    public String getWxPhoto() {
+        return wxPhoto;
+    }
+
+    public void setWxPhoto(String wxPhoto) {
+        this.wxPhoto = wxPhoto;
     }
 }

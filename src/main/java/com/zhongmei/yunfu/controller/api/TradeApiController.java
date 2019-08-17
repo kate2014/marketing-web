@@ -271,6 +271,9 @@ public class TradeApiController {
             mWxTradeCustomer.setMarketingName(mTradeModel.getMarketingName());
             mWxTradeCustomer.setRelateId(mTradeModel.getRelationId());
             mWxTradeCustomer.setCustomerId(mTradeModel.getCustomerId());
+            mWxTradeCustomer.setWxPhoto(mTradeModel.getWxPhoto());
+            mWxTradeCustomer.setWxOpenId(mTradeModel.getWxOpenId());
+            mWxTradeCustomer.setCustomerName(mTradeModel.getCustomerName());
             mWxTradeCustomer.setStatus(1);
             mWxTradeCustomer.setEnabledFlag(2);//启用停用标识 : 1:启用;2:停用
             mWxTradeCustomer.setType(mTradeModel.getType());
