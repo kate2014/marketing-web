@@ -48,10 +48,25 @@ public class ActivitySalesApiController {
             mActivitySalesEntity.setBrandIdenty(mActivitySalesReq.getBrandIdenty());
             mActivitySalesEntity.setShopIdenty(mActivitySalesReq.getShopIdenty());
             mActivitySalesEntity.setEnabledFlag(1);
-            List<ActivitySalesEntity> listDate = mActivitySalesService.queryListData(mActivitySalesEntity);
+            List<ActivitySalesEntity> listData = mActivitySalesService.queryListData(mActivitySalesEntity);
+
+            TradeModel mTradeModel = new TradeModel();
+            mTradeModel.setBrandIdenty(mActivitySalesReq.getBrandIdenty());
+            mTradeModel.setShopIdenty(mActivitySalesReq.getShopIdenty());
+            mTradeModel.setType(4);
+            List<WxTradeCustomerEntity> listSales = mWxTradeCustomerService.querySalesList(mTradeModel);
+
+            for(ActivitySalesEntity entity : listData){
+                for(WxTradeCustomerEntity wx : listSales){
+
+                    if(entity.getId().longValue() == wx.getMarketingId().longValue()){
+                        entity.setSalesCount(wx.getId().intValue());
+                    }
+                }
+            }
 
             responseMode.setMsg("数据获取成功");
-            responseMode.setData(listDate);
+            responseMode.setData(listData);
             responseMode.setState("1000");
         } catch (Exception ex) {
             ex.printStackTrace();

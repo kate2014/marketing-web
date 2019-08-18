@@ -78,6 +78,8 @@ public class PayOrderApiController {
     RestTemplate restTemplate;
     @Autowired
     RedPacketsRecordService mRedPacketsRecordService;
+    @Autowired
+    RecommendationAssociationService mRecommendationAssociationService;
 
     @GetMapping("/payOrder")
     public BaseDataModel payOrder(Model model, TradeModel mTradeModel){
@@ -273,10 +275,12 @@ public class PayOrderApiController {
             }
             //特价活动
             if(type == 4){
+                //更改推荐成单状态
+                RecommendationAssociationEntity mRAEntity = modfityRAState(mWxTradeCustomerEntity);
                 //更新顾客活动购买状态
                 updateWxTrade(tradeId,1);
                 //触发发送推荐成单红包,发放推荐达成单数赠送礼品
-                mRedPacketsRecordService.sendRedPackets(mWxTradeCustomerEntity.getBrandIdenty(),mWxTradeCustomerEntity.getShopIdenty(),tradeId);
+                mRedPacketsRecordService.sendRedPackets(mRAEntity,tradeId);
             }
 
         }catch (Exception e){
@@ -285,6 +289,28 @@ public class PayOrderApiController {
         }
 
         return mWxTradeCustomerEntity;
+    }
+
+    /**
+     * 更新推荐成单状态
+     * @param mWxTradeCustomerEntity
+     * @return
+     * @throws Exception
+     */
+    public RecommendationAssociationEntity modfityRAState(WxTradeCustomerEntity mWxTradeCustomerEntity) throws Exception{
+        RecommendationAssociationEntity mRAEntity = mRecommendationAssociationService.queryByTradeId(mWxTradeCustomerEntity.getBrandIdenty(),mWxTradeCustomerEntity.getShopIdenty(),mWxTradeCustomerEntity.getTradeId());
+        //如果不为空，这表示该订单是推荐成单
+        if(mRAEntity != null){
+            RecommendationAssociationEntity entity = new RecommendationAssociationEntity();
+            entity.setBrandIdenty(mRAEntity.getBrandIdenty());
+            entity.setShopIdenty(mRAEntity.getShopIdenty());
+            entity.setTradeId(mWxTradeCustomerEntity.getTradeId());
+            entity.setActivityId(mWxTradeCustomerEntity.getMarketingId());
+            entity.setTransactionStatus(2);
+            entity.setServerUpdateTime(new Date());
+            mRecommendationAssociationService.modfityAssciation(entity);
+        }
+        return mRAEntity;
     }
 
     /**

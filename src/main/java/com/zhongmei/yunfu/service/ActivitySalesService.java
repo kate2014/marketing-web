@@ -41,7 +41,7 @@ public interface ActivitySalesService extends IService<ActivitySalesEntity> {
     ActivitySalesEntity queryById(Long id)throws Exception;
 
     /**
-     * 查询活动每日可参与次数
+     * 查询活动每人可参与次数
      * @param id
      * @return
      * @throws Exception

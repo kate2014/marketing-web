@@ -89,37 +89,37 @@ public class RedPacketsRecordServiceImpl extends ServiceImpl<RedPacketsRecordMap
      * @return
      */
     @Override
-    public Boolean sendRedPackets(Long brandIdenty,Long shopIdenty,Long tradeId) throws Exception{
+    public Boolean sendRedPackets(RecommendationAssociationEntity mRAEntity,Long tradeId) throws Exception{
 
-        //获取订单推荐关联关系
-        RecommendationAssociationEntity firstRA = mRAService.queryByTradeId(brandIdenty,shopIdenty,tradeId);
         //如不为空这表示，该订单是好友推荐下单
-        if(firstRA != null){
+        if(mRAEntity != null){
+            Long brandIdenty = mRAEntity.getBrandIdenty();
+            Long shopIdenty = mRAEntity.getShopIdenty();
             //获取红包发放规则
             ActivityRedPacketsEntity arpEntity = new ActivityRedPacketsEntity();
             arpEntity.setBrandIdenty(brandIdenty);
             arpEntity.setShopIdenty(shopIdenty);
-            arpEntity.setActivityId(firstRA.getActivityId());
+            arpEntity.setActivityId(mRAEntity.getActivityId());
             arpEntity = mARPService.queryRule(arpEntity);
 
             //算出一级推荐成单红包
             double firstAmount = ToolsUtil.getRandomData(arpEntity.getFirstMinAmount().doubleValue(),arpEntity.getFirstMaxAmount().doubleValue());
             //构建一级推荐红包发放记录
-            RedPacketsRecordEntity firstRPEntity = buildRedPacketsRecord(firstRA,firstAmount,1);
+            RedPacketsRecordEntity firstRPEntity = buildRedPacketsRecord(mRAEntity,firstAmount,1);
 
             //插入红包发放记录
             insert(firstRPEntity);
 
             //添加提成信息
-            ExpandedCommissionEntity firstEC= buildCommission(brandIdenty,shopIdenty,tradeId,firstRA.getMainCustomerId());
+            ExpandedCommissionEntity firstEC= buildCommission(brandIdenty,shopIdenty,tradeId,mRAEntity.getMainCustomerId());
             mExpandedCommissionService.addRedPacketsCommission(firstEC, new BigDecimal(firstAmount));
 
             //获取间接推荐用户信息
             RecommendationAssociationEntity raEntity = new RecommendationAssociationEntity();
             raEntity.setShopIdenty(shopIdenty);
             raEntity.setBrandIdenty(brandIdenty);
-            raEntity.setActivityId(firstRA.getActivityId());
-            raEntity.setAcceptWxOpenId(firstRA.getMainWxOpenId());
+            raEntity.setActivityId(mRAEntity.getActivityId());
+            raEntity.setAcceptWxOpenId(mRAEntity.getMainWxOpenId());
 
             RecommendationAssociationEntity secondRA = mRAService.queryMainCustomer(raEntity);
 
@@ -138,17 +138,17 @@ public class RedPacketsRecordServiceImpl extends ServiceImpl<RedPacketsRecordMap
                 mExpandedCommissionService.addRedPacketsCommission(secondEC, new BigDecimal(firstAmount));
             }
 
-            //修改操作为购买成功
-            RecommendationAssociationEntity entity = new RecommendationAssociationEntity();
-            entity.setBrandIdenty(brandIdenty);
-            entity.setShopIdenty(shopIdenty);
-            entity.setActivityId(firstRA.getActivityId());
-            entity.setTradeId(firstRA.getTradeId());
-            entity.setTransactionStatus(2);
-            mRAService.modfityAssciation(entity);
+//            //修改操作为购买成功
+//            RecommendationAssociationEntity entity = new RecommendationAssociationEntity();
+//            entity.setBrandIdenty(brandIdenty);
+//            entity.setShopIdenty(shopIdenty);
+//            entity.setActivityId(mRAEntity.getActivityId());
+//            entity.setTradeId(mRAEntity.getTradeId());
+//            entity.setTransactionStatus(2);
+//            mRAService.modfityAssciation(entity);
 
             //查询用户推荐成单数，并做礼品推送
-            sendGift(firstRA);
+            sendGift(mRAEntity);
         }
 
         return true;
@@ -173,6 +173,7 @@ public class RedPacketsRecordServiceImpl extends ServiceImpl<RedPacketsRecordMap
         }
 
         eWrapper.setSqlSelect("customer_id,customer_name,customer_phone,wx_name,wx_photo,sum(amount) as amount,count(id) as id");
+        eWrapper.groupBy("customer_id");
         eWrapper.orderBy("sum(amount)",false);
 
         Page<RedPacketsRecordEntity> listData = selectPage(listPage,eWrapper);
@@ -204,8 +205,8 @@ public class RedPacketsRecordServiceImpl extends ServiceImpl<RedPacketsRecordMap
         OperationalRecordsEntity orEntity = new OperationalRecordsEntity();
         orEntity.setBrandIdenty(raEntity.getBrandIdenty());
         orEntity.setShopIdenty(raEntity.getShopIdenty());
-        orEntity.setWxOpenId(raEntity.getMainWxOpenId());
-        orEntity.setActivityId(raEntity.getId());
+        orEntity.setCustomerId(raEntity.getMainCustomerId());
+        orEntity.setActivityId(raEntity.getActivityId());
         orEntity.setType(1);
         OperationalRecordsEntity recordEntity = mOperationalRecordsService.queryByCustomer(orEntity);
 

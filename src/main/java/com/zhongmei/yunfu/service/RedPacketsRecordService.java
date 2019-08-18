@@ -3,6 +3,7 @@ package com.zhongmei.yunfu.service;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.IService;
 import com.zhongmei.yunfu.domain.entity.ActivitySalesEntity;
+import com.zhongmei.yunfu.domain.entity.RecommendationAssociationEntity;
 import com.zhongmei.yunfu.domain.entity.RedPacketsRecordEntity;
 
 import java.util.List;
@@ -39,13 +40,12 @@ public interface RedPacketsRecordService extends IService<RedPacketsRecordEntity
 
     /**
      * 发放红包
-     * @param brandIdenty
-     * @param shopIdenty
+     * @param mRAEntity
      * @param tradeId
      * @return
      * @throws Exception
      */
-    public Boolean sendRedPackets(Long brandIdenty,Long shopIdenty,Long tradeId) throws Exception;
+    public Boolean sendRedPackets(RecommendationAssociationEntity mRAEntity, Long tradeId) throws Exception;
 
     /**
      * 查询门店活动中红包发放情况

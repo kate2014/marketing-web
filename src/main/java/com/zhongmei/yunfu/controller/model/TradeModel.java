@@ -122,6 +122,8 @@ public class TradeModel extends WebBaseModel {
 
     private String wxPhoto;
 
+    private Integer enabledFlag;
+
     public String getWxOpenId() {
         return wxOpenId;
     }
@@ -408,5 +410,13 @@ public class TradeModel extends WebBaseModel {
 
     public void setWxPhoto(String wxPhoto) {
         this.wxPhoto = wxPhoto;
+    }
+
+    public Integer getEnabledFlag() {
+        return enabledFlag;
+    }
+
+    public void setEnabledFlag(Integer enabledFlag) {
+        this.enabledFlag = enabledFlag;
     }
 }

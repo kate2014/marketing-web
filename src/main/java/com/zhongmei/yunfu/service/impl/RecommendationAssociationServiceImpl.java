@@ -62,7 +62,7 @@ public class RecommendationAssociationServiceImpl extends ServiceImpl<Recommenda
         eWrapper.eq("activity_id",entity.getActivityId());
 
         if(entity.getAcceptWxOpenId() != null){
-            eWrapper.eq("accept_wx_open_id",entity.getActivityId());
+            eWrapper.eq("accept_wx_open_id",entity.getAcceptWxOpenId());
         }
         if(entity.getTradeId() != null){
             eWrapper.eq("trade_id",entity.getActivityId());
@@ -70,7 +70,7 @@ public class RecommendationAssociationServiceImpl extends ServiceImpl<Recommenda
         if(entity.getTransactionStatus() != null){
             eWrapper.eq("transaction_status",entity.getActivityId());
         }
-
+        eWrapper.orderBy("server_create_time",false);
         RecommendationAssociationEntity mEntity = selectOne(eWrapper);
 
         return mEntity;
@@ -118,7 +118,7 @@ public class RecommendationAssociationServiceImpl extends ServiceImpl<Recommenda
         eWrapper.eq("shop_identy",entity.getShopIdenty());
         eWrapper.eq("status_flag",1);
         eWrapper.eq("activity_id",entity.getActivityId());
-        eWrapper.eq("trade_id",entity.getActivityId());
+        eWrapper.eq("trade_id",entity.getTradeId());
 
         return update(entity,eWrapper);
     }

@@ -195,8 +195,14 @@ public class TradeApiController {
     public void buildRecommendAssociation(TradeModel mTradeModel,TradeEntity trade){
         try {
 
+
             if((mTradeModel.getRecommendOpenId() != null && !mTradeModel.getRecommendOpenId().equals("")) || (mTradeModel.getRecommendCustomerId() != null && !mTradeModel.getRecommendCustomerId().equals(""))){
-               //获取推荐人详细信息
+                //如果相等，则表示点击是的自己分享的入口，对该操作不做成单记录
+                if(mTradeModel.getRecommendCustomerId().longValue() == mTradeModel.getCustomerId().longValue() || mTradeModel.getRecommendOpenId().equals(mTradeModel.getWxOpenId())){
+                    return;
+                }
+
+                //获取推荐人详细信息
                 OperationalRecordsEntity opEntity = new OperationalRecordsEntity();
                 opEntity.setBrandIdenty(mTradeModel.getBrandIdenty());
                 opEntity.setShopIdenty(mTradeModel.getShopIdenty());
@@ -219,6 +225,7 @@ public class TradeApiController {
                 entity.setTradeId(trade.getId());
                 entity.setActivityId(mTradeModel.getMarketingId());
                 entity.setTransactionStatus(1);
+                entity.setStatusFlag(1);
 
                 mRAService.addAssociation(entity);
             }
