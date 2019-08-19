@@ -626,7 +626,7 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
             String sex = it.get("性别");
             String mobile = it.get("手机号");
             String birthday = it.get("生日");
-            String email = it.get("邮箱");
+//            String email = it.get("邮箱");
             String hobby = it.get("喜好");
             String address = it.get("所在地址");
             String desc = it.get("备注");
@@ -646,7 +646,7 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
                 customerEntity.setBirthday(new Date(Long.valueOf(birthday)));
             }
             customerEntity.setMobile(mobile);
-            customerEntity.setEmail(email);
+//            customerEntity.setEmail(email);
             customerEntity.setHobby(hobby);
             customerEntity.setAddress(address);
             customerEntity.setProfile(desc);
@@ -670,5 +670,36 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
         eWrapper.eq("status_flag", 1);
         CustomerExtraEntity mCustomerSaveReport = baseMapper.queryCustomerSaveReport(eWrapper);
         return mCustomerSaveReport;
+    }
+
+    @Override
+    public Boolean midfityCustomer(CustomerEntity mCustomerEntity) throws Exception {
+
+        return updateById(mCustomerEntity);
+    }
+
+    @Override
+    public Map<String, String> queryByWxCustomerId(CustomerEntity mCustomerEntity) throws Exception {
+        Condition eWrapper = ConditionFilter.create();
+        eWrapper.isWhere(true);
+        eWrapper.eq("brand_identy", mCustomerEntity.getBrandIdenty());
+        eWrapper.eq("shop_identy", mCustomerEntity.getShopIdenty());
+        eWrapper.eq("status_flag", 1);
+
+        List<CustomerEntity> listData = baseMapper.queryByWxCustomerId(eWrapper,mCustomerEntity.getId());
+
+        Map<String, String> tempMap = new HashMap<>();
+        for(CustomerEntity entity : listData){
+            if(entity.getThirdId() !=  null && !entity.getThirdId().equals("")){ //表示是通过微信添加的的会员
+                tempMap.put("wName",entity.getName());
+                tempMap.put("photo",entity.getPhoto());
+                tempMap.put("wxOpenId",entity.getThirdId());
+            }else{
+                tempMap.put("pName",entity.getName());
+                tempMap.put("pPhone",entity.getMobile());
+            }
+        }
+
+        return tempMap;
     }
 }

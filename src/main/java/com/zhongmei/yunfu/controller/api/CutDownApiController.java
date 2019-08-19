@@ -2,15 +2,12 @@ package com.zhongmei.yunfu.controller.api;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.zhongmei.yunfu.controller.api.model.CutDownReq;
-import com.zhongmei.yunfu.domain.entity.OperationalRecordsEntity;
+import com.zhongmei.yunfu.domain.entity.*;
 import com.zhongmei.yunfu.service.*;
 import com.zhongmei.yunfu.util.ToolsUtil;
 import com.zhongmei.yunfu.controller.model.BaseDataModel;
 import com.zhongmei.yunfu.controller.model.CutDownHistoryModel;
 import com.zhongmei.yunfu.controller.model.CutDownModel;
-import com.zhongmei.yunfu.domain.entity.CutDownCustomerEntity;
-import com.zhongmei.yunfu.domain.entity.CutDownHistoryEntity;
-import com.zhongmei.yunfu.domain.entity.CutDownMarketingEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 砍价活动相关api
@@ -38,6 +36,8 @@ public class CutDownApiController {
     CustomerCouponService mCustomerCouponService;
     @Autowired
     OperationalRecordsService mOperationalRecordsService;
+    @Autowired
+    CustomerService mCustomerService;
 
     @GetMapping("/getListData")
     public BaseDataModel getCutDownList(ModelMap model, CutDownModel mCutDownModel) {
@@ -60,33 +60,41 @@ public class CutDownApiController {
     }
 
     @GetMapping("/cutDownDetail")
-    public BaseDataModel queryCutDownDetail(ModelMap model, CutDownReq CutDownReq) {
+    public BaseDataModel queryCutDownDetail(ModelMap model, CutDownReq req) {
         BaseDataModel mBaseDataModel = new BaseDataModel();
         try {
-            CutDownMarketingEntity mCutDownMarketing = mCutDownMarketingService.findCutDownById(CutDownReq.getId());
+            CutDownMarketingEntity mCutDownMarketing = mCutDownMarketingService.findCutDownById(req.getId());
 
             //添加顾客查看记录,如该顾客对该条活跃已有同样的操作是，只需在原有操作次数的基础上+1
-            if(CutDownReq.getWxOpenId() != null){
+            if(req.getWxOpenId() != null){
                 OperationalRecordsEntity orEntity = new OperationalRecordsEntity();
-                orEntity.setBrandIdenty(CutDownReq.getBrandIdenty());
-                orEntity.setShopIdenty(CutDownReq.getShopIdenty());
-                orEntity.setWxOpenId(CutDownReq.getWxOpenId());
-                orEntity.setCustomerId(CutDownReq.getCustomerId());
-                orEntity.setActivityId(CutDownReq.getId());
-                orEntity.setType(1);
+                orEntity.setBrandIdenty(req.getBrandIdenty());
+                orEntity.setShopIdenty(req.getShopIdenty());
+                orEntity.setWxOpenId(req.getWxOpenId());
+                orEntity.setCustomerId(req.getCustomerId());
+                orEntity.setActivityId(req.getId());
                 orEntity.setSource(6);
+                orEntity.setType(1);
                 OperationalRecordsEntity recordEntity = mOperationalRecordsService.queryByCustomer(orEntity);
+                //判断用户是否是第一次浏览
                 if(recordEntity == null){
+                    //获取查看用户基本信息
+                    CustomerEntity mCustomerEntity = new CustomerEntity();
+                    mCustomerEntity.setBrandIdenty(req.getBrandIdenty());
+                    mCustomerEntity.setShopIdenty(req.getShopIdenty());
+                    mCustomerEntity.setId(req.getCustomerId());
+                    Map<String, String> tempMap =  mCustomerService.queryByWxCustomerId(mCustomerEntity);
+
                     orEntity = new OperationalRecordsEntity();
-                    orEntity.setBrandIdenty(CutDownReq.getBrandIdenty());
-                    orEntity.setShopIdenty(CutDownReq.getShopIdenty());
-                    orEntity.setCustomerId(CutDownReq.getCustomerId());
-                    orEntity.setCustomerPhone(CutDownReq.getCustomerPhone());
-                    orEntity.setCustomerName(CutDownReq.getCustomerName());
-                    orEntity.setWxOpenId(CutDownReq.getWxOpenId());
-                    orEntity.setWxPhoto(CutDownReq.getWxPhoto());
-                    orEntity.setWxName(CutDownReq.getWxName());
-                    orEntity.setActivityId(CutDownReq.getId());
+                    orEntity.setBrandIdenty(req.getBrandIdenty());
+                    orEntity.setShopIdenty(req.getShopIdenty());
+                    orEntity.setCustomerId(req.getCustomerId());
+                    orEntity.setCustomerPhone(tempMap.get("pPhone"));
+                    orEntity.setCustomerName(tempMap.get("pName"));
+                    orEntity.setWxOpenId(req.getWxOpenId());
+                    orEntity.setWxPhoto(tempMap.get("photo"));
+                    orEntity.setWxName(tempMap.get("wName"));
+                    orEntity.setActivityId(req.getId());
                     orEntity.setOperationalCount(1);
                     orEntity.setType(1);
                     orEntity.setSource(6);
@@ -94,16 +102,15 @@ public class CutDownApiController {
                     orEntity.setServerUpdateTime(new Date());
                     mOperationalRecordsService.addOperational(orEntity);
                 }else{
-                    orEntity.setBrandIdenty(CutDownReq.getBrandIdenty());
-                    orEntity.setShopIdenty(CutDownReq.getShopIdenty());
-                    orEntity.setWxOpenId(CutDownReq.getWxOpenId());
-                    orEntity.setWxPhoto(CutDownReq.getWxPhoto());
-                    orEntity.setActivityId(CutDownReq.getId());
-                    orEntity.setOperationalCount(recordEntity.getOperationalCount()+1);
-                    orEntity.setServerUpdateTime(new Date());
-                    mOperationalRecordsService.modiftyOperational(orEntity);
+
+                    OperationalRecordsEntity modifityEntity = new OperationalRecordsEntity();
+                    modifityEntity.setId(recordEntity.getId());
+                    modifityEntity.setOperationalCount(recordEntity.getOperationalCount()+1);
+                    modifityEntity.setServerUpdateTime(new Date());
+                    mOperationalRecordsService.modiftyById(modifityEntity);
                 }
             }
+
             mBaseDataModel.setState("1000");
             mBaseDataModel.setMsg("获取砍价详情成功");
             mBaseDataModel.setData(mCutDownMarketing);

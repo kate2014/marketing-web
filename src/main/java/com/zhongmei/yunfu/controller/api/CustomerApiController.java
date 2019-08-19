@@ -36,6 +36,8 @@ public class CustomerApiController {
     CustomerCardTimeService mCustomerCardTimeService;
     @Autowired
     BookingService mBookingService;
+    @Autowired
+    CustomerMarketingExpandedService mCustomerMarketingExpandedService;
     /**
      * 添加微信小程序会员
      *
@@ -55,14 +57,39 @@ public class CustomerApiController {
             CustomerEntity mCustomer = mCustomerService.queryCustomerByThirdId(mCustomerModel.getBrandIdenty(), mCustomerModel.getShopIdenty(), mCustomerModel.getWxOpenId());
 
 
-            //为null表示该会员为添加
+            //为null表示该会员未添加
             if (mCustomer == null) {
                 CustomerEntity addCustomer = executeAdd(mBaseDataModel,mCustomerModel);
+
+                //建立会员推荐关联
+                addCustomerExpanded(mCustomerModel);
+
                 //添加成功后判断是否需要推送新人优惠券
                 if(addCustomer != null && addCustomer.getId() != null){
                     mCustomerCouponService.putOnCoupon(mCustomerModel.getBrandIdenty(), mCustomerModel.getShopIdenty(),addCustomer.getId(),addCustomer.getThirdId(), 2,1);
                 }
             } else {
+                boolean isMidfityData = false;
+                //判断用户是否更换了头像
+                if(mCustomerModel.getWxPhoto() != null && !mCustomerModel.getWxPhoto().equals("")){
+                    if(mCustomer.getPhoto() == null || !mCustomer.getPhoto().equals(mCustomerModel.getWxPhoto())){
+                        isMidfityData = true;
+                        mCustomer.setPhoto(mCustomerModel.getWxPhoto());
+                    }
+                }
+                //判断用户是否更换了微信名称
+                if(mCustomerModel.getName() != null && !mCustomerModel.getName().equals("")){
+                    if(mCustomer.getName() == null || !mCustomerModel.getName().equals(mCustomer.getName())){
+                        isMidfityData = true;
+                        mCustomer.setName(mCustomerModel.getName());
+                    }
+                }
+                //如果会员名称或头像有修改，则更新会员信息
+                if(isMidfityData){
+                    mCustomer.setServerUpdateTime(new Date());
+                    mCustomerService.midfityCustomer(mCustomer);
+                }
+
                 if(mCustomer.getRelateId() != null && mCustomer.getRelateId() != 0){
                     CustomerEntity mobileCustomer = mCustomerService.queryCustomerById(mCustomerModel.getBrandIdenty(), mCustomerModel.getShopIdenty(), mCustomer.getRelateId());
                     mCustomer.setMobile(mobileCustomer.getMobile());
@@ -95,7 +122,7 @@ public class CustomerApiController {
             mCustomer.setBirthday(DateFormatUtil.parseDate(mCustomerModel.getBirthday(), DateFormatUtil.FORMAT_DATE));
         }
         mCustomer.setTelephone(mCustomerModel.getTelephone());
-        mCustomer.setEmail(mCustomerModel.getEmail());
+//        mCustomer.setEmail(mCustomerModel.getEmail());
         mCustomer.setHobby(mCustomerModel.getHobby());
         mCustomer.setAddress(mCustomerModel.getAddress());
         mCustomer.setMobile(mCustomerModel.getMobile());
@@ -106,6 +133,7 @@ public class CustomerApiController {
         mCustomer.setGroupLevel("普通会员");//银卡会员
         mCustomer.setGroupLevelId(0l);
         mCustomer.setSourceId(2);
+        mCustomer.setPhoto(mCustomerModel.getWxPhoto());
 
 
         Boolean isSuccess = mCustomerService.addCustomer(mCustomer);
@@ -119,6 +147,36 @@ public class CustomerApiController {
             mBaseDataModel.setData(false);
         }
         return mCustomer;
+    }
+
+    public void addCustomerExpanded(CustomerModel mCustomerModel) {
+        try {
+
+            if(mCustomerModel.getExpandedId() != null && !mCustomerModel.getExpandedId().equals("")){
+                CustomerMarketingExpandedEntity mCustomerMarketingExpanded = new CustomerMarketingExpandedEntity();
+                mCustomerMarketingExpanded.setBrandIdenty(mCustomerModel.getBrandIdenty());
+                mCustomerMarketingExpanded.setShopIdenty(mCustomerModel.getShopIdenty());
+                mCustomerMarketingExpanded.setCustomerId(mCustomerModel.getExpandedId());
+                mCustomerMarketingExpanded.setExpandedCustomerName(mCustomerModel.getName());
+                mCustomerMarketingExpanded.setExpandedCustomerOpenid(mCustomerModel.getWxOpenId());
+                mCustomerMarketingExpanded.setConsumptionPrice(BigDecimal.ZERO);
+                mCustomerMarketingExpanded.setExpandedCustomerPic(mCustomerModel.getWxPhoto());
+
+
+                Date m = new Date();
+
+                String batchCode = Long.toString(m.getTime()) + mCustomerMarketingExpanded.getCustomerId();
+                mCustomerMarketingExpanded.setExpandedCode(batchCode);
+                mCustomerMarketingExpanded.setState(3);
+
+                Boolean isSuccess = mCustomerMarketingExpandedService.addCustomerExpanded(mCustomerMarketingExpanded);
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @GetMapping("/queryCustomer")

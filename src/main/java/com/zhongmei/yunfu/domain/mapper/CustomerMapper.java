@@ -269,4 +269,8 @@ public interface CustomerMapper extends BaseMapper<CustomerEntity> {
             "from `customer_extra` c " +
             " ${ew.sqlSegment};")
     CustomerExtraEntity queryCustomerSaveReport(@Param("ew") Condition wrapper);
+
+    @Select("SELECT * FROM `customer` ct ${ew.sqlSegment} and ct.`id` = ${customerId} or ct.`id` = (\n" +
+            "SELECT c.`relate_id`  FROM `customer` c WHERE c.`id` = ${customerId});")
+    List<CustomerEntity> queryByWxCustomerId(@Param("ew") Condition wrapper,@Param("customerId") Long customerId);
 }

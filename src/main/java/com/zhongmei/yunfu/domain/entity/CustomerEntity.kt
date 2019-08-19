@@ -56,9 +56,9 @@ open class CustomerEntity : BaseEntity() {
      */
     var telephone: String? = null
     /**
-     * 邮箱
+     * 头像
      */
-    var email: String? = null
+    var photo: String? = null
     /**
      * 喜好
      */
@@ -151,7 +151,7 @@ open class CustomerEntity : BaseEntity() {
                 ", birthday=" + birthday +
                 ", groupLevel=" + groupLevel +
                 ", telephone=" + telephone +
-                ", email=" + email +
+                ", photo=" + photo +
                 ", hobby=" + hobby +
                 ", address=" + address +
                 ", profile=" + profile +

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/wxapp/activitySales")
@@ -39,6 +40,8 @@ public class ActivitySalesApiController {
 
     @Autowired
     WxTradeCustomerService mWxTradeCustomerService;
+    @Autowired
+    CustomerService mCustomerService;
 
     @GetMapping("/list")
     public BaseDataModel queryList(ModelMap model, ActivitySalesReq mActivitySalesReq) {
@@ -159,46 +162,8 @@ public class ActivitySalesApiController {
             mActivitySalesResp.setListTrade(listTrade);
 
 
+            addOperational(mActivitySalesReq);
 
-            //添加顾客查看记录,如该顾客对该条活跃已有同样的操作是，只需在原有操作次数的基础上+1
-            if(mActivitySalesReq.getWxOpenId() != null){
-                OperationalRecordsEntity orEntity = new OperationalRecordsEntity();
-                orEntity.setBrandIdenty(mActivitySalesReq.getBrandIdenty());
-                orEntity.setShopIdenty(mActivitySalesReq.getShopIdenty());
-                orEntity.setWxOpenId(mActivitySalesReq.getWxOpenId());
-                orEntity.setCustomerId(mActivitySalesReq.getCustomerId());
-                orEntity.setActivityId(mActivitySalesReq.getActivityId());
-                orEntity.setType(1);
-                orEntity.setSource(7);
-                OperationalRecordsEntity recordEntity = mOperationalRecordsService.queryByCustomer(orEntity);
-                if(recordEntity == null){
-                    orEntity = new OperationalRecordsEntity();
-                    orEntity.setBrandIdenty(mActivitySalesReq.getBrandIdenty());
-                    orEntity.setShopIdenty(mActivitySalesReq.getShopIdenty());
-                    orEntity.setCustomerId(mActivitySalesReq.getCustomerId());
-                    orEntity.setCustomerPhone(mActivitySalesReq.getCustomerPhone());
-                    orEntity.setCustomerName(mActivitySalesReq.getCustomerName());
-                    orEntity.setWxOpenId(mActivitySalesReq.getWxOpenId());
-                    orEntity.setWxPhoto(mActivitySalesReq.getWxPhoto());
-                    orEntity.setWxName(mActivitySalesReq.getWxName());
-                    orEntity.setActivityId(mActivitySalesReq.getActivityId());
-                    orEntity.setOperationalCount(1);
-                    orEntity.setType(1);
-                    orEntity.setSource(7);
-                    orEntity.setServerCreateTime(new Date());
-                    orEntity.setServerUpdateTime(new Date());
-                    mOperationalRecordsService.addOperational(orEntity);
-                }else{
-                    orEntity.setBrandIdenty(mActivitySalesReq.getBrandIdenty());
-                    orEntity.setShopIdenty(mActivitySalesReq.getShopIdenty());
-                    orEntity.setWxOpenId(mActivitySalesReq.getWxOpenId());
-                    orEntity.setWxPhoto(mActivitySalesReq.getWxPhoto());
-                    orEntity.setActivityId(mActivitySalesReq.getActivityId());
-                    orEntity.setOperationalCount(recordEntity.getOperationalCount()+1);
-                    orEntity.setServerUpdateTime(new Date());
-                    mOperationalRecordsService.modiftyOperational(orEntity);
-                }
-            }
             responseMode.setMsg("数据获取成功");
             responseMode.setData(mActivitySalesResp);
             responseMode.setState("1000");
@@ -210,5 +175,53 @@ public class ActivitySalesApiController {
             responseMode.setState("1001");
         }
         return responseMode;
+    }
+
+    public void addOperational(ActivitySalesReq mActivitySalesReq) throws Exception{
+        //添加顾客查看记录,如该顾客对该条活跃已有同样的操作是，只需在原有操作次数的基础上+1
+        if(mActivitySalesReq.getWxOpenId() != null){
+            OperationalRecordsEntity orEntity = new OperationalRecordsEntity();
+            orEntity.setBrandIdenty(mActivitySalesReq.getBrandIdenty());
+            orEntity.setShopIdenty(mActivitySalesReq.getShopIdenty());
+            orEntity.setWxOpenId(mActivitySalesReq.getWxOpenId());
+            orEntity.setCustomerId(mActivitySalesReq.getCustomerId());
+            orEntity.setActivityId(mActivitySalesReq.getActivityId());
+            orEntity.setSource(7);
+            orEntity.setType(1);
+            OperationalRecordsEntity recordEntity = mOperationalRecordsService.queryByCustomer(orEntity);
+            //判断用户是否是第一次浏览
+            if(recordEntity == null){
+                //获取查看用户基本信息
+                CustomerEntity mCustomerEntity = new CustomerEntity();
+                mCustomerEntity.setBrandIdenty(mActivitySalesReq.getBrandIdenty());
+                mCustomerEntity.setShopIdenty(mActivitySalesReq.getShopIdenty());
+                mCustomerEntity.setId(mActivitySalesReq.getCustomerId());
+                Map<String, String> tempMap =  mCustomerService.queryByWxCustomerId(mCustomerEntity);
+
+                orEntity = new OperationalRecordsEntity();
+                orEntity.setBrandIdenty(mActivitySalesReq.getBrandIdenty());
+                orEntity.setShopIdenty(mActivitySalesReq.getShopIdenty());
+                orEntity.setCustomerId(mActivitySalesReq.getCustomerId());
+                orEntity.setCustomerPhone(tempMap.get("pPhone"));
+                orEntity.setCustomerName(tempMap.get("pName"));
+                orEntity.setWxOpenId(mActivitySalesReq.getWxOpenId());
+                orEntity.setWxPhoto(tempMap.get("photo"));
+                orEntity.setWxName(tempMap.get("wName"));
+                orEntity.setActivityId(mActivitySalesReq.getActivityId());
+                orEntity.setOperationalCount(1);
+                orEntity.setType(1);
+                orEntity.setSource(7);
+                orEntity.setServerCreateTime(new Date());
+                orEntity.setServerUpdateTime(new Date());
+                mOperationalRecordsService.addOperational(orEntity);
+            }else{
+
+                OperationalRecordsEntity modifityEntity = new OperationalRecordsEntity();
+                modifityEntity.setId(recordEntity.getId());
+                modifityEntity.setOperationalCount(recordEntity.getOperationalCount()+1);
+                modifityEntity.setServerUpdateTime(new Date());
+                mOperationalRecordsService.modiftyById(modifityEntity);
+            }
+        }
     }
 }

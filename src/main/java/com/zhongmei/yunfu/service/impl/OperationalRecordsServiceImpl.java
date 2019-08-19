@@ -52,6 +52,11 @@ public class OperationalRecordsServiceImpl extends ServiceImpl<OperationalRecord
     }
 
     @Override
+    public Boolean modiftyById(OperationalRecordsEntity entity) throws Exception {
+        return updateById(entity);
+    }
+
+    @Override
     public Page<OperationalRecordsEntity> queryByActivityId(OperationalRecordsEntity entity,int pageNo, int pageSize) throws Exception {
 
         OperationalRecordsEntity mOperationalRecordsEntity = new OperationalRecordsEntity();

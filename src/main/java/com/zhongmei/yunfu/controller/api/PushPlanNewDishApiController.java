@@ -7,8 +7,10 @@ import com.zhongmei.yunfu.controller.model.BaseDataModel;
 import com.zhongmei.yunfu.controller.model.NewDishPushModel;
 import com.zhongmei.yunfu.controller.model.NewDishPushSearchModel;
 import com.zhongmei.yunfu.controller.model.PageResonseModel;
+import com.zhongmei.yunfu.domain.entity.CustomerEntity;
 import com.zhongmei.yunfu.domain.entity.OperationalRecordsEntity;
 import com.zhongmei.yunfu.domain.entity.PushPlanNewDishEntity;
+import com.zhongmei.yunfu.service.CustomerService;
 import com.zhongmei.yunfu.service.OperationalRecordsService;
 import com.zhongmei.yunfu.service.PushPlanNewDishService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/wxapp/pushPlanNewDishApi")
@@ -28,6 +31,9 @@ public class PushPlanNewDishApiController {
 
     @Autowired
     OperationalRecordsService mOperationalRecordsService;
+
+    @Autowired
+    CustomerService mCustomerService;
 
     /**
      * 获取活动推送列表
@@ -102,16 +108,24 @@ public class PushPlanNewDishApiController {
                 orEntity.setSource(2);
                 orEntity.setType(1);
                 OperationalRecordsEntity recordEntity = mOperationalRecordsService.queryByCustomer(orEntity);
+                //判断用户是否是第一次浏览
                 if(recordEntity == null){
+                    //获取查看用户基本信息
+                    CustomerEntity mCustomerEntity = new CustomerEntity();
+                    mCustomerEntity.setBrandIdenty(req.getBrandIdenty());
+                    mCustomerEntity.setShopIdenty(req.getShopIdenty());
+                    mCustomerEntity.setId(req.getCustomerId());
+                    Map<String, String> tempMap =  mCustomerService.queryByWxCustomerId(mCustomerEntity);
+
                     orEntity = new OperationalRecordsEntity();
                     orEntity.setBrandIdenty(req.getBrandIdenty());
                     orEntity.setShopIdenty(req.getShopIdenty());
                     orEntity.setCustomerId(req.getCustomerId());
-                    orEntity.setCustomerPhone(req.getCustomerPhone());
-                    orEntity.setCustomerName(req.getCustomerName());
+                    orEntity.setCustomerPhone(tempMap.get("pPhone"));
+                    orEntity.setCustomerName(tempMap.get("pName"));
                     orEntity.setWxOpenId(req.getWxOpenId());
-                    orEntity.setWxPhoto(req.getWxPhoto());
-                    orEntity.setWxName(req.getWxName());
+                    orEntity.setWxPhoto(tempMap.get("photo"));
+                    orEntity.setWxName(tempMap.get("wName"));
                     orEntity.setActivityId(req.getId());
                     orEntity.setOperationalCount(1);
                     orEntity.setType(1);
@@ -120,14 +134,12 @@ public class PushPlanNewDishApiController {
                     orEntity.setServerUpdateTime(new Date());
                     mOperationalRecordsService.addOperational(orEntity);
                 }else{
-                    orEntity.setBrandIdenty(req.getBrandIdenty());
-                    orEntity.setShopIdenty(req.getShopIdenty());
-                    orEntity.setWxOpenId(req.getWxOpenId());
-                    orEntity.setWxPhoto(req.getWxPhoto());
-                    orEntity.setActivityId(req.getId());
-                    orEntity.setOperationalCount(recordEntity.getOperationalCount()+1);
-                    orEntity.setServerUpdateTime(new Date());
-                    mOperationalRecordsService.modiftyOperational(orEntity);
+
+                    OperationalRecordsEntity modifityEntity = new OperationalRecordsEntity();
+                    modifityEntity.setId(recordEntity.getId());
+                    modifityEntity.setOperationalCount(recordEntity.getOperationalCount()+1);
+                    modifityEntity.setServerUpdateTime(new Date());
+                    mOperationalRecordsService.modiftyById(modifityEntity);
                 }
             }
 

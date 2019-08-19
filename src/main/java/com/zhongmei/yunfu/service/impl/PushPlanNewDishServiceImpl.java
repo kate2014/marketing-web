@@ -85,6 +85,14 @@ public class PushPlanNewDishServiceImpl extends ServiceImpl<PushPlanNewDishMappe
         return selectById(id);
     }
 
+    public PushPlanNewDishEntity queryCountByid(Long id) {
+        EntityWrapper<PushPlanNewDishEntity> eWrapper = new EntityWrapper<>(new PushPlanNewDishEntity());
+        eWrapper.eq("id",id);
+        eWrapper.setSqlSelect("id,share_number,scan_number");
+        return selectOne(eWrapper);
+    }
+
+
     @Override
     public PushPlanNewDishEntity queryDetailById(Long id) {
         EntityWrapper<PushPlanNewDishEntity> eWrapper = new EntityWrapper<>(new PushPlanNewDishEntity());
@@ -102,7 +110,7 @@ public class PushPlanNewDishServiceImpl extends ServiceImpl<PushPlanNewDishMappe
 
     @Override
     public boolean refreshShareNumber(Long id) {
-        PushPlanNewDishEntity newDishPlan = queryByid(id);
+        PushPlanNewDishEntity newDishPlan = queryCountByid(id);
         newDishPlan.setShareNumber(newDishPlan.getShareNumber() + 1);
         newDishPlan.setId(id);
         Boolean isSuccess = updateById(newDishPlan);

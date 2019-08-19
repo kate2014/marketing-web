@@ -58,6 +58,7 @@ class CustomerMarketingExpandedEntity : BaseEntity() {
      * 推广状态 1：未接受 2：好友已被推广 3：成功 
      */
     var state: Integer? = null
+
     var expandedCustomerPic: String? = null
 
 

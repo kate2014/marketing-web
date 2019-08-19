@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.zhongmei.yunfu.controller.api.model.FlashSalesReq;
 import com.zhongmei.yunfu.controller.model.BaseDataModel;
 import com.zhongmei.yunfu.controller.model.FlashSalesModel;
+import com.zhongmei.yunfu.domain.entity.CustomerEntity;
 import com.zhongmei.yunfu.domain.entity.FlashSalesMarketingEntity;
 import com.zhongmei.yunfu.domain.entity.OperationalRecordsEntity;
+import com.zhongmei.yunfu.service.CustomerService;
 import com.zhongmei.yunfu.service.FlashSalesMarketingService;
 import com.zhongmei.yunfu.service.OperationalRecordsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
+import java.util.Map;
 
 /**
  * 秒杀活动接口
@@ -27,6 +30,8 @@ public class FlashSalesApiController {
     FlashSalesMarketingService mFlashSalesMarketingService;
     @Autowired
     OperationalRecordsService mOperationalRecordsService;
+    @Autowired
+    CustomerService mCustomerService;
 
     @GetMapping("/getListData")
     public BaseDataModel getFlashSalesList(ModelMap model, FlashSalesModel mFlashSalesModel) {
@@ -53,39 +58,47 @@ public class FlashSalesApiController {
      * 获取秒杀活动详情
      *
      * @param model
-     * @param mFlashSalesReq
+     * @param req
      * @return
      */
     @GetMapping("/flashSalesDetail")
-    public BaseDataModel flashSalesDetail(ModelMap model, FlashSalesReq mFlashSalesReq) {
+    public BaseDataModel flashSalesDetail(ModelMap model, FlashSalesReq req) {
 
         BaseDataModel mBaseDataModel = new BaseDataModel();
 
         try {
-            FlashSalesMarketingEntity mFlashSalesMarketing = mFlashSalesMarketingService.findFlashSalesById(mFlashSalesReq.getId());
+            FlashSalesMarketingEntity mFlashSalesMarketing = mFlashSalesMarketingService.findFlashSalesById(req.getId());
 
             //添加顾客查看记录,如该顾客对该条活跃已有同样的操作是，只需在原有操作次数的基础上+1
-            if(mFlashSalesReq.getWxOpenId() != null){
+            if(req.getWxOpenId() != null){
                 OperationalRecordsEntity orEntity = new OperationalRecordsEntity();
-                orEntity.setBrandIdenty(mFlashSalesReq.getBrandIdenty());
-                orEntity.setShopIdenty(mFlashSalesReq.getShopIdenty());
-                orEntity.setWxOpenId(mFlashSalesReq.getWxOpenId());
-                orEntity.setCustomerId(mFlashSalesReq.getCustomerId());
-                orEntity.setActivityId(mFlashSalesReq.getId());
-                orEntity.setType(1);
+                orEntity.setBrandIdenty(req.getBrandIdenty());
+                orEntity.setShopIdenty(req.getShopIdenty());
+                orEntity.setWxOpenId(req.getWxOpenId());
+                orEntity.setCustomerId(req.getCustomerId());
+                orEntity.setActivityId(req.getId());
                 orEntity.setSource(5);
+                orEntity.setType(1);
                 OperationalRecordsEntity recordEntity = mOperationalRecordsService.queryByCustomer(orEntity);
+                //判断用户是否是第一次浏览
                 if(recordEntity == null){
+                    //获取查看用户基本信息
+                    CustomerEntity mCustomerEntity = new CustomerEntity();
+                    mCustomerEntity.setBrandIdenty(req.getBrandIdenty());
+                    mCustomerEntity.setShopIdenty(req.getShopIdenty());
+                    mCustomerEntity.setId(req.getCustomerId());
+                    Map<String, String> tempMap =  mCustomerService.queryByWxCustomerId(mCustomerEntity);
+
                     orEntity = new OperationalRecordsEntity();
-                    orEntity.setBrandIdenty(mFlashSalesReq.getBrandIdenty());
-                    orEntity.setShopIdenty(mFlashSalesReq.getShopIdenty());
-                    orEntity.setCustomerId(mFlashSalesReq.getCustomerId());
-                    orEntity.setCustomerPhone(mFlashSalesReq.getCustomerPhone());
-                    orEntity.setCustomerName(mFlashSalesReq.getCustomerName());
-                    orEntity.setWxOpenId(mFlashSalesReq.getWxOpenId());
-                    orEntity.setWxPhoto(mFlashSalesReq.getWxPhoto());
-                    orEntity.setWxName(mFlashSalesReq.getWxName());
-                    orEntity.setActivityId(mFlashSalesReq.getId());
+                    orEntity.setBrandIdenty(req.getBrandIdenty());
+                    orEntity.setShopIdenty(req.getShopIdenty());
+                    orEntity.setCustomerId(req.getCustomerId());
+                    orEntity.setCustomerPhone(tempMap.get("pPhone"));
+                    orEntity.setCustomerName(tempMap.get("pName"));
+                    orEntity.setWxOpenId(req.getWxOpenId());
+                    orEntity.setWxPhoto(tempMap.get("photo"));
+                    orEntity.setWxName(tempMap.get("wName"));
+                    orEntity.setActivityId(req.getId());
                     orEntity.setOperationalCount(1);
                     orEntity.setType(1);
                     orEntity.setSource(5);
@@ -93,14 +106,12 @@ public class FlashSalesApiController {
                     orEntity.setServerUpdateTime(new Date());
                     mOperationalRecordsService.addOperational(orEntity);
                 }else{
-                    orEntity.setBrandIdenty(mFlashSalesReq.getBrandIdenty());
-                    orEntity.setShopIdenty(mFlashSalesReq.getShopIdenty());
-                    orEntity.setWxOpenId(mFlashSalesReq.getWxOpenId());
-                    orEntity.setWxPhoto(mFlashSalesReq.getWxPhoto());
-                    orEntity.setActivityId(mFlashSalesReq.getId());
-                    orEntity.setOperationalCount(recordEntity.getOperationalCount()+1);
-                    orEntity.setServerUpdateTime(new Date());
-                    mOperationalRecordsService.modiftyOperational(orEntity);
+
+                    OperationalRecordsEntity modifityEntity = new OperationalRecordsEntity();
+                    modifityEntity.setId(recordEntity.getId());
+                    modifityEntity.setOperationalCount(recordEntity.getOperationalCount()+1);
+                    modifityEntity.setServerUpdateTime(new Date());
+                    mOperationalRecordsService.modiftyById(modifityEntity);
                 }
             }
             

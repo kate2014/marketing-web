@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.zhongmei.yunfu.controller.api.model.ActivityPushReq;
 import com.zhongmei.yunfu.controller.model.ActivitySearchModel;
 import com.zhongmei.yunfu.controller.model.BaseDataModel;
+import com.zhongmei.yunfu.domain.entity.CustomerEntity;
 import com.zhongmei.yunfu.domain.entity.OperationalRecordsEntity;
 import com.zhongmei.yunfu.domain.entity.PushPlanActivityEntity;
+import com.zhongmei.yunfu.service.CustomerService;
 import com.zhongmei.yunfu.service.OperationalRecordsService;
 import com.zhongmei.yunfu.service.PushPlanActivityService;
 import org.slf4j.Logger;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
+import java.util.Map;
 
 
 /**
@@ -33,6 +36,10 @@ public class PushActivityController {
 
     @Autowired
     OperationalRecordsService mOperationalRecordsService;
+
+    @Autowired
+    CustomerService mCustomerService;
+
     /**
      * 获取门店活动数据
      *
@@ -85,19 +92,27 @@ public class PushActivityController {
                     orEntity.setWxOpenId(mActivityPushReq.getWxOpenId());
                     orEntity.setCustomerId(mActivityPushReq.getCustomerId());
                     orEntity.setActivityId(mActivityPushReq.getId());
-                    orEntity.setType(1);
                     orEntity.setSource(3);
+                    orEntity.setType(1);
                     OperationalRecordsEntity recordEntity = mOperationalRecordsService.queryByCustomer(orEntity);
+                    //判断用户是否是第一次浏览
                     if(recordEntity == null){
+                        //获取查看用户基本信息
+                        CustomerEntity mCustomerEntity = new CustomerEntity();
+                        mCustomerEntity.setBrandIdenty(mActivityPushReq.getBrandIdenty());
+                        mCustomerEntity.setShopIdenty(mActivityPushReq.getShopIdenty());
+                        mCustomerEntity.setId(mActivityPushReq.getCustomerId());
+                        Map<String, String> tempMap =  mCustomerService.queryByWxCustomerId(mCustomerEntity);
+
                         orEntity = new OperationalRecordsEntity();
                         orEntity.setBrandIdenty(mActivityPushReq.getBrandIdenty());
                         orEntity.setShopIdenty(mActivityPushReq.getShopIdenty());
                         orEntity.setCustomerId(mActivityPushReq.getCustomerId());
-                        orEntity.setCustomerPhone(mActivityPushReq.getCustomerPhone());
-                        orEntity.setCustomerName(mActivityPushReq.getCustomerName());
+                        orEntity.setCustomerPhone(tempMap.get("pPhone"));
+                        orEntity.setCustomerName(tempMap.get("pName"));
                         orEntity.setWxOpenId(mActivityPushReq.getWxOpenId());
-                        orEntity.setWxPhoto(mActivityPushReq.getWxPhoto());
-                        orEntity.setWxName(mActivityPushReq.getWxName());
+                        orEntity.setWxPhoto(tempMap.get("photo"));
+                        orEntity.setWxName(tempMap.get("wName"));
                         orEntity.setActivityId(mActivityPushReq.getId());
                         orEntity.setOperationalCount(1);
                         orEntity.setType(1);
@@ -106,14 +121,12 @@ public class PushActivityController {
                         orEntity.setServerUpdateTime(new Date());
                         mOperationalRecordsService.addOperational(orEntity);
                     }else{
-                        orEntity.setBrandIdenty(mActivityPushReq.getBrandIdenty());
-                        orEntity.setShopIdenty(mActivityPushReq.getShopIdenty());
-                        orEntity.setWxOpenId(mActivityPushReq.getWxOpenId());
-                        orEntity.setWxPhoto(mActivityPushReq.getWxPhoto());
-                        orEntity.setActivityId(mActivityPushReq.getId());
-                        orEntity.setOperationalCount(recordEntity.getOperationalCount()+1);
-                        orEntity.setServerUpdateTime(new Date());
-                        mOperationalRecordsService.modiftyOperational(orEntity);
+
+                        OperationalRecordsEntity modifityEntity = new OperationalRecordsEntity();
+                        modifityEntity.setId(recordEntity.getId());
+                        modifityEntity.setOperationalCount(recordEntity.getOperationalCount()+1);
+                        modifityEntity.setServerUpdateTime(new Date());
+                        mOperationalRecordsService.modiftyById(modifityEntity);
                     }
                 }
                 

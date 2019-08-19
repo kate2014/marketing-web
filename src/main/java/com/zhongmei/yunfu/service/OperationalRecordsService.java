@@ -31,6 +31,13 @@ public interface OperationalRecordsService extends IService<OperationalRecordsEn
     Boolean modiftyOperational(OperationalRecordsEntity entity)throws Exception;
 
     /**
+     * 根据操作记录id编辑操作记录
+     * @param entity
+     * @return
+     * @throws Exception
+     */
+    Boolean modiftyById(OperationalRecordsEntity entity)throws Exception;
+    /**
      * 查询活动的效果信息
      * @param entity
      * @return

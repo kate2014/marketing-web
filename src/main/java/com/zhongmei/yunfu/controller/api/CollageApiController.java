@@ -7,9 +7,11 @@ import com.zhongmei.yunfu.controller.model.CollageJoinMessgeModel;
 import com.zhongmei.yunfu.controller.model.CollageMarketingModel;
 import com.zhongmei.yunfu.domain.entity.CollageCustomerEntity;
 import com.zhongmei.yunfu.domain.entity.CollageMarketingEntity;
+import com.zhongmei.yunfu.domain.entity.CustomerEntity;
 import com.zhongmei.yunfu.domain.entity.OperationalRecordsEntity;
 import com.zhongmei.yunfu.service.CollageCustomerService;
 import com.zhongmei.yunfu.service.CollageMarketingService;
+import com.zhongmei.yunfu.service.CustomerService;
 import com.zhongmei.yunfu.service.OperationalRecordsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
+import java.util.Map;
 
 /**
  * 拼团活动接口
@@ -32,6 +35,8 @@ public class CollageApiController {
     CollageCustomerService mCollageCustomerService;
     @Autowired
     OperationalRecordsService mOperationalRecordsService;
+    @Autowired
+    CustomerService mCustomerService;
 
     @GetMapping("/getListData")
     public BaseDataModel queryListData(ModelMap model, CollageMarketingModel mCollageMarketingModel) {
@@ -66,35 +71,41 @@ public class CollageApiController {
                 orEntity.setWxOpenId(mCollageReq.getWxOpenId());
                 orEntity.setCustomerId(mCollageReq.getCustomerId());
                 orEntity.setActivityId(mCollageReq.getId());
-                orEntity.setType(1);
                 orEntity.setSource(4);
+                orEntity.setType(1);
                 OperationalRecordsEntity recordEntity = mOperationalRecordsService.queryByCustomer(orEntity);
+                //判断用户是否是第一次浏览
                 if(recordEntity == null){
+                    //获取查看用户基本信息
+                    CustomerEntity mCustomerEntity = new CustomerEntity();
+                    mCustomerEntity.setBrandIdenty(mCollageReq.getBrandIdenty());
+                    mCustomerEntity.setShopIdenty(mCollageReq.getShopIdenty());
+                    mCustomerEntity.setId(mCollageReq.getCustomerId());
+                    Map<String, String> tempMap =  mCustomerService.queryByWxCustomerId(mCustomerEntity);
+
                     orEntity = new OperationalRecordsEntity();
                     orEntity.setBrandIdenty(mCollageReq.getBrandIdenty());
                     orEntity.setShopIdenty(mCollageReq.getShopIdenty());
                     orEntity.setCustomerId(mCollageReq.getCustomerId());
-                    orEntity.setCustomerPhone(mCollageReq.getCustomerPhone());
-                    orEntity.setCustomerName(mCollageReq.getCustomerName());
+                    orEntity.setCustomerPhone(tempMap.get("pPhone"));
+                    orEntity.setCustomerName(tempMap.get("pName"));
                     orEntity.setWxOpenId(mCollageReq.getWxOpenId());
-                    orEntity.setWxPhoto(mCollageReq.getWxPhoto());
-                    orEntity.setWxName(mCollageReq.getWxName());
+                    orEntity.setWxPhoto(tempMap.get("photo"));
+                    orEntity.setWxName(tempMap.get("wName"));
                     orEntity.setActivityId(mCollageReq.getId());
                     orEntity.setOperationalCount(1);
-                    orEntity.setSource(4);
                     orEntity.setType(1);
+                    orEntity.setSource(4);
                     orEntity.setServerCreateTime(new Date());
                     orEntity.setServerUpdateTime(new Date());
                     mOperationalRecordsService.addOperational(orEntity);
                 }else{
-                    orEntity.setBrandIdenty(mCollageReq.getBrandIdenty());
-                    orEntity.setShopIdenty(mCollageReq.getShopIdenty());
-                    orEntity.setWxOpenId(mCollageReq.getWxOpenId());
-                    orEntity.setWxPhoto(mCollageReq.getWxPhoto());
-                    orEntity.setActivityId(mCollageReq.getId());
-                    orEntity.setOperationalCount(recordEntity.getOperationalCount()+1);
-                    orEntity.setServerUpdateTime(new Date());
-                    mOperationalRecordsService.modiftyOperational(orEntity);
+
+                    OperationalRecordsEntity modifityEntity = new OperationalRecordsEntity();
+                    modifityEntity.setId(recordEntity.getId());
+                    modifityEntity.setOperationalCount(recordEntity.getOperationalCount()+1);
+                    modifityEntity.setServerUpdateTime(new Date());
+                    mOperationalRecordsService.modiftyById(modifityEntity);
                 }
             }
             

@@ -283,7 +283,7 @@ public class CustomerController extends BaseController {
         titles.add("生日");
         titles.add("手机号");
         titles.add("会员等级");
-        titles.add("邮箱");
+//        titles.add("邮箱");
         titles.add("喜好");
         titles.add("所在地址");
         titles.add("备注");
@@ -302,7 +302,7 @@ public class CustomerController extends BaseController {
             row.add(DateFormatUtil.formatDate(entity.getBirthday()));
             row.add(entity.getMobile());
             row.add(entity.getGroupLevel());
-            row.add(entity.getEmail());
+//            row.add(entity.getEmail());
             row.add(entity.getHobby());
             row.add(entity.getAddress());
             row.add(entity.getProfile());

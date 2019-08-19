@@ -21,7 +21,7 @@ public class CustomerModel {
 
     private String telephone;
 
-    private String email;
+    private String wxPhoto;
 
     private String hobby;
 
@@ -111,12 +111,12 @@ public class CustomerModel {
         this.telephone = telephone;
     }
 
-    public String getEmail() {
-        return email;
+    public String getWxPhoto() {
+        return wxPhoto;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setWxPhoto(String wxPhoto) {
+        this.wxPhoto = wxPhoto;
     }
 
     public String getHobby() {

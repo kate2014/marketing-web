@@ -1,5 +1,6 @@
 package com.zhongmei.yunfu.controller.api;
 
+import com.zhongmei.yunfu.controller.api.model.ActivitySalesReq;
 import com.zhongmei.yunfu.controller.api.model.ShareActionReq;
 import com.zhongmei.yunfu.controller.model.BaseDataModel;
 import com.zhongmei.yunfu.controller.model.ShareActionModel;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 分享有礼接口
@@ -103,44 +105,7 @@ public class ShareMarketingApiController {
 //            }
 
             //添加顾客查看记录,如该顾客对该条信息已有同样的操作是，只需在原有操作次数的基础上+1
-            if(mShareActionReq.getWxOpenId() != null){
-                OperationalRecordsEntity orEntity = new OperationalRecordsEntity();
-                orEntity.setBrandIdenty(mShareActionReq.getBrandIdenty());
-                orEntity.setShopIdenty(mShareActionReq.getShopIdenty());
-                orEntity.setWxOpenId(mShareActionReq.getWxOpenId());
-                orEntity.setCustomerId(mShareActionReq.getCustomerId());
-                orEntity.setActivityId(mShareActionReq.getLinksId());
-                orEntity.setType(2);
-                orEntity.setSource(mShareActionReq.getShareType());
-                OperationalRecordsEntity recordEntity = mOperationalRecordsService.queryByCustomer(orEntity);
-                if(recordEntity == null){
-                    orEntity = new OperationalRecordsEntity();
-                    orEntity.setBrandIdenty(mShareActionReq.getBrandIdenty());
-                    orEntity.setShopIdenty(mShareActionReq.getShopIdenty());
-                    orEntity.setCustomerId(mShareActionReq.getCustomerId());
-                    orEntity.setCustomerPhone(mShareActionReq.getCustomerPhone());
-                    orEntity.setCustomerName(mShareActionReq.getCustomerName());
-                    orEntity.setWxOpenId(mShareActionReq.getWxOpenId());
-                    orEntity.setWxPhoto(mShareActionReq.getWxPhoto());
-                    orEntity.setWxName(mShareActionReq.getWxName());
-                    orEntity.setActivityId(mShareActionReq.getLinksId());
-                    orEntity.setOperationalCount(1);
-                    orEntity.setType(2);
-                    orEntity.setSource(mShareActionReq.getShareType());
-                    orEntity.setServerCreateTime(new Date());
-                    orEntity.setServerUpdateTime(new Date());
-                    mOperationalRecordsService.addOperational(orEntity);
-                }else{
-                    orEntity.setBrandIdenty(mShareActionReq.getBrandIdenty());
-                    orEntity.setShopIdenty(mShareActionReq.getShopIdenty());
-                    orEntity.setWxOpenId(mShareActionReq.getWxOpenId());
-                    orEntity.setWxPhoto(mShareActionReq.getWxPhoto());
-                    orEntity.setActivityId(mShareActionReq.getLinksId());
-                    orEntity.setOperationalCount(recordEntity.getOperationalCount()+1);
-                    orEntity.setServerUpdateTime(new Date());
-                    mOperationalRecordsService.modiftyOperational(orEntity);
-                }
-            }
+            addOperational(mShareActionReq);
             
 
             if (isSuccess) {
@@ -161,6 +126,54 @@ public class ShareMarketingApiController {
         }
 
         return mBaseDataModel;
+    }
+
+    public void addOperational(ShareActionReq mShareActionReq) throws Exception{
+        //添加顾客查看记录,如该顾客对该条活跃已有同样的操作是，只需在原有操作次数的基础上+1
+        if(mShareActionReq.getWxOpenId() != null){
+            OperationalRecordsEntity orEntity = new OperationalRecordsEntity();
+            orEntity.setBrandIdenty(mShareActionReq.getBrandIdenty());
+            orEntity.setShopIdenty(mShareActionReq.getShopIdenty());
+            orEntity.setWxOpenId(mShareActionReq.getWxOpenId());
+            orEntity.setCustomerId(mShareActionReq.getCustomerId());
+            orEntity.setActivityId(mShareActionReq.getLinksId());
+            orEntity.setSource(mShareActionReq.getShareType());
+            orEntity.setType(2);
+            OperationalRecordsEntity recordEntity = mOperationalRecordsService.queryByCustomer(orEntity);
+            //判断用户是否是第一次浏览
+            if(recordEntity == null){
+                //获取查看用户基本信息
+                CustomerEntity mCustomerEntity = new CustomerEntity();
+                mCustomerEntity.setBrandIdenty(mShareActionReq.getBrandIdenty());
+                mCustomerEntity.setShopIdenty(mShareActionReq.getShopIdenty());
+                mCustomerEntity.setId(mShareActionReq.getCustomerId());
+                Map<String, String> tempMap =  mCustomerService.queryByWxCustomerId(mCustomerEntity);
+
+                orEntity = new OperationalRecordsEntity();
+                orEntity.setBrandIdenty(mShareActionReq.getBrandIdenty());
+                orEntity.setShopIdenty(mShareActionReq.getShopIdenty());
+                orEntity.setCustomerId(mShareActionReq.getCustomerId());
+                orEntity.setCustomerPhone(tempMap.get("pPhone"));
+                orEntity.setCustomerName(tempMap.get("pName"));
+                orEntity.setWxOpenId(mShareActionReq.getWxOpenId());
+                orEntity.setWxPhoto(tempMap.get("photo"));
+                orEntity.setWxName(tempMap.get("wName"));
+                orEntity.setActivityId(mShareActionReq.getLinksId());
+                orEntity.setOperationalCount(1);
+                orEntity.setType(2);
+                orEntity.setSource(mShareActionReq.getShareType());
+                orEntity.setServerCreateTime(new Date());
+                orEntity.setServerUpdateTime(new Date());
+                mOperationalRecordsService.addOperational(orEntity);
+            }else{
+
+                OperationalRecordsEntity modifityEntity = new OperationalRecordsEntity();
+                modifityEntity.setId(recordEntity.getId());
+                modifityEntity.setOperationalCount(recordEntity.getOperationalCount()+1);
+                modifityEntity.setServerUpdateTime(new Date());
+                mOperationalRecordsService.modiftyById(modifityEntity);
+            }
+        }
     }
 
     public Boolean sendCouponForCustomer(int shareType, ShareActionReq mShareActionReq) {

@@ -305,5 +305,21 @@ public interface CustomerService extends IService<CustomerEntity> {
      * @return
      * @throws Exception
      */
-    CustomerExtraEntity queryCustomerSaveReport(Long brandIdenty, Long shopIdenty)throws Exception;;
+    CustomerExtraEntity queryCustomerSaveReport(Long brandIdenty, Long shopIdenty)throws Exception;
+
+    /**
+     * 更新会员信息
+     * @param mCustomerEntity
+     * @return
+     * @throws Exception
+     */
+    Boolean midfityCustomer(CustomerEntity mCustomerEntity)throws Exception;
+
+    /**
+     * 根据会员微信会员记录Id查询会员基本信息
+     * @param mCustomerEntity
+     * @return
+     * @throws Exception
+     */
+    Map<String,String> queryByWxCustomerId(CustomerEntity mCustomerEntity)throws Exception;
 }
