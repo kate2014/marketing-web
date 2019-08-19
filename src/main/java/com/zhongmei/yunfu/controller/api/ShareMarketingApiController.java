@@ -168,6 +168,20 @@ public class ShareMarketingApiController {
             }else{
 
                 OperationalRecordsEntity modifityEntity = new OperationalRecordsEntity();
+
+                //如果之前用户浏览信息中没有会员电话或名称，这可以进行后续补全
+                if(recordEntity.getCustomerPhone() == null || recordEntity.getCustomerPhone().equals("")){
+                    //获取查看用户基本信息
+                    CustomerEntity mCustomerEntity = new CustomerEntity();
+                    mCustomerEntity.setBrandIdenty(mShareActionReq.getBrandIdenty());
+                    mCustomerEntity.setShopIdenty(mShareActionReq.getShopIdenty());
+                    mCustomerEntity.setId(mShareActionReq.getCustomerId());
+                    Map<String, String> tempMap =  mCustomerService.queryByWxCustomerId(mCustomerEntity);
+
+                    modifityEntity.setCustomerPhone(tempMap.get("pPhone"));
+                    modifityEntity.setCustomerName(tempMap.get("pName"));
+                }
+
                 modifityEntity.setId(recordEntity.getId());
                 modifityEntity.setOperationalCount(recordEntity.getOperationalCount()+1);
                 modifityEntity.setServerUpdateTime(new Date());

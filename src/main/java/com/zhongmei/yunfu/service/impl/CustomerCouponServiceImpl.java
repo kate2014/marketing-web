@@ -224,37 +224,41 @@ public class CustomerCouponServiceImpl extends ServiceImpl<CustomerCouponMapper,
     }
 
     @Override
-    public Boolean sendCustomerCoupon(Long brandIdenty, Long shopIdenty, Long customerId, String wxOpenId,Long couponId,String couponName,Long activityId, Integer sourceId) throws Exception {
-
-        CustomerCouponEntity mCustomerCoupon = new CustomerCouponEntity();
-        mCustomerCoupon.setBrandIdenty(brandIdenty);
-        mCustomerCoupon.setShopIdenty(shopIdenty);
-        mCustomerCoupon.setSourceId(sourceId);
-        mCustomerCoupon.setCouponId(couponId);
-        mCustomerCoupon.setCouponName(couponName);
+    public Boolean sendCustomerCoupon(Long brandIdenty, Long shopIdenty, Long customerId, String wxOpenId,Long couponId,String couponName,Long activityId, Integer sourceId) {
+        Boolean isSuccess = false;
+        try {
+            CustomerCouponEntity mCustomerCoupon = new CustomerCouponEntity();
+            mCustomerCoupon.setBrandIdenty(brandIdenty);
+            mCustomerCoupon.setShopIdenty(shopIdenty);
+            mCustomerCoupon.setSourceId(sourceId);
+            mCustomerCoupon.setCouponId(couponId);
+            mCustomerCoupon.setCouponName(couponName);
 //            mCustomerCoupon.setCouponType(mCouponEntity.getCouponType());
-        mCustomerCoupon.setCustomerId(customerId);
-        mCustomerCoupon.setWxCustomerOpenid(wxOpenId);
-        mCustomerCoupon.setActivityId(activityId);
-        mCustomerCoupon.setStatus(1);
-        mCustomerCoupon.setEnabledFlag(1);
-        mCustomerCoupon.setServerCreateTime(new Date());
-        mCustomerCoupon.setServerUpdateTime(new Date());
-        Boolean isSuccess = mCustomerCouponService.addCustomerCoupon(mCustomerCoupon);
-        if(isSuccess){
-            CouponEntity mCouponEntity = mCouponServiceImpl.queryByid(couponId);
-            //推送小程序服务通知
-            CouponPushMessage couponPushMessage = new CouponPushMessage();
-            couponPushMessage.setBrandIdenty(brandIdenty);
-            couponPushMessage.setShopIdenty(shopIdenty);
-            couponPushMessage.setCustomerId(customerId);
-            couponPushMessage.setSendDate(new Date().getTime());
-            couponPushMessage.setEndDate(mCouponEntity.getEndTime().getTime());
-            couponPushMessage.setProductName(couponName);
-            couponPushMessage.setNotes(mCouponEntity.getContent());
-            WxTemplateMessageHandler.sendWxTemplateMessage(couponPushMessage);
-
+            mCustomerCoupon.setCustomerId(customerId);
+            mCustomerCoupon.setWxCustomerOpenid(wxOpenId);
+            mCustomerCoupon.setActivityId(activityId);
+            mCustomerCoupon.setStatus(1);
+            mCustomerCoupon.setEnabledFlag(1);
+            mCustomerCoupon.setServerCreateTime(new Date());
+            mCustomerCoupon.setServerUpdateTime(new Date());
+            isSuccess = mCustomerCouponService.addCustomerCoupon(mCustomerCoupon);
+            if(isSuccess){
+                CouponEntity mCouponEntity = mCouponServiceImpl.queryByid(couponId);
+                //推送小程序服务通知
+                CouponPushMessage couponPushMessage = new CouponPushMessage();
+                couponPushMessage.setBrandIdenty(brandIdenty);
+                couponPushMessage.setShopIdenty(shopIdenty);
+                couponPushMessage.setCustomerId(customerId);
+                couponPushMessage.setSendDate(new Date().getTime());
+                couponPushMessage.setEndDate(mCouponEntity.getEndTime().getTime());
+                couponPushMessage.setProductName(couponName);
+                couponPushMessage.setNotes(mCouponEntity.getContent());
+                WxTemplateMessageHandler.sendWxTemplateMessage(couponPushMessage);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
+
 
         return isSuccess;
     }
