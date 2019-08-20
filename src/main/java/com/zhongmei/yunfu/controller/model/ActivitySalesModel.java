@@ -65,6 +65,8 @@ public class ActivitySalesModel extends WebBaseModel {
      * 间接推荐随机最大红包
      */
     private BigDecimal secondMaxAmount;
+
+    private String music;
     /**
      * 品牌id
      */
@@ -280,5 +282,13 @@ public class ActivitySalesModel extends WebBaseModel {
 
     public void setGiftPrice(BigDecimal giftPrice) {
         this.giftPrice = giftPrice;
+    }
+
+    public String getMusic() {
+        return music;
+    }
+
+    public void setMusic(String music) {
+        this.music = music;
     }
 }

@@ -162,6 +162,8 @@
 
                     <li><span>*使用有效期</span><input type="text" placeholder="输入活动使用有效期" id="validityPeriod" name="validityPeriod" th:value="${#dates.format(mActivitySalesEntity.validityPeriod, 'yyyy-MM-dd HH:mm:ss')}"></li>
 
+                    <li><span>音乐地址</span><input type="text" placeholder="输入活动音乐播放地址  .mp3格式" maxlength="200" name="music" id="music" th:value="${mActivitySalesEntity.music}" style="width: 500px"/></li>
+
                     <li><span>*启用状态</span>
                         <select name="enabledFlag" class="select_style">
                             <option value="1" th:selected="${mActivitySalesModel.enabledFlag==1}">发布进行</option>

@@ -38,6 +38,8 @@ public class CustomerApiController {
     BookingService mBookingService;
     @Autowired
     CustomerMarketingExpandedService mCustomerMarketingExpandedService;
+    @Autowired
+    MarketingExpandedService mMarketingExpandedService;
     /**
      * 添加微信小程序会员
      *
@@ -153,23 +155,30 @@ public class CustomerApiController {
         try {
 
             if(mCustomerModel.getExpandedId() != null && !mCustomerModel.getExpandedId().equals("")){
-                CustomerMarketingExpandedEntity mCustomerMarketingExpanded = new CustomerMarketingExpandedEntity();
-                mCustomerMarketingExpanded.setBrandIdenty(mCustomerModel.getBrandIdenty());
-                mCustomerMarketingExpanded.setShopIdenty(mCustomerModel.getShopIdenty());
-                mCustomerMarketingExpanded.setCustomerId(mCustomerModel.getExpandedId());
-                mCustomerMarketingExpanded.setExpandedCustomerName(mCustomerModel.getName());
-                mCustomerMarketingExpanded.setExpandedCustomerOpenid(mCustomerModel.getWxOpenId());
-                mCustomerMarketingExpanded.setConsumptionPrice(BigDecimal.ZERO);
-                mCustomerMarketingExpanded.setExpandedCustomerPic(mCustomerModel.getWxPhoto());
+                //判断门店是否开启了全员推广
+                MarketingExpandedEntity mMarketingExpanded = new MarketingExpandedEntity();
+                mMarketingExpanded.setBrandIdenty(mCustomerModel.getBrandIdenty());
+                mMarketingExpanded.setShopIdenty(mCustomerModel.getShopIdenty());
+                MarketingExpandedEntity mMarketingExpandedEntity = mMarketingExpandedService.queryMarketingExpanded(mMarketingExpanded);
+                if(mMarketingExpandedEntity != null){
+                    CustomerMarketingExpandedEntity mCustomerMarketingExpanded = new CustomerMarketingExpandedEntity();
+                    mCustomerMarketingExpanded.setBrandIdenty(mCustomerModel.getBrandIdenty());
+                    mCustomerMarketingExpanded.setShopIdenty(mCustomerModel.getShopIdenty());
+                    mCustomerMarketingExpanded.setCustomerId(mCustomerModel.getExpandedId());
+                    mCustomerMarketingExpanded.setExpandedCustomerName(mCustomerModel.getName());
+                    mCustomerMarketingExpanded.setExpandedCustomerOpenid(mCustomerModel.getWxOpenId());
+                    mCustomerMarketingExpanded.setConsumptionPrice(BigDecimal.ZERO);
+                    mCustomerMarketingExpanded.setExpandedCustomerPic(mCustomerModel.getWxPhoto());
 
+                    Date m = new Date();
 
-                Date m = new Date();
+                    String batchCode = Long.toString(m.getTime()) + mCustomerMarketingExpanded.getCustomerId();
+                    mCustomerMarketingExpanded.setExpandedCode(batchCode);
+                    mCustomerMarketingExpanded.setState(3);
 
-                String batchCode = Long.toString(m.getTime()) + mCustomerMarketingExpanded.getCustomerId();
-                mCustomerMarketingExpanded.setExpandedCode(batchCode);
-                mCustomerMarketingExpanded.setState(3);
+                    Boolean isSuccess = mCustomerMarketingExpandedService.addCustomerExpanded(mCustomerMarketingExpanded);
+                }
 
-                Boolean isSuccess = mCustomerMarketingExpandedService.addCustomerExpanded(mCustomerMarketingExpanded);
             }
 
 

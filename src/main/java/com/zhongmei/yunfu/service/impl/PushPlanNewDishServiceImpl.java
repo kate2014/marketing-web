@@ -37,7 +37,7 @@ public class PushPlanNewDishServiceImpl extends ServiceImpl<PushPlanNewDishMappe
         newDishPlan.setSourceType(searchModel.getSourceType());
 
         EntityWrapper<PushPlanNewDishEntity> eWrapper = new EntityWrapper<>(newDishPlan);
-        eWrapper.setSqlSelect("id", "name", "shop_identity", "brand_identity", "plan_state", "begin_time", "scan_number", "share_number", "img_url","plan_desc","dish_id","dish_name","source_type","source_id");
+        eWrapper.setSqlSelect("id", "name", "shop_identity", "brand_identity", "plan_state", "begin_time", "scan_number", "share_number", "img_url","plan_desc","dish_id","dish_name","source_type","source_id","dish_price");
         eWrapper.and().like("name", searchModel.getKeyWord());
         eWrapper.orderBy("server_create_time",false);
         Page<PushPlanNewDishEntity> page = new Page<>(searchModel.getPageNo(), searchModel.getPageSize());

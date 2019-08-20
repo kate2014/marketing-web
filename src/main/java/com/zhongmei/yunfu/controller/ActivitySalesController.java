@@ -138,6 +138,7 @@ public class ActivitySalesController extends BaseController{
             mActivitySalesEntity.setJoinCount(mActivitySalesModel.getJoinCount());
             mActivitySalesEntity.setEnabledFlag(mActivitySalesModel.getEnabledFlag());
             mActivitySalesEntity.setProfile(mActivitySalesModel.getProfile());
+            mActivitySalesEntity.setMusic(mActivitySalesModel.getMusic());
 
             if(mActivitySalesModel.getId() == null){
                 mActivitySalesEntity.setBrandIdenty(brandIdentity);
