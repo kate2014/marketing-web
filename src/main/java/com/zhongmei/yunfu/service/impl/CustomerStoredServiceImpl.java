@@ -68,6 +68,9 @@ public class CustomerStoredServiceImpl extends ServiceImpl<CustomerStoredMapper,
         if (customerStored.getTradeAmount() == null) {
             customerStored.setTradeAmount(BigDecimal.ZERO);
         }
+        if (customerExtraEntity.getStoredAmount() == null) {
+            customerExtraEntity.setStoredAmount(BigDecimal.ZERO);
+        }
         if (customerExtraEntity.getStoredGive() == null) {
             customerExtraEntity.setStoredGive(BigDecimal.ZERO);
         }
