@@ -63,4 +63,14 @@ public class ActivitySalesServiceImpl extends ServiceImpl<ActivitySalesMapper, A
         ActivitySalesEntity mmActivitySalesEntity = selectOne(eWrapper);
         return mmActivitySalesEntity.getCustomerBuyCount();
     }
+
+    @Override
+    public String queryPosterById(Long id) throws Exception {
+        EntityWrapper<ActivitySalesEntity> eWrapper = new EntityWrapper<>();
+        eWrapper.eq("id",id);
+        eWrapper.setSqlSelect("image_url");
+        eWrapper.eq("status_flag",1);
+        ActivitySalesEntity mmActivitySalesEntity = selectOne(eWrapper);
+        return mmActivitySalesEntity.getImageUrl();
+    }
 }

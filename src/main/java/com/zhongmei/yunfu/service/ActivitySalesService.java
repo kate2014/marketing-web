@@ -48,4 +48,12 @@ public interface ActivitySalesService extends IService<ActivitySalesEntity> {
      */
     Integer queryJoinCountById(Long id)throws Exception;
 
+    /**
+     * 获取活动广告图片
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    String queryPosterById(Long id)throws Exception;
+
 }
