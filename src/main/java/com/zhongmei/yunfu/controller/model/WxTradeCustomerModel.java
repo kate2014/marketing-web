@@ -17,6 +17,8 @@ public class WxTradeCustomerModel {
 
     private String errors;
 
+    private WxTradeCustomerEntity wxTradeCustomer;
+
     private List<WxTradeCustomerEntity> content;
 
     public String getStatus() {
@@ -65,5 +67,13 @@ public class WxTradeCustomerModel {
 
     public void setContent(List<WxTradeCustomerEntity> content) {
         this.content = content;
+    }
+
+    public WxTradeCustomerEntity getWxTradeCustomer() {
+        return wxTradeCustomer;
+    }
+
+    public void setWxTradeCustomer(WxTradeCustomerEntity wxTradeCustomer) {
+        this.wxTradeCustomer = wxTradeCustomer;
     }
 }

@@ -144,4 +144,12 @@ public interface WxTradeCustomerService extends IService<WxTradeCustomerEntity> 
      * @throws Exception
      */
     public List<WxTradeCustomerEntity> querySalesList(TradeModel mTradeModel)throws Exception;
+
+    /**
+     * 根据code获取用户购买的活动
+     * @param mWxTradeCustomer
+     * @return
+     * @throws Exception
+     */
+    public WxTradeCustomerEntity queryWxTradeByCode(WxTradeCustomerEntity mWxTradeCustomer)throws Exception;
 }

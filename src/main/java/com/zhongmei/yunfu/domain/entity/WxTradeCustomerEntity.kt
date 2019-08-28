@@ -73,6 +73,10 @@ class WxTradeCustomerEntity : BaseEntity() {
 
     var validityPeriod: Date? = null
     /**
+     * 核销码
+     */
+    var code: String? = null
+    /**
      * 门店id
      */
     var shopIdenty: Long? = null
@@ -102,6 +106,7 @@ class WxTradeCustomerEntity : BaseEntity() {
                 ", dishId=" + dishId +
                 ", dishName=" + dishName +
                 ", validityPeriod=" + validityPeriod +
+                ", code=" + code +
                 ", shopIdenty=" + shopIdenty +
                 ", brandIdenty=" + brandIdenty +
                 ", enabledFlag=" + enabledFlag +

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.zhongmei.yunfu.controller.weixinPay.*;
 import com.zhongmei.yunfu.thirdlib.wxapp.WxTemplateMessageHandler;
+import com.zhongmei.yunfu.thirdlib.wxapp.msg.ActivityBuyMessage;
 import com.zhongmei.yunfu.thirdlib.wxapp.msg.OrderPayMessage;
 import com.zhongmei.yunfu.thirdlib.wxapp.msg.WxTempMsg;
 import com.zhongmei.yunfu.util.DateFormatUtil;
@@ -80,6 +81,8 @@ public class PayOrderApiController {
     RedPacketsRecordService mRedPacketsRecordService;
     @Autowired
     RecommendationAssociationService mRecommendationAssociationService;
+    @Autowired
+    CommercialService mCommercialService;
 
     @GetMapping("/payOrder")
     public BaseDataModel payOrder(Model model, TradeModel mTradeModel){
@@ -712,9 +715,42 @@ public class PayOrderApiController {
 
         WxTradeCustomerEntity mWxTradeCustomerEntity = updateMarketing(mPaymentEntity.getRelateId());
 
-        sendWxMessage(mTradeEntity.getId(),mWxTradeCustomerEntity.getCustomerId());
+        sendActivityByWxMessage(mTradeEntity.getId(),mWxTradeCustomerEntity.getCustomerId());
 
         return mWxTradeCustomerEntity;
+    }
+
+    public void sendActivityByWxMessage(Long tradeId,Long customerId) throws Exception{
+        //购买成功小程序服务服务通知推送
+        WxTemplateMessageHandler mWxTemplateMessageHandler = WxTemplateMessageHandler.create(WxTempMsg.activity_buy);
+        TradeEntity mTradeEntity = mTradeService.queryBaseTradeById(tradeId);
+        List<TradeItemEntity> listItem = mTradeItemService.querTradeItemByTradeId(tradeId);
+        String dishList = "";
+        for(TradeItemEntity item : listItem){
+            if(dishList.equals("")){
+                dishList = item.getDishName()+" X "+ToolsUtil.subZeroAndDot(item.getQuantity().toString());
+            }else{
+                dishList = dishList +";"+ item.getDishName()+" X "+ToolsUtil.subZeroAndDot(item.getQuantity().toString());
+            }
+        }
+
+        CommercialEntity mCommercialEntity = mCommercialService.queryCommercialById(mTradeEntity.getShopIdenty());
+
+        WxTradeCustomerEntity mWxTradeCustomerEntity = mWxTradeCustomerService.queryByTradeId(tradeId);
+        ActivityBuyMessage wxTempMsg = new ActivityBuyMessage();
+        wxTempMsg.setTradeNo(mTradeEntity.getTradeNo());
+        wxTempMsg.setCode(mWxTradeCustomerEntity.getCode());
+        wxTempMsg.setTradePayAmount(mTradeEntity.getTradeAmount());
+        wxTempMsg.setValidityPeriod(DateFormatUtil.format(mWxTradeCustomerEntity.getValidityPeriod(),DateFormatUtil.FORMAT_FULL_DATE));
+        wxTempMsg.setBuyDate(DateFormatUtil.format(mTradeEntity.getTradeTime(),DateFormatUtil.FORMAT_FULL_DATE));
+        wxTempMsg.setDishName(dishList);
+        wxTempMsg.setShopName(mCommercialEntity.getCommercialName());
+        wxTempMsg.setRemarks("请在活动到期前到店点使用，如有疑问烦请联系门店");
+        wxTempMsg.setBrandIdenty(mTradeEntity.getBrandIdenty());
+        wxTempMsg.setShopIdenty(mTradeEntity.getShopIdenty());
+        wxTempMsg.setCustomerId(customerId);
+
+        mWxTemplateMessageHandler.send(wxTempMsg);
     }
 
     public void sendWxMessage(Long tradeId,Long customerId) throws Exception{

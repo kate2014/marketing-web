@@ -74,7 +74,7 @@ public class WxTradeCustomerServiceImpl extends ServiceImpl<WxTradeCustomerMappe
     public WxTradeCustomerEntity queryByTradeId(Long tradeId) throws Exception{
         EntityWrapper<WxTradeCustomerEntity> eWrapper = new EntityWrapper<>(new WxTradeCustomerEntity());
         eWrapper.eq("trade_id", tradeId);
-        eWrapper.setSqlSelect("id,trade_id,marketing_id,relate_id,customer_id,type,status,shop_identy,brand_identy");
+        eWrapper.setSqlSelect("id,trade_id,marketing_id,relate_id,customer_id,type,status,shop_identy,brand_identy,validity_period");
         WxTradeCustomerEntity mWxTradeCustomer = selectOne(eWrapper);
         return mWxTradeCustomer;
     }
@@ -345,6 +345,17 @@ public class WxTradeCustomerServiceImpl extends ServiceImpl<WxTradeCustomerMappe
         eWrapper.groupBy("marketing_id");
 
         return selectList(eWrapper);
+    }
+
+    @Override
+    public WxTradeCustomerEntity queryWxTradeByCode(WxTradeCustomerEntity mWxTradeCustomer) throws Exception {
+        EntityWrapper<WxTradeCustomerEntity> eWrapper = new EntityWrapper<>(new WxTradeCustomerEntity());
+        eWrapper.eq("brand_identy", mWxTradeCustomer.getBrandIdenty());
+        eWrapper.eq("shop_identy", mWxTradeCustomer.getShopIdenty());
+        eWrapper.eq("code", mWxTradeCustomer.getCode());
+        eWrapper.eq("enabled_flag", 1);
+        eWrapper.eq("status_flag",1);
+        return selectOne(eWrapper);
     }
 
 }

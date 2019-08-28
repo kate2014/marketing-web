@@ -285,6 +285,7 @@ public class TradeApiController {
             mWxTradeCustomer.setEnabledFlag(2);//启用停用标识 : 1:启用;2:停用
             mWxTradeCustomer.setType(mTradeModel.getType());
             mWxTradeCustomer.setTradeId(trade.getId());
+            mWxTradeCustomer.setCode(ToolsUtil.getCard(6));//随机生成6位数
             if (mTradeModel.getDishId() != null) {
                 mWxTradeCustomer.setDishId(Long.valueOf(mTradeModel.getDishId()));
             }
@@ -305,6 +306,21 @@ public class TradeApiController {
         return message;
     }
 
+    public static void main(String[] args) throws Exception {
+
+        Map<String ,String> tempMap = new HashMap<>();
+        for(int i=0;0<20;i++){
+            String code = ToolsUtil.getCard(7);
+            System.out.println("ToolsUtil.getCard(6)=="+code);
+
+            if(tempMap.get(code)!= null){
+                break;
+            }
+            tempMap.put(code,code);
+        }
+
+        System.out.println("tempMap zise=="+tempMap.size());
+    }
     /**
      * 发起开团
      * @param mTradeModel

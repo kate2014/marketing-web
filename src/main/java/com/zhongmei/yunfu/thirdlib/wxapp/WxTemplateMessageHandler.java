@@ -43,6 +43,7 @@ public abstract class WxTemplateMessageHandler<T extends WxTempMsg> {
         WxTemplateMessage.put(WxTempMsg.msgCollage_fail, ColloageFailWxTemplateMessageHandler.class);
         WxTemplateMessage.put(WxTempMsg.member_charge, MemberChargeMessageHandler.class);
         WxTemplateMessage.put(WxTempMsg.service_time_card, ServiceTimeCardMessageHandler.class);
+        WxTemplateMessage.put(WxTempMsg.activity_buy, ActivityBuyWxTemplateMessageHandler.class);
     }
 
     @Autowired

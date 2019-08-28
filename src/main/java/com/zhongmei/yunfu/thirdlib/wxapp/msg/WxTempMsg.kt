@@ -31,5 +31,6 @@ abstract class WxTempMsg(msgType: Int?) {
         const val msgCollage_fail = 3
         const val member_charge = 4
         const val service_time_card = 5
+        const val activity_buy = 6
     }
 }
