@@ -742,10 +742,10 @@ public class PayOrderApiController {
         wxTempMsg.setCode(mWxTradeCustomerEntity.getCode());
         wxTempMsg.setTradePayAmount(mTradeEntity.getTradeAmount());
         wxTempMsg.setValidityPeriod(DateFormatUtil.format(mWxTradeCustomerEntity.getValidityPeriod(),DateFormatUtil.FORMAT_FULL_DATE));
-        wxTempMsg.setBuyDate(DateFormatUtil.format(mTradeEntity.getTradeTime(),DateFormatUtil.FORMAT_FULL_DATE));
+        wxTempMsg.setBuyDate(DateFormatUtil.format(mTradeEntity.getServerUpdateTime(),DateFormatUtil.FORMAT_FULL_DATE));
         wxTempMsg.setDishName(dishList);
         wxTempMsg.setShopName(mCommercialEntity.getCommercialName());
-        wxTempMsg.setRemarks("请在活动到期前到店点使用，如有疑问烦请联系门店");
+        wxTempMsg.setRemarks("请在到期时间前到店使用，如有疑问烦请联系门店");
         wxTempMsg.setBrandIdenty(mTradeEntity.getBrandIdenty());
         wxTempMsg.setShopIdenty(mTradeEntity.getShopIdenty());
         wxTempMsg.setCustomerId(customerId);

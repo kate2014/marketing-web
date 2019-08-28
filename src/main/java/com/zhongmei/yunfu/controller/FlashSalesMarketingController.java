@@ -113,7 +113,7 @@ public class FlashSalesMarketingController extends BaseController{
                 mFlashSalesMarketing.setProductName(mFlashSalesModel.getProductName());
                 mFlashSalesMarketing.setImgUrl(mFlashSalesModel.getImgUrl());
                 mFlashSalesMarketing.setDescribe(mFlashSalesModel.getDescribe());
-                mFlashSalesMarketing.setCustomerBuyCount(mFlashSalesModel.getCustomerBuyCount());
+                mFlashSalesMarketing.setCustomerBuyCount(1);
                 mFlashSalesMarketing.setSalesCount(mFlashSalesModel.getSalesCount());
                 mFlashSalesMarketing.setSoldCount(0);
                 mFlashSalesMarketing.setEnabledFlag(mFlashSalesModel.getEnabledFlag());
@@ -141,7 +141,7 @@ public class FlashSalesMarketingController extends BaseController{
                 mFlashSalesMarketing.setProductName(mFlashSalesModel.getProductName());
                 mFlashSalesMarketing.setImgUrl(mFlashSalesModel.getImgUrl());
                 mFlashSalesMarketing.setDescribe(mFlashSalesModel.getDescribe());
-                mFlashSalesMarketing.setCustomerBuyCount(mFlashSalesModel.getCustomerBuyCount());
+                mFlashSalesMarketing.setCustomerBuyCount(1);
                 mFlashSalesMarketing.setSalesCount(mFlashSalesModel.getSalesCount());
                 mFlashSalesMarketing.setEnabledFlag(mFlashSalesModel.getEnabledFlag());
                 mFlashSalesMarketing.setUpdatorId(creatorId);

@@ -19,7 +19,7 @@ public class ActivityBuyWxTemplateMessageHandler extends WxTemplateMessageHandle
 
     @Override
     protected List<String> getTemplateCode() {
-        return Arrays.asList("AT0002", "活动购买成功通知");
+        return Arrays.asList("AT0002", "购买成功通知");
     }
 
     @Override
