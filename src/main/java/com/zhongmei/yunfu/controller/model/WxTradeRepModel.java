@@ -22,8 +22,6 @@ public class WxTradeRepModel {
 
     private String versionName;
 
-    private String code;
-
     public String getAppType() {
         return appType;
     }
@@ -102,13 +100,5 @@ public class WxTradeRepModel {
 
     public void setVersionName(String versionName) {
         this.versionName = versionName;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 }

@@ -10,6 +10,8 @@ public class WxTradeContentModel {
 
     private String clientType;
 
+    private String code;
+
     public Long getBrandIdenty() {
         return brandIdenty;
     }
@@ -40,5 +42,13 @@ public class WxTradeContentModel {
 
     public void setClientType(String clientType) {
         this.clientType = clientType;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }

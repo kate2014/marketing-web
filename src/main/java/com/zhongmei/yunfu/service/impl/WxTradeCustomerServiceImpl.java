@@ -74,7 +74,7 @@ public class WxTradeCustomerServiceImpl extends ServiceImpl<WxTradeCustomerMappe
     public WxTradeCustomerEntity queryByTradeId(Long tradeId) throws Exception{
         EntityWrapper<WxTradeCustomerEntity> eWrapper = new EntityWrapper<>(new WxTradeCustomerEntity());
         eWrapper.eq("trade_id", tradeId);
-        eWrapper.setSqlSelect("id,trade_id,marketing_id,relate_id,customer_id,type,status,shop_identy,brand_identy,validity_period,code");
+        eWrapper.setSqlSelect("id,trade_id,marketing_id,relate_id,customer_id,type,status,enabled_flag,shop_identy,brand_identy,validity_period,code");
         WxTradeCustomerEntity mWxTradeCustomer = selectOne(eWrapper);
         return mWxTradeCustomer;
     }

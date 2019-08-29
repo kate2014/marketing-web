@@ -3,9 +3,8 @@ package com.zhongmei.yunfu.controller.model;
 import com.zhongmei.yunfu.domain.entity.WxTradeCustomerEntity;
 
 import java.util.List;
-import java.util.Map;
 
-public class WxTradeCustomerModel {
+public class WxTradeCustomerRespModel {
 
     private String status;
 
@@ -17,7 +16,7 @@ public class WxTradeCustomerModel {
 
     private String errors;
 
-    private List<WxTradeCustomerEntity> content;
+    private WxTradeCustomerEntity content;
 
     public String getStatus() {
         return status;
@@ -59,12 +58,11 @@ public class WxTradeCustomerModel {
         this.errors = errors;
     }
 
-    public List<WxTradeCustomerEntity> getContent() {
+    public WxTradeCustomerEntity getContent() {
         return content;
     }
 
-    public void setContent(List<WxTradeCustomerEntity> content) {
+    public void setContent(WxTradeCustomerEntity content) {
         this.content = content;
     }
-
 }

@@ -281,13 +281,12 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
 
         eWrapper.eq("brand_identy", mCustomer.getBrandIdenty());
         eWrapper.eq("shop_identy", mCustomer.getShopIdenty());
-        //一定要添加判断，避免更新全部会员
-        if (mCustomer.getThirdId() != null) {
+        eWrapper.eq("id", mCustomer.getId());
+        if(mCustomer.getThirdId() != null){
             eWrapper.eq("third_id", mCustomer.getThirdId());
-            Boolean isSuccess = update(cus, eWrapper);
-            return isSuccess;
         }
-        return false;
+        Boolean isSuccess = update(cus, eWrapper);
+        return isSuccess;
 
     }
 

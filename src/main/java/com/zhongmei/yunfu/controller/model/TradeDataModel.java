@@ -22,6 +22,8 @@ public class TradeDataModel {
 
     private List<StarRatingEntity> listStarRating;
 
+    private WxTradeCustomerEntity wxTradeCustomerEntity;
+
     public TradeEntity getTrade() {
         return trade;
     }
@@ -76,5 +78,13 @@ public class TradeDataModel {
 
     public void setReturnFeedback(FeedbackEntity returnFeedback) {
         this.returnFeedback = returnFeedback;
+    }
+
+    public WxTradeCustomerEntity getWxTradeCustomerEntity() {
+        return wxTradeCustomerEntity;
+    }
+
+    public void setWxTradeCustomerEntity(WxTradeCustomerEntity wxTradeCustomerEntity) {
+        this.wxTradeCustomerEntity = wxTradeCustomerEntity;
     }
 }

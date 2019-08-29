@@ -159,6 +159,18 @@ public class WriteOffApiController extends PosApiController {
                             }
                             continue;
                         }
+
+                        //特价活动
+                        if (type == 29) {
+                            Integer state = userWxTrade(tp);
+                            if (state == 1001) {
+                                String message = "特价活动:" + tp.getPrivilegeName() + "核销失败";
+                                mBaseDataModel.setState("1001");
+                                mBaseDataModel.setMsg(message);
+                                return mBaseDataModel;
+                            }
+                            continue;
+                        }
                     }
 
 
@@ -355,6 +367,17 @@ public class WriteOffApiController extends PosApiController {
                     continue;
                 }
 
+                //特价活动
+                if(type == 29){
+                    Integer useState = checkActvivitySalseValid(tp);
+                    if (useState == 5001) {
+                        checkMessage += "砍价活动:" + tp.getPrivilegeName() + "已过期";
+                    } else if (useState == 5001) {
+                        checkMessage += "砍价活动:" + tp.getPrivilegeName() + "已被使用";
+                    }
+
+                    continue;
+                }
 
             }
         }
@@ -602,9 +625,9 @@ public class WriteOffApiController extends PosApiController {
         WxTradeCustomerEntity mWxTradeCustomer = mWxTradeCustomerService.queryDetailById(mTradePrivilege.getPromoId());
         if (mWxTradeCustomer.getStatus() == 1) {
 
-            CollageMarketingEntity mCollageMarketing = mCollageMarketingService.queryCollageById(mWxTradeCustomer.getMarketingId());
+//            CollageMarketingEntity mCollageMarketing = mCollageMarketingService.queryCollageById(mWxTradeCustomer.getMarketingId());
             //验证是否已过有效期
-            if (mCollageMarketing.getValidityPeriod().getTime() < new Date().getTime()) {
+            if (mWxTradeCustomer.getValidityPeriod().getTime() < new Date().getTime()) {
                 //购买的拼团活动已过期
                 return 2001;
             }
@@ -627,8 +650,8 @@ public class WriteOffApiController extends PosApiController {
         WxTradeCustomerEntity mWxTradeCustomer = mWxTradeCustomerService.queryDetailById(mTradePrivilege.getPromoId());
         if (mWxTradeCustomer.getStatus() == 1) {
 
-            CutDownMarketingEntity mCutDownMarketing = mCutDownMarketingService.findCutDownDatailById(mWxTradeCustomer.getMarketingId());
-            if (mCutDownMarketing.getValidityPeriod().getTime() < new Date().getTime()) {
+//            CutDownMarketingEntity mCutDownMarketing = mCutDownMarketingService.findCutDownDatailById(mWxTradeCustomer.getMarketingId());
+            if (mWxTradeCustomer.getValidityPeriod().getTime() < new Date().getTime()) {
                 //购买的砍价活动已过期
                 return 3001;
             }
@@ -651,14 +674,34 @@ public class WriteOffApiController extends PosApiController {
     public Integer checkFlashSalesValid(TradePrivilegeEntity mTradePrivilege) throws Exception {
         WxTradeCustomerEntity mWxTradeCustomer = mWxTradeCustomerService.queryDetailById(mTradePrivilege.getPromoId());
         if (mWxTradeCustomer.getStatus() == 1) {
-            FlashSalesMarketingEntity mFlashSalesMarketing = mFlashSalesMarketingService.queryFlashSalesById(mWxTradeCustomer.getMarketingId());
-            if (mFlashSalesMarketing.getValidityPeriod().getTime() < new Date().getTime()) {
+//            FlashSalesMarketingEntity mFlashSalesMarketing = mFlashSalesMarketingService.queryFlashSalesById(mWxTradeCustomer.getMarketingId());
+            if (mWxTradeCustomer.getValidityPeriod().getTime() < new Date().getTime()) {
                 //购买的秒杀活动已过期
                 return 4001;
             }
         } else {
             //秒杀服务已被使用
             return 4002;
+        }
+        return 1000;
+    }
+
+    /**
+     * 特价活动
+     *
+     * @param mTradePrivilege
+     * @return
+     */
+    public Integer checkActvivitySalseValid(TradePrivilegeEntity mTradePrivilege) throws Exception {
+        WxTradeCustomerEntity mWxTradeCustomer = mWxTradeCustomerService.queryDetailById(mTradePrivilege.getPromoId());
+        if (mWxTradeCustomer.getStatus() == 1 && mWxTradeCustomer.getEnabledFlag() == 1) {
+            if (mWxTradeCustomer.getValidityPeriod().getTime() < new Date().getTime()) {
+                //购买的特价活动已过期
+                return 5001;
+            }
+        } else {
+            //特价服务已被使用
+            return 5002;
         }
         return 1000;
     }

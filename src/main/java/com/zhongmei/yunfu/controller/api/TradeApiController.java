@@ -613,6 +613,11 @@ public class TradeApiController {
             }
             mTradeDataModel.setListFeedback(listFeedbackModel);
 
+            if(mTradeDataModel.getTrade().getSource() == 2){
+                WxTradeCustomerEntity mWxTradeCustomerEntity = mWxTradeCustomerService.queryByTradeId(mTradeDataModel.getTrade().getId());
+                mTradeDataModel.setWxTradeCustomerEntity(mWxTradeCustomerEntity);
+            }
+
             mBaseDataModel.setState("1000");
             mBaseDataModel.setMsg("该会订单信息成功");
             mBaseDataModel.setData(mTradeDataModel);

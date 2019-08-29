@@ -282,7 +282,7 @@ public class CustomerApiController {
 
                 }else{//如已被绑定，这提示该账号已被绑定，先进行解绑
                     mBaseDataModel.setState("1001");
-                    mBaseDataModel.setMsg("该手机号和（"+relateCustomer.getThirdId()+"）已绑定，如需要绑定该手机号，请先解绑");
+                    mBaseDataModel.setMsg("该手机号和（"+relateCustomer.getCreatorName()+"）已绑定，如需要绑定该手机号，请先解绑");
                     mBaseDataModel.setData(false);
                     return mBaseDataModel;
                 }
@@ -330,8 +330,8 @@ public class CustomerApiController {
 
     public void executeBind(CustomerEntity mCustomer,CustomerModel mCustomerModel,BaseDataModel mBaseDataModel)throws Exception{
         //进行绑定前的密码验证
-        String passWorld = ToolsUtil.encodeValue(mCustomerModel.getPassword(),mCustomerModel.getMobile());
-        if(passWorld.equals(mCustomer.getPassword())){
+//        String passWorld = ToolsUtil.encodeValue(mCustomerModel.getPassword(),mCustomerModel.getMobile());
+//        if(passWorld.equals(mCustomer.getPassword())){
             CustomerEntity wxCustomer = new CustomerEntity();
             wxCustomer.setBrandIdenty(mCustomer.getBrandIdenty());
             wxCustomer.setShopIdenty(mCustomer.getShopIdenty());
@@ -353,11 +353,11 @@ public class CustomerApiController {
                 mBaseDataModel.setData(false);
             }
 
-        }else{
-            mBaseDataModel.setState("1001");
-            mBaseDataModel.setMsg("密码验证失败");
-            mBaseDataModel.setData(false);
-        }
+//        }else{
+//            mBaseDataModel.setState("1001");
+//            mBaseDataModel.setMsg("密码验证失败");
+//            mBaseDataModel.setData(false);
+//        }
     }
 
     public CustomerEntity installMobileCustomer(CustomerModel mCustomerModel) throws Exception{
@@ -370,8 +370,8 @@ public class CustomerApiController {
         mobileCustomer.setExpandedId(mCustomerModel.getExpandedId());
         mobileCustomer.setShopIdenty(mCustomerModel.getShopIdenty());
         mobileCustomer.setBrandIdenty(mCustomerModel.getBrandIdenty());
-        String passWorld = ToolsUtil.encodeValue(mCustomerModel.getPassword(),mCustomerModel.getMobile());
-        mobileCustomer.setPassword(passWorld);
+//        String passWorld = ToolsUtil.encodeValue(mCustomerModel.getPassword(),mCustomerModel.getMobile());
+//        mobileCustomer.setPassword(passWorld);
         mobileCustomer.setGroupLevel("普通会员");//银卡会员
         mobileCustomer.setGroupLevelId(0l);
         mobileCustomer.setSourceId(2);
@@ -393,29 +393,21 @@ public class CustomerApiController {
 
         try {
 
-            CustomerEntity mCustomer = mCustomerService.queryCustomerByMobile(mCustomerModel.getBrandIdenty(), mCustomerModel.getShopIdenty(), mCustomerModel.getMobile());
-            String inputPassWorld = ToolsUtil.encodeValue(mCustomerModel.getPassword(),mCustomerModel.getMobile());
-            //验证输入密码是是否正确
-            if(inputPassWorld.equals(mCustomer.getPassword())){
-                CustomerEntity unBindCustomer = new CustomerEntity();
-                unBindCustomer.setBrandIdenty(mCustomer.getBrandIdenty());
-                unBindCustomer.setShopIdenty(mCustomer.getShopIdenty());
-                unBindCustomer.setThirdId(mCustomerModel.getWxOpenId());
-                Boolean isRelieveSuccess = mCustomerService.relieveBind(unBindCustomer);
-                if(isRelieveSuccess){
-                    mBaseDataModel.setState("1000");
-                    mBaseDataModel.setMsg("解绑成功");
-                    mBaseDataModel.setData(mCustomer);
-                    return mBaseDataModel;
-                }else{
-                    mBaseDataModel.setState("1001");
-                    mBaseDataModel.setMsg("解绑手机号码失败");
-                    mBaseDataModel.setData(false);
-                    return mBaseDataModel;
-                }
+            CustomerEntity mCustomer = new CustomerEntity();
+            mCustomer.setBrandIdenty(mCustomerModel.getBrandIdenty());
+            mCustomer.setShopIdenty(mCustomerModel.getShopIdenty());
+            mCustomer.setId(mCustomerModel.getId());
+            mCustomer.setThirdId(mCustomerModel.getWxOpenId());
+
+            Boolean isSuccess = mCustomerService.relieveBind(mCustomer);
+            if(isSuccess){
+                mBaseDataModel.setState("1000");
+                mBaseDataModel.setMsg("解绑成功");
+                mBaseDataModel.setData(mCustomer);
+                return mBaseDataModel;
             }else{
                 mBaseDataModel.setState("1001");
-                mBaseDataModel.setMsg("密码验证失败");
+                mBaseDataModel.setMsg("解绑手机号码失败");
                 mBaseDataModel.setData(false);
                 return mBaseDataModel;
             }
