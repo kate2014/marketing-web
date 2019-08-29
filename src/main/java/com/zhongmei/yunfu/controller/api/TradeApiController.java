@@ -285,7 +285,8 @@ public class TradeApiController {
             mWxTradeCustomer.setEnabledFlag(2);//启用停用标识 : 1:启用;2:停用
             mWxTradeCustomer.setType(mTradeModel.getType());
             mWxTradeCustomer.setTradeId(trade.getId());
-            mWxTradeCustomer.setCode(ToolsUtil.getCard(6));//随机生成6位数
+
+            mWxTradeCustomer.setCode(buildCode(mTradeModel));//随机生成6位数
             if (mTradeModel.getDishId() != null) {
                 mWxTradeCustomer.setDishId(Long.valueOf(mTradeModel.getDishId()));
             }
@@ -306,21 +307,18 @@ public class TradeApiController {
         return message;
     }
 
-    public static void main(String[] args) throws Exception {
+    //获取唯一核销码，通过数据库查询判断是否有使用过
+    public String buildCode (TradeModel mTradeModel) throws Exception{
 
-        Map<String ,String> tempMap = new HashMap<>();
-        for(int i=0;0<20;i++){
-            String code = ToolsUtil.getCard(7);
-            System.out.println("ToolsUtil.getCard(6)=="+code);
+        String code = ToolsUtil.getCard(6);
 
-            if(tempMap.get(code)!= null){
-                break;
-            }
-            tempMap.put(code,code);
+        int count = mWxTradeCustomerService.queryCountByCode(mTradeModel.getBrandIdenty(),mTradeModel.getShopIdenty(),code);
+        if(count > 0){
+            buildCode (mTradeModel);
         }
-
-        System.out.println("tempMap zise=="+tempMap.size());
+        return code;
     }
+
     /**
      * 发起开团
      * @param mTradeModel

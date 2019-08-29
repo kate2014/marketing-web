@@ -358,4 +358,15 @@ public class WxTradeCustomerServiceImpl extends ServiceImpl<WxTradeCustomerMappe
         return selectOne(eWrapper);
     }
 
+    @Override
+    public Integer queryCountByCode(Long brandIdenty, Long shopIdenty, String code) throws Exception {
+        EntityWrapper<WxTradeCustomerEntity> eWrapper = new EntityWrapper<>(new WxTradeCustomerEntity());
+        eWrapper.eq("brand_identy", brandIdenty);
+        eWrapper.eq("shop_identy", shopIdenty);
+        eWrapper.eq("status", 1);
+
+        eWrapper.eq("code", code);
+        return selectCount(eWrapper);
+    }
+
 }

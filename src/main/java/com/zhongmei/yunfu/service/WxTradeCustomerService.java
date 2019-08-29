@@ -152,4 +152,14 @@ public interface WxTradeCustomerService extends IService<WxTradeCustomerEntity> 
      * @throws Exception
      */
     public WxTradeCustomerEntity queryWxTradeByCode(WxTradeCustomerEntity mWxTradeCustomer)throws Exception;
+
+    /**
+     * 获取门店验证码，用来判断唯一性
+     * @param brandIdenty
+     * @param shopIdenty
+     * @param code
+     * @return
+     * @throws Exception
+     */
+    public Integer queryCountByCode(Long brandIdenty, Long shopIdenty,String code)throws Exception;
 }
