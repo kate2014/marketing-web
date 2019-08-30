@@ -51,8 +51,7 @@
 </div>
 
 <div class="parent" style="margin-top: 20px;margin-left: 150px;">
-
-    <div class="parent_h" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/activity/salesList'|}">
+    <div th:if="${shaveAactivitySales} eq '1'" class="parent_h" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/activity/salesList'|}">
         <div class="left_border_radius_green" style="text-align:center;position:relative">
             <img th:src="@{/images/index_tgyx_icon.png}" src="../static/images/index_tgyx_icon.png" style="width: 36px;height: 36px;margin:0 auto;margin-top: 22%">
         </div>
@@ -75,7 +74,7 @@
 </div>
 <div class="parent" style="margin-top: 20px;margin-left: 150px">
 
-    <div class="parent_h" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/pushPlanNewDish'|}">
+    <div class="parent_h" th:if="${havaPushNewDish} eq '1'" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/pushPlanNewDish'|}">
         <div class="left_border_radius" style="text-align:center;position:relative">
             <img th:src="@{/images/index_new_dish_icon.png}" src="../static/images/index_new_dish_icon.png" style="width: auto;height: 35px;margin:0 auto;margin-top: 22%">
         </div>
@@ -88,7 +87,7 @@
         </div>
     </div>
 
-    <div class="parent_h" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/pushPlanActivity/list'|}">
+    <div class="parent_h" th:if="${havePushAction} eq '1'" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/pushPlanActivity/list'|}">
         <div class="left_border_radius" style="text-align:center;position:relative">
             <img th:src="@{/images/index_action_icon.png}" src="../static/images/index_action_icon.png" style="width: auto;height: 35px;margin:0 auto;margin-top: 24%">
         </div>
@@ -101,7 +100,7 @@
         </div>
     </div>
 
-    <div class="parent_h" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/marketingShare/gotoShareMarketing'|}">
+    <div class="parent_h" th:if="${haveShare} eq '1'" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/marketingShare/gotoShareMarketing'|}">
         <div class="left_border_radius" style="text-align:center;position:relative">
             <img th:src="@{/images/index_sheare_icon.png}" src="../static/images/index_sheare_icon.png" style="width: 35px;height: 35px;margin:0 auto;margin-top: 22%">
         </div>
@@ -125,7 +124,7 @@
 
 <div class="parent" style="margin-top: 20px;margin-left: 150px">
 
-    <div class="parent_h" style="margin-right: 20px; cursor: pointer" th:onclick="@{|location='${basePath}/collageMarketing/queryListData'|}">
+    <div class="parent_h" th:if="${haveCollage} eq '1'" style="margin-right: 20px; cursor: pointer" th:onclick="@{|location='${basePath}/collageMarketing/queryListData'|}">
         <div class="left_border_radius_green" style="text-align:center;position:relative">
             <img th:src="@{/images/index_collage_icon.png}" src="../static/images/index_collage_icon.png" style="width: auto;height: 38px;margin:0 auto;margin-top: 20%">
         </div>
@@ -138,7 +137,7 @@
         </div>
     </div>
 
-    <div class="parent_h" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/flashSalesMarketing/queryListData'|}">
+    <div class="parent_h" th:if="${haveFlashSales} eq '1'" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/flashSalesMarketing/queryListData'|}">
         <div class="left_border_radius_green" style="text-align:center;position:relative">
             <img th:src="@{/images/index_fast_sale_icon.png}" src="../static/images/index_fast_sale_icon.png" style="width: auto;height: 38px;margin:0 auto;margin-top: 20%">
         </div>
@@ -151,7 +150,7 @@
         </div>
     </div>
 
-    <div class="parent_h" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/cutDownMarketing/queryListData'|}">
+    <div class="parent_h" th:if="${haveCutDown} eq '1'" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/cutDownMarketing/queryListData'|}">
         <div class="left_border_radius_green" style="text-align:center;position:relative">
             <img th:src="@{/images/index_cut_down_icon.png}" src="../static/images/index_cut_down_icon.png" style="width: auto;height: 38px;margin:0 auto;margin-top: 20%">
         </div>
@@ -175,7 +174,7 @@
 
 <div class="parent" style="margin-top: 20px;margin-left: 150px">
 
-    <div class="parent_h" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/marketingTogether/gotoTogetherMarketing'|}">
+    <div class="parent_h" th:if="${haveTogether} eq '1'" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/marketingTogether/gotoTogetherMarketing'|}">
         <div class="left_border_radius" style="text-align:center;position:relative">
             <img th:src="@{/images/index_together_icon.png}" src="../static/images/index_together_icon.png" style="width: auto;height: 38px;margin:0 auto;margin-top: 19%">
         </div>
@@ -188,7 +187,7 @@
         </div>
     </div>
 
-    <div class="parent_h" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/marketingExpanded/gotoMarketingExpanded'|}">
+    <div class="parent_h" th:if="${haveExpand} eq '1'" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/marketingExpanded/gotoMarketingExpanded'|}">
         <div class="left_border_radius" style="text-align:center;position:relative">
             <img th:src="@{/images/index_qytg_icon.png}" src="../static/images/index_qytg_icon.png" style="width: auto;height: 30px;margin:0 auto;margin-top: 23%">
         </div>
@@ -212,7 +211,7 @@
 
 <div class="parent" style="margin-top: 20px;margin-left: 150px;margin-bottom: 50px">
 
-    <div class="parent_h" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/coupon'|}">
+    <div class="parent_h" th:if="${haveCouponMarketing} eq '1'" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/coupon'|}">
         <div class="left_border_radius_green" style="text-align:center;position:relative">
             <img th:src="@{/images/index_coupon_icon.png}" src="../static/images/index_coupon_icon.png" style="width: auto;height: 37px;margin:0 auto;margin-top: 22%">
         </div>
@@ -225,7 +224,7 @@
         </div>
     </div>
 
-    <div class="parent_h" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/marketingPutOn'|}">
+    <div class="parent_h" th:if="${haveSendCoupon} eq '1'" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/marketingPutOn'|}">
         <div class="left_border_radius_green" style="text-align:center;position:relative">
             <img th:src="@{/images/index_coupon_send_icon.png}" src="../static/images/index_coupon_send_icon.png" style="width: 35px;height: 35px;margin:0 auto;margin-top: 22%">
         </div>
@@ -238,7 +237,7 @@
         </div>
     </div>
 
-    <div class="parent_h" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/pos/customerMarketingExpanded/gotoMainPage'|}">
+    <div class="parent_h" th:if="${haveExpandedCustomer} eq '1'" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/pos/customerMarketingExpanded/gotoMainPage'|}">
         <div class="left_border_radius_green" style="text-align:center;position:relative">
             <img th:src="@{/images/index_tgtc_icon.png}" src="../static/images/index_tgtc_icon.png" style="width: 35px;height: 35px;margin:0 auto;margin-top: 22%">
         </div>

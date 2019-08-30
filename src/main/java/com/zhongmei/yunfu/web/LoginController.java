@@ -105,11 +105,11 @@ public class LoginController extends BaseController {
         }else{
             model.addAttribute("haveExpandedCustomer", 1);
         }
-        //次卡管理
-        if(permissionData.get("WEB_CARD_TIME") == null || permissionData.get("WEB_CARD_TIME").equals("")){
-            model.addAttribute("haveCardTime", 0);
+        //特价活动
+        if(permissionData.get("ACTIVITY_SALES") == null || permissionData.get("ACTIVITY_SALES").equals("")){
+            model.addAttribute("shaveAactivitySales", 0);
         }else{
-            model.addAttribute("haveCardTime", 1);
+            model.addAttribute("shaveAactivitySales", 1);
         }
 
 
