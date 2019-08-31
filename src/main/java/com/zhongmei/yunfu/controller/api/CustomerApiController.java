@@ -485,10 +485,6 @@ public class CustomerApiController {
                     mBaseDataModel.setData(phone);
                     return mBaseDataModel;
 
-//                    wxUserService.updateMobile(appid, phone);
-//                    map.put("code", 0);
-//                    map.put("msg", "成功");
-//                    map.put("data", "");
                 } else {
                     mBaseDataModel.setState("1001");
                     mBaseDataModel.setMsg("失败！用户未绑定手机号");
