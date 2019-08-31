@@ -1,11 +1,14 @@
 package com.zhongmei.yunfu.controller.api;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.zhongmei.yunfu.util.DateFormatUtil;
 import com.zhongmei.yunfu.util.ToolsUtil;
 import com.zhongmei.yunfu.controller.model.*;
 import com.zhongmei.yunfu.domain.entity.*;
 import com.zhongmei.yunfu.service.*;
+import com.zhongmei.yunfu.util.WxUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +18,9 @@ import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 会员相关接口
@@ -456,6 +461,55 @@ public class CustomerApiController {
         }
 
     }
+
+    /**
+     * 解密获取用户微信绑定的手机号码
+     * @param encryptedData 目标密文
+     * @param session_key 会话ID
+     * @param iv 加密算法的初始向量
+     */
+
+    @GetMapping("/getUserPhone")
+    public Object authPhone(String encryptedData, String session_key, String iv) {
+        BaseDataModel mBaseDataModel = new BaseDataModel();
+        try {
+            String result = WxUtils.wxDecrypt(encryptedData, session_key, iv);
+            JSONObject json = JSONObject.parseObject(result);
+            if (json.containsKey("phoneNumber")) {
+                String phone = json.getString("phoneNumber");
+//                String appid = json.getJSONObject("watermark").getString("appid");
+                if (StringUtils.isNoneBlank(phone)) {
+
+                    mBaseDataModel.setState("1000");
+                    mBaseDataModel.setMsg("获取成功");
+                    mBaseDataModel.setData(phone);
+                    return mBaseDataModel;
+
+//                    wxUserService.updateMobile(appid, phone);
+//                    map.put("code", 0);
+//                    map.put("msg", "成功");
+//                    map.put("data", "");
+                } else {
+                    mBaseDataModel.setState("1001");
+                    mBaseDataModel.setMsg("失败！用户未绑定手机号");
+                    mBaseDataModel.setData(false);
+                    return mBaseDataModel;
+                }
+            } else {
+                mBaseDataModel.setState("1001");
+                mBaseDataModel.setMsg("获取失败");
+                mBaseDataModel.setData(false);
+                return mBaseDataModel;
+            }
+        } catch (Exception e) {
+            mBaseDataModel.setState("1001");
+            mBaseDataModel.setMsg("获取失败");
+            mBaseDataModel.setData(false);
+            return mBaseDataModel;
+        }
+    }
+
+
 
 }
 
