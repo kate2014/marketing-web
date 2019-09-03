@@ -35,7 +35,7 @@ public class ShopApiController {
         try {
 
             ShopResp mShopResp = new ShopResp();
-            mShopResp.setStartPicture("http://media.zhongmeiyunfu.com/start_picture.png");
+            mShopResp.setStartPicture("http://media.zhongmeiyunfu.com/start_pic.png");
 
             mBaseDataModel.setState("1000");
             mBaseDataModel.setMsg("获取门店信息成功");
