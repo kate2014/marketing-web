@@ -18,6 +18,22 @@
     <script type="text/javascript" src="../static/js/echarts.min.js" th:src="@{/js/echarts.min.js}"></script>
 </head>
 
+<script type="text/javascript">
+    function exportExcel() {
+        var brandIdenty = $("input[name='brandIdenty']").val();
+        var shopIdenty = $("input[name='shopIdenty']").val();
+
+        var status = document.getElementById("status").value;
+        var validityPeriod = $("input[name='validityPeriod']").val();
+
+        var params = "brandIdenty=" + brandIdenty +
+            "&shopIdenty=" + shopIdenty +
+            "&status=" + status +
+            "&validityPeriod=" + validityPeriod;
+        location.href = "[[${basePath}]]/internal/activitySalesReport/export/activitySale?" + params;
+    }
+
+</script>
 
 <body>
 <div th:if="${mReportMarketingModel.rquestSource} eq '2'">
@@ -46,7 +62,7 @@
             <input type="hidden" name="rquestSource" th:value="${mReportMarketingModel.rquestSource}">
 
             <label class="text_navigation" style="margin-left: 100px">使用状态</label>
-            <select class="select_style" name="status" style="margin-left: 5px">
+            <select class="select_style" name="status" id="status" style="margin-left: 5px">
                 <option value="">全部</option>
                 <option th:selected="${mReportMarketingModel.status==1}" th:value="1">未使用</option>
                 <option th:selected="${mReportMarketingModel.status==2}" th:value="2">已使用</option>
@@ -64,26 +80,30 @@
     </div>
 </div>
 
-<img class="line_style" th:src="@{/images/line.jpg}" style="margin-bottom: 20px">
+<img class="line_style" th:src="@{/images/line.jpg}" style="margin-bottom: 20px;margin-top: 20px">
 
 <div style="width: 90%;height:400px; align-content: center; text-align: center; margin-left: 20px;margin-bottom: 20px;">
     <div id="activitySalesReport" style="width: 100%;height:400px;"></div>
     <p style="font-weight: bold; margin-left: 6px">特价活动报表</p>
 </div>
 
+<img class="line_style" th:src="@{/images/line.jpg}" style="margin-bottom: 20px;margin-top: 20px">
 
-<div align="center" style="margin-top: 10px">
+<div align="center" style="margin-top: 20px">
     <table class="gridtablestyle" style="width: 95%; vertical-align: middle">
         <tr style="width: 100%">
             <th>活动名称</th>
-            <th>状态</th>
             <th>购买顾客</th>
             <th>购买时间</th>
+            <th>状态</th>
             <th>使用时间</th>
             <th>到期时间</th>
         </tr>
         <tr th:each="item:${listData}">
             <td th:text="${item.marketingName}"></td>
+
+            <td th:text="${item.customerName}"></td>
+            <td th:text="${#dates.format(item.serverCreateTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
             <td>
                 <div th:switch="${item.status}">
                     <p th:case="'1'">
@@ -94,8 +114,6 @@
                     </p>
                 </div>
             </td>
-            <td th:text="${item.customerName}"></td>
-            <td th:text="${#dates.format(item.serverCreateTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
             <td>
                 <div th:switch="${item.status}">
                     <p th:case="'1'">

@@ -372,15 +372,15 @@ public class WxTradeCustomerServiceImpl extends ServiceImpl<WxTradeCustomerMappe
     }
 
     @Override
-    public List<WxTradeCustomerEntity> queryReport(WxTradeCustomerEntity mWxTradeCustomerEntity) throws Exception {
+    public List<WxTradeCustomerEntity> queryReport(ReportMarketingModel mReportMarketingModel,Integer status) throws Exception {
         EntityWrapper<WxTradeCustomerEntity> eWrapper = new EntityWrapper<>(new WxTradeCustomerEntity());
-        eWrapper.eq("brand_identy", mWxTradeCustomerEntity.getBrandIdenty());
-        eWrapper.eq("shop_identy", mWxTradeCustomerEntity.getShopIdenty());
-        if(mWxTradeCustomerEntity.getStatus() != null){
-            eWrapper.eq("status", mWxTradeCustomerEntity.getStatus());
+        eWrapper.eq("brand_identy", mReportMarketingModel.getBrandIdenty());
+        eWrapper.eq("shop_identy", mReportMarketingModel.getShopIdenty());
+        if(status != null){
+            eWrapper.eq("status", status);
         }
-        eWrapper.eq("type",mWxTradeCustomerEntity.getType());
-        eWrapper.ge("validity_period",mWxTradeCustomerEntity.getValidityPeriod());
+        eWrapper.eq("type",mReportMarketingModel.getType());
+        eWrapper.ge("validity_period",DateFormatUtil.parseDate(mReportMarketingModel.getValidityPeriod(),DateFormatUtil.FORMAT_FULL_DATE));
         eWrapper.eq("enabled_flag", 1);
         eWrapper.eq("status_flag",1);
         eWrapper.setSqlSelect("count(id) as id,marketing_name,marketing_id");
@@ -395,9 +395,8 @@ public class WxTradeCustomerServiceImpl extends ServiceImpl<WxTradeCustomerMappe
     @Override
     public Page<WxTradeCustomerEntity> queryAllMarketing(ReportMarketingModel mReportMarketingModel) throws Exception {
 
-        Page<WxTradeCustomerEntity> listPage = new Page<>(mReportMarketingModel.getPageNo(), mReportMarketingModel.getPageSize());
-
         EntityWrapper<WxTradeCustomerEntity> eWrapper = new EntityWrapper<>(new WxTradeCustomerEntity());
+
         eWrapper.eq("brand_identy", mReportMarketingModel.getBrandIdenty());
         eWrapper.eq("shop_identy", mReportMarketingModel.getShopIdenty());
         if(mReportMarketingModel.getStatus() != null && !mReportMarketingModel.getStatus().equals("")){
@@ -408,11 +407,32 @@ public class WxTradeCustomerServiceImpl extends ServiceImpl<WxTradeCustomerMappe
         eWrapper.eq("enabled_flag", 1);
         eWrapper.eq("status_flag",1);
         eWrapper.setSqlSelect("id,marketing_name,marketing_id,server_create_time,server_update_time,customer_name,status,validity_period");
-        eWrapper.orderBy("validity_period,marketing_id",false);
+        eWrapper.orderBy("server_create_time",false);
+
+        Page<WxTradeCustomerEntity> listPage = new Page<>(mReportMarketingModel.getPageNo(), mReportMarketingModel.getPageSize());
 
         Page<WxTradeCustomerEntity> listData = selectPage(listPage,eWrapper);
 
         return listData;
+    }
+
+    @Override
+    public List<WxTradeCustomerEntity> queryAllData(ReportMarketingModel mReportMarketingModel) throws Exception {
+        EntityWrapper<WxTradeCustomerEntity> eWrapper = new EntityWrapper<>(new WxTradeCustomerEntity());
+        eWrapper.eq("brand_identy", mReportMarketingModel.getBrandIdenty());
+        eWrapper.eq("shop_identy", mReportMarketingModel.getShopIdenty());
+
+        if(mReportMarketingModel.getStatus() != null && !mReportMarketingModel.getStatus().equals("")){
+            eWrapper.eq("status", mReportMarketingModel.getStatus());
+        }
+        eWrapper.eq("type",mReportMarketingModel.getType());
+        eWrapper.ge("validity_period", DateFormatUtil.parseDate(mReportMarketingModel.getValidityPeriod(),DateFormatUtil.FORMAT_FULL_DATE));
+        eWrapper.eq("enabled_flag", 1);
+        eWrapper.eq("status_flag",1);
+        eWrapper.setSqlSelect("id,marketing_name,marketing_id,server_create_time,server_update_time,customer_name,status,validity_period");
+        eWrapper.orderBy("validity_period",false);
+
+        return selectList(eWrapper);
     }
 
 }

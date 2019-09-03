@@ -166,11 +166,11 @@ public interface WxTradeCustomerService extends IService<WxTradeCustomerEntity> 
 
     /**
      * 活动报表
-     * @param mWxTradeCustomerEntity
+     * @param mReportMarketingModel
      * @return
      * @throws Exception
      */
-    public List<WxTradeCustomerEntity> queryReport(WxTradeCustomerEntity mWxTradeCustomerEntity)throws Exception;
+    public List<WxTradeCustomerEntity> queryReport(ReportMarketingModel mReportMarketingModel, Integer status)throws Exception;
 
     /**
      * 查询所以未到期活动
@@ -179,4 +179,12 @@ public interface WxTradeCustomerService extends IService<WxTradeCustomerEntity> 
      * @throws Exception
      */
     public Page<WxTradeCustomerEntity> queryAllMarketing(ReportMarketingModel mReportMarketingModel)throws Exception;
+
+    /**
+     * 查收门店所有活动数据，可用于数据导出
+     * @param mReportMarketingModel
+     * @return
+     * @throws Exception
+     */
+    public List<WxTradeCustomerEntity> queryAllData(ReportMarketingModel mReportMarketingModel)throws Exception;
 }
