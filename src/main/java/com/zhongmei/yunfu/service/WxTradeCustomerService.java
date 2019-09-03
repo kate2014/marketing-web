@@ -1,5 +1,6 @@
 package com.zhongmei.yunfu.service;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.zhongmei.yunfu.controller.model.CollageReportModel;
 import com.zhongmei.yunfu.controller.model.ReportMarketingModel;
 import com.zhongmei.yunfu.controller.model.TradeModel;
@@ -162,4 +163,20 @@ public interface WxTradeCustomerService extends IService<WxTradeCustomerEntity> 
      * @throws Exception
      */
     public Integer queryCountByCode(Long brandIdenty, Long shopIdenty,String code)throws Exception;
+
+    /**
+     * 活动报表
+     * @param mWxTradeCustomerEntity
+     * @return
+     * @throws Exception
+     */
+    public List<WxTradeCustomerEntity> queryReport(WxTradeCustomerEntity mWxTradeCustomerEntity)throws Exception;
+
+    /**
+     * 查询所以未到期活动
+     * @param mReportMarketingModel
+     * @return
+     * @throws Exception
+     */
+    public Page<WxTradeCustomerEntity> queryAllMarketing(ReportMarketingModel mReportMarketingModel)throws Exception;
 }

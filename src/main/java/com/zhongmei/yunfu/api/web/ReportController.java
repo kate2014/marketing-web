@@ -192,6 +192,15 @@ public class ReportController {
         }else{
             model.addAttribute("havaCustomerShopReport", 1);
         }
+
+        //特价活动报表
+        if(permissionData.get("ACTIVITY_SALES_REPORT") == null || permissionData.get("ACTIVITY_SALES_REPORT").equals("")){
+            model.addAttribute("activitySalesReport", 0);
+        }else{
+            model.addAttribute("activitySalesReport", 1);
+        }
+
+
     }
 
     @RequestMapping("/main")

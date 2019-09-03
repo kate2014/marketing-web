@@ -55,6 +55,10 @@ public class CustomerModel {
 
     private Integer rquestSource;
 
+    private String sessionKey;
+
+    private String accesstoken;
+
     public Long getId() {
         return id;
     }
@@ -245,5 +249,21 @@ public class CustomerModel {
 
     public void setRquestSource(Integer rquestSource) {
         this.rquestSource = rquestSource;
+    }
+
+    public String getSessionKey() {
+        return sessionKey;
+    }
+
+    public void setSessionKey(String sessionKey) {
+        this.sessionKey = sessionKey;
+    }
+
+    public String getAccesstoken() {
+        return accesstoken;
+    }
+
+    public void setAccesstoken(String accesstoken) {
+        this.accesstoken = accesstoken;
     }
 }

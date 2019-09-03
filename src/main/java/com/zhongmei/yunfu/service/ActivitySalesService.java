@@ -1,6 +1,7 @@
 package com.zhongmei.yunfu.service;
 
 import com.baomidou.mybatisplus.service.IService;
+import com.zhongmei.yunfu.api.ApiRespStatusException;
 import com.zhongmei.yunfu.domain.entity.ActivitySalesEntity;
 
 import java.util.List;
@@ -54,6 +55,6 @@ public interface ActivitySalesService extends IService<ActivitySalesEntity> {
      * @return
      * @throws Exception
      */
-    String queryPosterById(Long id)throws Exception;
+    String queryPosterById(Long id)throws ApiRespStatusException;
 
 }

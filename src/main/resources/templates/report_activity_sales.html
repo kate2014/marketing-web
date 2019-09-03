@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>特价活动报表</title>
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../css/base.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../css/common.css" type="text/css" />
+
+    <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <script type="text/javascript" src="../static/js/base.js" th:src="@{/js/base.js}"></script>
+
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/test/jeDate-test.css}">
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/skin/jedate.css}">
+    <script type="text/javascript" th:src="@{/selectdate/src/jedate.js}"></script>
+
+    <script type="text/javascript" src="../static/js/echarts.min.js" th:src="@{/js/echarts.min.js}"></script>
+</head>
+
+
+<body>
+<div th:if="${mReportMarketingModel.rquestSource} eq '2'">
+    <div class="parent top_view_style">
+
+        <img th:src="@{/images/lable.jpg}" width="5" height="26" style="margin-left: 20px">
+
+        <label class="text_navigation" style="margin-left: 20px">特价活动报表</label>
+
+
+        <div class="parent container" style="margin-left: 80%; cursor: pointer" th:onclick="@{|location='${basePath}/internal/report/posReport?brandIdenty=${mReportMarketingModel.brandIdenty}&shopIdenty=${mReportMarketingModel.shopIdenty}'|}">
+            <img th:src="@{/images/back_icon.png}" src="../static/images/back_icon.png" width="21" height="21">
+            <label class="text_navigation" style="margin-left: 10px">返回</label>
+        </div>
+
+    </div>
+</div>
+<div class="parent" style="margin-top: 20px">
+    <form method="post" action="" th:action="@{/internal/activitySalesReport/activitySales}" th:object="${mReportMarketingModel}">
+        <div>
+
+            <input type="hidden" name="brandIdenty" th:value="${mReportMarketingModel.brandIdenty}">
+
+            <input type="hidden" name="shopIdenty" th:value="${mReportMarketingModel.shopIdenty}">
+
+            <input type="hidden" name="rquestSource" th:value="${mReportMarketingModel.rquestSource}">
+
+            <label class="text_navigation" style="margin-left: 100px">使用状态</label>
+            <select class="select_style" name="status" style="margin-left: 5px">
+                <option value="">全部</option>
+                <option th:selected="${mReportMarketingModel.status==1}" th:value="1">未使用</option>
+                <option th:selected="${mReportMarketingModel.status==2}" th:value="2">已使用</option>
+            </select>
+
+            <label class="text_navigation" style="margin-left: 10px">活动使用截止时间 >= </label>
+            <input class="input_style" type="text" placeholder="输入活动使用截止时间" id="validityPeriod" name="validityPeriod" th:value="${mReportMarketingModel.validityPeriod}">
+            <button class="orange_mine_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
+
+        </div>
+    </form>
+    <div class="parent" id="export_excel" onclick="exportExcel()" style="margin-left: 20px;cursor:pointer;" th:if="${mReportMarketingModel.rquestSource} eq '1'">
+        <img th:src="@{/images/excel_icon.png}" src="../static/images/excel_icon.png" style="width: 21px;height: 21px">
+        <span style="font-size: 10px;margin-left: 6px">数据导出</span>
+    </div>
+</div>
+
+<img class="line_style" th:src="@{/images/line.jpg}" style="margin-bottom: 20px">
+
+<div style="width: 90%;height:400px; align-content: center; text-align: center; margin-left: 20px;margin-bottom: 20px;">
+    <div id="activitySalesReport" style="width: 100%;height:400px;"></div>
+    <p style="font-weight: bold; margin-left: 6px">特价活动报表</p>
+</div>
+
+
+<div align="center" style="margin-top: 10px">
+    <table class="gridtablestyle" style="width: 95%; vertical-align: middle">
+        <tr style="width: 100%">
+            <th>活动名称</th>
+            <th>状态</th>
+            <th>购买顾客</th>
+            <th>购买时间</th>
+            <th>使用时间</th>
+            <th>到期时间</th>
+        </tr>
+        <tr th:each="item:${listData}">
+            <td th:text="${item.marketingName}"></td>
+            <td>
+                <div th:switch="${item.status}">
+                    <p th:case="'1'">
+                        未使用
+                    </p>
+                    <p th:case="'2'">
+                        已使用
+                    </p>
+                </div>
+            </td>
+            <td th:text="${item.customerName}"></td>
+            <td th:text="${#dates.format(item.serverCreateTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td>
+                <div th:switch="${item.status}">
+                    <p th:case="'1'">
+                        /
+                    </p>
+                    <p th:case="'2'">
+                        <span th:text="${#dates.format(item.serverUpdateTime, 'yyyy-MM-dd HH:mm:ss')}"></span>
+                    </p>
+
+                </div>
+            </td>
+            <td th:text="${#dates.format(item.validityPeriod, 'yyyy-MM-dd HH:mm:ss')}"></td>
+
+        </tr>
+
+    </table>
+</div>
+
+<div class="paging" style="margin-bottom: 36px">
+
+    <div th:replace="page_info::pagination"/>
+
+</div>
+
+
+<script th:inline="javascript">
+
+    var dom = document.getElementById("activitySalesReport");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '特价活动报表';
+
+    option = {
+        tooltip : {
+            trigger: 'axis',
+            axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            }
+        },
+        toolbox: {
+            feature: {
+                dataView: {show: true, readOnly: false},
+                magicType: {show: true, type: ['line', 'bar']},
+                restore: {show: true},
+                saveAsImage: {show: true}
+            }
+        },
+        legend: {
+            data:['活动售卖数','活动已使用数']
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis : [
+            {
+                type : 'category',
+                data : [[${allName}]]
+            }
+        ],
+        yAxis : [
+            {
+                type: 'value',
+                name: '单数',
+                min: 0,
+                // max: [[${maxSaleCount}]],
+                // interval: [[${intervalSaleCount}]],
+                axisLabel: {
+                    formatter: '{value}单'
+                }
+            },
+        ],
+        series : [
+
+            {
+                name:'活动售卖数',
+                type:'bar',
+                barMaxWidth : 30,//柱图宽度
+                data:[[${allData}]]
+            },
+            {
+                name:'活动已使用数',
+                type:'bar',
+                barMaxWidth : 30,//柱图宽度
+                data:[[${usedData}]]
+            }
+        ]
+    };
+    ;
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+</script>
+
+<script type="text/javascript" th:src="@{/selectdate/test/marketing_date.js}" src="../static/selectdate/test/marketing_date.js"></script>
+
+
+</body>
+</html>

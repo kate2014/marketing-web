@@ -1,5 +1,6 @@
 package com.zhongmei.yunfu.service;
 
+import com.zhongmei.yunfu.api.ApiRespStatusException;
 import com.zhongmei.yunfu.domain.entity.CommercialPaySettingEntity;
 import com.baomidou.mybatisplus.service.IService;
 
@@ -37,7 +38,7 @@ public interface CommercialPaySettingService extends IService<CommercialPaySetti
      * @return
      * @throws Exception
      */
-    CommercialPaySettingEntity queryData(CommercialPaySettingEntity mCommercialPaySetting)throws Exception;
+    CommercialPaySettingEntity queryData(CommercialPaySettingEntity mCommercialPaySetting)throws ApiRespStatusException;
 
     /**
      * 查询商家所有配置信息

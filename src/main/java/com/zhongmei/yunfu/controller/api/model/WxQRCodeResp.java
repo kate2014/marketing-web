@@ -8,7 +8,8 @@ public class WxQRCodeResp {
     public int errcode;
     public String errmsg;
     public String contentType;
-    public Buffer buffer;
+    public String qrCode;
+
     public String posterImage;
 
     public BigDecimal minRedPackets;
@@ -39,12 +40,12 @@ public class WxQRCodeResp {
         this.contentType = contentType;
     }
 
-    public Buffer getBuffer() {
-        return buffer;
+    public String getQrCode() {
+        return qrCode;
     }
 
-    public void setBuffer(Buffer buffer) {
-        this.buffer = buffer;
+    public void setQrCode(String qrCode) {
+        this.qrCode = qrCode;
     }
 
     public String getPosterImage() {
@@ -70,4 +71,5 @@ public class WxQRCodeResp {
     public void setMaxRedPackets(BigDecimal maxRedPackets) {
         this.maxRedPackets = maxRedPackets;
     }
+
 }

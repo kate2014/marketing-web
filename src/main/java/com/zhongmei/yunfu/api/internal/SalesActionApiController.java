@@ -1,4 +1,4 @@
-package com.zhongmei.yunfu.api.web;
+package com.zhongmei.yunfu.api.internal;
 
 import com.zhongmei.yunfu.api.pos.vo.CustomerIntegralTradeReq;
 import com.zhongmei.yunfu.controller.model.*;

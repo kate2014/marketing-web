@@ -2,6 +2,7 @@ package com.zhongmei.yunfu.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.zhongmei.yunfu.api.ApiRespStatusException;
 import com.zhongmei.yunfu.domain.entity.ActivityRedPacketsEntity;
 import com.zhongmei.yunfu.domain.entity.ActivitySalesGiftEntity;
 import com.zhongmei.yunfu.domain.mapper.ActivityRedPacketsMapper;
@@ -33,7 +34,7 @@ public class ActivityRedPacketsServiceImpl extends ServiceImpl<ActivityRedPacket
     }
 
     @Override
-    public ActivityRedPacketsEntity queryRule(ActivityRedPacketsEntity mActivityRedPacketsEntity) throws Exception {
+    public ActivityRedPacketsEntity queryRule(ActivityRedPacketsEntity mActivityRedPacketsEntity) throws ApiRespStatusException {
         EntityWrapper<ActivityRedPacketsEntity> eWrapper = new EntityWrapper<>();
         eWrapper.eq("brand_identy",mActivityRedPacketsEntity.getBrandIdenty());
         eWrapper.eq("shop_identy",mActivityRedPacketsEntity.getShopIdenty());

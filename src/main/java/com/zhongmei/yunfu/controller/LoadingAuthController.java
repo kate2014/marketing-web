@@ -66,10 +66,14 @@ public class LoadingAuthController {
             mLoadingModel.setRequestUrl(url);
 
         }else if(mLoadingModel.getRequestUrlType() == 12){
-            String url = "/internal/marketingReport/coupon?brandIdenty="+mLoadingModel.getBrandIdenty()+"&shopIdenty="+mLoadingModel.getShopIdenty()+"&rquestSource="+mLoadingModel.getRquestSource();
+            String url = "/internal/activitySalesReport/activitySales?brandIdenty="+mLoadingModel.getBrandIdenty()+"&shopIdenty="+mLoadingModel.getShopIdenty()+"&rquestSource="+mLoadingModel.getRquestSource();
             mLoadingModel.setRequestUrl(url);
 
         }else if(mLoadingModel.getRequestUrlType() == 13){
+            String url = "/internal/marketingReport/coupon?brandIdenty="+mLoadingModel.getBrandIdenty()+"&shopIdenty="+mLoadingModel.getShopIdenty()+"&rquestSource="+mLoadingModel.getRquestSource();
+            mLoadingModel.setRequestUrl(url);
+
+        }else if(mLoadingModel.getRequestUrlType() == 14){
             String url = "/internal/bookingReport/booking?brandIdenty="+mLoadingModel.getBrandIdenty()+"&shopIdenty="+mLoadingModel.getShopIdenty()+"&rquestSource="+mLoadingModel.getRquestSource();
             mLoadingModel.setRequestUrl(url);
 

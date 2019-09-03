@@ -1,6 +1,7 @@
 package com.zhongmei.yunfu.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.zhongmei.yunfu.api.ApiRespStatusException;
 import com.zhongmei.yunfu.domain.entity.CommercialPaySettingEntity;
 import com.zhongmei.yunfu.domain.mapper.CommercialPaySettingMapper;
 import com.zhongmei.yunfu.service.CommercialPaySettingService;
@@ -37,7 +38,7 @@ public class CommercialPaySettingServiceImpl extends ServiceImpl<CommercialPaySe
     }
 
     @Override
-    public CommercialPaySettingEntity queryData(CommercialPaySettingEntity mCommercialPaySetting) throws Exception {
+    public CommercialPaySettingEntity queryData(CommercialPaySettingEntity mCommercialPaySetting) throws ApiRespStatusException {
         EntityWrapper<CommercialPaySettingEntity> eWrapper = new EntityWrapper<>(new CommercialPaySettingEntity());
         eWrapper.eq("brand_identy",mCommercialPaySetting.getBrandIdenty());
         eWrapper.eq("shop_identy",mCommercialPaySetting.getShopIdenty());

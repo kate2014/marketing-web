@@ -1,6 +1,7 @@
 package com.zhongmei.yunfu.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.zhongmei.yunfu.api.ApiRespStatusException;
 import com.zhongmei.yunfu.domain.entity.ActivitySalesEntity;
 import com.zhongmei.yunfu.domain.mapper.ActivitySalesMapper;
 import com.zhongmei.yunfu.service.ActivitySalesService;
@@ -65,7 +66,7 @@ public class ActivitySalesServiceImpl extends ServiceImpl<ActivitySalesMapper, A
     }
 
     @Override
-    public String queryPosterById(Long id) throws Exception {
+    public String queryPosterById(Long id) throws ApiRespStatusException {
         EntityWrapper<ActivitySalesEntity> eWrapper = new EntityWrapper<>();
         eWrapper.eq("id",id);
         eWrapper.setSqlSelect("image_url");

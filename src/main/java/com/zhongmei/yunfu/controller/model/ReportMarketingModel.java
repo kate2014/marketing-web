@@ -1,6 +1,10 @@
 package com.zhongmei.yunfu.controller.model;
 
-public class ReportMarketingModel {
+import com.zhongmei.yunfu.controller.model.base.WebBaseModel;
+
+import java.util.Date;
+
+public class ReportMarketingModel extends WebBaseModel {
 
     /**
      * 品牌标识
@@ -24,6 +28,8 @@ public class ReportMarketingModel {
     private Integer rquestSource;
 
     private Integer privilegeType;
+
+    private String validityPeriod;
 
     public Long getShopIdenty() {
         return shopIdenty;
@@ -95,5 +101,13 @@ public class ReportMarketingModel {
 
     public void setEnabledFlag(Integer enabledFlag) {
         this.enabledFlag = enabledFlag;
+    }
+
+    public String getValidityPeriod() {
+        return validityPeriod;
+    }
+
+    public void setValidityPeriod(String validityPeriod) {
+        this.validityPeriod = validityPeriod;
     }
 }

@@ -2,6 +2,7 @@ package com.zhongmei.yunfu.service.impl;
 
 import com.baomidou.mybatisplus.mapper.Condition;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.zhongmei.yunfu.controller.model.CollageReportModel;
 import com.zhongmei.yunfu.controller.model.ReportMarketingModel;
 import com.zhongmei.yunfu.controller.model.TradeModel;
@@ -10,6 +11,7 @@ import com.zhongmei.yunfu.domain.entity.*;
 import com.zhongmei.yunfu.domain.mapper.WxTradeCustomerMapper;
 import com.zhongmei.yunfu.service.*;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.zhongmei.yunfu.util.DateFormatUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -367,6 +369,50 @@ public class WxTradeCustomerServiceImpl extends ServiceImpl<WxTradeCustomerMappe
 
         eWrapper.eq("code", code);
         return selectCount(eWrapper);
+    }
+
+    @Override
+    public List<WxTradeCustomerEntity> queryReport(WxTradeCustomerEntity mWxTradeCustomerEntity) throws Exception {
+        EntityWrapper<WxTradeCustomerEntity> eWrapper = new EntityWrapper<>(new WxTradeCustomerEntity());
+        eWrapper.eq("brand_identy", mWxTradeCustomerEntity.getBrandIdenty());
+        eWrapper.eq("shop_identy", mWxTradeCustomerEntity.getShopIdenty());
+        if(mWxTradeCustomerEntity.getStatus() != null){
+            eWrapper.eq("status", mWxTradeCustomerEntity.getStatus());
+        }
+        eWrapper.eq("type",mWxTradeCustomerEntity.getType());
+        eWrapper.ge("validity_period",mWxTradeCustomerEntity.getValidityPeriod());
+        eWrapper.eq("enabled_flag", 1);
+        eWrapper.eq("status_flag",1);
+        eWrapper.setSqlSelect("count(id) as id,marketing_name,marketing_id");
+        eWrapper.groupBy("marketing_id");
+        eWrapper.orderBy("validity_period",false);
+
+        List<WxTradeCustomerEntity> listData = selectList(eWrapper);
+
+        return listData;
+    }
+
+    @Override
+    public Page<WxTradeCustomerEntity> queryAllMarketing(ReportMarketingModel mReportMarketingModel) throws Exception {
+
+        Page<WxTradeCustomerEntity> listPage = new Page<>(mReportMarketingModel.getPageNo(), mReportMarketingModel.getPageSize());
+
+        EntityWrapper<WxTradeCustomerEntity> eWrapper = new EntityWrapper<>(new WxTradeCustomerEntity());
+        eWrapper.eq("brand_identy", mReportMarketingModel.getBrandIdenty());
+        eWrapper.eq("shop_identy", mReportMarketingModel.getShopIdenty());
+        if(mReportMarketingModel.getStatus() != null && !mReportMarketingModel.getStatus().equals("")){
+            eWrapper.eq("status", mReportMarketingModel.getStatus());
+        }
+        eWrapper.eq("type",mReportMarketingModel.getType());
+        eWrapper.ge("validity_period", DateFormatUtil.parseDate(mReportMarketingModel.getValidityPeriod(),DateFormatUtil.FORMAT_FULL_DATE));
+        eWrapper.eq("enabled_flag", 1);
+        eWrapper.eq("status_flag",1);
+        eWrapper.setSqlSelect("id,marketing_name,marketing_id,server_create_time,server_update_time,customer_name,status,validity_period");
+        eWrapper.orderBy("validity_period,marketing_id",false);
+
+        Page<WxTradeCustomerEntity> listData = selectPage(listPage,eWrapper);
+
+        return listData;
     }
 
 }

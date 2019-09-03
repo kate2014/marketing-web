@@ -2,6 +2,11 @@ package com.zhongmei.yunfu.controller.api;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.zhongmei.yunfu.api.ApiRespStatusException;
+import com.zhongmei.yunfu.api.internal.SalesActionApiController;
+import com.zhongmei.yunfu.controller.api.model.CustomerResp;
+import com.zhongmei.yunfu.controller.api.model.WxAccessToken;
+import com.zhongmei.yunfu.controller.api.model.WxPhoneReq;
 import com.zhongmei.yunfu.util.DateFormatUtil;
 import com.zhongmei.yunfu.util.ToolsUtil;
 import com.zhongmei.yunfu.controller.model.*;
@@ -9,9 +14,12 @@ import com.zhongmei.yunfu.domain.entity.*;
 import com.zhongmei.yunfu.service.*;
 import com.zhongmei.yunfu.util.WxUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -28,6 +36,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/wxapp/customer")
 public class CustomerApiController {
+
+    private static Logger log = LoggerFactory.getLogger(CustomerApiController.class);
 
     @Autowired
     CustomerService mCustomerService;
@@ -54,6 +64,7 @@ public class CustomerApiController {
     @GetMapping("/addCustomer")
     public BaseDataModel addCustomer(Model model, CustomerModel mCustomerModel) {
         BaseDataModel mBaseDataModel = new BaseDataModel();
+        CustomerResp mCustomerResp = new CustomerResp();
         try {
             Integer actionCode = selectOpenIdFromWx(mBaseDataModel,mCustomerModel);
             if(actionCode != 1000){
@@ -66,14 +77,14 @@ public class CustomerApiController {
 
             //为null表示该会员未添加
             if (mCustomer == null) {
-                CustomerEntity addCustomer = executeAdd(mBaseDataModel,mCustomerModel);
+                mCustomer = executeAdd(mBaseDataModel,mCustomerModel);
 
                 //建立会员推荐关联
                 addCustomerExpanded(mCustomerModel);
 
                 //添加成功后判断是否需要推送新人优惠券
-                if(addCustomer != null && addCustomer.getId() != null){
-                    mCustomerCouponService.putOnCoupon(mCustomerModel.getBrandIdenty(), mCustomerModel.getShopIdenty(),addCustomer.getId(),addCustomer.getThirdId(), 2,1);
+                if(mCustomer != null && mCustomer.getId() != null){
+                    mCustomerCouponService.putOnCoupon(mCustomerModel.getBrandIdenty(), mCustomerModel.getShopIdenty(),mCustomer.getId(),mCustomer.getThirdId(), 2,1);
                 }
             } else {
                 boolean isMidfityData = false;
@@ -102,10 +113,87 @@ public class CustomerApiController {
                     mCustomer.setMobile(mobileCustomer.getMobile());
                 }
 
+                mCustomerResp.setmCustomer(mCustomer);
+                mCustomerResp.setSessionKey(mCustomerModel.getSessionKey());
+                mCustomerResp.setAccesstoken(mCustomerModel.getAccesstoken());
                 mBaseDataModel.setState("1002");
                 mBaseDataModel.setMsg("该会员已添加过");
                 mBaseDataModel.setData(mCustomer);
             }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            mBaseDataModel.setState("1001");
+            mBaseDataModel.setMsg("添加会员失败");
+            mBaseDataModel.setData(false);
+        }
+
+        return mBaseDataModel;
+    }
+
+    @GetMapping("/loginCustomer")
+    public BaseDataModel loginCustomer(Model model, CustomerModel mCustomerModel) {
+        BaseDataModel mBaseDataModel = new BaseDataModel();
+        CustomerResp mCustomerResp = new CustomerResp();
+        try {
+            Integer actionCode = selectOpenIdFromWx(mBaseDataModel,mCustomerModel);
+            if(actionCode != 1000){
+                return mBaseDataModel;
+            }
+
+            //先验证该会是否已在该品牌下存在。我们的会员是同品牌下共享会员
+            CustomerEntity mCustomer = mCustomerService.queryCustomerByThirdId(mCustomerModel.getBrandIdenty(), mCustomerModel.getShopIdenty(), mCustomerModel.getWxOpenId());
+
+
+            //为null表示该会员未添加
+            if (mCustomer == null) {
+                mCustomer = executeAdd(mBaseDataModel,mCustomerModel);
+
+                //建立会员推荐关联
+                addCustomerExpanded(mCustomerModel);
+
+                //添加成功后判断是否需要推送新人优惠券
+                if(mCustomer != null && mCustomer.getId() != null){
+                    mCustomerCouponService.putOnCoupon(mCustomerModel.getBrandIdenty(), mCustomerModel.getShopIdenty(),mCustomer.getId(),mCustomer.getThirdId(), 2,1);
+                }
+            } else {
+                boolean isMidfityData = false;
+                //判断用户是否更换了头像
+                if(mCustomerModel.getWxPhoto() != null && !mCustomerModel.getWxPhoto().equals("")){
+                    if(mCustomer.getPhoto() == null || !mCustomer.getPhoto().equals(mCustomerModel.getWxPhoto())){
+                        isMidfityData = true;
+                        mCustomer.setPhoto(mCustomerModel.getWxPhoto());
+                    }
+                }
+                //判断用户是否更换了微信名称
+                if(mCustomerModel.getName() != null && !mCustomerModel.getName().equals("")){
+                    if(mCustomer.getName() == null || !mCustomerModel.getName().equals(mCustomer.getName())){
+                        isMidfityData = true;
+                        mCustomer.setName(mCustomerModel.getName());
+                    }
+                }
+                //如果会员名称或头像有修改，则更新会员信息
+                if(isMidfityData){
+                    mCustomer.setServerUpdateTime(new Date());
+                    mCustomerService.midfityCustomer(mCustomer);
+                }
+
+                if(mCustomer.getRelateId() != null && mCustomer.getRelateId() != 0){
+                    CustomerEntity mobileCustomer = mCustomerService.queryCustomerById(mCustomerModel.getBrandIdenty(), mCustomerModel.getShopIdenty(), mCustomer.getRelateId());
+                    mCustomer.setMobile(mobileCustomer.getMobile());
+                }
+
+                mCustomerResp.setmCustomer(mCustomer);
+                mCustomerResp.setSessionKey(mCustomerModel.getSessionKey());
+                mCustomerResp.setAccesstoken(mCustomerModel.getAccesstoken());
+
+                mBaseDataModel.setState("1002");
+                mBaseDataModel.setMsg("该会员已添加过");
+                mBaseDataModel.setData(mCustomerResp);
+            }
+
+
         } catch (Exception e) {
             e.printStackTrace();
             mBaseDataModel.setState("1001");
@@ -145,9 +233,15 @@ public class CustomerApiController {
 
         Boolean isSuccess = mCustomerService.addCustomer(mCustomer);
         if (isSuccess) {
+            CustomerResp mCustomerResp = new CustomerResp();
+
+            mCustomerResp.setmCustomer(mCustomer);
+            mCustomerResp.setSessionKey(mCustomerModel.getSessionKey());
+            mCustomerResp.setAccesstoken(mCustomerModel.getAccesstoken());
+
             mBaseDataModel.setState("1000");
             mBaseDataModel.setMsg("添加会员成功");
-            mBaseDataModel.setData(mCustomer);
+            mBaseDataModel.setData(mCustomerResp);
         } else {
             mBaseDataModel.setState("1001");
             mBaseDataModel.setMsg("添加会员失败");
@@ -337,26 +431,26 @@ public class CustomerApiController {
         //进行绑定前的密码验证
 //        String passWorld = ToolsUtil.encodeValue(mCustomerModel.getPassword(),mCustomerModel.getMobile());
 //        if(passWorld.equals(mCustomer.getPassword())){
-            CustomerEntity wxCustomer = new CustomerEntity();
-            wxCustomer.setBrandIdenty(mCustomer.getBrandIdenty());
-            wxCustomer.setShopIdenty(mCustomer.getShopIdenty());
-            wxCustomer.setRelateId(mCustomer.getId());
-            wxCustomer.setThirdId(mCustomerModel.getWxOpenId());
-            wxCustomer.setId(mCustomerModel.getId());
-            Boolean isSuccess = mCustomerService.bindCustomerByMobile(wxCustomer);
-            if (isSuccess) {
+        CustomerEntity wxCustomer = new CustomerEntity();
+        wxCustomer.setBrandIdenty(mCustomer.getBrandIdenty());
+        wxCustomer.setShopIdenty(mCustomer.getShopIdenty());
+        wxCustomer.setRelateId(mCustomer.getId());
+        wxCustomer.setThirdId(mCustomerModel.getWxOpenId());
+        wxCustomer.setId(mCustomerModel.getId());
+        Boolean isSuccess = mCustomerService.bindCustomerByMobile(wxCustomer);
+        if (isSuccess) {
 
-                //绑定成功，推送优惠券
-                mCustomerCouponService.putOnCoupon(mCustomerModel.getBrandIdenty(), mCustomerModel.getShopIdenty(),mCustomerModel.getId(),mCustomerModel.getWxOpenId(), 4,3);
+            //绑定成功，推送优惠券
+            mCustomerCouponService.putOnCoupon(mCustomerModel.getBrandIdenty(), mCustomerModel.getShopIdenty(),mCustomerModel.getId(),mCustomerModel.getWxOpenId(), 4,3);
 
-                mBaseDataModel.setState("1000");
-                mBaseDataModel.setMsg("绑定会员成功");
-                mBaseDataModel.setData(mCustomer);
-            } else {
-                mBaseDataModel.setState("1001");
-                mBaseDataModel.setMsg("绑定会员失败");
-                mBaseDataModel.setData(false);
-            }
+            mBaseDataModel.setState("1000");
+            mBaseDataModel.setMsg("绑定会员成功");
+            mBaseDataModel.setData(mCustomer);
+        } else {
+            mBaseDataModel.setState("1001");
+            mBaseDataModel.setMsg("绑定会员失败");
+            mBaseDataModel.setData(false);
+        }
 
 //        }else{
 //            mBaseDataModel.setState("1001");
@@ -439,11 +533,18 @@ public class CustomerApiController {
         //一个门店只有唯一一个appid和secret
         if(settingData != null && settingData.getAppid() != null){
 
+            log.info("====jscode2session===appid="+settingData.getAppid()+"&secret="+settingData.getAppsecret()+"&js_code="+mCustomerModel.getWxOpenId());
+
             String url = "https://api.weixin.qq.com/sns/jscode2session?grant_type=authorization_code&appid="+settingData.getAppid()+"&secret="+settingData.getAppsecret()+"&js_code="+mCustomerModel.getWxOpenId();
             String message = restTemplate.getForObject(url, String.class);
             WxLoginModel mWxLoginModel = JSON.parseObject(message,WxLoginModel.class);
+
+            WxAccessToken mWxAccessToken = getWxAccessToken(settingData.getAppid(),settingData.getAppsecret());
+            mCustomerModel.setAccesstoken(mWxAccessToken.access_token);
+
             if(mWxLoginModel.getOpenid() != null){
                 mCustomerModel.setWxOpenId(mWxLoginModel.getOpenid());
+                mCustomerModel.setSessionKey(mWxLoginModel.getSession_key());
                 return 1000;
             }else{
                 mBaseDataModel.setState("1003");
@@ -462,19 +563,27 @@ public class CustomerApiController {
 
     }
 
+    //获取微信token
+    private WxAccessToken getWxAccessToken(String appID, String appSecret) throws ApiRespStatusException {
+        String accessTokenUrl = String.format("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s", appID, appSecret);
+        WxAccessToken wxAccessToken = restTemplate.getForObject(accessTokenUrl, WxAccessToken.class);
+        return wxAccessToken;
+    }
+
     /**
      * 解密获取用户微信绑定的手机号码
-     * @param encryptedData 目标密文
-     * @param session_key 会话ID
-     * @param iv 加密算法的初始向量
+     * @param mWxPhoneReq
      */
-
-    @GetMapping("/getUserPhone")
-    public Object authPhone(String encryptedData, String session_key, String iv) {
+    @RequestMapping("/getUserPhone")
+    public Object authPhone(@RequestBody WxPhoneReq mWxPhoneReq) throws ApiRespStatusException {
         BaseDataModel mBaseDataModel = new BaseDataModel();
+
         try {
-            String result = WxUtils.wxDecrypt(encryptedData, session_key, iv);
-            JSONObject json = JSONObject.parseObject(result);
+
+        String result = WxUtils.wxDecrypt(mWxPhoneReq.getEncryptedData(), mWxPhoneReq.getSeesionKey(), mWxPhoneReq.getIv());
+        JSONObject json = JSONObject.parseObject(result);
+        log.info("====result==="+result);
+
             if (json.containsKey("phoneNumber")) {
                 String phone = json.getString("phoneNumber");
 //                String appid = json.getJSONObject("watermark").getString("appid");
@@ -485,6 +594,7 @@ public class CustomerApiController {
                     mBaseDataModel.setData(phone);
                     return mBaseDataModel;
 
+
                 } else {
                     mBaseDataModel.setState("1001");
                     mBaseDataModel.setMsg("失败！用户未绑定手机号");
@@ -493,12 +603,13 @@ public class CustomerApiController {
                 }
             } else {
                 mBaseDataModel.setState("1001");
-                mBaseDataModel.setMsg("获取失败");
+                mBaseDataModel.setMsg("获取失败:"+json.toString());
                 mBaseDataModel.setData(false);
                 return mBaseDataModel;
             }
         } catch (Exception e) {
-            mBaseDataModel.setState("1001");
+            e.printStackTrace();
+            mBaseDataModel.setState("1002");
             mBaseDataModel.setMsg("获取失败");
             mBaseDataModel.setData(false);
             return mBaseDataModel;

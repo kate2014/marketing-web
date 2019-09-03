@@ -76,6 +76,12 @@ public class ActivitySalesModel extends WebBaseModel {
      */
     private Long shopIdenty;
 
+    private Integer status;
+
+    private String startDate;
+
+    private String endDate;
+
     public Long getId() {
         return id;
     }
@@ -290,5 +296,29 @@ public class ActivitySalesModel extends WebBaseModel {
 
     public void setMusic(String music) {
         this.music = music;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
     }
 }

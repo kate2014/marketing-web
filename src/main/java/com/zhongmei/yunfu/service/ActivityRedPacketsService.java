@@ -1,6 +1,7 @@
 package com.zhongmei.yunfu.service;
 
 import com.baomidou.mybatisplus.service.IService;
+import com.zhongmei.yunfu.api.ApiRespStatusException;
 import com.zhongmei.yunfu.domain.entity.ActivityRedPacketsEntity;
 
 /**
@@ -32,7 +33,7 @@ public interface ActivityRedPacketsService extends IService<ActivityRedPacketsEn
      * @return
      * @throws Exception
      */
-    ActivityRedPacketsEntity queryRule(ActivityRedPacketsEntity mActivityRedPacketsEntity)throws Exception;
+    ActivityRedPacketsEntity queryRule(ActivityRedPacketsEntity mActivityRedPacketsEntity)throws ApiRespStatusException;
 
     /**
      * 根据活动id删除红包赠送规则

@@ -1,4 +1,4 @@
-package com.zhongmei.yunfu.api.web;
+package com.zhongmei.yunfu.api.internal;
 
 
 import com.zhongmei.yunfu.api.ApiRespStatus;
