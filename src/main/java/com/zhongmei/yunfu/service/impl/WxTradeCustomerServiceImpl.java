@@ -385,7 +385,7 @@ public class WxTradeCustomerServiceImpl extends ServiceImpl<WxTradeCustomerMappe
         eWrapper.eq("status_flag",1);
         eWrapper.setSqlSelect("count(id) as id,marketing_name,marketing_id");
         eWrapper.groupBy("marketing_id");
-        eWrapper.orderBy("validity_period",false);
+        eWrapper.orderBy("marketing_id",false);
 
         List<WxTradeCustomerEntity> listData = selectList(eWrapper);
 
