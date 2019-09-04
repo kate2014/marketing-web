@@ -127,7 +127,7 @@ public class ActivityPosterApiController {
 //        params.put("page", "pages/checkNetwork/checkNetwork");
 
         JSONObject params = new JSONObject();
-        params.put("scene", "urlType=9&id=333&cId="+mWxQRCodeReq.getRecommendCustomerId());
+        params.put("scene", "9#"+mWxQRCodeReq.getActivityId()+"#"+mWxQRCodeReq.getRecommendCustomerId());
         params.put("page", "pages/checkNetwork/checkNetwork");
         params.put("width", "430");
         String param = params.toJSONString();
