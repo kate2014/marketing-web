@@ -224,14 +224,14 @@ div.modle {
 }
 
 .gary_card_bg_style{
-    width: 22%;
+    width: 20%;
     height: 60px;
     padding-left: 25px;
     padding-right: 25px;
-    border:1px solid #f1f1e3;
-    background-color: #f0f0f0;
+    border:1px solid #ffa84c;
+    background-color: #faccaf;
     border-radius: 5px;
-    box-shadow: 1px 2px 4px #999999;
+    /*box-shadow: 1px 2px 4px #999999;*/
     cursor:pointer;
 }
 
@@ -242,7 +242,8 @@ div.modle {
 
 .report_pos_lable_style{
     font-size:13px;
-    color: #707070;
+    color: #000000;
+    font-weight: bold;
 }
 
 .lable_button_style{
