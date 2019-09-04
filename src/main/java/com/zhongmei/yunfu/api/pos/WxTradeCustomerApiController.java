@@ -106,7 +106,7 @@ public class WxTradeCustomerApiController {
                 mWxTradeCustomerModel.setContent(null);
                 mWxTradeCustomerModel.setStateCode("1001");
                 mWxTradeCustomerModel.setStatus("1001");
-                mWxTradeCustomerModel.setMessage("验证码错误，请确认！");
+                mWxTradeCustomerModel.setMessage("验证码错误，请确认活动是否购买成功！");
                 mWxTradeCustomerModel.setMessageId("");
                 mWxTradeCustomerModel.setErrors("");
             }
