@@ -166,8 +166,8 @@
 
                     <li><span>*启用状态</span>
                         <select name="enabledFlag" class="select_style">
-                            <option value="1" th:selected="${mActivitySalesModel.enabledFlag==1}">发布进行</option>
-                            <option value="2" th:selected="${mActivitySalesModel.enabledFlag==2}">停止活动</option>
+                            <option value="1" th:selected="${mActivitySalesEntity.enabledFlag==1}">发布进行中</option>
+                            <option value="2" th:selected="${mActivitySalesEntity.enabledFlag==2}">停止活动</option>
                         </select>
                     </li>
 
