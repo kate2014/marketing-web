@@ -641,7 +641,7 @@ body{
 	width: 200px;
 	height: 110px;
 	background-size: 100% 100%;
-	background-color: #3F82A6;
+	background-color: #FF6600;
 	border-radius: 8px;
 	align-items: center;
 	/*background-image: url("../images/main_report_bg.jpg");*/
@@ -667,7 +667,7 @@ body{
 	width: 200px;
 	height: 110px;
 	background-size: 100% 100%;
-	background-color: #E9A5AA;
+	background-color: #e99b07;
 	border-radius: 8px;
 	align-items: center;
 }
