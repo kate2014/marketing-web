@@ -468,19 +468,20 @@ public class ReportSalesController {
     public String saleReport(Model model, PurchSaleModel mPurchSaleModel){
         try {
 
-
-            List<DishSaleReport> listDishSale = queryDishSale(mPurchSaleModel);
+            List<DishSaleReport> listDishSale = queryDishSale(mPurchSaleModel,1);
+            Map<Long,DishSaleReport> tempMap = new LinkedHashMap<>();
 
             BigDecimal totalCount = BigDecimal.ZERO;
             BigDecimal totalAmount = BigDecimal.ZERO;
-            for(DishSaleReport entity : listDishSale){
-                totalCount = totalCount.add(entity.getNumber());
-            }
 
+            BigDecimal haveNoPayCount = BigDecimal.ZERO;
+            BigDecimal haveNoPayAmount = BigDecimal.ZERO;
+
+            BigDecimal returnCount = BigDecimal.ZERO;
+            BigDecimal returnAmount = BigDecimal.ZERO;
+
+            mPurchSaleModel.setBusinessType(null);
             List<TradeEntity> listTrade = queryAllTrade(mPurchSaleModel);
-
-
-            Map<Long,DishSaleReport> tempMap = new LinkedHashMap<>();
 
             for(TradeEntity mTradeEntity : listTrade){
                 DishSaleReport mDishSaleReport = new DishSaleReport();
@@ -491,15 +492,31 @@ public class ReportSalesController {
                 mDishSaleReport.setSaleAmount(mTradeEntity.getSaleAmount());
                 mDishSaleReport.setTradeAmount(mTradeEntity.getTradeAmount());
                 mDishSaleReport.setPrivilegeAmount(mTradeEntity.getPrivilegeAmount());
+                mDishSaleReport.setTradePayStatus(mTradeEntity.getTradePayStatus());
+                mDishSaleReport.setBusinessType(mTradeEntity.getBusinessType());
 
                 List<DishSaleReport> tempList = new LinkedList<>();
                 mDishSaleReport.setListTradeItem(tempList);
 
                 tempMap.put(mTradeEntity.getId(),mDishSaleReport);
 
-                totalAmount = totalAmount.add(mTradeEntity.getTradeAmount());
-            }
+                //未支付
+                if(mTradeEntity.getTradePayStatus() == 1){
+                    haveNoPayCount = haveNoPayCount.add(BigDecimal.ONE);
+                    haveNoPayAmount = haveNoPayAmount.add(mTradeEntity.getTradeAmount());
+                }
+                //已支付
+                if(mTradeEntity.getTradePayStatus() == 3){
+                    totalCount = totalCount.add(BigDecimal.ONE);
+                    totalAmount = totalAmount.add(mTradeEntity.getTradeAmount());
+                }
+                //已退款
+                if(mTradeEntity.getTradePayStatus() == 5){
+                    returnCount = returnCount.add(BigDecimal.ONE);
+                    returnAmount = returnAmount.add(mTradeEntity.getTradeAmount());
+                }
 
+            }
 
             //以订单为维度进行分组
             for(DishSaleReport dishSale : listDishSale){
@@ -517,6 +534,14 @@ public class ReportSalesController {
 
             model.addAttribute("totalCount", totalCount);
             model.addAttribute("totalAmount", totalAmount);
+
+            model.addAttribute("returnCount", returnCount);
+            model.addAttribute("returnAmount", returnAmount);
+
+            model.addAttribute("haveNoPayCount", haveNoPayCount);
+            model.addAttribute("haveNoPayAmount", haveNoPayAmount);
+
+
             model.addAttribute("listReport", listReport);
             model.addAttribute("mPurchSaleModel", mPurchSaleModel);
 
@@ -539,13 +564,14 @@ public class ReportSalesController {
         mTradeModel.setDishName(mPurchSaleModel.getName());
         mTradeModel.setTradeUser(mPurchSaleModel.getTradeUser());
         mTradeModel.setCustomerName(mPurchSaleModel.getCustomerName());
+        mTradeModel.setBusinessType(mPurchSaleModel.getBusinessType());
 
 
         List<TradeEntity> listTrade = mTradeService.queryListTrade(mTradeModel);
         return listTrade;
     }
 
-    public List<DishSaleReport> queryDishSale(PurchSaleModel mPurchSaleModel)throws Exception{
+    public List<DishSaleReport> queryDishSale(PurchSaleModel mPurchSaleModel,Integer searchType)throws Exception{
 
         if(mPurchSaleModel.getStartDate() == null || mPurchSaleModel.getEndDate() == null || mPurchSaleModel.getStartDate().equals("") || mPurchSaleModel.getEndDate().equals("")){
 
@@ -582,21 +608,18 @@ public class ReportSalesController {
         }
 
 
-
-        //设置默认查询时间
-        if (mPurchSaleModel.getStartDate() == null) {
-            Calendar c = Calendar.getInstance();
-            //过去15天
-            c.setTime(new Date());
-            c.add(Calendar.DATE, -7);
-            Date start = c.getTime();
-            String temp = DateFormatUtil.format(start, DateFormatUtil.FORMAT_FULL_DATE);
-            mPurchSaleModel.setStartDate(temp);
-
-        }
-
         if (mPurchSaleModel.getEndDate() == null) {
             mPurchSaleModel.setEndDate(DateFormatUtil.format(new Date(), DateFormatUtil.FORMAT_FULL_DATE));
+        }
+
+
+        mPurchSaleModel.setBusinessType(2);
+
+        List<TradeEntity> listTrade = queryAllTrade(mPurchSaleModel);
+        Map<Long,TradeEntity> tempTrade = new HashMap<>();
+
+        for(TradeEntity trade : listTrade){
+            tempTrade.put(trade.getId(),trade);
         }
 
         TradeModel mTradeModel = new TradeModel();
@@ -609,27 +632,62 @@ public class ReportSalesController {
         mTradeModel.setTradeUser(mPurchSaleModel.getTradeUser());
         mTradeModel.setCustomerName(mPurchSaleModel.getCustomerName());
 
+        //导出Excel时，不需要导出未支付数据
+        if(searchType == 2){
+            mTradeModel.setTradePayStatus(1);
+        }else {
+            mTradeModel.setTradePayStatus(null);
+        }
+
+
         List<DishSaleReport> listDishSale = new ArrayList<>();
         listDishSale.addAll(mTradeItemService.listSaleReport(mTradeModel));
 
-        //获取所以的tradeCustomer
+        Map<Long,DishSaleReport> tempDishSale = new HashMap<>();
+
+        //获取所有的tradeCustomer
         mTradeModel.setCustomerType(3);
         List<TradeCustomerEntity> listCustomer = mTradeCustomerService.queryTradeCustomerList(mTradeModel);
         Map<Long,TradeCustomerEntity> customerMap = new HashMap<>();
         for(TradeCustomerEntity tradeCustomer : listCustomer){
             customerMap.put(tradeCustomer.getTradeId(),tradeCustomer);
+
+            //用于判断是否是储值订单，如果是储值订单这需要手动构建DishSaleReport对象
+            TradeEntity mTradeEntity = tempTrade.get(tradeCustomer.getTradeId());
+            if(mTradeEntity != null){
+                DishSaleReport mDishSaleReport = new DishSaleReport();
+                mDishSaleReport.setTradeId(tradeCustomer.getTradeId());
+                mDishSaleReport.setName("余额储值");
+                mDishSaleReport.setNumber(BigDecimal.ONE);
+                mDishSaleReport.setActualAmount(mTradeEntity.getTradeAmount());
+                mDishSaleReport.setTradeNo(mTradeEntity.getTradeNo());
+                mDishSaleReport.setType(mTradeEntity.getTradeType());
+                mDishSaleReport.setServerCreateTime(DateFormatUtil.format(mTradeEntity.getServerCreateTime(),DateFormatUtil.FORMAT_FULL_DATE));
+                listDishSale.add(mDishSaleReport);
+                tempDishSale.put(tradeCustomer.getTradeId(),mDishSaleReport);
+            }
         }
 
         //获取订单服务员信息
         List<TradeUserEntity> listUser = mTradeUserService.queryTradeUserList(mTradeModel);
         Map<Long,TradeUserEntity> userMap = new HashMap<>();
         for(TradeUserEntity tradeUser : listUser){
+
             userMap.put(tradeUser.getTradeItemId(),tradeUser);
+
+            //用于判断是否是储值订单，如果是储值订单这需要手动构建DishSaleReport对象
+            TradeEntity mTradeEntity = tempTrade.get(tradeUser.getTradeId());
+
+            if(mTradeEntity != null){
+                tempDishSale.get(tradeUser.getTradeId()).setTradeItemId(tradeUser.getTradeItemId());
+            }
+
         }
 
+
+        //将trade_item和服务员、顾客信息进行数据组合
         for(DishSaleReport dishSale : listDishSale){
             TradeCustomerEntity mTradeCustomerEntity = customerMap.get(dishSale.getTradeId());
-
             if(mTradeCustomerEntity != null){
                 dishSale.setCustomerName(mTradeCustomerEntity.getCustomerName());
             }
@@ -638,8 +696,10 @@ public class ReportSalesController {
             if(mTradeUserEntity != null){
                 dishSale.setTradeUser(mTradeUserEntity.getUserName());
             }
+
         }
 
+        //查询具体服务员对应信息
         if(mTradeModel.getTradeUser() != null && !mTradeModel.getTradeUser().equals("")){
             List<DishSaleReport> listTradeUser = new ArrayList<>();
             for(DishSaleReport dishSale : listDishSale){
@@ -653,6 +713,7 @@ public class ReportSalesController {
 
         }
 
+        //查询对应顾客信息
         if(mTradeModel.getCustomerName() != null && !mTradeModel.getCustomerName().equals("")){
             List<DishSaleReport> listTradeCustomer = new ArrayList<>();
             for(DishSaleReport dishSale : listDishSale){
@@ -670,7 +731,7 @@ public class ReportSalesController {
     @RequestMapping("/export/dishSale")
     public void exportDishSale(HttpServletResponse response, PurchSaleModel mPurchSaleModel) throws Exception{
 
-        List<DishSaleReport> listDishSale = queryDishSale(mPurchSaleModel);
+        List<DishSaleReport> listDishSale = queryDishSale(mPurchSaleModel,2);
 
         ExcelData data = new ExcelData();
         data.setSheetName("每日对账报表");
@@ -696,7 +757,12 @@ public class ReportSalesController {
                 List<Object> row = new ArrayList();
                 rows.add(row);
                 row.add(i++);
-                row.add(entity.getType());
+                if(entity.getType() == 1){
+                    row.add("销货单");
+                }else if(entity.getType() == 2){
+                    row.add("退货单");
+                }
+
                 row.add(entity.getTradeNo()
                 );
                 row.add(entity.getName());

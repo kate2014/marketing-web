@@ -170,8 +170,13 @@ public class TradeItemServiceImpl extends ServiceImpl<TradeItemMapper, TradeItem
         eWrapper.isWhere(true);
         eWrapper.eq("t.brand_identy", mTradeModel.getBrandIdenty());
         eWrapper.eq("t.shop_identy", mTradeModel.getShopIdenty());
-        eWrapper.eq("t.business_type", 1);
-        eWrapper.in("t.trade_status", "4,5");
+//        eWrapper.eq("t.business_type", 1);
+//        eWrapper.in("t.trade_status", "4,5");
+
+        if(mTradeModel.getTradePayStatus() != null){
+            eWrapper.in("t.Trade_pay_status", "3,5");
+        }
+
         if(mTradeModel.getTradeType() == null){
             eWrapper.in("t.trade_type", "1,2");
         }else{

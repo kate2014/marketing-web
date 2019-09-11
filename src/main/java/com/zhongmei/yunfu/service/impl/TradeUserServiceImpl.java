@@ -40,7 +40,7 @@ public class TradeUserServiceImpl extends ServiceImpl<TradeUserMapper, TradeUser
         }
         eWrapper.eq("status_flag", 1);
         eWrapper.between("server_create_time", mTradeModel.getStartDate(), mTradeModel.getEndDate());
-        eWrapper.setSqlSelect("trade_item_id,user_name,user_id");
+        eWrapper.setSqlSelect("trade_id,trade_item_id,user_name,user_id");
         eWrapper.orderBy("server_create_time",false);
 
         List<TradeUserEntity> listData = selectList(eWrapper);

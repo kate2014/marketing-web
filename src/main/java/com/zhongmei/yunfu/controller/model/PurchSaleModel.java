@@ -20,6 +20,8 @@ public class PurchSaleModel {
 
     private Integer type;
 
+    private Integer businessType;
+
     private Long sourceId;
 
     private String sourceName;
@@ -160,5 +162,13 @@ public class PurchSaleModel {
 
     public void setRquestSource(Integer rquestSource) {
         this.rquestSource = rquestSource;
+    }
+
+    public Integer getBusinessType() {
+        return businessType;
+    }
+
+    public void setBusinessType(Integer businessType) {
+        this.businessType = businessType;
     }
 }

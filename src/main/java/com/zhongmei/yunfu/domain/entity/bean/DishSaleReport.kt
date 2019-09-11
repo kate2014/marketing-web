@@ -33,7 +33,11 @@ class DishSaleReport : Serializable {
 
     var type: Int? = null
 
+    var businessType: Int? = null
+
     var status: BigDecimal? = null
+
+    var tradePayStatus: Int? =  null
 
     var serverCreateTime: String? =null
 
@@ -58,6 +62,8 @@ class DishSaleReport : Serializable {
                 ", actualAmount=" + actualAmount +
                 ", type=" + type +
                 ", status=" + status +
+                ", businessType=" + businessType +
+                ", tradePayStatus=" + tradePayStatus +
                 ", serverCreateTime=" + serverCreateTime +
                 ", customerName=" + customerName +
                 ", tradeUser=" + tradeUser +

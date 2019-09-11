@@ -200,20 +200,46 @@
         <table class="gridtablestyle" style="width: 96%; vertical-align: middle;">
             <tr style="width: 100%">
                 <th>
-                    <div th:switch="${groupItem.type}" >
-                        <div th:case="'2'" class="parent_h container">
-                            <img class="icon_size_style" th:src="@{/images/return_dish_icon.png}">
-                            <label style="margin-left: 5px">退货</label>
+                    <div class="parent_h container">
+                        <div th:if="${groupItem.tradePayStatus} eq 1" >
+                            <img style="width: 45px;height: auto;margin-right: 36px" th:src="@{/images/have_no_pay.png}">
                         </div>
-                        <div th:case="'1'" class="parent_h container">
-                            <img class="icon_size_style" th:src="@{/images/sale_dish_icon.png}">
-                            <label style="margin-left: 5px">销货</label>
+
+                        <div th:switch="${groupItem.type}" >
+                            <div th:case="'2'" class="parent_h container">
+                                <img class="icon_size_style" th:src="@{/images/return_dish_icon.png}">
+                                <label style="margin-left: 5px">退货</label>
+                            </div>
+                            <div th:case="'1'" class="parent_h container">
+
+                                <div th:switch="${groupItem.businessType}" >
+                                    <div th:case="'1'" class="parent_h container">
+                                        <img class="icon_size_style" th:src="@{/images/sale_dish_icon.png}">
+                                        <label style="margin-left: 5px">销货</label>
+                                    </div>
+                                    <div th:case="'2'" class="parent_h container">
+                                        <img class="icon_size_style" th:src="@{/images/save_trade_icon.png}">
+                                        <label style="margin-left: 5px">余额储值</label>
+                                    </div>
+                                    <div th:case="'3'" class="parent_h container">
+                                        <img class="icon_size_style" th:src="@{/images/car_time_trade_icon.png}">
+                                        <label style="margin-left: 5px">次卡购买</label>
+                                    </div>
+                                    <div th:case="'4'" class="parent_h container">
+                                        <img class="icon_size_style" th:src="@{/images/weixin_icon.png}">
+                                        <label style="margin-left: 5px">小程序</label>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
+
                 </th>
 
                 <th colspan="5">
                     <div class="parent" style="margin-left: 20px">
+
                         订单金额：<span th:text="${groupItem.saleAmount}" style="margin-right: 10px"></span>
                         优惠金额：<span th:text="${groupItem.privilegeAmount}" style="margin-right: 10px"></span>
                         实收金额：<span th:text="${groupItem.tradeAmount}" style="margin-right: 20px"></span>
@@ -238,8 +264,15 @@
     </div>
 
         <div class="parent_h container" style="border: 1px solid #e1e1e1; width: 96%;height: 46px;background-color: #aeb3b9;color: #FFFFFF;font-weight: bold;font-size: 16px">
-            合计：销售品项总数量：<span th:text="${totalCount}" style="margin-right: 88px"></span>
-            销售总金额：<span th:text="${totalAmount}"></span>元
+            合计：成交单数：<span th:text="${totalCount}"></span>笔
+            <lable style="margin-left: 10px">成交金额：</lable><span th:text="${totalAmount}"></span>元
+
+            <label style="margin-left: 30px">未支付单数：</label><span th:text="${haveNoPayCount}"></span>笔
+            <label style="margin-left: 10px">未支付金额：</label><span th:text="${haveNoPayAmount}"></span>元
+
+            <label style="margin-left: 30px">退款单数：</label><span th:text="${returnCount}"></span>笔
+            <label style="margin-left: 10px">退款金额：</label><span th:text="${returnAmount}"></span>元
+
         </div>
 </div>
 
