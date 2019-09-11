@@ -237,18 +237,21 @@
 
                 </th>
 
-                <th colspan="5">
+                <th colspan="4">
                     <div class="parent" style="margin-left: 20px">
 
                         订单金额：<span th:text="${groupItem.saleAmount}" style="margin-right: 10px"></span>
                         优惠金额：<span th:text="${groupItem.privilegeAmount}" style="margin-right: 10px"></span>
                         实收金额：<span th:text="${groupItem.tradeAmount}" style="margin-right: 20px"></span>
 
-                        <div class="parent public.container" th:onclick="@{|location='${basePath}/internal/trade/tradeDetail?tradeId=${groupItem.tradeId}&brandIdenty=${mPurchSaleModel.brandIdenty}&shopIdenty=${mPurchSaleModel.shopIdenty}'|}" style="color: #1296db; cursor: pointer;">
-                            点击查看关联订单<img th:src="@{/images/order_icon.png}" class="icon_style">
-                        </div>
+
                     </div>
 
+                </th>
+                <th>
+                    <div class="parent_h" th:onclick="@{|location='${basePath}/internal/trade/tradeDetail?tradeId=${groupItem.tradeId}&brandIdenty=${mPurchSaleModel.brandIdenty}&shopIdenty=${mPurchSaleModel.shopIdenty}'|}" style="color: #1296db; cursor: pointer;">
+                        点击查看订单<img th:src="@{/images/order_icon.png}" class="icon_style">
+                    </div>
                 </th>
             </tr>
             <tr th:each="item:${groupItem.listTradeItem}">
