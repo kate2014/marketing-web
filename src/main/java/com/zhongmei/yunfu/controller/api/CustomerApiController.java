@@ -55,6 +55,8 @@ public class CustomerApiController {
     CustomerMarketingExpandedService mCustomerMarketingExpandedService;
     @Autowired
     MarketingExpandedService mMarketingExpandedService;
+
+    private String defaultHeadIcon = "http://media.zhongmeiyunfu.com/systemheader_icon.png";
     /**
      * 添加微信小程序会员
      *
@@ -114,7 +116,7 @@ public class CustomerApiController {
                 }
 
                 if(mCustomer.getPhoto()==null || mCustomer.getPhoto().equals("")){
-                    mCustomer.setPhoto("http://media.zhongmeiyunfu.com/72x72.png");
+                    mCustomer.setPhoto(defaultHeadIcon);
                 }
                 mCustomerResp.setmCustomer(mCustomer);
                 mCustomerResp.setSessionKey(mCustomerModel.getSessionKey());
@@ -188,7 +190,7 @@ public class CustomerApiController {
                 }
 
                 if(mCustomer.getPhoto()==null || mCustomer.getPhoto().equals("")){
-                    mCustomer.setPhoto("http://media.zhongmeiyunfu.com/72x72.png");
+                    mCustomer.setPhoto(defaultHeadIcon);
                 }
 
                 mCustomerResp.setmCustomer(mCustomer);
@@ -241,7 +243,7 @@ public class CustomerApiController {
         Boolean isSuccess = mCustomerService.addCustomer(mCustomer);
 
         if(mCustomer.getPhoto()==null || mCustomer.getPhoto().equals("")){
-            mCustomer.setPhoto("http://media.zhongmeiyunfu.com/72x72.png");
+            mCustomer.setPhoto(defaultHeadIcon);
         }
 
         if (isSuccess) {
