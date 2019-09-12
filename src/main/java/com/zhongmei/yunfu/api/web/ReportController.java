@@ -264,9 +264,10 @@ public class ReportController {
                     returnAmount = returnAmount.add(td.getTradeAmount());
                 } else if (td.getTradeStatus() == 3 && td.getTradePayStatus() == 1) {//已确认，未收银
                     notSales += 1;
-                    notSalesAmount = storeAmount.add(td.getTradeAmount());
+                    notSalesAmount = notSalesAmount.add(td.getTradeAmount());
                 }
             }
+
             salesTotal = salesAmount.add(storeAmount).add(cardTimeAmount).subtract(returnAmount);
 
             //获取支付方式报表
