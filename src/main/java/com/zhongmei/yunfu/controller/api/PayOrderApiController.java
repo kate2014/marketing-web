@@ -753,33 +753,6 @@ public class PayOrderApiController {
         mWxTemplateMessageHandler.send(wxTempMsg);
     }
 
-    public void sendWxMessage(Long tradeId,Long customerId) throws Exception{
-        //支付成功小程序服务服务通知推送
-        WxTemplateMessageHandler mWxTemplateMessageHandler = WxTemplateMessageHandler.create(WxTempMsg.msgType_OrderPay);
-
-        TradeEntity mTradeEntity = mTradeService.queryBaseTradeById(tradeId);
-
-        List<TradeItemEntity> listItem = mTradeItemService.querTradeItemByTradeId(tradeId);
-        String dishList = "";
-        for(TradeItemEntity item : listItem){
-            if(dishList.equals("")){
-                dishList = item.getDishName()+" X "+ToolsUtil.subZeroAndDot(item.getQuantity().toString());
-            }else{
-                dishList = dishList +";"+ item.getDishName()+" X "+ToolsUtil.subZeroAndDot(item.getQuantity().toString());
-            }
-        }
-
-        OrderPayMessage wxTempMsg = new OrderPayMessage();
-        wxTempMsg.setTradeNo(mTradeEntity.getTradeNo());
-        wxTempMsg.setTradePayAmount(mTradeEntity.getTradeAmount());
-        wxTempMsg.setPayDate(DateFormatUtil.format(mTradeEntity.getServerUpdateTime(),DateFormatUtil.FORMAT_FULL_DATE));
-        wxTempMsg.setDishList(dishList);
-        wxTempMsg.setBrandIdenty(mTradeEntity.getBrandIdenty());
-        wxTempMsg.setShopIdenty(mTradeEntity.getShopIdenty());
-        wxTempMsg.setCustomerId(customerId);
-
-        mWxTemplateMessageHandler.send(wxTempMsg);
-    }
 
     public WxTradeCustomerEntity orderquery(Model model, TradeModel mTradeModel){
 
