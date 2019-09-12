@@ -113,6 +113,9 @@ public class CustomerApiController {
                     mCustomer.setMobile(mobileCustomer.getMobile());
                 }
 
+                if(mCustomer.getPhoto()==null || mCustomer.getPhoto().equals("")){
+                    mCustomer.setPhoto("http://media.zhongmeiyunfu.com/72x72.png");
+                }
                 mCustomerResp.setmCustomer(mCustomer);
                 mCustomerResp.setSessionKey(mCustomerModel.getSessionKey());
                 mCustomerResp.setAccesstoken(mCustomerModel.getAccesstoken());
@@ -184,6 +187,10 @@ public class CustomerApiController {
                     mCustomer.setMobile(mobileCustomer.getMobile());
                 }
 
+                if(mCustomer.getPhoto()==null || mCustomer.getPhoto().equals("")){
+                    mCustomer.setPhoto("http://media.zhongmeiyunfu.com/72x72.png");
+                }
+
                 mCustomerResp.setmCustomer(mCustomer);
                 mCustomerResp.setSessionKey(mCustomerModel.getSessionKey());
                 mCustomerResp.setAccesstoken(mCustomerModel.getAccesstoken());
@@ -232,6 +239,11 @@ public class CustomerApiController {
 
 
         Boolean isSuccess = mCustomerService.addCustomer(mCustomer);
+
+        if(mCustomer.getPhoto()==null || mCustomer.getPhoto().equals("")){
+            mCustomer.setPhoto("http://media.zhongmeiyunfu.com/72x72.png");
+        }
+
         if (isSuccess) {
             CustomerResp mCustomerResp = new CustomerResp();
 
