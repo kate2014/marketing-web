@@ -14,6 +14,10 @@ public class ShopResp {
      * 启动图片
      */
     private String startPicture;
+    /**
+     * 是否打开授权
+     */
+    private String openAuthorization;
 
     public Long getBrandIdenty() {
         return brandIdenty;
@@ -37,5 +41,13 @@ public class ShopResp {
 
     public void setStartPicture(String startPicture) {
         this.startPicture = startPicture;
+    }
+
+    public String getOpenAuthorization() {
+        return openAuthorization;
+    }
+
+    public void setOpenAuthorization(String openAuthorization) {
+        this.openAuthorization = openAuthorization;
     }
 }
