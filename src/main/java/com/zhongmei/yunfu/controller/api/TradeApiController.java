@@ -196,7 +196,7 @@ public class TradeApiController {
         try {
 
 
-            if((mTradeModel.getRecommendOpenId() != null && !mTradeModel.getRecommendOpenId().equals("")) || (mTradeModel.getRecommendCustomerId() != null && !mTradeModel.getRecommendCustomerId().equals(""))){
+            if((mTradeModel.getRecommendCustomerId() != null && !mTradeModel.getRecommendCustomerId().equals(""))){
                 //如果相等，则表示点击是的自己分享的入口，对该操作不做成单记录
                 if(mTradeModel.getRecommendCustomerId().longValue() == mTradeModel.getCustomerId().longValue() || mTradeModel.getRecommendOpenId().equals(mTradeModel.getWxOpenId())){
                     return;
@@ -207,7 +207,8 @@ public class TradeApiController {
                 opEntity.setBrandIdenty(mTradeModel.getBrandIdenty());
                 opEntity.setShopIdenty(mTradeModel.getShopIdenty());
                 opEntity.setActivityId(mTradeModel.getMarketingId());
-                opEntity.setWxOpenId(mTradeModel.getRecommendOpenId());
+                opEntity.setCustomerId(mTradeModel.getRecommendCustomerId());
+//                opEntity.setWxOpenId(mTradeModel.getRecommendOpenId());
                 opEntity.setType(1);
                 OperationalRecordsEntity mOREntity = mOperationalRecordsService.queryByCustomer(opEntity);
 
