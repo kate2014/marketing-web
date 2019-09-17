@@ -140,7 +140,7 @@ public class ActivitySalesApiController {
             raEntity.setBrandIdenty(mActivitySalesReq.getBrandIdenty());
             raEntity.setShopIdenty(mActivitySalesReq.getShopIdenty());
             raEntity.setActivityId(mActivitySalesReq.getActivityId());
-            raEntity.setMainWxOpenId(mActivitySalesReq.getWxOpenId());
+            raEntity.setMainCustomerId(mActivitySalesReq.getCustomerId());
             raEntity.setTransactionStatus(2);
             List<RecommendationAssociationEntity> listRA = mRecommendationAssociationService.queryListAssociation(raEntity);
             mActivitySalesResp.setTradeCount(listRA.size());
