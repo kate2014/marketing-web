@@ -42,18 +42,6 @@ public class ShopApiController {
             ShopResp mShopResp = new ShopResp();
             mShopResp.setStartPicture("http://media.zhongmeiyunfu.com/start_pic.png");
 
-            if(mShopReq.getBrandIdenty() != null && mShopReq.getShopIdenty() != null){
-                CommercailSettingModel mCommercailSettingModel = new CommercailSettingModel();
-                mCommercailSettingModel.setBrandIdenty(mShopReq.getBrandIdenty());
-                mCommercailSettingModel.setShopIdenty(mShopReq.getShopIdenty());
-                mCommercailSettingModel.setSettingKey("IS_OPEN_AUTHORIZATION");
-
-                //获取是否打开小程序授权框
-                CommercialCustomSettingsEntity MCommercialCustomSettingsEntity =  mCommercialCustomSettingsService.queryByKey(mCommercailSettingModel);
-                mShopResp.setOpenAuthorization(MCommercialCustomSettingsEntity.getSettingValue());
-            }
-
-
             mBaseDataModel.setState("1000");
             mBaseDataModel.setMsg("获取门店信息成功");
             mBaseDataModel.setData(mShopResp);
@@ -65,4 +53,37 @@ public class ShopApiController {
 
         return mBaseDataModel;
     }
+
+    @GetMapping("/checkAuthorization")
+    public BaseDataModel checkAuthorization(Model model, ShopReq mShopReq) {
+        BaseDataModel mBaseDataModel = new BaseDataModel();
+        try {
+
+            String openAuthorization = "0";
+            if(mShopReq.getBrandIdenty() != null && mShopReq.getShopIdenty() != null){
+                CommercailSettingModel mCommercailSettingModel = new CommercailSettingModel();
+                mCommercailSettingModel.setBrandIdenty(mShopReq.getBrandIdenty());
+                mCommercailSettingModel.setShopIdenty(mShopReq.getShopIdenty());
+                mCommercailSettingModel.setSettingKey("IS_OPEN_AUTHORIZATION");
+
+                //获取是否打开小程序授权框
+                CommercialCustomSettingsEntity MCommercialCustomSettingsEntity =  mCommercialCustomSettingsService.queryByKey(mCommercailSettingModel);
+                openAuthorization = MCommercialCustomSettingsEntity.getSettingValue();
+            }else{
+                openAuthorization = "0";
+            }
+
+
+            mBaseDataModel.setState("1000");
+            mBaseDataModel.setMsg("获取数据成功");
+            mBaseDataModel.setData(openAuthorization);
+        } catch (Exception e) {
+            mBaseDataModel.setState("1000");
+            mBaseDataModel.setMsg("获数据失败");
+            mBaseDataModel.setData("0");
+        }
+
+        return mBaseDataModel;
+    }
+
 }
