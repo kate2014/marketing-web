@@ -407,7 +407,7 @@ public class TradeApiController {
         mTrade.setUuid(ToolsUtil.genOnlyIdentifier()); //uuid
         mTrade.setBizDate(new Date());//营业日期
         mTrade.setDomainType(1);
-        mTrade.setBusinessType(1);
+        mTrade.setBusinessType(4);
         mTrade.setTradeType(1);
         mTrade.setSerialNumber(ToolsUtil.getCard(6));//流水号
         mTrade.setTradeTime(new Date());

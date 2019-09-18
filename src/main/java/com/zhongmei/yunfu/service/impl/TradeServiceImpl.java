@@ -79,7 +79,7 @@ public class TradeServiceImpl extends ServiceImpl<TradeMapper, TradeEntity> impl
     public TradeEntity queryTradeBaseData(Long id) throws Exception {
         EntityWrapper<TradeEntity> eWrapper = new EntityWrapper<>(new TradeEntity());
         eWrapper.eq("id", id);
-        eWrapper.setSqlSelect("id,uuid,trade_type,serial_number,trade_time,trade_status,trade_pay_status,trade_no,sale_amount,privilege_amount,trade_amount,trade_amount_before,trade_memo,source");
+        eWrapper.setSqlSelect("id,uuid,business_type,trade_type,serial_number,trade_time,trade_status,trade_pay_status,trade_no,sale_amount,privilege_amount,trade_amount,trade_amount_before,trade_memo,source");
         TradeEntity mTradeEntity = selectOne(eWrapper);
         return mTradeEntity;
     }
