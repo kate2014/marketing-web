@@ -130,7 +130,9 @@ public class RecommendationAssociationServiceImpl extends ServiceImpl<Recommenda
         eWrapper.eq("shop_identy",entity.getShopIdenty());
         eWrapper.eq("status_flag",1);
         eWrapper.eq("activity_id",entity.getActivityId());
-        eWrapper.eq("main_wx_open_id",entity.getMainWxOpenId());
+        eWrapper.eq("main_customer_id",entity.getMainCustomerId());
+        eWrapper.eq("transaction_status",2);
+
         List<RecommendationAssociationEntity> listData = selectList(eWrapper);
         return listData.size();
     }
