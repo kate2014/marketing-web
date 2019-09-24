@@ -81,8 +81,8 @@
             <label class="text_navigation" style="margin-left: 10px">兑换金额</label>
             <input class="input_min_style" style="margin-left: 5px" type="text" onkeyup="onlyNumber(this)" placeholder="输入兑换会员的操作密码" th:value="${canExchangeValue}" id="exchangeAmount" name="exchangeAmount"/>
 
-            <label class="text_navigation" style="margin-left: 10px">用户密码</label>
-            <input class="input_min_style" style="margin-left: 5px" type="password" placeholder="输入兑换会员的操作密码" name="password"/>
+            <label class="text_navigation" style="margin-left: 10px">兑换凭证</label>
+            <input class="input_min_style" maxlength="10" style="margin-left: 5px" placeholder="输入兑换凭证" name="password"/>
 
             <button class="orange_mine_button_style" value="" onclick="this" style="margin-left: 10px">进行兑换</button>
 

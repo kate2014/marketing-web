@@ -2,16 +2,14 @@ package com.zhongmei.yunfu.controller;
 
 
 import com.baomidou.mybatisplus.plugins.Page;
-import com.zhongmei.yunfu.service.LoginManager;
+import com.zhongmei.yunfu.domain.entity.ExchangeCodeEntity;
+import com.zhongmei.yunfu.service.*;
 import com.zhongmei.yunfu.util.DateFormatUtil;
 import com.zhongmei.yunfu.util.ToolsUtil;
 import com.zhongmei.yunfu.controller.model.CommissionSearchModel;
 import com.zhongmei.yunfu.domain.entity.CustomerEntity;
 import com.zhongmei.yunfu.domain.entity.CustomerMarketingExpandedEntity;
 import com.zhongmei.yunfu.domain.entity.ExpandedCommissionEntity;
-import com.zhongmei.yunfu.service.CustomerMarketingExpandedService;
-import com.zhongmei.yunfu.service.CustomerService;
-import com.zhongmei.yunfu.service.ExpandedCommissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +37,8 @@ public class CustomerMarketingExpandedController extends BaseController{
     ExpandedCommissionService mExpandedCommissionService;
     @Autowired
     CustomerService mCustomerService;
+    @Autowired
+    ExchangeCodeService mExchangeCodeService;
 
     /**
      * 进入提成主界面
@@ -219,31 +219,82 @@ public class CustomerMarketingExpandedController extends BaseController{
     @RequestMapping("/exchangeCommission")
     public String exchangeExpandedCommission(Model model, CommissionSearchModel mCommissionSearchModel){
         try {
-            CustomerEntity mCustomer = mCustomerService.queryCustomerByMobile(mCommissionSearchModel.getBrandIdenty(), mCommissionSearchModel.getShopIdenty(), mCommissionSearchModel.getMobile());
-            String inputPassWorld = ToolsUtil.encodeValue(mCommissionSearchModel.getPassword(),mCommissionSearchModel.getMobile());
-            if(inputPassWorld.equals(mCustomer.getPassword())){
-                ExpandedCommissionEntity mExpandedCommission = new ExpandedCommissionEntity();
-                mExpandedCommission.setBrandIdenty(mCommissionSearchModel.getBrandIdenty());
-                mExpandedCommission.setShopIdenty(mCommissionSearchModel.getShopIdenty());
-                mExpandedCommission.setCustomerId(mCommissionSearchModel.getCustomerId());
-                mExpandedCommission.setExchangeAmount(mCommissionSearchModel.getExchangeAmount());
+//            CustomerEntity mCustomer = mCustomerService.queryCustomerByMobile(mCommissionSearchModel.getBrandIdenty(), mCommissionSearchModel.getShopIdenty(), mCommissionSearchModel.getMobile());
 
-                Boolean isSuccess = mExpandedCommissionService.exchangeExpandedCommission(mExpandedCommission);
-                if(isSuccess){
-                    mCommissionSearchModel.setSendMsg("提成兑换操作成功");
+            CustomerEntity mCustomer = mCustomerService.queryWxCustomerByMobile(mCommissionSearchModel.getBrandIdenty(), mCommissionSearchModel.getShopIdenty(), mCommissionSearchModel.getMobile());
+
+            ExchangeCodeEntity mExchangeCodeEntity = new ExchangeCodeEntity();
+            mExchangeCodeEntity.setBrandIdenty(mCommissionSearchModel.getBrandIdenty());
+            mExchangeCodeEntity.setShopIdenty(mCommissionSearchModel.getShopIdenty());
+            mExchangeCodeEntity.setCustomerId(mCustomer.getId());
+
+            mExchangeCodeEntity = mExchangeCodeService.queryCode(mExchangeCodeEntity);
+
+            if(mExchangeCodeEntity != null && mExchangeCodeEntity.getId() != null){
+
+                //获取24小时失效时间
+                if(mExchangeCodeEntity.getCreateTime() != null && mExchangeCodeEntity.getCreateTime().getTime()+6*60*60*1000 < new Date().getTime()){
+                    mCommissionSearchModel.setSendMsg("兑换凭证已失效");
+                    queryExpandedCommission(model,mCommissionSearchModel);
+                    return "expanded_exchange_commission";
+                }else if(mExchangeCodeEntity.getStatusFlag() == 2){
+                    mCommissionSearchModel.setSendMsg("兑换凭证已使用，请联系顾客重新获取");
                     queryExpandedCommission(model,mCommissionSearchModel);
                     return "expanded_exchange_commission";
                 }else{
-                    mCommissionSearchModel.setSendMsg("提成兑换操作失败");
-                    queryExpandedCommission(model,mCommissionSearchModel);
-                    return "expanded_exchange_commission";
-                }
-            }else{
+                    ExpandedCommissionEntity mExpandedCommission = new ExpandedCommissionEntity();
+                    mExpandedCommission.setBrandIdenty(mCommissionSearchModel.getBrandIdenty());
+                    mExpandedCommission.setShopIdenty(mCommissionSearchModel.getShopIdenty());
+                    mExpandedCommission.setCustomerId(mCommissionSearchModel.getCustomerId());
+                    mExpandedCommission.setExchangeAmount(mCommissionSearchModel.getExchangeAmount());
 
-                mCommissionSearchModel.setSendMsg("密码验证失败");
+                    Boolean isSuccess = mExpandedCommissionService.exchangeExpandedCommission(mExpandedCommission);
+                    if(isSuccess){
+                        mCommissionSearchModel.setSendMsg("提成兑换操作成功");
+                        queryExpandedCommission(model,mCommissionSearchModel);
+
+                        //将兑换凭证修改为已使用，避免重复兑换使用
+                        mExchangeCodeEntity.setStatusFlag(2);
+                        mExchangeCodeService.updateCode(mExchangeCodeEntity);
+                        return "expanded_exchange_commission";
+                    }else{
+                        mCommissionSearchModel.setSendMsg("提成兑换操作失败");
+                        queryExpandedCommission(model,mCommissionSearchModel);
+                        return "expanded_exchange_commission";
+                    }
+                }
+
+
+            }else{
+                mCommissionSearchModel.setSendMsg("兑换验证失败，请确认兑换凭证是否正确");
                 queryExpandedCommission(model,mCommissionSearchModel);
                 return "expanded_exchange_commission";
             }
+
+//            String inputPassWorld = ToolsUtil.encodeValue(mCommissionSearchModel.getPassword(),mCommissionSearchModel.getMobile());
+//            if(inputPassWorld.equals(mCustomer.getPassword())){
+//                ExpandedCommissionEntity mExpandedCommission = new ExpandedCommissionEntity();
+//                mExpandedCommission.setBrandIdenty(mCommissionSearchModel.getBrandIdenty());
+//                mExpandedCommission.setShopIdenty(mCommissionSearchModel.getShopIdenty());
+//                mExpandedCommission.setCustomerId(mCommissionSearchModel.getCustomerId());
+//                mExpandedCommission.setExchangeAmount(mCommissionSearchModel.getExchangeAmount());
+//
+//                Boolean isSuccess = mExpandedCommissionService.exchangeExpandedCommission(mExpandedCommission);
+//                if(isSuccess){
+//                    mCommissionSearchModel.setSendMsg("提成兑换操作成功");
+//                    queryExpandedCommission(model,mCommissionSearchModel);
+//                    return "expanded_exchange_commission";
+//                }else{
+//                    mCommissionSearchModel.setSendMsg("提成兑换操作失败");
+//                    queryExpandedCommission(model,mCommissionSearchModel);
+//                    return "expanded_exchange_commission";
+//                }
+//            }else{
+//                mCommissionSearchModel.setSendMsg("兑换验证失败");
+//                queryExpandedCommission(model,mCommissionSearchModel);
+//                return "expanded_exchange_commission";
+//
+//            }
         }catch (Exception e){
             e.printStackTrace();
             return "fail";

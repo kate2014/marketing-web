@@ -324,6 +324,22 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
     }
 
     @Override
+    public CustomerEntity queryWxCustomerByMobile(Long brandIdenty, Long shopIdenty, String mobile) throws Exception {
+
+        Condition eWrapper = ConditionFilter.create();
+        eWrapper.isWhere(true);
+        eWrapper.eq("brand_identy", brandIdenty);
+        eWrapper.eq("shop_identy", shopIdenty);
+        eWrapper.eq("mobile", mobile);
+        eWrapper.eq("enabled_flag", 1);
+        eWrapper.eq("status_flag", 1);
+
+        CustomerEntity mCustomerEntity  = baseMapper.queryWxCustomerByMobile(eWrapper);
+
+        return mCustomerEntity;
+    }
+
+    @Override
     public CustomerEntity queryCustomerById(Long brandIdenty, Long shopIdenty, Long id) throws Exception {
         EntityWrapper<CustomerEntity> eWrapper = new EntityWrapper<>(new CustomerEntity());
         eWrapper.eq("brand_identy", brandIdenty);

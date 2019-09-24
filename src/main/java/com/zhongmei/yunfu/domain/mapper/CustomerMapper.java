@@ -273,4 +273,11 @@ public interface CustomerMapper extends BaseMapper<CustomerEntity> {
     @Select("SELECT * FROM `customer` ct ${ew.sqlSegment} and ct.`id` = ${customerId} or ct.`id` = (\n" +
             "SELECT c.`relate_id`  FROM `customer` c WHERE c.`id` = ${customerId});")
     List<CustomerEntity> queryByWxCustomerId(@Param("ew") Condition wrapper,@Param("customerId") Long customerId);
+
+    @Select("SELECT * FROM `customer` c\n" +
+            "where c.`relate_id` = (\n" +
+            " SELECT id from `customer` ${ew.sqlSegment} \n" +
+            ")\n" +
+            "and c.`status_flag` = 1")
+    CustomerEntity queryWxCustomerByMobile(@Param("ew") Condition wrapper);
 }

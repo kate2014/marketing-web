@@ -155,6 +155,16 @@ public interface CustomerService extends IService<CustomerEntity> {
     CustomerEntity queryCustomerByRelateId(Long brandIdenty, Long shopIdenty, Long customerId) throws Exception;
 
     /**
+     * 根据电话号码获取微信会员信息
+     * @param brandIdenty
+     * @param shopIdenty
+     * @param mobile
+     * @return
+     * @throws Exception
+     */
+    CustomerEntity queryWxCustomerByMobile(Long brandIdenty, Long shopIdenty, String mobile) throws Exception;
+
+    /**
      * 根据会员Id获取会员信息
      *
      * @param brandIdenty
