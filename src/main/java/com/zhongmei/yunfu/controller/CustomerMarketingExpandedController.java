@@ -231,17 +231,22 @@ public class CustomerMarketingExpandedController extends BaseController{
             mExchangeCodeEntity = mExchangeCodeService.queryCode(mExchangeCodeEntity);
 
             if(mExchangeCodeEntity != null && mExchangeCodeEntity.getId() != null){
-
+            System.out.println("=====code===="+mExchangeCodeEntity.getExchangeCode()+"==="+mCommissionSearchModel.getPassword());
+                if(!mExchangeCodeEntity.getExchangeCode().equals(mCommissionSearchModel.getPassword())){
+                    mCommissionSearchModel.setSendMsg("兑换验证失败，请确认兑换凭证是否正确");
+                    queryExpandedCommission(model,mCommissionSearchModel);
+                    return "expanded_exchange_commission";
+                }
                 //获取24小时失效时间
-                if(mExchangeCodeEntity.getCreateTime() != null && mExchangeCodeEntity.getCreateTime().getTime()+6*60*60*1000 < new Date().getTime()){
-                    mCommissionSearchModel.setSendMsg("兑换凭证已失效");
+                else if(mExchangeCodeEntity.getCreateTime() != null && mExchangeCodeEntity.getCreateTime().getTime()+6*60*60*1000 < new Date().getTime()){
+                    mCommissionSearchModel.setSendMsg("兑换凭证已失效，请联系顾客重新获取提供");
                     queryExpandedCommission(model,mCommissionSearchModel);
                     return "expanded_exchange_commission";
                 }else if(mExchangeCodeEntity.getStatusFlag() == 2){
-                    mCommissionSearchModel.setSendMsg("兑换凭证已使用，请联系顾客重新获取");
+                    mCommissionSearchModel.setSendMsg("兑换凭证已使用，请联系顾客重新获取提供");
                     queryExpandedCommission(model,mCommissionSearchModel);
                     return "expanded_exchange_commission";
-                }else{
+                }else if(mExchangeCodeEntity.getExchangeCode().equals(mCommissionSearchModel.getPassword())){
                     ExpandedCommissionEntity mExpandedCommission = new ExpandedCommissionEntity();
                     mExpandedCommission.setBrandIdenty(mCommissionSearchModel.getBrandIdenty());
                     mExpandedCommission.setShopIdenty(mCommissionSearchModel.getShopIdenty());
@@ -262,6 +267,10 @@ public class CustomerMarketingExpandedController extends BaseController{
                         queryExpandedCommission(model,mCommissionSearchModel);
                         return "expanded_exchange_commission";
                     }
+                }else{
+                    mCommissionSearchModel.setSendMsg("兑换验证失败，请确认兑换凭证是否正确");
+                    queryExpandedCommission(model,mCommissionSearchModel);
+                    return "expanded_exchange_commission";
                 }
 
 
