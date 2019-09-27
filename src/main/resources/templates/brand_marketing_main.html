@@ -20,39 +20,244 @@
 <head>
     <meta charset="UTF-8">
     <title>营销</title>
-    <link rel="stylesheet" th:href="@{/css/public.css}" type="text/css" />
-    <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}" src="../static/js/jquery-3.1.1.min.js" ></script>
+    <!--<link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />-->
+    <!--<link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" />-->
+    <!--<link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" />-->
+    <!--<link rel="stylesheet" th:href="@{/css/customer.css}" href="../static/css/customer.css" />-->
 
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
+    <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}" src="../static/js/jquery-3.1.1.min.js" ></script>
+    <script type="text/javascript">
+        $(function () {
+            $(".markerting_card_bg_style").click(function () {
+                window.location.href = $(this).attr("href");
+            })
+        })
+    </script>
 </head>
 <body>
 
+<div class="parent top_view_style">
+    <img th:src="@{/images/lable.jpg}" src="../static/images/lable.jpg" width="5" height="26" style="margin-left: 20px">
+    <label class="text_navigation" style="margin-left: 10px;width: 30%">营销</label>
 
-    <div class="parent_h" style="background-color: #f0f0f0">
+</div>
 
-        <img th:src="@{/images/m_push_dish_img.png}" src="../static/images/m_push_dish_img.png" style="margin:35px; cursor:pointer" width="190px" height="280px" th:onclick="@{|location='${basePath}/internal/brand/marketing/pushDish/list'|}">
-        <img th:src="@{/images/m_coupon_img.png}" style="margin:35px; cursor:pointer" width="190px" height="280px" th:onclick="@{|location='${basePath}/internal/brand/marketing/coupon/list'|}">
-        <img th:src="@{/images/m_push_action_img.png}" style="margin:35px; cursor:pointer" width="190px" height="280px" th:onclick="@{|location='${basePath}/brand/pushPlanActivity/list'|}">
+<div class="parent container" style="margin-left: 50px">
+    <div style="width: 80%;margin-top: 20px" class="parent">
+        <span style="font-size: 12px;color: #FA8E09">特价专区</span>
+        <hr style= "border:1px dashed #faccaf;width: 88%" />
+    </div>
+</div>
 
+<div class="parent" style="margin-top: 20px;margin-left: 150px;">
+    <div th:if="${shaveAactivitySales} eq '1'" class="parent_h" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/activity/salesList'|}">
+        <div class="left_border_radius_green" style="text-align:center;position:relative">
+            <img th:src="@{/images/index_tgyx_icon.png}" src="../static/images/index_tgyx_icon.png" style="width: 36px;height: 36px;margin:0 auto;margin-top: 22%">
+        </div>
+
+        <div class="right_border_radius_green">
+            <div style="margin-top: 13px;margin-left: 10px">
+                <div style="font-weight: bold;font-size: 16px;color: #3e3e3e">特价活动</div>
+                <div style="font-size: 12px;color: #4e555b; margin-top: 6px">利用特价活动进行推广营销拓客</div>
+            </div>
+        </div>
     </div>
 
-    <div class="parent_h">
+</div>
 
-        <img th:src="@{/images/m_collage_img.png}" style="margin:35px; cursor:pointer" width="190px" height="280px" th:onclick="@{|location='${basePath}/brand/collageMarketing/queryListData'|}">
-
-        <img th:src="@{/images/m_flash_sales_img.png}" style="margin:35px; cursor:pointer" width="190px" height="280px" th:onclick="@{|location='${basePath}/brand/flashSalesMarketing/queryListData'|}">
-
-        <img th:src="@{/images/m_cut_down_img.png}" style="margin:35px; cursor:pointer" width="190px" height="280px" th:onclick="@{|location='${basePath}/brand/cutDownMarketing/queryListData'|}">
-
+<div class="parent container" style="margin-left: 50px">
+    <div style="width: 80%;margin-top: 20px" class="parent">
+        <span style="font-size: 12px;color: #81C469">分享营销</span>
+        <hr style= "border:1px dashed #dff0d8;width: 88%" />
     </div>
-    <div class="parent_h" style="background-color: #f0f0f0">
+</div>
+<div class="parent" style="margin-top: 20px;margin-left: 150px">
 
-        <img th:src="@{/images/m_share_img.png}" style="margin:35px; cursor:pointer" width="190px" height="280px" th:onclick="@{|location='${basePath}/marketingShare/gotoShareMarketing'|}">
+    <div class="parent_h" th:if="${havePushNewDish} eq '1'" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/internal/brand/marketing/pushDish/list'|}">
+        <div class="left_border_radius" style="text-align:center;position:relative">
+            <img th:src="@{/images/index_new_dish_icon.png}" src="../static/images/index_new_dish_icon.png" style="width: auto;height: 35px;margin:0 auto;margin-top: 22%">
+        </div>
 
-        <img th:src="@{/images/m_together_img.png}" style="margin:35px; cursor:pointer" width="190px" height="280px" th:onclick="@{|location='${basePath}/marketingTogether/gotoTogetherMarketing'|}">
-
-        <img th:src="@{/images/m_expend_img.png}" style="margin:35px; cursor:pointer" width="190px" height="280px" th:onclick="@{|location='${basePath}/marketingExpanded/gotoMarketingExpanded'|}">
-
+        <div class="right_border_radius">
+            <div style="margin-top: 13px;margin-left: 10px">
+                <div style="font-weight: bold;font-size: 16px;color: #3e3e3e">新品推送</div>
+                <div style="font-size: 12px;color: #4e555b; margin-top: 6px">发布门店新品到微信小程序</div>
+            </div>
+        </div>
     </div>
+
+    <div class="parent_h" th:if="${havePushAction} eq '1'" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/brand/pushPlanActivity/list'|}">
+        <div class="left_border_radius" style="text-align:center;position:relative">
+            <img th:src="@{/images/index_action_icon.png}" src="../static/images/index_action_icon.png" style="width: auto;height: 35px;margin:0 auto;margin-top: 24%">
+        </div>
+
+        <div class="right_border_radius">
+            <div style="margin-top: 13px;margin-left: 10px">
+                <div style="font-weight: bold;font-size: 16px;color: #3e3e3e">活动推广</div>
+                <div style="font-size: 12px;color: #4e555b; margin-top: 6px">发布门店活动到微信小程序</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="parent_h" th:if="${haveShare} eq '1'" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/marketingShare/gotoShareMarketing'|}">
+        <div class="left_border_radius" style="text-align:center;position:relative">
+            <img th:src="@{/images/index_sheare_icon.png}" src="../static/images/index_sheare_icon.png" style="width: 35px;height: 35px;margin:0 auto;margin-top: 22%">
+        </div>
+
+        <div class="right_border_radius">
+            <div style="margin-top: 13px;margin-left: 10px">
+                <div style="font-weight: bold;font-size: 16px;color: #3e3e3e">分享有礼</div>
+                <div style="font-size: 12px;color: #4e555b; margin-top: 6px">分享门店信息获取相关反馈</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="parent container" style="margin-left: 50px">
+    <div style="width: 80%;margin-top: 20px" class="parent">
+        <span style="font-size: 12px;color: #FA8E09">场景营销</span>
+        <hr style= "border:1px dashed #faccaf;width: 88%" />
+    </div>
+</div>
+
+<div class="parent" style="margin-top: 20px;margin-left: 150px">
+
+    <div class="parent_h" th:if="${haveCollage} eq '1'" style="margin-right: 20px; cursor: pointer" th:onclick="@{|location='${basePath}/brand/collageMarketing/queryListData'|}">
+        <div class="left_border_radius_green" style="text-align:center;position:relative">
+            <img th:src="@{/images/index_collage_icon.png}" src="../static/images/index_collage_icon.png" style="width: auto;height: 38px;margin:0 auto;margin-top: 20%">
+        </div>
+
+        <div class="right_border_radius_green">
+            <div style="margin-top: 13px;margin-left: 10px">
+                <div style="font-weight: bold;font-size: 16px;color: #3e3e3e">拼团</div>
+                <div style="font-size: 12px;color: #4e555b; margin-top: 6px">邀请身边好友一同参加拼团活动</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="parent_h" th:if="${haveFlashSales} eq '1'" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/brand/flashSalesMarketing/queryListData'|}">
+        <div class="left_border_radius_green" style="text-align:center;position:relative">
+            <img th:src="@{/images/index_fast_sale_icon.png}" src="../static/images/index_fast_sale_icon.png" style="width: auto;height: 38px;margin:0 auto;margin-top: 20%">
+        </div>
+
+        <div class="right_border_radius_green">
+            <div style="margin-top: 13px;margin-left: 10px">
+                <div style="font-weight: bold;font-size: 16px;color: #3e3e3e">秒杀</div>
+                <div style="font-size: 12px;color: #4e555b; margin-top: 6px">配置秒杀活动促动顾客到店消费</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="parent_h" th:if="${haveCutDown} eq '1'" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/brand/cutDownMarketing/queryListData'|}">
+        <div class="left_border_radius_green" style="text-align:center;position:relative">
+            <img th:src="@{/images/index_cut_down_icon.png}" src="../static/images/index_cut_down_icon.png" style="width: auto;height: 38px;margin:0 auto;margin-top: 20%">
+        </div>
+
+        <div class="right_border_radius_green">
+            <div style="margin-top: 13px;margin-left: 10px">
+                <div style="font-weight: bold;font-size: 16px;color: #3e3e3e">砍价</div>
+                <div style="font-size: 12px;color: #4e555b; margin-top: 6px">邀请身边好友一同参加砍价活动</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="parent container" style="margin-left: 50px">
+    <div style="width: 80%;margin-top: 20px" class="parent">
+        <span style="font-size: 12px;color: #81C469">裂变营销</span>
+        <hr style= "border:1px dashed #dff0d8;width: 88%" />
+    </div>
+</div>
+
+<div class="parent" style="margin-top: 20px;margin-left: 150px">
+
+    <div class="parent_h" th:if="${haveTogether} eq '1'" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/marketingTogether/gotoTogetherMarketing'|}">
+        <div class="left_border_radius" style="text-align:center;position:relative">
+            <img th:src="@{/images/index_together_icon.png}" src="../static/images/index_together_icon.png" style="width: auto;height: 38px;margin:0 auto;margin-top: 19%">
+        </div>
+
+        <div class="right_border_radius">
+            <div style="margin-top: 13px;margin-left: 10px">
+                <div style="font-weight: bold;font-size: 16px;color: #3e3e3e">同行特惠</div>
+                <div style="font-size: 12px;color: #4e555b; margin-top: 6px">邀请好友一同到店，享受优惠服务</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="parent_h" th:if="${haveExpand} eq '1'" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/marketingExpanded/gotoMarketingExpanded'|}">
+        <div class="left_border_radius" style="text-align:center;position:relative">
+            <img th:src="@{/images/index_qytg_icon.png}" src="../static/images/index_qytg_icon.png" style="width: auto;height: 30px;margin:0 auto;margin-top: 23%">
+        </div>
+
+        <div class="right_border_radius">
+            <div style="margin-top: 13px;margin-left: 10px">
+                <div style="font-weight: bold;font-size: 16px;color: #3e3e3e">全员推广</div>
+                <div style="font-size: 12px;color: #4e555b; margin-top: 6px">推广好友消费获取佣金返利</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="parent container" style="margin-left: 50px">
+    <div style="width: 80%;margin-top: 20px" class="parent">
+        <span style="font-size: 12px;color: #FA8E09">营销赋能</span>
+        <hr style= "border:1px dashed #faccaf;width: 88%" />
+    </div>
+</div>
+
+<div class="parent" style="margin-top: 20px;margin-left: 150px;margin-bottom: 50px">
+
+    <div class="parent_h" th:if="${haveCouponMarketing} eq '1'" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/internal/brand/marketing/coupon/list'|}">
+        <div class="left_border_radius_green" style="text-align:center;position:relative">
+            <img th:src="@{/images/index_coupon_icon.png}" src="../static/images/index_coupon_icon.png" style="width: auto;height: 37px;margin:0 auto;margin-top: 22%">
+        </div>
+
+        <div class="right_border_radius">
+            <div style="margin-top: 13px;margin-left: 10px">
+                <div style="font-weight: bold;font-size: 16px;color: #3e3e3e">优惠券</div>
+                <div style="font-size: 12px;color: #4e555b; margin-top: 6px">配置优惠券供门店经营使用</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="parent_h" th:if="${haveSendCoupon} eq '1'" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/marketingPutOn'|}">
+        <div class="left_border_radius_green" style="text-align:center;position:relative">
+            <img th:src="@{/images/index_coupon_send_icon.png}" src="../static/images/index_coupon_send_icon.png" style="width: 35px;height: 35px;margin:0 auto;margin-top: 22%">
+        </div>
+
+        <div class="right_border_radius_green">
+            <div style="margin-top: 13px;margin-left: 10px">
+                <div style="font-weight: bold;font-size: 16px;color: #3e3e3e">优惠券投放</div>
+                <div style="font-size: 12px;color: #4e555b; margin-top: 6px">配置业务点自动投放优惠券</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="parent_h" th:if="${haveExpandedCustomer} eq '1'" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/pos/customerMarketingExpanded/gotoMainPage'|}">
+        <div class="left_border_radius_green" style="text-align:center;position:relative">
+            <img th:src="@{/images/index_tgtc_icon.png}" src="../static/images/index_tgtc_icon.png" style="width: 35px;height: 35px;margin:0 auto;margin-top: 22%">
+        </div>
+
+        <div class="right_border_radius_green">
+            <div style="margin-top: 13px;margin-left: 10px">
+                <div style="font-weight: bold;font-size: 16px;color: #3e3e3e">推广提成</div>
+                <div style="font-size: 12px;color: #4e555b; margin-top: 6px">推广好友消费佣金返现提取</div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+
+
+
 
 
 </body>
