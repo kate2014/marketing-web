@@ -77,6 +77,7 @@
         <div style="margin-top: 15px">
             <label class="text_navigation" style="margin-left: 10px">消费1元增加积分、成长值</label>
             <input class="input_style" placeholder="输入转换成长值" style="margin-left: 5px" type="text" th:value="${cusRM.convertValueS}" name="convertValueS"/>
+            <span style="font-size: 12px;color: #FF7E00;margin-left: 15px;">根据不同消费额度，增加对应的会员积分，不同积分将对应成长为不同会员等级</span>
         </div>
         <div style="margin-top: 15px">
             <button class="blue_button_style" onclick="submitRuleSForm()" style="margin-left: 10px">保存</button>
@@ -110,7 +111,7 @@
 
             <label class="text_navigation" style="margin-left: 50px">单笔订单抵用积分上限：</label>
             <input class="input_style" placeholder="输入抵用上限" style="margin-left: 0px" type="text"  name="convertValueM" th:value="${cusRM.convertValueM}"/>
-            <h6>备注：如会员消费时使用积分抵现，系统将根据该值控制单笔订单最多一次能使用多少积分</h6>
+            <span style="font-size: 12px;color: #FF7E00;margin-left: 15px;">备注：如会员消费时使用积分抵现，系统将根据该值控制单笔订单最多一次能使用多少积分</span>
 
         </div>
         <div style="margin-top: 15px">
