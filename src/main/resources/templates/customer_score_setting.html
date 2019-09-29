@@ -51,6 +51,15 @@
 
 <body onload="showAction()">
 
+<div class="parent top_view_style">
+    <img th:src="@{/images/lable.jpg}" width="5" height="26" style="margin-left: 20px">
+    <label class="text_navigation" style="margin-left: 10px;width: 30%">营销 》会员积分</label>
+
+    <div align="right" style="width: 100%;margin-right: 50px">
+        <button class="gray_button_style" value="" th:onclick="@{|location='${basePath}/home'|}" style="margin-left: 10px">返回</button>
+    </div>
+</div>
+
 <input type="hidden" id="successOrfail" th:value="${customerScore.successOrfail}">
 
 <form method="post" name="scoreS" action="" th:action="@{/internal/customerScoreRule/modify}" th:object="${CustomerScoreRuleModel}">

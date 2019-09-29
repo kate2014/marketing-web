@@ -21,21 +21,20 @@ public class LoginController extends BaseController {
     AuthUserService authUserService;
 
     @RequestMapping({"/", "/home"})
-    public String home(Model model,Long creatorId,String creatorName,Long shopIdenty) {
+    public String home(Model model,Long creatorId,String creatorName,Long shopIdenty,Long brandIdenty) {
 
-        if(creatorId != null && !creatorId.equals("")){
-            LoginManager.get().getUser().setCreatorId(creatorId);
-        }else{
-            creatorId = LoginManager.get().getUser().getCreatorId();
-        }
-        if(creatorName != null && !creatorName.equals("")){
-            LoginManager.get().getUser().setCreatorName(creatorName);
-        }
-        if(shopIdenty != null && !shopIdenty.equals("")){
-            LoginManager.get().getUser().setShopIdenty(shopIdenty);
-        }else{
-            shopIdenty = LoginManager.get().getUser().getShopIdenty();
-        }
+        AuthUserEntity user = LoginManager.get().getUser();
+        creatorId = user.getId();
+        creatorName = user.getName();
+        shopIdenty = user.getShopIdenty();
+        brandIdenty = user.getBrandIdenty();
+
+
+        model.addAttribute("creatorId", creatorId);
+        model.addAttribute("creatorName", creatorName);
+        model.addAttribute("shopIdenty", shopIdenty);
+        model.addAttribute("brandIdenty", brandIdenty);
+
 
         Map<String, String> permissionData = authUserService.getAuthPermissionMap(creatorId,shopIdenty);
 
@@ -127,7 +126,7 @@ public class LoginController extends BaseController {
             boolean login = LoginManager.get().login(authUserService, account, password, shopId);
             if (login) {
                 AuthUserEntity user = LoginManager.get().getUser();
-                return redirect(String.format("/?creatorId=%d&creatorName=%sshopIdenty=%d", user.getId(), user.getName(),user.getShopIdenty()));
+                return redirect(String.format("/?creatorId=%d&creatorName=%sshopIdenty=%d&brandIdenty=%d", user.getId(), user.getName(),user.getShopIdenty(),user.getBrandIdenty()));
             }
         }
 

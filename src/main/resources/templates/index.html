@@ -44,7 +44,7 @@
 </div>
 
 <div class="parent container" style="margin-left: 50px">
-    <div style="width: 80%;margin-top: 20px" class="parent">
+    <div style="width: 90%;margin-top: 20px" class="parent">
         <span style="font-size: 12px;color: #FA8E09">特价专区</span>
         <hr style= "border:1px dashed #faccaf;width: 88%" />
     </div>
@@ -67,7 +67,7 @@
 </div>
 
 <div class="parent container" style="margin-left: 50px">
-    <div style="width: 80%;margin-top: 20px" class="parent">
+    <div style="width: 90%;margin-top: 20px" class="parent">
         <span style="font-size: 12px;color: #81C469">分享营销</span>
         <hr style= "border:1px dashed #dff0d8;width: 88%" />
     </div>
@@ -116,7 +116,7 @@
 </div>
 
 <div class="parent container" style="margin-left: 50px">
-    <div style="width: 80%;margin-top: 20px" class="parent">
+    <div style="width: 90%;margin-top: 20px" class="parent">
         <span style="font-size: 12px;color: #FA8E09">场景营销</span>
         <hr style= "border:1px dashed #faccaf;width: 88%" />
     </div>
@@ -166,7 +166,7 @@
 </div>
 
 <div class="parent container" style="margin-left: 50px">
-    <div style="width: 80%;margin-top: 20px" class="parent">
+    <div style="width: 90%;margin-top: 20px" class="parent">
         <span style="font-size: 12px;color: #81C469">裂变营销</span>
         <hr style= "border:1px dashed #dff0d8;width: 88%" />
     </div>
@@ -203,13 +203,13 @@
 </div>
 
 <div class="parent container" style="margin-left: 50px">
-    <div style="width: 80%;margin-top: 20px" class="parent">
+    <div style="width: 90%;margin-top: 20px" class="parent">
         <span style="font-size: 12px;color: #FA8E09">营销赋能</span>
         <hr style= "border:1px dashed #faccaf;width: 88%" />
     </div>
 </div>
 
-<div class="parent" style="margin-top: 20px;margin-left: 150px;margin-bottom: 50px">
+<div class="parent" style="margin-top: 20px;margin-left: 150px;">
 
     <div class="parent_h" th:if="${haveCouponMarketing} eq '1'" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/coupon'|}">
         <div class="left_border_radius_green" style="text-align:center;position:relative">
@@ -254,8 +254,68 @@
 </div>
 
 
+<div class="parent container" style="margin-left: 50px">
+    <div style="width: 90%;margin-top: 20px" class="parent">
+        <span style="font-size: 12px;color: #81C469">会员营销</span>
+        <hr style= "border:1px dashed #dff0d8;width: 88%" />
+    </div>
+</div>
 
+<div class="parent" style="margin-top: 20px;margin-left: 150px;margin-bottom: 50px">
 
+    <div class="parent_h" th:if="${haveCollage} eq '1'" style="margin-right: 20px; cursor: pointer" th:onclick="@{|location='${basePath}/internal/customerScoreRule/customerScoreSetting?brandIdenty=${brandIdenty}&shopIdenty=${shopIdenty}&creatorId=${creatorId}&creatorName=${creatorName}'|}">
+        <div class="left_border_radius" style="text-align:center;position:relative">
+            <img th:src="@{/images/scokt_marketing_icon.png}" src="../static/images/scokt_marketing_icon.png" style="width: auto;height: 35px;margin:0 auto;margin-top: 20%">
+        </div>
+
+        <div class="right_border_radius">
+            <div style="margin-top: 13px;margin-left: 10px">
+                <div style="font-weight: bold;font-size: 16px;color: #3e3e3e">会员积分</div>
+                <div style="font-size: 12px;color: #4e555b; margin-top: 6px">会员消费增加积分和积分抵现</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="parent_h" th:if="${haveFlashSales} eq '1'" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/internal/customerPrivilegeRule/gotoSettingPage?brandIdenty=${brandIdenty}&shopIdenty=${shopIdenty}&creatorId=${creatorId}&creatorName=${creatorName}'|}">
+        <div class="left_border_radius" style="text-align:center;position:relative">
+            <img th:src="@{/images/save_marketing_icon.png}" src="../static/images/save_marketing_icon.png" style="width: auto;height: 38px;margin:0 auto;margin-top: 20%">
+        </div>
+
+        <div class="right_border_radius">
+            <div style="margin-top: 13px;margin-left: 10px">
+                <div style="font-weight: bold;font-size: 16px;color: #3e3e3e">会员储值权益</div>
+                <div style="font-size: 12px;color: #4e555b; margin-top: 6px">根据储值金额享受不同的消费折扣</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="parent_h" th:if="${haveCutDown} eq '1'" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/internal/customerSaveRule/gotoSettingPage?brandIdenty=${brandIdenty}&shopIdenty=${shopIdenty}&creatorId=${creatorId}&creatorName=${creatorName}'|}">
+        <div class="left_border_radius" style="text-align:center;position:relative">
+            <img th:src="@{/images/save_give_marketing_icon.png}" src="../static/images/save_give_marketing_icon.png" style="width: auto;height: 38px;margin:0 auto;margin-top: 20%">
+        </div>
+
+        <div class="right_border_radius">
+            <div style="margin-top: 13px;margin-left: 10px">
+                <div style="font-weight: bold;font-size: 16px;color: #3e3e3e">储值赠送</div>
+                <div style="font-size: 12px;color: #4e555b; margin-top: 6px">对会员储值金额进行优惠赠送</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="parent_h" th:if="${haveCutDown} eq '1'" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/internal/customerDishPrivilege/gotoDishPrivilegePage?brandIdenty=${brandIdenty}&shopIdenty=${shopIdenty}&creatorId=${creatorId}&creatorName=${creatorName}'|}">
+        <div class="left_border_radius" style="text-align:center;position:relative">
+            <img th:src="@{/images/privilage_marketing_icon.png}" src="../static/images/privilage_marketing_icon.png" style="width: auto;height: 38px;margin:0 auto;margin-top: 20%">
+        </div>
+
+        <div class="right_border_radius">
+            <div style="margin-top: 13px;margin-left: 10px">
+                <div style="font-weight: bold;font-size: 16px;color: #3e3e3e">会员权益</div>
+                <div style="font-size: 12px;color: #4e555b; margin-top: 6px">根据会员等级享受服务特价和折扣</div>
+            </div>
+        </div>
+    </div>
+
+</div>
 
 
 
