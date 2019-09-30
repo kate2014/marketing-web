@@ -120,12 +120,15 @@ public class CustomerPosApi extends PosApiController {
             }
 
             String consumePassword = req.getConsumePassword();
-            if (StringUtils.isNotBlank(consumePassword)) {
-                consumePassword = Password.create().generate(req.getMobile(), consumePassword);
+            if (StringUtils.isBlank(consumePassword)) {
+                int mobileLength = req.getMobile().length();
+                consumePassword = req.getMobile().substring(mobileLength - 6, mobileLength);
             }
+            consumePassword = Password.create().generate(req.getMobile(), consumePassword);
+            mCustomer.setPassword(consumePassword);
+
             CustomerLevelRuleEntity levelRuleEntity = customerLevelRuleService.getCustomerLevelRuleEntity(req.getHeader().getShopId(), req.getHeader().getBrandId(), 0);
             mCustomer.baseCreate(req.getUserId(), req.getUserName());
-            mCustomer.setPassword(consumePassword);
             mCustomer.setIntegralTotal(0);
             mCustomer.setGroupLevelId(levelRuleEntity.getId());
             mCustomer.setGroupLevel(levelRuleEntity.getLevelName());
