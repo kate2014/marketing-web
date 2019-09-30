@@ -579,7 +579,9 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
         customerEntity.setShopIdenty(shopId);
         customerEntity.setMobile(mobile);
         EntityWrapper<CustomerEntity> wrapper = new EntityWrapperFilter<>(customerEntity);
-        wrapper.ne("id", id);
+        if (id != null) {
+            wrapper.ne("id", id);
+        }
         return selectCount(wrapper) > 0;
     }
 

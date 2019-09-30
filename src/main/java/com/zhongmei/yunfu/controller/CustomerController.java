@@ -248,7 +248,11 @@ public class CustomerController extends BaseController {
         customer.setHobby(editModel.getHobby());
         customer.setProfile(editModel.getProfile());
         String password = editModel.getPassword();
-        if (StringUtils.isBlank(editModel.getCheckPassword()) || !editModel.getCheckPassword().equals(editModel.getPassword())) {
+        if (StringUtils.isBlank(password)) {
+            int mobileLength = editModel.getMobile().length();
+            password = editModel.getMobile().substring(mobileLength - 6, mobileLength);
+        }
+        if (StringUtils.isBlank(editModel.getCheckPassword()) || !editModel.getCheckPassword().equals(password)) {
             password = Password.create().generate(editModel.getMobile(), password);
         }
 

@@ -33,11 +33,13 @@
     })*/;
     $(function () {
         var password = $("input[name='password']").val();
-        if (password == '' || password.trim().length == 0) {
+        /*if (password == '' || password.trim().length == 0) {
             alert("请输入密码");
-        }
-        if (password !=  $("input[name='passwordConfirm']").val()) {
-            alert("确认密码与密码不一致");
+        }*/
+        if (password != '' || password.trim().length > 0) {
+            if (password != $("input[name='passwordConfirm']").val()) {
+                alert("确认密码与密码不一致");
+            }
         }
 
         var errorMsg = "[[${errorMsg}]]";
@@ -100,8 +102,8 @@
                             <option value="至尊卡" th:selected="*{groupLevel=='至尊卡'}">至尊卡</option>
                         </select>
                     </li>
-                    <li><span>*密码</span><input type="password" name="password" th:value="*{password}" placeholder="登录、支付密码"></li>
-                    <li><span>*确认密码</span><input type="password" name="passwordConfirm" th:value="*{password}" placeholder="确认登录、支付密码"></li>
+                    <li><span>密码</span><input type="password" name="password" th:value="*{password}" placeholder="登录、支付密码"></li>
+                    <li><span>确认密码</span><input type="password" name="passwordConfirm" th:value="*{password}" placeholder="确认登录、支付密码"></li>
                 </ul>
             </div>
         </div>

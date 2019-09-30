@@ -41,7 +41,7 @@ public class ExcelUtilsTest {
                 customerEntity.setBirthday(new Date(Long.valueOf(birthday)));
             }
             customerEntity.setMobile(mobile);
-            customerEntity.setEmail(email);
+            //customerEntity.setEmail(email);
             customerEntity.setHobby(hobby);
             customerEntity.setAddress(address);
             customerEntity.setProfile(desc);
