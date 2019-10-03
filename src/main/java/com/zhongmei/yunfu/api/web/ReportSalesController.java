@@ -480,6 +480,20 @@ public class ReportSalesController {
             BigDecimal returnCount = BigDecimal.ZERO;
             BigDecimal returnAmount = BigDecimal.ZERO;
 
+            //销货合计
+            BigDecimal salseCount = BigDecimal.ZERO;
+            BigDecimal saseAmount = BigDecimal.ZERO;
+            //储值合计
+            BigDecimal saveCount = BigDecimal.ZERO;
+            BigDecimal saveAmount = BigDecimal.ZERO;
+            //次卡合计
+            BigDecimal cardCount = BigDecimal.ZERO;
+            BigDecimal cardAmount = BigDecimal.ZERO;
+            //小程序销售合计
+            BigDecimal wxCount = BigDecimal.ZERO;
+            BigDecimal wxAmount = BigDecimal.ZERO;
+
+
             mPurchSaleModel.setBusinessType(null);
             List<TradeEntity> listTrade = queryAllTrade(mPurchSaleModel);
 
@@ -516,6 +530,23 @@ public class ReportSalesController {
                     returnAmount = returnAmount.add(mTradeEntity.getTradeAmount());
                 }
 
+                //统计已支付的各种业务类型的订单合计
+                if(mTradeEntity.getTradePayStatus() == 3) {
+                    //业务形态：业务形态1.美业销货，2，余额储值，3，次卡充值 4,小程序服务购买
+                    if (mTradeEntity.getBusinessType() == 1) {
+                        salseCount = salseCount.add(BigDecimal.ONE);
+                        saseAmount = saseAmount.add(mTradeEntity.getTradeAmount());
+                    }else if(mTradeEntity.getBusinessType() == 2){
+                        saveCount = saveCount.add(BigDecimal.ONE);
+                        saveAmount = saveAmount.add(mTradeEntity.getTradeAmount());
+                    }else if(mTradeEntity.getBusinessType() == 3){
+                        cardCount = cardCount.add(BigDecimal.ONE);
+                        cardAmount = cardAmount.add(mTradeEntity.getTradeAmount());
+                    }else if(mTradeEntity.getBusinessType() == 4){
+                        wxCount = wxCount.add(BigDecimal.ONE);
+                        wxAmount = wxAmount.add(mTradeEntity.getTradeAmount());
+                    }
+                }
             }
 
             //以订单为维度进行分组
@@ -541,6 +572,17 @@ public class ReportSalesController {
             model.addAttribute("haveNoPayCount", haveNoPayCount);
             model.addAttribute("haveNoPayAmount", haveNoPayAmount);
 
+            model.addAttribute("salseCount", salseCount);
+            model.addAttribute("saseAmount", saseAmount);
+
+            model.addAttribute("saveCount", saveCount);
+            model.addAttribute("saveAmount", saveAmount);
+
+            model.addAttribute("cardCount", cardCount);
+            model.addAttribute("cardAmount", cardAmount);
+
+            model.addAttribute("wxCount", wxCount);
+            model.addAttribute("wxAmount", wxAmount);
 
             model.addAttribute("listReport", listReport);
             model.addAttribute("mPurchSaleModel", mPurchSaleModel);

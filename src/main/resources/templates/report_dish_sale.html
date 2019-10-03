@@ -193,6 +193,44 @@
 
 <img class="line_style" th:src="@{/images/line.jpg}" style="margin-top: 10px">
 
+<div class="parent_h container" style="margin-top: 5px">
+    <div style="margin-right: 20px; font-size: 16px;color: #FFFFFF;border-radius: 10px;padding: 15px;background-color: #FF7E00; min-width: 180px">
+        <div style="font-size: 14px;">店内销货统计</div>
+        <div style="margin-top: 10px">
+            <span th:text="${salseCount}" style="margin-right: 5px">100000</span>笔
+            <span th:text="${saseAmount}" style="margin-right: 5px">100000.00</span>元
+        </div>
+    </div>
+    <div style="margin-right: 20px; font-size: 16px;color: #FFFFFF;border-radius: 10px;padding: 15px;background-color: #34ce57; min-width: 180px ">
+        <div style="font-size: 14px">余额储值统计</div>
+        <div style="margin-top: 10px">
+            <span th:text="${saveCount}" style="margin-right: 5px">100000</span>笔
+            <span th:text="${saveAmount}" style="margin-right: 5px">100000.00</span>元
+        </div>
+    </div>
+    <div style="margin-right: 20px; font-size: 16px;color: #FFFFFF;border-radius: 10px;padding: 15px;background-color: #19AAD8; min-width: 180px ">
+        <div style="font-size: 14px">次卡销售统计</div>
+        <div style="margin-top: 10px">
+            <span th:text="${cardCount}" style="margin-right: 5px">100000</span>笔
+            <span th:text="${cardAmount}" style="margin-right: 5px">100000.00</span>元
+        </div>
+    </div>
+    <div style="margin-right: 20px; font-size: 16px;color: #FFFFFF;border-radius: 10px;padding: 15px;background-color: #00A680; min-width: 180px ">
+        <div style="font-size: 14px">小程序销售统计</div>
+        <div style="margin-top: 10px">
+            <span th:text="${wxCount}" style="margin-right: 5px">100000</span>笔
+            <span th:text="${wxAmount}" style="margin-right: 5px">100000.00</span>元
+        </div>
+    </div>
+    <div style="margin-right: 20px; font-size: 16px;color: #FFFFFF;border-radius: 10px;padding: 15px;background-color: #FF5453; min-width: 180px ">
+        <div style="font-size: 14px">累计销售总额</div>
+        <div style="margin-top: 10px">
+            <span th:text="${totalCount}" style="margin-right: 5px">100000</span>笔
+            <span th:text="${totalAmount}" style="margin-right: 5px">100000.00</span>元
+        </div>
+    </div>
+
+</div>
 
 <div align="center" style="margin-top: 10px;margin-bottom: 36px">
 
@@ -259,7 +297,7 @@
                 <td style="width: 20%"><span th:text="${item.name}"></span></td>
                 <td style="width: 16%">数量：<span th:text="${item.number}"></span></td>
                 <td style="width: 16%">价格：<span th:text="${item.actualAmount}"></span></td>
-                <td style="width: 16%">服务员：<span th:text="${item.tradeUser}"></span></td>
+                <td style="width: 16%">员工：<span th:text="${item.tradeUser}"></span></td>
                 <td style="width: 16%">顾客：<span th:text="${item.customerName}"></span></td>
                 <td style="width: 16%" th:text="${item.serverCreateTime}"></td>
             </tr>
