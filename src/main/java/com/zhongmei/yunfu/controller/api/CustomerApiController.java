@@ -73,7 +73,7 @@ public class CustomerApiController {
                 return mBaseDataModel;
             }
 
-            //先验证该会是否已在该品牌下存在。我们的会员是同品牌下共享会员
+            //先验证该会是否已在该品牌下存在
             CustomerEntity mCustomer = mCustomerService.queryCustomerByThirdId(mCustomerModel.getBrandIdenty(), mCustomerModel.getShopIdenty(), mCustomerModel.getWxOpenId());
 
 
@@ -483,8 +483,11 @@ public class CustomerApiController {
         mobileCustomer.setExpandedId(mCustomerModel.getExpandedId());
         mobileCustomer.setShopIdenty(mCustomerModel.getShopIdenty());
         mobileCustomer.setBrandIdenty(mCustomerModel.getBrandIdenty());
-//        String passWorld = ToolsUtil.encodeValue(mCustomerModel.getPassword(),mCustomerModel.getMobile());
-//        mobileCustomer.setPassword(passWorld);
+
+        //初始密码为电话号码后6位
+        String inputPassword = mCustomerModel.getMobile().substring(5);
+        String passWorld = ToolsUtil.encodeValue(inputPassword,mCustomerModel.getMobile());
+        mobileCustomer.setPassword(passWorld);
         mobileCustomer.setGroupLevel("普通会员");//银卡会员
         mobileCustomer.setGroupLevelId(0l);
         mobileCustomer.setSourceId(2);

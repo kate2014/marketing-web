@@ -4,6 +4,7 @@ import com.zhongmei.yunfu.util.DateFormatUtil;
 import com.zhongmei.yunfu.domain.entity.CouponEntity;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class CouponModel {
 
@@ -338,6 +339,18 @@ public class CouponModel {
         }
 
         return "未知类型";
+    }
+
+    public Integer getEndStatus()throws Exception{
+        Date endTimeDate = null;
+        if(getEndTime() != null && !getEndTime().equals("")){
+            endTimeDate = DateFormatUtil.parseDate(getEndTime(),DateFormatUtil.FORMAT_FULL_DATE);
+        }
+        if(endTimeDate != null && endTimeDate.getTime() < new Date().getTime()){
+            return 1;
+        }else {
+            return 0;
+        }
     }
 
     public String obtainStateStr() {

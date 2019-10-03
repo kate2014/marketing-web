@@ -123,8 +123,7 @@
             <th>状态</th>
             <th>投放起始时间</th>
             <th>活动有效时间</th>
-            <th>投放数量</th>
-            <th>已使用数量</th>
+            <th>投放/使用情况</th>
             <th>操作</th>
         </tr>
         <tr th:each="item:${list}">
@@ -140,11 +139,21 @@
             </td>
             <td th:text="${item.name}" />
             <td th:text="${item.obtainCouponTypeStr()}" />
-            <td th:text="${item.obtainStateStr()}" />
+            <td>
+                <div th:if="${item.getEndStatus()} == 1">
+                    <img th:src="@{/images/over_time_icon.png}" align="absmiddle" style="display: inline; width: 30px;height: auto"/><span>&nbsp;已过期</span>
+                </div>
+                <div th:if="${item.getEndStatus()} != 1">
+                    <span th:text="${item.obtainStateStr()}"></span>
+                </div>
+            </td>
+
             <td th:text="${item.serverCreateTime}" />
-            <td th:text="${item.endTime}" />
-            <td th:text="${item.pushNumber}" ／>
-            <td th:text="${item.useNumber}" ／>
+            <td th:text="${item.endTime}"></td>
+            <td>
+                <span th:text="${item.pushNumber}"></span>/
+                <span th:text="${item.useNumber}"></span>
+            </td>
             <td align="center">
 
                 <div class="parent_h container">
