@@ -2,6 +2,8 @@ package com.zhongmei.yunfu.domain.mapper;
 
 import com.zhongmei.yunfu.domain.entity.CustomerExtraEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 /**
  * <p>
@@ -13,4 +15,6 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  */
 public interface CustomerExtraMapper extends BaseMapper<CustomerExtraEntity> {
 
+    @Select("SELECT * FROM customer_extra WHERE customer_id = #{customerId}")
+    CustomerExtraEntity getCustomerExtra(@Param("customerId") Long customerId);
 }

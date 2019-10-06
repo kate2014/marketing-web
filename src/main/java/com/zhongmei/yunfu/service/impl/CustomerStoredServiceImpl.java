@@ -56,7 +56,7 @@ public class CustomerStoredServiceImpl extends ServiceImpl<CustomerStoredMapper,
     @Override
     public void recharge(CustomerStoredEntity customerStored) throws Exception {
         boolean isInsert = false;
-        CustomerExtraEntity customerExtraEntity = customerExtraMapper.selectById(customerStored.getCustomerId());
+        CustomerExtraEntity customerExtraEntity = customerExtraMapper.getCustomerExtra(customerStored.getCustomerId());
         if (customerExtraEntity == null) {
             isInsert = true;
             customerExtraEntity = new CustomerExtraEntity();
@@ -64,15 +64,16 @@ public class CustomerStoredServiceImpl extends ServiceImpl<CustomerStoredMapper,
             customerExtraEntity.setCustomerId(customerStored.getCustomerId());
             customerExtraEntity.setShopIdenty(customerStored.getShopIdenty());
             customerExtraEntity.setBrandIdenty(customerStored.getBrandIdenty());
+            customerExtraEntity.setStoredAmount(BigDecimal.ZERO);
+            customerExtraEntity.setStoredGive(BigDecimal.ZERO);
+            customerExtraEntity.setStoredUsed(BigDecimal.ZERO);
+            customerExtraEntity.setStoredBalance(BigDecimal.ZERO);
         }
         if (customerStored.getTradeAmount() == null) {
             customerStored.setTradeAmount(BigDecimal.ZERO);
         }
-        if (customerExtraEntity.getStoredAmount() == null) {
-            customerExtraEntity.setStoredAmount(BigDecimal.ZERO);
-        }
-        if (customerExtraEntity.getStoredGive() == null) {
-            customerExtraEntity.setStoredGive(BigDecimal.ZERO);
+        if (customerStored.getGiveAmount() == null) {
+            customerStored.setGiveAmount(BigDecimal.ZERO);
         }
 
         customerExtraEntity.baseUpdate(customerStored.getUpdatorId(), customerStored.getUpdatorName());
@@ -127,7 +128,7 @@ public class CustomerStoredServiceImpl extends ServiceImpl<CustomerStoredMapper,
 
     @Override
     public void expense(CustomerStoredEntity customerStored) throws Exception {
-        CustomerExtraEntity customerExtraEntity = customerExtraMapper.selectById(customerStored.getCustomerId());
+        CustomerExtraEntity customerExtraEntity = customerExtraMapper.getCustomerExtra(customerStored.getCustomerId());
         //储值余额是否够用
         if (customerExtraEntity.getStoredBalance()
                 .compareTo(customerStored.getTradeAmount()) < 0) {
@@ -143,7 +144,7 @@ public class CustomerStoredServiceImpl extends ServiceImpl<CustomerStoredMapper,
 
     @Override
     public void refund(CustomerStoredEntity customerStored) throws Exception {
-        CustomerExtraEntity customerExtraEntity = customerExtraMapper.selectById(customerStored.getCustomerId());
+        CustomerExtraEntity customerExtraEntity = customerExtraMapper.getCustomerExtra(customerStored.getCustomerId());
         BigDecimal storedAmount = customerExtraEntity.getStoredAmount()
                 .subtract(customerStored.getTradeAmount())
                 .subtract(customerStored.getGiveAmount());

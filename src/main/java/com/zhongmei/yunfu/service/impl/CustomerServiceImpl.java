@@ -70,6 +70,14 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
     public void save(CustomerEntity customerEntity) {
         insertOrUpdate(customerEntity);
         //saveEntityCard(customerEntity, cardNo);
+        if (customerEntity.getId() == null) {
+            CustomerExtraEntity customerExtraEntity = new CustomerExtraEntity();
+            customerExtraEntity.baseCreate(customerEntity.getUpdatorId(), customerEntity.getUpdatorName());
+            customerExtraEntity.setCustomerId(customerEntity.getId());
+            customerExtraEntity.setShopIdenty(customerEntity.getShopIdenty());
+            customerExtraEntity.setBrandIdenty(customerEntity.getBrandIdenty());
+            customerExtraMapper.insert(customerExtraEntity);
+        }
     }
 
     @Override
@@ -627,7 +635,7 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
 
     @Override
     public CustomerExtraEntity getCustomerExtra(Long customerId) {
-        return customerExtraMapper.selectById(customerId);
+        return customerExtraMapper.getCustomerExtra(customerId);
     }
 
     @Override
