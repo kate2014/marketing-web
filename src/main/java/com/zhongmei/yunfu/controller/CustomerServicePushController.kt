@@ -43,6 +43,7 @@ class CustomerServicePushController : BaseController() {
     @RequestMapping("/newproduct")
     fun newProduct(model: Model, searchModel: NewDishPushSearchModel): String {
         searchModel.pageSize = 5
+        searchModel.setPlanState(1);
         LoginManager.setUserShopIdenty(searchModel)
         val listPage = mPushNewDishService.list(searchModel)
         var result = arrayListOf<Any>()
@@ -59,6 +60,7 @@ class CustomerServicePushController : BaseController() {
     @RequestMapping("/activity")
     fun activity(model: Model, searchModel: ActivitySearchModel): String? {
         searchModel.pageSize = 5
+        searchModel.planState = 1;
         LoginManager.setUserShopIdenty(searchModel)
         val listPage = pushPlanActivityService.findListPage(searchModel)
         var result = arrayListOf<Any>()
@@ -76,6 +78,7 @@ class CustomerServicePushController : BaseController() {
     fun privilege(model: Model, searchModel: CouponSearchModel): String? {
         searchModel.pageSize = 5
         LoginManager.setUser(searchModel)
+        searchModel.couponState = 1;
         val listPage = couponService.findListPage(searchModel)
         var result = arrayListOf<Any>()
         listPage.records.forEach {
