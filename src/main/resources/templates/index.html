@@ -263,7 +263,7 @@
 
 <div class="parent" style="margin-top: 20px;margin-left: 150px;margin-bottom: 50px">
 
-    <div class="parent_h" th:if="${haveCollage} eq '1'" style="margin-right: 20px; cursor: pointer" th:onclick="@{|location='${basePath}/internal/customerScoreRule/customerScoreSetting?brandIdenty=${brandIdenty}&shopIdenty=${shopIdenty}&creatorId=${creatorId}&creatorName=${creatorName}'|}">
+    <div class="parent_h" th:if="${shaveCustomerSockt} eq '1'" style="margin-right: 20px; cursor: pointer" th:onclick="@{|location='${basePath}/internal/customerScoreRule/customerScoreSetting?brandIdenty=${brandIdenty}&shopIdenty=${shopIdenty}&creatorId=${creatorId}&creatorName=${creatorName}'|}">
         <div class="left_border_radius" style="text-align:center;position:relative">
             <img th:src="@{/images/scokt_marketing_icon.png}" src="../static/images/scokt_marketing_icon.png" style="width: auto;height: 32px;margin:0 auto;margin-top: 20%">
         </div>
@@ -276,7 +276,7 @@
         </div>
     </div>
 
-    <div class="parent_h" th:if="${haveFlashSales} eq '1'" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/internal/customerPrivilegeRule/gotoSettingPage?brandIdenty=${brandIdenty}&shopIdenty=${shopIdenty}&creatorId=${creatorId}&creatorName=${creatorName}'|}">
+    <div class="parent_h" th:if="${shaveSaveMarketing} eq '1'" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/internal/customerPrivilegeRule/gotoSettingPage?brandIdenty=${brandIdenty}&shopIdenty=${shopIdenty}&creatorId=${creatorId}&creatorName=${creatorName}'|}">
         <div class="left_border_radius" style="text-align:center;position:relative">
             <img th:src="@{/images/save_marketing_icon.png}" src="../static/images/save_marketing_icon.png" style="width: auto;height: 38px;margin:0 auto;margin-top: 20%">
         </div>
@@ -289,7 +289,7 @@
         </div>
     </div>
 
-    <div class="parent_h" th:if="${haveCutDown} eq '1'" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/internal/customerSaveRule/gotoSettingPage?brandIdenty=${brandIdenty}&shopIdenty=${shopIdenty}&creatorId=${creatorId}&creatorName=${creatorName}'|}">
+    <div class="parent_h" th:if="${shaveSaveRule} eq '1'" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/internal/customerSaveRule/gotoSettingPage?brandIdenty=${brandIdenty}&shopIdenty=${shopIdenty}&creatorId=${creatorId}&creatorName=${creatorName}'|}">
         <div class="left_border_radius" style="text-align:center;position:relative">
             <img th:src="@{/images/save_give_marketing_icon.png}" src="../static/images/save_give_marketing_icon.png" style="width: auto;height: 38px;margin:0 auto;margin-top: 20%">
         </div>
@@ -302,7 +302,7 @@
         </div>
     </div>
 
-    <div class="parent_h" th:if="${haveCutDown} eq '1'" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/internal/customerDishPrivilege/gotoDishPrivilegePage?brandIdenty=${brandIdenty}&shopIdenty=${shopIdenty}&creatorId=${creatorId}&creatorName=${creatorName}'|}">
+    <div class="parent_h" th:if="${shaveCustomerPrivilege} eq '1'" style="margin-right: 20px;cursor: pointer" th:onclick="@{|location='${basePath}/internal/customerDishPrivilege/gotoDishPrivilegePage?brandIdenty=${brandIdenty}&shopIdenty=${shopIdenty}&creatorId=${creatorId}&creatorName=${creatorName}'|}">
         <div class="left_border_radius" style="text-align:center;position:relative">
             <img th:src="@{/images/privilage_marketing_icon.png}" src="../static/images/privilage_marketing_icon.png" style="width: auto;height: 38px;margin:0 auto;margin-top: 20%">
         </div>

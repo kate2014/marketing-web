@@ -111,6 +111,30 @@ public class LoginController extends BaseController {
             model.addAttribute("shaveAactivitySales", 1);
         }
 
+        //会员积分
+        if(permissionData.get("WEB_CUSTOMER_SCOKT") == null || permissionData.get("WEB_CUSTOMER_SCOKT").equals("")){
+            model.addAttribute("shaveCustomerSockt", 0);
+        }else{
+            model.addAttribute("shaveCustomerSockt", 1);
+        }
+        //会员储值权益
+        if(permissionData.get("WEB_CUSTOMER_SAVE_MARKETING") == null || permissionData.get("WEB_CUSTOMER_SAVE_MARKETING").equals("")){
+            model.addAttribute("shaveSaveMarketing", 0);
+        }else{
+            model.addAttribute("shaveSaveMarketing", 1);
+        }
+        //储值赠送
+        if(permissionData.get("WEB_CUSTOMER_SAVE_RULE") == null || permissionData.get("WEB_CUSTOMER_SAVE_RULE").equals("")){
+            model.addAttribute("shaveSaveRule", 0);
+        }else{
+            model.addAttribute("shaveSaveRule", 1);
+        }
+        //会员权益
+        if(permissionData.get("WEB_CUSTOMER_PRIVILEGE") == null || permissionData.get("WEB_CUSTOMER_PRIVILEGE").equals("")){
+            model.addAttribute("shaveCustomerPrivilege", 0);
+        }else{
+            model.addAttribute("shaveCustomerPrivilege", 1);
+        }
 
         return "index";
     }

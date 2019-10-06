@@ -141,7 +141,7 @@
             <td th:text="${item.obtainCouponTypeStr()}" />
             <td>
                 <div th:if="${item.getEndStatus()} == 1">
-                    <img th:src="@{/images/over_time_icon.png}" align="absmiddle" style="display: inline; width: 30px;height: auto"/><span>&nbsp;已过期</span>
+                    <img th:src="@{/images/over_time_icon.png}" align="absmiddle" style="display: inline; width: 36px;height: auto"/><span></span>
                 </div>
                 <div th:if="${item.getEndStatus()} != 1">
                     <span th:text="${item.obtainStateStr()}"></span>
@@ -184,5 +184,6 @@
     </table>
 </div>
     <div th:replace="page_info::pagination"/>
+<div style="height: 36px"></div>
 </body>
 </html>
