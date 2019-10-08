@@ -135,4 +135,12 @@ public interface CouponService extends IService<CouponEntity> {
      * @throws Exception
      */
     public boolean batchDeleteBySouceId(Long brandIdenty,Long sourceId)throws Exception;
+
+    /**
+     * 更新优惠券使用数量
+     * @param entity
+     * @return
+     * @throws Exception
+     */
+    public Boolean modfityUseNumber(CouponEntity entity)throws Exception;
 }

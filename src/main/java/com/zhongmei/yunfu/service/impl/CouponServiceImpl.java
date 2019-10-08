@@ -214,5 +214,15 @@ public class CouponServiceImpl extends ServiceImpl<CouponMapper, CouponEntity> i
         return isSuccess;
     }
 
+    @Override
+    public Boolean modfityUseNumber(CouponEntity entity) throws Exception {
+        EntityWrapper<CouponEntity> eWrapper = new EntityWrapper<>(new CouponEntity());
+        eWrapper.eq("brand_identy",entity.getBrandIdenty());
+        eWrapper.eq("shop_identy", entity.getShopIdenty());
+        eWrapper.eq("id",entity.getId());
+
+        return update(entity,eWrapper);
+    }
+
 
 }

@@ -71,6 +71,7 @@ public class PushMessageCustomerServiceImpl extends ServiceImpl<PushMessageCusto
             endTime = mPushPlanActivityEntity.getEndTime();
         } else if (type == 3) {
             mCouponEntity = mCouponServiceImpl.queryByid(relationId);
+
             heading = mCouponEntity.getName();
             message = mCouponEntity.getContent();
             startTime = mCouponEntity.getServerCreateTime();
@@ -93,27 +94,45 @@ public class PushMessageCustomerServiceImpl extends ServiceImpl<PushMessageCusto
             mPushMessageCustomerEntity.setBrandIdenty(brandIdentity);
             mPushMessageCustomerEntity.setShopIdenty(shopIdentity);
             listData.add(mPushMessageCustomerEntity);
+        }
 
+        //推送优惠券
+        for (Long customerId : listCustomerID) {
             if (type == 3) {
-                CustomerCouponEntity mCustomerCoupon = new CustomerCouponEntity();
-                mCustomerCoupon.setCouponId(mCouponEntity.getId());
-                mCustomerCoupon.setSourceId(1);
-                mCustomerCoupon.setCouponType(mCouponEntity.getCouponType());
-                mCustomerCoupon.setCouponName(mCouponEntity.getName());
-                mCustomerCoupon.setCustomerId(customerId);
-                mCustomerCoupon.setWxCustomerOpenid("");
-                mCustomerCoupon.setStatus(1);
-                mCustomerCoupon.setEnabledFlag(1);
-                mCustomerCoupon.setStatusFlag(1);
-                mCustomerCoupon.setBrandIdenty(brandIdentity);
-                mCustomerCoupon.setShopIdenty(shopIdentity);
+                //判断优惠券券是否已已达发放上限
+                if (mCouponEntity.getPushNumber() >= (mCouponEntity.getUseNumber() + listCustomerID.size())) {
 
-                listCustomerCoupon.add(mCustomerCoupon);
+                    CustomerCouponEntity mCustomerCoupon = new CustomerCouponEntity();
+                    mCustomerCoupon.setCouponId(mCouponEntity.getId());
+                    mCustomerCoupon.setSourceId(1);
+                    mCustomerCoupon.setCouponType(mCouponEntity.getCouponType());
+                    mCustomerCoupon.setCouponName(mCouponEntity.getName());
+                    mCustomerCoupon.setCustomerId(customerId);
+                    mCustomerCoupon.setWxCustomerOpenid("");
+                    mCustomerCoupon.setStatus(1);
+                    mCustomerCoupon.setEnabledFlag(1);
+                    mCustomerCoupon.setStatusFlag(1);
+                    mCustomerCoupon.setBrandIdenty(brandIdentity);
+                    mCustomerCoupon.setShopIdenty(shopIdentity);
+
+                    listCustomerCoupon.add(mCustomerCoupon);
+                }
+
             }
         }
 
         if (listCustomerCoupon.size() != 0) {
-            mCustomerCouponService.addCustomerCouponBatch(listCustomerCoupon);
+            Boolean addSuccess = mCustomerCouponService.addCustomerCouponBatch(listCustomerCoupon);
+            //更新优惠券已投放数量
+            if(addSuccess){
+                CouponEntity entity = new CouponEntity();
+                entity.setId(mCouponEntity.getId());
+                entity.setBrandIdenty(mCouponEntity.getBrandIdenty());
+                entity.setShopIdenty(mCouponEntity.getShopIdenty());
+                entity.setUseNumber(mCouponEntity.getUseNumber()+listCustomerCoupon.size());
+                mCouponServiceImpl.modfityUseNumber(entity);
+            }
+
         }
 
         Boolean isSuccess = insertBatch(listData);
