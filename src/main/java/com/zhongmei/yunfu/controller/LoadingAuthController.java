@@ -93,6 +93,10 @@ public class LoadingAuthController {
             String url = "/internal/brand/report/shopOrder?brandIdenty="+mLoadingModel.getBrandIdenty()+"&rquestSource="+mLoadingModel.getRquestSource();
             mLoadingModel.setRequestUrl(url);
 
+        }else if(mLoadingModel.getRequestUrlType() == 1004){//品项销售报表
+            String url = "/internal/brand/report/shopOrder?brandIdenty="+mLoadingModel.getBrandIdenty()+"&rquestSource="+mLoadingModel.getRquestSource();
+            mLoadingModel.setRequestUrl(url);
+
         }
 
         model.addAttribute("mLoadingModel", mLoadingModel);
