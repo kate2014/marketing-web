@@ -368,6 +368,7 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
         eWrapper.eq("source_id", sourceId);
         eWrapper.eq("enabled_flag", 1);
         eWrapper.eq("status_flag", 1);
+        eWrapper.eq("relate_id",0);//用来对既有手机号码会员，又是微信会员记为1个会员的处理
         eWrapper.between("server_create_time", start, end);
 
         List<CustomerReport> listCustomerReport = baseMapper.queryCustomerGroup(eWrapper);
@@ -384,6 +385,7 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
         eWrapper.eq("enabled_flag", 1);
         eWrapper.eq("status_flag", 1);
         eWrapper.eq("source_id", sourceId);
+        eWrapper.eq("relate_id",0);//用来对既有手机号码会员，又是微信会员记为1个会员的处理
         Date start = DateFormatUtil.parseDate("2018-08-08", "yyyy-MM-dd");
         eWrapper.between("server_create_time", start, end);
 
