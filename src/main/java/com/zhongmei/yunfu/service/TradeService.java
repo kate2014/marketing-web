@@ -211,4 +211,14 @@ public interface TradeService extends IService<TradeEntity> {
      */
     List<ShopSalesReport> queryShopSalesData(TradeModel mTradeModel)throws Exception;
 
+    /**
+     * 批量查询门店销售情况
+     * @param mTradeModel
+     * @param shopIds
+     * @return
+     * @throws Exception
+     */
+    List<ShopSalesReport> batchQuerySalesReport(TradeModel mTradeModel,String shopIds)throws Exception;
+
+
 }

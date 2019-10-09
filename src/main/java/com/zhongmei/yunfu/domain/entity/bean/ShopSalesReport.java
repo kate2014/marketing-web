@@ -42,6 +42,10 @@ public class ShopSalesReport {
 
     private BigDecimal totalAmountCount;
 
+    private BigDecimal returnAmount;
+
+    private BigDecimal returnCount;
+
     public Long getShopIdenty() {
         return shopIdenty;
     }
@@ -144,5 +148,21 @@ public class ShopSalesReport {
 
     public void setTotalWeiXinCount(BigDecimal totalWeiXinCount) {
         this.totalWeiXinCount = totalWeiXinCount;
+    }
+
+    public BigDecimal getReturnAmount() {
+        return returnAmount;
+    }
+
+    public void setReturnAmount(BigDecimal returnAmount) {
+        this.returnAmount = returnAmount;
+    }
+
+    public BigDecimal getReturnCount() {
+        return returnCount;
+    }
+
+    public void setReturnCount(BigDecimal returnCount) {
+        this.returnCount = returnCount;
     }
 }

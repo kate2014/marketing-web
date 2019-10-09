@@ -132,4 +132,10 @@ public interface TradeMapper extends BaseMapper<TradeEntity> {
             "GROUP BY c.`commercial_id` , t.`business_type` \n" +
             "ORDER BY SUM(t.`trade_amount`) desc ;")
     List<ShopSalesReport> queryShopSalesData(@Param("ew") Condition wrapper,@Param("brandIdenty") Long brandIdenty,@Param("startDate") String startDate,@Param("endDate") String endDate);
+
+    @Select("SELECT sum(`trade_amount`) as totalAmount ,count(id) as totalAmountCount, `shop_identy` ,`business_type` \n" +
+            "FROM trade " +
+            "${ew.sqlSegment} \n" +
+            "GROUP BY `shop_identy`, `business_type`;")
+    List<ShopSalesReport> batchQuerySalesReport(@Param("ew") Condition wrapper);
 }

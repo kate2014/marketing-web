@@ -21,27 +21,20 @@
 <script type="text/javascript">
     function exportExcel() {
         var brandIdenty = $("input[name='brandIdenty']").val();
-        var shopIdenty = $("input[name='shopIdenty']").val();
-
-        var type = document.getElementById("type").value;
-        var name = $("input[name='name']").val();
-        var tradeUser = $("input[name='tradeUser']").val();
-        var customerName = $("input[name='customerName']").val();
 
         document.getElementById("startDate").value = document.getElementById("diyStartDate").value;
         document.getElementById("endDate").value = document.getElementById("diyEndDate").value;
         var startDate = $("input[name='startDate']").val();
         var endDate = $("input[name='endDate']").val();
 
+        var shopIdenty = $("input[name='shopIdenty']").val();
+        var name = $("input[name='name']").val();
         var params = "brandIdenty=" + brandIdenty +
-            "&shopIdenty=" + shopIdenty +
-            "&type=" + type +
-            "&name=" + name +
-            "&tradeUser=" + tradeUser +
-            "&customerName=" + customerName +
             "&startDate=" + startDate +
-            "&endDate=" + endDate;
-        location.href = "[[${basePath}]]/internal/purchaseSale/export/dishSale?" + params;
+            "&endDate=" + endDate+
+            "&shopIdenty=" + shopIdenty +
+            "&name=" + name;
+        location.href = "[[${basePath}]]/internal/brand/report/reconciliation/excel?" + params;
     }
 
     function searchAction(type) {
@@ -51,20 +44,11 @@
             document.getElementById("searchDate").value = 2;
         }else if(type == 3){
             document.getElementById("searchDate").value = 3;
-        }else if(type == 4){
-            document.getElementById("type").value = "";
-            document.getElementById("searchType").value = 0;
-        }else if(type == 5){
-            document.getElementById("type").value = 1;
-            document.getElementById("searchType").value = 1;
-        }else if(type == 6){
-            document.getElementById("type").value = 2;
-            document.getElementById("searchType").value = 2;
         }else if(type == 7){
             document.getElementById("startDate").value = document.getElementById("diyStartDate").value;
             document.getElementById("endDate").value = document.getElementById("diyEndDate").value;
         }
-        document.queryData.submit(document.getElementById("type").value);
+        document.queryData.submit();
 
     }
 </script>
@@ -121,60 +105,28 @@
 
         </div>
 
-        <div class="parent" style="margin-top: 5px;padding-top: 10px; margin-left: 10px; margin-right: 10px; border-top: #e1e1e1 dashed 1px">
 
-            <div style="font-size: 12px;color: #12306f;font-weight: bold;margin-left: 20px">销售类型：</div>
-
-            <div th:if="${mPurchSaleModel.searchType} eq '0'">
-                <div class="lable_button_click_style" style="width: 90px;" onclick="searchAction(4)">全部</div>
-            </div>
-            <div th:if="${mPurchSaleModel.searchType} ne '0'">
-                <div class="lable_button_style" style="width: 90px;" onclick="searchAction(4)">全部</div>
-            </div>
-
-            <div th:if="${mPurchSaleModel.searchType} eq '1'">
-                <div class="lable_button_click_style" style="margin-left: 10px; width: 90px;" onclick="searchAction(5)">销货</div>
-            </div>
-            <div th:if="${mPurchSaleModel.searchType} ne '1'">
-                <div class="lable_button_style" style="margin-left: 10px; width: 90px;" onclick="searchAction(5)">销货</div>
-            </div>
-
-            <div th:if="${mPurchSaleModel.searchType} eq '2'">
-                <div class="lable_button_click_style" style="margin-left: 10px; width: 90px;" onclick="searchAction(6)">退货</div>
-            </div>
-            <div th:if="${mPurchSaleModel.searchType} ne '2'">
-                <div class="lable_button_style" style="margin-left: 10px; width: 90px;" onclick="searchAction(6)">退货</div>
-            </div>
-
-        </div>
 
         <div class="parent" style="margin-top: 5px;padding-top: 10px;margin-left: 10px; margin-right: 10px; border-top: #e1e1e1 dashed 1px">
             <form method="post" name="queryData" id="queryData" action="" th:action="@{/internal/brand/report/reconciliation}" th:object="${mPurchSaleModel}">
 
                 <input type="hidden" name="brandIdenty" th:value="${mPurchSaleModel.brandIdenty}">
-                <input type="hidden" name="shopIdenty" th:value="${mPurchSaleModel.shopIdenty}">
-                <input type="hidden" id="searchDate" name = "searchDate" th:value="${mPurchSaleModel.searchDate}">
-                <input type="hidden" id="searchType" name = "searchType" th:value="${mPurchSaleModel.searchType}">
-                <input type="hidden" id="type" name = "type" th:value="${mPurchSaleModel.type}">
+                <input type="hidden" id="searchDate" name = "searchDate">
                 <input type="hidden" id="startDate" name = "startDate">
                 <input type="hidden" id="endDate" name = "endDate">
 
-                <input type="hidden" name="rquestSource" th:value="${mPurchSaleModel.rquestSource}">
-
                 <span style="font-size: 12px;color: #12306f;font-weight: bold;margin-left: 20px">筛选条件：</span>
 
-                <span style="font-size:10px;color: #707070;">品项名称</span>
-                <input class="input_style" style="margin-left: 5px" type="text" th:value="${mPurchSaleModel.name}" name="name"/>
-                <span style="font-size:10px;color: #707070;margin-left:10px ">服务员</span>
-                <input class="input_style" style="margin-left: 5px" type="text" th:value="${mPurchSaleModel.tradeUser}" name="tradeUser"/>
-                <span style="font-size:10px;color: #707070;margin-left:10px ">顾客姓名</span>
-                <input class="input_style" style="margin-left: 5px" type="text" th:value="${mPurchSaleModel.customerName}" name="customerName"/>
+                <span style="font-size:10px;color: #707070;">门店名称</span>
+                <input class="input_style" style="margin-left: 5px" type="text" th:value="${mPurchSaleModel.name}" name="name" id="name"/>
+                <span style="font-size:10px;color: #707070;margin-left:10px ">门店编号</span>
+                <input class="input_style" style="margin-left: 5px" type="text" th:value="${mPurchSaleModel.shopIdenty}" name="shopIdenty" id="shopIdenty"/>
 
             </form>
 
             <button class="orange_mine_button_style" value="" onclick="searchAction(7)" style="margin-left: 20px;">查询</button>
 
-            <div class="parent" id="export_excel" onclick="exportExcel()" style="margin-left: 20px;margin-top: 5px;cursor:pointer;width: 150px" th:if="${mPurchSaleModel.rquestSource} eq '1'">
+            <div class="parent" id="export_excel" onclick="exportExcel()" style="margin-left: 20px;margin-top: 5px;cursor:pointer;width: 150px">
                 <img th:src="@{/images/excel_icon.png}" src="../static/images/excel_icon.png" style="width: 21px;height: 21px">
                 <span style="font-size: 10px;margin-left: 6px">数据导出</span>
             </div>
@@ -190,44 +142,50 @@
     <table class="gridtablestyle" style="width: 95%; vertical-align: middle">
         <tr style="width: 100%">
             <th>门店名称</th>
-            <th>订单号</th>
-            <th>品项名称</th>
-            <th>销售数量</th>
-            <th>销售金额</th>
-            <th>服务员姓名</th>
-            <th>顾客姓名</th>
-            <th>销售时间</th>
+            <th>门店交易数据</th>
+            <th>储值数据</th>
+            <th>次卡售卖数据</th>
+            <th>小程序交易数据</th>
+            <th>退货数据</th>
+            <th>总交易数据</th>
         </tr>
-        <!--<tr th:each="item:${listData}">-->
-            <!--<td>-->
-                <!--<div th:switch="${item.type}" >-->
-                    <!--<div th:case="'退货'" class="parent_h container">-->
-                        <!--<img class="icon_size_style" th:src="@{/images/return_dish_icon.png}">-->
-                        <!--<label style="margin-left: 5px">退货</label>-->
-                    <!--</div>-->
-                    <!--<div th:case="'销货'" class="parent_h container">-->
-                        <!--<img class="icon_size_style" th:src="@{/images/sale_dish_icon.png}">-->
-                        <!--<label style="margin-left: 5px">销货</label>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</td>-->
-            <!--<td th:text="${item.tradeNo}"></td>-->
-            <!--<td th:text="${item.name}"></td>-->
-            <!--<td th:text="${item.number}"></td>-->
-            <!--<td th:text="${item.actualAmount}"></td>-->
-            <!--<td th:text="${item.tradeUser}"></td>-->
-            <!--<td th:text="${item.customerName}"></td>-->
-            <!--<td th:text="${item.serverCreateTime}"></td>-->
-        <!--</tr>-->
+        <tr th:each="item:${listReportData}">
 
-        <!--<tr>-->
-            <!--<th colspan="8">合计：销售品项总数量：<span th:text="${totalCount}" style="margin-right: 88px"></span>销售总金额：<span th:text="${totalAmount}"></span></th>-->
-        <!--</tr>-->
+            <td th:text="${item.shopName}" style="padding-right: 10px;padding-left: 10px;font-weight: bold"></td>
+            <td >
+                笔数：<span th:text="${item.totalAmountCount}"></span><br/>
+                金额：<span th:text="${item.totalAmount}"></span>
+            </td>
+            <td>
+                笔数：<span th:text="${item.totalSaveCount}"></span><br/>
+                金额：<span th:text="${item.totalSave}"></span>
+            </td>
+            <td>
+                笔数：<span th:text="${item.totalCardCount}"></span><br/>
+                金额：<span th:text="${item.totalCard}"></span>
+            </td>
+            <td>
+                笔数：<span th:text="${item.totalWeiXinCount}"></span><br/>
+                金额：<span th:text="${item.totalWeiXin}"></span>
+            </td>
+            <td>
+                笔数：<span th:text="${item.returnCount}"></span><br/>
+                金额：<span th:text="${item.returnAmount}"></span>
+            </td>
+            <td style="font-weight: bold">
+                笔数：<span th:text="${item.salesCount}"></span><br/>
+                金额：<span th:text="${item.salesAmount}"></span>
+            </td>
+        </tr>
 
     </table>
 </div>
 
-<script type="text/javascript" th:src="@{/selectdate/test/select_date.js}"></script>
+<div class="paging">
+
+    <div th:replace="page_info::pagination"/>
+
+</div>
 
 </body>
 </html>

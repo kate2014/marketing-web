@@ -1,6 +1,8 @@
 package com.zhongmei.yunfu.controller.model;
 
-public class PurchSaleModel {
+import com.zhongmei.yunfu.controller.model.base.WebBaseModel;
+
+public class PurchSaleModel  extends WebBaseModel {
 
     private Long dishShopId;
 

@@ -414,4 +414,20 @@ public class TradeServiceImpl extends ServiceImpl<TradeMapper, TradeEntity> impl
         List<ShopSalesReport> listData = baseMapper.queryShopSalesData(eWrapper,mTradeModel.getBrandIdenty(),mTradeModel.getStartDate(),mTradeModel.getEndDate());
         return listData;
     }
+
+    @Override
+    public List<ShopSalesReport> batchQuerySalesReport(TradeModel mTradeModel,String shopIds) throws Exception {
+        Condition eWrapper = ConditionFilter.create();
+        eWrapper.isWhere(true);
+        eWrapper.eq("brand_identy", mTradeModel.getBrandIdenty());
+        eWrapper.in("shop_identy",shopIds);
+        eWrapper.eq("status_flag", 1);
+        eWrapper.eq("trade_status", mTradeModel.getTradeStatus());
+        eWrapper.eq("trade_type", mTradeModel.getTradeType());
+
+        eWrapper.between("server_create_time", mTradeModel.getStartDate(), mTradeModel.getEndDate());
+
+        List<ShopSalesReport> listData = baseMapper.batchQuerySalesReport(eWrapper);
+        return listData;
+    }
 }

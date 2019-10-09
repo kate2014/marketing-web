@@ -68,6 +68,9 @@ public class CommercialServiceImpl extends ServiceImpl<CommercialMapper, Commerc
         if(mShopSearchModel.getCommercialName() != null && !mShopSearchModel.getCommercialName().equals("")){
             eWrapper.like("commercial_name", mShopSearchModel.getCommercialName());
         }
+        if(mShopSearchModel.getShopIdenty() != null && !mShopSearchModel.getShopIdenty().equals("")){
+            eWrapper.eq("commercial_id", mShopSearchModel.getShopIdenty());
+        }
         if(mShopSearchModel.getProvince() != null && !mShopSearchModel.getProvince().equals("")){
             eWrapper.eq("province", mShopSearchModel.getProvince());
         }
@@ -78,6 +81,8 @@ public class CommercialServiceImpl extends ServiceImpl<CommercialMapper, Commerc
             eWrapper.eq("area", mShopSearchModel.getArea());
         }
         eWrapper.setSqlSelect("commercial_id,commercial_name,commercial_contact,commercial_phone,province,city,area,invalid_status");
+
+        eWrapper.orderBy("commercial_id",true);
 
         Page<CommercialEntity> listPage = new Page<>(pageIdx,pageSize);
 
