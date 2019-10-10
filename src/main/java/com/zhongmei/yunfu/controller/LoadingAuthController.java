@@ -82,19 +82,19 @@ public class LoadingAuthController {
 
         //品牌报表
         else if(mLoadingModel.getRequestUrlType() == 1001){ //营业报表
-            String url = "/internal/brand/report/salesReport?brandIdenty="+mLoadingModel.getBrandIdenty()+"&rquestSource="+mLoadingModel.getRquestSource();
+            String url = "/internal/brand/report/salesReport?brandIdenty="+mLoadingModel.getBrandIdenty();
             mLoadingModel.setRequestUrl(url);
 
         }else if(mLoadingModel.getRequestUrlType() == 1002){//每日对账报表
-            String url = "/internal/brand/report/reconciliation?brandIdenty="+mLoadingModel.getBrandIdenty()+"&rquestSource="+mLoadingModel.getRquestSource();
+            String url = "/internal/brand/report/reconciliation?brandIdenty="+mLoadingModel.getBrandIdenty();
             mLoadingModel.setRequestUrl(url);
 
         }else if(mLoadingModel.getRequestUrlType() == 1003){//门店业绩排行
-            String url = "/internal/brand/report/shopOrder?brandIdenty="+mLoadingModel.getBrandIdenty()+"&rquestSource="+mLoadingModel.getRquestSource();
+            String url = "/internal/brand/report/shopOrder?brandIdenty="+mLoadingModel.getBrandIdenty();
             mLoadingModel.setRequestUrl(url);
 
         }else if(mLoadingModel.getRequestUrlType() == 1004){//品项销售报表
-            String url = "/internal/brand/report/shopOrder?brandIdenty="+mLoadingModel.getBrandIdenty()+"&rquestSource="+mLoadingModel.getRquestSource();
+            String url = "/internal/brand/report/shopOrder?brandIdenty="+mLoadingModel.getBrandIdenty();
             mLoadingModel.setRequestUrl(url);
 
         }
