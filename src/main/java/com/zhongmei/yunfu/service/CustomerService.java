@@ -6,6 +6,7 @@ import com.zhongmei.yunfu.api.pos.vo.CustomerECardSaveReq;
 import com.zhongmei.yunfu.api.pos.vo.CustomerLoginReq;
 import com.zhongmei.yunfu.api.pos.vo.CustomerSearchReq;
 import com.zhongmei.yunfu.controller.model.CustomerDrainSearchModel;
+import com.zhongmei.yunfu.controller.model.CustomerExtraModel;
 import com.zhongmei.yunfu.controller.model.CustomerModel;
 import com.zhongmei.yunfu.controller.model.CustomerSearchModel;
 import com.zhongmei.yunfu.domain.bean.CustomerDrain;
@@ -316,6 +317,15 @@ public interface CustomerService extends IService<CustomerEntity> {
      * @throws Exception
      */
     CustomerExtraEntity queryCustomerSaveReport(Long brandIdenty, Long shopIdenty)throws Exception;
+
+    /**
+     * 查询品牌下各门店的会员储值、赠送、消费金额
+     * @param brandIdenty
+     * @param shopIds
+     * @return
+     * @throws Exception
+     */
+    List<CustomerExtraModel> queryShopsSaveReport(Long brandIdenty, String shopIds)throws Exception;
 
     /**
      * 更新会员信息

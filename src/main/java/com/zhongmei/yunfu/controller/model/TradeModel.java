@@ -92,6 +92,8 @@ public class TradeModel extends WebBaseModel {
      */
     private Long shopIdenty;
 
+    private String shopName;
+
     private String startDate;
 
     private String endDate;
@@ -418,5 +420,13 @@ public class TradeModel extends WebBaseModel {
 
     public void setEnabledFlag(Integer enabledFlag) {
         this.enabledFlag = enabledFlag;
+    }
+
+    public String getShopName() {
+        return shopName;
+    }
+
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
     }
 }

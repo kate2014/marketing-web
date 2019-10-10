@@ -3,6 +3,7 @@ package com.zhongmei.yunfu.domain.mapper;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.baomidou.mybatisplus.mapper.Condition;
 import com.baomidou.mybatisplus.mapper.Wrapper;
+import com.zhongmei.yunfu.controller.model.CustomerExtraModel;
 import com.zhongmei.yunfu.domain.bean.CustomerDrain;
 import com.zhongmei.yunfu.domain.bean.CustomerMobile;
 import com.zhongmei.yunfu.domain.entity.*;
@@ -269,6 +270,19 @@ public interface CustomerMapper extends BaseMapper<CustomerEntity> {
             "from `customer_extra` c " +
             " ${ew.sqlSegment};")
     CustomerExtraEntity queryCustomerSaveReport(@Param("ew") Condition wrapper);
+
+    /**
+     * 查询门店会员储值金额，赠送金额，已使用金额
+     * @param wrapper
+     * @return
+     */
+    @Select("SELECT sum(c.`stored_amount`) as storedAmount ,sum(c.`stored_amount`)-sum(c.`stored_give`) as saveBaseAmount ,\n" +
+            "sum(c.`stored_give`) as storedGive, sum(c.`stored_used`) as storedUsed ,sum(c.`stored_balance`) as storedBalance,\n" +
+            "c.shop_identy as shopIdenty,m.`commercial_name` as shopName\n" +
+            "from `customer_extra` c , `commercial` m\n" +
+            "WHERE c.`shop_identy` = m.`commercial_id` ${ew.sqlSegment} \n" +
+            "group by shop_identy;")
+    List<CustomerExtraModel> queryShopsSaveReport(@Param("ew") Condition wrapper);
 
     @Select("SELECT * FROM `customer` ct ${ew.sqlSegment} and ct.`id` = ${customerId} or ct.`id` = (\n" +
             "SELECT c.`relate_id`  FROM `customer` c WHERE c.`id` = ${customerId});")

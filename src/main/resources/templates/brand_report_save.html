@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>会员储值报表</title>
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../static/css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../static/css/base.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../static/css/common.css" type="text/css" />
+
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/test/jeDate-test.css}">
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/skin/jedate.css}">
+    <script type="text/javascript" th:src="@{/selectdate/src/jedate.js}"></script>
+
+    <script type="text/javascript" src="../static/js/echarts.min.js" th:src="@{/js/echarts.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}" src="../static/js/jquery-3.1.1.min.js" ></script>
+
+</head>
+
+<script type="text/javascript">
+    function exportExcel() {
+        var brandIdenty = $("input[name='brandIdenty']").val();
+        var startDate = $("input[name='startDate']").val();
+        var endDate = $("input[name='endDate']").val();
+        var params = "brandIdenty=" + brandIdenty +
+            "&startDate=" + startDate +
+            "&endDate=" + endDate;
+        location.href = "[[${basePath}]]/internal/brand/report/save/excel?" + params;
+    }
+</script>
+
+<body>
+
+<div class="parent top_view_style">
+
+    <img th:src="@{/images/lable.jpg}" width="5" height="26" style="margin-left: 20px">
+
+    <label class="text_navigation" style="margin-left: 20px">储值报表</label>
+
+</div>
+
+<div class="parent_h container" style="margin-top: 15px">
+    <div style="margin-right: 20px; font-size: 16px;color: #FFFFFF;border-radius: 10px;padding-top: 25px;padding-bottom:25px;background-color: #FF7E00; min-width: 180px">
+        <div style="font-size: 14px">累计储值总额</div>
+        <div style="margin-top: 10px">
+            <span th:text="${mCustomerSaveReport.storedAmount}" style="margin-right: 5px">100000.00</span>元
+        </div>
+    </div>
+    <div style="margin-right: 20px; font-size: 16px;color: #FFFFFF;border-radius: 10px;padding: 25px;background-color: #34ce57; min-width: 180px ">
+        <div style="font-size: 14px">累计储值本金总额</div>
+        <div style="margin-top: 10px">
+            <span th:text="${saveBaseAmount}" style="margin-right: 5px">100000.00</span>元
+        </div>
+    </div>
+    <div style="margin-right: 20px; font-size: 16px;color: #FFFFFF;border-radius: 10px;padding: 25px;background-color: #19AAD8; min-width: 180px ">
+        <div style="font-size: 14px">累计储值赠送总额</div>
+        <div style="margin-top: 10px">
+            <span th:text="${mCustomerSaveReport.storedGive}" style="margin-right: 5px">100000.00</span>元
+        </div>
+    </div>
+    <div style="margin-right: 20px; font-size: 16px;color: #FFFFFF;border-radius: 10px;padding: 25px;background-color: #00A680; min-width: 180px ">
+        <div style="font-size: 14px">累计储值消费总额</div>
+        <div style="margin-top: 10px">
+            <span th:text="${mCustomerSaveReport.storedUsed}" style="margin-right: 5px">100000.00</span>元
+        </div>
+    </div>
+    <div style="margin-right: 20px; font-size: 16px;color: #FFFFFF;border-radius: 10px;padding: 25px;background-color: #FF5453; min-width: 180px ">
+        <div style="font-size: 14px">累计储值剩余总额</div>
+        <div style="margin-top: 10px">
+            <span th:text="${mCustomerSaveReport.storedBalance}" style="margin-right: 5px">100000.00</span>元
+        </div>
+    </div>
+
+</div>
+
+<div class="container parent_h" style="font-size: 14px;color: #FF6600;margin-top: 10px">
+    备注：累计储值总额 = 累计储值本金总额 + 累计储值赠送总额；累计储值剩余总额 = 累计储值总余额 - 累计储值消费总额；
+</div>
+
+<img class="line_style" th:src="@{/images/line.jpg}" src="../static/images/line.jpg" style="margin-bottom: 20px;margin-top: 20px">
+
+<div class="parent" style="margin-left: 20px">
+    <form method="post" name="queryData" action="" th:action="@{/internal/brand/report/customerSave}" th:object="${mTradeModel}">
+        <input type="hidden" name="brandIdenty" th:value="${mTradeModel.brandIdenty}">
+
+
+        <label class="text_navigation" style="margin-left: 20px">范围</label>
+        <select class="select_style" name="shopIdenty" style="margin-left: 5px">
+            <option value="">品牌下全门店</option>
+            <option th:selected="${mTradeModel.shopIdenty eq list.commercialId}" th:each="list:${listCommercial}" th:value="${list.commercialId}" th:text="${list.commercialName}"></option>
+        </select>
+
+        <label class="text_navigation" style="margin-left: 10px">查询时间</label>
+        <input type="text" class="input_style" id="startDate" name="startDate" placeholder="设置查询起始时间" th:value="${mTradeModel.startDate}">
+        <label class="text_navigation">--</label>
+        <input type="text" class="input_style" id="endDate" name="endDate" placeholder="设置查询结束时间" th:value="${mTradeModel.endDate}">
+
+        <button class="orange_mine_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
+    </form>
+    <div class="parent" id="export_excel" onclick="exportExcel()" style="margin-left: 20px;cursor:pointer;" >
+        <img th:src="@{/images/excel_icon.png}" src="../static/images/excel_icon.png" style="width: 21px;height: 21px">
+        <span style="font-size: 10px;margin-left: 6px">数据导出</span>
+    </div>
+
+</div>
+
+
+<img class="line_style" th:src="@{/images/line.jpg}" src="../static/images/line.jpg" style="margin-bottom: 20px;margin-top: 20px">
+
+<div class="container" style="margin-left: 20px">
+    <img th:src="@{/images/lable.jpg}" width="5" height="26">
+    <p style="font-weight: bold; margin-left: 6px">会员储值报表</p>
+</div>
+
+<div style="width: 95%;height:400px; align-content: center; text-align: center; margin-left: 20px">
+    <div id="container" style="width: 100%;height:100%;"></div>
+</div>
+
+
+<img class="line_style" th:src="@{/images/line.jpg}" src="../static/images/line.jpg" style="margin-bottom: 20px;margin-top: 20px">
+
+<div class="container" style="margin: 20px">
+    <img th:src="@{/images/lable.jpg}" width="5" height="26">
+    <p style="font-weight: bold; margin-left: 6px">会员储值明细</p>
+</div>
+
+<div align="center" style="margin-top: 10px; width: 100%">
+    <table class="gridtablestyle" style="width: 95%; vertical-align: middle; table-layout: fixed;">
+        <tr style="width: 100%">
+            <th>门店名称</th>
+            <th>累计储值总额</th>
+            <th>累计储值本金总额</th>
+            <th>累计储值赠送总额</th>
+            <th>累计储值消费总额</th>
+            <th>累计储值剩余总额</th>
+
+        </tr>
+        <tr th:each="item:${listExtra}">
+
+            <td th:text="${item.shopName}"></td>
+            <td th:text="${item.storedAmount}"></td>
+            <td th:text="${item.saveBaseAmount}"></td>
+            <td th:text="${item.storedGive}"></td>
+            <td th:text="${item.storedUsed}"></td>
+            <td th:text="${item.storedBalance}"></td>
+
+        </tr>
+
+    </table>
+</div>
+
+<div class="paging">
+
+    <div th:replace="page_info::pagination"/>
+
+</div>
+
+
+<script th:inline="javascript">
+
+    //======会员储值图形报表=======
+    var dom = document.getElementById("container");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '会员储值、消费报表';
+
+    option = {
+        tooltip : {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        toolbox: {
+            feature: {
+                dataView: {show: true, readOnly: false},
+                magicType: {show: true, type: ['line', 'bar']},
+                restore: {show: true},
+                saveAsImage: {show: true}
+            }
+        },
+        legend: {
+            data:['消费金额','储值金额','赠送金额','交易笔数']
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis : [
+            {
+                type : 'category',
+                data : [[${listDate}]],
+                axisLabel:{
+                    interval:0,
+                    rotate:20
+                }
+            }
+
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '交易金额',
+                min: 0,
+                max: [[${maxAmount}]],
+                interval: [[${intervalAmount}]],
+                axisLabel: {
+                    formatter: '{value} 元'
+                }
+            },
+            {
+                type: 'value',
+                name: '交易笔数',
+                min: 0,
+                max: [[${maxCount}]],
+                interval: [[${intervalCount}]],
+                axisLabel: {
+                    formatter: '{value} 笔'
+                }
+            }
+
+        ],
+        series : [
+
+            {
+                name:'消费金额',
+                type:'bar',
+                barMaxWidth : 20,//柱图宽度
+                data : [[${saleArray}]]
+            },
+
+            {
+                name:'储值金额',
+                type:'bar',
+                stack: '储值金额',
+                barMaxWidth : 20,//柱图宽度
+                data : [[${saveArray}]]
+            },
+            {
+                name:'赠送金额',
+                type:'bar',
+                stack: '储值金额',
+                barMaxWidth : 20,//柱图宽度
+                data : [[${giveArray}]]
+            },
+            {
+                name:'交易笔数',
+                type:'line',
+                yAxisIndex: 1,
+                data : [[${listCount}]]
+            }
+
+        ]
+    };
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+
+</script>
+
+
+<script type="text/javascript" th:src="@{/selectdate/test/demo.js}"></script>
+
+</body>
+</html>

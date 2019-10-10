@@ -12,6 +12,7 @@ import com.zhongmei.yunfu.api.pos.vo.CustomerECardSaveReq;
 import com.zhongmei.yunfu.api.pos.vo.CustomerLoginReq;
 import com.zhongmei.yunfu.api.pos.vo.CustomerSearchReq;
 import com.zhongmei.yunfu.controller.model.CustomerDrainSearchModel;
+import com.zhongmei.yunfu.controller.model.CustomerExtraModel;
 import com.zhongmei.yunfu.controller.model.CustomerModel;
 import com.zhongmei.yunfu.controller.model.CustomerSearchModel;
 import com.zhongmei.yunfu.controller.model.excel.ExcelUtils;
@@ -697,6 +698,18 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerMapper, Custome
         eWrapper.eq("status_flag", 1);
         CustomerExtraEntity mCustomerSaveReport = baseMapper.queryCustomerSaveReport(eWrapper);
         return mCustomerSaveReport;
+    }
+
+    @Override
+    public List<CustomerExtraModel> queryShopsSaveReport(Long brandIdenty, String shopIds) throws Exception {
+        Condition eWrapper = ConditionFilter.create();
+
+        eWrapper.eq("c.brand_identy", brandIdenty);
+        eWrapper.eq("m.brand_id", brandIdenty);
+        eWrapper.in("c.shop_identy", shopIds);
+        eWrapper.eq("c.status_flag", 1);
+        List<CustomerExtraModel> listData = baseMapper.queryShopsSaveReport(eWrapper);
+        return listData;
     }
 
     @Override

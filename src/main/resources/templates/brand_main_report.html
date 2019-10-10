@@ -42,7 +42,7 @@
             <ul class="tab">
 
                 <!--<div th:if="${haveSalesReport} eq '1'">-->
-                    <li th:href="@{/internal/request/loading(brandIdenty=${mTradeModel.brandIdenty},shopIdenty=${mTradeModel.shopIdenty},requestUrlType=1001)}" class="parent">
+                    <li th:href="@{/internal/request/loading(brandIdenty=${mTradeModel.brandIdenty},requestUrlType=1001)}" class="parent">
                         <div class="parent">
                             <img th:src="@{/images/report_sales_icon.png}" class="image_size_style">
                             <span>营业报表</span>
@@ -51,7 +51,7 @@
                 <!--</div>-->
 
                 <!--<div th:if="${havaAccountReport} eq '1'">-->
-                <li th:href="@{/internal/request/loading(brandIdenty=${mTradeModel.brandIdenty},shopIdenty=${mTradeModel.shopIdenty},requestUrlType=1002)}" class="parent">
+                <li th:href="@{/internal/request/loading(brandIdenty=${mTradeModel.brandIdenty},requestUrlType=1002)}" class="parent">
                     <div class="parent">
                         <img th:src="@{/images/report_accounts_icon.png}" class="image_size_style">
                         <span>对账报表</span>
@@ -60,16 +60,16 @@
                 <!--</div>-->
 
                 <!--<div th:if="${haveDishReport} eq '1'">-->
-                    <li th:href="@{/internal/request/loading(brandIdenty=${mTradeModel.brandIdenty},shopIdenty=${mTradeModel.shopIdenty},requestUrlType=1003)}" class="parent">
+                    <li th:href="@{/internal/request/loading(brandIdenty=${mTradeModel.brandIdenty},requestUrlType=1003)}" class="parent">
                         <div class="parent">
-                            <img th:src="@{/images/report_dish_icon.png}" class="image_size_style">
+                            <img th:src="@{/images/report_shop_sales_ph_icon.png}" class="image_size_style">
                             <span>门店业绩排行</span>
                         </div>
                     </li>
                 <!--</div>-->
 
                 <!--<div th:if="${haveDishReport} eq '1'">-->
-                    <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty},requestUrlType=1004)}" class="parent">
+                    <li th:href="@{/internal/request/loading(brandIdenty=${mTradeModel.brandIdenty},requestUrlType=1004)}" class="parent">
                         <div class="parent">
                             <img th:src="@{/images/report_dish_icon.png}" class="image_size_style">
                             <span>品项销售报表</span>
@@ -77,8 +77,17 @@
                     </li>
                 <!--</div>-->
 
+                <!--<div th:if="${haveCustomerSaveReport} eq '1'">-->
+                <li th:href="@{/internal/request/loading(brandIdenty=${mTradeModel.brandIdenty},requestUrlType=1005)}" class="parent">
+                    <div class="parent">
+                        <img th:src="@{/images/report_customer_sace.png}" class="image_size_style">
+                        <span>储值报表</span>
+                    </div>
+                </li>
+                <!--</div>-->
+
                 <!--<div th:if="${haveCardTimeReport} eq '1'">-->
-                    <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty},requestUrlType=4,rquestSource=1)}" class="parent">
+                    <li th:href="@{/internal/request/loading(brandIdenty=${mTradeModel.brandIdenty},requestUrlType=4}" class="parent">
                         <div class="parent">
                             <img th:src="@{/images/report_card_time.png}" class="image_size_style">
                             <span>次卡销售报表</span>
@@ -86,17 +95,10 @@
                     </li>
                 <!--</div>-->
 
-                <!--<div th:if="${haveCustomerSaveReport} eq '1'">-->
-                    <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty},requestUrlType=5,rquestSource=1)}" class="parent">
-                        <div class="parent">
-                            <img th:src="@{/images/report_customer_sace.png}" class="image_size_style">
-                            <span>储值报表</span>
-                        </div>
-                    </li>
-                <!--</div>-->
+
 
                 <!--<div th:if="${haveMemberReport} eq '1'">-->
-                <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty},requestUrlType=10)}" class="parent">
+                <li th:href="@{/internal/request/loading(brandIdenty=${mTradeModel.brandIdenty},shopIdenty=${shopIdenty},requestUrlType=10)}" class="parent">
                     <div class="parent">
                         <img th:src="@{/images/report_customer_icon.png}" class="image_size_style">
                         <span>会员报表</span>

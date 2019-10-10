@@ -7,9 +7,11 @@ import com.zhongmei.yunfu.controller.model.ShopSearchModel;
 import com.zhongmei.yunfu.controller.model.TradeModel;
 import com.zhongmei.yunfu.controller.model.excel.ExcelData;
 import com.zhongmei.yunfu.controller.model.excel.ExcelUtils;
+import com.zhongmei.yunfu.domain.entity.BrandEntity;
 import com.zhongmei.yunfu.domain.entity.CommercialEntity;
 import com.zhongmei.yunfu.domain.entity.DishReport;
 import com.zhongmei.yunfu.domain.entity.bean.ShopSalesReport;
+import com.zhongmei.yunfu.service.BrandService;
 import com.zhongmei.yunfu.service.CommercialService;
 import com.zhongmei.yunfu.service.TradeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +29,13 @@ import java.util.*;
  */
 @Controller
 @RequestMapping("/internal/brand/report")
-public class BrandReconciliationController extends BaseController {
+public class BrandReportReconciliationController extends BaseController {
 
     @Autowired
     TradeService mTradeService;
+
+    @Autowired
+    BrandService mBrandService;
 
     @Autowired
     CommercialService mCommercialService;
@@ -40,13 +45,43 @@ public class BrandReconciliationController extends BaseController {
 
 
         try {
+            //初始化查询时间
+            if(mPurchSaleModel.getStartDate() == null || mPurchSaleModel.getEndDate() == null || mPurchSaleModel.getStartDate().equals("") || mPurchSaleModel.getEndDate().equals("")){
+
+                if(mPurchSaleModel.getSearchDate() == null){
+                    mPurchSaleModel.setSearchDate(1);
+                }
+
+                int searchDate = mPurchSaleModel.getSearchDate();
+
+                Calendar cal=Calendar.getInstance();
+                cal.add(Calendar.DATE,0);
+
+                if(searchDate == 1){
+                    cal.add(Calendar.DATE,0);
+                }else if(searchDate == 2){
+                    cal.add(Calendar.DATE,-1);
+                }else if(searchDate == 3){
+                    cal.add(Calendar.DATE,-2);
+                }
+                Date d=cal.getTime();
+                SimpleDateFormat sp=new SimpleDateFormat("yyyy-MM-dd");
+                String ZUOTIAN=sp.format(d);//获取昨天日期
+
+                String startDate = ZUOTIAN + " 00:00:00";
+                String endDate = ZUOTIAN + " 23:59:59";
+
+                mPurchSaleModel.setStartDate(startDate);
+                mPurchSaleModel.setEndDate(endDate);
+            }
+
+            queryShopMessage(model,mPurchSaleModel);
 
             Page<CommercialEntity> listData = queryCommerical(mPurchSaleModel);
 
-            List<ShopSalesReport> showReportData = queryData(mPurchSaleModel,listData);
+            List<ShopSalesReport> showReportData = queryData(mPurchSaleModel,listData.getRecords(),false);
 
             setWebPage(model, "/internal/brand/report/reconciliation", listData, mPurchSaleModel);
-
 
             model.addAttribute("listReportData", showReportData);
             model.addAttribute("mPurchSaleModel", mPurchSaleModel);
@@ -70,49 +105,22 @@ public class BrandReconciliationController extends BaseController {
         Page<CommercialEntity> listData = mCommercialService.queryCommercialList(mShopSearchModel,mPurchSaleModel.getPageNo(),mPurchSaleModel.getPageSize());
         return listData;
     }
-    public List<ShopSalesReport> queryData(PurchSaleModel mPurchSaleModel,Page<CommercialEntity> listData) throws Exception{
+    public List<ShopSalesReport> queryData(PurchSaleModel mPurchSaleModel,List<CommercialEntity> listData,boolean isExcel) throws Exception{
 
 
         String shopIds = null;
-        for(CommercialEntity entity : listData.getRecords()){
-            if(shopIds == null){
-                shopIds = entity.getCommercialId().toString();
-            }else{
-                shopIds = shopIds+","+entity.getCommercialId();
-            }
+        if(!isExcel){
+            for(CommercialEntity entity : listData){
+                if(shopIds == null){
+                    shopIds = entity.getCommercialId().toString();
+                }else{
+                    shopIds = shopIds+","+entity.getCommercialId();
+                }
 
+            }
         }
 
 
-        //初始化查询时间
-        if(mPurchSaleModel.getStartDate() == null || mPurchSaleModel.getEndDate() == null || mPurchSaleModel.getStartDate().equals("") || mPurchSaleModel.getEndDate().equals("")){
-
-            if(mPurchSaleModel.getSearchDate() == null){
-                mPurchSaleModel.setSearchDate(1);
-            }
-
-            int searchDate = mPurchSaleModel.getSearchDate();
-
-            Calendar cal=Calendar.getInstance();
-            cal.add(Calendar.DATE,0);
-
-            if(searchDate == 1){
-                cal.add(Calendar.DATE,0);
-            }else if(searchDate == 2){
-                cal.add(Calendar.DATE,-1);
-            }else if(searchDate == 3){
-                cal.add(Calendar.DATE,-2);
-            }
-            Date d=cal.getTime();
-            SimpleDateFormat sp=new SimpleDateFormat("yyyy-MM-dd");
-            String ZUOTIAN=sp.format(d);//获取昨天日期
-
-            String startDate = ZUOTIAN + " 00:00:00";
-            String endDate = ZUOTIAN + " 23:59:59";
-
-            mPurchSaleModel.setStartDate(startDate);
-            mPurchSaleModel.setEndDate(endDate);
-        }
         //查询门店销货统计
         TradeModel mTradeModel = new TradeModel();
         mTradeModel.setBrandIdenty(mPurchSaleModel.getBrandIdenty());
@@ -129,7 +137,7 @@ public class BrandReconciliationController extends BaseController {
 
         //构建界面展示数据
         List<ShopSalesReport> showReportData = new LinkedList<>();
-        for(CommercialEntity entity : listData.getRecords()){
+        for(CommercialEntity entity : listData){
             ShopSalesReport tempEntity = new ShopSalesReport();
             tempEntity.setShopName(entity.getCommercialName());
             tempEntity.setShopIdenty(entity.getCommercialId());
@@ -188,6 +196,17 @@ public class BrandReconciliationController extends BaseController {
         return showReportData;
     }
 
+    public Model queryShopMessage(Model model, PurchSaleModel mPurchSaleModel) throws Exception {
+
+        BrandEntity brand = mBrandService.queryBrandByAppId(mPurchSaleModel.getBrandIdenty());
+
+        List<CommercialEntity> listCommercial = mCommercialService.queryCommercialByBrandId(brand.getId());
+
+        model.addAttribute("brand", brand);
+        model.addAttribute("listCommercial", listCommercial);
+        return model;
+    }
+
     /**
      * 导出数据
      * @param response
@@ -197,9 +216,9 @@ public class BrandReconciliationController extends BaseController {
     @RequestMapping("/reconciliation/excel")
     public void exportExcel(HttpServletResponse response, PurchSaleModel mPurchSaleModel) throws Exception{
 
-        Page<CommercialEntity> listData = queryCommerical(mPurchSaleModel);
+        List<CommercialEntity> listCommercial = mCommercialService.queryCommercialByBrandId(mPurchSaleModel.getBrandIdenty());
 
-        List<ShopSalesReport> showReportData = queryData(mPurchSaleModel,listData);
+        List<ShopSalesReport> showReportData = queryData(mPurchSaleModel,listCommercial,true);
 
         ExcelData data = new ExcelData();
         data.setSheetName("对账报表");
@@ -225,7 +244,7 @@ public class BrandReconciliationController extends BaseController {
         data.setRows(rows);
 
         int i = 1;
-        if(listData != null){
+        if(showReportData != null){
             for (ShopSalesReport entity : showReportData) {
                 List<Object> row = new ArrayList();
                 rows.add(row);

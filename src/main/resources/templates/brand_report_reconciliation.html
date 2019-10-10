@@ -27,13 +27,9 @@
         var startDate = $("input[name='startDate']").val();
         var endDate = $("input[name='endDate']").val();
 
-        var shopIdenty = $("input[name='shopIdenty']").val();
-        var name = $("input[name='name']").val();
         var params = "brandIdenty=" + brandIdenty +
             "&startDate=" + startDate +
-            "&endDate=" + endDate+
-            "&shopIdenty=" + shopIdenty +
-            "&name=" + name;
+            "&endDate=" + endDate;
         location.href = "[[${basePath}]]/internal/brand/report/reconciliation/excel?" + params;
     }
 
@@ -111,16 +107,16 @@
             <form method="post" name="queryData" id="queryData" action="" th:action="@{/internal/brand/report/reconciliation}" th:object="${mPurchSaleModel}">
 
                 <input type="hidden" name="brandIdenty" th:value="${mPurchSaleModel.brandIdenty}">
-                <input type="hidden" id="searchDate" name = "searchDate">
+                <input type="hidden" id="searchDate" name = "searchDate" th:value="${mPurchSaleModel.searchDate}">
                 <input type="hidden" id="startDate" name = "startDate">
                 <input type="hidden" id="endDate" name = "endDate">
 
                 <span style="font-size: 12px;color: #12306f;font-weight: bold;margin-left: 20px">筛选条件：</span>
 
-                <span style="font-size:10px;color: #707070;">门店名称</span>
-                <input class="input_style" style="margin-left: 5px" type="text" th:value="${mPurchSaleModel.name}" name="name" id="name"/>
-                <span style="font-size:10px;color: #707070;margin-left:10px ">门店编号</span>
-                <input class="input_style" style="margin-left: 5px" type="text" th:value="${mPurchSaleModel.shopIdenty}" name="shopIdenty" id="shopIdenty"/>
+                <select class="select_style" name="shopIdenty" style="margin-left: 5px">
+                    <option value="">品牌下全门店</option>
+                    <option th:selected="${mPurchSaleModel.shopIdenty eq list.commercialId}" th:each="list:${listCommercial}" th:value="${list.commercialId}" th:text="${list.commercialName}"></option>
+                </select>
 
             </form>
 
