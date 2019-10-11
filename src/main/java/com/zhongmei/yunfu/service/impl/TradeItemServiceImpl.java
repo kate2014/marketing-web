@@ -81,6 +81,20 @@ public class TradeItemServiceImpl extends ServiceImpl<TradeItemMapper, TradeItem
     }
 
     @Override
+    public List<DishReport> selectCardGroupShop(Long brandIdenty,String shopIds, Date start, Date end) throws Exception {
+        Condition eWrapper = ConditionFilter.create();
+        eWrapper.eq("t.brand_identy", brandIdenty);
+        eWrapper.eq("t.trade_status", 4);
+        eWrapper.eq("t.business_type", 3);//次卡销售
+        eWrapper.eq("t.trade_type", 1);//售货
+        eWrapper.eq("t.status_flag", 1);
+        eWrapper.in("t.shop_identy", shopIds);
+        eWrapper.between("t.server_create_time", start, end);
+        List<DishReport> listData = baseMapper.selectCardGroupShop(eWrapper);
+        return listData;
+    }
+
+    @Override
     public Boolean deleteByTradeId(Long tradeId) {
         EntityWrapper<TradeItemEntity> eWrapper = new EntityWrapper<>(new TradeItemEntity());
         eWrapper.eq("trade_id", tradeId);

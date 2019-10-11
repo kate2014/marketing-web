@@ -64,6 +64,16 @@ public interface TradeItemService extends IService<TradeItemEntity> {
      * @throws Exception
      */
     List<DishReport> selectCardTimeReport(Long brandIdenty, Long shopIdenty, Date start, Date end) throws Exception;
+
+    /**
+     * 获取品牌下各门店次卡销售情况
+     * @param brandIdenty
+     * @param start
+     * @param end
+     * @return
+     * @throws Exception
+     */
+    List<DishReport> selectCardGroupShop(Long brandIdenty,String shopIds, Date start, Date end) throws Exception;
     /**
      * 根据tradeId删除trade_item
      * @param tradeId

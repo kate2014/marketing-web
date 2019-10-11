@@ -29,12 +29,15 @@ class DishReport : CustomerEntity(), Serializable {
 
     val price: BigDecimal? = null
 
+    val shopName: String? = null
+
     override fun toString(): String {
         return "DishReport{" +
                 ", salseCount=" + salseCount +
                 ", salesAmount=" + salesAmount +
                 ", dishName=" + dishName +
                 ", price=" + price +
+                ", shopName=" + shopName +
                 "}"
     }
 }

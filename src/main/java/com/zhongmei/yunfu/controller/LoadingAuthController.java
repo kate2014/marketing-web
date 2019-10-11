@@ -101,6 +101,10 @@ public class LoadingAuthController {
             String url = "/internal/brand/report/customerSave?brandIdenty="+mLoadingModel.getBrandIdenty();
             mLoadingModel.setRequestUrl(url);
 
+        }else if(mLoadingModel.getRequestUrlType() == 1006){//次卡报表
+            String url = "/internal/brand/cardTimeReport/cardTime?brandIdenty="+mLoadingModel.getBrandIdenty();
+            mLoadingModel.setRequestUrl(url);
+
         }
 
         model.addAttribute("mLoadingModel", mLoadingModel);
