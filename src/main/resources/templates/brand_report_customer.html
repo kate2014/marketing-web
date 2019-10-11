@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>会员报表</title>
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../css/base.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../css/common.css" type="text/css" />
+
+    <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <script type="text/javascript" src="../static/js/base.js" th:src="@{/js/base.js}"></script>
+
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/test/jeDate-test.css}">
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/skin/jedate.css}">
+    <script type="text/javascript" th:src="@{/selectdate/src/jedate.js}"></script>
+
+    <script type="text/javascript" src="../static/js/echarts.min.js" th:src="@{/js/echarts.min.js}"></script>
+</head>
+
+
+<body>
+
+<div th:if="${customerModel.rquestSource} eq '2'">
+    <div class="parent top_view_style">
+
+        <img th:src="@{/images/lable.jpg}" width="5" height="26" style="margin-left: 20px">
+
+        <label class="text_navigation" style="margin-left: 20px">会员报表</label>
+
+    </div>
+</div>
+
+<form method="post" action="" th:action="@{/internal/brand/report/customerReport}" th:object="${mCustomerModel}">
+    <div style="margin-top: 20px">
+
+        <input type="hidden" name="brandIdenty" th:value="${customerModel.brandIdenty}">
+
+        <input type="hidden" name="rquestSource" th:value="${customerModel.rquestSource}">
+
+        <label class="text_navigation" style="margin-left: 20px">范围</label>
+        <select class="select_style" name="shopIdenty" style="margin-left: 5px">
+            <option value="">品牌下全门店</option>
+            <option th:selected="${customerModel.shopIdenty eq list.commercialId}" th:each="list:${listCommercial}" th:value="${list.commercialId}" th:text="${list.commercialName}"></option>
+        </select>
+
+        <label class="text_navigation" style="margin-left: 10px">查询时间段</label>
+        <input type="text" class="input_style" id="startDate" name="startDate" placeholder="设置查询起始时间" th:value="${customerModel.startDate}">
+
+        <label class="text_navigation">--</label>
+        <input type="text" class="input_style" id="endDate" name="endDate" placeholder="设置查询结束时间" th:value="${customerModel.endDate}">
+        <button class="orange_mine_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
+
+    </div>
+</form>
+
+<img class="line_style" th:src="@{/images/line.jpg}" style="margin-bottom: 20px;margin-top: 20px">
+
+<div class="container" style="margin-left: 20px">
+    <img th:src="@{/images/lable.jpg}" width="5" height="26">
+    <p style="font-weight: bold; margin-left: 6px">新增会员统计</p>
+</div>
+
+<div style="width: 95%;height:400px; align-content: center;text-align: center;">
+    <div id="container" style="width: 100%;height:400px;"></div>
+    <p style="font-weight: bold; margin-left: 6px">会员新增情况</p>
+</div>
+
+<img class="line_style" th:src="@{/images/line.jpg}" style="margin-top: 50px">
+
+<div style="width: 95%;height:400px; text-align: center;text-align: center;">
+    <div id="customTotal" style="width: 100%;height:400px;"></div>
+    <p style="font-weight: bold; margin-left: 6px">会员增长情况</p>
+</div>
+
+<img class="line_style" th:src="@{/images/line.jpg}" style="margin-top: 50px">
+
+
+<script th:inline="javascript">
+
+    var dom = document.getElementById("container");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '会员每日增长量';
+
+    option = {
+        tooltip : {
+            trigger: 'axis',
+            axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            }
+        },
+        legend: {
+            data:['POS端','小程序']
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis : [
+            {
+                type : 'category',
+                data : [[${listCreateDate}]]
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series : [
+
+            {
+                name:'POS端',
+                type:'bar',
+                stack: '来源',
+                barMaxWidth : 30,//柱图宽度
+                data:[[${listPOSCount}]]
+            },
+            {
+                name:'小程序',
+                type:'bar',
+                stack: '来源',
+                barMaxWidth : 30,//柱图宽度
+                data:[[${listWxCount}]]
+            },
+        ]
+    };
+    ;
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+
+//---------------------会员增长统计--------------
+    var dom = document.getElementById("customTotal");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    option = {
+        // title: {
+        //     text: '会员增长情况'
+        // },
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            data:['会员增长情况']
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        toolbox: {
+            feature: {
+                saveAsImage: {}
+            }
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: [[${listCreateDate}]]
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [
+            {
+                name:'会员数',
+
+                type:'line',
+                stack: '总量',
+                data:[[${listCustomerCount}]]
+            },
+        ]
+    };
+    ;
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+
+</script>
+
+
+
+<script type="text/javascript" th:src="@{/selectdate/test/demo.js}"></script>
+
+</body>
+</html>
