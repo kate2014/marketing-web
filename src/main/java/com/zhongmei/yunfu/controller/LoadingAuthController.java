@@ -107,6 +107,12 @@ public class LoadingAuthController {
         }else if(mLoadingModel.getRequestUrlType() == 1007){//会员报表
             String url = "/internal/brand/report/customerReport?brandIdenty="+mLoadingModel.getBrandIdenty();
             mLoadingModel.setRequestUrl(url);
+        }else if(mLoadingModel.getRequestUrlType() == 1008){//特价活动报表
+            String url = "/internal/brand/activitySalesReport/activitySales?brandIdenty="+mLoadingModel.getBrandIdenty();
+            mLoadingModel.setRequestUrl(url);
+        }else if(mLoadingModel.getRequestUrlType() == 1010){//特价活动报表
+            String url = "/internal/brand/couponReport/coupon?brandIdenty="+mLoadingModel.getBrandIdenty();
+            mLoadingModel.setRequestUrl(url);
         }
 
         model.addAttribute("mLoadingModel", mLoadingModel);

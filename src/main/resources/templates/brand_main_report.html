@@ -105,7 +105,7 @@
                 <!--</div>-->
 
                 <!--<div th:if="${activitySalesReport} eq '1'">-->
-                    <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty},requestUrlType=12,rquestSource=1)}" class="parent">
+                    <li th:href="@{/internal/request/loading(brandIdenty=${mTradeModel.brandIdenty},requestUrlType=1008)}" class="parent">
                         <div class="parent">
                             <img th:src="@{/images/activity_sales_report_icon.png}" class="image_size_style">
                             <span>特价活动报表</span>
@@ -114,7 +114,7 @@
                 <!--</div>-->
 
                 <!--<div th:if="${haveMarketingReport} eq '1'">-->
-                <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty},requestUrlType=11)}" class="parent">
+                <li th:href="@{/internal/request/loading(brandIdenty=${mTradeModel.brandIdenty},requestUrlType=1009)}" class="parent">
                     <div class="parent">
                         <img th:src="@{/images/report_marketing_icon.png}" class="image_size_style">
                         <span>场景营销报表</span>
@@ -123,7 +123,7 @@
                 <!--</div>-->
 
                 <!--<div th:if="${haveCouponReport} eq '1'">-->
-                <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty},requestUrlType=12)}" class="parent">
+                <li th:href="@{/internal/request/loading(brandIdenty=${mTradeModel.brandIdenty},requestUrlType=1010)}" class="parent">
                     <div class="parent">
                         <img th:src="@{/images/report_coupon_icon.png}" class="image_size_style">
                         <span>优惠券报表</span>
@@ -131,7 +131,7 @@
                 </li>
                 <!--</div>-->
 
-                <li th:href="@{/internal/request/loading(brandIdenty=${brandIdenty},shopIdenty=${shopIdenty},requestUrlType=12)}" class="parent">
+                <li th:href="@{/internal/request/loading(brandIdenty=${mTradeModel.brandIdenty},requestUrlType=1011)}" class="parent">
                     <div class="parent">
                         <img th:src="@{/images/report_booking_icon.png}" class="image_size_style">
                         <span>预约报表</span>

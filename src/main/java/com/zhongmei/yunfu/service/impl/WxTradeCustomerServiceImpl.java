@@ -375,7 +375,9 @@ public class WxTradeCustomerServiceImpl extends ServiceImpl<WxTradeCustomerMappe
     public List<WxTradeCustomerEntity> queryReport(ReportMarketingModel mReportMarketingModel,Integer status) throws Exception {
         EntityWrapper<WxTradeCustomerEntity> eWrapper = new EntityWrapper<>(new WxTradeCustomerEntity());
         eWrapper.eq("brand_identy", mReportMarketingModel.getBrandIdenty());
-        eWrapper.eq("shop_identy", mReportMarketingModel.getShopIdenty());
+        if(mReportMarketingModel.getShopIdenty() != null){
+            eWrapper.eq("shop_identy", mReportMarketingModel.getShopIdenty());
+        }
         if(status != null){
             eWrapper.eq("status", status);
         }
