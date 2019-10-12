@@ -110,8 +110,11 @@ public class LoadingAuthController {
         }else if(mLoadingModel.getRequestUrlType() == 1008){//特价活动报表
             String url = "/internal/brand/activitySalesReport/activitySales?brandIdenty="+mLoadingModel.getBrandIdenty();
             mLoadingModel.setRequestUrl(url);
-        }else if(mLoadingModel.getRequestUrlType() == 1010){//特价活动报表
+        }else if(mLoadingModel.getRequestUrlType() == 1010){//优惠券报表
             String url = "/internal/brand/couponReport/coupon?brandIdenty="+mLoadingModel.getBrandIdenty();
+            mLoadingModel.setRequestUrl(url);
+        }else if(mLoadingModel.getRequestUrlType() == 1011){//预约报表
+            String url = "/internal/brand/bookingReport/booking?brandIdenty="+mLoadingModel.getBrandIdenty();
             mLoadingModel.setRequestUrl(url);
         }
 

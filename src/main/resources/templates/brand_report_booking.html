@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>预订报表</title>
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../css/public.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/widget.css}" href="../css/widget.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" href="../css/base.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" href="../css/common.css" type="text/css" />
+
+    <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <script type="text/javascript" src="../static/js/base.js" th:src="@{/js/base.js}"></script>
+
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/test/jeDate-test.css}">
+    <link type="text/css" rel="stylesheet" th:href="@{/selectdate/skin/jedate.css}">
+    <script type="text/javascript" th:src="@{/selectdate/src/jedate.js}"></script>
+
+    <script type="text/javascript" src="../static/js/echarts.min.js" th:src="@{/js/echarts.min.js}"></script>
+</head>
+
+
+<body>
+<div class="parent top_view_style">
+
+    <img th:src="@{/images/lable.jpg}" width="5" height="26" style="margin-left: 20px">
+
+    <label class="text_navigation" style="margin-left: 20px">预订报表</label>
+
+</div>
+
+<form method="post" action="" th:action="@{/internal/brand/bookingReport/booking}" th:object="${mBookingSearchModel}">
+    <div style="margin-top: 20px">
+
+
+        <input type="hidden" name="brandIdenty" th:value="${mBookingSearchModel.brandIdenty}">
+
+
+        <label class="text_navigation" style="margin-left: 20px">范围</label>
+        <select class="select_style" name="shopIdenty" style="margin-left: 5px">
+            <option value="">品牌下全门店</option>
+            <option th:selected="${mBookingSearchModel.shopIdenty eq list.commercialId}" th:each="list:${listCommercial}" th:value="${list.commercialId}" th:text="${list.commercialName}"></option>
+        </select>
+
+        <label class="text_navigation" style="margin-left: 10px">查询时间段</label>
+        <input type="text" class="input_style" name="startDate" placeholder="设置查询起始时间" id="startDate"  th:value="${mBookingSearchModel.startDate}">
+        <label class="text_navigation" style="margin-left: 10px">--</label>
+        <input type="text" class="input_style" name="endDate" placeholder="设置查询结束时间" id="endDate"  th:value="${mBookingSearchModel.endDate}">
+        <button class="orange_mine_button_style" value="" onclick="this" style="margin-left: 10px">查询</button>
+
+    </div>
+</form>
+
+<img class="line_style" th:src="@{/images/line.jpg}" style="margin-bottom: 20px;margin-top: 20px">
+
+<div class="container" style="margin-left: 20px">
+    <img th:src="@{/images/lable.jpg}" width="5" height="26">
+    <p style="font-weight: bold; margin-left: 6px">预约情况</p>
+</div>
+
+<div id="container" style="width: 90%;height:400px;"></div>
+
+<img class="line_style" th:src="@{/images/line.jpg}" style="margin-top: 50px;margin-bottom: 50px">
+
+<div class="parent_h" style="width: 90%; margin-bottom: 100px;text-align: center;">
+
+    <div style="width: 50%;height:400px; text-align: center; margin-left: 50px">
+        <div id="sourceBooking" style="width: 100%;height:400px;"></div>
+        <p style="font-weight: bold; margin-left: 6px">预约来源分布</p>
+    </div>
+
+    <div style="width: 50%;height:400px; text-align: center; margin-left: 50px">
+        <div id="changeOrder" style="width: 100%;height:400px;"></div>
+        <p style="font-weight: bold; margin-left: 6px">预约到店率</p>
+    </div>
+
+</div>
+
+<script th:inline="javascript">
+
+    var dom = document.getElementById("container");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    // app.title = '预约情况';
+
+    option = {
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        toolbox: {
+            feature: {
+                dataView: {show: true, readOnly: false},
+                magicType: {show: true, type: ['line', 'bar']},
+                restore: {show: true},
+                saveAsImage: {show: true}
+            }
+        },
+        legend: {
+            data:['预约数','到店数']
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: [[${listBookingDate}]],
+                axisPointer: {
+                    type: 'shadow'
+                },
+                axisLabel:{
+                    interval:0,
+                    rotate:30
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '预约数',
+                min: 0,
+                max: [[${maxBookingCount}]],
+                interval: [[${intervalBooking}]],
+                axisLabel: {
+                    formatter: '{value}'
+                }
+            },
+            {
+                type: 'value',
+                name: '到店数',
+                min: 0,
+                max: [[${maxBookingCount}]],
+                interval: [[${intervalBooking}]],
+                axisLabel: {
+                    formatter: '{value}'
+                }
+            }
+
+        ],
+        series: [
+            {
+                name:'预约数',
+                type:'line',
+                yAxisIndex: 1,
+                data:[[${listBookingCount}]]
+            },
+            {
+                name:'到店数',
+                type:'bar',
+                barMaxWidth : 30,//柱图宽度
+                data:[[${listUseCount}]]
+            },
+        ]
+    };
+    ;
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+
+
+
+    //------------------来源分布--------------
+    var dom = document.getElementById("sourceBooking");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '预约来源分布';
+
+    option = {
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b}: {c} ({d}%)"
+        },
+        legend: {
+            orient: 'vertical',
+            x: 'left',
+            data:['POS端','小程序']
+        },
+        series: [
+            {
+                name:'预订来源',
+                type:'pie',
+                radius: ['50%', '70%'],
+                avoidLabelOverlap: false,
+                label: {
+                    normal: {
+                        show: false,
+                        position: 'center'
+                    },
+                    emphasis: {
+                        show: true,
+                        textStyle: {
+                            fontSize: '30',
+                            fontWeight: 'bold'
+                        }
+                    }
+                },
+                labelLine: {
+                    normal: {
+                        show: false
+                    }
+                },
+                data:[
+                    {value:[[${posBookingCount}]], name:'POS端'},
+                    {value:[[${wxBookingCount}]], name:'小程序'},
+
+                ]
+            }
+        ]
+    };
+    ;
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+
+    //------------------到店率--------------
+    var dom = document.getElementById("changeOrder");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '到店率';
+
+    option = {
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b}: {c} ({d}%)"
+        },
+        legend: {
+            orient: 'vertical',
+            x: 'left',
+            data:['预约单合计','预约到店数']
+        },
+        series: [
+            {
+                name:'到店率',
+                type:'pie',
+                radius: ['50%', '70%'],
+                avoidLabelOverlap: false,
+                label: {
+                    normal: {
+                        show: false,
+                        position: 'center'
+                    },
+                    emphasis: {
+                        show: true,
+                        textStyle: {
+                            fontSize: '30',
+                            fontWeight: 'bold'
+                        }
+                    }
+                },
+                labelLine: {
+                    normal: {
+                        show: false
+                    }
+                },
+                data:[
+                    {value:[[${allCount}]], name:'预约单合计'},
+                    {value:[[${useCount}]], name:'预约到店数'},
+
+                ]
+            }
+        ]
+    };
+    ;
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+</script>
+<script type="text/javascript" th:src="@{/selectdate/test/demo.js}"></script>
+
+
+</body>
+</html>
