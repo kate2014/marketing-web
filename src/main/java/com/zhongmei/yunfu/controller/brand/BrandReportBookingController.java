@@ -68,7 +68,6 @@ public class BrandReportBookingController {
 
             long maxBookingCount = 0l;
 
-
             if(listBookingData != null && listBookingData.size() > 0){
                 for(BookingReport br : listBookingData){
                     listBookingDate.add(DateFormatUtil.format(br.getCreateTime(),DateFormatUtil.FORMAT_DATE));
